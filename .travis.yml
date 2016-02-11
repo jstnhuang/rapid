@@ -21,6 +21,7 @@ before_install: # Use this to prepare the system to install prerequisites or dep
     - export ROS_DISTRO=hydro
     # Settings to make installing script more general.
     - export ROS_CI_DESKTOP=`lsb_release -cs`  # e.g. 'precise'
+    - export ROS_MASTER_URI=http://localhost:11311
 
 notifications:
   email: false
