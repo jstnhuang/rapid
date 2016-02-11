@@ -9,9 +9,11 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
 )
 
+set(gmock_INCLUDE_DIR /usr/include/gmock)
+set(gmock_LIB_DIR /usr/lib)
+
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -99,9 +101,11 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES rapid
-#  CATKIN_DEPENDS roscpp rospy
+  INCLUDE_DIRS include
+  LIBRARIES
+    rapid_sound
+    rapid_pr2
+  CATKIN_DEPENDS roscpp rospy
 #  DEPENDS system_lib
 )
 
@@ -113,13 +117,18 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
-# add_library(rapid
-#   src/${PROJECT_NAME}/rapid.cpp
-# )
+add_library(rapid_sound src/sound/sound.cc)
+add_dependencies(rapid_sound ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_sound ${catkin_LIBRARIES})
+
+add_library(rapid_pr2 src/pr2/pr2.cc)
+add_dependencies(rapid_pr2 rapid_sound ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pr2 rapid_sound ${catkin_LIBRARIES})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -160,11 +169,11 @@ include_directories(
 # )
 
 ## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
-# )
+#install(DIRECTORY include/${PROJECT_NAME}/
+#  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+#  FILES_MATCHING PATTERN "*.h"
+#  PATTERN ".svn" EXCLUDE
+#)
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES
@@ -178,10 +187,10 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_rapid.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
+catkin_add_gtest(rapid_sound_test test/sound_test.cc)
+if(TARGET rapid_sound_test)
+  target_link_libraries(rapid_sound_test rapid_pr2 rapid_sound gmock)
+endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

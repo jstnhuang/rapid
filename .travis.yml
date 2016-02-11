@@ -32,27 +32,26 @@ install:
     - echo "deb http://packages.ros.org/ros/ubuntu $ROS_CI_DESKTOP main" | sudo tee /etc/apt/sources.list.d/ros-latest.list
     - wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
     - sudo apt-get update -qq
-    - sudo apt-get install -qq -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin ros-$ROS_DISTRO-ros
+    - sudo apt-get install -qq -y python-catkin-tools python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin ros-$ROS_DISTRO-ros
     - source /opt/ros/$ROS_DISTRO/setup.bash
     # Setup rosdep
     - sudo rosdep init
     - rosdep update
     # Create workspace.
     - mkdir -p ~/catkin_ws/src
-    - cd ..; mv rapid_robot ~/catkin_ws/src
+    - cd ..; mv rapid ~/catkin_ws/src
     - cd ~/catkin_ws/src
     - catkin_init_workspace
     # Install dependencies
     - cd ~/catkin_ws/
     - rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
     # Build
-    - catkin_make
-    #- curl https://install.meteor.com/ | sh
+    - catkin build
 
 # Command to run tests
 # --------------------
 script:
-    - catkin_make
+    - catkin run_tests
 # Real tests: crash because of Gazebo bugs
 #    - roslaunch pr2_pbd_interaction simulated_robot.launch gui:=false
 # Debug: trying to just run gazebo's table object launch (Gazebo bugs)
