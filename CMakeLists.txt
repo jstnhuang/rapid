@@ -188,8 +188,9 @@ target_link_libraries(rapid_pr2 rapid_sound ${catkin_LIBRARIES})
 #############
 
 ## Add gtest based cpp test target and link libraries
-catkin_add_gtest(rapid_sound_test test/sound_test.cc)
-if(TARGET rapid_sound_test)
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  add_rostest_gtest(rapid_sound_test test/sound_test.launch test/sound_test.cc)
   target_link_libraries(rapid_sound_test rapid_pr2 rapid_sound gmock)
 endif()
 
