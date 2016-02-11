@@ -7,6 +7,7 @@ project(rapid)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  sound_play
 )
 
 set(gmock_INCLUDE_DIR /usr/include/gmock)
