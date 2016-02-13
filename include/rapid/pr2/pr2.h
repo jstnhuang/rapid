@@ -3,17 +3,17 @@
 
 #include <string>
 
+#include "rapid/display/display.h"
 #include "rapid/sound/sound.h"
 
 namespace rapid {
 namespace pr2 {
 class Pr2 {
  public:
-  explicit Pr2(rapid::sound::SoundInterface& sound);
-  void Say(const std::string& text);
-
- private:
-  rapid::sound::SoundInterface& sound_;
+  Pr2(rapid::display::DisplayInterface& display,
+      rapid::sound::SoundInterface& sound);
+  rapid::display::DisplayInterface& display;
+  rapid::sound::SoundInterface& sound;
 };
 
 Pr2 BuildReal();

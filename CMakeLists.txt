@@ -5,6 +5,8 @@ project(rapid)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  actionlib
+  blinky
   roscpp
   rospy
   sound_play
@@ -104,6 +106,7 @@ set(gmock_LIB_DIR /usr/lib)
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES
+    rapid_display
     rapid_sound
     rapid_pr2
   CATKIN_DEPENDS roscpp rospy
@@ -128,8 +131,12 @@ add_dependencies(rapid_sound ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORT
 target_link_libraries(rapid_sound ${catkin_LIBRARIES})
 
 add_library(rapid_pr2 src/pr2/pr2.cc)
-add_dependencies(rapid_pr2 rapid_sound ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rapid_pr2 rapid_sound ${catkin_LIBRARIES})
+add_dependencies(rapid_pr2 rapid_display rapid_sound ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pr2 rapid_display rapid_sound ${catkin_LIBRARIES})
+
+add_library(rapid_display src/display/display.cc)
+add_dependencies(rapid_display ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_display ${catkin_LIBRARIES})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
