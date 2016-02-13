@@ -42,6 +42,7 @@ install:
     - mkdir -p ~/catkin_ws/src
     - cd ..; mv rapid ~/catkin_ws/src
     - cd ~/catkin_ws/src
+    - git clone https://github.com/hcrlab/blinky.git
     - catkin_init_workspace
     # Install dependencies
     - cd ~/catkin_ws/
