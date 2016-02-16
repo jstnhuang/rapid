@@ -1,3 +1,0 @@
-<launch>
-  <test test-name="rapid_sound_test" pkg="rapid" type="rapid_sound_test" />
-</launch>

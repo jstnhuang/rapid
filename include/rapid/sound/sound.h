@@ -25,9 +25,9 @@ class SoundPlay : public SoundInterface {
 };
 
 // Mock version for testing.
-class MockSoundPlay : public SoundPlay {
+class MockSound : public SoundInterface {
  public:
-  explicit MockSoundPlay(const std::string& voice = "voice_kal_diphone") {}
+  MockSound() {}
   MOCK_METHOD1(Say, void(const std::string& text));
 };
 };

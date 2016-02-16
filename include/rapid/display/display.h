@@ -6,6 +6,7 @@
 
 #include "actionlib/client/simple_action_client.h"
 #include "blinky/FaceAction.h"
+#include "gmock/gmock.h"
 
 namespace rapid {
 namespace display {
@@ -38,6 +39,17 @@ class Blinky : public DisplayInterface {
   bool WaitForServer(const int seconds);
   static const int kServerWaitTime = 5;  // In seconds.
   actionlib::SimpleActionClient<blinky::FaceAction>& client_;
+};
+
+class MockDisplay : public DisplayInterface {
+ public:
+  MockDisplay() {}
+  MOCK_METHOD0(ShowDefault, bool());
+  MOCK_METHOD2(ShowMessage,
+               bool(const std::string& h1_text, const std::string& h2_text));
+  MOCK_METHOD3(AskMultipleChoice, bool(const std::string& question,
+                                       const std::vector<std::string>& choices,
+                                       std::string* choice));
 };
 }  // namespace display
 }  // namespace rapid
