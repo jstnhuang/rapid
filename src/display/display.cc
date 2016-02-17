@@ -5,8 +5,7 @@
 
 namespace rapid {
 namespace display {
-Blinky::Blinky(actionlib::SimpleActionClient<blinky::FaceAction>& client)
-    : client_(client) {}
+Blinky::Blinky() : client_("blinky") {}
 
 bool Blinky::ShowDefault() {
   if (!WaitForServer(kServerWaitTime)) {

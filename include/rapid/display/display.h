@@ -25,7 +25,7 @@ class DisplayInterface {
 
 class Blinky : public DisplayInterface {
  public:
-  Blinky(actionlib::SimpleActionClient<blinky::FaceAction>& client);
+  Blinky();
   virtual bool ShowDefault();
   virtual bool ShowMessage(const std::string& h1_text,
                            const std::string& h2_text);
@@ -38,7 +38,7 @@ class Blinky : public DisplayInterface {
  private:
   bool WaitForServer(const int seconds);
   static const int kServerWaitTime = 5;  // In seconds.
-  actionlib::SimpleActionClient<blinky::FaceAction>& client_;
+  actionlib::SimpleActionClient<blinky::FaceAction> client_;
 };
 
 class MockDisplay : public DisplayInterface {

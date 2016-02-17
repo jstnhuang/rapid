@@ -14,10 +14,9 @@ Pr2::Pr2(rapid::display::DisplayInterface& display,
     : display(display), sound(sound) {}
 
 Pr2 BuildReal() {
-  actionlib::SimpleActionClient<blinky::FaceAction> face_client("blinky", true);
-  rapid::display::Blinky display(face_client);
-  rapid::sound::SoundPlay sound;
-  Pr2 pr2(display, sound);
+  rapid::display::DisplayInterface* display = new rapid::display::Blinky();
+  rapid::sound::SoundInterface* sound = new rapid::sound::SoundPlay();
+  Pr2 pr2(*display, *sound);
   return pr2;
 }
 }  // namespace pr2
