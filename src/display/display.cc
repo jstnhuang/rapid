@@ -49,7 +49,7 @@ bool Blinky::AskMultipleChoice(const std::string& question,
     return false;
   }
   blinky::FaceGoal goal;
-  goal.display_type = goal.DISPLAY_MESSAGE;
+  goal.display_type = goal.ASK_CHOICE;
   goal.question = question;
   goal.choices = choices;
   client_.sendGoal(goal);
