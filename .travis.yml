@@ -54,11 +54,4 @@ install:
 # --------------------
 script:
     - catkin run_tests
-# Real tests: crash because of Gazebo bugs
-#    - roslaunch pr2_pbd_interaction simulated_robot.launch gui:=false
-# Debug: trying to just run gazebo's table object launch (Gazebo bugs)
-#    - rostest pr2_pbd_interaction test_endtoend.test
-# Linter: last resort to getting *something* useful to run on Travis :-)
-# NOTE(mbforbes): Add more files to this as they're completed.
-#    - roscd pr2_pbd_interaction
-#    - pep8 src/*.py test/*.py nodes/*.py
+    - catkin_test_results build/rapid
