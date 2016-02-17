@@ -28,8 +28,6 @@ TEST(Pr2Test, CallDisplayShowDefault) {
 }
 
 int main(int argc, char **argv) {
-  // sound_play is evil and creates a NodeHandle in the default constructor.
-  ros::init(argc, argv, "rapid_pr2_test");
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
