@@ -2,6 +2,7 @@
 
 #include "actionlib/client/simple_action_client.h"
 #include "blinky/FaceAction.h"
+#include "ros/ros.h"
 
 namespace rapid {
 namespace display {
