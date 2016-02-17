@@ -16,7 +16,7 @@ bool Blinky::ShowDefault() {
   goal.display_type = goal.DEFAULT;
   client_.sendGoal(goal);
   if (!client_.waitForResult(ros::Duration(kServerWaitTime))) {
-    ROS_ERROR("Timed out wait for Blinky result.");
+    ROS_ERROR("Timed out waiting for Blinky result.");
     return false;
   }
   return true;

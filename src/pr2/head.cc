@@ -9,24 +9,7 @@
 
 namespace rapid {
 namespace pr2 {
-// void ComputeLookAtPointFromDegrees(const double up, const double left,
-//                                   geometry_msgs::Point* point) {
-//  const static double kPi = 3.1415926535;
-//  const static double kDegsToRads = kPi / 180;
-//  point->x = cos(left * kDegsToRads);
-//  point->y = sin(left * kDegsToRads);
-//  point->z = sin(up * kDegsToRads);
-//}
-
 Head::Head() : head_client_("/head_traj_controller/point_head_action") {}
-
-// bool Head::LookAtDegrees(double up, double left) {
-//  geometry_msgs::PointStamped point_stamped;
-//  point_stamped.header.frame_id = "head_mount_kinect_rgb_link";
-//  geometry_msgs::Point point;
-//  ComputeLookAtPointFromDegrees(up, left, &point);
-//  return LookAt(point_stamped);
-//}
 
 bool Head::LookAt(const geometry_msgs::PointStamped& target) {
   pr2_controllers_msgs::PointHeadGoal goal;
