@@ -4,6 +4,7 @@
 #include <string>
 
 #include "rapid/display/display.h"
+#include "rapid/pr2/head.h"
 #include "rapid/sound/sound.h"
 
 namespace rapid {
@@ -11,8 +12,9 @@ namespace pr2 {
 class Pr2 {
  public:
   Pr2(rapid::display::DisplayInterface& display,
-      rapid::sound::SoundInterface& sound);
+      rapid::pr2::HeadInterface& head, rapid::sound::SoundInterface& sound);
   rapid::display::DisplayInterface& display;
+  HeadInterface& head;
   rapid::sound::SoundInterface& sound;
 };
 

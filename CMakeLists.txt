@@ -7,6 +7,8 @@ project(rapid)
 find_package(catkin REQUIRED COMPONENTS
   actionlib
   blinky
+  geometry_msgs
+  pr2_controllers_msgs
   roscpp
   rospy
   sound_play
@@ -130,7 +132,7 @@ add_library(rapid_sound src/sound/sound.cc)
 add_dependencies(rapid_sound ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_sound ${catkin_LIBRARIES})
 
-add_library(rapid_pr2 src/pr2/pr2.cc)
+add_library(rapid_pr2 src/pr2/pr2.cc src/pr2/head.cc)
 add_dependencies(rapid_pr2 rapid_display rapid_sound ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pr2 rapid_display rapid_sound ${catkin_LIBRARIES})
 
