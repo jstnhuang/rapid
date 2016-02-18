@@ -201,6 +201,9 @@ if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
   add_rostest_gtest(rapid_pr2_test test/pr2_test.launch test/pr2_test.cc)
   target_link_libraries(rapid_pr2_test rapid_pr2 rapid_display rapid_sound gmock)
+
+  add_rostest_gtest(rapid_blinky_test test/blinky_test.test test/blinky_test.cc)
+  target_link_libraries(rapid_blinky_test rapid_display gmock)
 endif()
 
 ## Add folders to be run by python nosetests
