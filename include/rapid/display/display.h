@@ -38,8 +38,8 @@ class Blinky : public DisplayInterface {
 
  private:
   bool WaitForServer(const int seconds);
-  int server_wait_time_;  // In seconds.
   actionlib::SimpleActionClient<blinky::FaceAction> client_;
+  int server_wait_time_;  // In seconds.
 };
 
 class MockDisplay : public DisplayInterface {

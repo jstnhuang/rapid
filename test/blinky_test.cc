@@ -66,7 +66,7 @@ class MockBlinkyServer {
 
 class BlinkyTest : public ::testing::Test {
  public:
-  BlinkyTest() : node_handle_(), server_(), blinky_(1) {}
+  BlinkyTest() : node_handle_(), server_(), blinky_(5) {}
 
   void SetUp() {}
 
