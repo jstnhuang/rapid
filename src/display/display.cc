@@ -6,17 +6,19 @@
 
 namespace rapid {
 namespace display {
-Blinky::Blinky() : client_("blinky") {}
+Blinky::Blinky() : client_("blinky"), server_wait_time_(5) {}
+Blinky::Blinky(int server_wait_time)
+    : client_("blinky"), server_wait_time_(server_wait_time) {}
 
 bool Blinky::ShowDefault() {
-  if (!WaitForServer(kServerWaitTime)) {
+  if (!WaitForServer(server_wait_time_)) {
     ROS_ERROR("Timed out waiting for the Blinky server.");
     return false;
   }
   blinky::FaceGoal goal;
   goal.display_type = goal.DEFAULT;
   client_.sendGoal(goal);
-  if (!client_.waitForResult(ros::Duration(kServerWaitTime))) {
+  if (!client_.waitForResult(ros::Duration(server_wait_time_))) {
     ROS_ERROR("Timed out waiting for Blinky result.");
     return false;
   }
@@ -25,7 +27,7 @@ bool Blinky::ShowDefault() {
 
 bool Blinky::ShowMessage(const std::string& h1_text,
                          const std::string& h2_text) {
-  if (!WaitForServer(kServerWaitTime)) {
+  if (!WaitForServer(server_wait_time_)) {
     ROS_ERROR("Timed out waiting for the Blinky server.");
     return false;
   }
@@ -34,8 +36,7 @@ bool Blinky::ShowMessage(const std::string& h1_text,
   goal.h1_text = h1_text;
   goal.h2_text = h2_text;
   client_.sendGoal(goal);
-  client_.waitForResult();
-  if (!client_.waitForResult(ros::Duration(kServerWaitTime))) {
+  if (!client_.waitForResult(ros::Duration(server_wait_time_))) {
     ROS_ERROR("Timed out wait for Blinky result.");
     return false;
   }
@@ -44,7 +45,7 @@ bool Blinky::ShowMessage(const std::string& h1_text,
 bool Blinky::AskMultipleChoice(const std::string& question,
                                const std::vector<std::string>& choices,
                                std::string* choice) {
-  if (!WaitForServer(kServerWaitTime)) {
+  if (!WaitForServer(server_wait_time_)) {
     ROS_ERROR("Timed out waiting for the Blinky server.");
     return false;
   }
@@ -53,7 +54,6 @@ bool Blinky::AskMultipleChoice(const std::string& question,
   goal.question = question;
   goal.choices = choices;
   client_.sendGoal(goal);
-  client_.waitForResult();
   if (!client_.waitForResult()) {
     ROS_ERROR("Timed out wait for Blinky result.");
     return false;
