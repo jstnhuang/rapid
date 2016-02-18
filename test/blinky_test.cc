@@ -4,7 +4,6 @@
 
 #include "rapid/display/display.h"
 
-#include <iostream>
 #include <string>
 #include <vector>
 
@@ -39,23 +38,14 @@ class MockBlinkyServer {
   // processed. If you are testing with the MockBlinkyServer, you are guaranteed
   // that the execute callback was processed after calling this method.
   //
-  // Inversely, the execute callback will never be processed until someone
-  // calls this method. So, all test cases need to call this method.
-  //
   // See roscpp documentation on callbacks and spinning.
   FaceGoal WaitForGoal() {
-    std::cerr << "Waiting for goal" << std::endl;
     ros::getGlobalCallbackQueue()->callAvailable(ros::WallDuration(0.1));
-    // while (!goal_received_) {
-    //  ros::spinOnce();
-    //}
-    std::cerr << "Done waiting for goal" << std::endl;
     return last_goal_;
   }
 
  protected:
   void ExecuteCb(const FaceGoalConstPtr& goal) {
-    std::cerr << "Goal received!" << std::endl;
     last_goal_ = *goal;
     FaceResult result;
     if (goal->display_type == FaceGoal::ASK_CHOICE) {

@@ -4,8 +4,6 @@
 #include "blinky/FaceAction.h"
 #include "ros/ros.h"
 
-#include <iostream>
-
 namespace rapid {
 namespace display {
 Blinky::Blinky() : client_("blinky"), server_wait_time_(5) {}
@@ -20,13 +18,10 @@ bool Blinky::ShowDefault() {
   blinky::FaceGoal goal;
   goal.display_type = goal.DEFAULT;
   client_.sendGoal(goal);
-  std::cerr << "Waiting for result" << std::endl;
   if (!client_.waitForResult(ros::Duration(server_wait_time_))) {
     ROS_ERROR("Timed out waiting for Blinky result.");
-    std::cerr << "Timed out waiting for result" << std::endl;
     return false;
   }
-  std::cerr << "Done waiting for result" << std::endl;
   return true;
 }
 
@@ -41,13 +36,10 @@ bool Blinky::ShowMessage(const std::string& h1_text,
   goal.h1_text = h1_text;
   goal.h2_text = h2_text;
   client_.sendGoal(goal);
-  std::cerr << "Waiting for result" << std::endl;
   if (!client_.waitForResult(ros::Duration(server_wait_time_))) {
     ROS_ERROR("Timed out waiting for Blinky result.");
-    std::cerr << "Timed out waiting for result" << std::endl;
     return false;
   }
-  std::cerr << "Done waiting for result" << std::endl;
   return true;
 }
 bool Blinky::AskMultipleChoice(const std::string& question,
@@ -62,13 +54,10 @@ bool Blinky::AskMultipleChoice(const std::string& question,
   goal.question = question;
   goal.choices = choices;
   client_.sendGoal(goal);
-  std::cerr << "Waiting for result" << std::endl;
   if (!client_.waitForResult()) {
     ROS_ERROR("Timed out waiting for Blinky result.");
-    std::cerr << "Timed out waiting for result" << std::endl;
     return false;
   }
-  std::cerr << "Done waiting for result" << std::endl;
   blinky::FaceResultConstPtr result = client_.getResult();
   *choice = result->choice;
   return true;
