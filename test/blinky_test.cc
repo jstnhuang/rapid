@@ -117,7 +117,7 @@ int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
   ros::init(argc, argv, "blinky_test");
 
-  ros::AsyncSpinner spinner(1);
+  ros::AsyncSpinner spinner(2);
   spinner.start();
   int ret = RUN_ALL_TESTS();
   spinner.stop();
