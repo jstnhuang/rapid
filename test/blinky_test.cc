@@ -52,11 +52,11 @@ class MockBlinkyServer {
  protected:
   void ExecuteCb(const FaceGoalConstPtr& goal) {
     last_goal_ = *goal;
+    FaceResult result;
     if (goal->display_type == FaceGoal::ASK_CHOICE) {
-      FaceResult result;
       result.choice = goal->choices[0];
-      server_.setSucceeded(result);
     }
+    server_.setSucceeded(result);
   }
   ros::CallbackQueue server_queue_;  // Used as a synchronization mechanism.
   ros::NodeHandle nh_;
