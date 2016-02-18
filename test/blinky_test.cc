@@ -30,8 +30,7 @@ class MockBlinkyServer {
       : nh_(),
         server_(nh_, "blinky",
                 boost::bind(&MockBlinkyServer::ExecuteCb, this, _1), false),
-        last_goal_(),
-        goal_received_(false) {}
+        last_goal_() {}
   void Start() { server_.start(); }
 
   // Processes all available callbacks, and gets the most recent goal that was
@@ -52,17 +51,16 @@ class MockBlinkyServer {
       result.choice = goal->choices[0];
     }
     server_.setSucceeded(result);
-    goal_received_ = true;
   }
   ros::NodeHandle nh_;
   SimpleActionServer<FaceAction> server_;
   FaceGoal last_goal_;
-  bool goal_received_;
 };
 
 class BlinkyTest : public ::testing::Test {
  public:
-  BlinkyTest() : node_handle_(), server_(), blinky_() {}
+  // We have a long server wait time to make sure the test isn't flaky.
+  BlinkyTest() : node_handle_(), server_(), blinky_(30) {}
 
   void SetUp() {}
 
