@@ -37,7 +37,7 @@ bool Blinky::ShowMessage(const std::string& h1_text,
   goal.h2_text = h2_text;
   client_.sendGoal(goal);
   if (!client_.waitForResult(ros::Duration(server_wait_time_))) {
-    ROS_ERROR("Timed out wait for Blinky result.");
+    ROS_ERROR("Timed out waiting for Blinky result.");
     return false;
   }
   return true;
@@ -55,7 +55,7 @@ bool Blinky::AskMultipleChoice(const std::string& question,
   goal.choices = choices;
   client_.sendGoal(goal);
   if (!client_.waitForResult()) {
-    ROS_ERROR("Timed out wait for Blinky result.");
+    ROS_ERROR("Timed out waiting for Blinky result.");
     return false;
   }
   blinky::FaceResultConstPtr result = client_.getResult();
