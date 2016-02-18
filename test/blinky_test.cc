@@ -4,6 +4,7 @@
 
 #include "rapid/display/display.h"
 
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -27,13 +28,11 @@ namespace display {
 class MockBlinkyServer {
  public:
   MockBlinkyServer()
-      : server_queue_(),
-        nh_(),
+      : nh_(),
         server_(nh_, "blinky",
                 boost::bind(&MockBlinkyServer::ExecuteCb, this, _1), false),
-        last_goal_() {
-    nh_.setCallbackQueue(&server_queue_);
-  }
+        last_goal_(),
+        goal_received_(false) {}
   void Start() { server_.start(); }
 
   // Processes all available callbacks, and gets the most recent goal that was
@@ -45,28 +44,35 @@ class MockBlinkyServer {
   //
   // See roscpp documentation on callbacks and spinning.
   FaceGoal WaitForGoal() {
-    server_queue_.callAvailable();
+    std::cerr << "Waiting for goal" << std::endl;
+    ros::getGlobalCallbackQueue()->callAvailable(ros::WallDuration(0.1));
+    // while (!goal_received_) {
+    //  ros::spinOnce();
+    //}
+    std::cerr << "Done waiting for goal" << std::endl;
     return last_goal_;
   }
 
  protected:
   void ExecuteCb(const FaceGoalConstPtr& goal) {
+    std::cerr << "Goal received!" << std::endl;
     last_goal_ = *goal;
     FaceResult result;
     if (goal->display_type == FaceGoal::ASK_CHOICE) {
       result.choice = goal->choices[0];
     }
     server_.setSucceeded(result);
+    goal_received_ = true;
   }
-  ros::CallbackQueue server_queue_;  // Used as a synchronization mechanism.
   ros::NodeHandle nh_;
   SimpleActionServer<FaceAction> server_;
   FaceGoal last_goal_;
+  bool goal_received_;
 };
 
 class BlinkyTest : public ::testing::Test {
  public:
-  BlinkyTest() : node_handle_(), server_(), blinky_(10) {}
+  BlinkyTest() : node_handle_(), server_(), blinky_() {}
 
   void SetUp() {}
 
