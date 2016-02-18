@@ -54,5 +54,4 @@ install:
 # --------------------
 script:
     - catkin run_tests
-    - rostest rapid blinky_test.test -t
     - catkin_test_results build/rapid
