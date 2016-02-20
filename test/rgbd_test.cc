@@ -11,6 +11,9 @@
 #include "ros/package.h"
 #include "rosbag/bag.h"
 #include "rosbag/view.h"
+#include "visualization_msgs/Marker.h"
+
+#include "rapid/pr2/pr2.h"
 
 namespace rapid {
 namespace perception {
@@ -51,10 +54,16 @@ class TableTest : public ::testing::Test {
 
 TEST_F(TableTest, FindHorizontalPlane) {
   Visualize("Input", cloud_);
+
+  visualization_msgs::Marker ws;
+  rapid::pr2::GetManipulationWorkspace(&ws);
+  pcl::PointCloud<pcl::PointXYZRGB> ws_cloud;
+  CropWorkspace(cloud_, ws, &ws_cloud);
+
   pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
   bool found = FindHorizontalPlane(cloud_, 0.01, inliers);
   pcl::PointCloud<pcl::PointXYZRGB> plane;
-  IndicesToCloud(cloud_, inliers, &plane);
+  IndicesToCloud(ws_cloud, inliers, &plane);
   Visualize("Detected plane", plane);
   EXPECT_EQ(true, found);
 }

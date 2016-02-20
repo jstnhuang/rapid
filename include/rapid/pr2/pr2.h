@@ -6,6 +6,7 @@
 #include "rapid/display/display.h"
 #include "rapid/pr2/head.h"
 #include "rapid/sound/sound.h"
+#include "visualization_msgs/Marker.h"
 
 namespace rapid {
 namespace pr2 {
@@ -17,6 +18,9 @@ class Pr2 {
   HeadInterface& head;
   rapid::sound::SoundInterface& sound;
 };
+
+// Returns a box describing the area in front of the robot that it can reach.
+void GetManipulationWorkspace(visualization_msgs::Marker* ws);
 
 Pr2 BuildReal();
 }  // namespace pr2

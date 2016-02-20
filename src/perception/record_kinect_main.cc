@@ -16,11 +16,11 @@ int main(int argc, char** argv) {
   sensor_msgs::PointCloud2 cloud;
   tf::StampedTransform transform;
   tf::TransformListener listener;
-  listener.waitForTransform("/camera_link", cloud_in->header.frame_id,
-                            ros::Time(0), ros::Duration(10));
-  listener.lookupTransform("/camera_link", cloud_in->header.frame_id,
-                           ros::Time(0), transform);
-  pcl_ros::transformPointCloud("/camera_link", transform, *cloud_in, cloud);
+  listener.waitForTransform("/world", cloud_in->header.frame_id, ros::Time(0),
+                            ros::Duration(10));
+  listener.lookupTransform("/world", cloud_in->header.frame_id, ros::Time(0),
+                           transform);
+  pcl_ros::transformPointCloud("/world", transform, *cloud_in, cloud);
 
   ROS_INFO("Recorded point cloud with %ld points", cloud.data.size());
 

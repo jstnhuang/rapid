@@ -17,6 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   sound_play
+  visualization_msgs
 )
 
 find_package(PCL REQUIRED)
@@ -164,6 +165,10 @@ add_executable(record_kinect src/perception/record_kinect_main.cc)
 add_dependencies(record_kinect ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(record_kinect ${PCL_LIBRARIES} ${catkin_LIBRARIES})
 
+add_executable(debug_obj_pipeline src/perception/debug_obj_pipeline_main.cc)
+add_dependencies(debug_obj_pipeline ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(debug_obj_pipeline rapid_pr2 rapid_perception ${PCL_LIBRARIES} ${catkin_LIBRARIES})
+
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(rapid_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -222,7 +227,7 @@ if(CATKIN_ENABLE_TESTING)
   target_link_libraries(rapid_blinky_test rapid_display gmock)
 
   catkin_add_gtest(rapid_rgbd_test test/rgbd_test.cc)
-  target_link_libraries(rapid_rgbd_test rapid_perception ${PCL_LIBRARIES} ${catkin_LIBRARIES})
+  target_link_libraries(rapid_rgbd_test rapid_pr2 rapid_perception ${PCL_LIBRARIES} ${catkin_LIBRARIES})
 endif()
 
 ## Add folders to be run by python nosetests
