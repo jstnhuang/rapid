@@ -23,10 +23,10 @@ class TableTest : public ::testing::Test {
   void SetUp() {
     rosbag::Bag bag;
     bag.open(data_path_, rosbag::bagmode::Read);
-    std::vector<std::string> topics;
-    topics.push_back(std::string("/camera/depth_registered/points"));
+    std::vector<std::string> types;
+    types.push_back(std::string("sensor_msgs/PointCloud2"));
 
-    rosbag::View view(bag, rosbag::TopicQuery(topics));
+    rosbag::View view(bag, rosbag::TypeQuery(types));
     rosbag::View::iterator it = view.begin();
     for (; it != view.end(); ++it) {
       const rosbag::MessageInstance& mi = *it;
@@ -37,7 +37,7 @@ class TableTest : public ::testing::Test {
   }
 
   void Visualize(const std::string& name,
-                 const pcl::PointCloud<pcl::PointXYZ>& cloud) {
+                 const pcl::PointCloud<pcl::PointXYZRGB>& cloud) {
     pcl::visualization::CloudViewer viewer(name);
     viewer.showCloud(cloud.makeShared());
     while (!viewer.wasStopped()) {
@@ -46,14 +46,14 @@ class TableTest : public ::testing::Test {
 
  protected:
   std::string data_path_;
-  pcl::PointCloud<pcl::PointXYZ> cloud_;
+  pcl::PointCloud<pcl::PointXYZRGB> cloud_;
 };
 
 TEST_F(TableTest, FindHorizontalPlane) {
   Visualize("Input", cloud_);
   pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
   bool found = FindHorizontalPlane(cloud_, 0.01, inliers);
-  pcl::PointCloud<pcl::PointXYZ> plane;
+  pcl::PointCloud<pcl::PointXYZRGB> plane;
   IndicesToCloud(cloud_, inliers, &plane);
   Visualize("Detected plane", plane);
   EXPECT_EQ(true, found);
