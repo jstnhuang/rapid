@@ -83,7 +83,7 @@ class Perception {
     scene.Parse();
     boost::shared_ptr<rpe::Tabletop> tt = scene.GetPrimarySurface();
     PointCloud<PointXYZRGB>::Ptr table_cloud = tt->GetCloud();
-    vector<rpe::Object> objects = tt->GetObjects();
+    vector<rpe::Object> objects = tt->objects();
     for (size_t i = 0; i < table_cloud->size(); ++i) {
       PointXYZRGB& point = (*table_cloud)[i];
       point.r = std::min(255, int(point.r) + 100);

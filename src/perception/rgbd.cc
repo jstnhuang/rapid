@@ -26,7 +26,17 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr Object::GetCloud() {
 }
 
 Tabletop::Tabletop(const pcl::PointCloud<pcl::PointXYZRGB>& cloud)
-    : cloud_(cloud) {}
+    : pose_(), scale_(), objects_(), cloud_(cloud) {
+  pcl::CentroidPoint<PointXYZRGB> centroid_finder;
+  for (size_t i = 0; i < cloud.size(); ++i) {
+    centroid_finder.add(cloud[i]);
+  }
+  PointXYZRGB centroid;
+  centroid_finder.get(centroid);
+  pose_.position.x = centroid.x;
+  pose_.position.y = centroid.y;
+  pose_.position.z = centroid.z;
+}
 
 void Tabletop::AddObject(const Object& obj) { objects_.push_back(obj); }
 
@@ -34,7 +44,9 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr Tabletop::GetCloud() {
   return cloud_.makeShared();
 }
 
-vector<Object> Tabletop::GetObjects() { return objects_; }
+geometry_msgs::Pose Tabletop::pose() { return pose_; }
+
+vector<Object> Tabletop::objects() { return objects_; }
 
 Scene::Scene(const pcl::PointCloud<pcl::PointXYZRGB>& cloud) : cloud_(cloud) {}
 
@@ -44,6 +56,9 @@ void Scene::Parse() {
   if (!found) {
     return;
   }
+  PointCloud<PointXYZRGB> table_cloud;
+  IndicesToCloud(cloud_, inliers, &table_cloud);
+  primary_surface_.reset(new Tabletop(table_cloud));
 
   // Crop the scene to just the tabletop area.
   // Do a Euclidean clustering of the scene. We assume all points clustered with
@@ -62,16 +77,12 @@ void Scene::Parse() {
   ec.setInputCloud(cloud_.makeShared());
   ec.extract(cluster_indices);
 
-  cout << "Found " << cluster_indices.size() << " clusters." << endl;
-
   // Intersect the cluster indices with the tabletop indices.
   std::set<int> table_indices;  // Indices of table points.
   for (size_t i = 0; i < inliers->indices.size(); ++i) {
     int table_index = inliers->indices[i];
     table_indices.insert(table_index);
   }
-
-  cout << table_indices.size() << " points on the table." << endl;
 
   std::set<int> table_cluster_indices;  // The set of clusters that table points
                                         // can be found in.
@@ -90,14 +101,6 @@ void Scene::Parse() {
     ++cluster_index;
   }
 
-  cout << "Table points were found in clusters: ";
-  for (std::set<int>::const_iterator it = table_cluster_indices.begin();
-       it != table_cluster_indices.end(); ++it) {
-    cout << *it << " ";
-  }
-  cout << endl;
-
-  PointCloud<PointXYZRGB> table_cloud;
   PointCloud<PointXYZRGB> objects_cloud;
   cluster_index = 0;
   for (vector<PointIndices>::const_iterator it = cluster_indices.begin();
@@ -107,26 +110,19 @@ void Scene::Parse() {
       ++cluster_index;
       continue;
     }
-    cout << "Looking at table/object cluster: " << cluster_index
-         << ", size=" << it->indices.size() << endl;
     for (vector<int>::const_iterator pit = it->indices.begin();
          pit != it->indices.end(); ++pit) {
       int point_index = *pit;
       if (table_indices.find(point_index) == table_indices.end()) {
-        // This is an object point.
-        objects_cloud.push_back(cloud_[point_index]);
-      } else {
-        // This is a table point.
-        table_cloud.push_back(cloud_[point_index]);
+        // This is an object point, or below the table.
+        if (cloud_[point_index].z > primary_surface_->pose().position.z) {
+          objects_cloud.push_back(cloud_[point_index]);
+        }
       }
     }
     ++cluster_index;
   }
 
-  cout << "Extracted " << table_cloud.size() << " table points." << endl;
-  cout << "Extracted " << objects_cloud.size() << " object points." << endl;
-
-  primary_surface_.reset(new Tabletop(table_cloud));
   Object obj(objects_cloud);
   primary_surface_->AddObject(obj);
 }

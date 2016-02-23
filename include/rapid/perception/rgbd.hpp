@@ -87,7 +87,8 @@ class Tabletop {
   Tabletop(const pcl::PointCloud<pcl::PointXYZRGB>& cloud);
   void AddObject(const Object& object);
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud();
-  std::vector<Object> GetObjects();
+  std::vector<Object> objects();
+  geometry_msgs::Pose pose();
 
  private:
   geometry_msgs::Pose pose_;
