@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 
+#include "boost/shared_ptr.hpp"
 #include "geometry_msgs/Point.h"
 #include "pcl/ModelCoefficients.h"
 #include "pcl/PointIndices.h"
@@ -58,6 +59,49 @@ template <typename PointType>
 void CropWorkspace(const pcl::PointCloud<PointType>& cloud,
                    const visualization_msgs::Marker& ws,
                    pcl::PointCloud<PointType>* cloud_out);
+
+class Object {
+ public:
+  Object(const pcl::PointCloud<pcl::PointXYZRGB>& cloud);
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud();
+
+ private:
+  pcl::PointCloud<pcl::PointXYZRGB> cloud_;
+};
+
+// A tabletop is any horizontal surface that objects can rest on. It is not
+// necessarily part of a table.
+// Like an rviz marker, the position of a tabletop refers to its center, and its
+// scale gives the dimensions in the x, y, and z directions.
+class Tabletop {
+ public:
+  Tabletop(const pcl::PointCloud<pcl::PointXYZRGB>& cloud);
+  void AddObject(const Object& object);
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud();
+  std::vector<Object> GetObjects();
+
+ private:
+  geometry_msgs::Pose pose_;
+  geometry_msgs::Vector3 scale_;
+  std::vector<Object> objects_;
+  pcl::PointCloud<pcl::PointXYZRGB> cloud_;
+};
+
+// A Scene is a semantic representation of a point cloud. Given a point cloud,
+// it will extract surfaces and objects.
+// This class works best when the given point cloud is cropped to a small area
+// of interest, such as the robot's current workspace.
+class Scene {
+ public:
+  Scene(const pcl::PointCloud<pcl::PointXYZRGB>& cloud);
+  void Parse();
+  boost::shared_ptr<Tabletop> GetPrimarySurface();
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud();
+
+ private:
+  boost::shared_ptr<Tabletop> primary_surface_;
+  pcl::PointCloud<pcl::PointXYZRGB> cloud_;
+};
 
 // Given a point cloud and a horizontal plane, segments the objects resting on
 // the plane.

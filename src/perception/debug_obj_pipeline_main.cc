@@ -1,8 +1,10 @@
 #include <iostream>
+#include <math.h>
 #include <string>
 #include <vector>
 
 #include "boost/algorithm/string.hpp"
+#include "boost/shared_ptr.hpp"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "pcl_conversions/pcl_conversions.h"
@@ -76,6 +78,30 @@ class Perception {
     }
   }
 
+  void ParseScene() {
+    rpe::Scene scene(pcl_cloud_);
+    scene.Parse();
+    boost::shared_ptr<rpe::Tabletop> tt = scene.GetPrimarySurface();
+    PointCloud<PointXYZRGB>::Ptr table_cloud = tt->GetCloud();
+    vector<rpe::Object> objects = tt->GetObjects();
+    for (size_t i = 0; i < table_cloud->size(); ++i) {
+      PointXYZRGB& point = (*table_cloud)[i];
+      point.r = std::min(255, int(point.r) + 50);
+    }
+    pcl_cloud_.clear();
+    pcl_cloud_ += *table_cloud;
+
+    for (size_t j = 0; j < objects.size(); ++j) {
+      rpe::Object& obj = objects[j];
+      PointCloud<PointXYZRGB>::Ptr obj_cloud = obj.GetCloud();
+      for (size_t i = 0; i < obj_cloud->size(); ++i) {
+        PointXYZRGB& point = (*obj_cloud)[i];
+        point.g = std::min(255, int(point.r) + 50);
+      }
+      pcl_cloud_ += *obj_cloud;
+    }
+  }
+
   void PublishCloud() {
     sensor_msgs::PointCloud2 cloud;
     pcl::toROSMsg(pcl_cloud_, cloud);
@@ -101,6 +127,7 @@ class Interpreter {
     cout << "  crop: Crops the cloud to the robot's workspace." << endl;
     cout << "  find_plane: Finds the plane in the current cloud." << endl;
     cout << "  find_planes: Finds all the planes in the current cloud." << endl;
+    cout << "  parse_scene: Parses the scene." << endl;
     cout << "  exit: Exits the app." << endl;
   }
 
@@ -115,6 +142,8 @@ class Interpreter {
       *command = "find_plane";
     } else if (input == "find_planes") {
       *command = "find_planes";
+    } else if (input == "parse_scene") {
+      *command = "parse_scene";
     } else if (input == "exit") {
       *command = "exit";
     } else {
@@ -151,6 +180,9 @@ class Interpreter {
       perception_.PublishCloud();
     } else if (command == "find_planes") {
       perception_.FindPlanes();
+      perception_.PublishCloud();
+    } else if (command == "parse_scene") {
+      perception_.ParseScene();
       perception_.PublishCloud();
     } else {
     }
