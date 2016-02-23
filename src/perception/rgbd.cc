@@ -123,8 +123,12 @@ void Scene::Parse() {
     ++cluster_index;
   }
 
-  Object obj(objects_cloud);
-  primary_surface_->AddObject(obj);
+  vector<Object> objects;
+  SegmentObjects<PointXYZRGB>(objects_cloud.makeShared(), 0.01, &objects);
+  for (vector<Object>::const_iterator it = objects.begin(); it != objects.end();
+       ++it) {
+    primary_surface_->AddObject(*it);
+  }
 }
 
 boost::shared_ptr<Tabletop> Scene::GetPrimarySurface() {

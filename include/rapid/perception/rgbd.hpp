@@ -32,6 +32,11 @@ void IndicesToCloud(const pcl::PointCloud<PointType>& cloud,
                     const pcl::PointIndices::Ptr& indices,
                     pcl::PointCloud<PointType>* result);
 
+template <typename PointType>
+void IndicesToCloud(const pcl::PointCloud<PointType>& cloud,
+                    const pcl::PointIndices& indices,
+                    pcl::PointCloud<PointType>* result);
+
 // Removes the indices from the given cloud. The cloud is modified directly.
 template <typename PointType>
 void IndicesToNegativeCloud(const pcl::PointCloud<PointType>& cloud,
@@ -78,6 +83,10 @@ class Object {
   pcl::PointCloud<pcl::PointXYZRGB> cloud_;
 };
 
+template <typename PointType>
+void SegmentObjects(typename pcl::PointCloud<PointType>::Ptr,
+                    double distance_threshold, std::vector<Object>* objects);
+
 // A tabletop is any horizontal surface that objects can rest on. It is not
 // necessarily part of a table.
 // Like an rviz marker, the position of a tabletop refers to its center, and its
@@ -121,6 +130,19 @@ void IndicesToCloud(const pcl::PointCloud<PointType>& cloud,
   pcl::ExtractIndices<PointType> extract;
   extract.setInputCloud(cloud.makeShared());
   pcl::PointIndices::Ptr indices_p(indices);
+  extract.setIndices(indices_p);
+  extract.setNegative(false);
+  extract.filter(*result);
+}
+
+template <typename PointType>
+void IndicesToCloud(const pcl::PointCloud<PointType>& cloud,
+                    const pcl::PointIndices& indices,
+                    pcl::PointCloud<PointType>* result) {
+  pcl::ExtractIndices<PointType> extract;
+  extract.setInputCloud(cloud.makeShared());
+  pcl::PointIndices::Ptr indices_p(new pcl::PointIndices);
+  indices_p->indices = indices.indices;
   extract.setIndices(indices_p);
   extract.setNegative(false);
   extract.filter(*result);
@@ -242,6 +264,31 @@ void CropWorkspace(const pcl::PointCloud<PointType>& cloud,
   filter.setMin(min);
   filter.setMax(max);
   filter.filter(*cloud_out);
+}
+
+template <typename PointType>
+void SegmentObjects(typename pcl::PointCloud<PointType>::Ptr cloud,
+                    double distance_threshold, std::vector<Object>* objects) {
+  typename pcl::search::KdTree<PointType>::Ptr tree(
+      new pcl::search::KdTree<PointType>);
+  tree->setInputCloud(cloud);
+
+  std::vector<pcl::PointIndices> cluster_indices;
+  pcl::EuclideanClusterExtraction<PointType> ec;
+  ec.setClusterTolerance(distance_threshold);
+  ec.setSearchMethod(tree);
+  ec.setInputCloud(cloud);
+  ec.setMinClusterSize(20);
+  ec.extract(cluster_indices);
+
+  for (std::vector<pcl::PointIndices>::const_iterator it =
+           cluster_indices.begin();
+       it != cluster_indices.end(); ++it) {
+    pcl::PointCloud<PointType> obj_cloud;
+    IndicesToCloud(*cloud, *it, &obj_cloud);
+    Object obj(obj_cloud);
+    objects->push_back(obj);
+  }
 }
 }  // perception
 }  // rapid

@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <iostream>
 #include <math.h>
 #include <string>
@@ -78,26 +79,35 @@ class Perception {
     }
   }
 
+  void Colorize(PointCloud<PointXYZRGB>& cloud, int r, int g, int b,
+                double alpha) {
+    for (size_t i = 0; i < cloud.size(); ++i) {
+      PointXYZRGB& point = cloud[i];
+      point.r = std::min(255, static_cast<int>(point.r + (alpha * r)));
+      point.g = std::min(255, static_cast<int>(point.g + (alpha * g)));
+      point.b = std::min(255, static_cast<int>(point.b + (alpha * b)));
+    }
+  }
+
   void ParseScene() {
     rpe::Scene scene(pcl_cloud_);
     scene.Parse();
     boost::shared_ptr<rpe::Tabletop> tt = scene.GetPrimarySurface();
     PointCloud<PointXYZRGB>::Ptr table_cloud = tt->GetCloud();
     vector<rpe::Object> objects = tt->objects();
-    for (size_t i = 0; i < table_cloud->size(); ++i) {
-      PointXYZRGB& point = (*table_cloud)[i];
-      point.r = std::min(255, int(point.r) + 100);
-    }
+    Colorize(*table_cloud, 255, 0, 0, 0.3);
     pcl_cloud_.clear();
     pcl_cloud_ += *table_cloud;
 
+    cout << "Found " << objects.size() << " objects." << endl;
     for (size_t j = 0; j < objects.size(); ++j) {
       rpe::Object& obj = objects[j];
       PointCloud<PointXYZRGB>::Ptr obj_cloud = obj.GetCloud();
-      for (size_t i = 0; i < obj_cloud->size(); ++i) {
-        PointXYZRGB& point = (*obj_cloud)[i];
-        point.g = std::min(255, int(point.r) + 100);
-      }
+      cout << "Size: " << obj_cloud->size() << endl;
+      int r = std::rand() % 255;
+      int g = std::rand() % 255;
+      int b = std::rand() % 255;
+      Colorize(*obj_cloud, r, g, b, 0.7);
       pcl_cloud_ += *obj_cloud;
     }
   }
