@@ -40,7 +40,7 @@ Scene::Scene(const pcl::PointCloud<pcl::PointXYZRGB>& cloud) : cloud_(cloud) {}
 
 void Scene::Parse() {
   pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
-  bool found = FindHorizontalPlane(cloud_, 0.01, inliers);
+  bool found = FindTabletop(cloud_, 0.01, inliers);
   if (!found) {
     return;
   }

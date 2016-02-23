@@ -2,6 +2,7 @@
 #define _RAPID_PERCEPTION_RGBD_H_
 
 #include <iostream>
+#include <limits>
 #include <vector>
 
 #include "boost/shared_ptr.hpp"
@@ -11,10 +12,12 @@
 #include "pcl/common/angles.h"
 #include "pcl/filters/crop_box.h"
 #include "pcl/filters/extract_indices.h"
+#include "pcl/kdtree/kdtree.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "pcl/sample_consensus/method_types.h"
 #include "pcl/sample_consensus/model_types.h"
+#include "pcl/segmentation/extract_clusters.h"
 #include "pcl/segmentation/sac_segmentation.h"
 #include "tf/tf.h"
 #include "visualization_msgs/Marker.h"
@@ -54,6 +57,12 @@ template <typename PointType>
 void FindHorizontalPlanes(const pcl::PointCloud<PointType>& cloud,
                           double distance_threshold,
                           std::vector<pcl::PointCloud<PointType> >* planes);
+
+// A horizontal plane may cut across the entire scene, so we cluster the plane
+// and call the largest cluster the tabletop.
+template <typename PointType>
+bool FindTabletop(const pcl::PointCloud<PointType>& cloud,
+                  double distance_threshold, pcl::PointIndices::Ptr inliers);
 
 template <typename PointType>
 void CropWorkspace(const pcl::PointCloud<PointType>& cloud,
@@ -102,10 +111,6 @@ class Scene {
   boost::shared_ptr<Tabletop> primary_surface_;
   pcl::PointCloud<pcl::PointXYZRGB> cloud_;
 };
-
-// Given a point cloud and a horizontal plane, segments the objects resting on
-// the plane.
-// void FindPlaneObjects();
 
 // Definitions --------------------------------------------------------------
 template <typename PointType>
@@ -176,6 +181,47 @@ void FindHorizontalPlanes(const pcl::PointCloud<PointType>& cloud,
     IndicesToNegativeCloud(*working, inliers, &filtered);
     *working = filtered;
   }
+}
+
+template <typename PointType>
+bool FindTabletop(const pcl::PointCloud<PointType>& cloud,
+                  double distance_threshold, pcl::PointIndices::Ptr inliers) {
+  pcl::PointIndices::Ptr plane_inliers(new pcl::PointIndices);
+  bool found = FindHorizontalPlane(cloud, distance_threshold, plane_inliers);
+  if (!found) {
+    return found;
+  }
+
+  typename pcl::search::KdTree<PointType>::Ptr tree(
+      new pcl::search::KdTree<PointType>);
+  typename pcl::search::KdTree<PointType>::IndicesConstPtr plane_iptr(
+      new std::vector<int>(plane_inliers->indices));
+  tree->setInputCloud(cloud.makeShared(), plane_iptr);
+
+  std::vector<pcl::PointIndices> cluster_indices;
+  pcl::EuclideanClusterExtraction<PointType> ec;
+  ec.setClusterTolerance(distance_threshold);
+  ec.setSearchMethod(tree);
+  ec.setInputCloud(cloud.makeShared());
+  ec.setIndices(plane_inliers);
+  ec.extract(cluster_indices);
+
+  if (cluster_indices.size() == 0) {
+    return false;
+  }
+
+  size_t max_index = -1;
+  size_t max_size = std::numeric_limits<size_t>::min();
+  for (size_t i = 0; i < cluster_indices.size(); ++i) {
+    size_t size = cluster_indices.size();
+    if (size > max_size) {
+      max_size = size;
+      max_index = i;
+    }
+  }
+
+  inliers->indices = cluster_indices[max_index].indices;
+  return true;
 }
 
 template <typename PointType>

@@ -86,7 +86,7 @@ class Perception {
     vector<rpe::Object> objects = tt->GetObjects();
     for (size_t i = 0; i < table_cloud->size(); ++i) {
       PointXYZRGB& point = (*table_cloud)[i];
-      point.r = std::min(255, int(point.r) + 50);
+      point.r = std::min(255, int(point.r) + 100);
     }
     pcl_cloud_.clear();
     pcl_cloud_ += *table_cloud;
@@ -96,7 +96,7 @@ class Perception {
       PointCloud<PointXYZRGB>::Ptr obj_cloud = obj.GetCloud();
       for (size_t i = 0; i < obj_cloud->size(); ++i) {
         PointXYZRGB& point = (*obj_cloud)[i];
-        point.g = std::min(255, int(point.r) + 50);
+        point.g = std::min(255, int(point.r) + 100);
       }
       pcl_cloud_ += *obj_cloud;
     }
