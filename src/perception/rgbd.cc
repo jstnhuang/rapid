@@ -2,6 +2,7 @@
 
 #include "boost/shared_ptr.hpp"
 #include "pcl/kdtree/kdtree.h"
+#include "pcl/common/centroid.h"
 #include "pcl/segmentation/extract_clusters.h"
 
 #include <iostream>
