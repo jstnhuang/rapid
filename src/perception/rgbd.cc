@@ -2,7 +2,6 @@
 
 #include "boost/shared_ptr.hpp"
 #include "pcl/kdtree/kdtree.h"
-#include "pcl/common/centroid.h"
 #include "pcl/segmentation/extract_clusters.h"
 
 #include <iostream>
@@ -28,15 +27,11 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr Object::GetCloud() {
 
 Tabletop::Tabletop(const pcl::PointCloud<pcl::PointXYZRGB>& cloud)
     : pose_(), scale_(), objects_(), cloud_(cloud) {
-  pcl::CentroidPoint<PointXYZRGB> centroid_finder;
-  for (size_t i = 0; i < cloud.size(); ++i) {
-    centroid_finder.add(cloud[i]);
-  }
-  PointXYZRGB centroid;
-  centroid_finder.get(centroid);
-  pose_.position.x = centroid.x;
-  pose_.position.y = centroid.y;
-  pose_.position.z = centroid.z;
+  Eigen::Vector4d centroid;
+  pcl::compute3DCentroid(cloud, centroid);
+  pose_.position.x = centroid[0];
+  pose_.position.y = centroid[1];
+  pose_.position.z = centroid[2];
 }
 
 void Tabletop::AddObject(const Object& obj) { objects_.push_back(obj); }
