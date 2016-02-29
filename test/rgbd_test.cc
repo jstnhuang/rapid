@@ -52,21 +52,21 @@ class TableTest : public ::testing::Test {
   pcl::PointCloud<pcl::PointXYZRGB> cloud_;
 };
 
-TEST_F(TableTest, FindHorizontalPlane) {
-  Visualize("Input", cloud_);
-
-  visualization_msgs::Marker ws;
-  rapid::pr2::GetManipulationWorkspace(&ws);
-  pcl::PointCloud<pcl::PointXYZRGB> ws_cloud;
-  CropWorkspace(cloud_, ws, &ws_cloud);
-
-  pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
-  bool found = FindHorizontalPlane(cloud_, 0.01, inliers);
-  pcl::PointCloud<pcl::PointXYZRGB> plane;
-  IndicesToCloud(ws_cloud, inliers, &plane);
-  Visualize("Detected plane", plane);
-  EXPECT_EQ(true, found);
-}
+// TEST_F(TableTest, FindHorizontalPlane) {
+//  Visualize("Input", cloud_);
+//
+//  visualization_msgs::Marker ws;
+//  rapid::pr2::GetManipulationWorkspace(&ws);
+//  pcl::PointCloud<pcl::PointXYZRGB> ws_cloud;
+//  CropWorkspace(cloud_, ws, &ws_cloud);
+//
+//  pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
+//  bool found = FindHorizontalPlane(cloud_, 0.01, inliers);
+//  pcl::PointCloud<pcl::PointXYZRGB> plane;
+//  IndicesToCloud(ws_cloud, inliers, &plane);
+//  Visualize("Detected plane", plane);
+//  EXPECT_EQ(true, found);
+//}
 }  // namespace perception
 }  // namespace rapid
 
