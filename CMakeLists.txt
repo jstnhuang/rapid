@@ -8,11 +8,22 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   blinky
   geometry_msgs
+  pcl_conversions
+  pcl_ros
   pr2_controllers_msgs
+  rosbag
   roscpp
+  roslib
   rospy
+  sensor_msgs
   sound_play
+  visualization_msgs
 )
+
+find_package(PCL REQUIRED)
+include_directories(${PCL_INCLUDE_DIRS})
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
 
 set(gmock_INCLUDE_DIR /usr/include/gmock)
 set(gmock_LIB_DIR /usr/lib)
@@ -140,13 +151,23 @@ add_library(rapid_display src/display/display.cc)
 add_dependencies(rapid_display ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_display ${catkin_LIBRARIES})
 
+add_library(rapid_perception src/perception/rgbd.cc)
+add_dependencies(rapid_perception ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_perception ${PCL_LIBRARIES} ${catkin_LIBRARIES})
+
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
 # add_dependencies(rapid ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(rapid_node src/rapid_node.cpp)
+add_executable(record_kinect src/perception/record_kinect_main.cc)
+add_dependencies(record_kinect ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(record_kinect ${PCL_LIBRARIES} ${catkin_LIBRARIES})
+
+add_executable(debug_obj_pipeline src/perception/debug_obj_pipeline_main.cc)
+add_dependencies(debug_obj_pipeline ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(debug_obj_pipeline rapid_pr2 rapid_perception ${PCL_LIBRARIES} ${catkin_LIBRARIES})
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -204,6 +225,9 @@ if(CATKIN_ENABLE_TESTING)
 
   add_rostest_gtest(rapid_blinky_test test/blinky_test.test test/blinky_test.cc)
   target_link_libraries(rapid_blinky_test rapid_display gmock)
+
+  catkin_add_gtest(rapid_rgbd_test test/rgbd_test.cc)
+  target_link_libraries(rapid_rgbd_test rapid_pr2 rapid_perception ${PCL_LIBRARIES} ${catkin_LIBRARIES})
 endif()
 
 ## Add folders to be run by python nosetests
