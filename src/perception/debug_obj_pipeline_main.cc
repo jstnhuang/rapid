@@ -83,9 +83,12 @@ class Perception {
                 double alpha) {
     for (size_t i = 0; i < cloud.size(); ++i) {
       PointXYZRGB& point = cloud[i];
-      point.r = std::min(255, static_cast<int>(point.r + (alpha * r)));
-      point.g = std::min(255, static_cast<int>(point.g + (alpha * g)));
-      point.b = std::min(255, static_cast<int>(point.b + (alpha * b)));
+      point.r =
+          std::min(255, static_cast<int>((1 - alpha) * point.r + (alpha * r)));
+      point.g =
+          std::min(255, static_cast<int>((1 - alpha) * point.g + (alpha * g)));
+      point.b =
+          std::min(255, static_cast<int>((1 - alpha) * point.b + (alpha * b)));
     }
   }
 
@@ -95,7 +98,7 @@ class Perception {
     boost::shared_ptr<rpe::Tabletop> tt = scene.GetPrimarySurface();
     PointCloud<PointXYZRGB>::Ptr table_cloud = tt->GetCloud();
     vector<rpe::Object> objects = tt->objects();
-    Colorize(*table_cloud, 255, 0, 0, 0.3);
+    Colorize(*table_cloud, 255, 0, 0, 1);
     pcl_cloud_.clear();
     pcl_cloud_ += *table_cloud;
 
@@ -103,7 +106,6 @@ class Perception {
     for (size_t j = 0; j < objects.size(); ++j) {
       rpe::Object& obj = objects[j];
       PointCloud<PointXYZRGB>::Ptr obj_cloud = obj.GetCloud();
-      cout << "Size: " << obj_cloud->size() << endl;
       int r = std::rand() % 255;
       int g = std::rand() % 255;
       int b = std::rand() % 255;
