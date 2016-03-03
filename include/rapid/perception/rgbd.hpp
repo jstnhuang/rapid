@@ -7,6 +7,8 @@
 
 #include "boost/shared_ptr.hpp"
 #include "geometry_msgs/Point.h"
+#include "geometry_msgs/PoseStamped.h"
+#include "geometry_msgs/Vector3.h"
 #include "pcl/ModelCoefficients.h"
 #include "pcl/PointIndices.h"
 #include "pcl/common/angles.h"
@@ -78,9 +80,13 @@ class Object {
  public:
   Object(const pcl::PointCloud<pcl::PointXYZRGB>& cloud);
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud();
+  geometry_msgs::PoseStamped pose() const;
+  geometry_msgs::Vector3 scale() const;
 
  private:
   pcl::PointCloud<pcl::PointXYZRGB> cloud_;
+  geometry_msgs::PoseStamped pose_;
+  geometry_msgs::Vector3 scale_;
 };
 
 template <typename PointType>
@@ -112,16 +118,31 @@ class Tabletop {
 // of interest, such as the robot's current workspace.
 class Scene {
  public:
-  Scene(const pcl::PointCloud<pcl::PointXYZRGB>& cloud);
+  Scene();
+  void set_cloud(const pcl::PointCloud<pcl::PointXYZRGB>& cloud);
   void Parse();
   boost::shared_ptr<Tabletop> GetPrimarySurface();
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud();
 
  private:
-  boost::shared_ptr<Tabletop> primary_surface_;
   pcl::PointCloud<pcl::PointXYZRGB> cloud_;
+  boost::shared_ptr<Tabletop> primary_surface_;
 };
 
+// Computes the bounding box for the given point cloud on the XY plane.
+//
+// Args:
+//   cloud: The input cloud. Assumed to not have any NaN points.
+//   midpoint: The geometric center of the cloud, i.e., the midpoint between the
+//     minimum and maximum points in each of the x, y, and z directions. The
+//     orientation is such that the x direction points along the principal
+//     component in the XY plane, the y direction points along the smaller
+//     component, and the z direction points up.
+//   dimensions: A vector containing the length of the cloud in the x, y, and z
+//   directions.
+void GetPlanarBoundingBox(const pcl::PointCloud<pcl::PointXYZRGB>& cloud,
+                          geometry_msgs::Pose* midpoint,
+                          geometry_msgs::Vector3* dimensions);
 // Definitions --------------------------------------------------------------
 template <typename PointType>
 void IndicesToCloud(const pcl::PointCloud<PointType>& cloud,

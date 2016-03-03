@@ -93,7 +93,8 @@ class Perception {
   }
 
   void ParseScene() {
-    rpe::Scene scene(pcl_cloud_);
+    rpe::Scene scene;
+    scene.set_cloud(pcl_cloud_);
     scene.Parse();
     boost::shared_ptr<rpe::Tabletop> tt = scene.GetPrimarySurface();
     PointCloud<PointXYZRGB>::Ptr table_cloud = tt->GetCloud();

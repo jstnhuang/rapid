@@ -3,7 +3,9 @@
 
 #include <string>
 
+#include "boost/shared_ptr.hpp"
 #include "rapid/display/display.h"
+#include "rapid/perception/rgbd.hpp"
 #include "rapid/pr2/head.h"
 #include "rapid/sound/sound.h"
 #include "visualization_msgs/Marker.h"
@@ -17,6 +19,11 @@ class Pr2 {
   rapid::display::DisplayInterface& display;
   HeadInterface& head;
   rapid::sound::SoundInterface& sound;
+
+  // Gets the parsed scene from the point cloud of the area in front of the
+  // robot. The area the point cloud comes from is given by
+  // GetManipulationWorkspace.
+  bool GetManipulationScene(rapid::perception::Scene* scene);
 };
 
 // Returns a box describing the area in front of the robot that it can reach.
