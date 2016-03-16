@@ -30,14 +30,10 @@ bool Pr2::GetManipulationScene(rapid::perception::Scene* scene) {
       ros::topic::waitForMessage<sensor_msgs::PointCloud2>(
           "/head_mount_kinect/depth_registered/points");
   sensor_msgs::PointCloud2 transformed;
-  bool success = tf_listener.waitForTransform(
-      "/base_link", msg->header.frame_id, msg->header.stamp, ros::Duration(10));
+  bool success = pcl_ros::transformPointCloud("/base_link", *msg, transformed,
+                                              tf_listener);
   if (!success) {
-    return false;
-  }
-  success = pcl_ros::transformPointCloud("/base_link", *msg, transformed,
-                                         tf_listener);
-  if (!success) {
+    ROS_ERROR("Failed to transform point cloud.");
     return false;
   }
   pcl::PointCloud<pcl::PointXYZRGB> pcl_cloud;

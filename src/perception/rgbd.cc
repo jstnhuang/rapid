@@ -63,6 +63,7 @@ void Scene::Parse() {
   pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
   bool found = FindTabletop(cloud_, 0.01, inliers);
   if (!found) {
+    ROS_ERROR("Failed to find tabletop while parsing scene.");
     return;
   }
   PointCloud<PointXYZRGB> table_cloud;
