@@ -7,6 +7,7 @@ project(rapid_pr2)
 find_package(catkin REQUIRED COMPONENTS
   actionlib
   geometry_msgs
+  pr2_controllers_msgs
   sensor_msgs
   rapid_display
   rapid_sound
