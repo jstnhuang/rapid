@@ -1,3 +1,0 @@
-<launch>
-  <test test-name="rapid_pr2_test" pkg="rapid" type="rapid_pr2_test" />
-</launch>

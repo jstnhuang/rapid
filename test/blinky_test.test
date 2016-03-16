@@ -1,3 +1,0 @@
-<launch>
-  <test test-name="rapid_blinky_test" pkg="rapid" type="rapid_blinky_test" />
-</launch>
