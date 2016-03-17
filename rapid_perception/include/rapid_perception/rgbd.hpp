@@ -39,6 +39,11 @@ void IndicesToCloud(const pcl::PointCloud<PointType>& cloud,
                     const pcl::PointIndices& indices,
                     pcl::PointCloud<PointType>* result);
 
+template <typename PointType>
+boost::shared_ptr<pcl::PointCloud<PointType> > IndicesToCloud(
+    const boost::shared_ptr<pcl::PointCloud<PointType> > cloud,
+    const pcl::PointIndices::Ptr& indices);
+
 // Removes the indices from the given cloud. The cloud is modified directly.
 template <typename PointType>
 void IndicesToNegativeCloud(const pcl::PointCloud<PointType>& cloud,
@@ -65,69 +70,10 @@ void FindHorizontalPlanes(const pcl::PointCloud<PointType>& cloud,
                           double distance_threshold,
                           std::vector<pcl::PointCloud<PointType> >* planes);
 
-// A horizontal plane may cut across the entire scene, so we cluster the plane
-// and call the largest cluster the tabletop.
-template <typename PointType>
-bool FindTabletop(const pcl::PointCloud<PointType>& cloud,
-                  double distance_threshold, pcl::PointIndices::Ptr inliers);
-
 template <typename PointType>
 void CropWorkspace(const pcl::PointCloud<PointType>& cloud,
                    const visualization_msgs::Marker& ws,
                    pcl::PointCloud<PointType>* cloud_out);
-
-class Object {
- public:
-  Object(const pcl::PointCloud<pcl::PointXYZRGB>& cloud);
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud();
-  geometry_msgs::PoseStamped pose() const;
-  geometry_msgs::Vector3 scale() const;
-
- private:
-  pcl::PointCloud<pcl::PointXYZRGB> cloud_;
-  geometry_msgs::PoseStamped pose_;
-  geometry_msgs::Vector3 scale_;
-};
-
-template <typename PointType>
-void SegmentObjects(typename pcl::PointCloud<PointType>::Ptr,
-                    double distance_threshold, std::vector<Object>* objects);
-
-// A tabletop is any horizontal surface that objects can rest on. It is not
-// necessarily part of a table.
-// Like an rviz marker, the position of a tabletop refers to its center, and its
-// scale gives the dimensions in the x, y, and z directions.
-class Tabletop {
- public:
-  Tabletop(const pcl::PointCloud<pcl::PointXYZRGB>& cloud);
-  void AddObject(const Object& object);
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud();
-  std::vector<Object> objects();
-  geometry_msgs::Pose pose();
-
- private:
-  geometry_msgs::Pose pose_;
-  geometry_msgs::Vector3 scale_;
-  std::vector<Object> objects_;
-  pcl::PointCloud<pcl::PointXYZRGB> cloud_;
-};
-
-// A Scene is a semantic representation of a point cloud. Given a point cloud,
-// it will extract surfaces and objects.
-// This class works best when the given point cloud is cropped to a small area
-// of interest, such as the robot's current workspace.
-class Scene {
- public:
-  Scene();
-  void set_cloud(const pcl::PointCloud<pcl::PointXYZRGB>& cloud);
-  void Parse();
-  boost::shared_ptr<Tabletop> GetPrimarySurface();
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud();
-
- private:
-  pcl::PointCloud<pcl::PointXYZRGB> cloud_;
-  boost::shared_ptr<Tabletop> primary_surface_;
-};
 
 // Computes the bounding box for the given point cloud on the XY plane.
 //
@@ -143,6 +89,7 @@ class Scene {
 void GetPlanarBoundingBox(const pcl::PointCloud<pcl::PointXYZRGB>& cloud,
                           geometry_msgs::Pose* midpoint,
                           geometry_msgs::Vector3* dimensions);
+
 // Definitions --------------------------------------------------------------
 template <typename PointType>
 void IndicesToCloud(const pcl::PointCloud<PointType>& cloud,
@@ -150,8 +97,7 @@ void IndicesToCloud(const pcl::PointCloud<PointType>& cloud,
                     pcl::PointCloud<PointType>* result) {
   pcl::ExtractIndices<PointType> extract;
   extract.setInputCloud(cloud.makeShared());
-  pcl::PointIndices::Ptr indices_p(indices);
-  extract.setIndices(indices_p);
+  extract.setIndices(indices);
   extract.setNegative(false);
   extract.filter(*result);
 }
@@ -162,11 +108,24 @@ void IndicesToCloud(const pcl::PointCloud<PointType>& cloud,
                     pcl::PointCloud<PointType>* result) {
   pcl::ExtractIndices<PointType> extract;
   extract.setInputCloud(cloud.makeShared());
-  pcl::PointIndices::Ptr indices_p(new pcl::PointIndices);
-  indices_p->indices = indices.indices;
+  pcl::PointIndices::Ptr indices_p(new pcl::PointIndices(indices));
   extract.setIndices(indices_p);
   extract.setNegative(false);
   extract.filter(*result);
+}
+
+template <typename PointType>
+boost::shared_ptr<pcl::PointCloud<PointType> > IndicesToCloud(
+    const boost::shared_ptr<pcl::PointCloud<PointType> > cloud,
+    const pcl::PointIndices::Ptr& indices) {
+  typename pcl::PointCloud<PointType>::Ptr result(
+      new pcl::PointCloud<PointType>);
+  pcl::ExtractIndices<PointType> extract;
+  extract.setInputCloud(cloud);
+  extract.setIndices(indices);
+  extract.setNegative(false);
+  extract.filter(*result);
+  return result;
 }
 
 template <typename PointType>
@@ -228,47 +187,6 @@ void FindHorizontalPlanes(const pcl::PointCloud<PointType>& cloud,
 }
 
 template <typename PointType>
-bool FindTabletop(const pcl::PointCloud<PointType>& cloud,
-                  double distance_threshold, pcl::PointIndices::Ptr inliers) {
-  pcl::PointIndices::Ptr plane_inliers(new pcl::PointIndices);
-  bool found = FindHorizontalPlane(cloud, distance_threshold, plane_inliers);
-  if (!found) {
-    return found;
-  }
-
-  typename pcl::search::KdTree<PointType>::Ptr tree(
-      new pcl::search::KdTree<PointType>);
-  typename pcl::search::KdTree<PointType>::IndicesConstPtr plane_iptr(
-      new std::vector<int>(plane_inliers->indices));
-  tree->setInputCloud(cloud.makeShared(), plane_iptr);
-
-  std::vector<pcl::PointIndices> cluster_indices;
-  pcl::EuclideanClusterExtraction<PointType> ec;
-  ec.setClusterTolerance(distance_threshold);
-  ec.setSearchMethod(tree);
-  ec.setInputCloud(cloud.makeShared());
-  ec.setIndices(plane_inliers);
-  ec.extract(cluster_indices);
-
-  if (cluster_indices.size() == 0) {
-    return false;
-  }
-
-  size_t max_index = -1;
-  size_t max_size = std::numeric_limits<size_t>::min();
-  for (size_t i = 0; i < cluster_indices.size(); ++i) {
-    size_t size = cluster_indices.size();
-    if (size > max_size) {
-      max_size = size;
-      max_index = i;
-    }
-  }
-
-  inliers->indices = cluster_indices[max_index].indices;
-  return true;
-}
-
-template <typename PointType>
 void CropWorkspace(const pcl::PointCloud<PointType>& cloud,
                    const visualization_msgs::Marker& ws,
                    pcl::PointCloud<PointType>* cloud_out) {
@@ -287,30 +205,6 @@ void CropWorkspace(const pcl::PointCloud<PointType>& cloud,
   filter.filter(*cloud_out);
 }
 
-template <typename PointType>
-void SegmentObjects(typename pcl::PointCloud<PointType>::Ptr cloud,
-                    double distance_threshold, std::vector<Object>* objects) {
-  typename pcl::search::KdTree<PointType>::Ptr tree(
-      new pcl::search::KdTree<PointType>);
-  tree->setInputCloud(cloud);
-
-  std::vector<pcl::PointIndices> cluster_indices;
-  pcl::EuclideanClusterExtraction<PointType> ec;
-  ec.setClusterTolerance(distance_threshold);
-  ec.setSearchMethod(tree);
-  ec.setInputCloud(cloud);
-  ec.setMinClusterSize(20);
-  ec.extract(cluster_indices);
-
-  for (std::vector<pcl::PointIndices>::const_iterator it =
-           cluster_indices.begin();
-       it != cluster_indices.end(); ++it) {
-    pcl::PointCloud<PointType> obj_cloud;
-    IndicesToCloud(*cloud, *it, &obj_cloud);
-    Object obj(obj_cloud);
-    objects->push_back(obj);
-  }
-}
 }  // namespace perception
 }  // namespace rapid
 #endif  // _RAPID_PERCEPTION_RGBD_H_
