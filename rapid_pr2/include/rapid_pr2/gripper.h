@@ -1,7 +1,7 @@
 // A class for opening and closing the grippers.
 //
 // Sample usage:
-//  rapid_pr2::Gripper right_gripper(
+//  rapid::pr2::Gripper right_gripper(
 //    Gripper::RIGHT_GRIPPER);
 //  right_gripper.Open();
 //  right_gripper.Close();
@@ -14,6 +14,7 @@
 //    the goal position.
 
 #include "actionlib/client/simple_action_client.h"
+#include "gmock/gmock.h"
 #include "pr2_controllers_msgs/Pr2GripperCommandAction.h"
 #include "ros/ros.h"
 #include "tf/transform_listener.h"
@@ -26,7 +27,17 @@ namespace pr2 {
 typedef actionlib::SimpleActionClient<
     pr2_controllers_msgs::Pr2GripperCommandAction> GripperClient;
 
-class Gripper {
+class GripperInterface {
+ public:
+  virtual ~GripperInterface() {}
+  virtual bool SetPosition(double position, double effort = -1) = 0;
+  virtual double GetPosition() = 0;
+  virtual bool IsOpen() = 0;
+  virtual bool Open(double effort = -1.0) = 0;
+  virtual bool Close(double effort = -1.0) = 0;
+};
+
+class Gripper : public GripperInterface {
  private:
   GripperClient* gripper_client_;
   tf::TransformListener transform_listener_;
@@ -72,6 +83,15 @@ class Gripper {
   // otherwise.
   // effort - defaults to 50.0 to close gently
   bool Close(double effort = -1.0);
+};
+
+class MockGripper : public GripperInterface {
+ public:
+  MOCK_METHOD2(SetPosition, bool(double position, double effort));
+  MOCK_METHOD0(GetPosition, double());
+  MOCK_METHOD0(IsOpen, bool());
+  MOCK_METHOD1(Open, bool(double effort));
+  MOCK_METHOD1(Close, bool(double effort));
 };
 }  // namespace pr2
 }  // namespace rapid

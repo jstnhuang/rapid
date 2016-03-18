@@ -5,17 +5,22 @@
 
 #include "boost/shared_ptr.hpp"
 #include "rapid_display/display.h"
-#include "rapid_pr2/head.h"
 #include "rapid_sound/sound.h"
 #include "visualization_msgs/Marker.h"
+
+#include "rapid_pr2/gripper.h"
+#include "rapid_pr2/head.h"
 
 namespace rapid {
 namespace pr2 {
 class Pr2 {
  public:
-  Pr2(rapid::display::DisplayInterface& display,
-      rapid::pr2::HeadInterface& head, rapid::sound::SoundInterface& sound);
+  Pr2(rapid::display::DisplayInterface& display, GripperInterface& left_gripper,
+      GripperInterface& right_gripper, HeadInterface& head,
+      rapid::sound::SoundInterface& sound);
   rapid::display::DisplayInterface& display;
+  GripperInterface& left_gripper;
+  GripperInterface& right_gripper;
   HeadInterface& head;
   rapid::sound::SoundInterface& sound;
 };
