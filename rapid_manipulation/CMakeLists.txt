@@ -5,8 +5,13 @@ project(rapid_manipulation)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  moveit_core
+  moveit_ros_planning_interface
   roscpp
 )
+
+set(gmock_INCLUDE_DIR /usr/include/gmock)
+set(gmock_LIB_DIR /usr/lib)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -98,8 +103,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES rapid_manipulation
+  INCLUDE_DIRS include
+  LIBRARIES rapid_manipulation
 #  CATKIN_DEPENDS roscpp
 #  DEPENDS system_lib
 )
@@ -112,18 +117,19 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
-# add_library(rapid_manipulation
-#   src/${PROJECT_NAME}/rapid_manipulation.cpp
-# )
-
-## Add cmake target dependencies of the library
-## as an example, code may need to be generated before libraries
-## either from message generation or dynamic reconfigure
-# add_dependencies(rapid_manipulation ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_library(rapid_manipulation
+  src/arm.cc
+)
+add_dependencies(rapid_manipulation
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(rapid_manipulation ${catkin_LIBRARIES})
 
 ## Declare a C++ executable
 # add_executable(rapid_manipulation_node src/rapid_manipulation_node.cpp)
@@ -131,11 +137,6 @@ include_directories(
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(rapid_manipulation_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Specify libraries to link a library or executable target against
-# target_link_libraries(rapid_manipulation_node
-#   ${catkin_LIBRARIES}
-# )
 
 #############
 ## Install ##
