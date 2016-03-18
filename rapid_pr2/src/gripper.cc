@@ -38,8 +38,8 @@ bool Gripper::SetPosition(double position, double effort) {
               position, Gripper::OPEN, Gripper::CLOSED);
     return false;
   }
-  if (!gripper_client_->waitForServer(ros::Duration(10))) {
-    ROS_ERROR("The gripper action server was not available after 10 seconds!");
+  if (!gripper_client_->waitForServer(ros::Duration(5))) {
+    ROS_ERROR("The gripper action server was not available after 5 seconds!");
     return false;
   }
 

@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   rapid_sound
   roscpp
   rostest
+  tf
   visualization_msgs
 )
 
@@ -213,6 +214,16 @@ add_rostest_gtest(rapid_pr2_test
   test/pr2_test.cc
 )
 target_link_libraries(rapid_pr2_test
+  gmock
+  rapid_pr2
+  ${catkin_LIBRARIES}
+)
+
+add_rostest_gtest(rapid_pr2_gripper_test
+  test/gripper_test.launch
+  test/gripper_test.cc
+)
+target_link_libraries(rapid_pr2_gripper_test
   gmock
   rapid_pr2
   ${catkin_LIBRARIES}

@@ -4,7 +4,6 @@
 #include "gtest/gtest.h"
 #include "rapid_display/display.h"
 #include "rapid_sound/sound.h"
-#include "ros/ros.h"
 
 #include "rapid_pr2/gripper.h"
 #include "rapid_pr2/head.h"
@@ -38,7 +37,7 @@ TEST(Pr2Test, CallDisplayShowDefault) {
   pr2.display.ShowDefault();
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
