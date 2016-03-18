@@ -44,7 +44,6 @@
   <build_depend>geometry_msgs</build_depend>
   <build_depend>pr2_controllers_msgs</build_depend>
   <build_depend>rapid_display</build_depend>
-  <build_depend>rapid_perception</build_depend>
   <build_depend>rapid_sound</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>sensor_msgs</build_depend>
@@ -53,7 +52,6 @@
   <run_depend>geometry_msgs</run_depend>
   <run_depend>pr2_controllers_msgs</run_depend>
   <run_depend>rapid_display</run_depend>
-  <run_depend>rapid_perception</run_depend>
   <run_depend>rapid_sound</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>sensor_msgs</run_depend>
