@@ -142,6 +142,7 @@ include_directories(
 add_library(rapid_pr2
   src/pr2.cc
   src/head.cc
+  src/gripper.cc
 )
 
 ## Add cmake target dependencies of the library
