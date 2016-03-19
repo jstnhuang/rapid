@@ -1,30 +1,13 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(rapid_pr2)
+project(rapid_msgs)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  actionlib
+find_package(catkin REQUIRED
   geometry_msgs
-  pr2_controllers_msgs
-  sensor_msgs
-  rapid_display
-  rapid_manipulation
-  rapid_sound
-  roscpp
-  rostest
-  tf
-  visualization_msgs
+  message_generation
 )
-
-find_package(PCL REQUIRED)
-include_directories(${PCL_INCLUDE_DIRS})
-link_directories(${PCL_LIBRARY_DIRS})
-add_definitions(${PCL_DEFINITIONS})
-
-set(gmock_INCLUDE_DIR /usr/include/gmock)
-set(gmock_LIB_DIR /usr/lib)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -67,11 +50,11 @@ set(gmock_LIB_DIR /usr/lib)
 # )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+add_service_files(
+  FILES
+  MoveArm.srv
+  UseGrippers.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -81,10 +64,10 @@ set(gmock_LIB_DIR /usr/lib)
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  geometry_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -116,13 +99,11 @@ set(gmock_LIB_DIR /usr/lib)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
-  LIBRARIES rapid_pr2
+#  INCLUDE_DIRS include
+#  LIBRARIES rapid_msgs
   CATKIN_DEPENDS
-    rapid_display
-    rapid_manipulation
-    rapid_sound
-    roscpp
+    geometry_msgs
+    message_runtime
 #  DEPENDS system_lib
 )
 
@@ -133,38 +114,28 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 # include_directories(include)
-include_directories(
-  include
-  ${catkin_INCLUDE_DIRS}
-)
 
-add_library(rapid_pr2
-  src/pr2.cc
-  src/head.cc
-  src/gripper.cc
-)
-add_dependencies(rapid_pr2
-  rapid_display
-  rapid_manipulation
-  rapid_sound
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-)
-target_link_libraries(rapid_pr2
-  ${catkin_LIBRARIES}
-)
+## Declare a C++ library
+# add_library(rapid_msgs
+#   src/${PROJECT_NAME}/rapid_msgs.cpp
+# )
 
-add_executable(rapid_pr2_services src/pr2_service_node.cc)
-add_dependencies(rapid_pr2_services
-  rapid_pr2
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-)
-target_link_libraries(rapid_pr2_services
-  rapid_pr2
-  ${catkin_LIBRARIES}
-)
+## Add cmake target dependencies of the library
+## as an example, code may need to be generated before libraries
+## either from message generation or dynamic reconfigure
+# add_dependencies(rapid_msgs ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+## Declare a C++ executable
+# add_executable(rapid_msgs_node src/rapid_msgs_node.cpp)
+
+## Add cmake target dependencies of the executable
+## same as for the library above
+# add_dependencies(rapid_msgs_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+## Specify libraries to link a library or executable target against
+# target_link_libraries(rapid_msgs_node
+#   ${catkin_LIBRARIES}
+# )
 
 #############
 ## Install ##
@@ -181,7 +152,7 @@ target_link_libraries(rapid_pr2_services
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS rapid_pr2 rapid_pr2_node
+# install(TARGETS rapid_msgs rapid_msgs_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -206,25 +177,10 @@ target_link_libraries(rapid_pr2_services
 #############
 
 ## Add gtest based cpp test target and link libraries
-add_rostest_gtest(rapid_pr2_test
-  test/pr2_test.launch
-  test/pr2_test.cc
-)
-target_link_libraries(rapid_pr2_test
-  gmock
-  rapid_pr2
-  ${catkin_LIBRARIES}
-)
-
-add_rostest_gtest(rapid_pr2_gripper_test
-  test/gripper_test.launch
-  test/gripper_test.cc
-)
-target_link_libraries(rapid_pr2_gripper_test
-  gmock
-  rapid_pr2
-  ${catkin_LIBRARIES}
-)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_rapid_msgs.cpp)
+# if(TARGET ${PROJECT_NAME}-test)
+#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
+# endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

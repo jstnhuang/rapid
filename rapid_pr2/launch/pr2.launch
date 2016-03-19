@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find rapid_manipulation)/launch/manipulation.launch" />
+  <node pkg="rapid_pr2" type="rapid_pr2_services" name="pr2_services" />
+</launch>
