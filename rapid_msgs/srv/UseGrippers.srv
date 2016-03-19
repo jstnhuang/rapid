@@ -1,0 +1,7 @@
+# Open or close the grippers
+int32 left_action
+int32 right_action
+
+int32 NONE=0
+int32 OPEN=1
+int32 CLOSE=2
