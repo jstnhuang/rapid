@@ -7,6 +7,8 @@
 #include "rapid_pr2/gripper.h"
 #include "rapid_pr2/head.h"
 
+using boost::shared_ptr;
+
 namespace rapid {
 namespace pr2 {
 Pr2::Pr2(rapid::manipulation::ArmInterface& left_arm,
@@ -22,7 +24,7 @@ Pr2::Pr2(rapid::manipulation::ArmInterface& left_arm,
       head(head),
       sound(sound) {}
 
-Pr2 BuildReal() {
+shared_ptr<Pr2> BuildReal() {
   rapid::manipulation::ArmInterface* left_arm =
       new rapid::manipulation::MoveItArm(rapid::manipulation::LEFT);
   rapid::manipulation::ArmInterface* right_arm =
@@ -32,8 +34,8 @@ Pr2 BuildReal() {
   GripperInterface* right_gripper = new Gripper(Gripper::RIGHT_GRIPPER);
   HeadInterface* head = new Head();
   rapid::sound::SoundInterface* sound = new rapid::sound::SoundPlay();
-  Pr2 pr2(*left_arm, *right_arm, *display, *left_gripper, *right_gripper, *head,
-          *sound);
+  shared_ptr<Pr2> pr2(new Pr2(*left_arm, *right_arm, *display, *left_gripper,
+                              *right_gripper, *head, *sound));
   return pr2;
 }
 }  // namespace pr2

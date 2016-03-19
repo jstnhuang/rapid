@@ -30,7 +30,7 @@ class Pr2 {
   rapid::sound::SoundInterface& sound;
 };
 
-Pr2 BuildReal();
+boost::shared_ptr<Pr2> BuildReal();
 }  // namespace pr2
 }  // namespace rapid
 #endif  // _RAPID_PR2_PR2_H_
