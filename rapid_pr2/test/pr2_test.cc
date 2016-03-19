@@ -3,12 +3,14 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 #include "rapid_display/display.h"
+#include "rapid_manipulation/arm.h"
 #include "rapid_sound/sound.h"
 
 #include "rapid_pr2/gripper.h"
 #include "rapid_pr2/head.h"
 
 using rapid::display::MockDisplay;
+using rapid::manipulation::MockArm;
 using rapid::pr2::MockGripper;
 using rapid::pr2::MockHead;
 using rapid::pr2::Pr2;
@@ -16,23 +18,29 @@ using rapid::sound::MockSound;
 using rapid::sound::SoundPlay;
 
 TEST(Pr2Test, CallSoundSay) {
+  MockArm left_arm;
+  MockArm right_arm;
   MockDisplay display;
   MockGripper left_gripper;
   MockGripper right_gripper;
   MockHead head;
   MockSound sound;
-  Pr2 pr2(display, left_gripper, right_gripper, head, sound);
+  Pr2 pr2(left_arm, right_arm, display, left_gripper, right_gripper, head,
+          sound);
   EXPECT_CALL(sound, Say("Hello world!"));
   pr2.sound.Say("Hello world!");
 }
 
 TEST(Pr2Test, CallDisplayShowDefault) {
+  MockArm left_arm;
+  MockArm right_arm;
   MockDisplay display;
   MockGripper left_gripper;
   MockGripper right_gripper;
   MockHead head;
   MockSound sound;
-  Pr2 pr2(display, left_gripper, right_gripper, head, sound);
+  Pr2 pr2(left_arm, right_arm, display, left_gripper, right_gripper, head,
+          sound);
   EXPECT_CALL(display, ShowDefault());
   pr2.display.ShowDefault();
 }

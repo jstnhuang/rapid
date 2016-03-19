@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   pr2_controllers_msgs
   sensor_msgs
   rapid_display
+  rapid_manipulation
   rapid_sound
   roscpp
   rostest
@@ -119,6 +120,7 @@ catkin_package(
   LIBRARIES rapid_pr2
   CATKIN_DEPENDS
     rapid_display
+    rapid_manipulation
     rapid_sound
     roscpp
 #  DEPENDS system_lib
@@ -151,6 +153,7 @@ add_library(rapid_pr2
 ## either from message generation or dynamic reconfigure
 add_dependencies(rapid_pr2
   rapid_display
+  rapid_manipulation
   rapid_sound
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
