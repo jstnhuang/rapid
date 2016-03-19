@@ -10,6 +10,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
 )
 
+find_package(Eigen REQUIRED)
+
 set(gmock_INCLUDE_DIR /usr/include/gmock)
 set(gmock_LIB_DIR /usr/lib)
 
