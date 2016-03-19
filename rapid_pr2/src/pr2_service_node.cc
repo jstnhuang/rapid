@@ -66,9 +66,11 @@ class MoveArmService {
 
 int main(int argc, char** argv) {
   ros::init(argc, argv, "pr2_services");
+  ros::AsyncSpinner spinner(2);
+  spinner.start();
   shared_ptr<Pr2> pr2 = rapid::pr2::BuildReal();
   GripperService gripper_service(pr2);
   MoveArmService move_arm_service(pr2);
-  ros::spin();
+  ros::waitForShutdown();
   return 0;
 }
