@@ -63,7 +63,7 @@ class Gripper : public GripperInterface {
 
   ~Gripper();
 
-  // Gets the gripper to the given position. .
+  // Gets the gripper to the given position.
   // position - how wide to open or close the gripper
   // effort - now much force to exert, negative is full force
   bool SetPosition(double position, double effort = -1.0);
