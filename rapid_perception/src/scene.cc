@@ -1,6 +1,7 @@
 #include "rapid_perception/scene.h"
 
 #include <iostream>
+#include <sstream>
 
 #include "rapid_perception/rgbd.hpp"
 
@@ -15,7 +16,7 @@ using std::vector;
 namespace rapid {
 namespace perception {
 Object::Object(Scene* scene, const PointIndices::Ptr& indices)
-    : scene_(scene), indices_(indices), pose_(), scale_() {
+    : scene_(scene), indices_(indices), pose_(), scale_(), name_("") {
   geometry_msgs::Pose pose;
   PointCloud<PointXYZRGB>::Ptr cloud = GetCloud();
   GetPlanarBoundingBox(*cloud, &pose, &scale_);
@@ -52,7 +53,12 @@ void SegmentObjects(Scene* scene, PointIndices::Ptr indices,
 }
 
 Tabletop::Tabletop(Scene* scene, const PointIndices::Ptr& indices)
-    : scene_(scene), indices_(indices), pose_(), scale_(), objects_() {}
+    : scene_(scene),
+      indices_(indices),
+      pose_(),
+      scale_(),
+      objects_(),
+      name_("table") {}
 
 void Tabletop::AddObject(const Object& obj) { objects_.push_back(obj); }
 
@@ -179,6 +185,14 @@ void Scene::Parse() {
   for (vector<Object>::const_iterator it = objects.begin(); it != objects.end();
        ++it) {
     primary_surface_->AddObject(*it);
+  }
+
+  // Give all objects names;
+  objects = primary_surface_->objects();
+  for (size_t i = 0; i < objects.size(); ++i) {
+    std::stringstream name;
+    name << "object_" << i;
+    objects[i].set_name(name.str());
   }
 }
 

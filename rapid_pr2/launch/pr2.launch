@@ -1,4 +1,10 @@
 <launch>
-  <include file="$(find rapid_manipulation)/launch/manipulation.launch" />
+  <include file="$(find pr2_moveit_config)/launch/move_group.launch" />
   <node pkg="rapid_pr2" type="rapid_pr2_services" name="pr2_services" />
+  <!--include file="$(find freenect_launch)/launch/freenect.launch">
+    <arg name="depth_registration" value="true"/>
+    <arg name="camera" value="head_mount_kinect"/>
+    <arg name="rgb_frame_id" value="$(arg kinect_frame_prefix)_rgb_optical_frame"/>
+    <arg name="depth_frame_id" value="$(arg kinect_frame_prefix)_depth_optical_frame"/>
+  </include-->
 </launch>

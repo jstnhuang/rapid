@@ -20,12 +20,15 @@ class Object {
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud();
   geometry_msgs::PoseStamped pose() const { return pose_; };
   geometry_msgs::Vector3 scale() const { return scale_; };
+  std::string name() const { return name_; };
+  void set_name(const std::string& name) { name_ = name; };
 
  private:
   Scene* scene_;
   pcl::PointIndices::Ptr indices_;
   geometry_msgs::PoseStamped pose_;
   geometry_msgs::Vector3 scale_;
+  std::string name_;
 };
 
 void SegmentObjects(Scene* scene, pcl::PointIndices::Ptr indices,
@@ -55,6 +58,7 @@ class Tabletop {
   geometry_msgs::Pose pose_;
   geometry_msgs::Vector3 scale_;
   std::vector<Object> objects_;
+  std::string name_;  // Name of this table.
 };
 
 // A Scene is a semantic representation of a point cloud. Given a point cloud,

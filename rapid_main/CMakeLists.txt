@@ -1,20 +1,22 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(rapid_manipulation)
+project(rapid_main)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  rapid_perception
   moveit_core
   moveit_ros_planning_interface
+  pcl_conversions
+  pcl_ros
+  rapid_manipulation
+  rapid_msgs
+  rapid_perception
   roscpp
+  visualization_msgs
 )
 
 find_package(Eigen REQUIRED)
-
-set(gmock_INCLUDE_DIR /usr/include/gmock)
-set(gmock_LIB_DIR /usr/lib)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -106,9 +108,9 @@ set(gmock_LIB_DIR /usr/lib)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
-  LIBRARIES rapid_manipulation
-#  CATKIN_DEPENDS roscpp
+#  INCLUDE_DIRS include
+#  LIBRARIES rapid_main
+#  CATKIN_DEPENDS rapid_manipulation rapid_perception roscpp
 #  DEPENDS system_lib
 )
 
@@ -120,27 +122,27 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
-  include
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
-add_library(rapid_manipulation
-  src/arm.cc
-  src/pick_place.cc
-)
-add_dependencies(rapid_manipulation
+# add_library(rapid_main
+#   src/${PROJECT_NAME}/rapid_main.cpp
+# )
+
+## Add cmake target dependencies of the library
+## as an example, code may need to be generated before libraries
+## either from message generation or dynamic reconfigure
+# add_dependencies(rapid_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(pick_place_main src/pick_place_main.cc)
+add_dependencies(pick_place_main
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
 )
-target_link_libraries(rapid_manipulation ${catkin_LIBRARIES})
-
-## Declare a C++ executable
-# add_executable(rapid_manipulation_node src/rapid_manipulation_node.cpp)
-
-## Add cmake target dependencies of the executable
-## same as for the library above
-# add_dependencies(rapid_manipulation_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(pick_place_main
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
@@ -157,7 +159,7 @@ target_link_libraries(rapid_manipulation ${catkin_LIBRARIES})
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS rapid_manipulation rapid_manipulation_node
+# install(TARGETS rapid_main rapid_main_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -182,7 +184,7 @@ target_link_libraries(rapid_manipulation ${catkin_LIBRARIES})
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_rapid_manipulation.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_rapid_main.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
