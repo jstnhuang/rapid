@@ -1,0 +1,5 @@
+<launch>
+  <node pkg="rapid_main" type="pick_place_main" name="pick_place">
+    <remap from="cloud_in" to="/head_mount_kinect/depth_registered/points" />
+  </node>
+</launch>

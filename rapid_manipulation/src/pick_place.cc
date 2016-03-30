@@ -35,7 +35,9 @@ Picker::Picker(boost::shared_ptr<moveit::planning_interface::MoveGroup> group)
   while (ps_pub_.getNumSubscribers() < 1) {
     ros::WallDuration sleep_t(0.5);
     sleep_t.sleep();
+    ROS_INFO("Waiting for subscribers");
   }
+  ROS_INFO("Planning scene publisher ready");
 }
 
 void Picker::UpdatePlanningSceneTopic(const string& id,
@@ -76,7 +78,7 @@ void Picker::UpdatePlanningScene(Scene& scene) {
   co.primitives[0].dimensions[SolidPrimitive::BOX_Y] = table->scale().y;
   co.primitives[0].dimensions[SolidPrimitive::BOX_Z] = table->scale().z;
   co.primitive_poses.resize(1);
-  co.primitive_poses[0] = table->pose();
+  co.primitive_poses[0] = table->pose().pose;
   UpdatePlanningSceneTopic("table", co);
 
   // Update objects
@@ -92,7 +94,7 @@ void Picker::UpdatePlanningScene(Scene& scene) {
     co.header = object.pose().header;
     co.header.stamp = ros::Time::now();
     co.primitive_poses[0] = object.pose().pose;
-    UpdatePlanningSceneTopic("table", co);
+    UpdatePlanningSceneTopic(object.name(), co);
   }
 }
 

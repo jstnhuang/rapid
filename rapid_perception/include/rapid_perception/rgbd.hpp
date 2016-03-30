@@ -82,8 +82,7 @@ void CropWorkspace(const pcl::PointCloud<PointType>& cloud,
 //   midpoint: The geometric center of the cloud, i.e., the midpoint between the
 //     minimum and maximum points in each of the x, y, and z directions. The
 //     orientation is such that the x direction points along the principal
-//     component in the XY plane, the y direction points along the smaller
-//     component, and the z direction points up.
+//     component and the z direction points up.
 //   dimensions: A vector containing the length of the cloud in the x, y, and z
 //   directions.
 void GetPlanarBoundingBox(const pcl::PointCloud<pcl::PointXYZRGB>& cloud,

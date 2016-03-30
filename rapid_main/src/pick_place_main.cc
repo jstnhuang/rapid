@@ -45,6 +45,7 @@ int main(int argc, char** argv) {
   Scene scene;
   scene.set_cloud(ws_cloud);
   scene.Parse();
+  scene.Visualize();
 
   rapid::manipulation::Picker picker(right_arm);
   picker.UpdatePlanningScene(scene);

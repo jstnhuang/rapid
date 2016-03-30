@@ -51,6 +51,8 @@ class TableTest : public ::testing::Test {
   pcl::PointCloud<pcl::PointXYZRGB> cloud_;
 };
 
+TEST(GetPlanarBoundingBoxTest, SimpleCase){};
+
 // TEST_F(TableTest, FindHorizontalPlane) {
 //  Visualize("Input", cloud_);
 //

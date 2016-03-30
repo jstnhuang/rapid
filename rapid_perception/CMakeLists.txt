@@ -8,10 +8,12 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   pcl_conversions
   pcl_ros
+  rapid_viz
   rosbag
   roscpp
   rostest
   sensor_msgs
+  visualization_msgs
 )
 
 find_package(PCL REQUIRED)
