@@ -42,9 +42,9 @@ class Perception {
 
   void set_cloud(const sensor_msgs::PointCloud2& cloud) {
     sensor_msgs::PointCloud2 transformed;
-    tf_listener_.waitForTransform("/base_link", cloud.header.frame_id,
+    tf_listener_.waitForTransform("/base_footprint", cloud.header.frame_id,
                                   ros::Time(0), ros::Duration(10));
-    pcl_ros::transformPointCloud("/base_link", cloud, transformed,
+    pcl_ros::transformPointCloud("/base_footprint", cloud, transformed,
                                  tf_listener_);
     pcl::fromROSMsg(transformed, pcl_cloud_);
   }
