@@ -1,4 +1,4 @@
-#include "rapid_pr2/gripper.h"
+#include "rapid_manipulation/gripper.h"
 
 #include "actionlib/server/simple_action_server.h"
 #include "gmock/gmock.h"
@@ -12,7 +12,7 @@ using pr2_controllers_msgs::Pr2GripperCommandGoal;
 using pr2_controllers_msgs::Pr2GripperCommandResult;
 
 namespace rapid {
-namespace pr2 {
+namespace manipulation {
 class MockGripperServer {
  public:
   MockGripperServer()
@@ -93,8 +93,8 @@ TEST_F(GripperTest, ShouldFailIfNoServer) {
   Pr2GripperCommandGoal goal = server_.WaitForGoal();
   EXPECT_EQ(false, success);
 }
-}  // namespace rapid
-}  //  namespace pr2
+}  // namespace manipulation
+}  //  namespace rapid
 
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
