@@ -1,5 +1,5 @@
-#ifndef _RAPID_PR2_HEAD_H_
-#define _RAPID_PR2_HEAD_H_
+#ifndef _RAPID_MANIPULATION_HEAD_H_
+#define _RAPID_MANIPULATION_HEAD_H_
 
 #include "actionlib/client/simple_action_client.h"
 #include "geometry_msgs/Point.h"
@@ -8,7 +8,7 @@
 #include "pr2_controllers_msgs/PointHeadAction.h"
 
 namespace rapid {
-namespace pr2 {
+namespace manipulation {
 class HeadInterface {
  public:
   virtual ~HeadInterface() {}
@@ -50,6 +50,6 @@ class MockHead : public HeadInterface {
  public:
   MOCK_METHOD1(LookAt, bool(const geometry_msgs::PointStamped& target));
 };
-}  // namespace pr2
+}  // namespace manipulation
 }  // namespace rapid
-#endif  // _RAPID_PR2_HEAD_H_
+#endif  // _RAPID_MANIPULATION_HEAD_H_

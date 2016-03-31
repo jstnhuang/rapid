@@ -5,10 +5,16 @@ project(rapid_manipulation)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  rapid_perception
+  actionlib
+  geometry_msgs
   moveit_core
   moveit_ros_planning_interface
+  pr2_controllers_msgs
+  rapid_perception
   roscpp
+  rostest
+  sensor_msgs
+  tf
 )
 
 find_package(Eigen REQUIRED)
@@ -127,6 +133,8 @@ include_directories(
 ## Declare a C++ library
 add_library(rapid_manipulation
   src/arm.cc
+  src/gripper.cpp
+  src/head.cpp
   src/pick_place.cc
 )
 add_dependencies(rapid_manipulation
@@ -181,11 +189,15 @@ target_link_libraries(rapid_manipulation ${catkin_LIBRARIES})
 ## Testing ##
 #############
 
-## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_rapid_manipulation.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
+add_rostest_gtest(rapid_manipulation_gripper_test
+  test/gripper_test.launch
+  test/gripper_test.cpp
+)
+target_link_libraries(rapid_manipulation_gripper_test
+  gmock
+  rapid_manipulation
+  ${catkin_LIBRARIES}
+)
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

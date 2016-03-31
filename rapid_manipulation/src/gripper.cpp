@@ -1,4 +1,4 @@
-#include "rapid_pr2/gripper.h"
+#include "rapid_manipulation/gripper.h"
 
 #include "actionlib/client/simple_action_client.h"
 #include "pr2_controllers_msgs/Pr2GripperCommandAction.h"
@@ -8,7 +8,7 @@
 using actionlib::SimpleClientGoalState;
 
 namespace rapid {
-namespace pr2 {
+namespace manipulation {
 const std::string Gripper::LEFT_GRIPPER_ACTION =
     "l_gripper_controller/gripper_action";
 const std::string Gripper::RIGHT_GRIPPER_ACTION =
@@ -97,5 +97,5 @@ bool Gripper::Open(double effort) {
 bool Gripper::Close(double effort) {
   return Gripper::SetPosition(Gripper::CLOSED, effort);
 }
-}  // namespace pr2
+}  // namespace manipulation
 }  // namespace rapid
