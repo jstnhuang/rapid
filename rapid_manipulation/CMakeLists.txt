@@ -115,7 +115,7 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES rapid_manipulation
 #  CATKIN_DEPENDS roscpp
-#  DEPENDS system_lib
+  DEPENDS Eigen
 )
 
 ###########
