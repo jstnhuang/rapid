@@ -1,26 +1,15 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(rapid_manipulation)
+project(rapid_viz)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  actionlib
   geometry_msgs
-  moveit_core
-  moveit_ros_planning_interface
-  pr2_controllers_msgs
-  rapid_perception
   roscpp
-  rostest
-  sensor_msgs
-  tf
+  shape_msgs
+  visualization_msgs
 )
-
-find_package(Eigen REQUIRED)
-
-set(gmock_INCLUDE_DIR /usr/include/gmock)
-set(gmock_LIB_DIR /usr/lib)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -79,7 +68,7 @@ set(gmock_LIB_DIR /usr/lib)
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
+#   geometry_msgs#   shape_msgs#   visualization_msgs
 # )
 
 ################################################
@@ -113,9 +102,9 @@ set(gmock_LIB_DIR /usr/lib)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES rapid_manipulation
-#  CATKIN_DEPENDS roscpp
-  DEPENDS Eigen
+  LIBRARIES rapid_viz
+  CATKIN_DEPENDS geometry_msgs roscpp shape_msgs visualization_msgs
+#  DEPENDS system_lib
 )
 
 ###########
@@ -131,24 +120,22 @@ include_directories(
 )
 
 ## Declare a C++ library
-add_library(rapid_manipulation
-  src/arm.cc
-  src/gripper.cpp
-  src/head.cpp
-  src/pick_place.cc
+add_library(rapid_viz
+  src/shapes.cpp
 )
-add_dependencies(rapid_manipulation
+add_dependencies(rapid_viz
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
 )
-target_link_libraries(rapid_manipulation ${catkin_LIBRARIES})
+target_link_libraries(rapid_viz
+  ${catkin_LIBRARIES}
+)
 
 ## Declare a C++ executable
-# add_executable(rapid_manipulation_node src/rapid_manipulation_node.cpp)
+# add_executable(rapid_viz_node src/rapid_viz_node.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(rapid_manipulation_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 #############
 ## Install ##
@@ -165,7 +152,7 @@ target_link_libraries(rapid_manipulation ${catkin_LIBRARIES})
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS rapid_manipulation rapid_manipulation_node
+# install(TARGETS rapid_viz rapid_viz_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -189,15 +176,11 @@ target_link_libraries(rapid_manipulation ${catkin_LIBRARIES})
 ## Testing ##
 #############
 
-add_rostest_gtest(rapid_manipulation_gripper_test
-  test/gripper_test.launch
-  test/gripper_test.cpp
-)
-target_link_libraries(rapid_manipulation_gripper_test
-  gmock
-  rapid_manipulation
-  ${catkin_LIBRARIES}
-)
+## Add gtest based cpp test target and link libraries
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_rapid_viz.cpp)
+# if(TARGET ${PROJECT_NAME}-test)
+#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
+# endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

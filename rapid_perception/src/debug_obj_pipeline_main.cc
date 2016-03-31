@@ -37,13 +37,14 @@ class Perception {
         cloud_pub_(
             nh_.advertise<sensor_msgs::PointCloud2>("debug_cloud", 1, false)),
         vis_pub_(
-            nh_.advertise<visualization_msgs::Marker>("debug_vis", 1, false)) {}
+            nh_.advertise<visualization_msgs::Marker>("debug_vis", 1, false)),
+        scene_() {}
 
   void set_cloud(const sensor_msgs::PointCloud2& cloud) {
     sensor_msgs::PointCloud2 transformed;
-    tf_listener_.waitForTransform("/base_link", cloud.header.frame_id,
+    tf_listener_.waitForTransform("/base_footprint", cloud.header.frame_id,
                                   ros::Time(0), ros::Duration(10));
-    pcl_ros::transformPointCloud("/base_link", cloud, transformed,
+    pcl_ros::transformPointCloud("/base_footprint", cloud, transformed,
                                  tf_listener_);
     pcl::fromROSMsg(transformed, pcl_cloud_);
   }
@@ -93,26 +94,24 @@ class Perception {
   }
 
   void ParseScene() {
-    rpe::Scene scene;
-    scene.set_cloud(pcl_cloud_);
-    scene.Parse();
-    boost::shared_ptr<rpe::Tabletop> tt = scene.GetPrimarySurface();
-    PointCloud<PointXYZRGB>::Ptr table_cloud = tt->GetCloud();
+    scene_.set_cloud(pcl_cloud_);
+    scene_.Parse();
+    boost::shared_ptr<rpe::Tabletop> tt = scene_.GetPrimarySurface();
     vector<rpe::Object> objects = tt->objects();
-    Colorize(*table_cloud, 255, 0, 0, 1);
-    pcl_cloud_.clear();
-    pcl_cloud_ += *table_cloud;
+    PointCloud<PointXYZRGB>::Ptr table_cloud = tt->GetCloud();
+    pcl_cloud_ = *table_cloud;
 
     cout << "Found " << objects.size() << " objects." << endl;
     for (size_t j = 0; j < objects.size(); ++j) {
       rpe::Object& obj = objects[j];
       PointCloud<PointXYZRGB>::Ptr obj_cloud = obj.GetCloud();
-      int r = std::rand() % 255;
-      int g = std::rand() % 255;
-      int b = std::rand() % 255;
-      Colorize(*obj_cloud, r, g, b, 0.7);
+      // int r = std::rand() % 255;
+      // int g = std::rand() % 255;
+      // int b = std::rand() % 255;
+      // Colorize(*obj_cloud, r, g, b, 0.5);
       pcl_cloud_ += *obj_cloud;
     }
+    scene_.Visualize();
   }
 
   void PublishCloud() {
@@ -122,12 +121,15 @@ class Perception {
     cloud_pub_.publish(cloud);
   }
 
+  void Visualize() { scene_.Visualize(); }
+
  private:
   ros::NodeHandle nh_;
   tf::TransformListener tf_listener_;
   PointCloud<PointXYZRGB> pcl_cloud_;
   ros::Publisher cloud_pub_;
   ros::Publisher vis_pub_;
+  rpe::Scene scene_;
 };
 
 class Interpreter {
@@ -157,6 +159,8 @@ class Interpreter {
       *command = "find_planes";
     } else if (input == "parse_scene") {
       *command = "parse_scene";
+    } else if (input == "viz") {
+      *command = "viz";
     } else if (input == "exit") {
       *command = "exit";
     } else {
@@ -181,8 +185,7 @@ class Interpreter {
   void RunCommand(const string& command, const vector<string>& args) {
     if (command == "read") {
       sensor_msgs::PointCloud2ConstPtr msg =
-          ros::topic::waitForMessage<sensor_msgs::PointCloud2>(
-              "/camera/depth_registered/points");
+          ros::topic::waitForMessage<sensor_msgs::PointCloud2>("/cloud_in");
       perception_.set_cloud(*msg);
       perception_.PublishCloud();
     } else if (command == "crop") {
@@ -197,6 +200,8 @@ class Interpreter {
     } else if (command == "parse_scene") {
       perception_.ParseScene();
       perception_.PublishCloud();
+    } else if (command == "viz") {
+      perception_.Visualize();
     } else {
     }
   }

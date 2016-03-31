@@ -1,0 +1,5 @@
+<launch>
+  <node pkg="rapid_perception" type="debug_obj_pipeline" name="debug_obj_pipeline">
+    <remap from="cloud_in" to="/head_mount_kinect/depth_registered/points" />
+  </node>
+</launch>

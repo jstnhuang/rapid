@@ -1,8 +1,11 @@
 #include "rapid_perception/scene.h"
 
 #include <iostream>
+#include <sstream>
 
 #include "rapid_perception/rgbd.hpp"
+#include "rapid_viz/shapes.h"
+#include "visualization_msgs/Marker.h"
 
 using pcl::PointCloud;
 using pcl::PointIndices;
@@ -15,12 +18,20 @@ using std::vector;
 namespace rapid {
 namespace perception {
 Object::Object(Scene* scene, const PointIndices::Ptr& indices)
-    : scene_(scene), indices_(indices), pose_(), scale_() {
+    : scene_(scene), indices_(indices), pose_(), scale_(), name_("") {
   geometry_msgs::Pose pose;
   PointCloud<PointXYZRGB>::Ptr cloud = GetCloud();
   GetPlanarBoundingBox(*cloud, &pose, &scale_);
   pose_.header.frame_id = cloud->header.frame_id;
   pose_.pose = pose;
+}
+
+void Object::Visualize(const ros::Publisher& viz_pub) {
+  visualization_msgs::Marker marker;
+  rapid::viz::BoundingBoxMarker(pose_, scale_, &marker);
+  rapid::viz::SetMarkerColor(0, 0, 1, 0.9, &marker);
+  rapid::viz::SetMarkerId(name_, 0, &marker);
+  viz_pub.publish(marker);
 }
 
 PointCloud<PointXYZRGB>::Ptr Object::GetCloud() {
@@ -52,12 +63,35 @@ void SegmentObjects(Scene* scene, PointIndices::Ptr indices,
 }
 
 Tabletop::Tabletop(Scene* scene, const PointIndices::Ptr& indices)
-    : scene_(scene), indices_(indices), pose_(), scale_(), objects_() {}
+    : scene_(scene),
+      indices_(indices),
+      pose_(),
+      scale_(),
+      objects_(),
+      name_("table") {
+  geometry_msgs::Pose pose;
+  PointCloud<PointXYZRGB>::Ptr cloud = GetCloud();
+  GetPlanarBoundingBox(*cloud, &pose, &scale_);
+  pose_.header.frame_id = cloud->header.frame_id;
+  pose_.pose = pose;
+}
 
 void Tabletop::AddObject(const Object& obj) { objects_.push_back(obj); }
 
 PointCloud<PointXYZRGB>::Ptr Tabletop::GetCloud() {
   return IndicesToCloud(scene_->GetCloud(), indices_);
+}
+
+void Tabletop::Visualize(const ros::Publisher& viz_pub) {
+  visualization_msgs::Marker marker;
+  rapid::viz::BoundingBoxMarker(pose_, scale_, &marker);
+  rapid::viz::SetMarkerColor(0, 1, 0, 0.5, &marker);
+  rapid::viz::SetMarkerId(name_, 0, &marker);
+  viz_pub.publish(marker);
+
+  for (size_t i = 0; i < objects_.size(); ++i) {
+    objects_[i].Visualize(viz_pub);
+  }
 }
 
 bool FindTabletop(const PointCloud<PointXYZRGB>& cloud,
@@ -99,7 +133,12 @@ bool FindTabletop(const PointCloud<PointXYZRGB>& cloud,
   return true;
 }
 
-Scene::Scene() : cloud_(), primary_surface_() {}
+Scene::Scene()
+    : cloud_(),
+      primary_surface_(),
+      nh_(),
+      viz_pub_(nh_.advertise<visualization_msgs::Marker>("visualization_marker",
+                                                         10)) {}
 
 void Scene::set_cloud(const PointCloud<PointXYZRGB>& cloud) { cloud_ = cloud; }
 
@@ -166,7 +205,7 @@ void Scene::Parse() {
       int point_index = *pit;
       if (table_indices.find(point_index) == table_indices.end()) {
         // This is an object point, or below the table.
-        if (cloud_[point_index].z > primary_surface_->pose().position.z) {
+        if (cloud_[point_index].z > primary_surface_->pose().pose.position.z) {
           objects_indices->indices.push_back(point_index);
         }
       }
@@ -176,9 +215,11 @@ void Scene::Parse() {
 
   vector<Object> objects;
   SegmentObjects(this, objects_indices, 0.01, &objects);
-  for (vector<Object>::const_iterator it = objects.begin(); it != objects.end();
-       ++it) {
-    primary_surface_->AddObject(*it);
+  for (size_t i = 0; i < objects.size(); ++i) {
+    std::stringstream name;
+    name << "object_" << i;
+    objects[i].set_name(name.str());
+    primary_surface_->AddObject(objects[i]);
   }
 }
 
@@ -187,5 +228,7 @@ boost::shared_ptr<Tabletop> Scene::GetPrimarySurface() {
 }
 
 PointCloud<PointXYZRGB>::Ptr Scene::GetCloud() { return cloud_.makeShared(); }
+
+void Scene::Visualize() { primary_surface_->Visualize(viz_pub_); }
 }  // namespace rapid
 }  // namespace perception

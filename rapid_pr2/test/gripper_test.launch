@@ -1,3 +1,0 @@
-<launch>
-  <test test-name="rapid_pr2_test" pkg="rapid_pr2" type="rapid_pr2_gripper_test" />
-</launch>

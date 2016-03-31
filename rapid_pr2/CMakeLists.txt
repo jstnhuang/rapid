@@ -5,17 +5,11 @@ project(rapid_pr2)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  actionlib
-  geometry_msgs
-  pr2_controllers_msgs
-  sensor_msgs
   rapid_display
   rapid_manipulation
   rapid_sound
   roscpp
   rostest
-  tf
-  visualization_msgs
 )
 
 find_package(PCL REQUIRED)
@@ -140,13 +134,8 @@ include_directories(
 
 add_library(rapid_pr2
   src/pr2.cc
-  src/head.cc
-  src/gripper.cc
 )
 add_dependencies(rapid_pr2
-  rapid_display
-  rapid_manipulation
-  rapid_sound
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
 )
@@ -204,27 +193,6 @@ target_link_libraries(rapid_pr2_services
 #############
 ## Testing ##
 #############
-
-## Add gtest based cpp test target and link libraries
-add_rostest_gtest(rapid_pr2_test
-  test/pr2_test.launch
-  test/pr2_test.cc
-)
-target_link_libraries(rapid_pr2_test
-  gmock
-  rapid_pr2
-  ${catkin_LIBRARIES}
-)
-
-add_rostest_gtest(rapid_pr2_gripper_test
-  test/gripper_test.launch
-  test/gripper_test.cc
-)
-target_link_libraries(rapid_pr2_gripper_test
-  gmock
-  rapid_pr2
-  ${catkin_LIBRARIES}
-)
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

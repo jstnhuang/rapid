@@ -1,4 +1,4 @@
-#include "rapid_pr2/head.h"
+#include "rapid_manipulation/head.h"
 
 #include <math.h>
 
@@ -8,7 +8,7 @@
 #include "pr2_controllers_msgs/PointHeadGoal.h"
 
 namespace rapid {
-namespace pr2 {
+namespace manipulation {
 Head::Head() : head_client_("/head_traj_controller/point_head_action") {}
 
 bool Head::LookAt(const geometry_msgs::PointStamped& target) {
@@ -27,5 +27,5 @@ bool Head::LookAt(const geometry_msgs::PointStamped& target) {
   head_client_.sendGoal(goal);
   return head_client_.waitForResult(ros::Duration(10));
 }
-}  // namespace pr2
+}  // namespace manipulation
 }  // namespace rapid

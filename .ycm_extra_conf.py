@@ -65,7 +65,9 @@ flags = [
 '-I',
 'rapid_pr2/include',
 '-I',
-'rapid_sound/include'
+'rapid_sound/include',
+'-I',
+'rapid_viz/include'
 ]
 
 # Set this to the absolute path to the folder (NOT the file!) containing the

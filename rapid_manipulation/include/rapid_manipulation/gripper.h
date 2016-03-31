@@ -19,11 +19,11 @@
 #include "ros/ros.h"
 #include "tf/transform_listener.h"
 
-#ifndef _RAPID_PR2_GRIPPER_H_
-#define _RAPID_PR2_GRIPPER_H_
+#ifndef _RAPID_MANIPULATION_GRIPPER_H_
+#define _RAPID_MANIPULATION_GRIPPER_H_
 
 namespace rapid {
-namespace pr2 {
+namespace manipulation {
 typedef actionlib::SimpleActionClient<
     pr2_controllers_msgs::Pr2GripperCommandAction> GripperClient;
 
@@ -93,7 +93,7 @@ class MockGripper : public GripperInterface {
   MOCK_METHOD1(Open, bool(double effort));
   MOCK_METHOD1(Close, bool(double effort));
 };
-}  // namespace pr2
+}  // namespace manipulation
 }  // namespace rapid
 
-#endif  // _RAPID_PR2_GRIPPER_H_
+#endif  // _RAPID_MANIPULATION_GRIPPER_H_
