@@ -4,6 +4,10 @@
 #include <string>
 
 #include "boost/shared_ptr.hpp"
+#include "geometry_msgs/Point.h"
+#include "geometry_msgs/PointStamped.h"
+#include "geometry_msgs/PoseStamped.h"
+#include "geometry_msgs/Vector3.h"
 #include "moveit/move_group_interface/move_group.h"
 #include "moveit_msgs/CollisionObject.h"
 #include "rapid_perception/scene.h"
@@ -63,6 +67,32 @@ class Picker {
   boost::shared_ptr<ArmInterface> arm_;
   boost::shared_ptr<GripperInterface> gripper_;
 };
+
+class Placer {
+ public:
+  Placer(boost::shared_ptr<ArmInterface> arm,
+         boost::shared_ptr<GripperInterface> gripper);
+  bool Place(rapid::perception::Object& obj,
+             rapid::perception::Tabletop& table);
+
+ private:
+  boost::shared_ptr<ArmInterface> arm_;
+  boost::shared_ptr<GripperInterface> gripper_;
+};
+
+// Samples a random location on the given tabletop, such that the object won't
+// intersect with other objects on the table. The pose where the object
+// should be placed is given in location. location will be in the same frame as
+// the table. The location refers to where the midpoint of the object
+// (equivalent to the position of the object) needs to be once the object has
+// been placed. For example, if the midpoint of the table is at z=0, the
+// table is 4cm tall, and the object is 7cm tall, then the z of the location
+// will be 2+3.5 = 5.5cm
+//
+// Returns false if no placement could be found.
+bool SampleRandomPlacement(const geometry_msgs::Vector3& object_scale,
+                           const rapid::perception::Tabletop& table,
+                           geometry_msgs::PointStamped* location);
 }  // namespace manipulation
 }  // namespace rapid
 #endif  // _RAPID_MANIPULATION_PICK_PLACE_H_

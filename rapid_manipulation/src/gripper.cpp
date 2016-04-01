@@ -48,7 +48,7 @@ bool Gripper::SetPosition(double position, double effort) {
   goal.command.max_effort = effort;
 
   gripper_client_->sendGoal(goal);
-  gripper_client_->waitForResult();
+  gripper_client_->waitForResult(ros::Duration(5));
   SimpleClientGoalState state = gripper_client_->getState();
   if (state == SimpleClientGoalState::SUCCEEDED) {
     return true;
