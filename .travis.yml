@@ -53,9 +53,12 @@ install:
 # Command to run tests
 # --------------------
 script:
-    - catkin run_tests
+    - catkin run_tests rapid --no-deps
     - catkin_test_results build/rapid
     - catkin_test_results build/rapid_display
     - catkin_test_results build/rapid_manipulation
     - catkin_test_results build/rapid_perception
     - catkin_test_results build/rapid_pr2
+    - catkin_test_results build/rapid_sound
+    - catkin_test_results build/rapid_utils
+    - catkin_test_results build/rapid_viz
