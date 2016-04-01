@@ -45,6 +45,11 @@ void GetPlanarBoundingBox(const pcl::PointCloud<pcl::PointXYZRGB>& cloud,
   // 3rd eigenvector.
   eigenvectors.col(2) = eigenvectors.col(0).cross(eigenvectors.col(1));
   Eigen::Quaternionf q1(eigenvectors);
+  if (eigenvectors(2, 2) < 0) {  // z-axis is pointing down
+    Eigen::Quaternionf roll_180;
+    roll_180 = Eigen::AngleAxisf(M_PI, Eigen::Vector3f::UnitX());
+    q1 *= roll_180;
+  }
 
   // Find min/max x and y, based on the points in eigenspace.
   PointCloud<PointXYZRGB>::Ptr eigen_projected(new PointCloud<PointXYZRGB>);

@@ -194,5 +194,10 @@ target_link_libraries(rapid_pr2_services
 ## Testing ##
 #############
 
+catkin_add_gtest(rapid_pr2_test test/pr2_test.cc)
+if(TARGET rapid_pr2_test)
+  target_link_libraries(rapid_pr2_test gmock rapid_pr2)
+endif()
+
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

@@ -52,9 +52,9 @@ class Tabletop {
   void AddObject(const Object& object);
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud();
   std::string name() { return name_; };
-  geometry_msgs::PoseStamped pose() { return pose_; };
+  geometry_msgs::PoseStamped pose() const { return pose_; };
   geometry_msgs::Vector3 scale() const { return scale_; };
-  std::vector<Object> objects() { return objects_; };
+  std::vector<Object> objects() const { return objects_; };
   void Visualize(const ros::Publisher& viz_pub);
 
  private:

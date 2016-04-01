@@ -4,7 +4,7 @@
 #include <sstream>
 
 #include "rapid_perception/rgbd.hpp"
-#include "rapid_viz/shapes.h"
+#include "rapid_viz/markers.h"
 #include "visualization_msgs/Marker.h"
 
 using pcl::PointCloud;
@@ -31,6 +31,13 @@ void Object::Visualize(const ros::Publisher& viz_pub) {
   rapid::viz::BoundingBoxMarker(pose_, scale_, &marker);
   rapid::viz::SetMarkerColor(0, 0, 1, 0.9, &marker);
   rapid::viz::SetMarkerId(name_, 0, &marker);
+  viz_pub.publish(marker);
+
+  geometry_msgs::PoseStamped text_ps = pose_;
+  text_ps.pose.position.x = pose_.pose.position.x - scale_.x / 2 + 0.05;
+  rapid::viz::TextMarker(text_ps, name_, 0.03, &marker);
+  rapid::viz::SetMarkerId(name_ + "_name", 0, &marker);
+  rapid::viz::SetMarkerColor(1, 1, 1, 1, &marker);
   viz_pub.publish(marker);
 }
 

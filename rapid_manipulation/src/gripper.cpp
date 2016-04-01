@@ -35,7 +35,7 @@ Gripper::~Gripper() { delete gripper_client_; }
 bool Gripper::SetPosition(double position, double effort) {
   if (position > Gripper::OPEN || position < Gripper::CLOSED) {
     ROS_ERROR("Gripper position %0.3f not in allowed range [%0.3f, %0.3f]",
-              position, Gripper::OPEN, Gripper::CLOSED);
+              position, Gripper::CLOSED, Gripper::OPEN);
     return false;
   }
   if (!gripper_client_->waitForServer(ros::Duration(5))) {
@@ -48,7 +48,7 @@ bool Gripper::SetPosition(double position, double effort) {
   goal.command.max_effort = effort;
 
   gripper_client_->sendGoal(goal);
-  gripper_client_->waitForResult();
+  gripper_client_->waitForResult(ros::Duration(10));
   SimpleClientGoalState state = gripper_client_->getState();
   if (state == SimpleClientGoalState::SUCCEEDED) {
     return true;

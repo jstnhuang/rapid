@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(rapid_viz)
+project(rapid_utils)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -7,8 +7,6 @@ project(rapid_viz)
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   roscpp
-  shape_msgs
-  visualization_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -68,7 +66,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   geometry_msgs#   shape_msgs#   visualization_msgs
+#   geometry_msgs
 # )
 
 ################################################
@@ -102,8 +100,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES rapid_viz
-  CATKIN_DEPENDS geometry_msgs roscpp shape_msgs visualization_msgs
+  LIBRARIES rapid_utils
+  CATKIN_DEPENDS geometry_msgs roscpp
 #  DEPENDS system_lib
 )
 
@@ -120,22 +118,16 @@ include_directories(
 )
 
 ## Declare a C++ library
-add_library(rapid_viz
-  src/markers.cpp
+add_library(rapid_utils
+  src/math.cpp
 )
-add_dependencies(rapid_viz
+add_dependencies(rapid_utils
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
 )
-target_link_libraries(rapid_viz
+target_link_libraries(rapid_utils
   ${catkin_LIBRARIES}
 )
-
-## Declare a C++ executable
-# add_executable(rapid_viz_node src/rapid_viz_node.cpp)
-
-## Add cmake target dependencies of the executable
-## same as for the library above
 
 #############
 ## Install ##
@@ -152,7 +144,7 @@ target_link_libraries(rapid_viz
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS rapid_viz rapid_viz_node
+# install(TARGETS rapid_utils rapid_utils_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -177,10 +169,10 @@ target_link_libraries(rapid_viz
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_rapid_viz.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
+catkin_add_gtest(rapid_utils_math_test test/math_test.cpp)
+if(TARGET rapid_utils_math_test)
+  target_link_libraries(rapid_utils_math_test rapid_utils)
+endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

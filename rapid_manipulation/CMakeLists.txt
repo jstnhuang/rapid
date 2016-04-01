@@ -11,10 +11,13 @@ find_package(catkin REQUIRED COMPONENTS
   moveit_ros_planning_interface
   pr2_controllers_msgs
   rapid_perception
+  rapid_utils
+  rapid_viz
   roscpp
   rostest
   sensor_msgs
   tf
+  visualization_msgs
 )
 
 find_package(Eigen REQUIRED)

@@ -67,6 +67,8 @@ flags = [
 '-I',
 'rapid_sound/include',
 '-I',
+'rapid_utils/include',
+'-I',
 'rapid_viz/include'
 ]
 
