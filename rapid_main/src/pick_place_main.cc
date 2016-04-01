@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "boost/shared_ptr.hpp"
 #include "moveit/move_group_interface/move_group.h"
@@ -25,7 +26,9 @@ using rapid::manipulation::MoveItArm;
 using rapid::manipulation::GripperInterface;
 using rapid::manipulation::Gripper;
 using rapid::manipulation::PickError;
+using rapid::perception::Object;
 using rapid::perception::Scene;
+using std::vector;
 
 int main(int argc, char** argv) {
   ros::init(argc, argv, "pick_place");
@@ -65,8 +68,28 @@ int main(int argc, char** argv) {
   ROS_INFO("Updated planning scene with %ld objects",
            scene.GetPrimarySurface()->objects().size());
 
-  PickError error = picker.Pick("object_0", "table");
+  // Pick up first object and place it somewhere else.
+  const vector<Object>& objects = scene.GetPrimarySurface()->objects();
+  if (objects.size() == 0) {
+    ROS_ERROR("No objects found.");
+    return 0;
+  }
+  Object first_obj = objects[0];
+  ROS_INFO("Attempting to pick up %s", first_obj.name().c_str());
+  PickError error = picker.Pick(first_obj.name(), "table");
   ROS_INFO("Picker returned %s", error.error().c_str());
+  if (error.error() != PickError::SUCCESS) {
+    spinner.stop();
+    return 0;
+  }
+
+  rapid::manipulation::Placer placer(right_arm, right_gripper);
+  bool success = placer.Place(first_obj, *scene.GetPrimarySurface());
+  if (!success) {
+    ROS_ERROR("Place failed.");
+  } else {
+    ROS_INFO("Place succeeded.");
+  }
 
   spinner.stop();
   return 0;
