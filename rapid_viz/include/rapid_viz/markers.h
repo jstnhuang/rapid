@@ -1,5 +1,5 @@
-#ifndef _RAPID_VIZ_SHAPES_H_
-#define _RAPID_VIZ_SHAPES_H_
+#ifndef _RAPID_VIZ_MARKERS_H_
+#define _RAPID_VIZ_MARKERS_H_
 
 #include <string>
 
@@ -28,4 +28,4 @@ void SetMarkerColor(double r, double g, double b, double a,
                     visualization_msgs::Marker* marker);
 }  // namespace viz
 }  // namespace rapid
-#endif  // _RAPID_VIZ_SHAPES_H_
+#endif  // _RAPID_VIZ_MARKERS_H_

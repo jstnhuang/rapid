@@ -1,4 +1,4 @@
-#include "rapid_viz/shapes.h"
+#include "rapid_viz/markers.h"
 
 #include <string>
 
@@ -8,6 +8,7 @@
 
 #include "ros/ros.h"
 
+using std::string;
 using visualization_msgs::Marker;
 
 namespace rapid {
@@ -20,8 +21,7 @@ void PublishMarker(const visualization_msgs::Marker& marker) {
 }
 
 void BoundingBoxMarker(const geometry_msgs::PoseStamped& pose,
-                       const geometry_msgs::Vector3& scale,
-                       visualization_msgs::Marker* marker) {
+                       const geometry_msgs::Vector3& scale, Marker* marker) {
   marker->header = pose.header;
   marker->type = Marker::CUBE;
   marker->action = Marker::ADD;
@@ -29,7 +29,7 @@ void BoundingBoxMarker(const geometry_msgs::PoseStamped& pose,
   marker->scale = scale;
 }
 
-void TextMarker(const geometry_msgs::PoseStamped& pose, const std::string& text,
+void TextMarker(const geometry_msgs::PoseStamped& pose, const string& text,
                 double size, Marker* marker) {
   marker->header = pose.header;
   marker->type = Marker::TEXT_VIEW_FACING;
@@ -39,14 +39,12 @@ void TextMarker(const geometry_msgs::PoseStamped& pose, const std::string& text,
   marker->scale.z = size;
 }
 
-void SetMarkerId(const std::string& ns, int id,
-                 visualization_msgs::Marker* marker) {
+void SetMarkerId(const string& ns, int id, Marker* marker) {
   marker->ns = ns;
   marker->id = id;
 }
 
-void SetMarkerColor(double r, double g, double b, double a,
-                    visualization_msgs::Marker* marker) {
+void SetMarkerColor(double r, double g, double b, double a, Marker* marker) {
   marker->color.r = r;
   marker->color.g = g;
   marker->color.b = b;
