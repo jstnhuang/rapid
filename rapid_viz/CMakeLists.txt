@@ -121,7 +121,7 @@ include_directories(
 
 ## Declare a C++ library
 add_library(rapid_viz
-  src/shapes.cpp
+  src/markers.cpp
 )
 add_dependencies(rapid_viz
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
