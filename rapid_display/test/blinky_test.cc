@@ -59,7 +59,7 @@ class MockBlinkyServer {
 class BlinkyTest : public ::testing::Test {
  public:
   // We have a long server wait time to make sure the test isn't flaky.
-  BlinkyTest() : node_handle_(), server_(), blinky_(30) {}
+  BlinkyTest() : node_handle_(), server_(), blinky_(60) {}
 
   void SetUp() {}
 
