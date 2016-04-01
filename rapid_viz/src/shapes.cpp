@@ -29,6 +29,16 @@ void BoundingBoxMarker(const geometry_msgs::PoseStamped& pose,
   marker->scale = scale;
 }
 
+void TextMarker(const geometry_msgs::PoseStamped& pose, const std::string& text,
+                double size, Marker* marker) {
+  marker->header = pose.header;
+  marker->type = Marker::TEXT_VIEW_FACING;
+  marker->action = Marker::ADD;
+  marker->pose = pose.pose;
+  marker->text = text;
+  marker->scale.z = size;
+}
+
 void SetMarkerId(const std::string& ns, int id,
                  visualization_msgs::Marker* marker) {
   marker->ns = ns;

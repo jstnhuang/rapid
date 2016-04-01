@@ -16,6 +16,10 @@ void BoundingBoxMarker(const geometry_msgs::PoseStamped& pose,
                        const geometry_msgs::Vector3& scale,
                        visualization_msgs::Marker* marker);
 
+// Populates a Marker message with a text type.
+void TextMarker(const geometry_msgs::PoseStamped& pose, const std::string& text,
+                double size, visualization_msgs::Marker* marker);
+
 void SetMarkerId(const std::string& ns, int id,
                  visualization_msgs::Marker* marker);
 
