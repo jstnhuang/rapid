@@ -111,9 +111,9 @@ void Picker::UpdatePlanningScene(Scene& scene) {
   UpdatePlanningSceneTopic("table", co);
 
   // Update objects
-  vector<Object> objects = table->objects();
-  for (size_t i = 0; i < objects.size(); ++i) {
-    const Object& object = objects[i];
+  const vector<Object>* objects = table->objects();
+  for (size_t i = 0; i < objects->size(); ++i) {
+    const Object& object = (*objects)[i];
     co.id = object.name();
     cout << "Adding object " << co.id << " to planning scene." << endl;
     co.operation = CollisionObject::ADD;
@@ -134,9 +134,9 @@ PickError Picker::Pick(const string& obj_name, const string& support_name) {
 
   bool success = false;
   PoseStamped obj_pose_original;
-  vector<Object> objects = scene_.GetPrimarySurface()->objects();
-  for (size_t i = 0; i < objects.size(); ++i) {
-    const Object& obj = objects[i];
+  const vector<Object>* objects = scene_.GetPrimarySurface()->objects();
+  for (size_t i = 0; i < objects->size(); ++i) {
+    const Object& obj = (*objects)[i];
     if (obj.name() == obj_name) {
       obj_pose_original = obj.pose();
       success = true;
@@ -204,7 +204,11 @@ PickError Picker::Pick(const string& obj_name, const string& support_name) {
 
 Placer::Placer(shared_ptr<ArmInterface> arm,
                shared_ptr<GripperInterface> gripper)
-    : arm_(arm), gripper_(gripper) {}
+    : nh_(),
+      marker_pub_(nh_.advertise<visualization_msgs::Marker>(
+          "visualization_marker", 10)),
+      arm_(arm),
+      gripper_(gripper) {}
 
 bool Placer::Place(Object& obj, Tabletop& table) {
   // Naive, proof of concept place.
@@ -225,11 +229,11 @@ bool Placer::Place(Object& obj, Tabletop& table) {
     location.pose.position = loc_position.point;
     location.pose.orientation.w = 1;
 
-    visualization_msgs::Marker marker;
-    rapid::viz::BoundingBoxMarker(location, obj.scale(), &marker);
-    rapid::viz::SetMarkerId("sampled_placement", 0, &marker);
-    rapid::viz::SetMarkerColor(1, 1, 0, 0.5, &marker);
-    rapid::viz::PublishMarker(marker);
+    rapid::viz::Marker marker =
+        rapid::viz::Marker::Box(marker_pub_, location, obj.scale());
+    marker.SetNamespace("sampled_placement");
+    marker.SetColor(1, 1, 0, 0.5);
+    marker.Publish();
 
     bool success = false;
 
@@ -333,15 +337,15 @@ bool SampleRandomPlacement(const Vector3& object_scale,
 
     // Check that the object doesn't intersect with all other objects.
     bool intersect = false;
-    const vector<Object>& objects = table.objects();
+    const vector<Object>* objects = table.objects();
     Vector3 inflated_object = object_scale;  // Create an inflated object to
                                              // account for gripper width.
     inflated_object.x += 0.05;
     inflated_object.y += 0.05;
-    for (size_t obj_i = 0; obj_i < objects.size(); ++obj_i) {
+    for (size_t obj_i = 0; obj_i < objects->size(); ++obj_i) {
       intersect = rapid::utils::AabbXYIntersect(
           transformed.point, inflated_object,
-          objects[obj_i].pose().pose.position, objects[obj_i].scale());
+          (*objects)[obj_i].pose().pose.position, (*objects)[obj_i].scale());
       if (intersect) {
         break;
       }

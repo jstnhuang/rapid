@@ -9,46 +9,68 @@
 #include "ros/ros.h"
 
 using std::string;
-using visualization_msgs::Marker;
 
 namespace rapid {
 namespace viz {
-void PublishMarker(const visualization_msgs::Marker& marker) {
-  ros::NodeHandle nh;
-  ros::Publisher vis_pub =
-      nh.advertise<visualization_msgs::Marker>("visualization_marker", 10);
-  vis_pub.publish(marker);
+Marker Marker::Box(const ros::Publisher& pub,
+                   const geometry_msgs::PoseStamped& pose,
+                   const geometry_msgs::Vector3& scale) {
+  Marker m(pub);
+  m.set_type(visualization_msgs::Marker::CUBE);
+  m.set_pose(pose);
+  m.set_scale(scale);
+  m.SetNamespace("marker");
+  m.SetColor(0, 1, 0);
+  return m;
 }
 
-void BoundingBoxMarker(const geometry_msgs::PoseStamped& pose,
-                       const geometry_msgs::Vector3& scale, Marker* marker) {
-  marker->header = pose.header;
-  marker->type = Marker::CUBE;
-  marker->action = Marker::ADD;
-  marker->pose = pose.pose;
-  marker->scale = scale;
+Marker Marker::Text(const ros::Publisher& pub,
+                    const geometry_msgs::PoseStamped& pose,
+                    const std::string& text, double size) {
+  Marker m(pub);
+  m.set_type(visualization_msgs::Marker::TEXT_VIEW_FACING);
+  m.set_pose(pose);
+  geometry_msgs::Vector3 scale;
+  scale.z = size;
+  m.set_scale(scale);
+  m.set_text(text);
+  m.SetNamespace("marker");
+  m.SetColor(0, 1, 0);
+  return m;
 }
 
-void TextMarker(const geometry_msgs::PoseStamped& pose, const string& text,
-                double size, Marker* marker) {
-  marker->header = pose.header;
-  marker->type = Marker::TEXT_VIEW_FACING;
-  marker->action = Marker::ADD;
-  marker->pose = pose.pose;
-  marker->text = text;
-  marker->scale.z = size;
+void Marker::SetNamespace(const std::string& ns) { marker_.ns = ns; }
+
+void Marker::SetColor(double r, double g, double b, double a) {
+  marker_.color.r = r;
+  marker_.color.g = g;
+  marker_.color.b = b;
+  marker_.color.a = a;
 }
 
-void SetMarkerId(const string& ns, int id, Marker* marker) {
-  marker->ns = ns;
-  marker->id = id;
+void Marker::Publish() {
+  marker_.action = visualization_msgs::Marker::ADD;
+  pub_.publish(marker_);
 }
 
-void SetMarkerColor(double r, double g, double b, double a, Marker* marker) {
-  marker->color.r = r;
-  marker->color.g = g;
-  marker->color.b = b;
-  marker->color.a = a;
+visualization_msgs::Marker Marker::marker() const { return marker_; }
+
+Marker::Marker(const ros::Publisher& pub) : pub_(pub), marker_() {}
+
+Marker::Marker(const Marker& rhs) : pub_(rhs.pub_), marker_(rhs.marker_) {
+  marker_.id = rand();
+}
+
+Marker& Marker::operator=(const Marker& rhs) {
+  pub_ = rhs.pub_;
+  marker_ = rhs.marker_;
+  marker_.id = rand();
+  return *this;
+}
+
+Marker::~Marker() {
+  marker_.action = visualization_msgs::Marker::DELETE;
+  pub_.publish(marker_);
 }
 }  // namespace viz
 }  // namespace rapid

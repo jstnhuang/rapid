@@ -97,13 +97,13 @@ class Perception {
     scene_.set_cloud(pcl_cloud_);
     scene_.Parse();
     boost::shared_ptr<rpe::Tabletop> tt = scene_.GetPrimarySurface();
-    vector<rpe::Object> objects = tt->objects();
+    const vector<rpe::Object>* objects = tt->objects();
     PointCloud<PointXYZRGB>::Ptr table_cloud = tt->GetCloud();
     pcl_cloud_ = *table_cloud;
 
-    cout << "Found " << objects.size() << " objects." << endl;
-    for (size_t j = 0; j < objects.size(); ++j) {
-      rpe::Object& obj = objects[j];
+    cout << "Found " << objects->size() << " objects." << endl;
+    for (size_t j = 0; j < objects->size(); ++j) {
+      const rpe::Object& obj = (*objects)[j];
       PointCloud<PointXYZRGB>::Ptr obj_cloud = obj.GetCloud();
       // int r = std::rand() % 255;
       // int g = std::rand() % 255;

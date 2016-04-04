@@ -9,8 +9,9 @@
 #include "pcl/kdtree/kdtree.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
-
 #include "ros/ros.h"
+
+#include "rapid_viz/markers.h"
 
 namespace rapid {
 namespace perception {
@@ -19,12 +20,12 @@ class Scene;
 class Object {
  public:
   Object(Scene* scene, const pcl::PointIndices::Ptr& indices);
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud();
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud() const;
   geometry_msgs::PoseStamped pose() const { return pose_; };
   geometry_msgs::Vector3 scale() const { return scale_; };
   std::string name() const { return name_; };
   void set_name(const std::string& name) { name_ = name; };
-  void Visualize(const ros::Publisher& viz_pub);
+  void Visualize();
 
  private:
   Scene* scene_;
@@ -32,6 +33,11 @@ class Object {
   geometry_msgs::PoseStamped pose_;
   geometry_msgs::Vector3 scale_;
   std::string name_;  // Name of this object.
+
+  // Visualization
+  ros::Publisher viz_pub_;
+  rapid::viz::Marker obj_marker_;
+  rapid::viz::Marker text_marker_;
 };
 
 void SegmentObjects(Scene* scene, pcl::PointIndices::Ptr indices,
@@ -54,8 +60,8 @@ class Tabletop {
   std::string name() { return name_; };
   geometry_msgs::PoseStamped pose() const { return pose_; };
   geometry_msgs::Vector3 scale() const { return scale_; };
-  std::vector<Object> objects() const { return objects_; };
-  void Visualize(const ros::Publisher& viz_pub);
+  const std::vector<Object>* objects() const { return &objects_; };
+  void Visualize();
 
  private:
   Scene* scene_;
@@ -64,6 +70,10 @@ class Tabletop {
   geometry_msgs::Vector3 scale_;
   std::vector<Object> objects_;
   std::string name_;  // Name of this table.
+
+  // Visualization
+  ros::Publisher viz_pub_;
+  rapid::viz::Marker marker_;
 };
 
 // A Scene is a semantic representation of a point cloud. Given a point cloud,
@@ -77,6 +87,7 @@ class Scene {
   void Parse();
   boost::shared_ptr<Tabletop> GetPrimarySurface();
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud();
+  ros::Publisher viz_pub() const { return viz_pub_; }
   void Visualize();
 
  private:

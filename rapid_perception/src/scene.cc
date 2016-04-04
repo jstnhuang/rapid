@@ -18,7 +18,14 @@ using std::vector;
 namespace rapid {
 namespace perception {
 Object::Object(Scene* scene, const PointIndices::Ptr& indices)
-    : scene_(scene), indices_(indices), pose_(), scale_(), name_("") {
+    : scene_(scene),
+      indices_(indices),
+      pose_(),
+      scale_(),
+      name_(""),
+      obj_marker_(rapid::viz::Marker::Box(scene->viz_pub(), pose_, scale_)),
+      text_marker_(
+          rapid::viz::Marker::Text(scene->viz_pub(), pose_, name_, 0.03)) {
   geometry_msgs::Pose pose;
   PointCloud<PointXYZRGB>::Ptr cloud = GetCloud();
   GetPlanarBoundingBox(*cloud, &pose, &scale_);
@@ -26,22 +33,20 @@ Object::Object(Scene* scene, const PointIndices::Ptr& indices)
   pose_.pose = pose;
 }
 
-void Object::Visualize(const ros::Publisher& viz_pub) {
-  visualization_msgs::Marker marker;
-  rapid::viz::BoundingBoxMarker(pose_, scale_, &marker);
-  rapid::viz::SetMarkerColor(0, 0, 1, 0.9, &marker);
-  rapid::viz::SetMarkerId(name_, 0, &marker);
-  viz_pub.publish(marker);
+void Object::Visualize() {
+  obj_marker_ = rapid::viz::Marker::Box(scene_->viz_pub(), pose_, scale_);
+  obj_marker_.SetNamespace(name_);
+  obj_marker_.SetColor(0, 0, 1, 0.9);
+  obj_marker_.Publish();
 
-  geometry_msgs::PoseStamped text_ps = pose_;
-  text_ps.pose.position.x = pose_.pose.position.x - scale_.x / 2 + 0.05;
-  rapid::viz::TextMarker(text_ps, name_, 0.03, &marker);
-  rapid::viz::SetMarkerId(name_ + "_name", 0, &marker);
-  rapid::viz::SetMarkerColor(1, 1, 1, 1, &marker);
-  viz_pub.publish(marker);
+  text_marker_ =
+      rapid::viz::Marker::Text(scene_->viz_pub(), pose_, name_, 0.03);
+  text_marker_.SetNamespace(name_);
+  text_marker_.SetColor(1, 1, 1, 1);
+  text_marker_.Publish();
 }
 
-PointCloud<PointXYZRGB>::Ptr Object::GetCloud() {
+PointCloud<PointXYZRGB>::Ptr Object::GetCloud() const {
   return IndicesToCloud(scene_->GetCloud(), indices_);
 }
 
@@ -75,7 +80,8 @@ Tabletop::Tabletop(Scene* scene, const PointIndices::Ptr& indices)
       pose_(),
       scale_(),
       objects_(),
-      name_("table") {
+      name_("table"),
+      marker_(rapid::viz::Marker::Box(scene_->viz_pub(), pose_, scale_)) {
   geometry_msgs::Pose pose;
   PointCloud<PointXYZRGB>::Ptr cloud = GetCloud();
   GetPlanarBoundingBox(*cloud, &pose, &scale_);
@@ -89,15 +95,14 @@ PointCloud<PointXYZRGB>::Ptr Tabletop::GetCloud() {
   return IndicesToCloud(scene_->GetCloud(), indices_);
 }
 
-void Tabletop::Visualize(const ros::Publisher& viz_pub) {
-  visualization_msgs::Marker marker;
-  rapid::viz::BoundingBoxMarker(pose_, scale_, &marker);
-  rapid::viz::SetMarkerColor(0, 1, 0, 0.5, &marker);
-  rapid::viz::SetMarkerId(name_, 0, &marker);
-  viz_pub.publish(marker);
+void Tabletop::Visualize() {
+  marker_ = rapid::viz::Marker::Box(scene_->viz_pub(), pose_, scale_);
+  marker_.SetNamespace(name_);
+  marker_.SetColor(0, 1, 0, 0.5);
+  marker_.Publish();
 
   for (size_t i = 0; i < objects_.size(); ++i) {
-    objects_[i].Visualize(viz_pub);
+    objects_[i].Visualize();
   }
 }
 
@@ -236,6 +241,6 @@ boost::shared_ptr<Tabletop> Scene::GetPrimarySurface() {
 
 PointCloud<PointXYZRGB>::Ptr Scene::GetCloud() { return cloud_.makeShared(); }
 
-void Scene::Visualize() { primary_surface_->Visualize(viz_pub_); }
+void Scene::Visualize() { primary_surface_->Visualize(); }
 }  // namespace rapid
 }  // namespace perception
