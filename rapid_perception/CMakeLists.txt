@@ -121,8 +121,17 @@ catkin_package(
     rapid_perception_pr2
     rapid_perception_rgbd
     rapid_perception_scene
-  CATKIN_DEPENDS roscpp
-#  DEPENDS system_lib
+  CATKIN_DEPENDS
+    geometry_msgs
+    pcl_conversions
+    pcl_ros
+    rapid_viz
+    rosbag
+    roscpp
+    rostest
+    sensor_msgs
+    visualization_msgs
+  DEPENDS PCL
 )
 
 ###########

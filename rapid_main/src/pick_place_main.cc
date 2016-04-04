@@ -66,15 +66,15 @@ int main(int argc, char** argv) {
   rapid::manipulation::Picker picker(right_arm, right_gripper);
   picker.UpdatePlanningScene(scene);
   ROS_INFO("Updated planning scene with %ld objects",
-           scene.GetPrimarySurface()->objects().size());
+           scene.GetPrimarySurface()->objects()->size());
 
   // Pick up first object and place it somewhere else.
-  const vector<Object>& objects = scene.GetPrimarySurface()->objects();
-  if (objects.size() == 0) {
+  const vector<Object>* objects = scene.GetPrimarySurface()->objects();
+  if (objects->size() == 0) {
     ROS_ERROR("No objects found.");
     return 0;
   }
-  Object first_obj = objects[0];
+  Object first_obj = (*objects)[0];
   ROS_INFO("Attempting to pick up %s", first_obj.name().c_str());
   PickError error = picker.Pick(first_obj.name(), "table");
   ROS_INFO("Picker returned %s", error.error().c_str());

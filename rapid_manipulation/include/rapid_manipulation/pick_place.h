@@ -76,6 +76,8 @@ class Placer {
              rapid::perception::Tabletop& table);
 
  private:
+  ros::NodeHandle nh_;
+  ros::Publisher marker_pub_;
   boost::shared_ptr<ArmInterface> arm_;
   boost::shared_ptr<GripperInterface> gripper_;
 };
