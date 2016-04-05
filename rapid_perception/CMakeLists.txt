@@ -148,7 +148,7 @@ include_directories(
 )
 
 ## Declare a C++ library
-add_library(rapid_perception_pr2 src/pr2.cc)
+add_library(rapid_perception_pr2 src/pr2.cpp)
 add_dependencies(rapid_perception_pr2
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
@@ -158,7 +158,7 @@ target_link_libraries(rapid_perception_pr2
   ${catkin_LIBRARIES}
 )
 
-add_library(rapid_perception_scene src/scene.cc)
+add_library(rapid_perception_scene src/scene.cpp)
 add_dependencies(rapid_perception_scene
   rapid_perception_rgbd
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
@@ -170,7 +170,7 @@ target_link_libraries(rapid_perception_scene
   ${catkin_LIBRARIES}
 )
 
-add_library(rapid_perception_rgbd src/rgbd.cc)
+add_library(rapid_perception_rgbd src/rgbd.cpp)
 add_dependencies(rapid_perception_rgbd
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
@@ -180,7 +180,7 @@ target_link_libraries(rapid_perception_rgbd
   ${catkin_LIBRARIES}
 )
 
-add_executable(record_kinect src/record_kinect_main.cc)
+add_executable(record_kinect src/record_kinect_main.cpp)
 add_dependencies(record_kinect
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
@@ -190,7 +190,7 @@ target_link_libraries(record_kinect
   ${catkin_LIBRARIES}
 )
 
-add_executable(debug_obj_pipeline src/debug_obj_pipeline_main.cc)
+add_executable(debug_obj_pipeline src/debug_obj_pipeline_main.cpp)
 add_dependencies(debug_obj_pipeline
   rapid_perception_rgbd
   rapid_perception_scene
@@ -252,7 +252,7 @@ target_link_libraries(debug_obj_pipeline
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
-catkin_add_gtest(rapid_rgbd_test test/rgbd_test.cc)
+catkin_add_gtest(rapid_rgbd_test test/rgbd_test.cpp)
 target_link_libraries(rapid_rgbd_test
   rapid_perception_rgbd
   rapid_perception_scene

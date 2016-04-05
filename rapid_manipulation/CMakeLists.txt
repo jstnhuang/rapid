@@ -152,10 +152,10 @@ include_directories(
 
 ## Declare a C++ library
 add_library(rapid_manipulation
-  src/arm.cc
+  src/arm.cpp
   src/gripper.cpp
   src/head.cpp
-  src/pick_place.cc
+  src/pick_place.cpp
   src/tuck_arms.cpp
 )
 add_dependencies(rapid_manipulation

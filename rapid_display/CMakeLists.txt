@@ -125,7 +125,7 @@ include_directories(
 )
 
 ## Declare a C++ library
-add_library(rapid_display src/display.cc)
+add_library(rapid_display src/display.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -185,7 +185,7 @@ target_link_libraries(rapid_display ${catkin_LIBRARIES})
 #############
 
 ## Add gtest based cpp test target and link libraries
-#add_rostest_gtest(rapid_blinky_test test/blinky_test.test test/blinky_test.cc)
+#add_rostest_gtest(rapid_blinky_test test/blinky_test.test test/blinky_test.cpp)
 #target_link_libraries(rapid_blinky_test rapid_display gmock)
 
 ## Add folders to be run by python nosetests

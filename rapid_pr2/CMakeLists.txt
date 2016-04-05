@@ -131,7 +131,7 @@ include_directories(
 )
 
 add_library(rapid_pr2
-  src/pr2.cc
+  src/pr2.cpp
 )
 add_dependencies(rapid_pr2
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
@@ -141,7 +141,7 @@ target_link_libraries(rapid_pr2
   ${catkin_LIBRARIES}
 )
 
-add_executable(rapid_pr2_services src/pr2_service_node.cc)
+add_executable(rapid_pr2_services src/pr2_service_node.cpp)
 add_dependencies(rapid_pr2_services
   rapid_pr2
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
@@ -192,7 +192,7 @@ target_link_libraries(rapid_pr2_services
 ## Testing ##
 #############
 
-#catkin_add_gtest(rapid_pr2_test test/pr2_test.cc)
+#catkin_add_gtest(rapid_pr2_test test/pr2_test.cpp)
 #if(TARGET rapid_pr2_test)
 #  target_link_libraries(rapid_pr2_test gmock rapid_pr2)
 #endif()
