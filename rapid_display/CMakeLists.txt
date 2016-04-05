@@ -105,7 +105,10 @@ set(gmock_LIB_DIR /usr/lib)
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES rapid_display
-#  CATKIN_DEPENDS roscpp
+  CATKIN_DEPENDS
+    actionlib
+    blinky
+    roscpp
 #  DEPENDS system_lib
 )
 

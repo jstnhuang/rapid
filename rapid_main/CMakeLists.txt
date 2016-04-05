@@ -10,18 +10,13 @@ find_package(catkin REQUIRED COMPONENTS
   pcl_conversions
   pcl_ros
   rapid_manipulation
-  rapid_msgs
   rapid_perception
   rapid_pr2
   roscpp
   visualization_msgs
 )
 
-find_package(Eigen REQUIRED)
-
-## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
-
+find_package(Boost REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -117,12 +112,12 @@ catkin_package(
     pcl_conversions
     pcl_ros
     rapid_manipulation
-    rapid_msgs
     rapid_perception
     rapid_pr2
     roscpp
     visualization_msgs
-#  DEPENDS system_lib
+  DEPENDS
+    Boost
 )
 
 ###########

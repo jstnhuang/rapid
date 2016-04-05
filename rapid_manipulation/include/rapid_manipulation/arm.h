@@ -1,3 +1,6 @@
+#ifndef _RAPID_MANIPULATION_ARM_H_
+#define _RAPID_MANIPULATION_ARM_H_
+
 #include "boost/shared_ptr.hpp"
 #include "geometry_msgs/PoseStamped.h"
 #include "gmock/gmock.h"
@@ -5,9 +8,6 @@
 #include "ros/ros.h"
 
 #include "rapid_manipulation/arm_id.h"
-
-#ifndef _RAPID_MANIPULATION_ARM_H_
-#define _RAPID_MANIPULATION_ARM_H_
 
 namespace rapid {
 namespace manipulation {

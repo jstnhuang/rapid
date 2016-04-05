@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rostest
 )
 
+find_package(Boost REQUIRED)
 find_package(PCL REQUIRED)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
@@ -19,9 +20,6 @@ add_definitions(${PCL_DEFINITIONS})
 
 set(gmock_INCLUDE_DIR /usr/include/gmock)
 set(gmock_LIB_DIR /usr/lib)
-
-## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -117,7 +115,7 @@ catkin_package(
     rapid_manipulation
     rapid_sound
     roscpp
-#  DEPENDS system_lib
+  DEPENDS Boost
 )
 
 ###########
@@ -194,10 +192,10 @@ target_link_libraries(rapid_pr2_services
 ## Testing ##
 #############
 
-catkin_add_gtest(rapid_pr2_test test/pr2_test.cc)
-if(TARGET rapid_pr2_test)
-  target_link_libraries(rapid_pr2_test gmock rapid_pr2)
-endif()
+#catkin_add_gtest(rapid_pr2_test test/pr2_test.cc)
+#if(TARGET rapid_pr2_test)
+#  target_link_libraries(rapid_pr2_test gmock rapid_pr2)
+#endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

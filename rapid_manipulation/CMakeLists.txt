@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   geometry_msgs
   moveit_core
+  moveit_msgs
   moveit_ros_planning_interface
   pr2_common_action_msgs
   pr2_controllers_msgs
@@ -17,17 +18,16 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rostest
   sensor_msgs
+  shape_msgs
+  shape_tools
   tf
   visualization_msgs
 )
 
-find_package(Eigen REQUIRED)
+find_package(Boost REQUIRED)
 
 set(gmock_INCLUDE_DIR /usr/include/gmock)
 set(gmock_LIB_DIR /usr/lib)
-
-## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -130,10 +130,12 @@ catkin_package(
     rapid_viz
     roscpp
     rostest
+    shape_msgs
     sensor_msgs
     tf
     visualization_msgs
-  DEPENDS Eigen
+  DEPENDS
+    Boost
 )
 
 ###########

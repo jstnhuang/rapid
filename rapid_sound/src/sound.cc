@@ -1,9 +1,9 @@
 #include "rapid_sound/sound.h"
 
-#include "sound_play/sound_play.h"
-
 #include <iostream>
 #include <string>
+
+#include "sound_play/sound_play.h"
 
 namespace rapid {
 namespace sound {

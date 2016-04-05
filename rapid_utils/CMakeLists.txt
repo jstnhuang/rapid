@@ -101,7 +101,9 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES rapid_utils
-  CATKIN_DEPENDS geometry_msgs roscpp
+  CATKIN_DEPENDS
+    geometry_msgs
+    roscpp
 #  DEPENDS system_lib
 )
 

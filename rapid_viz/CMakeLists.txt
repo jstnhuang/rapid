@@ -7,7 +7,6 @@ project(rapid_viz)
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   roscpp
-  shape_msgs
   visualization_msgs
 )
 
@@ -103,7 +102,10 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES rapid_viz
-  CATKIN_DEPENDS geometry_msgs roscpp shape_msgs visualization_msgs
+  CATKIN_DEPENDS
+    geometry_msgs
+    roscpp
+    visualization_msgs
 #  DEPENDS system_lib
 )
 

@@ -23,6 +23,7 @@
 #include "pcl/segmentation/sac_segmentation.h"
 #include "tf/tf.h"
 #include "visualization_msgs/Marker.h"
+#include "Eigen/Dense"
 
 namespace rapid {
 namespace perception {

@@ -16,33 +16,33 @@ using rapid::pr2::Pr2;
 using rapid::sound::MockSound;
 using rapid::sound::SoundPlay;
 
-TEST(Pr2Test, CallSoundSay) {
-  MockArm left_arm;
-  MockArm right_arm;
-  MockDisplay display;
-  MockGripper left_gripper;
-  MockGripper right_gripper;
-  MockHead head;
-  MockSound sound;
-  Pr2 pr2(left_arm, right_arm, display, left_gripper, right_gripper, head,
-          sound);
-  EXPECT_CALL(sound, Say("Hello world!"));
-  pr2.sound.Say("Hello world!");
-}
-
-TEST(Pr2Test, CallDisplayShowDefault) {
-  MockArm left_arm;
-  MockArm right_arm;
-  MockDisplay display;
-  MockGripper left_gripper;
-  MockGripper right_gripper;
-  MockHead head;
-  MockSound sound;
-  Pr2 pr2(left_arm, right_arm, display, left_gripper, right_gripper, head,
-          sound);
-  EXPECT_CALL(display, ShowDefault());
-  pr2.display.ShowDefault();
-}
+// TEST(Pr2Test, CallSoundSay) {
+//  MockArm left_arm;
+//  MockArm right_arm;
+//  MockDisplay display;
+//  MockGripper left_gripper;
+//  MockGripper right_gripper;
+//  MockHead head;
+//  MockSound sound;
+//  Pr2 pr2(left_arm, right_arm, display, left_gripper, right_gripper, head,
+//          sound);
+//  EXPECT_CALL(sound, Say("Hello world!"));
+//  pr2.sound.Say("Hello world!");
+//}
+//
+// TEST(Pr2Test, CallDisplayShowDefault) {
+//  MockArm left_arm;
+//  MockArm right_arm;
+//  MockDisplay display;
+//  MockGripper left_gripper;
+//  MockGripper right_gripper;
+//  MockHead head;
+//  MockSound sound;
+//  Pr2 pr2(left_arm, right_arm, display, left_gripper, right_gripper, head,
+//          sound);
+//  EXPECT_CALL(display, ShowDefault());
+//  pr2.display.ShowDefault();
+//}
 
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);

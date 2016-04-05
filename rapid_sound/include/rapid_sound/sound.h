@@ -1,9 +1,10 @@
 #ifndef _RAPID_SOUND_SOUND_H_
 #define _RAPID_SOUND_SOUND_H_
 
+#include <string>
+
 #include "gmock/gmock.h"
 #include "sound_play/sound_play.h"
-#include <string>
 
 namespace rapid {
 namespace sound {
