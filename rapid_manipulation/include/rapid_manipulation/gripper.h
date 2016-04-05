@@ -30,11 +30,11 @@ typedef actionlib::SimpleActionClient<
 class GripperInterface {
  public:
   virtual ~GripperInterface() {}
-  virtual bool SetPosition(double position, double effort = -1) = 0;
-  virtual double GetPosition() = 0;
-  virtual bool IsOpen() = 0;
-  virtual bool Open(double effort = -1.0) = 0;
-  virtual bool Close(double effort = -1.0) = 0;
+  virtual bool SetPosition(double position, double effort = -1) const = 0;
+  virtual double GetPosition() const = 0;
+  virtual bool IsOpen() const = 0;
+  virtual bool Open(double effort = -1.0) const = 0;
+  virtual bool Close(double effort = -1.0) const = 0;
 };
 
 class Gripper : public GripperInterface {
@@ -66,23 +66,23 @@ class Gripper : public GripperInterface {
   // Gets the gripper to the given position.
   // position - how wide to open or close the gripper
   // effort - now much force to exert, negative is full force
-  bool SetPosition(double position, double effort = -1.0);
+  bool SetPosition(double position, double effort = -1.0) const;
 
   // Gets the gripper's current position. Note: may not agree with "SetPosition"
-  double GetPosition();
+  double GetPosition() const;
 
   // Returns whether the gripper is open or not.
-  bool IsOpen();
+  bool IsOpen() const;
 
   // Opens the gripper. Returns true if the gripper opened successfully, false
   // otherwise.
   // effort - defaults to -1.0, to open with unlimited effort
-  bool Open(double effort = -1.0);
+  bool Open(double effort = -1.0) const;
 
   // Closes the gripper. Returns true if the gripper opened successfully, false
   // otherwise.
   // effort - defaults to 50.0 to close gently
-  bool Close(double effort = -1.0);
+  bool Close(double effort = -1.0) const;
 };
 
 class MockGripper : public GripperInterface {

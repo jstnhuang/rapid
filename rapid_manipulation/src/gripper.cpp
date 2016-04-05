@@ -32,7 +32,7 @@ Gripper::Gripper(const int gripper_id) : gripper_id_(gripper_id) {
 
 Gripper::~Gripper() { delete gripper_client_; }
 
-bool Gripper::SetPosition(double position, double effort) {
+bool Gripper::SetPosition(double position, double effort) const {
   if (position > Gripper::OPEN || position < Gripper::CLOSED) {
     ROS_ERROR("Gripper position %0.3f not in allowed range [%0.3f, %0.3f]",
               position, Gripper::CLOSED, Gripper::OPEN);
@@ -58,7 +58,7 @@ bool Gripper::SetPosition(double position, double effort) {
   }
 }
 
-double Gripper::GetPosition() {
+double Gripper::GetPosition() const {
   tf::StampedTransform transform;
   std::string destination_frame;
   std::string original_frame;
@@ -88,13 +88,13 @@ double Gripper::GetPosition() {
   return gripper_offset - 0.032;
 }
 
-bool Gripper::IsOpen() { return GetPosition() > Gripper::OPEN_THRESHOLD; }
+bool Gripper::IsOpen() const { return GetPosition() > Gripper::OPEN_THRESHOLD; }
 
-bool Gripper::Open(double effort) {
+bool Gripper::Open(double effort) const {
   return Gripper::SetPosition(Gripper::OPEN, effort);
 }
 
-bool Gripper::Close(double effort) {
+bool Gripper::Close(double effort) const {
   return Gripper::SetPosition(Gripper::CLOSED, effort);
 }
 }  // namespace manipulation
