@@ -56,8 +56,8 @@ class Tabletop {
  public:
   Tabletop(Scene* scene, const pcl::PointIndices::Ptr& indices);
   void AddObject(const Object& object);
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud();
-  std::string name() { return name_; };
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud() const;
+  std::string name() const { return name_; };
   geometry_msgs::PoseStamped pose() const { return pose_; };
   geometry_msgs::Vector3 scale() const { return scale_; };
   const std::vector<Object>* objects() const { return &objects_; };
@@ -85,8 +85,8 @@ class Scene {
   Scene();
   void set_cloud(const pcl::PointCloud<pcl::PointXYZRGB>& cloud);
   void Parse();
-  boost::shared_ptr<Tabletop> GetPrimarySurface();
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud();
+  boost::shared_ptr<Tabletop> GetPrimarySurface() const;
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud() const;
   ros::Publisher viz_pub() const { return viz_pub_; }
   void Visualize();
 
