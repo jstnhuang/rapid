@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   moveit_core
   moveit_ros_planning_interface
+  pr2_common_action_msgs
   pr2_controllers_msgs
   rapid_perception
   rapid_utils
@@ -117,7 +118,21 @@ set(gmock_LIB_DIR /usr/lib)
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES rapid_manipulation
-#  CATKIN_DEPENDS roscpp
+  CATKIN_DEPENDS
+    actionlib
+    geometry_msgs
+    moveit_core
+    moveit_ros_planning_interface
+    pr2_common_action_msgs
+    pr2_controllers_msgs
+    rapid_perception
+    rapid_utils
+    rapid_viz
+    roscpp
+    rostest
+    sensor_msgs
+    tf
+    visualization_msgs
   DEPENDS Eigen
 )
 
