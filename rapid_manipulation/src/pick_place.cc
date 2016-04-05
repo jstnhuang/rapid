@@ -147,7 +147,7 @@ bool Picker::Pick(const Object& obj) {
   ROS_INFO("Attempting grasp");
   geometry_msgs::PoseStamped grasp_pose = pre_grasp;
   double grasp_distance = 0;
-  ros::param::param<double>("grasp_distance", grasp_distance, 0.08);
+  ros::param::param<double>("grasp_distance", grasp_distance, 0.16);
   grasp_pose.pose.position.x += pregrasp_distance - grasp_distance;
   grasp_pose.pose.orientation.x = 0;
   grasp_pose.pose.orientation.y = 0;
