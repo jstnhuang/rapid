@@ -123,7 +123,7 @@ include_directories(
 )
 
 ## Declare a C++ library
-add_library(rapid_sound src/sound.cc)
+add_library(rapid_sound src/sound.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

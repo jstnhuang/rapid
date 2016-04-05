@@ -141,7 +141,7 @@ include_directories(
 ## either from message generation or dynamic reconfigure
 # add_dependencies(rapid_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-add_executable(pick_place_main src/pick_place_main.cc)
+add_executable(pick_place_main src/pick_place_main.cpp)
 add_dependencies(pick_place_main
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
