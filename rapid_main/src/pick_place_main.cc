@@ -29,6 +29,7 @@ using rapid::manipulation::Gripper;
 using rapid::perception::Object;
 using rapid::perception::Scene;
 using rapid::pr2::Pr2;
+using std::string;
 using std::vector;
 
 int main(int argc, char** argv) {
@@ -36,61 +37,72 @@ int main(int argc, char** argv) {
   ros::NodeHandle nh;
   ros::AsyncSpinner spinner(2);
   spinner.start();
-
-  // Read point cloud.
-  pcl::PointCloud<pcl::PointXYZRGB> cloud;
   tf::TransformListener tf_listener;
-
   shared_ptr<Pr2> pr2 = rapid::pr2::BuildReal();
-  pr2->tuck_arms.DeployArms();
-
-  sensor_msgs::PointCloud2ConstPtr msg =
-      ros::topic::waitForMessage<sensor_msgs::PointCloud2>("/cloud_in");
-  sensor_msgs::PointCloud2 transformed;
-  pcl_ros::transformPointCloud("/base_footprint", *msg, transformed,
-                               tf_listener);
-  pcl::fromROSMsg(transformed, cloud);
-
-  // Crop point cloud
-  visualization_msgs::Marker ws;
-  rapid::perception::pr2::GetManipulationWorkspace(&ws);
-  pcl::PointCloud<pcl::PointXYZRGB> ws_cloud;
-  rapid::perception::CropWorkspace(cloud, ws, &ws_cloud);
-
-  Scene scene;
-  scene.set_cloud(ws_cloud);
-  scene.Parse();
-  scene.Visualize();
-
   rapid::manipulation::Picker picker(pr2->right_arm, pr2->right_gripper);
-  ROS_INFO("Updated planning scene with %ld objects",
-           scene.GetPrimarySurface()->objects()->size());
-
-  // Pick up first object and place it somewhere else.
-  const vector<Object>* objects = scene.GetPrimarySurface()->objects();
-  if (objects->size() == 0) {
-    ROS_ERROR("No objects found.");
-    pr2->tuck_arms.DeployArms();
-    return 0;
-  }
-  Object first_obj = (*objects)[0];
-  ROS_INFO("Attempting to pick up %s", first_obj.name().c_str());
-  bool success = picker.Pick(first_obj);
-  if (!success) {
-    pr2->right_gripper.Open();
-    pr2->tuck_arms.DeployArms();
-    return 0;
-  }
-
   rapid::manipulation::Placer placer(pr2->right_arm, pr2->right_gripper);
-  success = placer.Place(first_obj, *scene.GetPrimarySurface());
-  if (!success) {
-    ROS_ERROR("Place failed.");
-  } else {
-    ROS_INFO("Place succeeded.");
-  }
 
-  pr2->right_gripper.Open();
-  pr2->tuck_arms.DeployArms();
+  bool first = true;
+  while (true) {
+    if (!first) {
+      string response;
+      std::cout << "Regrasp (y/n)? ";
+      std::cin >> response;
+      if (response != "y") {
+        break;
+      }
+    }
+    first = false;
+
+    // Read point cloud.
+    pr2->tuck_arms.DeployArms();
+    pcl::PointCloud<pcl::PointXYZRGB> cloud;
+    sensor_msgs::PointCloud2ConstPtr msg =
+        ros::topic::waitForMessage<sensor_msgs::PointCloud2>("/cloud_in");
+    sensor_msgs::PointCloud2 transformed;
+    pcl_ros::transformPointCloud("/base_footprint", *msg, transformed,
+                                 tf_listener);
+    pcl::fromROSMsg(transformed, cloud);
+
+    // Crop point cloud
+    visualization_msgs::Marker ws;
+    rapid::perception::pr2::GetManipulationWorkspace(&ws);
+    pcl::PointCloud<pcl::PointXYZRGB> ws_cloud;
+    rapid::perception::CropWorkspace(cloud, ws, &ws_cloud);
+
+    // Parse scene
+    Scene scene;
+    scene.set_cloud(ws_cloud);
+    scene.Parse();
+    scene.Visualize();
+    const vector<Object>* objects = scene.GetPrimarySurface()->objects();
+    if (objects->size() == 0) {
+      ROS_ERROR("No objects found.");
+      pr2->tuck_arms.DeployArms();
+      continue;
+    } else {
+      ROS_INFO("Found %ld objects", objects->size());
+    }
+
+    // Pick up first object and place it somewhere else.
+    Object first_obj = (*objects)[0];
+    ROS_INFO("Attempting to pick up %s", first_obj.name().c_str());
+    bool success = picker.Pick(first_obj);
+    if (!success) {
+      pr2->right_gripper.Open();
+      pr2->tuck_arms.DeployArms();
+      continue;
+    }
+
+    success = placer.Place(first_obj, *scene.GetPrimarySurface());
+    if (!success) {
+      pr2->right_gripper.Open();
+      pr2->tuck_arms.DeployArms();
+      ROS_ERROR("Place failed.");
+      continue;
+    } else {
+      ROS_INFO("Place succeeded.");
+    }
+  }
   return 0;
 }
