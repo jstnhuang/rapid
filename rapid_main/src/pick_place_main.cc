@@ -26,7 +26,6 @@ using rapid::manipulation::ArmInterface;
 using rapid::manipulation::MoveItArm;
 using rapid::manipulation::GripperInterface;
 using rapid::manipulation::Gripper;
-using rapid::manipulation::PickError;
 using rapid::perception::Object;
 using rapid::perception::Scene;
 using rapid::pr2::Pr2;
@@ -44,9 +43,6 @@ int main(int argc, char** argv) {
 
   shared_ptr<Pr2> pr2 = rapid::pr2::BuildReal();
   pr2->tuck_arms.DeployArms();
-
-  shared_ptr<moveit::planning_interface::MoveGroup> arm_group(
-      new moveit::planning_interface::MoveGroup("right_arm"));
 
   sensor_msgs::PointCloud2ConstPtr msg =
       ros::topic::waitForMessage<sensor_msgs::PointCloud2>("/cloud_in");
@@ -66,11 +62,7 @@ int main(int argc, char** argv) {
   scene.Parse();
   scene.Visualize();
 
-  shared_ptr<ArmInterface> right_arm(new MoveItArm(arm_group));
-  shared_ptr<GripperInterface> right_gripper(
-      new Gripper(Gripper::RIGHT_GRIPPER));
-  rapid::manipulation::Picker picker(right_arm, right_gripper);
-  picker.UpdatePlanningScene(scene);
+  rapid::manipulation::Picker picker(pr2->right_arm, pr2->right_gripper);
   ROS_INFO("Updated planning scene with %ld objects",
            scene.GetPrimarySurface()->objects()->size());
 
@@ -83,21 +75,22 @@ int main(int argc, char** argv) {
   }
   Object first_obj = (*objects)[0];
   ROS_INFO("Attempting to pick up %s", first_obj.name().c_str());
-  PickError error = picker.Pick(first_obj.name(), "table");
-  ROS_INFO("Picker returned %s", error.error().c_str());
-  if (error.error() != PickError::SUCCESS) {
+  bool success = picker.Pick(first_obj);
+  if (!success) {
+    pr2->right_gripper.Open();
     pr2->tuck_arms.DeployArms();
     return 0;
   }
 
-  rapid::manipulation::Placer placer(right_arm, right_gripper);
-  bool success = placer.Place(first_obj, *scene.GetPrimarySurface());
+  rapid::manipulation::Placer placer(pr2->right_arm, pr2->right_gripper);
+  success = placer.Place(first_obj, *scene.GetPrimarySurface());
   if (!success) {
     ROS_ERROR("Place failed.");
   } else {
     ROS_INFO("Place succeeded.");
   }
 
+  pr2->right_gripper.Open();
   pr2->tuck_arms.DeployArms();
   return 0;
 }
