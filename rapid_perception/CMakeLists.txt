@@ -16,6 +16,8 @@ find_package(catkin REQUIRED COMPONENTS
   visualization_msgs
 )
 
+find_package(Boost REQUIRED)
+find_package(Eigen REQUIRED)
 find_package(PCL REQUIRED)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
@@ -23,9 +25,6 @@ add_definitions(${PCL_DEFINITIONS})
 
 set(gmock_INCLUDE_DIR /usr/include/gmock)
 set(gmock_LIB_DIR /usr/lib)
-
-## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -128,10 +127,12 @@ catkin_package(
     rapid_viz
     rosbag
     roscpp
-    rostest
     sensor_msgs
     visualization_msgs
-  DEPENDS PCL
+  DEPENDS
+    Boost
+    Eigen
+    PCL
 )
 
 ###########

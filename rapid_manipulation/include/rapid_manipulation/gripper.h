@@ -13,14 +13,14 @@
 //    return false because the object stalls the gripper before it reaches
 //    the goal position.
 
+#ifndef _RAPID_MANIPULATION_GRIPPER_H_
+#define _RAPID_MANIPULATION_GRIPPER_H_
+
 #include "actionlib/client/simple_action_client.h"
 #include "gmock/gmock.h"
 #include "pr2_controllers_msgs/Pr2GripperCommandAction.h"
 #include "ros/ros.h"
 #include "tf/transform_listener.h"
-
-#ifndef _RAPID_MANIPULATION_GRIPPER_H_
-#define _RAPID_MANIPULATION_GRIPPER_H_
 
 namespace rapid {
 namespace manipulation {

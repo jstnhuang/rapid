@@ -10,17 +10,13 @@ find_package(catkin REQUIRED COMPONENTS
   pcl_conversions
   pcl_ros
   rapid_manipulation
-  rapid_msgs
   rapid_perception
+  rapid_pr2
   roscpp
   visualization_msgs
 )
 
-find_package(Eigen REQUIRED)
-
-## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
-
+find_package(Boost REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -110,8 +106,18 @@ find_package(Eigen REQUIRED)
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES rapid_main
-#  CATKIN_DEPENDS rapid_manipulation rapid_perception roscpp
-#  DEPENDS system_lib
+  CATKIN_DEPENDS
+    moveit_core
+    moveit_ros_planning_interface
+    pcl_conversions
+    pcl_ros
+    rapid_manipulation
+    rapid_perception
+    rapid_pr2
+    roscpp
+    visualization_msgs
+  DEPENDS
+    Boost
 )
 
 ###########

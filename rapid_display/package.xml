@@ -47,6 +47,7 @@
   <run_depend>actionlib</run_depend>
   <run_depend>blinky</run_depend>
   <run_depend>roscpp</run_depend>
+  <run_depend>rostest</run_depend>
   <test_depend>google-mock</test_depend>
   <test_depend>gtest</test_depend>
 

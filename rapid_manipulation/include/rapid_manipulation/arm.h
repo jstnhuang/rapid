@@ -1,16 +1,16 @@
+#ifndef _RAPID_MANIPULATION_ARM_H_
+#define _RAPID_MANIPULATION_ARM_H_
+
 #include "boost/shared_ptr.hpp"
 #include "geometry_msgs/PoseStamped.h"
 #include "gmock/gmock.h"
 #include "moveit/move_group_interface/move_group.h"
 #include "ros/ros.h"
 
-#ifndef _RAPID_MANIPULATION_ARM_H_
-#define _RAPID_MANIPULATION_ARM_H_
+#include "rapid_manipulation/arm_id.h"
 
 namespace rapid {
 namespace manipulation {
-enum ArmId { LEFT = 0, RIGHT = 1 };
-
 // Interface for sending arm navigation goals.
 //
 // Sample usage:

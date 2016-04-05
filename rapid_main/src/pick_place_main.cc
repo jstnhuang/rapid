@@ -15,6 +15,7 @@
 #include "rapid_perception/pr2.h"
 #include "rapid_perception/rgbd.hpp"
 #include "rapid_perception/scene.h"
+#include "rapid_pr2/pr2.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "tf/transform_listener.h"
@@ -28,6 +29,7 @@ using rapid::manipulation::Gripper;
 using rapid::manipulation::PickError;
 using rapid::perception::Object;
 using rapid::perception::Scene;
+using rapid::pr2::Pr2;
 using std::vector;
 
 int main(int argc, char** argv) {
@@ -39,6 +41,10 @@ int main(int argc, char** argv) {
   // Read point cloud.
   pcl::PointCloud<pcl::PointXYZRGB> cloud;
   tf::TransformListener tf_listener;
+
+  shared_ptr<Pr2> pr2 = rapid::pr2::BuildReal();
+  pr2->tuck_arms.DeployArms();
+
   shared_ptr<moveit::planning_interface::MoveGroup> arm_group(
       new moveit::planning_interface::MoveGroup("right_arm"));
 
@@ -72,6 +78,7 @@ int main(int argc, char** argv) {
   const vector<Object>* objects = scene.GetPrimarySurface()->objects();
   if (objects->size() == 0) {
     ROS_ERROR("No objects found.");
+    pr2->tuck_arms.DeployArms();
     return 0;
   }
   Object first_obj = (*objects)[0];
@@ -79,7 +86,7 @@ int main(int argc, char** argv) {
   PickError error = picker.Pick(first_obj.name(), "table");
   ROS_INFO("Picker returned %s", error.error().c_str());
   if (error.error() != PickError::SUCCESS) {
-    spinner.stop();
+    pr2->tuck_arms.DeployArms();
     return 0;
   }
 
@@ -91,6 +98,6 @@ int main(int argc, char** argv) {
     ROS_INFO("Place succeeded.");
   }
 
-  spinner.stop();
+  pr2->tuck_arms.DeployArms();
   return 0;
 }

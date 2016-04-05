@@ -9,6 +9,9 @@ find_package(catkin REQUIRED COMPONENTS
   sound_play
 )
 
+set(gmock_INCLUDE_DIR /usr/include/gmock)
+set(gmock_LIB_DIR /usr/lib)
+
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -101,7 +104,9 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES rapid_sound
-  CATKIN_DEPENDS roscpp
+  CATKIN_DEPENDS
+    roscpp
+    sound_play
 #  DEPENDS system_lib
 )
 

@@ -8,6 +8,7 @@
 #include "pcl/common/pca.h"
 #include "pcl/kdtree/kdtree.h"
 #include "pcl/segmentation/extract_clusters.h"
+#include "Eigen/Dense"
 
 #include <iostream>
 #include <limits>

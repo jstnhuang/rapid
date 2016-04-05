@@ -8,11 +8,11 @@
 
 #include "boost/shared_ptr.hpp"
 #include "geometry_msgs/Pose.h"
-#include "shape_msgs/SolidPrimitive.h"
 #include "moveit_msgs/CollisionObject.h"
 #include "moveit_msgs/Grasp.h"
 #include "moveit_msgs/PlanningScene.h"
 #include "moveit/planning_scene_interface/planning_scene_interface.h"
+#include "shape_msgs/SolidPrimitive.h"
 #include "shape_tools/solid_primitive_dims.h"
 #include "tf/transform_broadcaster.h"
 #include "tf/transform_listener.h"

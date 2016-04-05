@@ -41,11 +41,14 @@
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
   <run_depend>rapid_display</run_depend>
+  <run_depend>rapid_main</run_depend>
   <run_depend>rapid_manipulation</run_depend>
   <run_depend>rapid_msgs</run_depend>
   <run_depend>rapid_perception</run_depend>
   <run_depend>rapid_pr2</run_depend>
   <run_depend>rapid_sound</run_depend>
+  <run_depend>rapid_utils</run_depend>
+  <run_depend>rapid_viz</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

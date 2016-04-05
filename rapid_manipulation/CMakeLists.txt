@@ -8,7 +8,9 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   geometry_msgs
   moveit_core
+  moveit_msgs
   moveit_ros_planning_interface
+  pr2_common_action_msgs
   pr2_controllers_msgs
   rapid_perception
   rapid_utils
@@ -16,17 +18,16 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rostest
   sensor_msgs
+  shape_msgs
+  shape_tools
   tf
   visualization_msgs
 )
 
-find_package(Eigen REQUIRED)
+find_package(Boost REQUIRED)
 
 set(gmock_INCLUDE_DIR /usr/include/gmock)
 set(gmock_LIB_DIR /usr/lib)
-
-## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -117,8 +118,24 @@ set(gmock_LIB_DIR /usr/lib)
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES rapid_manipulation
-#  CATKIN_DEPENDS roscpp
-  DEPENDS Eigen
+  CATKIN_DEPENDS
+    actionlib
+    geometry_msgs
+    moveit_core
+    moveit_ros_planning_interface
+    pr2_common_action_msgs
+    pr2_controllers_msgs
+    rapid_perception
+    rapid_utils
+    rapid_viz
+    roscpp
+    rostest
+    shape_msgs
+    sensor_msgs
+    tf
+    visualization_msgs
+  DEPENDS
+    Boost
 )
 
 ###########
@@ -139,6 +156,7 @@ add_library(rapid_manipulation
   src/gripper.cpp
   src/head.cpp
   src/pick_place.cc
+  src/tuck_arms.cpp
 )
 add_dependencies(rapid_manipulation
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
@@ -192,15 +210,15 @@ target_link_libraries(rapid_manipulation ${catkin_LIBRARIES})
 ## Testing ##
 #############
 
-add_rostest_gtest(rapid_manipulation_gripper_test
-  test/gripper_test.launch
-  test/gripper_test.cpp
-)
-target_link_libraries(rapid_manipulation_gripper_test
-  gmock
-  rapid_manipulation
-  ${catkin_LIBRARIES}
-)
+#add_rostest_gtest(rapid_manipulation_gripper_test
+#  test/gripper_test.launch
+#  test/gripper_test.cpp
+#)
+#target_link_libraries(rapid_manipulation_gripper_test
+#  gmock
+#  rapid_manipulation
+#  ${catkin_LIBRARIES}
+#)
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
