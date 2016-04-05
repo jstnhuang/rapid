@@ -43,7 +43,8 @@ class MoveItArm : public ArmInterface {
 class MockArm : public ArmInterface {
  public:
   MockArm() {}
-  MOCK_METHOD1(MoveToPoseGoal, bool(const geometry_msgs::PoseStamped& pose));
+  MOCK_CONST_METHOD1(MoveToPoseGoal,
+                     bool(const geometry_msgs::PoseStamped& pose));
 };
 }  // namespace manipulation
 }  // namespace rapid
