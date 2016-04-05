@@ -25,7 +25,7 @@ class ArmInterface {
   // refresh_point_cloud tells trajopt to capture a new point cloud before
   // planning. Otherwise, it uses a previously captured point cloud. This arg
   // has not effect on MoveIt.
-  virtual bool MoveToPoseGoal(const geometry_msgs::PoseStamped& pose) = 0;
+  virtual bool MoveToPoseGoal(const geometry_msgs::PoseStamped& pose) const = 0;
 };
 
 // Implements arm navigation using MoveIt.
@@ -37,7 +37,7 @@ class MoveItArm : public ArmInterface {
   MoveItArm(boost::shared_ptr<moveit::planning_interface::MoveGroup> group);
   MoveItArm(ArmId id);
   ~MoveItArm(){};
-  bool MoveToPoseGoal(const geometry_msgs::PoseStamped& pose);
+  bool MoveToPoseGoal(const geometry_msgs::PoseStamped& pose) const;
 };
 
 class MockArm : public ArmInterface {

@@ -91,7 +91,7 @@ Tabletop::Tabletop(Scene* scene, const PointIndices::Ptr& indices)
 
 void Tabletop::AddObject(const Object& obj) { objects_.push_back(obj); }
 
-PointCloud<PointXYZRGB>::Ptr Tabletop::GetCloud() {
+PointCloud<PointXYZRGB>::Ptr Tabletop::GetCloud() const {
   return IndicesToCloud(scene_->GetCloud(), indices_);
 }
 
@@ -235,11 +235,13 @@ void Scene::Parse() {
   }
 }
 
-boost::shared_ptr<Tabletop> Scene::GetPrimarySurface() {
+boost::shared_ptr<Tabletop> Scene::GetPrimarySurface() const {
   return primary_surface_;
 }
 
-PointCloud<PointXYZRGB>::Ptr Scene::GetCloud() { return cloud_.makeShared(); }
+PointCloud<PointXYZRGB>::Ptr Scene::GetCloud() const {
+  return cloud_.makeShared();
+}
 
 void Scene::Visualize() { primary_surface_->Visualize(); }
 }  // namespace rapid

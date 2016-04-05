@@ -11,7 +11,7 @@ using moveit::planning_interface::MoveGroup;
 namespace rapid {
 namespace manipulation {
 MoveItArm::MoveItArm(boost::shared_ptr<MoveGroup> group) : group_(group) {}
-MoveItArm::MoveItArm(ArmId id) {  // : group_() {
+MoveItArm::MoveItArm(ArmId id) {
   if (id == LEFT) {
     group_.reset(new MoveGroup("left_arm"));
   } else {
@@ -19,7 +19,7 @@ MoveItArm::MoveItArm(ArmId id) {  // : group_() {
   }
 }
 
-bool MoveItArm::MoveToPoseGoal(const PoseStamped& pose) {
+bool MoveItArm::MoveToPoseGoal(const PoseStamped& pose) const {
   group_->setPoseTarget(pose);
   return group_->move();
 }
