@@ -87,11 +87,11 @@ class Gripper : public GripperInterface {
 
 class MockGripper : public GripperInterface {
  public:
-  MOCK_METHOD2(SetPosition, bool(double position, double effort));
-  MOCK_METHOD0(GetPosition, double());
-  MOCK_METHOD0(IsOpen, bool());
-  MOCK_METHOD1(Open, bool(double effort));
-  MOCK_METHOD1(Close, bool(double effort));
+  MOCK_CONST_METHOD2(SetPosition, bool(double position, double effort));
+  MOCK_CONST_METHOD0(GetPosition, double());
+  MOCK_CONST_METHOD0(IsOpen, bool());
+  MOCK_CONST_METHOD1(Open, bool(double effort));
+  MOCK_CONST_METHOD1(Close, bool(double effort));
 };
 }  // namespace manipulation
 }  // namespace rapid
