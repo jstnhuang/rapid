@@ -4,13 +4,13 @@
 #include "moveit/move_group_interface/move_group.h"
 #include "ros/ros.h"
 
+#include "rapid_manipulation/arm_id.h"
+
 #ifndef _RAPID_MANIPULATION_ARM_H_
 #define _RAPID_MANIPULATION_ARM_H_
 
 namespace rapid {
 namespace manipulation {
-enum ArmId { LEFT = 0, RIGHT = 1 };
-
 // Interface for sending arm navigation goals.
 //
 // Sample usage:

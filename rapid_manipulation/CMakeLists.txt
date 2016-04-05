@@ -139,6 +139,7 @@ add_library(rapid_manipulation
   src/gripper.cpp
   src/head.cpp
   src/pick_place.cc
+  src/tuck_arms.cpp
 )
 add_dependencies(rapid_manipulation
   ${${PROJECT_NAME}_EXPORTED_TARGETS}

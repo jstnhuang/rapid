@@ -8,6 +8,7 @@
 #include "rapid_manipulation/arm.h"
 #include "rapid_manipulation/gripper.h"
 #include "rapid_manipulation/head.h"
+#include "rapid_manipulation/tuck_arms.h"
 #include "rapid_sound/sound.h"
 
 namespace rapid {
@@ -20,7 +21,8 @@ class Pr2 {
       rapid::manipulation::GripperInterface& left_gripper,
       rapid::manipulation::GripperInterface& right_gripper,
       rapid::manipulation::HeadInterface& head,
-      rapid::sound::SoundInterface& sound);
+      rapid::sound::SoundInterface& sound,
+      rapid::manipulation::TuckArmsInterface& tuck_arms);
   rapid::manipulation::ArmInterface& left_arm;
   rapid::manipulation::ArmInterface& right_arm;
   rapid::display::DisplayInterface& display;
@@ -28,6 +30,7 @@ class Pr2 {
   rapid::manipulation::GripperInterface& right_gripper;
   rapid::manipulation::HeadInterface& head;
   rapid::sound::SoundInterface& sound;
+  rapid::manipulation::TuckArmsInterface& tuck_arms;
 };
 
 boost::shared_ptr<Pr2> BuildReal();

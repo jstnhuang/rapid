@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rapid_manipulation
   rapid_msgs
   rapid_perception
+  rapid_pr2
   roscpp
   visualization_msgs
 )
@@ -110,7 +111,17 @@ find_package(Eigen REQUIRED)
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES rapid_main
-#  CATKIN_DEPENDS rapid_manipulation rapid_perception roscpp
+  CATKIN_DEPENDS
+    moveit_core
+    moveit_ros_planning_interface
+    pcl_conversions
+    pcl_ros
+    rapid_manipulation
+    rapid_msgs
+    rapid_perception
+    rapid_pr2
+    roscpp
+    visualization_msgs
 #  DEPENDS system_lib
 )
 
