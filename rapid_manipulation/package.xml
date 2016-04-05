@@ -42,7 +42,6 @@
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>actionlib</build_depend>
   <build_depend>geometry_msgs</build_depend>
-  <build_depend>geometry_msgs</build_depend>
   <build_depend>moveit_core</build_depend>
   <build_depend>moveit_msgs</build_depend>
   <build_depend>moveit_ros_planning_interface</build_depend>
@@ -58,7 +57,6 @@
   <build_depend>tf</build_depend>
   <build_depend>visualization_msgs</build_depend>
   <run_depend>actionlib</run_depend>
-  <run_depend>geometry_msgs</run_depend>
   <run_depend>geometry_msgs</run_depend>
   <run_depend>moveit_core</run_depend>
   <run_depend>moveit_msgs</run_depend>
