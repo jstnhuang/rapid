@@ -42,8 +42,10 @@ bool GetManipulationScene(rapid::perception::Scene* scene) {
 
   scene->set_cloud(ws_cloud);
   scene->Parse();
+  scene->Visualize();
   return true;
 }
+
 void GetManipulationWorkspace(Marker* ws) {
   // All measurements are in meters relative to base_footprint.
   // Since this is used for perception, we err on the side of a larger
