@@ -28,6 +28,7 @@ using rapid::manipulation::GripperInterface;
 using rapid::manipulation::Gripper;
 using rapid::perception::Object;
 using rapid::perception::Scene;
+using rapid::perception::ScenePrimitive;
 using rapid::pr2::Pr2;
 using std::string;
 using std::vector;
@@ -86,15 +87,16 @@ int main(int argc, char** argv) {
 
     // Pick up first object and place it somewhere else.
     Object first_obj = (*objects)[0];
+    ScenePrimitive obj(first_obj.pose(), first_obj.scale(), first_obj.name());
     ROS_INFO("Attempting to pick up %s", first_obj.name().c_str());
-    bool success = picker.Pick(first_obj);
+    bool success = picker.Pick(obj);
     if (!success) {
       pr2->right_gripper.Open();
       pr2->tuck_arms.DeployArms();
       continue;
     }
 
-    success = placer.Place(first_obj, *scene.GetPrimarySurface());
+    success = placer.Place(obj, *scene.GetPrimarySurface());
     if (!success) {
       pr2->right_gripper.Open();
       pr2->tuck_arms.DeployArms();

@@ -22,6 +22,7 @@ namespace perception {
 // Forward declarations to avoid circular deps.
 class Object;
 class Scene;
+class ScenePrimitive;
 class Tabletop;
 }  // namespace perception
 
@@ -36,7 +37,7 @@ class Picker {
   // Picks up an object. The object is given by the name of the CollisionObject,
   // which must be published to MoveIt beforehand. Likewise, the support surface
   // of the object is given by name.
-  bool Pick(const rapid::perception::Object& obj);
+  bool Pick(const rapid::perception::ScenePrimitive& obj);
 
  private:
   void UpdatePlanningSceneTopic(const std::string& id,
@@ -53,7 +54,7 @@ class Picker {
 class Placer {
  public:
   Placer(const ArmInterface& arm, const GripperInterface& gripper);
-  bool Place(const rapid::perception::Object& obj,
+  bool Place(const rapid::perception::ScenePrimitive& obj,
              const rapid::perception::Tabletop& table);
 
  private:

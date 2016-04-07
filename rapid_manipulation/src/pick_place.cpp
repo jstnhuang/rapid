@@ -33,6 +33,7 @@ using moveit_msgs::PlanningScene;
 using moveit_msgs::Grasp;
 using rapid::perception::Object;
 using rapid::perception::Scene;
+using rapid::perception::ScenePrimitive;
 using rapid::perception::Tabletop;
 using shape_msgs::SolidPrimitive;
 using std::cout;
@@ -121,10 +122,10 @@ void Picker::UpdatePlanningScene(Scene& scene) {
   }
 }
 
-bool Picker::Pick(const Object& obj) {
+bool Picker::Pick(const rapid::perception::ScenePrimitive& obj) {
   // Do a naive, proof-of-concept pick.
   PoseStamped obj_pose;
-  tf_listener_.transformPose("base_footprint", obj.pose(), obj_pose);
+  tf_listener_.transformPose("base_footprint", obj.pose_stamped(), obj_pose);
 
   // Pre-grasp
   ROS_INFO("Attempting pre-grasp");
@@ -186,7 +187,7 @@ Placer::Placer(const ArmInterface& arm, const GripperInterface& gripper)
       arm_(arm),
       gripper_(gripper) {}
 
-bool Placer::Place(const Object& obj, const Tabletop& table) {
+bool Placer::Place(const ScenePrimitive& obj, const Tabletop& table) {
   // Naive, proof of concept place.
   ROS_INFO("Attempting place");
 

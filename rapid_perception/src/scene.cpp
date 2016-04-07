@@ -17,31 +17,43 @@ using std::vector;
 
 namespace rapid {
 namespace perception {
+ScenePrimitive::ScenePrimitive() : pose_stamped_(), scale_(), name_("") {}
+
+ScenePrimitive::ScenePrimitive(const geometry_msgs::PoseStamped& pose_stamped,
+                               const geometry_msgs::Vector3& scale,
+                               const std::string& name)
+    : pose_stamped_(pose_stamped), scale_(scale), name_(name) {}
+
 Object::Object(Scene* scene, const PointIndices::Ptr& indices)
     : scene_(scene),
       indices_(indices),
-      pose_(),
-      scale_(),
-      name_(""),
-      obj_marker_(rapid::viz::Marker::Box(scene->viz_pub(), pose_, scale_)),
-      text_marker_(
-          rapid::viz::Marker::Text(scene->viz_pub(), pose_, name_, 0.03)) {
+      primitive_(),
+      obj_marker_(rapid::viz::Marker::Box(
+          scene->viz_pub(), primitive_.pose_stamped(), primitive_.scale())),
+      text_marker_(rapid::viz::Marker::Text(scene->viz_pub(),
+                                            primitive_.pose_stamped(),
+                                            primitive_.name(), 0.03)) {
   geometry_msgs::Pose pose;
   PointCloud<PointXYZRGB>::Ptr cloud = GetCloud();
-  GetPlanarBoundingBox(*cloud, &pose, &scale_);
-  pose_.header.frame_id = cloud->header.frame_id;
-  pose_.pose = pose;
+  geometry_msgs::Vector3 scale;
+  GetPlanarBoundingBox(*cloud, &pose, &scale);
+  geometry_msgs::PoseStamped ps;
+  ps.header.frame_id = cloud->header.frame_id;
+  ps.pose = pose;
+  primitive_.set_pose_stamped(ps);
+  primitive_.set_scale(scale);
 }
 
 void Object::Visualize() {
-  obj_marker_ = rapid::viz::Marker::Box(scene_->viz_pub(), pose_, scale_);
-  obj_marker_.SetNamespace(name_);
+  obj_marker_ = rapid::viz::Marker::Box(
+      scene_->viz_pub(), primitive_.pose_stamped(), primitive_.scale());
+  obj_marker_.SetNamespace(primitive_.name());
   obj_marker_.SetColor(0, 0, 1, 0.9);
   obj_marker_.Publish();
 
-  text_marker_ =
-      rapid::viz::Marker::Text(scene_->viz_pub(), pose_, name_, 0.03);
-  text_marker_.SetNamespace(name_);
+  text_marker_ = rapid::viz::Marker::Text(
+      scene_->viz_pub(), primitive_.pose_stamped(), primitive_.name(), 0.03);
+  text_marker_.SetNamespace(primitive_.name());
   text_marker_.SetColor(1, 1, 1, 1);
   text_marker_.Publish();
 }
@@ -77,16 +89,20 @@ void SegmentObjects(Scene* scene, PointIndices::Ptr indices,
 Tabletop::Tabletop(Scene* scene, const PointIndices::Ptr& indices)
     : scene_(scene),
       indices_(indices),
-      pose_(),
-      scale_(),
+      primitive_(),
       objects_(),
-      name_("table"),
-      marker_(rapid::viz::Marker::Box(scene_->viz_pub(), pose_, scale_)) {
+      marker_(rapid::viz::Marker::Box(
+          scene_->viz_pub(), primitive_.pose_stamped(), primitive_.scale())) {
   geometry_msgs::Pose pose;
+  geometry_msgs::Vector3 scale;
   PointCloud<PointXYZRGB>::Ptr cloud = GetCloud();
-  GetPlanarBoundingBox(*cloud, &pose, &scale_);
-  pose_.header.frame_id = cloud->header.frame_id;
-  pose_.pose = pose;
+  GetPlanarBoundingBox(*cloud, &pose, &scale);
+  geometry_msgs::PoseStamped ps;
+  ps.header.frame_id = cloud->header.frame_id;
+  ps.pose = pose;
+  primitive_.set_pose_stamped(ps);
+  primitive_.set_scale(scale);
+  primitive_.set_name("table");
 }
 
 void Tabletop::AddObject(const Object& obj) { objects_.push_back(obj); }
@@ -96,8 +112,9 @@ PointCloud<PointXYZRGB>::Ptr Tabletop::GetCloud() const {
 }
 
 void Tabletop::Visualize() {
-  marker_ = rapid::viz::Marker::Box(scene_->viz_pub(), pose_, scale_);
-  marker_.SetNamespace(name_);
+  marker_ = rapid::viz::Marker::Box(
+      scene_->viz_pub(), primitive_.pose_stamped(), primitive_.scale());
+  marker_.SetNamespace(primitive_.name());
   marker_.SetColor(0, 1, 0, 0.5);
   marker_.Publish();
 
