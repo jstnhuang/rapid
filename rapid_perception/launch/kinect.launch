@@ -1,0 +1,18 @@
+<launch>
+  <arg name="kinect_frame_prefix" default="/head_mount_kinect" />
+  <arg name="kinect_camera_name" default="head_mount_kinect" />
+  <arg name="debug_openni" default="false" /> <!-- Set to true to not run openni in this launch file. -->
+  <arg name="alternate_kinect_frames" default="false" />
+
+  <!-- Turn on the Kinect -->
+  <include file="$(find freenect_launch)/launch/freenect.launch" unless="$(arg debug_openni)">
+    <arg name="depth_registration" value="true"/>
+    <arg name="camera" value="head_mount_kinect"/>
+    <arg name="rgb_frame_id" value="$(arg kinect_frame_prefix)_rgb_optical_frame"/>
+    <arg name="depth_frame_id" value="$(arg kinect_frame_prefix)_depth_optical_frame"/>
+    <arg name="publish_tf" value="false"/> <!-- We publish the tf ourselves with kinect_frames.launch -->
+  </include>
+  <include file="$(find rapid_perception)/launch/kinect_frames.launch">
+    <arg name="camera" value="head_mount_kinect" />
+  </include>
+</launch>
