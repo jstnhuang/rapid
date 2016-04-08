@@ -27,7 +27,13 @@ Pr2::Pr2(rapid::manipulation::ArmInterface& left_arm,
       right_gripper(right_gripper),
       head(head),
       sound(sound),
-      tuck_arms(tuck_arms) {}
+      tuck_arms(tuck_arms),
+      left_picker(left_arm, left_gripper),
+      right_picker(right_arm, right_gripper),
+      left_placer(left_arm, left_gripper),
+      right_placer(right_arm, right_gripper),
+      left_object_(),
+      right_object_() {}
 
 shared_ptr<Pr2> BuildReal() {
   rapid::manipulation::ArmInterface* left_arm =
