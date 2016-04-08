@@ -18,9 +18,8 @@ using visualization_msgs::Marker;
 namespace rapid {
 namespace perception {
 namespace pr2 {
-bool GetManipulationScene(rapid::perception::Scene* scene) {
+bool GetManipulationScene(const tf::TransformListener& tf_listener, rapid::perception::Scene* scene) {
   // Read message into pcl_cloud.
-  tf::TransformListener tf_listener;
   sensor_msgs::PointCloud2ConstPtr msg =
       ros::topic::waitForMessage<sensor_msgs::PointCloud2>(
           "/head_mount_kinect/depth_registered/points");
