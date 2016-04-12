@@ -185,8 +185,8 @@ target_link_libraries(rapid_display ${catkin_LIBRARIES})
 #############
 
 ## Add gtest based cpp test target and link libraries
-#add_rostest_gtest(rapid_blinky_test test/blinky_test.test test/blinky_test.cpp)
-#target_link_libraries(rapid_blinky_test rapid_display gmock)
+add_rostest_gtest(rapid_blinky_test test/blinky_test.test test/blinky_test.cpp)
+target_link_libraries(rapid_blinky_test rapid_display gmock)
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
