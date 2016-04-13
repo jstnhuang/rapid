@@ -1,22 +1,18 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(rapid_display)
+project(rapid_ros)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   actionlib
-  blinky
-  rapid_ros
   roscpp
-  rostest
+  rospy
 )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
-set(gmock_INCLUDE_DIR /usr/include/gmock)
-set(gmock_LIB_DIR /usr/lib)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -105,12 +101,11 @@ set(gmock_LIB_DIR /usr/lib)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES rapid_display
+  LIBRARIES rapid_ros
   CATKIN_DEPENDS
     actionlib
-    blinky
-    rapid_ros
     roscpp
+    rospy
 #  DEPENDS system_lib
 )
 
@@ -126,26 +121,19 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-## Declare a C++ library
-add_library(rapid_display src/display.cpp)
-
-## Add cmake target dependencies of the library
-## as an example, code may need to be generated before libraries
-## either from message generation or dynamic reconfigure
-add_dependencies(rapid_display
+add_library(rapid_ros src/action_client.cpp)
+add_dependencies(rapid_ros
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
 )
+target_link_libraries(rapid_ros ${catkin_LIBRARIES})
 
 ## Declare a C++ executable
-# add_executable(rapid_display_node src/rapid_display_node.cpp)
+# add_executable(rapid_ros_node src/rapid_ros_node.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(rapid_display_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Specify libraries to link a library or executable target against
-target_link_libraries(rapid_display ${catkin_LIBRARIES})
+# add_dependencies(rapid_ros_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 #############
 ## Install ##
@@ -162,7 +150,7 @@ target_link_libraries(rapid_display ${catkin_LIBRARIES})
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS rapid_display rapid_display_node
+# install(TARGETS rapid_ros rapid_ros_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -187,8 +175,10 @@ target_link_libraries(rapid_display ${catkin_LIBRARIES})
 #############
 
 ## Add gtest based cpp test target and link libraries
-add_rostest_gtest(rapid_blinky_test test/blinky_test.test test/blinky_test.cpp)
-target_link_libraries(rapid_blinky_test rapid_display gmock)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_rapid_ros.cpp)
+# if(TARGET ${PROJECT_NAME}-test)
+#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
+# endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
