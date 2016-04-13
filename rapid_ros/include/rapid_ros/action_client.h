@@ -43,6 +43,11 @@ class ActionClient : public ActionClientInterface<ActionSpec> {
 };
 
 // A mock action client.
+//
+// One limitation of this mock is that it will work in single-threaded
+// applications. Real SimpleActionClients don't necessarily work in
+// single-threaded applications. It may be moot if spin_thread=true in the
+// constructor, though, it's not well understood.
 template <class ActionSpec>
 class MockActionClient : public ActionClientInterface<ActionSpec> {
  private:
