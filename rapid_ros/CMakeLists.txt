@@ -5,6 +5,7 @@ project(rapid_ros)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  actionlib
   roscpp
   rospy
 )
@@ -99,9 +100,12 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES rapid_ros
-#  CATKIN_DEPENDS roscpp rospy
+  INCLUDE_DIRS include
+  LIBRARIES rapid_ros
+  CATKIN_DEPENDS
+    actionlib
+    roscpp
+    rospy
 #  DEPENDS system_lib
 )
 
@@ -113,18 +117,16 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
-## Declare a C++ library
-# add_library(rapid_ros
-#   src/${PROJECT_NAME}/rapid_ros.cpp
-# )
-
-## Add cmake target dependencies of the library
-## as an example, code may need to be generated before libraries
-## either from message generation or dynamic reconfigure
-# add_dependencies(rapid_ros ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_library(rapid_ros src/action_client.cpp)
+add_dependencies(rapid_ros
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(rapid_ros ${catkin_LIBRARIES})
 
 ## Declare a C++ executable
 # add_executable(rapid_ros_node src/rapid_ros_node.cpp)
@@ -132,11 +134,6 @@ include_directories(
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(rapid_ros_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Specify libraries to link a library or executable target against
-# target_link_libraries(rapid_ros_node
-#   ${catkin_LIBRARIES}
-# )
 
 #############
 ## Install ##
