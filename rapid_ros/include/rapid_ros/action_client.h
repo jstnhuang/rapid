@@ -7,8 +7,7 @@
 #include "actionlib/client/simple_action_client.h"
 #include "ros/ros.h"
 
-namespace rapid {
-namespace ros {
+namespace rapid_ros {
 // DECLARATIONS ----------------------------------------------------------------
 // Interface wrapper for SimpleActionClient.
 // Supports only a subset of SimpleActionClient functionality, more will be
@@ -19,7 +18,7 @@ class ActionClientInterface {
   ACTION_DEFINITION(ActionSpec)
 
  public:
-  ~ActionClientInterface();
+  virtual ~ActionClientInterface() {}
   virtual ResultConstPtr getResult() = 0;
   virtual void sendGoal(const Goal& goal) = 0;
   virtual bool waitForResult(
@@ -37,12 +36,10 @@ class ActionClient : public ActionClientInterface<ActionSpec> {
 
  public:
   ActionClient(const std::string& name, bool spin_thread = true);
-  ResultConstPtr getResult() = 0;
+  ResultConstPtr getResult();
   void sendGoal(const Goal& goal);
-  bool waitForResult(const ::ros::Duration& timeout = ::ros::Duration(0,
-                                                                      0)) = 0;
-  bool waitForServer(const ::ros::Duration& timeout = ::ros::Duration(0,
-                                                                      0)) = 0;
+  bool waitForResult(const ::ros::Duration& timeout = ::ros::Duration(0, 0));
+  bool waitForServer(const ::ros::Duration& timeout = ::ros::Duration(0, 0));
 };
 
 // A mock action client.
@@ -58,22 +55,20 @@ class MockActionClient : public ActionClientInterface<ActionSpec> {
  public:
   // Mocked methods
   MockActionClient();
-  ResultConstPtr getResult() = 0;
+  ResultConstPtr getResult();
   void sendGoal(const Goal& goal);
-  bool waitForResult(const ::ros::Duration& timeout = ::ros::Duration(0,
-                                                                      0)) = 0;
-  bool waitForServer(const ::ros::Duration& timeout = ::ros::Duration(0,
-                                                                      0)) = 0;
+  bool waitForResult(const ::ros::Duration& timeout = ::ros::Duration(0, 0));
+  bool waitForServer(const ::ros::Duration& timeout = ::ros::Duration(0, 0));
 
   // Mock helpers
   // Get the last goal that was sent.
-  Goal last_goal();
+  Goal last_goal() const { return last_goal_; }
   // Set the result to be returned by waitForResult.
-  void set_result(const Result& result);
+  void set_result(const Result& result) { result_ = result; }
   // Set the amount of time to simulate a delay while waiting for the result.
-  void set_result_delay(const ::ros::Duration& delay);
+  void set_result_delay(const ::ros::Duration& delay) { result_delay_ = delay; }
   // Set the amount of time to simulate a delay while waiting for the server.
-  void set_server_delay(const ::ros::Duration& delay);
+  void set_server_delay(const ::ros::Duration& delay) { server_delay_ = delay; }
 };
 
 // DEFINITIONS -----------------------------------------------------------------
@@ -112,7 +107,7 @@ MockActionClient<ActionSpec>::MockActionClient()
 template <class ActionSpec>
 typename MockActionClient<ActionSpec>::ResultConstPtr
 MockActionClient<ActionSpec>::getResult() {
-  return ResultConstPtr(result_);
+  return ResultConstPtr(new Result(result_));
 }
 
 template <class ActionSpec>
@@ -123,14 +118,31 @@ void MockActionClient<ActionSpec>::sendGoal(const Goal& goal) {
 template <class ActionSpec>
 bool MockActionClient<ActionSpec>::waitForResult(
     const ::ros::Duration& timeout) {
-  return timeout <= result_delay_;
+  if (timeout > result_delay_) {
+    return true;
+  } else {
+    if (timeout.isZero()) {
+      ROS_WARN(
+          "waitForResult given infinite timeout, are you sure that's what you "
+          "want? Failing.");
+    }
+    return false;
+  }
 }
 
 template <class ActionSpec>
 bool MockActionClient<ActionSpec>::waitForServer(
     const ::ros::Duration& timeout) {
-  return timeout <= server_delay_;
+  if (timeout > server_delay_) {
+    return true;
+  } else {
+    if (timeout.isZero()) {
+      ROS_WARN(
+          "waitForServer given infinite timeout, are you sure that's what you "
+          "want? Failing.");
+    }
+    return false;
+  }
 }
-}  //   namespace ros
-}  // namespace rapid
+}  //   namespace rapid_ros
 #endif  // _RAPID_ROS_ACTION_CLIENT_H_
