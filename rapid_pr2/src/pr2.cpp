@@ -1,10 +1,13 @@
 #include "rapid_pr2/pr2.h"
 
+#include "blinky/FaceAction.h"
+
 #include "rapid_display/display.h"
 #include "rapid_manipulation/arm.h"
 #include "rapid_manipulation/gripper.h"
 #include "rapid_manipulation/head.h"
 #include "rapid_manipulation/tuck_arms.h"
+#include "rapid_ros/action_client.h"
 #include "rapid_sound/sound.h"
 
 using boost::shared_ptr;
@@ -40,7 +43,8 @@ shared_ptr<Pr2> BuildReal() {
       new rapid::manipulation::MoveItArm(rapid::manipulation::LEFT);
   rapid::manipulation::ArmInterface* right_arm =
       new rapid::manipulation::MoveItArm(rapid::manipulation::RIGHT);
-  rapid::display::DisplayInterface* display = new rapid::display::Blinky();
+  rapid::display::DisplayInterface* display = new rapid::display::Blinky(
+      new rapid_ros::ActionClient<blinky::FaceAction>("blinky"));
   rapid::manipulation::GripperInterface* left_gripper =
       new Gripper(Gripper::LEFT_GRIPPER);
   rapid::manipulation::GripperInterface* right_gripper =

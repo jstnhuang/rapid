@@ -7,6 +7,7 @@ project(rapid_display)
 find_package(catkin REQUIRED COMPONENTS
   actionlib
   blinky
+  rapid_ros
   roscpp
   rostest
 )
@@ -108,6 +109,7 @@ catkin_package(
   CATKIN_DEPENDS
     actionlib
     blinky
+    rapid_ros
     roscpp
 #  DEPENDS system_lib
 )
