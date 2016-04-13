@@ -21,7 +21,7 @@ It is still in active development.
   Code related to 2D and 3D computer vision.
 - **rapid_pr2**:
   A PR2 class, which provides a simple API for the PR2's functionality.
-- **rapid_ros**:
+- **[rapid_ros](rapid_ros)**:
   Wrappers around common ROS functionality, including mock objects.
 - **rapid_utils**:
   Simple utilities supporting the library.
