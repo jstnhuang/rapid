@@ -221,5 +221,14 @@ target_link_libraries(rapid_manipulation_gripper_test
   ${catkin_LIBRARIES}
 )
 
+add_rostest_gtest(rapid_manipulation_head_test
+  test/head_test.launch
+  test/head_test.cpp
+)
+target_link_libraries(rapid_manipulation_head_test
+  rapid_manipulation
+  ${catkin_LIBRARIES}
+)
+
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
