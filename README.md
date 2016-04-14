@@ -2,6 +2,7 @@
 A ROS robotics library.
 
 [![Build Status](https://travis-ci.org/jstnhuang/rapid.svg?branch=master)](https://travis-ci.org/jstnhuang/rapid)
+[![Coverage Status](https://coveralls.io/repos/github/jstnhuang/rapid/badge.svg?branch=master)](https://coveralls.io/github/jstnhuang/rapid?branch=master)
 
 This is especially designed for ROS Hydro and the PR2 robot.
 It is still in active development.
