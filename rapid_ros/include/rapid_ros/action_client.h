@@ -22,6 +22,7 @@ class ActionClientInterface {
   virtual ~ActionClientInterface() {}
   virtual ResultConstPtr getResult() = 0;
   virtual actionlib::SimpleClientGoalState getState() = 0;
+  virtual bool isServerConnected() = 0;
   virtual void sendGoal(const Goal& goal) = 0;
   virtual bool waitForResult(
       const ros::Duration& timeout = ros::Duration(0, 0)) = 0;
@@ -40,6 +41,7 @@ class ActionClient : public ActionClientInterface<ActionSpec> {
   ActionClient(const std::string& name, bool spin_thread = true);
   ResultConstPtr getResult();
   actionlib::SimpleClientGoalState getState();
+  bool isServerConnected();
   void sendGoal(const Goal& goal);
   bool waitForResult(const ros::Duration& timeout = ros::Duration(0, 0));
   bool waitForServer(const ros::Duration& timeout = ros::Duration(0, 0));
@@ -60,12 +62,14 @@ class MockActionClient : public ActionClientInterface<ActionSpec> {
   ros::Duration result_delay_;
   ros::Duration server_delay_;
   actionlib::SimpleClientGoalState state_;
+  bool is_server_connected_;
 
  public:
   // Mocked methods
   MockActionClient();
   ResultConstPtr getResult();
   actionlib::SimpleClientGoalState getState();
+  bool isServerConnected() { return is_server_connected_; }
   void sendGoal(const Goal& goal);
   bool waitForResult(const ros::Duration& timeout = ros::Duration(0, 0));
   bool waitForServer(const ros::Duration& timeout = ros::Duration(0, 0));
@@ -77,6 +81,9 @@ class MockActionClient : public ActionClientInterface<ActionSpec> {
   void set_result(const Result& result) { result_ = result; }
   // Set the amount of time to simulate a delay while waiting for the result.
   void set_result_delay(const ros::Duration& delay) { result_delay_ = delay; }
+  bool set_server_connected(bool connected) {
+    is_server_connected_ = connected;
+  }
   // Set the amount of time to simulate a delay while waiting for the server.
   void set_server_delay(const ros::Duration& delay) { server_delay_ = delay; }
   void set_state(const actionlib::SimpleClientGoalState& state) {
@@ -103,6 +110,11 @@ actionlib::SimpleClientGoalState ActionClient<ActionSpec>::getState() {
 }
 
 template <class ActionSpec>
+bool ActionClient<ActionSpec>::isServerConnected() {
+  return client_.isServerConnected();
+}
+
+template <class ActionSpec>
 void ActionClient<ActionSpec>::sendGoal(const Goal& goal) {
   client_.sendGoal(goal);
 }
@@ -124,7 +136,8 @@ MockActionClient<ActionSpec>::MockActionClient()
       result_(),
       state_(actionlib::SimpleClientGoalState::PENDING),
       result_delay_(0),
-      server_delay_(0) {}
+      server_delay_(0),
+      is_server_connected_(true) {}
 
 template <class ActionSpec>
 typename MockActionClient<ActionSpec>::ResultConstPtr
@@ -139,11 +152,19 @@ actionlib::SimpleClientGoalState MockActionClient<ActionSpec>::getState() {
 
 template <class ActionSpec>
 void MockActionClient<ActionSpec>::sendGoal(const Goal& goal) {
+  if (!is_server_connected_) {
+    ROS_ERROR("Sent goal even though server isn't connected!");
+    return;
+  }
   last_goal_ = goal;
 }
 
 template <class ActionSpec>
 bool MockActionClient<ActionSpec>::waitForResult(const ros::Duration& timeout) {
+  if (!is_server_connected_) {
+    ROS_ERROR("Waiting for result even though server isn't connected!");
+    return false;
+  }
   if (timeout > result_delay_) {
     return true;
   } else {
@@ -158,6 +179,10 @@ bool MockActionClient<ActionSpec>::waitForResult(const ros::Duration& timeout) {
 
 template <class ActionSpec>
 bool MockActionClient<ActionSpec>::waitForServer(const ros::Duration& timeout) {
+  if (!is_server_connected_) {
+    ROS_ERROR("Waiting for server even though server isn't connected!");
+    return false;
+  }
   if (timeout > server_delay_) {
     return true;
   } else {
