@@ -1,6 +1,7 @@
 #include "rapid_pr2/pr2.h"
 
 #include "blinky/FaceAction.h"
+#include "pr2_controllers_msgs/PointHeadAction.h"
 #include "pr2_controllers_msgs/Pr2GripperCommandAction.h"
 
 #include "rapid_display/display.h"
@@ -13,6 +14,7 @@
 
 using boost::shared_ptr;
 using blinky::FaceAction;
+using pr2_controllers_msgs::PointHeadAction;
 using pr2_controllers_msgs::Pr2GripperCommandAction;
 using rapid::display::DisplayInterface;
 using rapid::display::Blinky;
@@ -60,7 +62,8 @@ shared_ptr<Pr2> BuildReal() {
   GripperInterface* right_gripper = new Gripper(
       Gripper::RIGHT_GRIPPER,
       new ActionClient<Pr2GripperCommandAction>(Gripper::RIGHT_GRIPPER_ACTION));
-  HeadInterface* head = new Head();
+  HeadInterface* head = new Head(new ActionClient<PointHeadAction>(
+      "/head_traj_controller/point_head_action"));
   SoundInterface* sound = new SoundPlay();
   TuckArmsInterface* tuck_arms = new Pr2TuckArms();
   shared_ptr<Pr2> pr2(new Pr2(*left_arm, *right_arm, *display, *left_gripper,
