@@ -9,7 +9,6 @@ find_package(catkin REQUIRED COMPONENTS
   blinky
   rapid_ros
   roscpp
-  rostest
 )
 
 ## System dependencies are found with CMake's conventions
@@ -187,8 +186,12 @@ target_link_libraries(rapid_display ${catkin_LIBRARIES})
 #############
 
 ## Add gtest based cpp test target and link libraries
-add_rostest_gtest(rapid_blinky_test test/blinky_test.test test/blinky_test.cpp)
-target_link_libraries(rapid_blinky_test rapid_display gmock)
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage") # Enable code coverage
+  add_rostest_gtest(rapid_blinky_test test/blinky_test.test test/blinky_test.cpp)
+  target_link_libraries(rapid_blinky_test rapid_display gmock)
+endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

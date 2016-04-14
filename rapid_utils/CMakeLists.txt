@@ -171,8 +171,10 @@ target_link_libraries(rapid_utils
 #############
 
 ## Add gtest based cpp test target and link libraries
-catkin_add_gtest(rapid_utils_math_test test/math_test.cpp)
-if(TARGET rapid_utils_math_test)
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage") # Enable code coverage
+  catkin_add_gtest(rapid_utils_math_test test/math_test.cpp)
   target_link_libraries(rapid_utils_math_test rapid_utils)
 endif()
 

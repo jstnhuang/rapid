@@ -17,7 +17,6 @@ find_package(catkin REQUIRED COMPONENTS
   rapid_utils
   rapid_viz
   roscpp
-  rostest
   sensor_msgs
   shape_msgs
   shape_tools
@@ -211,24 +210,26 @@ target_link_libraries(rapid_manipulation ${catkin_LIBRARIES})
 #############
 ## Testing ##
 #############
-
-add_rostest_gtest(rapid_manipulation_gripper_test
-  test/gripper_test.launch
-  test/gripper_test.cpp
-)
-target_link_libraries(rapid_manipulation_gripper_test
-  rapid_manipulation
-  ${catkin_LIBRARIES}
-)
-
-add_rostest_gtest(rapid_manipulation_head_test
-  test/head_test.launch
-  test/head_test.cpp
-)
-target_link_libraries(rapid_manipulation_head_test
-  rapid_manipulation
-  ${catkin_LIBRARIES}
-)
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage") # Enable code coverage
+  add_rostest_gtest(rapid_manipulation_gripper_test
+    test/gripper_test.launch
+    test/gripper_test.cpp
+  )
+  target_link_libraries(rapid_manipulation_gripper_test
+    rapid_manipulation
+    ${catkin_LIBRARIES}
+  )
+  add_rostest_gtest(rapid_manipulation_head_test
+    test/head_test.launch
+    test/head_test.cpp
+  )
+  target_link_libraries(rapid_manipulation_head_test
+    rapid_manipulation
+    ${catkin_LIBRARIES}
+  )
+endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

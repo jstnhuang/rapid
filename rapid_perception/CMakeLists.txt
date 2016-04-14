@@ -252,12 +252,17 @@ target_link_libraries(debug_obj_pipeline
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
-catkin_add_gtest(rapid_rgbd_test test/rgbd_test.cpp)
-target_link_libraries(rapid_rgbd_test
-  rapid_perception_rgbd
-  rapid_perception_scene
-  ${PCL_LIBRARIES}
-  ${catkin_LIBRARIES}
-)
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage") # Enable code coverage
+  catkin_add_gtest(rapid_rgbd_test test/rgbd_test.cpp)
+  target_link_libraries(rapid_rgbd_test
+    rapid_perception_rgbd
+    rapid_perception_scene
+    ${PCL_LIBRARIES}
+    ${catkin_LIBRARIES}
+  )
+endif()
+
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
