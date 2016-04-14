@@ -1,7 +1,7 @@
 // A class for opening and closing the grippers.
 //
 // Sample usage:
-//  rapid::pr2::Gripper right_gripper(
+//  rapid::manipulation::Gripper right_gripper(
 //    Gripper::RIGHT_GRIPPER);
 //  right_gripper.Open();
 //  right_gripper.Close();
@@ -22,9 +22,11 @@
 #include "ros/ros.h"
 #include "tf/transform_listener.h"
 
+#include "rapid_ros/action_client.h"
+
 namespace rapid {
 namespace manipulation {
-typedef actionlib::SimpleActionClient<
+typedef rapid_ros::ActionClientInterface<
     pr2_controllers_msgs::Pr2GripperCommandAction> GripperClient;
 
 class GripperInterface {
@@ -37,14 +39,8 @@ class GripperInterface {
   virtual bool Close(double effort = -1.0) const = 0;
 };
 
+// Implementation of the GripperInterface for the PR2.
 class Gripper : public GripperInterface {
- private:
-  GripperClient* gripper_client_;
-  tf::TransformListener transform_listener_;
-  const int gripper_id_;
-
-  static const double OPEN_THRESHOLD;  // Gripper open threshold
-
  public:
   static const double OPEN;    // Canonical "open" position.
   static const double CLOSED;  // Canonical "closed" position.
@@ -57,9 +53,10 @@ class Gripper : public GripperInterface {
   static const std::string LEFT_GRIPPER_ACTION;
   static const std::string RIGHT_GRIPPER_ACTION;
 
-  // Constructor that takes the gripper id.
+  // Constructor that takes the gripper id and the gripper client.
   // gripper_id: Gripper::LEFT_GRIPPER or Gripper::RIGHT_GRIPPER
-  Gripper(const int gripper_id);
+  // client: a rapid_ros::ActionClient
+  Gripper(const int gripper_id, GripperClient* client);
 
   ~Gripper();
 
@@ -83,6 +80,13 @@ class Gripper : public GripperInterface {
   // otherwise.
   // effort - defaults to 50.0 to close gently
   bool Close(double effort = -1.0) const;
+
+ private:
+  const int gripper_id_;
+  GripperClient* gripper_client_;
+  tf::TransformListener transform_listener_;
+
+  static const double OPEN_THRESHOLD;  // Gripper open threshold
 };
 
 class MockGripper : public GripperInterface {
