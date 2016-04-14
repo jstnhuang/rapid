@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   pr2_common_action_msgs
   pr2_controllers_msgs
   rapid_perception
+  rapid_ros
   rapid_utils
   rapid_viz
   roscpp
@@ -126,6 +127,7 @@ catkin_package(
     pr2_common_action_msgs
     pr2_controllers_msgs
     rapid_perception
+    rapid_ros
     rapid_utils
     rapid_viz
     roscpp
@@ -210,15 +212,14 @@ target_link_libraries(rapid_manipulation ${catkin_LIBRARIES})
 ## Testing ##
 #############
 
-#add_rostest_gtest(rapid_manipulation_gripper_test
-#  test/gripper_test.launch
-#  test/gripper_test.cpp
-#)
-#target_link_libraries(rapid_manipulation_gripper_test
-#  gmock
-#  rapid_manipulation
-#  ${catkin_LIBRARIES}
-#)
+add_rostest_gtest(rapid_manipulation_gripper_test
+  test/gripper_test.launch
+  test/gripper_test.cpp
+)
+target_link_libraries(rapid_manipulation_gripper_test
+  rapid_manipulation
+  ${catkin_LIBRARIES}
+)
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

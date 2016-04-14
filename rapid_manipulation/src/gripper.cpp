@@ -17,7 +17,8 @@ const double Gripper::OPEN_THRESHOLD = 0.005;
 const double Gripper::OPEN = 0.09;
 const double Gripper::CLOSED = 0.00;
 
-Gripper::Gripper(const int gripper_id) : gripper_id_(gripper_id) {
+Gripper::Gripper(const int gripper_id, GripperClient* client)
+    : gripper_id_(gripper_id), gripper_client_(client) {
   std::string action_name;
   if (gripper_id == Gripper::LEFT_GRIPPER) {
     action_name = LEFT_GRIPPER_ACTION;
@@ -27,16 +28,19 @@ Gripper::Gripper(const int gripper_id) : gripper_id_(gripper_id) {
     ROS_ERROR("Bad gripper ID: %d", gripper_id);
     action_name = RIGHT_GRIPPER_ACTION;
   }
-  gripper_client_ = new GripperClient(action_name, true);
 }
 
 Gripper::~Gripper() { delete gripper_client_; }
 
 bool Gripper::SetPosition(double position, double effort) const {
-  if (position > Gripper::OPEN || position < Gripper::CLOSED) {
-    ROS_ERROR("Gripper position %0.3f not in allowed range [%0.3f, %0.3f]",
-              position, Gripper::CLOSED, Gripper::OPEN);
-    return false;
+  if (position > Gripper::OPEN) {
+    ROS_WARN("Clamping gripper position %0.3f to max: %0.3f", position,
+             Gripper::OPEN);
+    position = Gripper::OPEN;
+  } else if (position < Gripper::CLOSED) {
+    ROS_WARN("Clamping gripper position %0.3f to min: %0.3f", position,
+             Gripper::CLOSED);
+    position = Gripper::CLOSED;
   }
   if (!gripper_client_->waitForServer(ros::Duration(5))) {
     ROS_ERROR("The gripper action server was not available after 5 seconds!");
@@ -48,7 +52,11 @@ bool Gripper::SetPosition(double position, double effort) const {
   goal.command.max_effort = effort;
 
   gripper_client_->sendGoal(goal);
-  gripper_client_->waitForResult(ros::Duration(10));
+  if (!gripper_client_->waitForResult(ros::Duration(10))) {
+    ROS_ERROR(
+        "The gripper action server did not return a result after 10 seconds!");
+    return false;
+  }
   SimpleClientGoalState state = gripper_client_->getState();
   if (state == SimpleClientGoalState::SUCCEEDED) {
     return true;

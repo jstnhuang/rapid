@@ -1,6 +1,7 @@
 #include "rapid_pr2/pr2.h"
 
 #include "blinky/FaceAction.h"
+#include "pr2_controllers_msgs/Pr2GripperCommandAction.h"
 
 #include "rapid_display/display.h"
 #include "rapid_manipulation/arm.h"
@@ -11,18 +12,28 @@
 #include "rapid_sound/sound.h"
 
 using boost::shared_ptr;
+using blinky::FaceAction;
+using pr2_controllers_msgs::Pr2GripperCommandAction;
+using rapid::display::DisplayInterface;
+using rapid::display::Blinky;
+using rapid::manipulation::HeadInterface;
+using rapid::manipulation::Head;
+using rapid::manipulation::MoveItArm;
+using rapid::sound::SoundInterface;
+using rapid::sound::SoundPlay;
+using rapid::manipulation::ArmInterface;
 using rapid::manipulation::Gripper;
+using rapid::manipulation::GripperInterface;
+using rapid_ros::ActionClient;
+using rapid::manipulation::TuckArmsInterface;
+using rapid::manipulation::Pr2TuckArms;
 
 namespace rapid {
 namespace pr2 {
-Pr2::Pr2(rapid::manipulation::ArmInterface& left_arm,
-         rapid::manipulation::ArmInterface& right_arm,
-         rapid::display::DisplayInterface& display,
-         rapid::manipulation::GripperInterface& left_gripper,
-         rapid::manipulation::GripperInterface& right_gripper,
-         rapid::manipulation::HeadInterface& head,
-         rapid::sound::SoundInterface& sound,
-         rapid::manipulation::TuckArmsInterface& tuck_arms)
+Pr2::Pr2(ArmInterface& left_arm, ArmInterface& right_arm,
+         DisplayInterface& display, GripperInterface& left_gripper,
+         GripperInterface& right_gripper, HeadInterface& head,
+         SoundInterface& sound, TuckArmsInterface& tuck_arms)
     : left_arm(left_arm),
       right_arm(right_arm),
       display(display),
@@ -39,20 +50,19 @@ Pr2::Pr2(rapid::manipulation::ArmInterface& left_arm,
       right_object_() {}
 
 shared_ptr<Pr2> BuildReal() {
-  rapid::manipulation::ArmInterface* left_arm =
-      new rapid::manipulation::MoveItArm(rapid::manipulation::LEFT);
-  rapid::manipulation::ArmInterface* right_arm =
-      new rapid::manipulation::MoveItArm(rapid::manipulation::RIGHT);
-  rapid::display::DisplayInterface* display = new rapid::display::Blinky(
-      new rapid_ros::ActionClient<blinky::FaceAction>("blinky"));
-  rapid::manipulation::GripperInterface* left_gripper =
-      new Gripper(Gripper::LEFT_GRIPPER);
-  rapid::manipulation::GripperInterface* right_gripper =
-      new Gripper(Gripper::RIGHT_GRIPPER);
-  rapid::manipulation::HeadInterface* head = new rapid::manipulation::Head();
-  rapid::sound::SoundInterface* sound = new rapid::sound::SoundPlay();
-  rapid::manipulation::TuckArmsInterface* tuck_arms =
-      new rapid::manipulation::Pr2TuckArms();
+  ArmInterface* left_arm = new MoveItArm(rapid::manipulation::LEFT);
+  ArmInterface* right_arm = new MoveItArm(rapid::manipulation::RIGHT);
+  DisplayInterface* display =
+      new Blinky(new ActionClient<FaceAction>("blinky"));
+  GripperInterface* left_gripper = new Gripper(
+      Gripper::LEFT_GRIPPER,
+      new ActionClient<Pr2GripperCommandAction>(Gripper::LEFT_GRIPPER_ACTION));
+  GripperInterface* right_gripper = new Gripper(
+      Gripper::RIGHT_GRIPPER,
+      new ActionClient<Pr2GripperCommandAction>(Gripper::RIGHT_GRIPPER_ACTION));
+  HeadInterface* head = new Head();
+  SoundInterface* sound = new SoundPlay();
+  TuckArmsInterface* tuck_arms = new Pr2TuckArms();
   shared_ptr<Pr2> pr2(new Pr2(*left_arm, *right_arm, *display, *left_gripper,
                               *right_gripper, *head, *sound, *tuck_arms));
   return pr2;
