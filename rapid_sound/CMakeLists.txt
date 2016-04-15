@@ -141,7 +141,10 @@ add_dependencies(rapid_sound
 # add_dependencies(rapid_sound_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(rapid_sound ${catkin_LIBRARIES})
+target_link_libraries(rapid_sound
+  gmock
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##

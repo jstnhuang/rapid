@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 
-#include "boost/shared_ptr.hpp"
 #include "moveit/move_group_interface/move_group.h"
 #include "moveit/planning_scene_interface/planning_scene_interface.h"
 #include "pcl/point_cloud.h"
@@ -21,7 +20,6 @@
 #include "tf/transform_listener.h"
 #include "visualization_msgs/Marker.h"
 
-using boost::shared_ptr;
 using rapid::manipulation::ArmInterface;
 using rapid::manipulation::MoveItArm;
 using rapid::manipulation::GripperInterface;
@@ -39,9 +37,7 @@ int main(int argc, char** argv) {
   ros::AsyncSpinner spinner(2);
   spinner.start();
   tf::TransformListener tf_listener;
-  shared_ptr<Pr2> pr2 = rapid::pr2::BuildReal();
-  rapid::manipulation::Picker picker(pr2->right_arm, pr2->right_gripper);
-  rapid::manipulation::Placer placer(pr2->right_arm, pr2->right_gripper);
+  Pr2* pr2 = rapid::pr2::BuildReal();
 
   bool first = true;
   while (true) {
@@ -56,7 +52,7 @@ int main(int argc, char** argv) {
     first = false;
 
     // Read point cloud.
-    pr2->tuck_arms.DeployArms();
+    pr2->tuck_arms()->DeployArms();
     pcl::PointCloud<pcl::PointXYZRGB> cloud;
     sensor_msgs::PointCloud2ConstPtr msg =
         ros::topic::waitForMessage<sensor_msgs::PointCloud2>("/cloud_in");
@@ -79,7 +75,7 @@ int main(int argc, char** argv) {
     const vector<Object>* objects = scene.GetPrimarySurface()->objects();
     if (objects->size() == 0) {
       ROS_ERROR("No objects found.");
-      pr2->tuck_arms.DeployArms();
+      pr2->tuck_arms()->DeployArms();
       continue;
     } else {
       ROS_INFO("Found %ld objects", objects->size());
@@ -89,17 +85,17 @@ int main(int argc, char** argv) {
     Object first_obj = (*objects)[0];
     ScenePrimitive obj(first_obj.pose(), first_obj.scale(), first_obj.name());
     ROS_INFO("Attempting to pick up %s", first_obj.name().c_str());
-    bool success = picker.Pick(obj);
+    bool success = pr2->right_picker()->Pick(obj);
     if (!success) {
-      pr2->right_gripper.Open();
-      pr2->tuck_arms.DeployArms();
+      pr2->right_gripper()->Open();
+      pr2->tuck_arms()->DeployArms();
       continue;
     }
 
-    success = placer.Place(obj, *scene.GetPrimarySurface());
+    success = pr2->right_placer()->Place(obj, *scene.GetPrimarySurface());
     if (!success) {
-      pr2->right_gripper.Open();
-      pr2->tuck_arms.DeployArms();
+      pr2->right_gripper()->Open();
+      pr2->tuck_arms()->DeployArms();
       ROS_ERROR("Place failed.");
       continue;
     } else {

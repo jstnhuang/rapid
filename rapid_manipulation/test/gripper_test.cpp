@@ -5,6 +5,7 @@
 #include "pr2_controllers_msgs/Pr2GripperCommandAction.h"
 #include "ros/ros.h"
 
+#include "rapid_perception/scene.h"
 #include "rapid_ros/action_client.h"
 
 using actionlib::SimpleClientGoalState;
@@ -46,6 +47,23 @@ TEST_F(GripperTest, Close) {
   EXPECT_EQ(10, goal.command.max_effort);
 }
 
+TEST_F(GripperTest, ShouldDropObjectOnOpen) {
+  EXPECT_EQ(false, gripper_.is_holding_object());
+
+  rapid::perception::ScenePrimitive obj;
+  obj.set_name("test");
+  gripper_.set_held_object(obj);
+  EXPECT_EQ(true, gripper_.is_holding_object());
+
+  rapid::perception::ScenePrimitive actual_obj;
+  EXPECT_EQ(true, gripper_.HeldObject(&actual_obj));
+  EXPECT_EQ("test", actual_obj.name());
+
+  client_->set_state(SimpleClientGoalState::SUCCEEDED);
+  gripper_.Open();
+  EXPECT_EQ(false, gripper_.is_holding_object());
+}
+
 TEST_F(GripperTest, ShouldClampIfPositionTooSmall) {
   client_->set_state(SimpleClientGoalState::SUCCEEDED);
   bool success = gripper_.SetPosition(-1);
@@ -78,8 +96,17 @@ TEST_F(GripperTest, ShouldFailIfResultTooSlow) {
   EXPECT_EQ(false, success);
 }
 
-TEST_F(GripperTest, ShouldFailIfStateNotSucceeded) {
+// If the gripper stalls while trying to open or close all the way, actionlib
+// will report the state as ABORTED. Because it still grasped / let go of the
+// object, we consider it a success.
+TEST_F(GripperTest, ShouldPassIfStateAborted) {
   client_->set_state(SimpleClientGoalState::ABORTED);
+  bool success = gripper_.Close();
+  EXPECT_EQ(true, success);
+}
+
+TEST_F(GripperTest, ShouldFailIfOtherState) {
+  client_->set_state(SimpleClientGoalState::LOST);
   bool success = gripper_.Close();
   EXPECT_EQ(false, success);
 }

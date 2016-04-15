@@ -16,8 +16,6 @@ find_package(catkin REQUIRED COMPONENTS
   visualization_msgs
 )
 
-find_package(Boost REQUIRED)
-
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
@@ -116,8 +114,7 @@ catkin_package(
     rapid_pr2
     roscpp
     visualization_msgs
-  DEPENDS
-    Boost
+  # DEPENDS
 )
 
 ###########

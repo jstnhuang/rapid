@@ -163,7 +163,10 @@ add_dependencies(rapid_manipulation
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
 )
-target_link_libraries(rapid_manipulation ${catkin_LIBRARIES})
+target_link_libraries(rapid_manipulation
+  gmock
+  ${catkin_LIBRARIES}
+)
 
 ## Declare a C++ executable
 # add_executable(rapid_manipulation_node src/rapid_manipulation_node.cpp)

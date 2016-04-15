@@ -12,18 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rapid_ros
   rapid_sound
   roscpp
-  rostest
 )
-
-find_package(Boost REQUIRED)
-find_package(PCL REQUIRED)
-include_directories(${PCL_INCLUDE_DIRS})
-link_directories(${PCL_LIBRARY_DIRS})
-add_definitions(${PCL_DEFINITIONS})
-
-set(gmock_INCLUDE_DIR /usr/include/gmock)
-set(gmock_LIB_DIR /usr/lib)
-
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -121,7 +110,7 @@ catkin_package(
     rapid_ros
     rapid_sound
     roscpp
-  DEPENDS Boost
+  # DEPENDS
 )
 
 ###########
@@ -146,18 +135,6 @@ add_dependencies(rapid_pr2
 target_link_libraries(rapid_pr2
   ${catkin_LIBRARIES}
 )
-
-add_executable(rapid_pr2_services src/pr2_service_node.cpp)
-add_dependencies(rapid_pr2_services
-  rapid_pr2
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-)
-target_link_libraries(rapid_pr2_services
-  rapid_pr2
-  ${catkin_LIBRARIES}
-)
-
 
 #############
 ## Install ##

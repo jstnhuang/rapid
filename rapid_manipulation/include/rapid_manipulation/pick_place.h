@@ -27,9 +27,11 @@ class Tabletop;
 }  // namespace perception
 
 namespace manipulation {
+// TODO(jstn): make this pick with whichever arm is free
 class Picker {
  public:
-  Picker(const ArmInterface& arm, const GripperInterface& gripper);
+  // Picker does not take ownership of arm or gripper.
+  Picker(ArmInterface* arm, GripperInterface* gripper);
 
   // Updates the MoveIt! planning scene to match the given Scene.
   void UpdatePlanningScene(rapid::perception::Scene& scene);
@@ -47,21 +49,21 @@ class Picker {
   ros::Publisher ps_pub_;
   tf::TransformListener tf_listener_;
   rapid::perception::Scene scene_;
-  const ArmInterface& arm_;
-  const GripperInterface& gripper_;
+  ArmInterface* const arm_;
+  GripperInterface* const gripper_;
 };
 
 class Placer {
  public:
-  Placer(const ArmInterface& arm, const GripperInterface& gripper);
+  Placer(ArmInterface* arm, GripperInterface* gripper);
   bool Place(const rapid::perception::ScenePrimitive& obj,
              const rapid::perception::Tabletop& table);
 
  private:
   ros::NodeHandle nh_;
   ros::Publisher marker_pub_;
-  const ArmInterface& arm_;
-  const GripperInterface& gripper_;
+  ArmInterface* const arm_;
+  GripperInterface* const gripper_;
 };
 
 // Samples a random location on the given tabletop, such that the object won't

@@ -44,7 +44,7 @@ using std::vector;
 
 namespace rapid {
 namespace manipulation {
-Picker::Picker(const ArmInterface& arm, const GripperInterface& gripper)
+Picker::Picker(ArmInterface* arm, GripperInterface* gripper)
     : nh_(),
       co_pub_(nh_.advertise<CollisionObject>("collision_object", 10)),
       ps_pub_(nh_.advertise<PlanningScene>("planning_scene", 10)),
@@ -137,12 +137,12 @@ bool Picker::Pick(const rapid::perception::ScenePrimitive& obj) {
   pre_grasp.pose.orientation.y = 0;
   pre_grasp.pose.orientation.z = 0;
   pre_grasp.pose.orientation.w = 1;
-  bool success = arm_.MoveToPoseGoal(pre_grasp);
+  bool success = arm_->MoveToPoseGoal(pre_grasp);
   if (!success) {
     ROS_ERROR("Failed to move to pre-grasp position.");
     return false;
   }
-  gripper_.Open();
+  gripper_->Open();
 
   // Grasp
   ROS_INFO("Attempting grasp");
@@ -154,12 +154,12 @@ bool Picker::Pick(const rapid::perception::ScenePrimitive& obj) {
   grasp_pose.pose.orientation.y = 0;
   grasp_pose.pose.orientation.z = 0;
   grasp_pose.pose.orientation.w = 1;
-  success = arm_.MoveToPoseGoal(grasp_pose);
+  success = arm_->MoveToPoseGoal(grasp_pose);
   if (!success) {
     ROS_ERROR("Failed to execute grasp.");
     return false;
   }
-  gripper_.Close();
+  gripper_->Close();
 
   // Post-grasp
   ROS_INFO("Attempting post-grasp");
@@ -171,7 +171,7 @@ bool Picker::Pick(const rapid::perception::ScenePrimitive& obj) {
   post_grasp.pose.orientation.y = 0;
   post_grasp.pose.orientation.z = 0;
   post_grasp.pose.orientation.w = 1;
-  success = arm_.MoveToPoseGoal(post_grasp);
+  success = arm_->MoveToPoseGoal(post_grasp);
   if (!success) {
     ROS_ERROR("Failed to move to post-grasp position.");
     return false;
@@ -180,7 +180,7 @@ bool Picker::Pick(const rapid::perception::ScenePrimitive& obj) {
   return true;
 }
 
-Placer::Placer(const ArmInterface& arm, const GripperInterface& gripper)
+Placer::Placer(ArmInterface* arm, GripperInterface* gripper)
     : nh_(),
       marker_pub_(nh_.advertise<visualization_msgs::Marker>(
           "visualization_marker", 10)),
@@ -228,7 +228,7 @@ bool Placer::Place(const ScenePrimitive& obj, const Tabletop& table) {
     pre_place.pose.orientation.y = 0;
     pre_place.pose.orientation.z = 0;
     pre_place.pose.orientation.w = 1;
-    success = arm_.MoveToPoseGoal(pre_place);
+    success = arm_->MoveToPoseGoal(pre_place);
     if (!success) {
       ROS_WARN("Failed to move to pre-place location.");
       continue;
@@ -242,12 +242,12 @@ bool Placer::Place(const ScenePrimitive& obj, const Tabletop& table) {
     place.pose.orientation.y = 0;
     place.pose.orientation.z = 0;
     place.pose.orientation.w = 1;
-    success = arm_.MoveToPoseGoal(place);
+    success = arm_->MoveToPoseGoal(place);
     if (!success) {
       ROS_WARN("Failed to move to place location.");
       continue;
     }
-    gripper_.Open();
+    gripper_->Open();
 
     // Post-place
     ROS_INFO("Attempting post-place");
@@ -257,7 +257,7 @@ bool Placer::Place(const ScenePrimitive& obj, const Tabletop& table) {
     post_place.pose.orientation.y = 0;
     post_place.pose.orientation.z = 0;
     post_place.pose.orientation.w = 1;
-    success = arm_.MoveToPoseGoal(post_place);
+    success = arm_->MoveToPoseGoal(post_place);
     if (!success) {
       ROS_WARN("Failed to move to post-place location.");
       continue;

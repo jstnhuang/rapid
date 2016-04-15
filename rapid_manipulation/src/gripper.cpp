@@ -5,7 +5,10 @@
 #include "ros/ros.h"
 #include "tf/transform_listener.h"
 
+#include "rapid_perception/scene.h"
+
 using actionlib::SimpleClientGoalState;
+using rapid::perception::ScenePrimitive;
 
 namespace rapid {
 namespace manipulation {
@@ -18,7 +21,10 @@ const double Gripper::OPEN = 0.09;
 const double Gripper::CLOSED = 0.00;
 
 Gripper::Gripper(const int gripper_id, GripperClient* client)
-    : gripper_id_(gripper_id), gripper_client_(client) {
+    : gripper_id_(gripper_id),
+      gripper_client_(client),
+      is_holding_object_(false),
+      held_object_() {
   std::string action_name;
   if (gripper_id == Gripper::LEFT_GRIPPER) {
     action_name = LEFT_GRIPPER_ACTION;
@@ -32,7 +38,7 @@ Gripper::Gripper(const int gripper_id, GripperClient* client)
 
 Gripper::~Gripper() { delete gripper_client_; }
 
-bool Gripper::SetPosition(double position, double effort) const {
+bool Gripper::SetPosition(double position, double effort) {
   if (position > Gripper::OPEN) {
     ROS_WARN("Clamping gripper position %0.3f to max: %0.3f", position,
              Gripper::OPEN);
@@ -58,7 +64,14 @@ bool Gripper::SetPosition(double position, double effort) const {
     return false;
   }
   SimpleClientGoalState state = gripper_client_->getState();
-  if (state == SimpleClientGoalState::SUCCEEDED) {
+  if (state == SimpleClientGoalState::SUCCEEDED ||
+      state == SimpleClientGoalState::ABORTED) {
+    // TODO(jstn): If we can mock out tf, then this logic should be:
+    // if (position > GetPosition())
+    if (position == Gripper::OPEN) {
+      // After the gripper opens, it's unlikely to hold an object.
+      is_holding_object_ = false;
+    }
     return true;
   } else {
     ROS_ERROR("Gripper goal state: %s\n", state.toString().c_str());
@@ -96,14 +109,32 @@ double Gripper::GetPosition() const {
   return gripper_offset - 0.032;
 }
 
+bool Gripper::HeldObject(ScenePrimitive* object) const {
+  if (is_holding_object_) {
+    *object = held_object_;
+  }
+  return is_holding_object_;
+}
+
 bool Gripper::IsOpen() const { return GetPosition() > Gripper::OPEN_THRESHOLD; }
 
-bool Gripper::Open(double effort) const {
+bool Gripper::Open(double effort) {
   return Gripper::SetPosition(Gripper::OPEN, effort);
 }
 
-bool Gripper::Close(double effort) const {
+bool Gripper::Close(double effort) {
   return Gripper::SetPosition(Gripper::CLOSED, effort);
+}
+
+bool Gripper::is_holding_object() const { return is_holding_object_; }
+
+void Gripper::set_is_holding_object(bool holding) {
+  is_holding_object_ = holding;
+}
+
+void Gripper::set_held_object(const ScenePrimitive& object) {
+  is_holding_object_ = true;
+  held_object_ = object;
 }
 }  // namespace manipulation
 }  // namespace rapid
