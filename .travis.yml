@@ -32,8 +32,10 @@ install:
     # Install ROS
     - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list'
     - wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
-    - sudo apt-get update -q
-    - sudo apt-get install -q -y python-catkin-tools python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin ros-$ROS_DISTRO-ros lcov
+    - sudo apt-get update -qq
+    - sudo apt-get install -qq -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin ros-$ROS_DISTRO-ros lcov
+    - sudo pip install -U setuptools
+    - sudo pip install -U catkin_tools
     - gem install coveralls-lcov
     - source /opt/ros/$ROS_DISTRO/setup.bash
     # Setup rosdep
@@ -56,7 +58,6 @@ install:
 # --------------------
 script:
     - catkin run_tests rapid --no-deps
-    - catkin_test_results build/rapid
     - catkin_test_results build/rapid_display
     - catkin_test_results build/rapid_manipulation
     - catkin_test_results build/rapid_perception
