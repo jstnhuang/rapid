@@ -24,6 +24,15 @@ ScenePrimitive::ScenePrimitive(const geometry_msgs::PoseStamped& pose_stamped,
                                const std::string& name)
     : pose_stamped_(pose_stamped), scale_(scale), name_(name) {}
 
+// Do not use, unless you are copying an object.
+Object::Object()
+    : scene_(NULL),
+      indices_(),
+      primitive_(),
+      viz_pub_(),
+      obj_marker_(),
+      text_marker_() {}
+
 Object::Object(Scene* scene, const PointIndices::Ptr& indices)
     : scene_(scene),
       indices_(indices),
@@ -261,5 +270,18 @@ PointCloud<PointXYZRGB>::Ptr Scene::GetCloud() const {
 }
 
 void Scene::Visualize() { primary_surface_->Visualize(); }
+
+bool Scene::GetObject(const std::string& name, Object* object) {
+  // TODO(jstn): Implement an object index instead of a linear search.
+  const vector<Object>& objects = primary_surface_->objects_;
+  for (size_t i = 0; i < objects.size(); ++i) {
+    const Object& obj = objects[i];
+    if (name == obj.name()) {
+      *object = obj;
+      return true;
+    }
+  }
+  return false;
+}
 }  // namespace rapid
 }  // namespace perception

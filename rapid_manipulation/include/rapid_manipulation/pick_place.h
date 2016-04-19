@@ -3,11 +3,13 @@
 
 #include <string>
 
+#include "agile_grasp/FindGrasps.h"
 #include "boost/shared_ptr.hpp"
 #include "geometry_msgs/Point.h"
 #include "geometry_msgs/PointStamped.h"
 #include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/Vector3.h"
+#include "geometry_msgs/Quaternion.h"
 #include "moveit/move_group_interface/move_group.h"
 #include "moveit_msgs/CollisionObject.h"
 #include "rapid_perception/scene.h"
@@ -36,10 +38,17 @@ class Picker {
   // Updates the MoveIt! planning scene to match the given Scene.
   void UpdatePlanningScene(rapid::perception::Scene& scene);
 
-  // Picks up an object. The object is given by the name of the CollisionObject,
-  // which must be published to MoveIt beforehand. Likewise, the support surface
-  // of the object is given by name.
-  bool Pick(const rapid::perception::ScenePrimitive& obj);
+  // Grasps the given object. The gripper will move to a pre-grasp pose, then
+  // execute a grasp. It does not do a post-grasp action.
+  //
+  // If max_effort is negative, the robot will grasp with full strength. If the
+  // robot has a pressure sensor, then set max_effort to the max force, in
+  // Newtons, to exert. 30N is a good starting point to grasp "gently."
+  //
+  // Returns false if the grasp failed, true if successful. A grasp is
+  // considered successful if the gripper moved to the grasp pose and closed. It
+  // does not verify that the object actually firmly in hand.
+  bool Pick(const rapid::perception::Object& obj, double max_effort = -1);
 
  private:
   void UpdatePlanningSceneTopic(const std::string& id,
@@ -47,6 +56,8 @@ class Picker {
   ros::NodeHandle nh_;
   ros::Publisher co_pub_;
   ros::Publisher ps_pub_;
+  ros::Publisher marker_pub_;
+  ros::ServiceClient grasp_client_;
   tf::TransformListener tf_listener_;
   rapid::perception::Scene scene_;
   ArmInterface* const arm_;
@@ -79,6 +90,14 @@ class Placer {
 bool SampleRandomPlacement(const geometry_msgs::Vector3& object_scale,
                            const rapid::perception::Tabletop& table,
                            geometry_msgs::PointStamped* location);
+
+// Given the grasp approach and grasp axis (from agile_grasp), compute the
+// orientation of the gripper. In general, the approach vector is the vector
+// facing the object that represents the +x of the gripper's wrist_roll_link.
+// The axis vector is the +z vector of the gripper's wrist_roll_link.
+void ComputeGraspOrientation(const geometry_msgs::Vector3& approach,
+                             const geometry_msgs::Vector3& axis,
+                             geometry_msgs::Quaternion* orientation);
 }  // namespace manipulation
 }  // namespace rapid
 #endif  // _RAPID_MANIPULATION_PICK_PLACE_H_

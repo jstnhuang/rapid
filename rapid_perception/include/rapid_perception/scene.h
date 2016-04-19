@@ -1,6 +1,7 @@
 #ifndef _RAPID_PERCEPTION_SCENE_H_
 #define _RAPID_PERCEPTION_SCENE_H_
 
+#include <map>
 #include <string>
 #include <vector>
 
@@ -41,6 +42,10 @@ class ScenePrimitive {
 
 class Object {
  public:
+  // Default constructor.
+  //
+  // Do not use this expect as an aid for copying this object.
+  Object();
   Object(Scene* scene, const pcl::PointIndices::Ptr& indices);
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud() const;
   geometry_msgs::PoseStamped pose() const { return primitive_.pose_stamped(); };
@@ -50,6 +55,7 @@ class Object {
     ;
   };
   void set_name(const std::string& name) { primitive_.set_name(name); };
+  ScenePrimitive scene_primitive() const { return primitive_; }
   void Visualize();
 
  private:
@@ -76,6 +82,8 @@ bool FindTabletop(const pcl::PointCloud<pcl::PointXYZRGB>& cloud,
 // Like an rviz marker, the position of a tabletop refers to its center, and its
 // scale gives the dimensions in the x, y, and z directions.
 class Tabletop {
+  friend class Scene;
+
  public:
   Tabletop(Scene* scene, const pcl::PointIndices::Ptr& indices);
   void AddObject(const Object& object);
@@ -110,6 +118,11 @@ class Scene {
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetCloud() const;
   ros::Publisher viz_pub() const { return viz_pub_; }
   void Visualize();
+
+  // Look up an object by name. If the object exists, returns it.
+  //
+  // Returns false if the object is not found, true otherwise.
+  bool GetObject(const std::string& name, Object* object);
 
  private:
   pcl::PointCloud<pcl::PointXYZRGB> cloud_;

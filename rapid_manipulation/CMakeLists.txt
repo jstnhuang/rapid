@@ -6,6 +6,7 @@ project(rapid_manipulation)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   actionlib
+  agile_grasp
   geometry_msgs
   moveit_core
   moveit_msgs
@@ -25,6 +26,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 find_package(Boost REQUIRED)
+find_package(Eigen REQUIRED)
 
 set(gmock_INCLUDE_DIR /usr/include/gmock)
 set(gmock_LIB_DIR /usr/lib)
@@ -120,6 +122,7 @@ catkin_package(
   LIBRARIES rapid_manipulation
   CATKIN_DEPENDS
     actionlib
+    agile_grasp
     geometry_msgs
     moveit_core
     moveit_ros_planning_interface

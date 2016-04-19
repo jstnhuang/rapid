@@ -56,6 +56,19 @@ TEST(MathTest, AabbXYIntersect) {
   pos2.y = 2;
   EXPECT_EQ(true, AabbXYIntersect(pos1, scale1, pos2, scale2));
 }
+
+TEST(MathTest, NormVector3) {
+  Vector3 zero;
+  Vector3 negative1;
+  negative1.x = negative1.y = negative1.z = -1;
+  Vector3 v123;
+  v123.x = 1;
+  v123.y = 2;
+  v123.z = 3;
+  EXPECT_EQ(0, Norm(zero));
+  EXPECT_FLOAT_EQ(1.73205080757, Norm(negative1));
+  EXPECT_FLOAT_EQ(3.74165738677, Norm(v123));
+}
 }  //  namespace utils
 }  // namespace rapid
 

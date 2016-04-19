@@ -1,5 +1,7 @@
 #include "rapid_utils/math.h"
 
+#include <math.h>
+
 #include "geometry_msgs/Point.h"
 #include "geometry_msgs/Vector3.h"
 
@@ -31,6 +33,10 @@ bool IntervalsIntersect(double start1, double end1, double start2,
   } else {  // start1 > end2
     return false;
   }
+}
+
+double Norm(const geometry_msgs::Vector3& v) {
+  return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 }
 }  //  namespace utils
 }  // namespace rapid

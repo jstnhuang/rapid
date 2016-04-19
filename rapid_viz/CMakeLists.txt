@@ -6,6 +6,7 @@ project(rapid_viz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
+  rapid_utils
   roscpp
   visualization_msgs
 )
@@ -104,6 +105,7 @@ catkin_package(
   LIBRARIES rapid_viz
   CATKIN_DEPENDS
     geometry_msgs
+    rapid_utils
     roscpp
     visualization_msgs
 #  DEPENDS system_lib
