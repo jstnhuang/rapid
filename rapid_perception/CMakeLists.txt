@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   pcl_conversions
   pcl_ros
+  rapid_utils
   rapid_viz
   rosbag
   roscpp
@@ -116,6 +117,7 @@ catkin_package(
     rapid_perception_pr2
     rapid_perception_rgbd
     rapid_perception_scene
+    rapid_perception_scene_parsing
   CATKIN_DEPENDS
     geometry_msgs
     pcl_conversions
@@ -154,7 +156,11 @@ target_link_libraries(rapid_perception_pr2
   ${catkin_LIBRARIES}
 )
 
-add_library(rapid_perception_scene src/scene.cpp)
+add_library(rapid_perception_scene
+  src/object.cpp
+  src/hsurface.cpp
+  src/scene.cpp
+)
 add_dependencies(rapid_perception_scene
   rapid_perception_rgbd
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
@@ -162,6 +168,22 @@ add_dependencies(rapid_perception_scene
 )
 target_link_libraries(rapid_perception_scene
   rapid_perception_rgbd
+  ${PCL_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
+
+add_library(rapid_perception_scene_parsing
+  src/scene_parsing.cpp
+)
+add_dependencies(rapid_perception_scene_parsing
+  rapid_perception_rgbd
+  rapid_perception_scene
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(rapid_perception_scene_parsing
+  rapid_perception_rgbd
+  rapid_perception_scene
   ${PCL_LIBRARIES}
   ${catkin_LIBRARIES}
 )
@@ -188,8 +210,10 @@ target_link_libraries(record_kinect
 
 add_executable(debug_obj_pipeline src/debug_obj_pipeline_main.cpp)
 add_dependencies(debug_obj_pipeline
+  rapid_perception_pr2
   rapid_perception_rgbd
   rapid_perception_scene
+  rapid_perception_scene_parsing
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
 )
@@ -197,6 +221,7 @@ target_link_libraries(debug_obj_pipeline
   rapid_perception_pr2
   rapid_perception_rgbd
   rapid_perception_scene
+  rapid_perception_scene_parsing
   ${PCL_LIBRARIES}
   ${catkin_LIBRARIES}
 )

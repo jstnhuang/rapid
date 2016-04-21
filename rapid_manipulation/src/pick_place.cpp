@@ -42,10 +42,9 @@ using geometry_msgs::PoseStamped;
 using geometry_msgs::Vector3;
 using moveit_msgs::CollisionObject;
 using moveit_msgs::PlanningScene;
+using rapid::perception::HSurface;
 using rapid::perception::Object;
 using rapid::perception::Scene;
-using rapid::perception::ScenePrimitive;
-using rapid::perception::Tabletop;
 using shape_msgs::SolidPrimitive;
 using std::cout;
 using std::endl;
@@ -104,23 +103,23 @@ void Picker::UpdatePlanningScene(Scene& scene) {
   co.header.frame_id = "base_footprint";
 
   // Update table.
-  shared_ptr<Tabletop> table = scene.GetPrimarySurface();
+  const HSurface& table = scene.primary_surface();
   co.operation = CollisionObject::ADD;
   co.primitives.resize(1);
   co.primitives[0].type = SolidPrimitive::BOX;
   co.primitives[0].dimensions.resize(
       shape_tools::SolidPrimitiveDimCount<SolidPrimitive::BOX>::value);
-  co.primitives[0].dimensions[SolidPrimitive::BOX_X] = table->scale().x;
-  co.primitives[0].dimensions[SolidPrimitive::BOX_Y] = table->scale().y;
-  co.primitives[0].dimensions[SolidPrimitive::BOX_Z] = table->scale().z;
+  co.primitives[0].dimensions[SolidPrimitive::BOX_X] = table.scale().x;
+  co.primitives[0].dimensions[SolidPrimitive::BOX_Y] = table.scale().y;
+  co.primitives[0].dimensions[SolidPrimitive::BOX_Z] = table.scale().z;
   co.primitive_poses.resize(1);
-  co.primitive_poses[0] = table->pose().pose;
+  co.primitive_poses[0] = table.pose().pose;
   UpdatePlanningSceneTopic("table", co);
 
   // Update objects
-  const vector<Object>* objects = table->objects();
-  for (size_t i = 0; i < objects->size(); ++i) {
-    const Object& object = (*objects)[i];
+  const vector<Object>& objects = table.objects();
+  for (size_t i = 0; i < objects.size(); ++i) {
+    const Object& object = objects[i];
     co.id = object.name();
     cout << "Adding object " << co.id << " to planning scene." << endl;
     co.operation = CollisionObject::ADD;
@@ -225,6 +224,7 @@ bool Picker::Pick(const Object& obj, double max_effort) {
       continue;
     }
     gripper_->Close();
+    gripper_->set_held_object(obj);
     grasped_object = true;
     break;
   }
@@ -245,7 +245,7 @@ Placer::Placer(ArmInterface* arm, GripperInterface* gripper)
       arm_(arm),
       gripper_(gripper) {}
 
-bool Placer::Place(const ScenePrimitive& obj, const Tabletop& table) {
+bool Placer::Place(const Object& obj, const HSurface& table) {
   // Naive, proof of concept place.
   ROS_INFO("Attempting place");
 
@@ -328,9 +328,8 @@ bool Placer::Place(const ScenePrimitive& obj, const Tabletop& table) {
   return false;
 }
 
-bool SampleRandomPlacement(const Vector3& object_scale,
-                           const rapid::perception::Tabletop& table,
-                           geometry_msgs::PointStamped* location) {
+bool SampleRandomPlacement(const Vector3& object_scale, const HSurface& table,
+                           PointStamped* location) {
   int max_tries = 0;
   ros::param::param<int>("sample_placement_max_tries", max_tries, 100);
   geometry_msgs::PoseStamped table_ps = table.pose();
@@ -372,15 +371,15 @@ bool SampleRandomPlacement(const Vector3& object_scale,
 
     // Check that the object doesn't intersect with all other objects.
     bool intersect = false;
-    const vector<Object>* objects = table.objects();
+    const vector<Object>& objects = table.objects();
     Vector3 inflated_object = object_scale;  // Create an inflated object to
                                              // account for gripper width.
     inflated_object.x += 0.05;
     inflated_object.y += 0.05;
-    for (size_t obj_i = 0; obj_i < objects->size(); ++obj_i) {
+    for (size_t obj_i = 0; obj_i < objects.size(); ++obj_i) {
       intersect = rapid::utils::AabbXYIntersect(
           transformed.point, inflated_object,
-          (*objects)[obj_i].pose().pose.position, (*objects)[obj_i].scale());
+          objects[obj_i].pose().pose.position, objects[obj_i].scale());
       if (intersect) {
         break;
       }

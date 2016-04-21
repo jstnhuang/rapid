@@ -13,6 +13,9 @@ bool AabbXYIntersect(const geometry_msgs::Point& pos1,
                      const geometry_msgs::Point& pos2,
                      const geometry_msgs::Vector3& scale2);
 
+static double kDegToRads = 3.14159265358979 / 180;
+inline double DegreesToRadians(double degrees) { return degrees * kDegToRads; }
+
 // Returns true if the interval [start1, end1] intersects with [start2, end2].
 bool IntervalsIntersect(double start1, double end1, double start2, double end2);
 

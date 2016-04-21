@@ -12,20 +12,19 @@
 #include "geometry_msgs/Quaternion.h"
 #include "moveit/move_group_interface/move_group.h"
 #include "moveit_msgs/CollisionObject.h"
-#include "rapid_perception/scene.h"
 #include "ros/ros.h"
 #include "tf/transform_listener.h"
 
 #include "rapid_manipulation/arm.h"
 #include "rapid_manipulation/gripper.h"
+#include "rapid_perception/scene.h"
 
 namespace rapid {
 namespace perception {
 // Forward declarations to avoid circular deps.
+class HSurface;
 class Object;
 class Scene;
-class ScenePrimitive;
-class Tabletop;
 }  // namespace perception
 
 namespace manipulation {
@@ -67,8 +66,8 @@ class Picker {
 class Placer {
  public:
   Placer(ArmInterface* arm, GripperInterface* gripper);
-  bool Place(const rapid::perception::ScenePrimitive& obj,
-             const rapid::perception::Tabletop& table);
+  bool Place(const rapid::perception::Object& obj,
+             const rapid::perception::HSurface& table);
 
  private:
   ros::NodeHandle nh_;
@@ -88,7 +87,7 @@ class Placer {
 //
 // Returns false if no placement could be found.
 bool SampleRandomPlacement(const geometry_msgs::Vector3& object_scale,
-                           const rapid::perception::Tabletop& table,
+                           const rapid::perception::HSurface& table,
                            geometry_msgs::PointStamped* location);
 
 // Given the grasp approach and grasp axis (from agile_grasp), compute the

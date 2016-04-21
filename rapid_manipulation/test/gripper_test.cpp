@@ -5,7 +5,7 @@
 #include "pr2_controllers_msgs/Pr2GripperCommandAction.h"
 #include "ros/ros.h"
 
-#include "rapid_perception/scene.h"
+#include "rapid_perception/object.h"
 #include "rapid_ros/action_client.h"
 
 using actionlib::SimpleClientGoalState;
@@ -50,12 +50,12 @@ TEST_F(GripperTest, Close) {
 TEST_F(GripperTest, ShouldDropObjectOnOpen) {
   EXPECT_EQ(false, gripper_.is_holding_object());
 
-  rapid::perception::ScenePrimitive obj;
+  rapid::perception::Object obj;
   obj.set_name("test");
   gripper_.set_held_object(obj);
   EXPECT_EQ(true, gripper_.is_holding_object());
 
-  rapid::perception::ScenePrimitive actual_obj;
+  rapid::perception::Object actual_obj;
   EXPECT_EQ(true, gripper_.HeldObject(&actual_obj));
   EXPECT_EQ("test", actual_obj.name());
 

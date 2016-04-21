@@ -17,6 +17,9 @@
 
 #include "rapid_perception/pr2.h"
 #include "rapid_perception/rgbd.hpp"
+#include "rapid_perception/scene.h"
+#include "rapid_perception/scene_parsing.h"
+#include "rapid_utils/math.h"
 
 using std::cin;
 using std::cout;
@@ -33,7 +36,7 @@ class Perception {
   Perception()
       : nh_(),
         tf_listener_(),
-        pcl_cloud_(),
+        pcl_cloud_(new PointCloud<PointXYZRGB>),
         cloud_pub_(
             nh_.advertise<sensor_msgs::PointCloud2>("debug_cloud", 1, false)),
         vis_pub_(
@@ -46,7 +49,7 @@ class Perception {
                                   ros::Time(0), ros::Duration(10));
     pcl_ros::transformPointCloud("/base_footprint", cloud, transformed,
                                  tf_listener_);
-    pcl::fromROSMsg(transformed, pcl_cloud_);
+    pcl::fromROSMsg(transformed, *pcl_cloud_);
   }
 
   void Crop() {
@@ -58,27 +61,28 @@ class Perception {
     ws.color.g = 1;
     vis_pub_.publish(ws);
     PointCloud<PointXYZRGB> ws_cloud;
-    rpe::CropWorkspace(pcl_cloud_, ws, &ws_cloud);
-    pcl_cloud_ = ws_cloud;
+    rpe::CropWorkspace(*pcl_cloud_, ws, &ws_cloud);
+    *pcl_cloud_ = ws_cloud;
   }
 
   void FindPlane() {
     pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
-    rpe::FindHorizontalPlane(pcl_cloud_, 0.01, inliers);
-    PointCloud<PointXYZRGB> plane;
-    rpe::IndicesToCloud(pcl_cloud_, inliers, &plane);
-    pcl_cloud_ = plane;
+    rpe::FindHorizontalPlane<PointXYZRGB>(
+        pcl_cloud_, 0.01, rapid::utils::DegreesToRadians(5), inliers);
+    PointCloud<PointXYZRGB>::Ptr plane =
+        rpe::IndicesToCloud<PointXYZRGB>(pcl_cloud_, inliers);
+    *pcl_cloud_ = *plane;
   }
 
-  void FindPlanes() {
-    vector<PointCloud<PointXYZRGB> > planes;
-    rpe::FindHorizontalPlanes(pcl_cloud_, 0.01, &planes);
-    pcl_cloud_.clear();
-    for (size_t i = 0; i < planes.size(); ++i) {
-      const PointCloud<PointXYZRGB>& plane = planes[i];
-      pcl_cloud_ += plane;
-    }
-  }
+  // void FindPlanes() {
+  //  vector<PointCloud<PointXYZRGB> > planes;
+  //  rpe::FindHorizontalPlanes<PointXYZRGB>(pcl_cloud_, 0.01, &planes);
+  //  pcl_cloud_->clear();
+  //  for (size_t i = 0; i < planes.size(); ++i) {
+  //    const PointCloud<PointXYZRGB>& plane = planes[i];
+  //    *pcl_cloud_ += plane;
+  //  }
+  //}
 
   void Colorize(PointCloud<PointXYZRGB>& cloud, int r, int g, int b,
                 double alpha) {
@@ -94,39 +98,40 @@ class Perception {
   }
 
   void ParseScene() {
-    scene_.set_cloud(pcl_cloud_);
-    scene_.Parse();
-    boost::shared_ptr<rpe::Tabletop> tt = scene_.GetPrimarySurface();
-    const vector<rpe::Object>* objects = tt->objects();
-    PointCloud<PointXYZRGB>::Ptr table_cloud = tt->GetCloud();
-    pcl_cloud_ = *table_cloud;
+    rpe::ParseScene(pcl_cloud_, rpe::Pr2Params(), &scene_);
+    const rpe::HSurface& tt = scene_.primary_surface();
+    const vector<rpe::Object>& objects = tt.objects();
+    PointCloud<PointXYZRGB>::Ptr table_cloud = tt.GetCloud();
+    *pcl_cloud_ = *table_cloud;
 
-    cout << "Found " << objects->size() << " objects." << endl;
-    for (size_t j = 0; j < objects->size(); ++j) {
-      const rpe::Object& obj = (*objects)[j];
+    cout << "Found " << objects.size() << " objects." << endl;
+    for (size_t j = 0; j < objects.size(); ++j) {
+      const rpe::Object& obj = objects[j];
       PointCloud<PointXYZRGB>::Ptr obj_cloud = obj.GetCloud();
       // int r = std::rand() % 255;
       // int g = std::rand() % 255;
       // int b = std::rand() % 255;
       // Colorize(*obj_cloud, r, g, b, 0.5);
-      pcl_cloud_ += *obj_cloud;
+      *pcl_cloud_ += *obj_cloud;
     }
-    scene_.Visualize();
+    // scene_.Visualize();
   }
 
   void PublishCloud() {
     sensor_msgs::PointCloud2 cloud;
-    pcl::toROSMsg(pcl_cloud_, cloud);
+    pcl::toROSMsg(*pcl_cloud_, cloud);
     cloud.header.stamp = ros::Time::now();
     cloud_pub_.publish(cloud);
   }
 
-  void Visualize() { scene_.Visualize(); }
+  void Visualize() {
+    // scene_.Visualize();
+  }
 
  private:
   ros::NodeHandle nh_;
   tf::TransformListener tf_listener_;
-  PointCloud<PointXYZRGB> pcl_cloud_;
+  PointCloud<PointXYZRGB>::Ptr pcl_cloud_;
   ros::Publisher cloud_pub_;
   ros::Publisher vis_pub_;
   rpe::Scene scene_;
@@ -141,7 +146,8 @@ class Interpreter {
     cout << "  read: Reads in a new point cloud." << endl;
     cout << "  crop: Crops the cloud to the robot's workspace." << endl;
     cout << "  find_plane: Finds the plane in the current cloud." << endl;
-    cout << "  find_planes: Finds all the planes in the current cloud." << endl;
+    // cout << "  find_planes: Finds all the planes in the current cloud." <<
+    // endl;
     cout << "  parse_scene: Parses the scene." << endl;
     cout << "  exit: Exits the app." << endl;
   }
@@ -155,8 +161,8 @@ class Interpreter {
       *command = "crop";
     } else if (input == "find_plane") {
       *command = "find_plane";
-    } else if (input == "find_planes") {
-      *command = "find_planes";
+      //} else if (input == "find_planes") {
+      //  *command = "find_planes";
     } else if (input == "parse_scene") {
       *command = "parse_scene";
     } else if (input == "viz") {
@@ -194,9 +200,9 @@ class Interpreter {
     } else if (command == "find_plane") {
       perception_.FindPlane();
       perception_.PublishCloud();
-    } else if (command == "find_planes") {
-      perception_.FindPlanes();
-      perception_.PublishCloud();
+      //} else if (command == "find_planes") {
+      //  perception_.FindPlanes();
+      //  perception_.PublishCloud();
     } else if (command == "parse_scene") {
       perception_.ParseScene();
       perception_.PublishCloud();

@@ -22,7 +22,7 @@
 #include "ros/ros.h"
 #include "tf/transform_listener.h"
 
-#include "rapid_perception/scene.h"
+#include "rapid_perception/object.h"
 #include "rapid_ros/action_client.h"
 
 namespace rapid {
@@ -43,7 +43,7 @@ class GripperInterface {
   virtual double GetPosition() const = 0;
 
   // Returns true if the gripper is holding an object, false otherwise.
-  virtual bool HeldObject(rapid::perception::ScenePrimitive* object) const = 0;
+  virtual bool HeldObject(rapid::perception::Object* object) const = 0;
 
   // Returns whether the gripper is open or not.
   virtual bool IsOpen() const = 0;
@@ -59,8 +59,7 @@ class GripperInterface {
   virtual bool Close(double effort = -1.0) = 0;
 
   // Sets the held object.
-  virtual void set_held_object(
-      const rapid::perception::ScenePrimitive& object) = 0;
+  virtual void set_held_object(const rapid::perception::Object& object) = 0;
 
   // Returns true if the gripper is holding an object, false otherwise.
   virtual bool is_holding_object() const = 0;
@@ -91,13 +90,13 @@ class Gripper : public GripperInterface {
 
   bool SetPosition(double position, double effort = -1.0);
   double GetPosition() const;
-  bool HeldObject(rapid::perception::ScenePrimitive* object) const;
+  bool HeldObject(rapid::perception::Object* object) const;
   bool IsOpen() const;
   bool Open(double effort = -1.0);
   bool Close(double effort = -1.0);
 
   bool is_holding_object() const;
-  void set_held_object(const rapid::perception::ScenePrimitive& object);
+  void set_held_object(const rapid::perception::Object& object);
   void set_is_holding_object(bool holding);
 
  private:
@@ -105,7 +104,7 @@ class Gripper : public GripperInterface {
   GripperClient* gripper_client_;
   tf::TransformListener transform_listener_;
   bool is_holding_object_;
-  rapid::perception::ScenePrimitive held_object_;
+  rapid::perception::Object held_object_;
 
   static const double OPEN_THRESHOLD;  // Gripper open threshold
 };
@@ -114,13 +113,13 @@ class MockGripper : public GripperInterface {
  public:
   MOCK_METHOD2(SetPosition, bool(double position, double effort));
   MOCK_CONST_METHOD0(GetPosition, double());
-  MOCK_CONST_METHOD1(HeldObject, bool(rapid::perception::ScenePrimitive*));
+  MOCK_CONST_METHOD1(HeldObject, bool(rapid::perception::Object*));
   MOCK_CONST_METHOD0(IsOpen, bool());
   MOCK_METHOD1(Open, bool(double effort));
   MOCK_METHOD1(Close, bool(double effort));
   MOCK_CONST_METHOD0(is_holding_object, bool());
   MOCK_METHOD1(set_is_holding_object, void(bool));
-  MOCK_METHOD1(set_held_object, void(const rapid::perception::ScenePrimitive&));
+  MOCK_METHOD1(set_held_object, void(const rapid::perception::Object&));
 };
 }  // namespace manipulation
 }  // namespace rapid

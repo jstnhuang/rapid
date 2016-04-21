@@ -14,19 +14,22 @@
 #include "rapid_perception/pr2.h"
 #include "rapid_perception/rgbd.hpp"
 #include "rapid_perception/scene.h"
+#include "rapid_perception/scene_parsing.h"
 #include "rapid_pr2/pr2.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "tf/transform_listener.h"
 #include "visualization_msgs/Marker.h"
 
+using pcl::PointCloud;
+using pcl::PointXYZRGB;
 using rapid::manipulation::ArmInterface;
 using rapid::manipulation::MoveItArm;
 using rapid::manipulation::GripperInterface;
 using rapid::manipulation::Gripper;
 using rapid::perception::Object;
+using rapid::perception::Pr2Params;
 using rapid::perception::Scene;
-using rapid::perception::ScenePrimitive;
 using rapid::pr2::Pr2;
 using std::string;
 using std::vector;
@@ -53,37 +56,35 @@ int main(int argc, char** argv) {
 
     // Read point cloud.
     pr2->tuck_arms()->DeployArms();
-    pcl::PointCloud<pcl::PointXYZRGB> cloud;
+    PointCloud<PointXYZRGB>::Ptr cloud(new PointCloud<PointXYZRGB>);
     sensor_msgs::PointCloud2ConstPtr msg =
         ros::topic::waitForMessage<sensor_msgs::PointCloud2>("/cloud_in");
     sensor_msgs::PointCloud2 transformed;
     pcl_ros::transformPointCloud("/base_footprint", *msg, transformed,
                                  tf_listener);
-    pcl::fromROSMsg(transformed, cloud);
+    pcl::fromROSMsg(transformed, *cloud);
 
     // Crop point cloud
-    visualization_msgs::Marker ws;
-    rapid::perception::pr2::GetManipulationWorkspace(&ws);
-    pcl::PointCloud<pcl::PointXYZRGB> ws_cloud;
-    rapid::perception::CropWorkspace(cloud, ws, &ws_cloud);
+    // visualization_msgs::Marker ws;
+    // rapid::perception::pr2::GetManipulationWorkspace(&ws);
+    // pcl::PointCloud<pcl::PointXYZRGB> ws_cloud;
+    // rapid::perception::CropWorkspace(cloud, ws, &ws_cloud);
 
     // Parse scene
     Scene scene;
-    scene.set_cloud(ws_cloud);
-    scene.Parse();
-    scene.Visualize();
-    const vector<Object>* objects = scene.GetPrimarySurface()->objects();
-    if (objects->size() == 0) {
+    rapid::perception::ParseScene(cloud, Pr2Params(), &scene);
+    // scene.Visualize();
+    const vector<Object>& objects = scene.primary_surface().objects();
+    if (objects.size() == 0) {
       ROS_ERROR("No objects found.");
       pr2->tuck_arms()->DeployArms();
       continue;
     } else {
-      ROS_INFO("Found %ld objects", objects->size());
+      ROS_INFO("Found %ld objects", objects.size());
     }
 
     // Pick up first object and place it somewhere else.
-    Object first_obj = (*objects)[0];
-    ScenePrimitive obj(first_obj.pose(), first_obj.scale(), first_obj.name());
+    Object first_obj = objects[0];
     ROS_INFO("Attempting to pick up %s", first_obj.name().c_str());
     bool success = pr2->right_picker()->Pick(first_obj, 30);
     if (!success) {
@@ -93,7 +94,7 @@ int main(int argc, char** argv) {
     }
     pr2->tuck_arms()->DeployArms();
 
-    success = pr2->right_placer()->Place(obj, *scene.GetPrimarySurface());
+    success = pr2->right_placer()->Place(first_obj, scene.primary_surface());
     if (!success) {
       pr2->right_gripper()->Open();
       pr2->tuck_arms()->DeployArms();

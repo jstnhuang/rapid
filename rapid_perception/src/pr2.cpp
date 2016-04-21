@@ -7,11 +7,12 @@
 #include "pcl/point_types.h"
 #include "pcl_conversions/pcl_conversions.h"
 #include "pcl_ros/transforms.h"
-#include "rapid_perception/rgbd.hpp"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "tf/transform_listener.h"
 #include "visualization_msgs/Marker.h"
+
+#include "rapid_perception/scene_parsing.h"
 
 using visualization_msgs::Marker;
 
@@ -31,19 +32,12 @@ bool GetManipulationScene(const tf::TransformListener& tf_listener,
     ROS_ERROR("Failed to transform point cloud.");
     return false;
   }
-  pcl::PointCloud<pcl::PointXYZRGB> pcl_cloud;
-  pcl::fromROSMsg(transformed, pcl_cloud);
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_cloud(
+      new pcl::PointCloud<pcl::PointXYZRGB>);
+  pcl::fromROSMsg(transformed, *pcl_cloud);
 
-  // Crop the point cloud to the manipulation workspace area.
-  visualization_msgs::Marker ws;
-  rapid::perception::pr2::GetManipulationWorkspace(&ws);
-  pcl::PointCloud<pcl::PointXYZRGB> ws_cloud;
-  rapid::perception::CropWorkspace(pcl_cloud, ws, &ws_cloud);
-
-  scene->set_cloud(ws_cloud);
-  scene->Parse();
-  scene->Visualize();
-  return true;
+  // scene->Visualize();
+  return ParseScene(pcl_cloud, Pr2Params(), scene);
 }
 
 void GetManipulationWorkspace(Marker* ws) {

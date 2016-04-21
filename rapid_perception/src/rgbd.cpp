@@ -25,19 +25,20 @@ using std::vector;
 
 namespace rapid {
 namespace perception {
-void GetPlanarBoundingBox(const pcl::PointCloud<pcl::PointXYZRGB>& cloud,
+void GetPlanarBoundingBox(const PointCloud<PointXYZRGB>::ConstPtr& cloud,
+                          const PointIndices::ConstPtr& indices,
                           geometry_msgs::Pose* midpoint,
                           geometry_msgs::Vector3* dimensions) {
   // Project points onto XY plane.
-  PointCloud<PointXYZRGB>::Ptr projected(new PointCloud<PointXYZRGB>(cloud));
-  for (size_t i = 0; i < projected->points.size(); ++i) {
-    PointXYZRGB& point = projected->at(i);
-    point.z = 0;
+  PointCloud<PointXYZRGB>::Ptr working =
+      IndicesToCloud<PointXYZRGB>(cloud, indices);
+  for (size_t i = 0; i < working->points.size(); ++i) {
+    working->points[i].z = 0;
   }
 
   // Compute PCA.
   pcl::PCA<PointXYZRGB> pca(true);
-  pca.setInputCloud(projected);
+  pca.setInputCloud(working);
 
   // Get eigenvectors.
   Eigen::Matrix3f eigenvectors = pca.getEigenVectors();
@@ -54,7 +55,7 @@ void GetPlanarBoundingBox(const pcl::PointCloud<pcl::PointXYZRGB>& cloud,
 
   // Find min/max x and y, based on the points in eigenspace.
   PointCloud<PointXYZRGB>::Ptr eigen_projected(new PointCloud<PointXYZRGB>);
-  pca.project(cloud, *eigen_projected);
+  pca.project(*cloud, *eigen_projected);
 
   pcl::PointXYZRGB eigen_min;
   pcl::PointXYZRGB eigen_max;

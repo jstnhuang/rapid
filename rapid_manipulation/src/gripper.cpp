@@ -5,10 +5,10 @@
 #include "ros/ros.h"
 #include "tf/transform_listener.h"
 
-#include "rapid_perception/scene.h"
+#include "rapid_perception/object.h"
 
 using actionlib::SimpleClientGoalState;
-using rapid::perception::ScenePrimitive;
+using rapid::perception::Object;
 
 namespace rapid {
 namespace manipulation {
@@ -109,7 +109,7 @@ double Gripper::GetPosition() const {
   return gripper_offset - 0.032;
 }
 
-bool Gripper::HeldObject(ScenePrimitive* object) const {
+bool Gripper::HeldObject(Object* object) const {
   if (is_holding_object_) {
     *object = held_object_;
   }
@@ -132,7 +132,7 @@ void Gripper::set_is_holding_object(bool holding) {
   is_holding_object_ = holding;
 }
 
-void Gripper::set_held_object(const ScenePrimitive& object) {
+void Gripper::set_held_object(const Object& object) {
   is_holding_object_ = true;
   held_object_ = object;
 }

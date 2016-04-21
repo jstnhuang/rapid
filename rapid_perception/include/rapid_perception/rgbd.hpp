@@ -31,25 +31,14 @@ namespace perception {
 // Given PointIndices to a PointCloud, returns the point cloud referred to by
 // the PointIndices.
 template <typename PointType>
-void IndicesToCloud(const pcl::PointCloud<PointType>& cloud,
-                    const pcl::PointIndices::Ptr& indices,
-                    pcl::PointCloud<PointType>* result);
+typename pcl::PointCloud<PointType>::Ptr IndicesToCloud(
+    const typename pcl::PointCloud<PointType>::ConstPtr& cloud,
+    const pcl::PointIndices::ConstPtr& indices);
 
 template <typename PointType>
-void IndicesToCloud(const pcl::PointCloud<PointType>& cloud,
-                    const pcl::PointIndices& indices,
-                    pcl::PointCloud<PointType>* result);
-
-template <typename PointType>
-boost::shared_ptr<pcl::PointCloud<PointType> > IndicesToCloud(
-    const boost::shared_ptr<pcl::PointCloud<PointType> > cloud,
-    const pcl::PointIndices::Ptr& indices);
-
-// Removes the indices from the given cloud. The cloud is modified directly.
-template <typename PointType>
-void IndicesToNegativeCloud(const pcl::PointCloud<PointType>& cloud,
-                            const pcl::PointIndices::Ptr& indices,
-                            pcl::PointCloud<PointType>* result);
+bool FindHorizontalPlane(const typename pcl::PointCloud<PointType>::Ptr& cloud,
+                         double distance_threshold, double eps_angle,
+                         pcl::PointIndices::Ptr inliers);
 
 // Given a point cloud, finds the dominant horizontal plane (as determined by
 // RANSAC). Assumes that the point cloud is transformed such that the z axis
@@ -61,15 +50,10 @@ void IndicesToNegativeCloud(const pcl::PointCloud<PointType>& cloud,
 //
 // Returns true if a plane was found, false otherwise.
 template <typename PointType>
-bool FindHorizontalPlane(const pcl::PointCloud<PointType>& cloud,
-                         double distance_threshold,
+bool FindHorizontalPlane(const typename pcl::PointCloud<PointType>::Ptr& cloud,
+                         const pcl::PointIndices::ConstPtr& indices,
+                         double distance_threshold, double eps_angle,
                          pcl::PointIndices::Ptr inliers);
-
-// Given a point cloud, find the horizontal planes.
-template <typename PointType>
-void FindHorizontalPlanes(const pcl::PointCloud<PointType>& cloud,
-                          double distance_threshold,
-                          std::vector<pcl::PointCloud<PointType> >* planes);
 
 template <typename PointType>
 void CropWorkspace(const pcl::PointCloud<PointType>& cloud,
@@ -86,40 +70,18 @@ void CropWorkspace(const pcl::PointCloud<PointType>& cloud,
 //     component and the z direction points up.
 //   dimensions: A vector containing the length of the cloud in the x, y, and z
 //   directions.
-void GetPlanarBoundingBox(const pcl::PointCloud<pcl::PointXYZRGB>& cloud,
-                          geometry_msgs::Pose* midpoint,
-                          geometry_msgs::Vector3* dimensions);
+void GetPlanarBoundingBox(
+    const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud,
+    const pcl::PointIndices::ConstPtr& indices, geometry_msgs::Pose* midpoint,
+    geometry_msgs::Vector3* dimensions);
 
 // Definitions --------------------------------------------------------------
 template <typename PointType>
-void IndicesToCloud(const pcl::PointCloud<PointType>& cloud,
-                    const pcl::PointIndices::Ptr& indices,
-                    pcl::PointCloud<PointType>* result) {
-  pcl::ExtractIndices<PointType> extract;
-  extract.setInputCloud(cloud.makeShared());
-  extract.setIndices(indices);
-  extract.setNegative(false);
-  extract.filter(*result);
-}
-
-template <typename PointType>
-void IndicesToCloud(const pcl::PointCloud<PointType>& cloud,
-                    const pcl::PointIndices& indices,
-                    pcl::PointCloud<PointType>* result) {
-  pcl::ExtractIndices<PointType> extract;
-  extract.setInputCloud(cloud.makeShared());
-  pcl::PointIndices::Ptr indices_p(new pcl::PointIndices(indices));
-  extract.setIndices(indices_p);
-  extract.setNegative(false);
-  extract.filter(*result);
-}
-
-template <typename PointType>
-boost::shared_ptr<pcl::PointCloud<PointType> > IndicesToCloud(
-    const boost::shared_ptr<pcl::PointCloud<PointType> > cloud,
-    const pcl::PointIndices::Ptr& indices) {
+typename pcl::PointCloud<PointType>::Ptr IndicesToCloud(
+    const typename pcl::PointCloud<PointType>::ConstPtr& cloud,
+    const pcl::PointIndices::ConstPtr& indices) {
   typename pcl::PointCloud<PointType>::Ptr result(
-      new pcl::PointCloud<PointType>);
+      new pcl::PointCloud<PointType>());
   pcl::ExtractIndices<PointType> extract;
   extract.setInputCloud(cloud);
   extract.setIndices(indices);
@@ -129,20 +91,18 @@ boost::shared_ptr<pcl::PointCloud<PointType> > IndicesToCloud(
 }
 
 template <typename PointType>
-void IndicesToNegativeCloud(pcl::PointCloud<PointType>& cloud,
-                            const pcl::PointIndices::Ptr& indices,
-                            pcl::PointCloud<PointType>* result) {
-  pcl::ExtractIndices<PointType> extract;
-  extract.setInputCloud(cloud.makeShared());
-  pcl::PointIndices::Ptr indices_p(indices);
-  extract.setIndices(indices_p);
-  extract.setNegative(true);
-  extract.filter(*result);
+bool FindHorizontalPlane(const typename pcl::PointCloud<PointType>::Ptr& cloud,
+                         double distance_threshold, double eps_angle,
+                         pcl::PointIndices::Ptr inliers) {
+  pcl::PointIndices::Ptr pi(new pcl::PointIndices);
+  FindHorizontalPlane<PointType>(cloud, pi, distance_threshold, eps_angle,
+                                 inliers);
 }
 
 template <typename PointType>
-bool FindHorizontalPlane(const pcl::PointCloud<PointType>& cloud,
-                         double distance_threshold,
+bool FindHorizontalPlane(const typename pcl::PointCloud<PointType>::Ptr& cloud,
+                         const pcl::PointIndices::ConstPtr& indices,
+                         double distance_threshold, double eps_angle,
                          pcl::PointIndices::Ptr inliers) {
   pcl::ModelCoefficients::Ptr coefficients(new pcl::ModelCoefficients);
   pcl::SACSegmentation<PointType> seg;
@@ -151,9 +111,12 @@ bool FindHorizontalPlane(const pcl::PointCloud<PointType>& cloud,
   seg.setMethodType(pcl::SAC_RANSAC);
   seg.setDistanceThreshold(distance_threshold);
   seg.setAxis(Eigen::Vector3f(0, 0, 1));
-  seg.setEpsAngle(pcl::deg2rad(5.0));
+  seg.setEpsAngle(eps_angle);
 
-  seg.setInputCloud(cloud.makeShared());
+  seg.setInputCloud(cloud);
+  if (indices) {
+    seg.setIndices(indices);
+  }
   seg.segment(*inliers, *coefficients);
 
   if (inliers->indices.size() == 0) {
@@ -162,29 +125,29 @@ bool FindHorizontalPlane(const pcl::PointCloud<PointType>& cloud,
   return true;
 }
 
-template <typename PointType>
-void FindHorizontalPlanes(const pcl::PointCloud<PointType>& cloud,
-                          double distance_threshold,
-                          std::vector<pcl::PointCloud<PointType> >* planes) {
-  typename pcl::PointCloud<PointType>::Ptr working(
-      new pcl::PointCloud<PointType>(cloud));
-
-  bool found = true;
-  pcl::PointIndices::Ptr inliers(new pcl::PointIndices());
-  while (found) {
-    found = FindHorizontalPlane(*working, distance_threshold, inliers);
-    if (!found) {
-      break;
-    }
-
-    pcl::PointCloud<PointType> surface;
-    IndicesToCloud(*working, inliers, &surface);
-    planes->push_back(surface);
-    pcl::PointCloud<PointType> filtered;
-    IndicesToNegativeCloud(*working, inliers, &filtered);
-    *working = filtered;
-  }
-}
+// template <typename PointType>
+// void FindHorizontalPlanes(const pcl::PointCloud<PointType>& cloud,
+//                          double distance_threshold,
+//                          std::vector<pcl::PointCloud<PointType> >* planes) {
+//  typename pcl::PointCloud<PointType>::Ptr working(
+//      new pcl::PointCloud<PointType>(cloud));
+//
+//  bool found = true;
+//  pcl::PointIndices::Ptr inliers(new pcl::PointIndices());
+//  while (found) {
+//    found = FindHorizontalPlane(*working, distance_threshold, inliers);
+//    if (!found) {
+//      break;
+//    }
+//
+//    pcl::PointCloud<PointType> surface;
+//    IndicesToCloud(*working, inliers, &surface);
+//    planes->push_back(surface);
+//    pcl::PointCloud<PointType> filtered;
+//    IndicesToNegativeCloud(*working, inliers, &filtered);
+//    *working = filtered;
+//  }
+//}
 
 template <typename PointType>
 void CropWorkspace(const pcl::PointCloud<PointType>& cloud,
