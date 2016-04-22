@@ -1,27 +1,14 @@
 #include "rapid_perception/rgbd.hpp"
 
-#include "boost/shared_ptr.hpp"
+#include "Eigen/Dense"
 #include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/Vector3.h"
-#include "pcl/common/centroid.h"
 #include "pcl/common/common.h"
 #include "pcl/common/pca.h"
-#include "pcl/kdtree/kdtree.h"
-#include "pcl/segmentation/extract_clusters.h"
-#include "Eigen/Dense"
-
-#include <iostream>
-#include <limits>
-#include <set>
-#include <vector>
 
 using pcl::PointCloud;
 using pcl::PointIndices;
 using pcl::PointXYZRGB;
-using pcl::search::KdTree;
-using std::cout;
-using std::endl;
-using std::vector;
 
 namespace rapid {
 namespace perception {
@@ -29,33 +16,41 @@ void GetPlanarBoundingBox(const PointCloud<PointXYZRGB>::ConstPtr& cloud,
                           const PointIndices::ConstPtr& indices,
                           geometry_msgs::Pose* midpoint,
                           geometry_msgs::Vector3* dimensions) {
-  // Project points onto XY plane.
-  PointCloud<PointXYZRGB>::Ptr working =
-      IndicesToCloud<PointXYZRGB>(cloud, indices);
+  // original_cloud stores the cloud subset we are using.
+  PointCloud<PointXYZRGB>::Ptr original_cloud;
+  if (indices) {
+    original_cloud = IndicesToCloud<PointXYZRGB>(cloud, indices);
+  } else {
+    original_cloud.reset(new PointCloud<PointXYZRGB>);
+    *original_cloud = *cloud;
+  }
+
+  // Project points onto XY plane. Need to make a copy because we need the
+  // original z values later.
+  PointCloud<PointXYZRGB>::Ptr working(
+      new PointCloud<PointXYZRGB>(*original_cloud));
   for (size_t i = 0; i < working->points.size(); ++i) {
     working->points[i].z = 0;
   }
 
   // Compute PCA.
-  pcl::PCA<PointXYZRGB> pca(true);
+  pcl::PCA<PointXYZRGB> pca(/* basis_only */ true);
   pca.setInputCloud(working);
 
   // Get eigenvectors.
-  Eigen::Matrix3f eigenvectors = pca.getEigenVectors();
-
-  // Because we projected points on the XY plane, we add in the Z vector as the
-  // 3rd eigenvector.
+  Eigen::Matrix3d eigenvectors = pca.getEigenVectors().cast<double>();
   eigenvectors.col(2) = eigenvectors.col(0).cross(eigenvectors.col(1));
-  Eigen::Quaternionf q1(eigenvectors);
+
+  Eigen::Quaterniond q1(eigenvectors);
   if (eigenvectors(2, 2) < 0) {  // z-axis is pointing down
-    Eigen::Quaternionf roll_180;
-    roll_180 = Eigen::AngleAxisf(M_PI, Eigen::Vector3f::UnitX());
+    Eigen::Quaterniond roll_180;
+    roll_180 = Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitX());
     q1 *= roll_180;
   }
 
   // Find min/max x and y, based on the points in eigenspace.
   PointCloud<PointXYZRGB>::Ptr eigen_projected(new PointCloud<PointXYZRGB>);
-  pca.project(*cloud, *eigen_projected);
+  pca.project(*original_cloud, *eigen_projected);
 
   pcl::PointXYZRGB eigen_min;
   pcl::PointXYZRGB eigen_max;
@@ -89,6 +84,13 @@ void GetPlanarBoundingBox(const PointCloud<PointXYZRGB>::ConstPtr& cloud,
   dimensions->x = x_length;
   dimensions->y = y_length;
   dimensions->z = z_length;
+}
+
+void GetPlanarBoundingBox(const PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud,
+                          geometry_msgs::Pose* midpoint,
+                          geometry_msgs::Vector3* dimensions) {
+  PointIndices::Ptr pi;
+  GetPlanarBoundingBox(cloud, pi, midpoint, dimensions);
 }
 }  // namespace perception
 }  // namespace rapid

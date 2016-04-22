@@ -11,12 +11,9 @@ namespace rapid {
 namespace perception {
 namespace pr2 {
 // Gets the parsed scene from the point cloud of the area in front of the
-// robot. The area the point cloud comes from is given by
-// GetManipulationWorkspace.
-bool GetManipulationScene(const tf::TransformListener& tf_listener, rapid::perception::Scene* scene);
-
-// Returns a box describing the area in front of the robot that it can reach.
-void GetManipulationWorkspace(visualization_msgs::Marker* ws);
+// robot.
+bool GetManipulationScene(const tf::TransformListener& tf_listener,
+                          rapid::perception::Scene* scene);
 }  // namespace pr2
 }  // namespace perception
 }  // namespace rapid

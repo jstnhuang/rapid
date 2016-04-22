@@ -52,19 +52,6 @@ class Perception {
     pcl::fromROSMsg(transformed, *pcl_cloud_);
   }
 
-  void Crop() {
-    visualization_msgs::Marker ws;
-    rpe::pr2::GetManipulationWorkspace(&ws);
-    ws.action = ws.ADD;
-    ws.ns = "crop";
-    ws.color.a = 0.5;
-    ws.color.g = 1;
-    vis_pub_.publish(ws);
-    PointCloud<PointXYZRGB> ws_cloud;
-    rpe::CropWorkspace(*pcl_cloud_, ws, &ws_cloud);
-    *pcl_cloud_ = ws_cloud;
-  }
-
   void FindPlane() {
     pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
     rpe::FindHorizontalPlane<PointXYZRGB>(
@@ -73,16 +60,6 @@ class Perception {
         rpe::IndicesToCloud<PointXYZRGB>(pcl_cloud_, inliers);
     *pcl_cloud_ = *plane;
   }
-
-  // void FindPlanes() {
-  //  vector<PointCloud<PointXYZRGB> > planes;
-  //  rpe::FindHorizontalPlanes<PointXYZRGB>(pcl_cloud_, 0.01, &planes);
-  //  pcl_cloud_->clear();
-  //  for (size_t i = 0; i < planes.size(); ++i) {
-  //    const PointCloud<PointXYZRGB>& plane = planes[i];
-  //    *pcl_cloud_ += plane;
-  //  }
-  //}
 
   void Colorize(PointCloud<PointXYZRGB>& cloud, int r, int g, int b,
                 double alpha) {
@@ -144,10 +121,7 @@ class Interpreter {
   void PrintCommands() {
     cout << "Commands:" << endl;
     cout << "  read: Reads in a new point cloud." << endl;
-    cout << "  crop: Crops the cloud to the robot's workspace." << endl;
     cout << "  find_plane: Finds the plane in the current cloud." << endl;
-    // cout << "  find_planes: Finds all the planes in the current cloud." <<
-    // endl;
     cout << "  parse_scene: Parses the scene." << endl;
     cout << "  exit: Exits the app." << endl;
   }
@@ -157,12 +131,8 @@ class Interpreter {
     string trimmed = boost::trim_copy(input);
     if (input == "read") {
       *command = "read";
-    } else if (input == "crop") {
-      *command = "crop";
     } else if (input == "find_plane") {
       *command = "find_plane";
-      //} else if (input == "find_planes") {
-      //  *command = "find_planes";
     } else if (input == "parse_scene") {
       *command = "parse_scene";
     } else if (input == "viz") {
@@ -194,15 +164,9 @@ class Interpreter {
           ros::topic::waitForMessage<sensor_msgs::PointCloud2>("/cloud_in");
       perception_.set_cloud(*msg);
       perception_.PublishCloud();
-    } else if (command == "crop") {
-      perception_.Crop();
-      perception_.PublishCloud();
     } else if (command == "find_plane") {
       perception_.FindPlane();
       perception_.PublishCloud();
-      //} else if (command == "find_planes") {
-      //  perception_.FindPlanes();
-      //  perception_.PublishCloud();
     } else if (command == "parse_scene") {
       perception_.ParseScene();
       perception_.PublishCloud();

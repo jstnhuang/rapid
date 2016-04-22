@@ -1,29 +1,19 @@
+// Contains general purpose code for working with point clouds.
+// In the future, we may want to split this into more meaningfully named files.
 #ifndef _RAPID_PERCEPTION_RGBD_H_
 #define _RAPID_PERCEPTION_RGBD_H_
 
-#include <iostream>
-#include <limits>
-#include <vector>
-
-#include "boost/shared_ptr.hpp"
-#include "geometry_msgs/Point.h"
-#include "geometry_msgs/PoseStamped.h"
+#include "Eigen/Dense"
+#include "geometry_msgs/Pose.h"
 #include "geometry_msgs/Vector3.h"
 #include "pcl/ModelCoefficients.h"
 #include "pcl/PointIndices.h"
-#include "pcl/common/angles.h"
-#include "pcl/filters/crop_box.h"
 #include "pcl/filters/extract_indices.h"
-#include "pcl/kdtree/kdtree.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "pcl/sample_consensus/method_types.h"
 #include "pcl/sample_consensus/model_types.h"
-#include "pcl/segmentation/extract_clusters.h"
 #include "pcl/segmentation/sac_segmentation.h"
-#include "tf/tf.h"
-#include "visualization_msgs/Marker.h"
-#include "Eigen/Dense"
 
 namespace rapid {
 namespace perception {
@@ -35,6 +25,7 @@ typename pcl::PointCloud<PointType>::Ptr IndicesToCloud(
     const typename pcl::PointCloud<PointType>::ConstPtr& cloud,
     const pcl::PointIndices::ConstPtr& indices);
 
+// Same as FindHorizontalPlane below, except using the entire cloud as given.
 template <typename PointType>
 bool FindHorizontalPlane(const typename pcl::PointCloud<PointType>::Ptr& cloud,
                          double distance_threshold, double eps_angle,
@@ -55,11 +46,6 @@ bool FindHorizontalPlane(const typename pcl::PointCloud<PointType>::Ptr& cloud,
                          double distance_threshold, double eps_angle,
                          pcl::PointIndices::Ptr inliers);
 
-template <typename PointType>
-void CropWorkspace(const pcl::PointCloud<PointType>& cloud,
-                   const visualization_msgs::Marker& ws,
-                   pcl::PointCloud<PointType>* cloud_out);
-
 // Computes the bounding box for the given point cloud on the XY plane.
 //
 // Args:
@@ -74,6 +60,11 @@ void GetPlanarBoundingBox(
     const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud,
     const pcl::PointIndices::ConstPtr& indices, geometry_msgs::Pose* midpoint,
     geometry_msgs::Vector3* dimensions);
+
+// Like GetPlanarBoundingBox, but with the entire cloud as given.
+void GetPlanarBoundingBox(
+    const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud,
+    geometry_msgs::Pose* midpoint, geometry_msgs::Vector3* dimensions);
 
 // Definitions --------------------------------------------------------------
 template <typename PointType>
@@ -94,7 +85,7 @@ template <typename PointType>
 bool FindHorizontalPlane(const typename pcl::PointCloud<PointType>::Ptr& cloud,
                          double distance_threshold, double eps_angle,
                          pcl::PointIndices::Ptr inliers) {
-  pcl::PointIndices::Ptr pi(new pcl::PointIndices);
+  pcl::PointIndices::Ptr pi;
   FindHorizontalPlane<PointType>(cloud, pi, distance_threshold, eps_angle,
                                  inliers);
 }
@@ -124,50 +115,6 @@ bool FindHorizontalPlane(const typename pcl::PointCloud<PointType>::Ptr& cloud,
   }
   return true;
 }
-
-// template <typename PointType>
-// void FindHorizontalPlanes(const pcl::PointCloud<PointType>& cloud,
-//                          double distance_threshold,
-//                          std::vector<pcl::PointCloud<PointType> >* planes) {
-//  typename pcl::PointCloud<PointType>::Ptr working(
-//      new pcl::PointCloud<PointType>(cloud));
-//
-//  bool found = true;
-//  pcl::PointIndices::Ptr inliers(new pcl::PointIndices());
-//  while (found) {
-//    found = FindHorizontalPlane(*working, distance_threshold, inliers);
-//    if (!found) {
-//      break;
-//    }
-//
-//    pcl::PointCloud<PointType> surface;
-//    IndicesToCloud(*working, inliers, &surface);
-//    planes->push_back(surface);
-//    pcl::PointCloud<PointType> filtered;
-//    IndicesToNegativeCloud(*working, inliers, &filtered);
-//    *working = filtered;
-//  }
-//}
-
-template <typename PointType>
-void CropWorkspace(const pcl::PointCloud<PointType>& cloud,
-                   const visualization_msgs::Marker& ws,
-                   pcl::PointCloud<PointType>* cloud_out) {
-  Eigen::Vector4f min;
-  min[0] = ws.pose.position.x - ws.scale.x / 2;
-  min[1] = ws.pose.position.y - ws.scale.y / 2;
-  min[2] = ws.pose.position.z - ws.scale.z / 2;
-  Eigen::Vector4f max;
-  max[0] = ws.pose.position.x + ws.scale.x / 2;
-  max[1] = ws.pose.position.y + ws.scale.y / 2;
-  max[2] = ws.pose.position.z + ws.scale.z / 2;
-  pcl::CropBox<PointType> filter;
-  filter.setInputCloud(cloud.makeShared());
-  filter.setMin(min);
-  filter.setMax(max);
-  filter.filter(*cloud_out);
-}
-
 }  // namespace perception
 }  // namespace rapid
 #endif  // _RAPID_PERCEPTION_RGBD_H_

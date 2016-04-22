@@ -58,25 +58,6 @@ void HSurface::set_name(const string& name) { name_ = name; }
 void HSurface::set_pose(const PoseStamped& ps) { pose_stamped_ = ps; }
 void HSurface::set_scale(const Vector3& scale) { scale_ = scale; }
 
-// HSurface::HSurface(Scene* scene, const PointIndices::Ptr& indices)
-//    : scene_(scene),
-//      indices_(indices),
-//      primitive_(),
-//      objects_(),
-//      marker_(rapid::viz::Marker::Box(
-//          scene_->viz_pub(), primitive_.pose_stamped(), primitive_.scale())) {
-//  geometry_msgs::Pose pose;
-//  geometry_msgs::Vector3 scale;
-//  PointCloud<PointXYZRGB>::Ptr cloud = GetCloud();
-//  GetPlanarBoundingBox(*cloud, &pose, &scale);
-//  geometry_msgs::PoseStamped ps;
-//  ps.header.frame_id = cloud->header.frame_id;
-//  ps.pose = pose;
-//  primitive_.set_pose_stamped(ps);
-//  primitive_.set_scale(scale);
-//  primitive_.set_name("table");
-//}
-
 // void HSurface::Visualize() {
 //  marker_ = rapid::viz::Marker::Box(
 //      scene_->viz_pub(), primitive_.pose_stamped(), primitive_.scale());

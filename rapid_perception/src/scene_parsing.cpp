@@ -3,12 +3,13 @@
 #include <sstream>
 #include <vector>
 
-#include <Eigen/Dense>
+#include "Eigen/Dense"
 #include "pcl/PointIndices.h"
-#include "pcl/kdtree/kdtree.h"
+#include "pcl/filters/crop_box.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
-#include "pcl/filters/crop_box.h"
+#include "pcl/search/kdtree.h"
+#include "pcl/segmentation/extract_clusters.h"
 
 #include "rapid_perception/rgbd.hpp"
 #include "rapid_perception/scene.h"
