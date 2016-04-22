@@ -279,6 +279,11 @@ if(CATKIN_ENABLE_TESTING)
   catkin_add_gtest(rapid_rgbd_test test/rgbd_test.cpp)
   target_link_libraries(rapid_rgbd_test
     rapid_perception_rgbd
+    ${PCL_LIBRARIES}
+    ${catkin_LIBRARIES}
+  )
+  catkin_add_gtest(rapid_scene_test test/scene_test.cpp)
+  target_link_libraries(rapid_scene_test
     rapid_perception_scene
     ${PCL_LIBRARIES}
     ${catkin_LIBRARIES}
