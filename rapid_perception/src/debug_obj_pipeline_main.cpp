@@ -99,7 +99,9 @@ class Perception {
     const rpe::HSurface& tt = scene_.primary_surface();
     const vector<rpe::Object>& objects = tt.objects();
     PointCloud<PointXYZRGB>::Ptr table_cloud = tt.GetCloud();
-    *pcl_cloud_ = *table_cloud;
+    PointCloud<PointXYZRGB>::Ptr display(new PointCloud<PointXYZRGB>);
+    display->header.frame_id = "base_footprint";
+    *display = *table_cloud;
 
     cout << "Found " << objects.size() << " objects." << endl;
     for (size_t j = 0; j < objects.size(); ++j) {
@@ -109,8 +111,9 @@ class Perception {
       int g = std::rand() % 255;
       int b = std::rand() % 255;
       Colorize(*obj_cloud, r, g, b, 0.5);
-      *pcl_cloud_ += *obj_cloud;
+      *display += *obj_cloud;
     }
+    *pcl_cloud_ = *display;
     // scene_.Visualize();
   }
 

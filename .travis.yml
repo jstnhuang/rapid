@@ -57,6 +57,11 @@ install:
 # Command to run tests
 # --------------------
 script:
+    # Download test data
+    - source ~/catkin_ws/devel/setup.bash --extend
+    - cd ~/catkin_ws/src/rapid/rapid_perception/scripts
+    - ./download_test_data.sh
+    - cd ~/catkin_ws
     - catkin run_tests rapid --no-deps
     - catkin_test_results build/rapid_display
     - catkin_test_results build/rapid_manipulation

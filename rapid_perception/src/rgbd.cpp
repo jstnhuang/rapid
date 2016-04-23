@@ -66,10 +66,9 @@ void GetPlanarBoundingBox(const PointCloud<PointXYZRGB>::ConstPtr& cloud,
   PointXYZRGB eigen_center;
   eigen_center.x = eigen_min.x + x_length / 2;
   eigen_center.y = eigen_min.y + y_length / 2;
-  eigen_center.z = 0;
+  eigen_center.z = eigen_min.z + z_length / 2;
   PointXYZRGB center;
   pca.reconstruct(eigen_center, center);
-  center.z = z_length / 2 + eigen_min.z;
 
   // Output midpoint.
   midpoint->position.x = center.x;

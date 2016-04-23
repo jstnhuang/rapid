@@ -288,6 +288,12 @@ if(CATKIN_ENABLE_TESTING)
     ${PCL_LIBRARIES}
     ${catkin_LIBRARIES}
   )
+  catkin_add_gtest(rapid_scene_parsing_test test/scene_parsing_test.cpp)
+  target_link_libraries(rapid_scene_parsing_test
+    rapid_perception_scene_parsing
+    ${PCL_LIBRARIES}
+    ${catkin_LIBRARIES}
+  )
 endif()
 
 ## Add folders to be run by python nosetests

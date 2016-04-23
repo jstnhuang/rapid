@@ -1,6 +1,7 @@
 #include "rapid_perception/scene_parsing.h"
 
 #include <sstream>
+#include <set>  // TODO(jstn): change to unordered_set once using C++11
 #include <vector>
 
 #include "Eigen/Dense"
@@ -89,6 +90,9 @@ bool ParseHSurface(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
   surface->set_pose(ps);
   surface->set_scale(scale);
 
+  std::set<int> plane_set(plane_inliers->indices.begin(),
+                          plane_inliers->indices.end());
+
   // Find points above the surface.
   PointIndices::Ptr obj_indices(new PointIndices);
   tf::Vector3 surface_translation(ps.pose.position.x, ps.pose.position.y,
@@ -104,8 +108,10 @@ bool ParseHSurface(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
     tf::Vector3 table_p = base_to_surface.inverse() * point_v;
     if (table_p.x() >= -scale.x / 2 && table_p.x() <= scale.x / 2 &&
         table_p.y() >= -scale.y / 2 && table_p.y() <= scale.y / 2 &&
-        table_p.z() >= scale.z / 2) {
-      obj_indices->indices.push_back(index);
+        table_p.z() > scale.z / 2) {
+      if (plane_set.find(index) == plane_set.end()) {
+        obj_indices->indices.push_back(index);
+      }
     }
   }
 
@@ -113,6 +119,7 @@ bool ParseHSurface(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
   ParseObjects(cloud, obj_indices, params, &objects);
   for (size_t i = 0; i < objects.size(); ++i) {
     surface->AddObject(objects[i]);
+    PointCloud<PointXYZRGB>::Ptr obj = objects[i].GetCloud();
   }
   return true;
 }
