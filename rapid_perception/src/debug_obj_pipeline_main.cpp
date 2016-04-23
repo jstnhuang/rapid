@@ -4,8 +4,10 @@
 #include <string>
 #include <vector>
 
+#include "Eigen/Dense"
 #include "boost/algorithm/string.hpp"
 #include "boost/shared_ptr.hpp"
+#include "pcl/filters/crop_box.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "pcl_conversions/pcl_conversions.h"
@@ -52,6 +54,20 @@ class Perception {
     pcl::fromROSMsg(transformed, *pcl_cloud_);
   }
 
+  void Crop() {
+    Eigen::Vector4f min;
+    rpe::ParseParams params = rpe::Pr2Params();
+    min << params.scene.min_x, params.scene.min_y, params.scene.min_z, 1;
+    Eigen::Vector4f max;
+    max << params.scene.max_x, params.scene.max_y, params.scene.max_z, 1;
+
+    pcl::CropBox<PointXYZRGB> cb;
+    cb.setInputCloud(pcl_cloud_);
+    cb.setMin(min);
+    cb.setMax(max);
+    cb.filter(*pcl_cloud_);
+  }
+
   void FindPlane() {
     pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
     rpe::FindHorizontalPlane<PointXYZRGB>(
@@ -75,7 +91,11 @@ class Perception {
   }
 
   void ParseScene() {
-    rpe::ParseScene(pcl_cloud_, rpe::Pr2Params(), &scene_);
+    bool success = rpe::ParseScene(pcl_cloud_, rpe::Pr2Params(), &scene_);
+    if (!success) {
+      ROS_ERROR("Failed to parse scene.");
+      return;
+    }
     const rpe::HSurface& tt = scene_.primary_surface();
     const vector<rpe::Object>& objects = tt.objects();
     PointCloud<PointXYZRGB>::Ptr table_cloud = tt.GetCloud();
@@ -85,10 +105,10 @@ class Perception {
     for (size_t j = 0; j < objects.size(); ++j) {
       const rpe::Object& obj = objects[j];
       PointCloud<PointXYZRGB>::Ptr obj_cloud = obj.GetCloud();
-      // int r = std::rand() % 255;
-      // int g = std::rand() % 255;
-      // int b = std::rand() % 255;
-      // Colorize(*obj_cloud, r, g, b, 0.5);
+      int r = std::rand() % 255;
+      int g = std::rand() % 255;
+      int b = std::rand() % 255;
+      Colorize(*obj_cloud, r, g, b, 0.5);
       *pcl_cloud_ += *obj_cloud;
     }
     // scene_.Visualize();
@@ -121,6 +141,7 @@ class Interpreter {
   void PrintCommands() {
     cout << "Commands:" << endl;
     cout << "  read: Reads in a new point cloud." << endl;
+    cout << "  crop: Crops the point cloud with default params." << endl;
     cout << "  find_plane: Finds the plane in the current cloud." << endl;
     cout << "  parse_scene: Parses the scene." << endl;
     cout << "  exit: Exits the app." << endl;
@@ -131,6 +152,8 @@ class Interpreter {
     string trimmed = boost::trim_copy(input);
     if (input == "read") {
       *command = "read";
+    } else if (input == "crop") {
+      *command = "crop";
     } else if (input == "find_plane") {
       *command = "find_plane";
     } else if (input == "parse_scene") {
@@ -163,6 +186,9 @@ class Interpreter {
       sensor_msgs::PointCloud2ConstPtr msg =
           ros::topic::waitForMessage<sensor_msgs::PointCloud2>("/cloud_in");
       perception_.set_cloud(*msg);
+      perception_.PublishCloud();
+    } else if (command == "crop") {
+      perception_.Crop();
       perception_.PublishCloud();
     } else if (command == "find_plane") {
       perception_.FindPlane();

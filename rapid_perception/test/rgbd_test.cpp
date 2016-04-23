@@ -133,59 +133,6 @@ TEST(RgbdTest, GetPlanarBoundingBox) {
   EXPECT_NEAR(0.2, scale.y, 0.00001);
   EXPECT_NEAR(0.3, scale.z, 0.00001);
 }
-
-// TODO(jstn): Add a table segmentation test using real-world data.
-// class TableTest : public ::testing::Test {
-// public:
-//  TableTest()
-//      : data_path_(ros::package::getPath("rapid_perception") +
-//                   "/test_data/surfaces.bag"),
-//        cloud_() {}
-//
-//  void SetUp() {
-//    rosbag::Bag bag;
-//    bag.open(data_path_, rosbag::bagmode::Read);
-//    std::vector<std::string> types;
-//    types.push_back(std::string("sensor_msgs/PointCloud2"));
-//
-//    rosbag::View view(bag, rosbag::TypeQuery(types));
-//    rosbag::View::iterator it = view.begin();
-//    for (; it != view.end(); ++it) {
-//      const rosbag::MessageInstance& mi = *it;
-//      sensor_msgs::PointCloud2::ConstPtr msg =
-//          mi.instantiate<sensor_msgs::PointCloud2>();
-//      pcl::fromROSMsg(*msg, cloud_);
-//    }
-//  }
-//
-//  void Visualize(const std::string& name,
-//                 const pcl::PointCloud<pcl::PointXYZRGB>& cloud) {
-//    pcl::visualization::CloudViewer viewer(name);
-//    viewer.showCloud(cloud.makeShared());
-//    while (!viewer.wasStopped()) {
-//    }
-//  }
-//
-// protected:
-//  std::string data_path_;
-//  pcl::PointCloud<pcl::PointXYZRGB> cloud_;
-//};
-
-// TEST_F(TableTest, FindHorizontalPlane) {
-//  Visualize("Input", cloud_);
-//
-//  visualization_msgs::Marker ws;
-//  rapid::pr2::GetManipulationWorkspace(&ws);
-//  pcl::PointCloud<pcl::PointXYZRGB> ws_cloud;
-//  CropWorkspace(cloud_, ws, &ws_cloud);
-//
-//  pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
-//  bool found = FindHorizontalPlane(cloud_, 0.01, inliers);
-//  pcl::PointCloud<pcl::PointXYZRGB> plane;
-//  IndicesToCloud(ws_cloud, inliers, &plane);
-//  Visualize("Detected plane", plane);
-//  EXPECT_EQ(true, found);
-//}
 }  // namespace perception
 }  // namespace rapid
 
