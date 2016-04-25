@@ -67,9 +67,8 @@ TEST_F(TableTest, Table1) {
   Load("table1.bag");  // Simple table with 1 object.
   Scene scene;
   bool success = ParseScene(cloud_, Pr2Params(), &scene);
-  // int num_objects = scene.primary_surface().objects().size();
-  // TODO(jstn): fix code to pass test
-  // EXPECT_EQ(1, num_objects);
+  int num_objects = scene.primary_surface().objects().size();
+  EXPECT_EQ(1, num_objects);
   EXPECT_TRUE(success);
 }
 
@@ -77,8 +76,8 @@ TEST_F(TableTest, Table4) {
   Load("table4.bag");
   Scene scene;
   bool success = ParseScene(cloud_, Pr2Params(), &scene);
-  // int num_objects = scene.primary_surface().objects().size();
   // TODO(jstn): fix code to pass test
+  // int num_objects = scene.primary_surface().objects().size();
   // EXPECT_EQ(4, num_objects);
   EXPECT_TRUE(success);
 }

@@ -31,7 +31,7 @@ ParseParams Pr2Params() {
   p.scene.max_y = 1;
   p.scene.min_z = 0.3;
   p.scene.max_z = 1.7;
-  p.hsurface.distance_threshold = 0.01;
+  p.hsurface.distance_threshold = 0.015;
   p.hsurface.eps_angle = rapid::utils::DegreesToRadians(5);
   p.objects.cluster_tolerance = 0.01;
   p.objects.min_cluster_size = 20;
@@ -119,7 +119,6 @@ bool ParseHSurface(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
   ParseObjects(cloud, obj_indices, params, &objects);
   for (size_t i = 0; i < objects.size(); ++i) {
     surface->AddObject(objects[i]);
-    PointCloud<PointXYZRGB>::Ptr obj = objects[i].GetCloud();
   }
   return true;
 }
