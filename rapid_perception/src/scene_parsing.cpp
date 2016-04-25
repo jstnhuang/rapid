@@ -5,6 +5,8 @@
 #include <vector>
 
 #include "Eigen/Dense"
+#include "geometry_msgs/PoseStamped.h"
+#include "geometry_msgs/Vector3.h"
 #include "pcl/PointIndices.h"
 #include "pcl/filters/crop_box.h"
 #include "pcl/point_cloud.h"
@@ -62,6 +64,18 @@ bool ParseScene(const PointCloud<PointXYZRGB>::Ptr& cloud,
     return false;
   }
   scene->set_primary_surface(primary_surface);
+  geometry_msgs::PoseStamped ps;
+  ps.header.frame_id = cloud->header.frame_id;
+  ps.pose.position.x = (params.scene.max_x + params.scene.min_x) / 2;
+  ps.pose.position.y = (params.scene.max_y + params.scene.min_y) / 2;
+  ps.pose.position.z = (params.scene.max_z + params.scene.min_z) / 2;
+  ps.pose.orientation.w = 1;
+  scene->set_pose(ps);
+  geometry_msgs::Vector3 scale;
+  scale.x = params.scene.max_x - params.scene.min_x;
+  scale.y = params.scene.max_y - params.scene.min_y;
+  scale.z = params.scene.max_z - params.scene.min_z;
+  scene->set_scale(scale);
   return true;
 }
 
@@ -146,10 +160,11 @@ bool ParseObjects(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
     PointIndices::Ptr cluster_indices_p(new PointIndices);
     *cluster_indices_p = *it;
     geometry_msgs::PoseStamped ps;
+    ps.header.frame_id = cloud->header.frame_id;
     geometry_msgs::Vector3 scale;
     GetPlanarBoundingBox(cloud, cluster_indices_p, &ps.pose, &scale);
     std::stringstream ss;
-    ss << "object_" << obj_num;
+    ss << "object_" << obj_num++;
 
     Object obj;
     obj.SetCloud(cloud, cluster_indices_p);

@@ -21,6 +21,7 @@
 #include "rapid_perception/rgbd.hpp"
 #include "rapid_perception/scene.h"
 #include "rapid_perception/scene_parsing.h"
+#include "rapid_perception/scene_viz.h"
 #include "rapid_utils/math.h"
 
 using std::cin;
@@ -42,8 +43,9 @@ class Perception {
         cloud_pub_(
             nh_.advertise<sensor_msgs::PointCloud2>("debug_cloud", 1, false)),
         vis_pub_(
-            nh_.advertise<visualization_msgs::Marker>("debug_vis", 1, false)),
-        scene_() {}
+            nh_.advertise<visualization_msgs::Marker>("debug_vis", 100, false)),
+        scene_(),
+        viz_() {}
 
   void set_cloud(const sensor_msgs::PointCloud2& cloud) {
     sensor_msgs::PointCloud2 transformed;
@@ -52,6 +54,9 @@ class Perception {
     pcl_ros::transformPointCloud("/base_footprint", cloud, transformed,
                                  tf_listener_);
     pcl::fromROSMsg(transformed, *pcl_cloud_);
+    if (viz_ != NULL) {
+      delete viz_;
+    }
   }
 
   void Crop() {
@@ -107,14 +112,16 @@ class Perception {
     for (size_t j = 0; j < objects.size(); ++j) {
       const rpe::Object& obj = objects[j];
       PointCloud<PointXYZRGB>::Ptr obj_cloud = obj.GetCloud();
-      int r = std::rand() % 255;
-      int g = std::rand() % 255;
-      int b = std::rand() % 255;
-      Colorize(*obj_cloud, r, g, b, 0.5);
+      // int r = std::rand() % 255;
+      // int g = std::rand() % 255;
+      // int b = std::rand() % 255;
+      // Colorize(*obj_cloud, r, g, b, 0.5);
       *display += *obj_cloud;
     }
     *pcl_cloud_ = *display;
-    // scene_.Visualize();
+    viz_ = new rpe::SceneViz(vis_pub_);
+    viz_->set_scene(scene_);
+    viz_->Visualize();
   }
 
   void PublishCloud() {
@@ -124,10 +131,6 @@ class Perception {
     cloud_pub_.publish(cloud);
   }
 
-  void Visualize() {
-    // scene_.Visualize();
-  }
-
  private:
   ros::NodeHandle nh_;
   tf::TransformListener tf_listener_;
@@ -135,6 +138,7 @@ class Perception {
   ros::Publisher cloud_pub_;
   ros::Publisher vis_pub_;
   rpe::Scene scene_;
+  rpe::SceneViz* viz_;
 };
 
 class Interpreter {
@@ -161,8 +165,6 @@ class Interpreter {
       *command = "find_plane";
     } else if (input == "parse_scene") {
       *command = "parse_scene";
-    } else if (input == "viz") {
-      *command = "viz";
     } else if (input == "exit") {
       *command = "exit";
     } else {
@@ -199,8 +201,6 @@ class Interpreter {
     } else if (command == "parse_scene") {
       perception_.ParseScene();
       perception_.PublishCloud();
-    } else if (command == "viz") {
-      perception_.Visualize();
     } else {
     }
   }

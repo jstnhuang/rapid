@@ -1,6 +1,7 @@
 #include "rapid_viz/markers.h"
 
 #include <string>
+#include <vector>
 
 #include "geometry_msgs/Point.h"
 #include "geometry_msgs/PointStamped.h"
@@ -13,6 +14,7 @@
 #include "rapid_utils/math.h"
 
 using std::string;
+using std::vector;
 using geometry_msgs::Point;
 using geometry_msgs::PointStamped;
 using geometry_msgs::PoseStamped;
@@ -33,6 +35,81 @@ Marker Marker::Box(const ros::Publisher& pub,
   m.SetScale(scale);
   m.SetNamespace("marker");
   m.SetColor(0, 1, 0);
+  return m;
+}
+
+Marker Marker::OutlineBox(const ros::Publisher& pub,
+                          const geometry_msgs::PoseStamped& pose,
+                          const geometry_msgs::Vector3& scale) {
+  Marker m(pub);
+  m.SetType(visualization_msgs::Marker::LINE_LIST);
+  geometry_msgs::Vector3 line_scale;
+  line_scale.x = 0.01;
+  m.SetFrame(pose.header.frame_id);
+  m.SetScale(line_scale);
+  m.SetNamespace("marker");
+  m.SetColor(0, 1, 0);
+
+  double max_x = pose.pose.position.x + scale.x / 2;
+  double max_y = pose.pose.position.y + scale.y / 2;
+  double max_z = pose.pose.position.z + scale.z / 2;
+  double min_x = pose.pose.position.x - scale.x / 2;
+  double min_y = pose.pose.position.y - scale.y / 2;
+  double min_z = pose.pose.position.z - scale.z / 2;
+
+  vector<Point> points;
+  // Top layer
+  Point t1;
+  t1.x = min_x;
+  t1.y = min_y;
+  t1.z = max_z;
+  Point t2 = t1;
+  t2.x = max_x;
+  Point t3 = t2;
+  t3.y = max_y;
+  Point t4 = t3;
+  t4.x = min_x;
+  points.push_back(t1);
+  points.push_back(t2);
+  points.push_back(t2);
+  points.push_back(t3);
+  points.push_back(t3);
+  points.push_back(t4);
+  points.push_back(t4);
+  points.push_back(t1);
+
+  // Bottom layer
+  Point b1;
+  b1.x = min_x;
+  b1.y = min_y;
+  b1.z = min_z;
+  Point b2 = b1;
+  b2.x = max_x;
+  Point b3 = b2;
+  b3.y = max_y;
+  Point b4 = b3;
+  b4.x = min_x;
+  points.push_back(b1);
+  points.push_back(b2);
+  points.push_back(b2);
+  points.push_back(b3);
+  points.push_back(b3);
+  points.push_back(b4);
+  points.push_back(b4);
+  points.push_back(b1);
+
+  // Middle layer
+  points.push_back(t1);
+  points.push_back(b1);
+  points.push_back(t2);
+  points.push_back(b2);
+  points.push_back(t3);
+  points.push_back(b3);
+  points.push_back(t4);
+  points.push_back(b4);
+
+  m.SetPoints(points);
+
   return m;
 }
 
@@ -78,8 +155,10 @@ Marker Marker::Vector(const ros::Publisher& pub, const string& frame_id,
 }
 
 void Marker::Publish() {
-  marker_.action = visualization_msgs::Marker::ADD;
-  pub_.publish(marker_);
+  if (pub_) {
+    marker_.action = visualization_msgs::Marker::ADD;
+    pub_.publish(marker_);
+  }
 }
 
 void Marker::SetColor(double r, double g, double b, double a) {
@@ -128,8 +207,10 @@ Marker& Marker::operator=(const Marker& rhs) {
 }
 
 Marker::~Marker() {
-  marker_.action = visualization_msgs::Marker::DELETE;
-  pub_.publish(marker_);
+  if (pub_) {
+    marker_.action = visualization_msgs::Marker::DELETE;
+    pub_.publish(marker_);
+  }
 }
 }  // namespace viz
 }  // namespace rapid

@@ -57,17 +57,5 @@ std::vector<Object> HSurface::objects() const { return objects_; }
 void HSurface::set_name(const string& name) { name_ = name; }
 void HSurface::set_pose(const PoseStamped& ps) { pose_stamped_ = ps; }
 void HSurface::set_scale(const Vector3& scale) { scale_ = scale; }
-
-// void HSurface::Visualize() {
-//  marker_ = rapid::viz::Marker::Box(
-//      scene_->viz_pub(), primitive_.pose_stamped(), primitive_.scale());
-//  marker_.SetNamespace(primitive_.name());
-//  marker_.SetColor(0, 1, 0, 0.5);
-//  marker_.Publish();
-//
-//  for (size_t i = 0; i < objects_.size(); ++i) {
-//    objects_[i].Visualize();
-//  }
-//}
 }  // namespace perception
 }  // namespace rapid

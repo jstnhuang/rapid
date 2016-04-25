@@ -37,6 +37,11 @@ class Marker {
                     const geometry_msgs::PoseStamped& pose,
                     const geometry_msgs::Vector3& scale);
 
+  // Like a box marker, but only draws the edges of the box.
+  static Marker OutlineBox(const ros::Publisher& pub,
+                           const geometry_msgs::PoseStamped& pose,
+                           const geometry_msgs::Vector3& scale);
+
   // Create a text marker with the given pose. The size is the size of a capital
   // 'A,' in  meters.
   static Marker Text(const ros::Publisher& pub,

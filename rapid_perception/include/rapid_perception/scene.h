@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "geometry_msgs/PoseStamped.h"
+#include "geometry_msgs/Vector3.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 
@@ -20,9 +22,13 @@ class Scene {
 
   // Getters/setters.
   pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cloud() const;
+  geometry_msgs::PoseStamped pose();
   HSurface primary_surface() const;
+  geometry_msgs::Vector3 scale();
   void set_cloud(const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud);
+  void set_pose(const geometry_msgs::PoseStamped& ps);
   void set_primary_surface(const HSurface& surface);
+  void set_scale(const geometry_msgs::Vector3& scale);
 
   // Look up an object by name. If the object exists, returns it.
   //
@@ -32,6 +38,10 @@ class Scene {
  private:
   pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cloud_;
   HSurface primary_surface_;
+
+  // Pose and scale represent the bounding box of the cropped scene.
+  geometry_msgs::PoseStamped pose_;
+  geometry_msgs::Vector3 scale_;
 };
 }  // namespace rapid
 }  // namespace perception

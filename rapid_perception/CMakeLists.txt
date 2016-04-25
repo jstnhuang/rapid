@@ -188,6 +188,20 @@ target_link_libraries(rapid_perception_scene_parsing
   ${catkin_LIBRARIES}
 )
 
+add_library(rapid_perception_scene_viz
+  src/scene_viz.cpp
+)
+add_dependencies(rapid_perception_scene_parsing
+  rapid_perception_scene
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(rapid_perception_scene_parsing
+  rapid_perception_scene
+  ${PCL_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
+
 add_library(rapid_perception_rgbd src/rgbd.cpp)
 add_dependencies(rapid_perception_rgbd
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
@@ -214,6 +228,7 @@ add_dependencies(debug_obj_pipeline
   rapid_perception_rgbd
   rapid_perception_scene
   rapid_perception_scene_parsing
+  rapid_perception_scene_viz
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
 )
@@ -222,6 +237,7 @@ target_link_libraries(debug_obj_pipeline
   rapid_perception_rgbd
   rapid_perception_scene
   rapid_perception_scene_parsing
+  rapid_perception_scene_viz
   ${PCL_LIBRARIES}
   ${catkin_LIBRARIES}
 )
