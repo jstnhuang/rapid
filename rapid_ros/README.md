@@ -6,6 +6,27 @@ This is for convenience, otherwise, the `ros` namespace is interpreted as `::rap
 
 Note that tests that use the `MockActionClient` should run as rostests not pure gtests, because it uses ROS logging.
 
+## Publisher wrapper
+`publisher.h` includes a `PublisherInterface`, which should be used instead of a `ros::Publisher` directly.
+This enables us to write unit tests for classes that use publishers.
+
+Real `Publisher` usage:
+```cpp
+ros::NodeHandle nh;
+PublisherInterface<Marker>* marker_pub = new Publisher<Marker>(nh.advertise<Marker>("markers", 100));
+marker_pub->publish(msg);
+delete marker_pub;
+```
+
+`MockPublisher` usage:
+```cpp
+MockPublisher<Marker> pub;
+PublisherInterface<Marker>* test_pub = &pub;
+test_pub->publish(msg);
+Marker last_message = pub.last_message();
+vector<Marker> history = pub.sent_messages();
+```
+
 ## Action client wrapper
 `action_client.h` includes an `ActionClientInterface`, which should be used instead of an `actionlib::SimpleActionClient` directly.
 This is because code using a `SimpleActionClient` cannot be unit-tested without creating a mock action server that runs concurrently with the class under test.
