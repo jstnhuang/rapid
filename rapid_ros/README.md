@@ -4,6 +4,8 @@ rapid_ros contains wrappers around common ROS functionality.
 Note that unlike other rapid packages, the namespace is `rapid_ros`, not `rapid::ros`.
 This is for convenience, otherwise, the `ros` namespace is interpreted as `::rapid::ros` instead of `::ros` inside of other rapid code.
 
+Note that tests that use the `MockActionClient` should run as rostests not pure gtests, because it uses ROS logging.
+
 ## Action client wrapper
 `action_client.h` includes an `ActionClientInterface`, which should be used instead of an `actionlib::SimpleActionClient` directly.
 This is because code using a `SimpleActionClient` cannot be unit-tested without creating a mock action server that runs concurrently with the class under test.
