@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   pcl_conversions
   pcl_ros
+  rapid_ros
   rapid_utils
   rapid_viz
   rosbag
@@ -122,6 +123,8 @@ catkin_package(
     geometry_msgs
     pcl_conversions
     pcl_ros
+    rapid_ros
+    rapid_utils
     rapid_viz
     rosbag
     roscpp

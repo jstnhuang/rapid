@@ -10,8 +10,12 @@
 #include "visualization_msgs/Marker.h"
 #include "ros/ros.h"
 
+#include "rapid_ros/publisher.h"
+
 namespace rapid {
 namespace viz {
+typedef rapid_ros::PublisherInterface<visualization_msgs::Marker> MarkerPub;
+
 // A resource-managing marker that deletes itself from rviz when the object goes
 // out of scope or is destroyed.
 //
@@ -23,9 +27,6 @@ namespace viz {
 //  // When m goes out of scope, the rviz marker is deleted.
 class Marker {
  public:
-  // Default constructor.
-  // Do not use unless you are making a copy of the marker.
-  Marker();
   ~Marker();
 
   // Custom copy constructor, generates a new random ID.
@@ -33,26 +34,29 @@ class Marker {
   Marker& operator=(const Marker& rhs);
 
   // Create a box marker with the given pose and scale.
-  static Marker Box(const ros::Publisher& pub,
+  static Marker Box(const MarkerPub* pub,
                     const geometry_msgs::PoseStamped& pose,
                     const geometry_msgs::Vector3& scale);
 
   // Like a box marker, but only draws the edges of the box.
-  static Marker OutlineBox(const ros::Publisher& pub,
+  static Marker OutlineBox(const MarkerPub* pub,
                            const geometry_msgs::PoseStamped& pose,
                            const geometry_msgs::Vector3& scale);
 
   // Create a text marker with the given pose. The size is the size of a capital
   // 'A,' in  meters.
-  static Marker Text(const ros::Publisher& pub,
+  static Marker Text(const MarkerPub* pub,
                      const geometry_msgs::PoseStamped& pose,
                      const std::string& text, double size);
 
   // Create an arrow marker with origin at ps and direction vec. Both are
   // expected to be in the frame of frame_id.
-  static Marker Vector(const ros::Publisher& pub, const std::string& frame_id,
+  static Marker Vector(const MarkerPub* pub, const std::string& frame_id,
                        const geometry_msgs::Point& origin,
                        const geometry_msgs::Vector3& vector);
+
+  // Null marker, for initialization purposes.
+  static Marker Null();
 
   // Publish the marker to the publisher that was passed in.
   void Publish();
@@ -70,8 +74,8 @@ class Marker {
   visualization_msgs::Marker marker() const;  // Returns the marker.
 
  private:
-  explicit Marker(const ros::Publisher& pub);
-  ros::Publisher pub_;
+  explicit Marker(const MarkerPub* pub);
+  const MarkerPub* pub_;
   visualization_msgs::Marker marker_;
 };
 }  // namespace viz

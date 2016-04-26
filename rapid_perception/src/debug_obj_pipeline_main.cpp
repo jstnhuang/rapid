@@ -23,6 +23,7 @@
 #include "rapid_perception/scene_parsing.h"
 #include "rapid_perception/scene_viz.h"
 #include "rapid_utils/math.h"
+#include "rapid_viz/markers.h"
 
 using std::cin;
 using std::cout;
@@ -42,10 +43,12 @@ class Perception {
         pcl_cloud_(new PointCloud<PointXYZRGB>),
         cloud_pub_(
             nh_.advertise<sensor_msgs::PointCloud2>("debug_cloud", 1, false)),
-        vis_pub_(
-            nh_.advertise<visualization_msgs::Marker>("debug_vis", 100, false)),
+        vis_pub_(new rapid_ros::Publisher<visualization_msgs::Marker>(
+            nh_.advertise<visualization_msgs::Marker>("debug_vis", 100))),
         scene_(),
         viz_() {}
+
+  ~Perception() { delete vis_pub_; }
 
   void set_cloud(const sensor_msgs::PointCloud2& cloud) {
     sensor_msgs::PointCloud2 transformed;
@@ -185,7 +188,7 @@ class Perception {
   tf::TransformListener tf_listener_;
   PointCloud<PointXYZRGB>::Ptr pcl_cloud_;
   ros::Publisher cloud_pub_;
-  ros::Publisher vis_pub_;
+  rapid::viz::MarkerPub* vis_pub_;
   rpe::Scene scene_;
   rpe::SceneViz* viz_;
 };

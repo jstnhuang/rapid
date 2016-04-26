@@ -18,21 +18,17 @@
 #include "rapid_manipulation/arm.h"
 #include "rapid_manipulation/gripper.h"
 #include "rapid_perception/scene.h"
+#include "rapid_ros/publisher.h"
+#include "rapid_viz/markers.h"
 
 namespace rapid {
-namespace perception {
-// Forward declarations to avoid circular deps.
-class HSurface;
-class Object;
-class Scene;
-}  // namespace perception
-
 namespace manipulation {
 // TODO(jstn): make this pick with whichever arm is free
 class Picker {
  public:
   // Picker does not take ownership of arm or gripper.
   Picker(ArmInterface* arm, GripperInterface* gripper);
+  ~Picker();
 
   // Updates the MoveIt! planning scene to match the given Scene.
   void UpdatePlanningScene(rapid::perception::Scene& scene);
@@ -55,7 +51,7 @@ class Picker {
   ros::NodeHandle nh_;
   ros::Publisher co_pub_;
   ros::Publisher ps_pub_;
-  ros::Publisher marker_pub_;
+  rapid::viz::MarkerPub* marker_pub_;
   ros::ServiceClient grasp_client_;
   tf::TransformListener tf_listener_;
   rapid::perception::Scene scene_;
@@ -66,12 +62,13 @@ class Picker {
 class Placer {
  public:
   Placer(ArmInterface* arm, GripperInterface* gripper);
+  ~Placer();
   bool Place(const rapid::perception::Object& obj,
              const rapid::perception::HSurface& table);
 
  private:
   ros::NodeHandle nh_;
-  ros::Publisher marker_pub_;
+  rapid::viz::MarkerPub* marker_pub_;
   ArmInterface* const arm_;
   GripperInterface* const gripper_;
 };

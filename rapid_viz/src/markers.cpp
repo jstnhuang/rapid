@@ -22,12 +22,7 @@ using geometry_msgs::Vector3;
 
 namespace rapid {
 namespace viz {
-// Default constructor.
-// Do not use unless you are making a copy of the marker.
-Marker::Marker() : pub_(), marker_() {}
-
-Marker Marker::Box(const ros::Publisher& pub,
-                   const geometry_msgs::PoseStamped& pose,
+Marker Marker::Box(const MarkerPub* pub, const geometry_msgs::PoseStamped& pose,
                    const geometry_msgs::Vector3& scale) {
   Marker m(pub);
   m.SetType(visualization_msgs::Marker::CUBE);
@@ -38,7 +33,7 @@ Marker Marker::Box(const ros::Publisher& pub,
   return m;
 }
 
-Marker Marker::OutlineBox(const ros::Publisher& pub,
+Marker Marker::OutlineBox(const MarkerPub* pub,
                           const geometry_msgs::PoseStamped& pose,
                           const geometry_msgs::Vector3& scale) {
   Marker m(pub);
@@ -113,7 +108,7 @@ Marker Marker::OutlineBox(const ros::Publisher& pub,
   return m;
 }
 
-Marker Marker::Text(const ros::Publisher& pub,
+Marker Marker::Text(const MarkerPub* pub,
                     const geometry_msgs::PoseStamped& pose,
                     const std::string& text, double size) {
   Marker m(pub);
@@ -128,7 +123,7 @@ Marker Marker::Text(const ros::Publisher& pub,
   return m;
 }
 
-Marker Marker::Vector(const ros::Publisher& pub, const string& frame_id,
+Marker Marker::Vector(const MarkerPub* pub, const string& frame_id,
                       const Point& origin, const Vector3& vector) {
   Marker m(pub);
   m.SetType(visualization_msgs::Marker::ARROW);
@@ -154,10 +149,16 @@ Marker Marker::Vector(const ros::Publisher& pub, const string& frame_id,
   return m;
 }
 
+Marker Marker::Null() {
+  MarkerPub* null_pub = NULL;
+  Marker m(null_pub);
+  return m;
+}
+
 void Marker::Publish() {
-  if (pub_) {
+  if (pub_ && pub_->IsValid()) {
     marker_.action = visualization_msgs::Marker::ADD;
-    pub_.publish(marker_);
+    pub_->publish(marker_);
   }
 }
 
@@ -193,7 +194,7 @@ void Marker::SetType(uint8_t type) { marker_.type = type; }
 
 visualization_msgs::Marker Marker::marker() const { return marker_; }
 
-Marker::Marker(const ros::Publisher& pub) : pub_(pub), marker_() {}
+Marker::Marker(const MarkerPub* pub) : pub_(pub), marker_() {}
 
 Marker::Marker(const Marker& rhs) : pub_(rhs.pub_), marker_(rhs.marker_) {
   marker_.id = rand();
@@ -207,9 +208,9 @@ Marker& Marker::operator=(const Marker& rhs) {
 }
 
 Marker::~Marker() {
-  if (pub_) {
+  if (pub_ && pub_->IsValid()) {
     marker_.action = visualization_msgs::Marker::DELETE;
-    pub_.publish(marker_);
+    pub_->publish(marker_);
   }
 }
 }  // namespace viz

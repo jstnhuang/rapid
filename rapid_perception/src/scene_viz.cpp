@@ -8,10 +8,16 @@
 #include "rapid_perception/scene.h"
 #include "rapid_viz/markers.h"
 
+using rapid::viz::Marker;
+using rapid::viz::MarkerPub;
+
 namespace rapid {
 namespace perception {
-ObjectViz::ObjectViz(const ros::Publisher& pub)
-    : object_(), pub_(pub), marker_(), text_marker_() {}
+ObjectViz::ObjectViz(const MarkerPub* pub)
+    : object_(),
+      pub_(pub),
+      marker_(Marker::Null()),
+      text_marker_(Marker::Null()) {}
 
 void ObjectViz::set_object(const Object& object) { object_ = object; }
 
@@ -28,8 +34,8 @@ void ObjectViz::Visualize() {
   text_marker_.Publish();
 }
 
-HSurfaceViz::HSurfaceViz(const ros::Publisher& pub)
-    : surface_(), pub_(pub), marker_(), objects_() {}
+HSurfaceViz::HSurfaceViz(const MarkerPub* pub)
+    : surface_(), pub_(pub), marker_(Marker::Null()), objects_() {}
 
 void HSurfaceViz::set_hsurface(const HSurface& hsurface) {
   surface_ = hsurface;
@@ -54,8 +60,8 @@ void HSurfaceViz::Visualize() {
   }
 }
 
-SceneViz::SceneViz(const ros::Publisher& pub)
-    : scene_(), pub_(pub), marker_(), hsurface_viz_(pub) {}
+SceneViz::SceneViz(const MarkerPub* pub)
+    : scene_(), pub_(pub), marker_(Marker::Null()), hsurface_viz_(pub) {}
 
 void SceneViz::set_scene(const Scene& scene) { scene_ = scene; }
 

@@ -52,14 +52,16 @@ using std::map;
 using std::string;
 using std::vector;
 
+namespace vmsgs = visualization_msgs;
+
 namespace rapid {
 namespace manipulation {
 Picker::Picker(ArmInterface* arm, GripperInterface* gripper)
     : nh_(),
       co_pub_(nh_.advertise<CollisionObject>("collision_object", 10)),
       ps_pub_(nh_.advertise<PlanningScene>("planning_scene", 10)),
-      marker_pub_(nh_.advertise<visualization_msgs::Marker>(
-          "visualization_marker", 10)),
+      marker_pub_(new rapid_ros::Publisher<vmsgs::Marker>(
+          nh_.advertise<vmsgs::Marker>("visualization_marker", 10))),
       grasp_client_(nh_.serviceClient<agile_grasp::FindGrasps>(
           "find_grasps/find_grasps")),
       tf_listener_(),
@@ -71,6 +73,8 @@ Picker::Picker(ArmInterface* arm, GripperInterface* gripper)
     sleep_t.sleep();
   }
 }
+
+Picker::~Picker() { delete marker_pub_; }
 
 void Picker::UpdatePlanningSceneTopic(const string& id,
                                       const CollisionObject& obj) {
@@ -240,10 +244,12 @@ bool Picker::Pick(const Object& obj, double max_effort) {
 
 Placer::Placer(ArmInterface* arm, GripperInterface* gripper)
     : nh_(),
-      marker_pub_(nh_.advertise<visualization_msgs::Marker>(
-          "visualization_marker", 10)),
+      marker_pub_(new rapid_ros::Publisher<vmsgs::Marker>(
+          nh_.advertise<vmsgs::Marker>("visualization_marker", 10))),
       arm_(arm),
       gripper_(gripper) {}
+
+Placer::~Placer() { delete marker_pub_; }
 
 bool Placer::Place(const Object& obj, const HSurface& table) {
   // Naive, proof of concept place.

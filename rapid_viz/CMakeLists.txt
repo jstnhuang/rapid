@@ -6,6 +6,7 @@ project(rapid_viz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
+  rapid_ros
   rapid_utils
   roscpp
   visualization_msgs
@@ -105,6 +106,7 @@ catkin_package(
   LIBRARIES rapid_viz
   CATKIN_DEPENDS
     geometry_msgs
+    rapid_ros
     rapid_utils
     roscpp
     visualization_msgs
@@ -182,6 +184,11 @@ target_link_libraries(rapid_viz
 if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage") # Enable code coverage
+  catkin_add_gtest(rapid_viz_markers_test test/markers_test.cpp)
+  target_link_libraries(rapid_viz_markers_test
+    rapid_viz
+    ${catkin_LIBRARIES}
+  )
 endif()
 
 ## Add gtest based cpp test target and link libraries

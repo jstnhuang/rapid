@@ -121,7 +121,10 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_library(rapid_ros src/action_client.cpp)
+add_library(rapid_ros
+  src/action_client.cpp
+  src/publisher.cpp
+)
 add_dependencies(rapid_ros
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
