@@ -12,7 +12,7 @@
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "pcl/search/kdtree.h"
-#include "pcl/segmentation/extract_clusters.h"
+#include "pcl/segmentation/region_growing_rgb.h"
 
 #include "rapid_perception/rgbd.hpp"
 #include "rapid_perception/scene.h"
@@ -35,8 +35,10 @@ ParseParams Pr2Params() {
   p.scene.max_z = 1.7;
   p.hsurface.distance_threshold = 0.015;
   p.hsurface.eps_angle = rapid::utils::DegreesToRadians(5);
-  p.objects.cluster_tolerance = 0.01;
-  p.objects.min_cluster_size = 20;
+  p.objects.distance_threshold = 0.1;
+  p.objects.point_color_threshold = 35;
+  p.objects.region_color_threshold = 20;
+  p.objects.min_cluster_size = 38;
   return p;
 }
 
@@ -146,11 +148,13 @@ bool ParseObjects(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
   tree->setInputCloud(cloud, indices_v);
 
   vector<PointIndices> cluster_indices;
-  pcl::EuclideanClusterExtraction<PointXYZRGB> ec;
-  ec.setClusterTolerance(params.objects.cluster_tolerance);
-  ec.setSearchMethod(tree);
+  pcl::RegionGrowingRGB<PointXYZRGB> ec;
   ec.setInputCloud(cloud);
   ec.setIndices(indices);
+  ec.setSearchMethod(tree);
+  ec.setDistanceThreshold(params.objects.distance_threshold);
+  ec.setPointColorThreshold(params.objects.point_color_threshold);
+  ec.setRegionColorThreshold(params.objects.region_color_threshold);
   ec.setMinClusterSize(params.objects.min_cluster_size);
   ec.extract(cluster_indices);
 
@@ -175,119 +179,5 @@ bool ParseObjects(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
   }
   return true;
 }
-
-// Crop the scene to just the tabletop area.
-// Do a Euclidean clustering of the scene. We assume all points clustered with
-// the table are either part of the table or an object on the table.
-// So, the objects are clustered with the table, but not part of the table
-// itself.
-//  KdTree<PointXYZRGB>::Ptr tree(new KdTree<PointXYZRGB>);
-//  tree->setInputCloud(cloud_.makeShared());
-//
-//  vector<PointIndices> cluster_indices;
-//  pcl::EuclideanClusterExtraction<PointXYZRGB> ec;
-//  ec.setClusterTolerance(0.01);
-//  ec.setMinClusterSize(25);
-//  ec.setSearchMethod(tree);
-//  ec.setInputCloud(cloud_.makeShared());
-//  ec.extract(cluster_indices);
-//
-//  // Intersect the cluster indices with the tabletop indices.
-//  std::set<int> table_indices;  // Indices of table points.
-//  for (size_t i = 0; i < inliers->indices.size(); ++i) {
-//    int table_index = inliers->indices[i];
-//    table_indices.insert(table_index);
-//  }
-//
-//  std::set<int> table_cluster_indices;  // The set of clusters that table
-//  points
-//                                        // can be found in.
-//  int cluster_index = 0;
-//  for (vector<PointIndices>::const_iterator it = cluster_indices.begin();
-//       it != cluster_indices.end(); ++it) {
-//    for (vector<int>::const_iterator pit = it->indices.begin();
-//         pit != it->indices.end(); ++pit) {
-//      int point_index = *pit;
-//      if (table_indices.find(point_index) != table_indices.end()) {
-//        // This is a tabletop point.
-//        table_cluster_indices.insert(cluster_index);
-//        break;
-//      }
-//    }
-//    ++cluster_index;
-//  }
-//
-//  PointIndices::Ptr objects_indices(new PointIndices);
-//  cluster_index = 0;
-//  for (vector<PointIndices>::const_iterator it = cluster_indices.begin();
-//       it != cluster_indices.end(); ++it) {
-//    if (table_cluster_indices.find(cluster_index) ==
-//        table_cluster_indices.end()) {
-//      ++cluster_index;
-//      continue;
-//    }
-//    for (vector<int>::const_iterator pit = it->indices.begin();
-//         pit != it->indices.end(); ++pit) {
-//      int point_index = *pit;
-//      if (table_indices.find(point_index) == table_indices.end()) {
-//        // This is an object point, or below the table.
-//        if (cloud_[point_index].z > primary_surface_->pose().pose.position.z)
-//        {
-//          objects_indices->indices.push_back(point_index);
-//        }
-//      }
-//    }
-//    ++cluster_index;
-//  }
-//
-//  vector<Object> objects;
-//  SegmentObjects(this, objects_indices, 0.01, &objects);
-//  for (size_t i = 0; i < objects.size(); ++i) {
-//    std::stringstream name;
-//    name << "object_" << i;
-//    objects[i].set_name(name.str());
-//    primary_surface_->AddObject(objects[i]);
-//  }
-//}
-//
-// bool FindTabletop(const PointCloud<PointXYZRGB>& cloud,
-//                  double distance_threshold, PointIndices::Ptr inliers) {
-//  PointIndices::Ptr plane_inliers(new PointIndices);
-//  bool found = FindHorizontalPlane(cloud, distance_threshold, plane_inliers);
-//  if (!found) {
-//    return found;
-//  }
-//
-//  KdTree<PointXYZRGB>::Ptr tree(new KdTree<PointXYZRGB>);
-//  KdTree<PointXYZRGB>::IndicesConstPtr plane_iptr(
-//      new vector<int>(plane_inliers->indices));
-//  tree->setInputCloud(cloud.makeShared(), plane_iptr);
-//
-//  vector<PointIndices> cluster_indices;
-//  pcl::EuclideanClusterExtraction<PointXYZRGB> ec;
-//  ec.setClusterTolerance(distance_threshold);
-//  ec.setSearchMethod(tree);
-//  ec.setInputCloud(cloud.makeShared());
-//  ec.setIndices(plane_inliers);
-//  ec.extract(cluster_indices);
-//
-//  if (cluster_indices.size() == 0) {
-//    return false;
-//  }
-//
-//  size_t max_index = -1;
-//  size_t max_size = std::numeric_limits<size_t>::min();
-//  for (size_t i = 0; i < cluster_indices.size(); ++i) {
-//    size_t size = cluster_indices.size();
-//    if (size > max_size) {
-//      max_size = size;
-//      max_index = i;
-//    }
-//  }
-//
-//  inliers->indices = cluster_indices[max_index].indices;
-//  return true;
-//}
-
 }  // namespace perception
 }  // namespace rapid

@@ -18,7 +18,7 @@ void ObjectViz::set_object(const Object& object) { object_ = object; }
 void ObjectViz::Visualize() {
   marker_ = rapid::viz::Marker::Box(pub_, object_.pose(), object_.scale());
   marker_.SetNamespace(object_.name());
-  marker_.SetColor(0, 0, 1, 0.9);
+  marker_.SetColor(0, 0, 1, 0.25);
   marker_.Publish();
 
   text_marker_ =

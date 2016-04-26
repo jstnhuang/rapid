@@ -27,8 +27,10 @@ struct HSurfaceParams {
 };
 
 struct ObjectParams {
-  double cluster_tolerance;  // Min distance between objects, in meters.
-  double min_cluster_size;   // Minimum number of points per object.
+  double distance_threshold;      // Distance to search for points to merge.
+  double point_color_threshold;   // Max color difference between points.
+  double region_color_threshold;  // Max color difference between clusters.
+  double min_cluster_size;        // Minimum number of points per cluster.
 };
 
 struct ParseParams {

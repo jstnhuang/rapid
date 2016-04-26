@@ -12,6 +12,11 @@ if [ ! -e $PKG_PATH/test_data/table1.bag ]
 then
   wget "https://drive.google.com/uc?export=download&id=0B77PnOCaAq8sSk1DTW4yQmhHSU0" -O `rospack find rapid_perception`/test_data/table1.bag
 fi
+if [ ! -e $PKG_PATH/test_data/table2.bag ]
+then
+  wget "https://drive.google.com/uc?export=download&id=0B77PnOCaAq8sUDlQUG01MzJmYW8" -O `rospack find rapid_perception`/test_data/table2.bag
+fi
+
 if [ ! -e $PKG_PATH/test_data/table4.bag ]
 then
   wget "https://drive.google.com/uc?export=download&id=0B77PnOCaAq8sNVNHNFpZNnk2aUU" -O `rospack find rapid_perception`/test_data/table4.bag

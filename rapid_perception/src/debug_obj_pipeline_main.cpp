@@ -95,8 +95,43 @@ class Perception {
     }
   }
 
+  rpe::ParseParams GetParseParams() {
+    rpe::ParseParams params = rpe::Pr2Params();
+    ros::param::param("parse/scene/min_x", params.scene.min_x,
+                      params.scene.min_x);
+    ros::param::param("parse/scene/min_y", params.scene.min_y,
+                      params.scene.min_y);
+    ros::param::param("parse/scene/min_z", params.scene.min_z,
+                      params.scene.min_z);
+    ros::param::param("parse/scene/max_x", params.scene.max_x,
+                      params.scene.max_x);
+    ros::param::param("parse/scene/max_y", params.scene.max_x,
+                      params.scene.max_y);
+    ros::param::param("parse/scene/max_z", params.scene.max_z,
+                      params.scene.max_z);
+    ros::param::param("parse/hsurface/distance_threshold",
+                      params.hsurface.distance_threshold,
+                      params.hsurface.distance_threshold);
+    ros::param::param("parse/hsurface/eps_angle", params.hsurface.eps_angle,
+                      params.hsurface.eps_angle);
+    ros::param::param("parse/objects/distance_threshold",
+                      params.objects.distance_threshold,
+                      params.objects.distance_threshold);
+    ros::param::param("parse/objects/point_color_threshold",
+                      params.objects.point_color_threshold,
+                      params.objects.point_color_threshold);
+    ros::param::param("parse/objects/region_color_threshold",
+                      params.objects.region_color_threshold,
+                      params.objects.region_color_threshold);
+    ros::param::param("parse/objects/min_cluster_size",
+                      params.objects.min_cluster_size,
+                      params.objects.min_cluster_size);
+    return params;
+  }
+
   void ParseScene() {
-    bool success = rpe::ParseScene(pcl_cloud_, rpe::Pr2Params(), &scene_);
+    rpe::ParseParams params = GetParseParams();
+    bool success = rpe::ParseScene(pcl_cloud_, params, &scene_);
     if (!success) {
       ROS_ERROR("Failed to parse scene.");
       return;
@@ -112,6 +147,20 @@ class Perception {
     for (size_t j = 0; j < objects.size(); ++j) {
       const rpe::Object& obj = objects[j];
       PointCloud<PointXYZRGB>::Ptr obj_cloud = obj.GetCloud();
+      double r = 0;
+      double g = 0;
+      double b = 0;
+      for (size_t k = 0; k < obj_cloud->size(); ++k) {
+        const PointXYZRGB& pt = obj_cloud->at(k);
+        r += pt.r;
+        g += pt.g;
+        b += pt.b;
+      }
+      r /= obj_cloud->size();
+      g /= obj_cloud->size();
+      b /= obj_cloud->size();
+      cout << obj.name() << " size: " << obj_cloud->size() << ", color r: " << r
+           << ", g: " << g << ", b: " << b << endl;
       // int r = std::rand() % 255;
       // int g = std::rand() % 255;
       // int b = std::rand() % 255;

@@ -2,7 +2,6 @@
 
 #include <string>
 #include <vector>
-
 #include "gtest/gtest.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
@@ -58,28 +57,38 @@ TEST_F(TableTest, Table0) {
   Load("table0.bag");  // An empty table.
   Scene scene;
   bool success = ParseScene(cloud_, Pr2Params(), &scene);
+  EXPECT_TRUE(success);
   int num_objects = scene.primary_surface().objects().size();
   EXPECT_EQ(0, num_objects);
-  EXPECT_TRUE(success);
 }
 
 TEST_F(TableTest, Table1) {
   Load("table1.bag");  // Simple table with 1 object.
   Scene scene;
   bool success = ParseScene(cloud_, Pr2Params(), &scene);
+  EXPECT_TRUE(success);
   int num_objects = scene.primary_surface().objects().size();
   EXPECT_EQ(1, num_objects);
+}
+
+TEST_F(TableTest, Table2) {
+  Load("table2.bag");  // Two objects, one of which is small.
+  Scene scene;
+  bool success = ParseScene(cloud_, Pr2Params(), &scene);
   EXPECT_TRUE(success);
+  int num_objects = scene.primary_surface().objects().size();
+  EXPECT_EQ(2, num_objects);
 }
 
 TEST_F(TableTest, Table4) {
   Load("table4.bag");
   Scene scene;
   bool success = ParseScene(cloud_, Pr2Params(), &scene);
+  EXPECT_TRUE(success);
   // TODO(jstn): fix code to pass test
+  // Most likely will require some kind of ML to improve segmentation.
   // int num_objects = scene.primary_surface().objects().size();
   // EXPECT_EQ(4, num_objects);
-  EXPECT_TRUE(success);
 }
 }  // namespace perception
 }  // namespace rapid
