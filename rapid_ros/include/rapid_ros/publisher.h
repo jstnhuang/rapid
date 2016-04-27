@@ -11,6 +11,7 @@ namespace rapid_ros {
 template <class Message>
 class PublisherInterface {
  public:
+  virtual ~PublisherInterface() {}
   virtual void publish(const Message& message) const = 0;
   virtual bool IsValid() const = 0;
 };
