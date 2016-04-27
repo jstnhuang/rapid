@@ -109,7 +109,7 @@ Pr2* BuildReal() {
       new ActionClient<Pr2GripperCommandAction>(Gripper::RIGHT_GRIPPER_ACTION));
   HeadInterface* head = new Head(new ActionClient<PointHeadAction>(
       "/head_traj_controller/point_head_action"));
-  SoundInterface* sound = new SoundPlay();
+  SoundInterface* sound = new SoundPlay("us1_mbrola");
   TuckArmsInterface* tuck_arms = new Pr2TuckArms();
   return new Pr2(left_arm, right_arm, display, left_gripper, right_gripper,
                  head, sound, tuck_arms);
