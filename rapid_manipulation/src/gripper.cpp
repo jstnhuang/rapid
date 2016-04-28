@@ -1,11 +1,13 @@
 #include "rapid_manipulation/gripper.h"
 
-#include "actionlib/client/simple_action_client.h"
+#include "actionlib/client/simple_client_goal_state.h"
 #include "pr2_controllers_msgs/Pr2GripperCommandAction.h"
 #include "ros/ros.h"
-#include "tf/transform_listener.h"
+#include "tf/exceptions.h"
 
 #include "rapid_perception/object.h"
+#include "rapid_ros/action_client.h"
+#include "rapid_ros/tf_listener.h"
 
 using actionlib::SimpleClientGoalState;
 using rapid::perception::Object;
@@ -20,9 +22,11 @@ const double Gripper::OPEN_THRESHOLD = 0.005;
 const double Gripper::OPEN = 0.09;
 const double Gripper::CLOSED = 0.00;
 
-Gripper::Gripper(const int gripper_id, GripperClient* client)
+Gripper::Gripper(const int gripper_id, GripperClient* client,
+                 rapid_ros::TfListenerInterface* tf_listener)
     : gripper_id_(gripper_id),
       gripper_client_(client),
+      transform_listener_(tf_listener),
       is_holding_object_(false),
       held_object_() {
   std::string action_name;
@@ -53,6 +57,8 @@ bool Gripper::SetPosition(double position, double effort) {
     return false;
   }
 
+  double start_position = GetPosition();
+
   pr2_controllers_msgs::Pr2GripperCommandGoal goal;
   goal.command.position = position;
   goal.command.max_effort = effort;
@@ -66,9 +72,7 @@ bool Gripper::SetPosition(double position, double effort) {
   SimpleClientGoalState state = gripper_client_->getState();
   if (state == SimpleClientGoalState::SUCCEEDED ||
       state == SimpleClientGoalState::ABORTED) {
-    // TODO(jstn): If we can mock out tf, then this logic should be:
-    // if (position > GetPosition())
-    if (position == Gripper::OPEN) {
+    if (position > start_position) {
       // After the gripper opens, it's unlikely to hold an object.
       is_holding_object_ = false;
     }
@@ -81,26 +85,27 @@ bool Gripper::SetPosition(double position, double effort) {
 
 double Gripper::GetPosition() const {
   tf::StampedTransform transform;
-  std::string destination_frame;
-  std::string original_frame;
+  std::string target_frame;
+  std::string source_frame;
 
   // set frames based on whether this is a right or left gripper
   if (gripper_id_ == Gripper::LEFT_GRIPPER) {
-    destination_frame = "l_gripper_l_finger_tip_link";
-    original_frame = "l_gripper_r_finger_tip_link";
+    source_frame = "l_gripper_r_finger_tip_link";
+    target_frame = "l_gripper_l_finger_tip_link";
   } else if (gripper_id_ == Gripper::RIGHT_GRIPPER) {
-    destination_frame = "r_gripper_l_finger_tip_link";
-    original_frame = "r_gripper_r_finger_tip_link";
+    source_frame = "r_gripper_r_finger_tip_link";
+    target_frame = "r_gripper_l_finger_tip_link";
   }
 
   // get the transform between the fingertips
   try {
-    transform_listener_.waitForTransform(original_frame, destination_frame,
-                                         ros::Time(0), ros::Duration(10.0));
-    transform_listener_.lookupTransform(original_frame, destination_frame,
-                                        ros::Time(0), transform);
+    transform_listener_->waitForTransform(target_frame, source_frame,
+                                          ros::Time(0), ros::Duration(10.0));
+    transform_listener_->lookupTransform(target_frame, source_frame,
+                                         ros::Time(0), transform);
   } catch (tf::TransformException ex) {
     ROS_ERROR("%s", ex.what());
+    return -1;
   }
 
   // subtract small positive offset so that 0 means closed

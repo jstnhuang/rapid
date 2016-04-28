@@ -10,6 +10,7 @@
 #include "rapid_manipulation/head.h"
 #include "rapid_manipulation/tuck_arms.h"
 #include "rapid_ros/action_client.h"
+#include "rapid_ros/tf_listener.h"
 #include "rapid_sound/sound.h"
 
 using blinky::FaceAction;
@@ -36,6 +37,7 @@ using rapid::sound::MockSound;
 using rapid::sound::SoundInterface;
 using rapid::sound::SoundPlay;
 using rapid_ros::ActionClient;
+using rapid_ros::TfListener;
 
 namespace rapid {
 namespace pr2 {
@@ -103,10 +105,12 @@ Pr2* BuildReal() {
       new Blinky(new ActionClient<FaceAction>("blinky"));
   GripperInterface* left_gripper = new Gripper(
       Gripper::LEFT_GRIPPER,
-      new ActionClient<Pr2GripperCommandAction>(Gripper::LEFT_GRIPPER_ACTION));
+      new ActionClient<Pr2GripperCommandAction>(Gripper::LEFT_GRIPPER_ACTION),
+      new TfListener());
   GripperInterface* right_gripper = new Gripper(
       Gripper::RIGHT_GRIPPER,
-      new ActionClient<Pr2GripperCommandAction>(Gripper::RIGHT_GRIPPER_ACTION));
+      new ActionClient<Pr2GripperCommandAction>(Gripper::RIGHT_GRIPPER_ACTION),
+      new TfListener());
   HeadInterface* head = new Head(new ActionClient<PointHeadAction>(
       "/head_traj_controller/point_head_action"));
   SoundInterface* sound = new SoundPlay("us1_mbrola");

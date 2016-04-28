@@ -20,10 +20,10 @@
 #include "gmock/gmock.h"
 #include "pr2_controllers_msgs/Pr2GripperCommandAction.h"
 #include "ros/ros.h"
-#include "tf/transform_listener.h"
 
 #include "rapid_perception/object.h"
 #include "rapid_ros/action_client.h"
+#include "rapid_ros/tf_listener.h"
 
 namespace rapid {
 namespace manipulation {
@@ -84,7 +84,8 @@ class Gripper : public GripperInterface {
   // Constructor that takes the gripper id and the gripper client.
   // gripper_id: Gripper::LEFT_GRIPPER or Gripper::RIGHT_GRIPPER
   // client: a rapid_ros::ActionClient
-  Gripper(const int gripper_id, GripperClient* client);
+  Gripper(const int gripper_id, GripperClient* client,
+          rapid_ros::TfListenerInterface* tf_listener);
 
   ~Gripper();
 
@@ -102,7 +103,7 @@ class Gripper : public GripperInterface {
  private:
   const int gripper_id_;
   GripperClient* gripper_client_;
-  tf::TransformListener transform_listener_;
+  rapid_ros::TfListenerInterface* transform_listener_;
   bool is_holding_object_;
   rapid::perception::Object held_object_;
 

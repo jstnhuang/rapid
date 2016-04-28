@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   roscpp
   rospy
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -106,6 +107,7 @@ catkin_package(
     actionlib
     roscpp
     rospy
+    tf
 #  DEPENDS system_lib
 )
 
@@ -124,6 +126,7 @@ include_directories(
 add_library(rapid_ros
   src/action_client.cpp
   src/publisher.cpp
+  src/tf_listener.cpp
 )
 add_dependencies(rapid_ros
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
