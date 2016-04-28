@@ -7,6 +7,18 @@ A ROS robotics library.
 This is especially designed for ROS Hydro and the PR2 robot.
 It is still in active development.
 
+## Installation
+```
+cd ~/catkin_ws/src
+git clone https://github.com/hcrlab/blinky.git
+git clone https://github.com/jstnhuang/agile_grasp.git
+cd ~/catkin_ws
+rosdep install --from-paths src --ignore-src --rosdistro=hydro -y
+catkin build
+```
+
+See [.travis.yml](.travis.yml) for an example installation.
+
 ## Summary
 - **[rapid_display](rapid_display)**:
   An interface for showing interactive content on a touch screen.
