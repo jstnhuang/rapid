@@ -5,16 +5,19 @@
 #include "rapid_manipulation/arm.h"
 #include "rapid_manipulation/gripper.h"
 #include "rapid_manipulation/head.h"
-#include "rapid_manipulation/pick_place.h"
+#include "rapid_manipulation/pick.h"
+#include "rapid_manipulation/place.h"
 #include "rapid_manipulation/tuck_arms.h"
+#include "rapid_ros/service_client.h"
 #include "rapid_sound/sound.h"
+#include "rapid_viz/markers.h"
 
 namespace rapid {
 namespace pr2 {
 // Class for controlling a PR2.
 //
 // To use a real PR2:
-//  Pr2* pr2 = BuildReal();
+//  Pr2* pr2 = BuildReal(node_handle);
 //  pr2->left_arm()->MoveToPoseGoal(...);
 //  delete pr2;
 class Pr2 {
@@ -27,7 +30,11 @@ class Pr2 {
       rapid::manipulation::GripperInterface* right_gripper,
       rapid::manipulation::HeadInterface* head,
       rapid::sound::SoundInterface* sound,
-      rapid::manipulation::TuckArmsInterface* tuck_arms);
+      rapid::manipulation::TuckArmsInterface* tuck_arms,
+      rapid::manipulation::Picker* left_picker,
+      rapid::manipulation::Picker* right_picker,
+      rapid::manipulation::Placer* left_placer,
+      rapid::manipulation::Placer* right_placer);
   ~Pr2();
 
   // Accessors
@@ -61,7 +68,7 @@ class Pr2 {
 
 // Factory function for building a PR2 object for a real PR2.
 // Ownership of the Pr2 pointer is transferred to the caller.
-Pr2* BuildReal();
+Pr2* BuildReal(ros::NodeHandle& nh);
 }  // namespace pr2
 }  // namespace rapid
 #endif  // _RAPID_PR2_PR2_H_

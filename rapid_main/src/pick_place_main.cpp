@@ -10,7 +10,8 @@
 #include "pcl_ros/transforms.h"
 #include "rapid_manipulation/arm.h"
 #include "rapid_manipulation/gripper.h"
-#include "rapid_manipulation/pick_place.h"
+#include "rapid_manipulation/pick.h"
+#include "rapid_manipulation/place.h"
 #include "rapid_perception/pr2.h"
 #include "rapid_perception/rgbd.hpp"
 #include "rapid_perception/scene.h"
@@ -40,7 +41,7 @@ int main(int argc, char** argv) {
   ros::AsyncSpinner spinner(2);
   spinner.start();
   tf::TransformListener tf_listener;
-  Pr2* pr2 = rapid::pr2::BuildReal();
+  Pr2* pr2 = rapid::pr2::BuildReal(nh);
 
   bool first = true;
   while (true) {

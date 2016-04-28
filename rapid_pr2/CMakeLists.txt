@@ -5,6 +5,7 @@ project(rapid_pr2)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  agile_grasp
   blinky
   pr2_controllers_msgs
   rapid_display
@@ -12,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   rapid_ros
   rapid_sound
   roscpp
+  visualization_msgs
 )
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -103,6 +105,7 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES rapid_pr2
   CATKIN_DEPENDS
+    agile_grasp
     blinky
     pr2_controllers_msgs
     rapid_display
@@ -110,6 +113,7 @@ catkin_package(
     rapid_ros
     rapid_sound
     roscpp
+    visualization_msgs
   # DEPENDS
 )
 

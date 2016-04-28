@@ -1,0 +1,3 @@
+<launch>
+  <test test-name="rapid_manipulation_pick_test" pkg="rapid_manipulation" type="rapid_manipulation_pick_test" />
+</launch>

@@ -126,6 +126,7 @@ include_directories(
 add_library(rapid_ros
   src/action_client.cpp
   src/publisher.cpp
+  src/service_client.cpp
   src/tf_listener.cpp
 )
 add_dependencies(rapid_ros

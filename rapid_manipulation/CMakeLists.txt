@@ -27,6 +27,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(Boost REQUIRED)
 find_package(Eigen REQUIRED)
+find_package(PCL REQUIRED)
 
 set(gmock_INCLUDE_DIR /usr/include/gmock)
 set(gmock_LIB_DIR /usr/lib)
@@ -159,7 +160,8 @@ add_library(rapid_manipulation
   src/arm.cpp
   src/gripper.cpp
   src/head.cpp
-  src/pick_place.cpp
+  src/pick.cpp
+  src/place.cpp
   src/tuck_arms.cpp
 )
 add_dependencies(rapid_manipulation
@@ -232,6 +234,14 @@ if(CATKIN_ENABLE_TESTING)
     test/head_test.cpp
   )
   target_link_libraries(rapid_manipulation_head_test
+    rapid_manipulation
+    ${catkin_LIBRARIES}
+  )
+  add_rostest_gtest(rapid_manipulation_pick_test
+    test/pick_test.launch
+    test/pick_test.cpp
+  )
+  target_link_libraries(rapid_manipulation_pick_test
     rapid_manipulation
     ${catkin_LIBRARIES}
   )
