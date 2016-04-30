@@ -90,11 +90,11 @@ double Gripper::GetPosition() const {
 
   // set frames based on whether this is a right or left gripper
   if (gripper_id_ == Gripper::LEFT_GRIPPER) {
-    source_frame = "l_gripper_r_finger_tip_link";
-    target_frame = "l_gripper_l_finger_tip_link";
+    source_frame = "l_gripper_l_finger_tip_link";
+    target_frame = "l_gripper_r_finger_tip_link";
   } else if (gripper_id_ == Gripper::RIGHT_GRIPPER) {
-    source_frame = "r_gripper_r_finger_tip_link";
-    target_frame = "r_gripper_l_finger_tip_link";
+    source_frame = "r_gripper_l_finger_tip_link";
+    target_frame = "r_gripper_r_finger_tip_link";
   }
 
   // get the transform between the fingertips
