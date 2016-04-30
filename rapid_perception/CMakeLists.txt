@@ -119,6 +119,7 @@ catkin_package(
     rapid_perception_rgbd
     rapid_perception_scene
     rapid_perception_scene_parsing
+    rapid_perception_scene_viz
   CATKIN_DEPENDS
     geometry_msgs
     pcl_conversions
