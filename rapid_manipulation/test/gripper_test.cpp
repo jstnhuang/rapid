@@ -34,8 +34,8 @@ class GripperTest : public ::testing::Test {
     tf::Vector3 origin(0, distance, 0);
     transform.setOrigin(origin);
     stamped_transform.setData(transform);
-    tf_->SetTransform("r_gripper_l_finger_tip_link",
-                      "r_gripper_r_finger_tip_link", stamped_transform);
+    tf_->SetTransform("r_gripper_r_finger_tip_link",
+                      "r_gripper_l_finger_tip_link", stamped_transform);
   }
 
  protected:
