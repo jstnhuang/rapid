@@ -135,7 +135,7 @@ Pr2* BuildReal(ros::NodeHandle& nh) {
       new TfListener());
   HeadInterface* head = new Head(new ActionClient<PointHeadAction>(
       "/head_traj_controller/point_head_action"));
-  SoundInterface* sound = new SoundPlay("us1_mbrola");
+  SoundInterface* sound = new SoundPlay("voice_cmu_us_slt_arctic_hts");
   TuckArmsInterface* tuck_arms = new Pr2TuckArms();
 
   MarkerPub* marker_pub = new rapid_ros::Publisher<visualization_msgs::Marker>(
