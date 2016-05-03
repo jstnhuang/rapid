@@ -81,6 +81,44 @@ TEST_F(BlinkyTest, AskMultipleChoice) {
   EXPECT_THAT(goal.choices, Eq(choices));
   EXPECT_EQ("Indigo", choice);
 }
+
+TEST_F(BlinkyTest, FailIfNullClient) {
+  Blinky blinky(NULL);
+  bool success = blinky.ShowDefault();
+  EXPECT_EQ(false, success);
+  success = blinky.ShowMessage("H1", "H2");
+  EXPECT_EQ(false, success);
+  std::vector<std::string> choices;
+  std::string choice;
+  success = blinky.AskMultipleChoice("Question", choices, &choice);
+  EXPECT_EQ(false, success);
+  Blinky* blinky_p(new Blinky(NULL));
+  delete blinky_p;
+}
+
+TEST_F(BlinkyTest, FailIfServerConnectionSlow) {
+  client_->set_server_delay(ros::DURATION_MAX);
+  bool success = blinky_.ShowDefault();
+  EXPECT_EQ(false, success);
+  success = blinky_.ShowMessage("H1", "H2");
+  EXPECT_EQ(false, success);
+  std::vector<std::string> choices;
+  std::string choice;
+  success = blinky_.AskMultipleChoice("Question", choices, &choice);
+  EXPECT_EQ(false, success);
+}
+
+TEST_F(BlinkyTest, FailIfResultTooSlow) {
+  client_->set_result_delay(ros::DURATION_MAX);
+  bool success = blinky_.ShowDefault();
+  EXPECT_EQ(false, success);
+  success = blinky_.ShowMessage("H1", "H2");
+  EXPECT_EQ(false, success);
+  std::vector<std::string> choices;
+  std::string choice;
+  success = blinky_.AskMultipleChoice("Question", choices, &choice);
+  EXPECT_EQ(false, success);
+}
 }  // namespace display
 }  // namespace rapid
 
