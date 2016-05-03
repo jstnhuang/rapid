@@ -214,7 +214,7 @@ TEST(PickTest, ComputeGraspOrientation) {
 
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
-  ros::init(argc, argv, "gripper_test");
+  ros::init(argc, argv, "pick_test");
 
   ros::AsyncSpinner spinner(2);
   spinner.start();

@@ -2,6 +2,7 @@
 #define _RAPID_MANIPULATION_PLACE_H_
 
 #include "geometry_msgs/PointStamped.h"
+#include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/Vector3.h"
 #include "ros/ros.h"
 
@@ -15,14 +16,15 @@ namespace rapid {
 namespace manipulation {
 class Placer {
  public:
-  Placer(ArmInterface* arm, GripperInterface* gripper);
-  ~Placer();
+  Placer(ArmInterface* arm, GripperInterface* gripper,
+         rapid::viz::MarkerPub* marker_pub);
   bool Place(const rapid::perception::Object& obj,
              const rapid::perception::HSurface& table);
+  void VisualizePlacement(const geometry_msgs::PoseStamped& obj_ps,
+                          const geometry_msgs::Vector3& obj_scale);
 
  private:
-  ros::NodeHandle nh_;
-  rapid::viz::MarkerPub* marker_pub_;
+  rapid::viz::MarkerPub* const marker_pub_;
   ArmInterface* const arm_;
   GripperInterface* const gripper_;
 };
@@ -37,7 +39,7 @@ class Placer {
 // will be 2+3.5 = 5.5cm
 //
 // Returns false if no placement could be found.
-bool SampleRandomPlacement(const geometry_msgs::Vector3& object_scale,
+bool SampleRandomPlacement(double obj_height,
                            const rapid::perception::HSurface& table,
                            geometry_msgs::PointStamped* location);
 }  // namespace manipulation

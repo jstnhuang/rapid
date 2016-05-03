@@ -28,7 +28,6 @@ class Picker {
          rapid_ros::ServiceClientInterface<agile_grasp::FindGrasps>*
              grasp_gen_client,
          rapid::viz::MarkerPub* marker_pub);
-  ~Picker();
 
   // Updates the MoveIt! planning scene to match the given Scene.
   // void UpdatePlanningScene(rapid::perception::Scene& scene);
@@ -59,7 +58,7 @@ class Picker {
   // ros::Publisher co_pub_;
   // ros::Publisher ps_pub_;
   rapid_ros::ServiceClientInterface<agile_grasp::FindGrasps>* grasp_gen_client_;
-  rapid::viz::MarkerPub* marker_pub_;
+  rapid::viz::MarkerPub* const marker_pub_;
   rapid::perception::Scene scene_;
   ArmInterface* const arm_;
   GripperInterface* const gripper_;

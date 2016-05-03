@@ -2,12 +2,12 @@
 
 #include <vector>
 
+#include "geometry_msgs/Point.h"
 #include "geometry_msgs/PointStamped.h"
 #include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/Vector3.h"
-#include "tf/transform_broadcaster.h"
-#include "tf/transform_listener.h"
 #include "ros/ros.h"
+#include "tf/transform_datatypes.h"
 
 #include "rapid_manipulation/arm.h"
 #include "rapid_manipulation/gripper.h"
@@ -16,6 +16,7 @@
 #include "rapid_utils/math.h"
 #include "rapid_viz/markers.h"
 
+using geometry_msgs::Point;
 using geometry_msgs::PointStamped;
 using geometry_msgs::PoseStamped;
 using geometry_msgs::Vector3;
@@ -28,15 +29,9 @@ namespace vmsgs = visualization_msgs;
 
 namespace rapid {
 namespace manipulation {
-
-Placer::Placer(ArmInterface* arm, GripperInterface* gripper)
-    : nh_(),
-      marker_pub_(new rapid_ros::Publisher<vmsgs::Marker>(
-          nh_.advertise<vmsgs::Marker>("visualization_marker", 10))),
-      arm_(arm),
-      gripper_(gripper) {}
-
-Placer::~Placer() { delete marker_pub_; }
+Placer::Placer(ArmInterface* arm, GripperInterface* gripper,
+               viz::MarkerPub* marker_pub)
+    : marker_pub_(marker_pub), arm_(arm), gripper_(gripper) {}
 
 bool Placer::Place(const Object& obj, const HSurface& table) {
   // Naive, proof of concept place.
@@ -50,18 +45,14 @@ bool Placer::Place(const Object& obj, const HSurface& table) {
   ros::param::param<int>("place_max_tries", max_tries, 10);
   for (int num_tries = 0; num_tries < max_tries; ++num_tries) {
     ROS_INFO("Sampling placement location");
-    geometry_msgs::PoseStamped location;
-    geometry_msgs::PointStamped loc_position;
-    SampleRandomPlacement(obj.scale(), table, &loc_position);
+    PointStamped loc_position;
+    SampleRandomPlacement(obj.scale().z, table, &loc_position);
+    PoseStamped location;
     location.header = loc_position.header;
     location.pose.position = loc_position.point;
     location.pose.orientation.w = 1;
 
-    rapid::viz::Marker marker =
-        rapid::viz::Marker::Box(marker_pub_, location, obj.scale());
-    marker.SetNamespace("sampled_placement");
-    marker.SetColor(1, 1, 0, 0.5);
-    marker.Publish();
+    VisualizePlacement(location, obj.scale());
 
     bool success = false;
 
@@ -121,19 +112,27 @@ bool Placer::Place(const Object& obj, const HSurface& table) {
   return false;
 }
 
-bool SampleRandomPlacement(const Vector3& object_scale, const HSurface& table,
-                           PointStamped* location) {
-  int max_tries = 0;
-  ros::param::param<int>("sample_placement_max_tries", max_tries, 100);
-  geometry_msgs::PoseStamped table_ps = table.pose();
-  double x_range = table.scale().x - object_scale.x;
-  double start_x = -table.scale().x / 2 + object_scale.x / 2;
-  double y_range = table.scale().y - object_scale.y;
-  double start_y = -table.scale().y / 2 + object_scale.y / 2;
+void Placer::VisualizePlacement(const PoseStamped& obj_ps,
+                                const Vector3& obj_scale) {
+  rapid::viz::Marker marker =
+      rapid::viz::Marker::Box(marker_pub_, obj_ps, obj_scale);
+  marker.SetNamespace("sampled_placement");
+  marker.SetColor(1, 1, 0, 0.5);
+  marker.Publish();
+}
 
-  tf::TransformListener tf_listener;
-  tf::TransformBroadcaster table_broadcaster;
-  tf::Transform table_frame;
+bool SampleRandomPlacement(double obj_height, const HSurface& table,
+                           PointStamped* location) {
+  double distance_from_edge = 0;
+  ros::param::param<double>("distance_from_edge", distance_from_edge, 0.05);
+  geometry_msgs::PoseStamped table_ps = table.pose();
+  double x_range = table.scale().x - 2 * distance_from_edge;
+  double start_x = -table.scale().x / 2 + distance_from_edge;
+  double y_range = table.scale().y - 2 * distance_from_edge;
+  double start_y = -table.scale().y / 2 + distance_from_edge;
+  double z = table.scale().z / 2 + obj_height / 2;
+
+  tf::Transform table_frame;  // Transform from table to base
   tf::Vector3 table_origin(table_ps.pose.position.x, table_ps.pose.position.y,
                            table_ps.pose.position.z);
   tf::Quaternion table_orientation(
@@ -141,38 +140,34 @@ bool SampleRandomPlacement(const Vector3& object_scale, const HSurface& table,
       table_ps.pose.orientation.z, table_ps.pose.orientation.w);
   table_frame.setOrigin(table_origin);
   table_frame.setRotation(table_orientation);
-  table_broadcaster.sendTransform(tf::StampedTransform(
-      table_frame, ros::Time::now(), "base_footprint", "table"));
-  ros::Duration(0.5).sleep();
-  double z = table.scale().z / 2 + object_scale.z / 2;
 
+  int max_tries = 0;
+  ros::param::param<int>("sample_placement_max_tries", max_tries, 100);
+  double obstacle_distance = 0;
+  ros::param::param<double>("obstacle_distance", obstacle_distance, 0.1);
+  double obs_dist_squared = obstacle_distance * obstacle_distance;
   for (int i = 0; i < max_tries; ++i) {
-    PointStamped pos;
-    pos.header.frame_id = "table";
-    std::srand(ros::Time::now().toNSec());
-    pos.point.x =
-        start_x + static_cast<double>(std::rand()) / RAND_MAX * x_range;
-    pos.point.y =
-        start_y + static_cast<double>(std::rand()) / RAND_MAX * y_range;
-    pos.point.z = z;
-
-    PointStamped transformed;
-    tf_listener.transformPoint("base_footprint", pos, transformed);
-
-    ROS_INFO("Try %d (base frame): x=%f, y=%f, z=%f", i, transformed.point.x,
-             transformed.point.y, transformed.point.z);
+    // Sample in table space
+    tf::Vector3 pos;
+    pos.setX(start_x + static_cast<double>(std::rand()) / RAND_MAX * x_range);
+    pos.setY(start_y + static_cast<double>(std::rand()) / RAND_MAX * y_range);
+    pos.setZ(z);
+    tf::Vector3 transformed = table_frame * pos;
+    ROS_INFO("Try %d (base frame): x=%f, y=%f, z=%f", i, transformed.x(),
+             transformed.y(), transformed.z());
 
     // Check that the object doesn't intersect with all other objects.
+    // TODO(jstn): do a real check of object intersection. For now, just check
+    // that it's some distance away from other objects.
+    // TODO(jstn): this assumes objects are in the base frame.
     bool intersect = false;
     const vector<Object>& objects = table.objects();
-    Vector3 inflated_object = object_scale;  // Create an inflated object to
-                                             // account for gripper width.
-    inflated_object.x += 0.05;
-    inflated_object.y += 0.05;
     for (size_t obj_i = 0; obj_i < objects.size(); ++obj_i) {
-      intersect = rapid::utils::AabbXYIntersect(
-          transformed.point, inflated_object,
-          objects[obj_i].pose().pose.position, objects[obj_i].scale());
+      const Point& obj_pos = objects[obj_i].pose().pose.position;
+      double xd = obj_pos.x - transformed.x();
+      double yd = obj_pos.y - transformed.y();
+      double squared_distance = xd * xd + yd * yd;
+      intersect = squared_distance < obs_dist_squared;
       if (intersect) {
         break;
       }
@@ -181,7 +176,10 @@ bool SampleRandomPlacement(const Vector3& object_scale, const HSurface& table,
       continue;
     }
 
-    *location = transformed;
+    location->header.frame_id = table.pose().header.frame_id;
+    location->point.x = transformed.x();
+    location->point.y = transformed.y();
+    location->point.z = transformed.z();
 
     return true;
   }

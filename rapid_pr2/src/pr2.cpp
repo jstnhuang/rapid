@@ -147,8 +147,8 @@ Pr2* BuildReal(ros::NodeHandle& nh) {
       new Picker(left_arm, left_gripper, grasp_gen_client, marker_pub);
   Picker* right_picker =
       new Picker(right_arm, right_gripper, grasp_gen_client, marker_pub);
-  Placer* left_placer = new Placer(left_arm, left_gripper);
-  Placer* right_placer = new Placer(right_arm, right_gripper);
+  Placer* left_placer = new Placer(left_arm, left_gripper, marker_pub);
+  Placer* right_placer = new Placer(right_arm, right_gripper, marker_pub);
   return new Pr2(left_arm, right_arm, display, left_gripper, right_gripper,
                  head, sound, tuck_arms, left_picker, right_picker, left_placer,
                  right_placer);

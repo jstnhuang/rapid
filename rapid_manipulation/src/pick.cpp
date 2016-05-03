@@ -61,8 +61,6 @@ Picker::Picker(ArmInterface* arm, GripperInterface* gripper,
   //}
 }
 
-Picker::~Picker() { delete marker_pub_; }
-
 // void Picker::UpdatePlanningSceneTopic(const string& id,
 //                                      const CollisionObject& obj) {
 //  // Remove old object.
