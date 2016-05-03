@@ -253,6 +253,14 @@ if(CATKIN_ENABLE_TESTING)
     rapid_manipulation
     ${catkin_LIBRARIES}
   )
+  add_rostest_gtest(rapid_manipulation_tuck_arms_test
+    test/tuck_arms_test.launch
+    test/tuck_arms_test.cpp
+  )
+  target_link_libraries(rapid_manipulation_tuck_arms_test
+    rapid_manipulation
+    ${catkin_LIBRARIES}
+  )
 endif()
 
 ## Add folders to be run by python nosetests

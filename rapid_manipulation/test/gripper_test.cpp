@@ -45,7 +45,6 @@ class GripperTest : public ::testing::Test {
 };
 
 TEST_F(GripperTest, Open) {
-  client_->set_state(SimpleClientGoalState::SUCCEEDED);
   SetTfDistance(0.118);
   bool success = gripper_.Open();
   Pr2GripperCommandGoal goal = client_->last_goal();
@@ -77,7 +76,6 @@ TEST_F(GripperTest, GetPositionException) {
 
 TEST_F(GripperTest, Close) {
   SetTfDistance(0.031);
-  client_->set_state(SimpleClientGoalState::SUCCEEDED);
   bool success = gripper_.Close(10);
   Pr2GripperCommandGoal goal = client_->last_goal();
   EXPECT_EQ(true, success);
@@ -101,14 +99,12 @@ TEST_F(GripperTest, ShouldDropObjectOnOpen) {
   EXPECT_EQ(true, gripper_.HeldObject(&actual_obj));
   EXPECT_EQ("test", actual_obj.name());
 
-  client_->set_state(SimpleClientGoalState::SUCCEEDED);
   gripper_.SetPosition(0.03);  // Slightly open.
   EXPECT_EQ(false, gripper_.is_holding_object());
 }
 
 TEST_F(GripperTest, ShouldClampIfPositionTooSmall) {
   SetTfDistance(0.031);
-  client_->set_state(SimpleClientGoalState::SUCCEEDED);
   bool success = gripper_.SetPosition(-1);
   Pr2GripperCommandGoal goal = client_->last_goal();
   EXPECT_EQ(0, goal.command.position);  // Gripper::CLOSED
@@ -118,7 +114,6 @@ TEST_F(GripperTest, ShouldClampIfPositionTooSmall) {
 
 TEST_F(GripperTest, ShouldClampIfPositionTooLarge) {
   SetTfDistance(0.118);
-  client_->set_state(SimpleClientGoalState::SUCCEEDED);
   bool success = gripper_.SetPosition(1);
   Pr2GripperCommandGoal goal = client_->last_goal();
   EXPECT_EQ(0.09, goal.command.position);  // Gripper::OPEN
@@ -128,7 +123,6 @@ TEST_F(GripperTest, ShouldClampIfPositionTooLarge) {
 
 TEST_F(GripperTest, ShouldFailIfNoServer) {
   SetTfDistance(0.118);
-  client_->set_state(SimpleClientGoalState::SUCCEEDED);
   client_->set_server_delay(ros::DURATION_MAX);
   bool success = gripper_.Open();
   EXPECT_EQ(false, success);
@@ -136,7 +130,6 @@ TEST_F(GripperTest, ShouldFailIfNoServer) {
 
 TEST_F(GripperTest, ShouldFailIfResultTooSlow) {
   SetTfDistance(0.118);
-  client_->set_state(SimpleClientGoalState::SUCCEEDED);
   client_->set_result_delay(ros::DURATION_MAX);
   bool success = gripper_.Open();
   EXPECT_EQ(false, success);
