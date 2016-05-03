@@ -35,7 +35,7 @@ ParseParams Pr2Params() {
   p.scene.max_z = 1.7;
   p.hsurface.distance_threshold = 0.015;
   p.hsurface.eps_angle = rapid::utils::DegreesToRadians(5);
-  p.objects.distance_threshold = 0.1;
+  p.objects.distance_threshold = 0.05;
   p.objects.point_color_threshold = 35;
   p.objects.region_color_threshold = 20;
   p.objects.min_cluster_size = 38;
