@@ -89,6 +89,56 @@ TEST(MarkerTest, CopyAssignment) {
   EXPECT_EQ(4, pub.sent_messages().size());
 }
 
+TEST(MarkerTest, Delete) {
+  MockPublisher<vmsgs::Marker> pub;
+  Point origin;
+  Vector3 vector;
+  Marker m = Marker::Vector(&pub, "base_footprint", origin, vector);
+  m.Publish();
+  vmsgs::Marker last_msg_1 = pub.last_message();
+  EXPECT_EQ(vmsgs::Marker::ADD, last_msg_1.action);
+  m.Delete();
+  vmsgs::Marker last_msg_2 = pub.last_message();
+  EXPECT_EQ(vmsgs::Marker::DELETE, last_msg_2.action);
+}
+
+TEST(MarkerTest, DeleteOnReassignment) {
+  MockPublisher<vmsgs::Marker> pub;
+  Point origin;
+  Vector3 vector;
+  Marker m = Marker::Vector(&pub, "base_footprint", origin, vector);
+  int m_id = m.marker().id;
+  m.Publish();
+  EXPECT_EQ(1, pub.sent_messages().size());
+  vmsgs::Marker last_msg_1 = pub.last_message();
+  EXPECT_EQ(vmsgs::Marker::ADD, last_msg_1.action);
+  EXPECT_EQ(m_id, last_msg_1.id);
+
+  PoseStamped ps;
+  Vector3 scale;
+  m = Marker::Box(&pub, ps, vector);
+  // 2 deletes - one for static Marker::Box, and one for old value of m.
+  EXPECT_EQ(3, pub.sent_messages().size());
+  vmsgs::Marker last_msg_2 =
+      pub.sent_messages()[pub.sent_messages().size() - 2];
+  EXPECT_EQ(vmsgs::Marker::DELETE, last_msg_2.action);
+  EXPECT_EQ(m_id, last_msg_2.id);
+
+  m.Publish();
+  EXPECT_EQ(4, pub.sent_messages().size());
+  vmsgs::Marker last_msg_3 = pub.last_message();
+  EXPECT_EQ(vmsgs::Marker::ADD, last_msg_3.action);
+
+  int m3_id = m.marker().id;
+
+  m = Marker::Box(&pub, ps, vector);
+  EXPECT_EQ(6, pub.sent_messages().size());
+  vmsgs::Marker last_msg_4 =
+      pub.sent_messages()[pub.sent_messages().size() - 2];
+  EXPECT_EQ(vmsgs::Marker::DELETE, last_msg_4.action);
+  EXPECT_EQ(m3_id, last_msg_4.id);
+}
+
 TEST(MarkerTest, DoesNothingWithInvalidPublisher) {
   MockPublisher<vmsgs::Marker> pub;
   pub.set_valid(false);

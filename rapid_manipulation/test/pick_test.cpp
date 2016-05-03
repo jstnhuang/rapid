@@ -117,8 +117,8 @@ TEST_F(PickerTest, VizShouldBePublished) {
 
   picker_.Pick(obj);
 
-  // 2 vectors + 2 deletion messages.
-  ASSERT_EQ(4, marker_pub_->sent_messages().size());
+  // 2 vectors + 3 deletion messages.
+  ASSERT_EQ(5, marker_pub_->sent_messages().size());
   // If the grasp frame is the empty frame (which seems to be the case with
   // agile_grasp results), then the grasp frame should be the Kinect optical
   // frame.

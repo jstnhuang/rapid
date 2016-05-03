@@ -162,6 +162,13 @@ void Marker::Publish() {
   }
 }
 
+void Marker::Delete() {
+  if (pub_ && pub_->IsValid()) {
+    marker_.action = visualization_msgs::Marker::DELETE;
+    pub_->publish(marker_);
+  }
+}
+
 void Marker::SetColor(double r, double g, double b, double a) {
   marker_.color.r = r;
   marker_.color.g = g;
@@ -201,17 +208,13 @@ Marker::Marker(const Marker& rhs) : pub_(rhs.pub_), marker_(rhs.marker_) {
 }
 
 Marker& Marker::operator=(const Marker& rhs) {
+  Delete();
   pub_ = rhs.pub_;
   marker_ = rhs.marker_;
   marker_.id = rand();
   return *this;
 }
 
-Marker::~Marker() {
-  if (pub_ && pub_->IsValid()) {
-    marker_.action = visualization_msgs::Marker::DELETE;
-    pub_->publish(marker_);
-  }
-}
+Marker::~Marker() { Delete(); }
 }  // namespace viz
 }  // namespace rapid

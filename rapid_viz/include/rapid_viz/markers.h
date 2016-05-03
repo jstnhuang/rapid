@@ -60,6 +60,7 @@ class Marker {
 
   // Publish the marker to the publisher that was passed in.
   void Publish();
+  void Delete();
 
   // Set properties of the marker.
   void SetColor(double r, double g, double b, double a = 0.9);
