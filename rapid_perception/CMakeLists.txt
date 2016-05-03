@@ -195,12 +195,12 @@ target_link_libraries(rapid_perception_scene_parsing
 add_library(rapid_perception_scene_viz
   src/scene_viz.cpp
 )
-add_dependencies(rapid_perception_scene_parsing
+add_dependencies(rapid_perception_scene_viz
   rapid_perception_scene
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
 )
-target_link_libraries(rapid_perception_scene_parsing
+target_link_libraries(rapid_perception_scene_viz
   rapid_perception_scene
   ${PCL_LIBRARIES}
   ${catkin_LIBRARIES}
@@ -312,6 +312,11 @@ if(CATKIN_ENABLE_TESTING)
   target_link_libraries(rapid_scene_parsing_test
     rapid_perception_scene_parsing
     ${PCL_LIBRARIES}
+    ${catkin_LIBRARIES}
+  )
+  catkin_add_gtest(rapid_scene_viz_test test/scene_viz_test.cpp)
+  target_link_libraries(rapid_scene_viz_test
+    rapid_perception_scene_viz
     ${catkin_LIBRARIES}
   )
 endif()
