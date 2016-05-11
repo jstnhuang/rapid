@@ -74,11 +74,12 @@ MockServiceClient<Service>::MockServiceClient()
 
 template <class Service>
 bool MockServiceClient<Service>::call(Service& srv) {
-  if (!success_) {
-    return false;
-  }
-  srv.response = response_;
-  return true;
+  return call(srv.request, srv.response);
+  // if (!success_) {
+  //  return false;
+  //}
+  // srv.response = response_;
+  // return true;
 }
 
 template <class Service>

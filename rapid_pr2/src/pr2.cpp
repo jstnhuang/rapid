@@ -1,7 +1,7 @@
 #include "rapid_pr2/pr2.h"
-
 #include "agile_grasp/FindGrasps.h"
 #include "blinky/FaceAction.h"
+#include "pr2_common_action_msgs/TuckArmsAction.h"
 #include "pr2_controllers_msgs/PointHeadAction.h"
 #include "pr2_controllers_msgs/Pr2GripperCommandAction.h"
 #include "ros/node_handle.h"
@@ -19,6 +19,7 @@
 #include "rapid_viz/markers.h"
 
 using blinky::FaceAction;
+using pr2_common_action_msgs::TuckArmsAction;
 using pr2_controllers_msgs::PointHeadAction;
 using pr2_controllers_msgs::Pr2GripperCommandAction;
 using rapid::display::Blinky;
@@ -136,7 +137,8 @@ Pr2* BuildReal(ros::NodeHandle& nh) {
   HeadInterface* head = new Head(new ActionClient<PointHeadAction>(
       "/head_traj_controller/point_head_action"));
   SoundInterface* sound = new SoundPlay("voice_cmu_us_slt_arctic_hts");
-  TuckArmsInterface* tuck_arms = new Pr2TuckArms();
+  TuckArmsInterface* tuck_arms =
+      new Pr2TuckArms(new ActionClient<TuckArmsAction>("tuck_arms"));
 
   MarkerPub* marker_pub = new rapid_ros::Publisher<visualization_msgs::Marker>(
       nh.advertise<visualization_msgs::Marker>("visualization_marker", 10));

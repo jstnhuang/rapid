@@ -134,7 +134,7 @@ template <class ActionSpec>
 MockActionClient<ActionSpec>::MockActionClient()
     : last_goal_(),
       result_(),
-      state_(actionlib::SimpleClientGoalState::PENDING),
+      state_(actionlib::SimpleClientGoalState::SUCCEEDED),
       result_delay_(0),
       server_delay_(0),
       is_server_connected_(true) {}

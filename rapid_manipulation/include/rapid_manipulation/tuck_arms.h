@@ -6,6 +6,8 @@
 #include "gmock/gmock.h"
 #include "pr2_common_action_msgs/TuckArmsAction.h"
 
+#include "rapid_ros/action_client.h"
+
 namespace rapid {
 namespace manipulation {
 class TuckArmsInterface {
@@ -19,15 +21,19 @@ class TuckArmsInterface {
 
 class Pr2TuckArms : public TuckArmsInterface {
  public:
-  Pr2TuckArms();
+  explicit Pr2TuckArms(rapid_ros::ActionClientInterface<
+      pr2_common_action_msgs::TuckArmsAction>* client);
   bool TuckArms();
   bool DeployLeft();
   bool DeployRight();
   bool DeployArms();
 
+  void set_server_wait_time(double server_wait_time);
+
  private:
   bool ExecuteAction(bool tuck_left, bool tuck_right);
-  actionlib::SimpleActionClient<pr2_common_action_msgs::TuckArmsAction> client_;
+  rapid_ros::ActionClientInterface<pr2_common_action_msgs::TuckArmsAction>*
+      client_;
   double server_wait_time_;  // Wait time for tuck arms server, in seconds.
 };
 
