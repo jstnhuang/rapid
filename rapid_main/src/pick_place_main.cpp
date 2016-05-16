@@ -15,8 +15,10 @@
 #include "rapid_perception/pr2.h"
 #include "rapid_perception/rgbd.hpp"
 #include "rapid_perception/scene.h"
+#include "rapid_perception/scene_viz.h"
 #include "rapid_perception/scene_parsing.h"
 #include "rapid_pr2/pr2.h"
+#include "rapid_ros/publisher.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "tf/transform_listener.h"
@@ -31,9 +33,12 @@ using rapid::manipulation::Gripper;
 using rapid::perception::Object;
 using rapid::perception::Pr2Params;
 using rapid::perception::Scene;
+using rapid::perception::SceneViz;
 using rapid::pr2::Pr2;
+using rapid_ros::Publisher;
 using std::string;
 using std::vector;
+using visualization_msgs::Marker;
 
 int main(int argc, char** argv) {
   ros::init(argc, argv, "pick_place");
@@ -65,16 +70,14 @@ int main(int argc, char** argv) {
                                  tf_listener);
     pcl::fromROSMsg(transformed, *cloud);
 
-    // Crop point cloud
-    // visualization_msgs::Marker ws;
-    // rapid::perception::pr2::GetManipulationWorkspace(&ws);
-    // pcl::PointCloud<pcl::PointXYZRGB> ws_cloud;
-    // rapid::perception::CropWorkspace(cloud, ws, &ws_cloud);
-
     // Parse scene
     Scene scene;
+    ros::Publisher marker_ros_pub = nh.advertise<Marker>("/code_it_markers", 100);
+    Publisher<Marker>* marker_pub = new Publisher<Marker>(marker_ros_pub);
+    SceneViz viz(marker_pub);
     rapid::perception::ParseScene(cloud, Pr2Params(), &scene);
-    // scene.Visualize();
+    viz.set_scene(scene);
+    viz.Visualize();
     const vector<Object>& objects = scene.primary_surface().objects();
     if (objects.size() == 0) {
       ROS_ERROR("No objects found.");

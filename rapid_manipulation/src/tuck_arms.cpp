@@ -14,7 +14,7 @@ using rapid_ros::ActionClientInterface;
 namespace rapid {
 namespace manipulation {
 Pr2TuckArms::Pr2TuckArms(ActionClientInterface<TuckArmsAction>* client)
-    : client_(client), server_wait_time_(5) {}
+    : client_(client), server_wait_time_(10) {}
 
 bool Pr2TuckArms::TuckArms() { return ExecuteAction(true, true); }
 bool Pr2TuckArms::DeployLeft() { return ExecuteAction(false, true); }
