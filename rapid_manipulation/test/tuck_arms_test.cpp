@@ -75,11 +75,11 @@ TEST_F(TuckArmsTest, ResultTooSlow) {
 }
 
 TEST_F(TuckArmsTest, SetServerWaitTime) {
-  client_->set_server_delay(ros::Duration(10));
+  client_->set_server_delay(ros::Duration(30)); // 30 > default of 20 seconds.
   bool success = tuck_arms_.TuckArms();
   EXPECT_EQ(false, success);
 
-  tuck_arms_.set_server_wait_time(15);
+  tuck_arms_.set_server_wait_time(60);
   success = tuck_arms_.TuckArms();
   EXPECT_EQ(true, success);
 }
