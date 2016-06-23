@@ -14,7 +14,7 @@ class JointStates {
  public:
   JointStates();
   void Set(const std::map<std::string, double>& joint_positions);
-  std::map<std::string, double> joint_positions();
+  std::map<std::string, double> joint_positions() const;
 
  private:
   void Initialize();
