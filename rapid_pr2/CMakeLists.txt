@@ -103,7 +103,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES rapid_pr2
+  LIBRARIES
+    rapid_pr2
+    rapid_pr2_joint_states
   CATKIN_DEPENDS
     agile_grasp
     blinky
