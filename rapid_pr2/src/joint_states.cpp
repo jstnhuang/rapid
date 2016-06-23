@@ -12,7 +12,7 @@ void JointStates::Set(const std::map<std::string, double>& joint_positions) {
   }
 }
 
-std::map<std::string, double> JointStates::joint_positions() {
+std::map<std::string, double> JointStates::joint_positions() const {
   return joint_positions_;
 }
 
