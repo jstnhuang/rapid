@@ -103,7 +103,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES rapid_pr2
+  LIBRARIES
+    rapid_pr2
+    rapid_pr2_joint_states
   CATKIN_DEPENDS
     agile_grasp
     blinky
@@ -137,6 +139,17 @@ add_dependencies(rapid_pr2
   ${catkin_EXPORTED_TARGETS}
 )
 target_link_libraries(rapid_pr2
+  ${catkin_LIBRARIES}
+)
+
+add_library(rapid_pr2_joint_states
+  src/joint_states.cpp
+)
+add_dependencies(rapid_pr2_joint_states
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(rapid_pr2_joint_states
   ${catkin_LIBRARIES}
 )
 
