@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   rapid_manipulation
   rapid_perception
   rapid_pr2
+  rapid_ros
   rapid_viz
   roscpp
   visualization_msgs
@@ -115,6 +116,7 @@ catkin_package(
     rapid_manipulation
     rapid_perception
     rapid_pr2
+    rapid_ros
     rapid_viz
     roscpp
     visualization_msgs
