@@ -6,9 +6,12 @@ project(rapid_viz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
+  interactive_markers
   rapid_ros
   rapid_utils
   roscpp
+  std_msgs
+  tf
   visualization_msgs
 )
 
@@ -106,9 +109,11 @@ catkin_package(
   LIBRARIES rapid_viz
   CATKIN_DEPENDS
     geometry_msgs
+    interactive_markers
     rapid_ros
     rapid_utils
     roscpp
+    tf
     visualization_msgs
 #  DEPENDS system_lib
 )
@@ -128,6 +133,7 @@ include_directories(
 ## Declare a C++ library
 add_library(rapid_viz
   src/markers.cpp
+  src/pr2_gripper.cpp
 )
 add_dependencies(rapid_viz
   ${${PROJECT_NAME}_EXPORTED_TARGETS}

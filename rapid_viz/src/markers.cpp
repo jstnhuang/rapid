@@ -9,6 +9,7 @@
 #include "geometry_msgs/Vector3.h"
 #include "geometry_msgs/Vector3Stamped.h"
 #include "ros/ros.h"
+#include "std_msgs/ColorRGBA.h"
 #include "visualization_msgs/Marker.h"
 
 #include "rapid_utils/math.h"
@@ -22,8 +23,8 @@ using geometry_msgs::Vector3;
 
 namespace rapid {
 namespace viz {
-Marker Marker::Box(const MarkerPub* pub, const geometry_msgs::PoseStamped& pose,
-                   const geometry_msgs::Vector3& scale) {
+Marker Marker::Box(const MarkerPub* pub, const PoseStamped& pose,
+                   const Vector3& scale) {
   Marker m(pub);
   m.SetType(visualization_msgs::Marker::CUBE);
   m.SetPose(pose);
@@ -33,12 +34,11 @@ Marker Marker::Box(const MarkerPub* pub, const geometry_msgs::PoseStamped& pose,
   return m;
 }
 
-Marker Marker::OutlineBox(const MarkerPub* pub,
-                          const geometry_msgs::PoseStamped& pose,
-                          const geometry_msgs::Vector3& scale) {
+Marker Marker::OutlineBox(const MarkerPub* pub, const PoseStamped& pose,
+                          const Vector3& scale) {
   Marker m(pub);
   m.SetType(visualization_msgs::Marker::LINE_LIST);
-  geometry_msgs::Vector3 line_scale;
+  Vector3 line_scale;
   line_scale.x = 0.01;
   m.SetFrame(pose.header.frame_id);
   m.SetScale(line_scale);
@@ -108,13 +108,34 @@ Marker Marker::OutlineBox(const MarkerPub* pub,
   return m;
 }
 
-Marker Marker::Text(const MarkerPub* pub,
-                    const geometry_msgs::PoseStamped& pose,
-                    const std::string& text, double size) {
+Marker Marker::Mesh(const MarkerPub* pub, const geometry_msgs::PoseStamped& ps,
+                    const std::string& uri) {
+  Marker m(pub);
+  m.SetType(visualization_msgs::Marker::MESH_RESOURCE);
+  m.SetPose(ps);
+  Vector3 scale;
+  scale.x = 1;
+  scale.y = 1;
+  scale.z = 1;
+  m.SetScale(scale);
+  m.marker_.mesh_resource = uri;
+  m.marker_.mesh_use_embedded_materials = true;
+  return m;
+}
+
+Marker Marker::Mesh(const MarkerPub* pub, const geometry_msgs::PoseStamped& ps,
+                    const std::string& uri, const std_msgs::ColorRGBA& color) {
+  Marker m = Marker::Mesh(pub, ps, uri);
+  m.SetColor(color.r, color.g, color.b, color.a);
+  return m;
+}
+
+Marker Marker::Text(const MarkerPub* pub, const PoseStamped& pose,
+                    const string& text, double size) {
   Marker m(pub);
   m.SetType(visualization_msgs::Marker::TEXT_VIEW_FACING);
   m.SetPose(pose);
-  geometry_msgs::Vector3 scale;
+  Vector3 scale;
   scale.z = size;
   m.SetScale(scale);
   m.SetText(text);
@@ -176,26 +197,24 @@ void Marker::SetColor(double r, double g, double b, double a) {
   marker_.color.a = a;
 }
 
-void Marker::SetFrame(const std::string& frame_id) {
+void Marker::SetFrame(const string& frame_id) {
   marker_.header.frame_id = frame_id;
 }
 
-void Marker::SetNamespace(const std::string& ns) { marker_.ns = ns; }
+void Marker::SetNamespace(const string& ns) { marker_.ns = ns; }
 
 void Marker::SetPoints(const std::vector<geometry_msgs::Point>& points) {
   marker_.points = points;
 }
 
-void Marker::SetPose(const geometry_msgs::PoseStamped& ps) {
+void Marker::SetPose(const PoseStamped& ps) {
   marker_.header = ps.header;
   marker_.pose = ps.pose;
 }
 
-void Marker::SetScale(const geometry_msgs::Vector3& scale) {
-  marker_.scale = scale;
-}
+void Marker::SetScale(const Vector3& scale) { marker_.scale = scale; }
 
-void Marker::SetText(const std::string& text) { marker_.text = text; }
+void Marker::SetText(const string& text) { marker_.text = text; }
 
 void Marker::SetType(uint8_t type) { marker_.type = type; }
 

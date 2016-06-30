@@ -5,6 +5,7 @@ project(rapid_main)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  interactive_markers
   moveit_core
   moveit_ros_planning_interface
   pcl_conversions
@@ -12,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   rapid_manipulation
   rapid_perception
   rapid_pr2
+  rapid_viz
   roscpp
   visualization_msgs
 )
@@ -105,6 +107,7 @@ catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES rapid_main
   CATKIN_DEPENDS
+    interactive_markers
     moveit_core
     moveit_ros_planning_interface
     pcl_conversions
@@ -112,6 +115,7 @@ catkin_package(
     rapid_manipulation
     rapid_perception
     rapid_pr2
+    rapid_viz
     roscpp
     visualization_msgs
   # DEPENDS
@@ -144,6 +148,15 @@ add_dependencies(pick_place_main
   ${catkin_EXPORTED_TARGETS}
 )
 target_link_libraries(pick_place_main
+  ${catkin_LIBRARIES}
+)
+
+add_executable(pr2_gripper_viz_main src/pr2_gripper_viz_main.cpp)
+add_dependencies(pr2_gripper_viz_main
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(pr2_gripper_viz_main
   ${catkin_LIBRARIES}
 )
 
