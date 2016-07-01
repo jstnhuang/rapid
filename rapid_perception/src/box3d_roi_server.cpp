@@ -200,36 +200,29 @@ void Box3DRoiServer::Update(const std::string& dim, const std::string& polarity,
     new_scale_z = new_scale;
   }
   box = Box(new_x, new_y, new_z, new_scale_x, new_scale_y, new_scale_z);
-  server_->erase("box");
   server_->insert(box);
 
   // Update arrows
   InteractiveMarker pos_x = Arrow("x", "pos", new_x, new_y, new_z, new_scale_x,
                                   new_scale_y, new_scale_z);
-  server_->erase("pos_x");
-  server_->insert(pos_x);
+  server_->setPose("pos_x", pos_x.pose, pos_x.header);
   InteractiveMarker neg_x = Arrow("x", "neg", new_x, new_y, new_z, new_scale_x,
                                   new_scale_y, new_scale_z);
-  server_->erase("neg_x");
-  server_->insert(neg_x);
+  server_->setPose("neg_x", neg_x.pose, neg_x.header);
 
   InteractiveMarker pos_y = Arrow("y", "pos", new_x, new_y, new_z, new_scale_x,
                                   new_scale_y, new_scale_z);
-  server_->erase("pos_y");
-  server_->insert(pos_y);
+  server_->setPose("pos_y", pos_y.pose, pos_y.header);
   InteractiveMarker neg_y = Arrow("y", "neg", new_x, new_y, new_z, new_scale_x,
                                   new_scale_y, new_scale_z);
-  server_->erase("neg_y");
-  server_->insert(neg_y);
+  server_->setPose("neg_y", neg_y.pose, neg_y.header);
 
   InteractiveMarker pos_z = Arrow("z", "pos", new_x, new_y, new_z, new_scale_x,
                                   new_scale_y, new_scale_z);
-  server_->erase("pos_z");
-  server_->insert(pos_z);
+  server_->setPose("pos_z", pos_z.pose, pos_z.header);
   InteractiveMarker neg_z = Arrow("z", "neg", new_x, new_y, new_z, new_scale_x,
                                   new_scale_y, new_scale_z);
-  server_->erase("neg_z");
-  server_->insert(neg_z);
+  server_->setPose("neg_z", neg_z.pose, neg_z.header);
 
   server_->applyChanges();
 }
