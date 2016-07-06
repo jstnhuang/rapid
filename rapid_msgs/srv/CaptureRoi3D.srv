@@ -1,0 +1,5 @@
+# Given an ROI for a point cloud, capture the points in that region and return it in cloud.
+
+rapid_msgs/Roi3D roi
+---
+sensor_msgs/PointCloud2 cloud

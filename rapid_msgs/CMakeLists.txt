@@ -45,12 +45,13 @@ find_package(catkin REQUIRED
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
-  ClosingRegion.msg
+  Roi3D.msg
 )
 
 ## Generate services in the 'srv' folder
 add_service_files(
   FILES
+  CaptureRoi3D.srv
   MoveArm.srv
   UseGrippers.srv
 )
