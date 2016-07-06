@@ -5,12 +5,14 @@
 
 #include "boost/bind.hpp"
 #include "interactive_markers/interactive_marker_server.h"
+#include "rapid_msgs/Roi3D.h"
 #include "visualization_msgs/InteractiveMarker.h"
 #include "visualization_msgs/InteractiveMarkerControl.h"
 #include "visualization_msgs/InteractiveMarkerFeedback.h"
 #include "visualization_msgs/Marker.h"
 
 using interactive_markers::InteractiveMarkerServer;
+using rapid_msgs::Roi3D;
 using visualization_msgs::InteractiveMarker;
 using visualization_msgs::InteractiveMarkerControl;
 using visualization_msgs::InteractiveMarkerFeedbackConstPtr;
@@ -60,6 +62,13 @@ InteractiveMarker Box3DRoiServer::Box(double x, double y, double z,
 void Box3DRoiServer::Start() {
   InteractiveMarker box_marker = Box(0.5, 0, 1, 0.3, 0.3, 0.3);
   server_->insert(box_marker);
+  roi_.transform.translation.x = 0.5;
+  roi_.transform.translation.y = 0;
+  roi_.transform.translation.z = 1;
+  roi_.transform.rotation.w = 1;
+  roi_.dimensions.x = 0.3;
+  roi_.dimensions.y = 0.3;
+  roi_.dimensions.z = 0.3;
 
   InteractiveMarker x_marker = Arrow("x", "pos", 0.5, 0, 1, 0.3, 0.3, 0.3);
   server_->insert(x_marker, boost::bind(&Box3DRoiServer::Feedback, this, _1));
@@ -202,6 +211,14 @@ void Box3DRoiServer::Update(const std::string& dim, const std::string& polarity,
   box = Box(new_x, new_y, new_z, new_scale_x, new_scale_y, new_scale_z);
   server_->insert(box);
 
+  // Update ROI
+  roi_.transform.translation.x = new_x;
+  roi_.transform.translation.y = new_y;
+  roi_.transform.translation.z = new_z;
+  roi_.dimensions.x = new_scale_x;
+  roi_.dimensions.y = new_scale_y;
+  roi_.dimensions.z = new_scale_z;
+
   // Update arrows
   InteractiveMarker pos_x = Arrow("x", "pos", new_x, new_y, new_z, new_scale_x,
                                   new_scale_y, new_scale_z);
@@ -244,6 +261,8 @@ void Box3DRoiServer::Feedback(
     Update("z", "neg", point);
   }
 }
+
+rapid_msgs::Roi3D Box3DRoiServer::roi() { return roi_; }
 
 }  // namespace perception
 }  // namespace rapid

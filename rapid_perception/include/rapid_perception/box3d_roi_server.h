@@ -5,6 +5,7 @@
 
 #include "geometry_msgs/Point.h"
 #include "interactive_markers/interactive_marker_server.h"
+#include "rapid_msgs/Roi3D.h"
 #include "visualization_msgs/InteractiveMarker.h"
 #include "visualization_msgs/InteractiveMarkerFeedback.h"
 
@@ -16,6 +17,7 @@ class Box3DRoiServer {
   Box3DRoiServer(const std::string& topic);
   ~Box3DRoiServer();
   void Start();
+  rapid_msgs::Roi3D roi();
 
  private:
   void Feedback(
@@ -31,6 +33,7 @@ class Box3DRoiServer {
   void Update(const std::string& dim, const std::string& polarity,
               const geometry_msgs::Point& point);
   interactive_markers::InteractiveMarkerServer* server_;
+  rapid_msgs::Roi3D roi_;
 };
 }  // namespace perception
 }  // namespace rapid

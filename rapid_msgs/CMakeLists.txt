@@ -7,6 +7,7 @@ project(rapid_msgs)
 find_package(catkin REQUIRED
   geometry_msgs
   message_generation
+  sensor_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -67,6 +68,7 @@ add_service_files(
 generate_messages(
   DEPENDENCIES
   geometry_msgs
+  sensor_msgs
 )
 
 ################################################
@@ -104,6 +106,7 @@ catkin_package(
   CATKIN_DEPENDS
     geometry_msgs
     message_runtime
+    sensor_msgs
 #  DEPENDS system_lib
 )
 
