@@ -116,9 +116,3 @@ int main(int argc, char** argv) {
   ros::waitForShutdown();
   return 0;
 }
-
-void cloud_callback(const sensor_msgs::PointCloud2ConstPtr& msg) { return; }
-bool capture_roi(rapid_msgs::CaptureRoi3DRequest& req,
-                 rapid_msgs::CaptureRoi3DResponse& res) {
-  return true;
-}
