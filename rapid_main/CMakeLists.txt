@@ -162,15 +162,6 @@ target_link_libraries(pr2_gripper_viz_main
   ${catkin_LIBRARIES}
 )
 
-add_executable(roi3d_main src/roi3d_main.cpp)
-add_dependencies(roi3d_main
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-)
-target_link_libraries(roi3d_main
-  ${catkin_LIBRARIES}
-)
-
 #############
 ## Install ##
 #############

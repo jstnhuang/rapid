@@ -1,5 +1,5 @@
-# Given an ROI for a point cloud, capture the points in that region and return it in cloud.
+# Given an ROI for a point cloud, capture the points in that region and save it to MongoDB.
 # The ROI is supplied by some external interface.
 
 ---
-sensor_msgs/PointCloud2 cloud
+string id # ID in MongoDB of the saved landmark.
