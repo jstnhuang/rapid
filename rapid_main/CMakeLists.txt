@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   interactive_markers
   moveit_core
   moveit_ros_planning_interface
+  pbd_landmarks
   pcl_conversions
   pcl_ros
   rapid_manipulation
@@ -159,6 +160,15 @@ add_dependencies(pr2_gripper_viz_main
   ${catkin_EXPORTED_TARGETS}
 )
 target_link_libraries(pr2_gripper_viz_main
+  ${catkin_LIBRARIES}
+)
+
+add_executable(object_search_main src/object_search_main.cpp)
+add_dependencies(object_search_main
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(object_search_main
   ${catkin_LIBRARIES}
 )
 
