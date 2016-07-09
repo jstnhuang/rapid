@@ -7,6 +7,7 @@
 #include "geometry_msgs/Point.h"
 #include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/Vector3.h"
+#include "std_msgs/ColorRGBA.h"
 #include "visualization_msgs/Marker.h"
 #include "ros/ros.h"
 
@@ -42,6 +43,16 @@ class Marker {
   static Marker OutlineBox(const MarkerPub* pub,
                            const geometry_msgs::PoseStamped& pose,
                            const geometry_msgs::Vector3& scale);
+
+  // Creates a mesh marker.
+  // uri is the URI-form used by the resource_retriever ROS package.
+  // E.g., package://pr2_description/meshes/base_v0/base.dae
+  // color is a color to use, if desired. Leave it as all zeros to use the
+  // mesh's color, or specify a non-zero value to override the mesh's color.
+  static Marker Mesh(const MarkerPub* pub, const geometry_msgs::PoseStamped& ps,
+                     const std::string& uri);
+  static Marker Mesh(const MarkerPub* pub, const geometry_msgs::PoseStamped& ps,
+                     const std::string& uri, const std_msgs::ColorRGBA& color);
 
   // Create a text marker with the given pose. The size is the size of a capital
   // 'A,' in  meters.

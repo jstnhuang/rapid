@@ -41,14 +41,18 @@
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>geometry_msgs</build_depend>
+  <build_depend>interactive_markers</build_depend>
   <build_depend>rapid_ros</build_depend>
   <build_depend>rapid_utils</build_depend>
   <build_depend>roscpp</build_depend>
+  <build_depend>tf</build_depend>
   <build_depend>visualization_msgs</build_depend>
   <run_depend>geometry_msgs</run_depend>
+  <run_depend>interactive_markers</run_depend>
   <run_depend>rapid_ros</run_depend>
   <run_depend>rapid_utils</run_depend>
   <run_depend>roscpp</run_depend>
+  <run_depend>tf</run_depend>
   <run_depend>visualization_msgs</run_depend>
 
 

@@ -6,6 +6,7 @@ project(rapid_perception)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
+  interactive_markers
   pcl_conversions
   pcl_ros
   rapid_ros
@@ -113,8 +114,8 @@ add_definitions(${PCL_DEFINITIONS})
 catkin_package(
   INCLUDE_DIRS
     include
-    ${PCL_INCLUDE_DIRS}
   LIBRARIES
+    rapid_perception_box3d_roi_server
     rapid_perception_pr2
     rapid_perception_rgbd
     rapid_perception_scene
@@ -122,6 +123,7 @@ catkin_package(
     rapid_perception_scene_viz
   CATKIN_DEPENDS
     geometry_msgs
+    interactive_markers
     pcl_conversions
     pcl_ros
     rapid_ros
@@ -147,9 +149,19 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${PCL_INCLUDE_DIRS}
 )
 
-## Declare a C++ library
+add_library(rapid_perception_box3d_roi_server src/box3d_roi_server.cpp)
+add_dependencies(rapid_perception_box3d_roi_server
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(rapid_perception_box3d_roi_server
+  ${PCL_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
+
 add_library(rapid_perception_pr2 src/pr2.cpp)
 add_dependencies(rapid_perception_pr2
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
