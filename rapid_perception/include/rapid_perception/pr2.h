@@ -4,7 +4,6 @@
 #include "tf/transform_listener.h"
 #include "visualization_msgs/Marker.h"
 
-#include "rapid_perception/rgbd.hpp"
 #include "rapid_perception/scene.h"
 
 namespace rapid {

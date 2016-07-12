@@ -46,14 +46,14 @@ ParseParams Pr2Params();
 // The point cloud must be transformed into a frame such that +z points up in
 // the real world.
 // Returns false if parsing failed.
-bool ParseScene(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
+bool ParseScene(const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud,
                 const ParseParams& params, Scene* scene);
 
-bool ParseHSurface(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
+bool ParseHSurface(const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud,
                    const pcl::PointIndices::ConstPtr& indices,
                    const ParseParams& params, HSurface* surface);
 
-bool ParseObjects(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
+bool ParseObjects(const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud,
                   const pcl::PointIndices::ConstPtr& indices,
                   const ParseParams& params, std::vector<Object>* objects);
 

@@ -90,6 +90,25 @@ TEST_F(TableTest, Table4) {
   // int num_objects = scene.primary_surface().objects().size();
   // EXPECT_EQ(4, num_objects);
 }
+
+// A table tilted to the left.
+TEST_F(TableTest, TiltRoll) {
+  Load("tilt_roll_7.bag");
+  Scene scene;
+  bool success = ParseScene(cloud_, Pr2Params(), &scene);
+  EXPECT_TRUE(success);
+  int num_objects = scene.primary_surface().objects().size();
+  EXPECT_EQ(7, num_objects);
+}
+
+TEST_F(TableTest, TiltPitch) {
+  Load("tilt_pitch_7.bag");
+  Scene scene;
+  bool success = ParseScene(cloud_, Pr2Params(), &scene);
+  EXPECT_TRUE(success);
+  int num_objects = scene.primary_surface().objects().size();
+  EXPECT_EQ(7, num_objects);
+}
 }  // namespace perception
 }  // namespace rapid
 

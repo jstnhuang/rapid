@@ -21,3 +21,11 @@ if [ ! -e $PKG_PATH/test_data/table4.bag ]
 then
   wget "https://drive.google.com/uc?export=download&id=0B77PnOCaAq8sNVNHNFpZNnk2aUU" -O `rospack find rapid_perception`/test_data/table4.bag
 fi
+if [ ! -e $PKG_PATH/test_data/tilt_pitch_7.bag ]
+then
+  wget "https://drive.google.com/uc?export=download&id=0B77PnOCaAq8sRnFCeTQ5WVc1ems" -O `rospack find rapid_perception`/test_data/tilt_pitch_7.bag
+fi
+if [ ! -e $PKG_PATH/test_data/tilt_roll_7.bag ]
+then
+  wget "https://drive.google.com/uc?export=download&id=0B77PnOCaAq8seXd3WFNrV3RQR00" -O `rospack find rapid_perception`/test_data/tilt_roll_7.bag
+fi

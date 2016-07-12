@@ -1,4 +1,4 @@
-#include "rapid_perception/rgbd.hpp"
+#include "rapid_perception/rgbd.h"
 
 #include <stdlib.h>
 
@@ -13,15 +13,14 @@
 #include "tf/transform_datatypes.h"
 
 using pcl::PointCloud;
-using pcl::PointXYZ;
 using pcl::PointXYZRGB;
 using pcl::PointIndices;
 
 namespace rapid {
 namespace perception {
 TEST(RgbdTest, IndicesToCloud) {
-  PointCloud<PointXYZ>::Ptr cloud(new PointCloud<PointXYZ>);
-  PointXYZ p;
+  PointCloud<PointXYZRGB>::Ptr cloud(new PointCloud<PointXYZRGB>);
+  PointXYZRGB p;
   p.x = 1;
   cloud->push_back(p);
   p.x = 2;
@@ -32,7 +31,7 @@ TEST(RgbdTest, IndicesToCloud) {
   indices->indices.push_back(0);
   indices->indices.push_back(2);
 
-  PointCloud<PointXYZ>::Ptr output = IndicesToCloud<PointXYZ>(cloud, indices);
+  PointCloud<PointXYZRGB>::Ptr output = IndicesToCloud(cloud, indices);
   EXPECT_EQ(2, output->size());
   EXPECT_EQ(1, output->points[0].x);
   EXPECT_EQ(3, output->points[1].x);
@@ -40,10 +39,10 @@ TEST(RgbdTest, IndicesToCloud) {
 
 TEST(RgbdTest, FindHorizontalPlane) {
   // Simulate a plane with some noise.
-  PointCloud<PointXYZ>::Ptr plane(new PointCloud<PointXYZ>);
+  PointCloud<PointXYZRGB>::Ptr plane(new PointCloud<PointXYZRGB>);
   for (double x = -0.3; x < 0.3; x += 0.1) {
     for (double y = -0.4; y < 0.4; y += 0.1) {
-      PointXYZ p;
+      PointXYZRGB p;
       p.x = x;
       p.y = y;
       p.z = 0.7;
@@ -52,10 +51,10 @@ TEST(RgbdTest, FindHorizontalPlane) {
   }
 
   srand(0);
-  PointCloud<PointXYZ>::Ptr outliers(new PointCloud<PointXYZ>);
+  PointCloud<PointXYZRGB>::Ptr outliers(new PointCloud<PointXYZRGB>);
   for (double x = -0.1; x < 0.1; x += 0.1) {
     for (double y = -0.1; y < 0.1; y += 0.1) {
-      PointXYZ p;
+      PointXYZRGB p;
       p.x = x;
       p.y = y;
       p.z = rand() / RAND_MAX;
@@ -63,18 +62,17 @@ TEST(RgbdTest, FindHorizontalPlane) {
     }
   }
 
-  PointCloud<PointXYZ>::Ptr cloud(new PointCloud<PointXYZ>);
+  PointCloud<PointXYZRGB>::Ptr cloud(new PointCloud<PointXYZRGB>);
   *cloud = *plane + *outliers;
   PointIndices::Ptr inliers(new PointIndices);
-  bool success =
-      FindHorizontalPlane<PointXYZ>(cloud, 0.1, pcl::deg2rad(5.0), inliers);
+  bool success = FindHorizontalPlane(cloud, 0.1, pcl::deg2rad(5.0), inliers);
 
   EXPECT_TRUE(success);
   EXPECT_GT(inliers->indices.size(), 0);
 
-  PointCloud<PointXYZ>::Ptr output = IndicesToCloud<PointXYZ>(cloud, inliers);
+  PointCloud<PointXYZRGB>::Ptr output = IndicesToCloud(cloud, inliers);
   for (size_t i = 0; i < output->size(); ++i) {
-    const PointXYZ& p = output->points[i];
+    const PointXYZRGB& p = output->points[i];
     EXPECT_FLOAT_EQ(0.7, p.z);
   }
 }

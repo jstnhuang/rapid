@@ -18,7 +18,7 @@
 #include "visualization_msgs/Marker.h"
 
 #include "rapid_perception/pr2.h"
-#include "rapid_perception/rgbd.hpp"
+#include "rapid_perception/rgbd.h"
 #include "rapid_perception/scene.h"
 #include "rapid_perception/scene_parsing.h"
 #include "rapid_perception/scene_viz.h"
@@ -78,10 +78,10 @@ class Perception {
 
   void FindPlane() {
     pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
-    rpe::FindHorizontalPlane<PointXYZRGB>(
-        pcl_cloud_, 0.01, rapid::utils::DegreesToRadians(5), inliers);
+    rpe::FindHorizontalPlane(pcl_cloud_, 0.01,
+                             rapid::utils::DegreesToRadians(5), inliers);
     PointCloud<PointXYZRGB>::Ptr plane =
-        rpe::IndicesToCloud<PointXYZRGB>(pcl_cloud_, inliers);
+        rpe::IndicesToCloud(pcl_cloud_, inliers);
     *pcl_cloud_ = *plane;
   }
 
