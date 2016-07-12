@@ -9,7 +9,6 @@
 #include "pcl/filters/crop_box.h"
 #include "pcl/filters/filter.h"
 #include "pcl/filters/voxel_grid.h"
-//#include "pcl/filters/random_sample.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "pcl/registration/icp.h"
