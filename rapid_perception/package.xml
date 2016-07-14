@@ -45,6 +45,7 @@
   <build_depend>libpcl-all-dev</build_depend>
   <build_depend>pcl_conversions</build_depend>
   <build_depend>pcl_ros</build_depend>
+  <build_depend>rapid_msgs</build_depend>
   <build_depend>rapid_ros</build_depend>
   <build_depend>rapid_utils</build_depend>
   <build_depend>rapid_viz</build_depend>
@@ -58,6 +59,7 @@
   <run_depend>libpcl-all-dev</run_depend>
   <run_depend>pcl_conversions</run_depend>
   <run_depend>pcl_ros</run_depend>
+  <run_depend>rapid_msgs</run_depend>
   <run_depend>rapid_ros</run_depend>
   <run_depend>rapid_utils</run_depend>
   <run_depend>rapid_viz</run_depend>
