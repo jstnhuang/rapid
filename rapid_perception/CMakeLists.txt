@@ -116,6 +116,7 @@ catkin_package(
     include
   LIBRARIES
     rapid_perception_box3d_roi_server
+    rapid_perception_pose_estimation
     rapid_perception_pr2
     rapid_perception_rgbd
     rapid_perception_scene
@@ -158,6 +159,18 @@ add_dependencies(rapid_perception_box3d_roi_server
   ${catkin_EXPORTED_TARGETS}
 )
 target_link_libraries(rapid_perception_box3d_roi_server
+  ${PCL_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
+
+add_library(rapid_perception_pose_estimation
+  src/pose_estimation.cpp
+)
+add_dependencies(rapid_perception_pose_estimation
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(rapid_perception_pose_estimation
   ${PCL_LIBRARIES}
   ${catkin_LIBRARIES}
 )

@@ -122,6 +122,8 @@ include_directories(
 ## Declare a C++ library
 add_library(rapid_utils
   src/math.cpp
+  src/random.cpp
+  src/stochastic_universal_sampling.cpp
 )
 add_dependencies(rapid_utils
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
@@ -176,6 +178,9 @@ if(CATKIN_ENABLE_TESTING)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage") # Enable code coverage
   catkin_add_gtest(rapid_utils_math_test test/math_test.cpp)
   target_link_libraries(rapid_utils_math_test rapid_utils)
+
+  catkin_add_gtest(rapid_utils_stochastic_universal_sampling_test test/stochastic_universal_sampling_test.cpp)
+  target_link_libraries(rapid_utils_stochastic_universal_sampling_test rapid_utils)
 endif()
 
 ## Add folders to be run by python nosetests
