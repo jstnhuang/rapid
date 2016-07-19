@@ -1,25 +1,30 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(rapid_main)
+project(object_search)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  cv_bridge
-  image_geometry
-  interactive_markers
-  moveit_core
-  moveit_ros_planning_interface
+  mongodb_store
   pcl_conversions
   pcl_ros
-  rapid_manipulation
   rapid_perception
-  rapid_pr2
-  rapid_ros
-  rapid_viz
   roscpp
-  visualization_msgs
+  rospy
+  sensor_msgs
 )
+
+find_package(Boost REQUIRED)
+find_package(Eigen REQUIRED)
+find_package(PCL REQUIRED)
+include_directories(${PCL_INCLUDE_DIRS})
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
+
+
+## System dependencies are found with CMake's conventions
+# find_package(Boost REQUIRED COMPONENTS system)
+
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -107,24 +112,20 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES rapid_main
+  INCLUDE_DIRS include
+#  LIBRARIES object_search
   CATKIN_DEPENDS
-    cv_bridge
-    image_geometry
-    interactive_markers
-    moveit_core
-    moveit_ros_planning_interface
+    mongodb_store
     pcl_conversions
     pcl_ros
-    rapid_manipulation
     rapid_perception
-    rapid_pr2
-    rapid_ros
-    rapid_viz
     roscpp
-    visualization_msgs
-  # DEPENDS
+    rospy
+    sensor_msgs
+  DEPENDS
+    Boost
+    Eigen
+    PCL
 )
 
 ###########
@@ -135,45 +136,23 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
+  include
   ${catkin_INCLUDE_DIRS}
+  ${PCL_INCLUDE_DIRS}
 )
 
-## Declare a C++ library
-# add_library(rapid_main
-#   src/${PROJECT_NAME}/rapid_main.cpp
-# )
-
-## Add cmake target dependencies of the library
-## as an example, code may need to be generated before libraries
-## either from message generation or dynamic reconfigure
-# add_dependencies(rapid_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-add_executable(pick_place_main src/pick_place_main.cpp)
-add_dependencies(pick_place_main
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
+add_executable(object_search_main
+  src/capture_roi.cpp
+  src/object_search_main.cpp
+  src/cloud_database.cpp
+  src/command_line.cpp
+  src/commands.cpp
 )
-target_link_libraries(pick_place_main
+add_dependencies(object_search_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(object_search_main
   ${catkin_LIBRARIES}
+  ${pcl_LIBRARIES}
 )
-
-add_executable(pr2_gripper_viz_main src/pr2_gripper_viz_main.cpp)
-add_dependencies(pr2_gripper_viz_main
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-)
-target_link_libraries(pr2_gripper_viz_main
-  ${catkin_LIBRARIES}
-)
-
-#add_executable(project_image_main src/project_image_main.cpp)
-#add_dependencies(project_image_main
-#  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-#  ${catkin_EXPORTED_TARGETS}
-#)
-#target_link_libraries(project_image_main
-#  ${catkin_LIBRARIES}
-#)
 
 #############
 ## Install ##
@@ -190,7 +169,7 @@ target_link_libraries(pr2_gripper_viz_main
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS rapid_main rapid_main_node
+# install(TARGETS object_search object_search_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -215,7 +194,7 @@ target_link_libraries(pr2_gripper_viz_main
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_rapid_main.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_object_search.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

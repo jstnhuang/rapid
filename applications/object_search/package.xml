@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>object_search</name>
+  <version>0.1.0</version>
+  <description>Demo application for object search</description>
+  <maintainer email="jstn@cs.washington.edu">Justin Huang</maintainer>
+  <license>MIT</license>
+  <url type="repository">https://github.com/jstnhuang/rapid</url>
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>libpcl-all-dev</depend>
+  <depend>mongodb_store</depend>
+  <depend>pcl_conversions</depend>
+  <depend>pcl_ros</depend>
+  <depend>rapid_perception</depend>
+  <depend>roscpp</depend>
+  <depend>rospy</depend>
+  <depend>sensor_msgs</depend>
+  <export>
+  </export>
+</package>

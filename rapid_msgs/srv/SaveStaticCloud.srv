@@ -1,0 +1,5 @@
+# Service for saving static clouds to MongoDB.
+mongo_msg_db_msgs/Collection collection
+rapid_msgs/StaticCloud cloud
+---
+string id # ID in MongoDB of the cloud.

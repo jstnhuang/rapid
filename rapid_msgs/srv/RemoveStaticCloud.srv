@@ -1,0 +1,4 @@
+mongo_msg_db_msgs/Collection collection
+string id
+---
+string error # Empty on success

@@ -17,6 +17,7 @@ class Box3DRoiServer {
   Box3DRoiServer(const std::string& topic);
   ~Box3DRoiServer();
   void Start();
+  void Stop();
   rapid_msgs::Roi3D roi();
 
  private:

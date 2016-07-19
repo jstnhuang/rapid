@@ -45,7 +45,6 @@
   <build_depend>interactive_markers</build_depend>
   <build_depend>moveit_core</build_depend>
   <build_depend>moveit_ros_planning_interface</build_depend>
-  <build_depend>pbd_landmarks</build_depend>
   <build_depend>pcl_conversions</build_depend>
   <build_depend>pcl_ros</build_depend>
   <build_depend>rapid_manipulation</build_depend>
@@ -62,7 +61,6 @@
   <run_depend>interactive_markers</run_depend>
   <run_depend>moveit_core</run_depend>
   <run_depend>moveit_ros_planning_interface</run_depend>
-  <run_depend>pbd_landmarks</run_depend>
   <run_depend>pcl_conversions</run_depend>
   <run_depend>pcl_ros</run_depend>
   <run_depend>rapid_manipulation</run_depend>
