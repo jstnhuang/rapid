@@ -215,7 +215,7 @@ void UseCommand::CropScene(PointCloud<PointXYZRGBNormal>::Ptr scene) {
 void UseCommand::ComputeNormals(
     pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud) {
   double normal_radius;
-  ros::param::param<double>("normal_radius", normal_radius, 0.01);
+  ros::param::param<double>("normal_radius", normal_radius, 0.04);
   ROS_INFO("Computing normals with radius: %f", normal_radius);
 
   pcl::ScopeTime normal_timer("Computing normals");
@@ -266,7 +266,7 @@ void RunCommand::UpdateParams() {
   int max_neighbors;
   double feature_threshold;
   int num_candidates;
-  ros::param::param<double>("sample_ratio", sample_ratio, 0.1);
+  ros::param::param<double>("sample_ratio", sample_ratio, 0.01);
   ros::param::param<int>("max_samples", max_samples, 1000);
   ros::param::param<double>("max_sample_radius", max_sample_radius, 0.1);
   ros::param::param<int>("max_neighbors", max_neighbors, 400);
