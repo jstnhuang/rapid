@@ -5,12 +5,14 @@ project(object_search)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  mongodb_store
+  mongo_msg_db
+  mongo_msg_db_msgs
   pcl_conversions
   pcl_ros
   rapid_perception
   roscpp
   rospy
+  rospy_message_converter
   sensor_msgs
 )
 

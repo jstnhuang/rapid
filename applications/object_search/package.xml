@@ -8,12 +8,14 @@
   <url type="repository">https://github.com/jstnhuang/rapid</url>
   <buildtool_depend>catkin</buildtool_depend>
   <depend>libpcl-all-dev</depend>
-  <depend>mongodb_store</depend>
+  <depend>mongo_msg_db</depend>
+  <depend>mongo_msg_db_msgs</depend>
   <depend>pcl_conversions</depend>
   <depend>pcl_ros</depend>
   <depend>rapid_perception</depend>
   <depend>roscpp</depend>
   <depend>rospy</depend>
+  <depend>rospy_message_converter</depend>
   <depend>sensor_msgs</depend>
   <export>
   </export>
