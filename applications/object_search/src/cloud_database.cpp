@@ -22,11 +22,11 @@ Database::Database(const std::string& db, const std::string& collection,
       remove_(remove),
       save_(save) {}
 
-bool Database::Get(const std::string& id, rapid_msgs::StaticCloud* cloud) {
+bool Database::Get(const std::string& name, rapid_msgs::StaticCloud* cloud) {
   rapid_msgs::GetStaticCloudRequest req;
   req.collection.db = db_;
   req.collection.collection = collection_;
-  req.id = id;
+  req.name = name;
   rapid_msgs::GetStaticCloudResponse res;
   bool success = get_.call(req, res);
   if (!success) {

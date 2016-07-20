@@ -18,7 +18,16 @@ class StaticCloudDb(object):
         self._db = db
 
     def serve_get_cloud(self, req):
-        matched_count, cloud = self._db.find_msg(req.collection, req.id)
+        # Get by name if provided.
+        id = None
+        if req.name != '':
+            cloud_names = self._list_clouds(req.collection)
+            id = self._get_id_by_name(req.name, cloud_names)
+            id = req.id if id is None else id
+        else:
+            id = req.id
+
+        matched_count, cloud = self._db.find_msg(req.collection, id)
         response = GetStaticCloudResponse()
         if matched_count == 0:
             response.error = 'StaticCloud was not found.'
@@ -26,16 +35,27 @@ class StaticCloudDb(object):
             response.cloud = cloud
         return response
 
+    def _get_id_by_name(self, name, cloud_names):
+        for cloud_info in cloud_names:
+            if cloud_info.name == name:
+                return cloud_info.id
+        return None
+
     def serve_list_clouds(self, req):
         response = ListStaticCloudsResponse()
-        messages = self._db.list(req.collection)
+        response.clouds = self._list_clouds(req.collection)
+        return response
+
+    def _list_clouds(self, collection):
+        messages = self._db.list(collection)
+        cloud_names = []
         for message in messages:
             info = StaticCloudInfo()
             info.id = message.id
             cloud = jmc.convert_json_to_ros_message(message.msg_type, message.json)
             info.name = cloud.name
-            response.clouds.append(info)
-        return response
+            cloud_names.append(info)
+        return cloud_names
 
     def serve_remove_cloud(self, req):
         deleted_count = self._db.delete(req.collection, req.id)

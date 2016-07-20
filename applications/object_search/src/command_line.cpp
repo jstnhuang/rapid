@@ -127,7 +127,9 @@ bool CommandLine::ParseCommand(const string& input, string* command,
     } else {
       return false;
     }
-    args->push_back(tokens[2]);
+    string name;
+    ParseName(tokens, 2, &name);
+    args->push_back(name);
     return true;
   } else if (*command == "use") {
     if (tokens.size() < 3) {
@@ -140,7 +142,9 @@ bool CommandLine::ParseCommand(const string& input, string* command,
     } else {
       return false;
     }
-    args->push_back(tokens[2]);
+    string name;
+    ParseName(tokens, 2, &name);
+    args->push_back(name);
     return true;
   } else if (*command == "run") {
     return true;
