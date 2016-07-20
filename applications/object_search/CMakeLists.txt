@@ -117,12 +117,14 @@ catkin_package(
   INCLUDE_DIRS include
 #  LIBRARIES object_search
   CATKIN_DEPENDS
-    mongodb_store
+    mongo_msg_db
+    mongo_msg_db_msgs
     pcl_conversions
     pcl_ros
     rapid_perception
     roscpp
     rospy
+    rospy_message_converter
     sensor_msgs
   DEPENDS
     Boost
