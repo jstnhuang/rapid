@@ -217,6 +217,7 @@ bool PoseEstimator::Find() {
   PointCloudN::Ptr best_alignment(new PointCloudN);
   pcl::IterativeClosestPoint<PointN, PointN> icp;
   icp.setInputTarget(scene_);
+  PointCloudN::Ptr aligned_object(new PointCloudN);
   for (size_t ci = 0; ci < candidate_indices->indices.size(); ++ci) {
     int index = candidate_indices->indices[ci];
     const PointN& center = working_scene->points[index];
@@ -240,14 +241,14 @@ bool PoseEstimator::Find() {
 
     // Run ICP
     icp.setInputSource(working_object);
-    icp.align(*working_object);
-    PublishCloud(best_pub_, *working_object);
+    icp.align(*aligned_object);
+    PublishCloud(best_pub_, *aligned_object);
     if (icp.hasConverged()) {
       double fitness = icp.getFitnessScore();
       ROS_INFO("ICP converged with score: %f", fitness);
       if (fitness < best_score) {
         best_score = fitness;
-        *best_alignment = *working_object;
+        *best_alignment = *aligned_object;
       }
     }
     if (debug_) {
