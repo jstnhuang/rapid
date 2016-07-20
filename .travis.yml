@@ -25,6 +25,8 @@ before_install: # Use this to prepare the system to install prerequisites or dep
 
 notifications:
   email: false
+  slack:
+    secure: "ixnYBnrkukOvT8lX8QqF9rjubf4wjiT7YCqxy3NPoDHoonoGg1df/nnyqXRl+7srAX43dbVRkYEfWbrCACzEj+7lhMqvgOpVTXqZCDNa6Qfl/l8x73UsFKInhhDCsbGxLEa9q8zjxLiyw+RA2bkNV7uCnekI7qml36P4/L2U3vjiotqQofgREf+KUrey91uZJ+F7LO73IY2taMXn1y5PESxPgzDGgyHJXW0nS5qIxlacLWgtTGKu8e98kHAwzlqfzQOjmS+c0tsvfTUnaUFn237FLFSchs9yFBdL0Q2ZgbmX3YzZmrIGjGDkFp5iZ5UOpTdkFW5N2UlVlzjlujWjRZHJKP6KseGU2x+OjQZ5VTVqOcFyFP9NCfzTaZaqfoXQS5MpEHaKvKUciTUslkl8NqL/Ou/WsKSTIugEccGRwz8+kqdQAi/wBETEVmnmcsRol+jMycLmuVp1jpHheEGCfsueLzUr7PMdS5exXs2UswLJc0xy0NLzZggCIzoONFrUmPGBG9kcMZLQ41c5Cy1LlH2tO0X4OhWMclrgfoDDE2WXgqSZM63QEmQjhbs7zm1JNgO6eMWfuXKAJ82EBI6pIWx/yw8tutQ1y8QFFVe/JSiW4O1qvabkOkW1CbP5r7DSanre5eJPOZvjyRh5iaWxGMZPfnINcC4QPOK2keym61c="
 
 # Commands to install dependencies
 # --------------------------------
