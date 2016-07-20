@@ -125,7 +125,8 @@ bool PoseEstimator::Find() {
   pcl::PointIndicesPtr indices(new pcl::PointIndices());
   pcl::RandomSample<PointN> random;
   random.setInputCloud(scene_);
-  random.setSample(sample_ratio_ * scene_->size());
+  int num_samples = static_cast<int>(round(sample_ratio_ * scene_->size()));
+  random.setSample(std::min(max_samples_, num_samples));
   random.filter(indices->indices);
   ROS_INFO("Randomly sampled %ld points", indices->indices.size());
 
