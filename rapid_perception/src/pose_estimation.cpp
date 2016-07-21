@@ -79,14 +79,10 @@ void PoseEstimator::set_object(PointCloudN::ConstPtr object) {
   double y = max_pt.y() - min_pt.y();
   double z = max_pt.z() - min_pt.z();
   object_radius_est_ = (x + y + z) / 3;
-  ROS_INFO("Estimated object radius: %f, dims: %f %f %f", object_radius_est_, x,
-           y, z);
 
   object_center_.x() = (max_pt.x() + min_pt.x()) / 2;
   object_center_.y() = (max_pt.y() + min_pt.y()) / 2;
   object_center_.z() = (max_pt.z() + min_pt.z()) / 2;
-  ROS_INFO("Object centered at: %f %f %f", object_center_.x(),
-           object_center_.y(), object_center_.z());
 }
 
 void PoseEstimator::set_scene_features(PointCloudF::ConstPtr scene_features) {
@@ -285,6 +281,7 @@ bool PoseEstimator::Find() {
     vector<float> neighbor_distances;
     output_centers_tree.radiusSearch(match.center(), nms_radius_,
                                      neighbor_indices, neighbor_distances);
+
     bool keep_match = true;
     for (size_t k = 0; k < neighbor_indices.size(); ++k) {
       int index = neighbor_indices[k];
@@ -293,22 +290,16 @@ bool PoseEstimator::Find() {
       }
       PoseEstimationMatch& neighbor = output_objects[index];
       if (neighbor.fitness() < match.fitness()) {
-        ROS_INFO("Suppressing match %d, %f >= neighbor %d, %f", i,
-                 match.fitness(), index, neighbor.fitness());
+        if (debug_) {
+          ROS_INFO("Suppressing match %d, %f >= neighbor %d, %f", i,
+                   match.fitness(), index, neighbor.fitness());
+        }
         keep_match = false;
         break;
       } else if (neighbor.fitness() == match.fitness()) {
-        // Pick one at random to throw out.
-        int random = rand() % 2;
-        if (random == 0) {
-          ROS_INFO("Suppressing equal match %d, %f == neighbor %d, %f", i,
-                   match.fitness(), index, neighbor.fitness());
-          keep_match = false;
-          match.set_fitness(match.fitness() * 1.01);
-        } else {
-          neighbor.set_fitness(neighbor.fitness() * 1.01);
-        }
-        break;
+        // Keep this one, bump neighbor's fitness score up so that it won't come
+        // up again.
+        neighbor.set_fitness(neighbor.fitness() * 1.01);
       }
     }
     keep.push_back(keep_match);
@@ -375,7 +366,6 @@ PoseEstimationMatch::PoseEstimationMatch(PointCloudN::Ptr cloud, double fitness)
   center_.x = min_pt.x() + (max_pt.x() - min_pt.x()) / 2;
   center_.y = min_pt.y() + (max_pt.y() - min_pt.y()) / 2;
   center_.z = min_pt.z() + (max_pt.z() - min_pt.z()) / 2;
-  ROS_INFO("center x: %f, y: %f, z: %f", center_.x, center_.y, center_.z);
 }
 
 pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr PoseEstimationMatch::cloud() {
