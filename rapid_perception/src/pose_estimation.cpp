@@ -142,7 +142,9 @@ bool PoseEstimator::Find() {
   // For each sample, look at an area around it and count the number of features
   // in common with the object.
   double search_radius = std::min(max_sample_radius_, object_radius_est_);
-
+  // For each scene point, caches whether there is a close match on the object.
+  // 0 = unknown, 1 = yes, -1 = no
+  vector<int8_t> importance_cache(scene_->size(), 0);
   Eigen::VectorXd importances(indices->indices.size());
   for (size_t indices_i = 0; indices_i < indices->indices.size(); ++indices_i) {
     int index = indices->indices[indices_i];
@@ -153,6 +155,12 @@ bool PoseEstimator::Find() {
     double avg_close_matches = 0;
     for (size_t k = 0; k < k_indices.size(); ++k) {
       int k_index = k_indices[k];
+      if (importance_cache[k_index] == 1) {
+        avg_close_matches += 1;
+        continue;
+      } else if (importance_cache[k_index] == -1) {
+        continue;
+      }
       const FPFH& feature = scene_features_->at(k_index);
       vector<int> nearest_indices;
       vector<float> nearest_distances;
@@ -160,6 +168,9 @@ bool PoseEstimator::Find() {
                                             nearest_distances);
       if (nearest_distances[0] < feature_threshold_) {
         avg_close_matches += 1;
+        importance_cache[k_index] = 1;
+      } else {
+        importance_cache[k_index] = -1;
       }
     }
     avg_close_matches /= k_indices.size();
