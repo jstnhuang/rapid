@@ -67,8 +67,9 @@ int main(int argc, char** argv) {
   ros::Publisher heatmap_pub = nh.advertise<PointCloud2>("/heatmap", 1, true);
   ros::Publisher candidates_pub =
       nh.advertise<PointCloud2>("/candidate_samples", 1, true);
-  ros::Publisher best_pub =
-      nh.advertise<PointCloud2>("/best_alignment", 1, true);
+  ros::Publisher alignment_pub =
+      nh.advertise<PointCloud2>("/alignment", 1, true);
+  ros::Publisher output_pub = nh.advertise<PointCloud2>("/output", 1, true);
 
   // Build ROI server
   tf::TransformListener tf_listener;
@@ -86,7 +87,8 @@ int main(int argc, char** argv) {
   DeleteCommand delete_scene(&scene_db);
   UseCommand use_object(&object_db, &pose_estimator, "object", object_pub);
   UseCommand use_scene(&scene_db, &pose_estimator, "scene", scene_pub);
-  RunCommand run(&pose_estimator, heatmap_pub, candidates_pub, best_pub);
+  RunCommand run(&pose_estimator, heatmap_pub, candidates_pub, alignment_pub,
+                 output_pub);
   SetDebugCommand set_debug(&pose_estimator);
 
   CommandLine cli;

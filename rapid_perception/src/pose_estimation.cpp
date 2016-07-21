@@ -24,11 +24,14 @@
 #include "rapid_utils/stochastic_universal_sampling.h"
 
 typedef pcl::PointXYZRGBNormal PointN;
+typedef pcl::PointXYZ PointP;
 typedef pcl::PointCloud<PointN> PointCloudN;
+typedef pcl::PointCloud<PointP> PointCloudP;
 typedef pcl::FPFHSignature33 FPFH;
 typedef pcl::PointCloud<FPFH> PointCloudF;
 typedef pcl::search::KdTree<FPFH> FeatureTree;
-typedef pcl::search::KdTree<PointN> PointTree;
+typedef pcl::search::KdTree<PointN> PointNTree;
+typedef pcl::search::KdTree<PointP> PointPTree;
 using std::vector;
 
 namespace rapid {
@@ -48,16 +51,19 @@ PoseEstimator::PoseEstimator()
       max_neighbors_(400),
       feature_threshold_(1500),
       num_candidates_(100),
+      fitness_threshold_(0.00002),
+      nms_radius_(0.03),
       debug_(false),
       heatmap_pub_(),
       initial_pub_(),
       candidates_pub_(),
-      best_pub_() {}
+      alignment_pub_(),
+      output_pub_() {}
 
 void PoseEstimator::set_scene(PointCloudN::ConstPtr scene) {
   scene_.reset(new PointCloudN());
   *scene_ = *scene;
-  scene_tree_.reset(new PointTree());
+  scene_tree_.reset(new PointNTree());
   scene_tree_->setInputCloud(scene_);
 }
 
@@ -106,6 +112,10 @@ void PoseEstimator::set_feature_threshold(double val) {
 }
 void PoseEstimator::set_debug(bool val) { debug_ = val; }
 void PoseEstimator::set_num_candidates(int val) { num_candidates_ = val; }
+void PoseEstimator::set_fitness_threshold(double val) {
+  fitness_threshold_ = val;
+}
+void PoseEstimator::set_nms_radius(double val) { nms_radius_ = val; }
 
 void PoseEstimator::set_heatmap_publisher(const ros::Publisher& pub) {
   heatmap_pub_ = pub;
@@ -113,8 +123,11 @@ void PoseEstimator::set_heatmap_publisher(const ros::Publisher& pub) {
 void PoseEstimator::set_candidates_publisher(const ros::Publisher& pub) {
   candidates_pub_ = pub;
 }
-void PoseEstimator::set_best_publisher(const ros::Publisher& pub) {
-  best_pub_ = pub;
+void PoseEstimator::set_alignment_publisher(const ros::Publisher& pub) {
+  alignment_pub_ = pub;
+}
+void PoseEstimator::set_output_publisher(const ros::Publisher& pub) {
+  output_pub_ = pub;
 }
 
 bool PoseEstimator::Find() {
@@ -212,13 +225,10 @@ bool PoseEstimator::Find() {
   // For each candidate point, run ICP
   // Copy the object and its center.
   PointCloudN::Ptr working_object(new PointCloudN);
-  Eigen::Quaterniond identity_rotation = Eigen::Quaterniond::Identity();
-  double best_score = std::numeric_limits<double>::max();
-  std::string user_input;
-  PointCloudN::Ptr best_alignment(new PointCloudN);
+  PointCloudN::Ptr aligned_object(new PointCloudN);
+  vector<PoseEstimationMatch> output_objects;
   pcl::IterativeClosestPoint<PointN, PointN> icp;
   icp.setInputTarget(scene_);
-  PointCloudN::Ptr aligned_object(new PointCloudN);
   for (size_t ci = 0; ci < candidate_indices->indices.size(); ++ci) {
     int index = candidate_indices->indices[ci];
     const PointN& center = working_scene->points[index];
@@ -229,63 +239,106 @@ bool PoseEstimator::Find() {
     translation.x() = center.x - object_center_.x();
     translation.y() = center.y - object_center_.y();
     translation.z() = center.z - object_center_.z();
-
     pcl::transformPointCloud(*object_, *working_object, translation,
-                             identity_rotation);
-    Eigen::Vector4f min_pt, max_pt;
-    pcl::getMinMax3D(*working_object, min_pt, max_pt);
-    PublishCloud(best_pub_, *working_object);
-    if (debug_) {
-      std::cout << "ICP initialized, press enter to align ";
-      std::getline(std::cin, user_input);
-    }
+                             Eigen::Quaterniond::Identity());
 
     // Run ICP
     icp.setInputSource(working_object);
     icp.align(*aligned_object);
-    PublishCloud(best_pub_, *aligned_object);
+    PublishCloud(alignment_pub_, *aligned_object);
     if (icp.hasConverged()) {
       double fitness = icp.getFitnessScore();
-      ROS_INFO("ICP converged with score: %f", fitness);
-      if (fitness < best_score) {
-        best_score = fitness;
-        *best_alignment = *aligned_object;
+      std::string threshold_marker = "";
+      if (fitness < fitness_threshold_) {
+        output_objects.push_back(PoseEstimationMatch(aligned_object, fitness));
+        threshold_marker = " -- below threshold";
       }
+      ROS_INFO("ICP converged with score: %f%s", fitness,
+               threshold_marker.c_str());
     }
     if (debug_) {
       std::cout << "Press enter to continue ";
+      std::string user_input;
       std::getline(std::cin, user_input);
     }
   }
-  if (best_score != -1) {
-    ROS_INFO("Best score was: %f", best_score);
-    PublishCloud(best_pub_, *best_alignment);
-  } else {
-    ROS_INFO("No matches found.");
+
+  if (output_objects.size() == 0) {
+    ROS_WARN("No matches found.");
+    return false;
   }
+
+  // Non-max supression of output objects
+  // Index centers into a tree
+  PointCloudP::Ptr output_centers(new PointCloudP);
+  for (size_t i = 0; i < output_objects.size(); ++i) {
+    output_centers->push_back(output_objects[i].center());
+  }
+  PointPTree output_centers_tree;
+  output_centers_tree.setInputCloud(output_centers);
+
+  // Suppress non max within a radius
+  vector<bool> keep;
+  for (int i = 0; i < static_cast<int>(output_objects.size()); ++i) {
+    PoseEstimationMatch& match = output_objects[i];
+    vector<int> neighbor_indices;
+    vector<float> neighbor_distances;
+    output_centers_tree.radiusSearch(match.center(), nms_radius_,
+                                     neighbor_indices, neighbor_distances);
+    bool keep_match = true;
+    for (size_t k = 0; k < neighbor_indices.size(); ++k) {
+      int index = neighbor_indices[k];
+      if (index == i) {
+        continue;
+      }
+      PoseEstimationMatch& neighbor = output_objects[index];
+      if (neighbor.fitness() < match.fitness()) {
+        ROS_INFO("Suppressing match %d, %f >= neighbor %d, %f", i,
+                 match.fitness(), index, neighbor.fitness());
+        keep_match = false;
+        break;
+      } else if (neighbor.fitness() == match.fitness()) {
+        // Pick one at random to throw out.
+        int random = rand() % 2;
+        if (random == 0) {
+          ROS_INFO("Suppressing equal match %d, %f == neighbor %d, %f", i,
+                   match.fitness(), index, neighbor.fitness());
+          keep_match = false;
+          match.set_fitness(match.fitness() * 1.01);
+        } else {
+          neighbor.set_fitness(neighbor.fitness() * 1.01);
+        }
+        break;
+      }
+    }
+    keep.push_back(keep_match);
+  }
+
+  PointCloudN::Ptr output_cloud(new PointCloudN);
+  int num_instances = 0;
+  for (size_t i = 0; i < output_objects.size(); ++i) {
+    if (keep[i]) {
+      double r = static_cast<double>(rand()) / RAND_MAX;
+      double g = static_cast<double>(rand()) / RAND_MAX;
+      double b = static_cast<double>(rand()) / RAND_MAX;
+      Colorize(output_objects[i].cloud(), r, g, b);
+      *output_cloud += *output_objects[i].cloud();
+      ++num_instances;
+    }
+  }
+  ROS_INFO("Found %d instances of the model", num_instances);
+  output_cloud->header.frame_id = scene_->header.frame_id;
+  PublishCloud(output_pub_, *output_cloud);
   return true;
 }
 
-bool PoseEstimator::Find2() {
-  pcl::SampleConsensusInitialAlignment<PointN, PointN, FPFH> initial_align;
-  double kMinSampleDistance = 0.02;  // Distance between sample points.
-  // Max distance between two corresponding points between source/target.
-  double kMaxCorrespondenceDistance = 0.01;
-  int kMaxIterations = 20000;
-  initial_align.setMinSampleDistance(kMinSampleDistance);
-  initial_align.setMaxCorrespondenceDistance(kMaxCorrespondenceDistance);
-  initial_align.setMaximumIterations(kMaxIterations);
-  initial_align.setInputSource(object_);
-  initial_align.setSourceFeatures(object_features_);
-  initial_align.setInputTarget(scene_);
-  initial_align.setTargetFeatures(scene_features_);
-  PointCloudN::Ptr aligned(new PointCloudN);
-  ROS_INFO("Starting initial alignment");
-  initial_align.align(*aligned);
-  ROS_INFO("Done, publishing initial alignment");
-  PublishCloud(initial_pub_, *aligned);
-
-  return true;
+void PoseEstimator::Colorize(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud,
+                             double r, double g, double b) {
+  for (size_t i = 0; i < cloud->size(); ++i) {
+    cloud->points[i].r = static_cast<int>(round(r * 255));
+    cloud->points[i].g = static_cast<int>(round(g * 255));
+    cloud->points[i].b = static_cast<int>(round(b * 255));
+  }
 }
 
 void PoseEstimator::PublishCloud(
@@ -312,5 +365,27 @@ std::string PoseEstimator::FeatureString(const FPFH& feature) {
 void PoseEstimator::set_initial_publisher(const ros::Publisher& pub) {
   initial_pub_ = pub;
 }
+
+PoseEstimationMatch::PoseEstimationMatch(PointCloudN::Ptr cloud, double fitness)
+    : cloud_(new PointCloudN), fitness_(fitness) {
+  *cloud_ = *cloud;
+  Eigen::Vector4f min_pt;
+  Eigen::Vector4f max_pt;
+  pcl::getMinMax3D(*cloud_, min_pt, max_pt);
+  center_.x = min_pt.x() + (max_pt.x() - min_pt.x()) / 2;
+  center_.y = min_pt.y() + (max_pt.y() - min_pt.y()) / 2;
+  center_.z = min_pt.z() + (max_pt.z() - min_pt.z()) / 2;
+  ROS_INFO("center x: %f, y: %f, z: %f", center_.x, center_.y, center_.z);
+}
+
+pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr PoseEstimationMatch::cloud() {
+  return cloud_;
+}
+
+pcl::PointXYZ PoseEstimationMatch::center() const { return center_; }
+
+double PoseEstimationMatch::fitness() const { return fitness_; }
+
+void PoseEstimationMatch::set_fitness(double fitness) { fitness_ = fitness; }
 }  // namespace perception
 }  // namespace rapid

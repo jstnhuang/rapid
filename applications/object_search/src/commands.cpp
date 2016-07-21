@@ -246,11 +246,13 @@ void UseCommand::ComputeFeatures(
 RunCommand::RunCommand(rapid::perception::PoseEstimator* estimator,
                        const ros::Publisher& heatmap_pub,
                        const ros::Publisher& candidates_pub,
-                       const ros::Publisher& best_pub)
+                       const ros::Publisher& alignment_pub,
+                       const ros::Publisher& output_pub)
     : estimator_(estimator) {
   estimator_->set_heatmap_publisher(heatmap_pub);
   estimator_->set_candidates_publisher(candidates_pub);
-  estimator_->set_best_publisher(best_pub);
+  estimator_->set_alignment_publisher(alignment_pub);
+  estimator_->set_output_publisher(output_pub);
 }
 
 void RunCommand::Execute(std::vector<std::string>& args) {
@@ -266,12 +268,16 @@ void RunCommand::UpdateParams() {
   int max_neighbors;
   double feature_threshold;
   int num_candidates;
+  double fitness_threshold;
+  double nms_radius;
   ros::param::param<double>("sample_ratio", sample_ratio, 0.01);
   ros::param::param<int>("max_samples", max_samples, 1000);
   ros::param::param<double>("max_sample_radius", max_sample_radius, 0.1);
   ros::param::param<int>("max_neighbors", max_neighbors, 400);
   ros::param::param<double>("feature_threshold", feature_threshold, 1500);
   ros::param::param<int>("num_candidates", num_candidates, 100);
+  ros::param::param<double>("fitness_threshold", fitness_threshold, 0.00002);
+  ros::param::param<double>("nms_radius", nms_radius, 0.03);
   ROS_INFO(
       "Parameters:\n"
       "sample_ratio: %f\n"
@@ -279,9 +285,11 @@ void RunCommand::UpdateParams() {
       "max_sample_radius: %f\n"
       "max_neighbors: %d\n"
       "feature_threshold: %f\n"
-      "num_candidates: %d\n",
+      "num_candidates: %d\n"
+      "fitness_threshold: %f\n"
+      "nms_radius: %f\n",
       sample_ratio, max_samples, max_sample_radius, max_neighbors,
-      feature_threshold, num_candidates);
+      feature_threshold, num_candidates, fitness_threshold, nms_radius);
 
   estimator_->set_sample_ratio(sample_ratio);
   estimator_->set_max_samples(max_samples);
@@ -289,6 +297,8 @@ void RunCommand::UpdateParams() {
   estimator_->set_max_neighbors(max_neighbors);
   estimator_->set_feature_threshold(feature_threshold);
   estimator_->set_num_candidates(num_candidates);
+  estimator_->set_fitness_threshold(fitness_threshold);
+  estimator_->set_nms_radius(nms_radius);
 }
 
 SetDebugCommand::SetDebugCommand(rapid::perception::PoseEstimator* estimator)

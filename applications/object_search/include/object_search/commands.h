@@ -88,7 +88,8 @@ class RunCommand : public Command {
   RunCommand(rapid::perception::PoseEstimator* estimator,
              const ros::Publisher& heatmap_pub,
              const ros::Publisher& candidates_pub,
-             const ros::Publisher& best_pub);
+             const ros::Publisher& alignment_pub,
+             const ros::Publisher& output_pub);
   void Execute(std::vector<std::string>& args);
 
  private:

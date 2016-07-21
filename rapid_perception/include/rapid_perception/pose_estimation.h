@@ -1,9 +1,9 @@
 #ifndef _RAPID_PERCEPTION_POSE_ESTIMATION_H_
 #define _RAPID_PERCEPTION_POSE_ESTIMATION_H_
 
+#include "pcl/features/fpfh_omp.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
-#include "pcl/features/fpfh_omp.h"
 #include "pcl/search/kdtree.h"
 #include "ros/ros.h"
 #include "Eigen/Core"
@@ -28,6 +28,8 @@ class PoseEstimator {
   void set_max_neighbors(int val);
   void set_feature_threshold(double val);
   void set_num_candidates(int val);
+  void set_fitness_threshold(double val);
+  void set_nms_radius(double val);
 
   void set_debug(bool val);
 
@@ -35,13 +37,15 @@ class PoseEstimator {
   void set_heatmap_publisher(const ros::Publisher& pub);
   void set_initial_publisher(const ros::Publisher& pub);
   void set_candidates_publisher(const ros::Publisher& pub);
-  void set_best_publisher(const ros::Publisher& pub);
+  void set_alignment_publisher(const ros::Publisher& pub);
+  void set_output_publisher(const ros::Publisher& pub);
 
-  // Methods for doing the alignment
+  // Method for doing the alignment
   bool Find();
-  bool Find2();
 
  private:
+  void Colorize(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud, double r,
+                double g, double b);
   void PublishCloud(const ros::Publisher& pub,
                     pcl::PointCloud<pcl::PointXYZRGBNormal>& cloud);
   std::string FeatureString(const pcl::FPFHSignature33& feature);
@@ -76,6 +80,11 @@ class PoseEstimator {
   double feature_threshold_;
   // Number of candidate samples to consider for ICP.
   int num_candidates_;
+  // The ICP fitness threshold below which we consider the alignment a positive
+  // match
+  double fitness_threshold_;
+  // Radius to look for other matches when doing non-max suppression
+  double nms_radius_;
 
   bool debug_;
 
@@ -83,7 +92,23 @@ class PoseEstimator {
   ros::Publisher heatmap_pub_;
   ros::Publisher initial_pub_;
   ros::Publisher candidates_pub_;
-  ros::Publisher best_pub_;
+  ros::Publisher alignment_pub_;
+  ros::Publisher output_pub_;
+};
+
+class PoseEstimationMatch {
+ public:
+  explicit PoseEstimationMatch(
+      pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud, double fitness);
+  pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud();
+  pcl::PointXYZ center() const;
+  double fitness() const;
+  void set_fitness(double fitness);
+
+ private:
+  pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud_;
+  pcl::PointXYZ center_;
+  double fitness_;
 };
 }  // namespace perception
 }  // namespace rapid
