@@ -52,11 +52,11 @@ void Database::List(std::vector<rapid_msgs::StaticCloudInfo>* clouds) {
   *clouds = res.clouds;
 }
 
-bool Database::Remove(const std::string& id) {
+bool Database::Remove(const std::string& name) {
   rapid_msgs::RemoveStaticCloudRequest req;
   req.collection.db = db_;
   req.collection.collection = collection_;
-  req.id = id;
+  req.name = name;
   rapid_msgs::RemoveStaticCloudResponse res;
   bool success = remove_.call(req, res);
   if (!success) {

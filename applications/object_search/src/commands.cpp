@@ -83,6 +83,7 @@ void RecordObjectCommand::Execute(std::vector<std::string>& args) {
   static_cloud.parent_frame_id = "base_footprint";
   tf::transformTFToMsg(capture_->cloud_to_base().inverse(),
                        static_cloud.base_to_camera);
+  static_cloud.roi = capture_->roi();
 
   // Save static cloud
   static_cloud.name = args[0];
@@ -215,7 +216,7 @@ void UseCommand::CropScene(PointCloud<PointXYZRGBNormal>::Ptr scene) {
 void UseCommand::ComputeNormals(
     pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud) {
   double normal_radius;
-  ros::param::param<double>("normal_radius", normal_radius, 0.04);
+  ros::param::param<double>("normal_radius", normal_radius, 0.03);
   ROS_INFO("Computing normals with radius: %f", normal_radius);
 
   pcl::ScopeTime normal_timer("Computing normals");
@@ -229,7 +230,7 @@ void UseCommand::ComputeFeatures(
     pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr in,
     pcl::PointCloud<pcl::FPFHSignature33>::Ptr out) {
   double feature_radius;
-  ros::param::param<double>("feature_radius", feature_radius, 0.045);
+  ros::param::param<double>("feature_radius", feature_radius, 0.04);
   ROS_INFO("Computing features with radius: %f", feature_radius);
 
   pcl::ScopeTime fest_time("Computing features");

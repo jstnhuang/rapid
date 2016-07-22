@@ -58,7 +58,16 @@ class StaticCloudDb(object):
         return cloud_names
 
     def serve_remove_cloud(self, req):
-        deleted_count = self._db.delete(req.collection, req.id)
+        # Get by name if provided.
+        id = None
+        if req.name != '':
+            cloud_names = self._list_clouds(req.collection)
+            id = self._get_id_by_name(req.name, cloud_names)
+            id = req.id if id is None else id
+        else:
+            id = req.id
+
+        deleted_count = self._db.delete(req.collection, id)
         response = RemoveStaticCloudResponse()
         if deleted_count == 0:
             response.error = 'StaticCloud already not in collection.'

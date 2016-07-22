@@ -5,6 +5,7 @@
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "rapid_msgs/CaptureRoi3D.h"
+#include "rapid_msgs/Roi3D.h"
 #include "rapid_perception/box3d_roi_server.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
@@ -33,12 +34,14 @@ class CaptureRoi {
   void set_cloud(sensor_msgs::PointCloud2ConstPtr cloud);
   void Capture(sensor_msgs::PointCloud2* cloud_out);
   tf::StampedTransform cloud_to_base();
+  rapid_msgs::Roi3D roi();
 
  private:
   tf::TransformListener tf_listener_;
   rapid::perception::Box3DRoiServer* marker_server_;
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_cloud_;
   tf::StampedTransform cloud_to_base_;
+  rapid_msgs::Roi3D roi_;
 };
 }  // namespace object_search
 

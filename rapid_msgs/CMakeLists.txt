@@ -47,6 +47,7 @@ find_package(catkin REQUIRED
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
+  CapturedObject.msg
   Roi3D.msg
   StaticCloud.msg
   StaticCloudInfo.msg

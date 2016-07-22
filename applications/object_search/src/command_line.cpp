@@ -78,10 +78,10 @@ void CommandLine::ShowCommands() {
   cout << "  scenes - List scenes" << endl;
   cout << "  record object <name> - Save a new object" << endl;
   cout << "  record scene <name> - Save a new scene" << endl;
-  cout << "  delete object <id> - Delete an object" << endl;
-  cout << "  delete scene <id> - Delete a scene" << endl;
-  cout << "  use object <id> - Set object to search for" << endl;
-  cout << "  use scene <id> - Set the scene to search in" << endl;
+  cout << "  delete object <name> - Delete an object" << endl;
+  cout << "  delete scene <name> - Delete a scene" << endl;
+  cout << "  use object <name> - Set object to search for" << endl;
+  cout << "  use scene <name> - Set the scene to search in" << endl;
   cout << "  run - Run object search" << endl;
   cout << "  debug <on/off> - Turn debugging on or off" << endl;
   cout << "  exit - Exit this application" << endl;

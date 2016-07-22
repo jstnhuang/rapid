@@ -17,7 +17,7 @@ class Database {
            const ros::ServiceClient& remove, const ros::ServiceClient& save);
   bool Get(const std::string& name, rapid_msgs::StaticCloud* cloud);
   void List(std::vector<rapid_msgs::StaticCloudInfo>* clouds);
-  bool Remove(const std::string& id);
+  bool Remove(const std::string& name);
   std::string Save(const rapid_msgs::StaticCloud& cloud);
 
  private:
