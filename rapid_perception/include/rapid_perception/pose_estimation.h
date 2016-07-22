@@ -1,6 +1,8 @@
 #ifndef _RAPID_PERCEPTION_POSE_ESTIMATION_H_
 #define _RAPID_PERCEPTION_POSE_ESTIMATION_H_
 
+#include <vector>
+
 #include "pcl/features/fpfh_omp.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
@@ -10,6 +12,21 @@
 
 namespace rapid {
 namespace perception {
+class PoseEstimationMatch {
+ public:
+  explicit PoseEstimationMatch(
+      pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud, double fitness);
+  pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud();
+  pcl::PointXYZ center() const;
+  double fitness() const;
+  void set_fitness(double fitness);
+
+ private:
+  pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud_;
+  pcl::PointXYZ center_;
+  double fitness_;
+};
+
 class PoseEstimator {
  public:
   PoseEstimator();
@@ -44,10 +61,29 @@ class PoseEstimator {
   bool Find();
 
  private:
+  // Compute scene points to initialize ICP at.
+  void ComputeHeatmap(pcl::PointIndicesPtr heatmap_indices,
+                      Eigen::VectorXd* importances);
+  // Sample the heatmap by importance to generate candidate points.
+  void ComputeCandidates(Eigen::VectorXd& importances,
+                         pcl::PointIndicesPtr heatmap_indices,
+                         pcl::PointIndicesPtr candidate_indices);
+  // Initialize and run ICP at each of the candidate points.
+  void RunIcpCandidates(pcl::PointIndices::Ptr candidate_indices,
+                        std::vector<PoseEstimationMatch>* output_objects);
+  // Do non-max suppression on ICP outputs.
+  void NonMaxSuppression(std::vector<PoseEstimationMatch>& output_objects,
+                         std::vector<bool>* keep);
+
+  // Set the color of a point cloud for visualization.
   void Colorize(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud, double r,
                 double g, double b);
+
+  // Publish a point cloud using the given publisher.
   void PublishCloud(const ros::Publisher& pub,
                     pcl::PointCloud<pcl::PointXYZRGBNormal>& cloud);
+
+  // Convert a feature to a string for debugging purposes.
   std::string FeatureString(const pcl::FPFHSignature33& feature);
 
   // Source and target data structures
@@ -94,21 +130,6 @@ class PoseEstimator {
   ros::Publisher candidates_pub_;
   ros::Publisher alignment_pub_;
   ros::Publisher output_pub_;
-};
-
-class PoseEstimationMatch {
- public:
-  explicit PoseEstimationMatch(
-      pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud, double fitness);
-  pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud();
-  pcl::PointXYZ center() const;
-  double fitness() const;
-  void set_fitness(double fitness);
-
- private:
-  pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud_;
-  pcl::PointXYZ center_;
-  double fitness_;
 };
 }  // namespace perception
 }  // namespace rapid

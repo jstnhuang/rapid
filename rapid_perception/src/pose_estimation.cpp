@@ -127,11 +127,48 @@ void PoseEstimator::set_output_publisher(const ros::Publisher& pub) {
 }
 
 bool PoseEstimator::Find() {
-  PointCloudN::Ptr working_scene(new PointCloudN);
-  *working_scene = *scene_;
+  // Compute heatmap of features
+  pcl::PointIndicesPtr heatmap_indices(new pcl::PointIndices);
+  Eigen::VectorXd importances;
+  ComputeHeatmap(heatmap_indices, &importances);
 
+  // Sample candidate points from the heatmap
+  pcl::PointIndices::Ptr candidate_indices(new pcl::PointIndices);
+  ComputeCandidates(importances, heatmap_indices, candidate_indices);
+
+  // For each candidate point, run ICP
+  vector<PoseEstimationMatch> output_objects;
+  RunIcpCandidates(candidate_indices, &output_objects);
+  if (output_objects.size() == 0) {
+    ROS_WARN("No matches found.");
+    return false;
+  }
+
+  // Non-max suppression
+  vector<bool> keep;
+  NonMaxSuppression(output_objects, &keep);
+
+  PointCloudN::Ptr output_cloud(new PointCloudN);
+  int num_instances = 0;
+  for (size_t i = 0; i < output_objects.size(); ++i) {
+    if (keep[i]) {
+      double r = static_cast<double>(rand()) / RAND_MAX;
+      double g = static_cast<double>(rand()) / RAND_MAX;
+      double b = static_cast<double>(rand()) / RAND_MAX;
+      Colorize(output_objects[i].cloud(), r, g, b);
+      *output_cloud += *output_objects[i].cloud();
+      ++num_instances;
+    }
+  }
+  ROS_INFO("Found %d instances of the model", num_instances);
+  output_cloud->header.frame_id = scene_->header.frame_id;
+  PublishCloud(output_pub_, *output_cloud);
+  return true;
+}
+
+void PoseEstimator::ComputeHeatmap(pcl::PointIndicesPtr indices,
+                                   Eigen::VectorXd* importances) {
   // Sample points in the scene.
-  pcl::PointIndicesPtr indices(new pcl::PointIndices());
   pcl::RandomSample<PointN> random;
   random.setInputCloud(scene_);
   int num_samples = static_cast<int>(round(sample_ratio_ * scene_->size()));
@@ -145,7 +182,7 @@ bool PoseEstimator::Find() {
   // For each scene point, caches whether there is a close match on the object.
   // 0 = unknown, 1 = yes, -1 = no
   vector<int8_t> importance_cache(scene_->size(), 0);
-  Eigen::VectorXd importances(indices->indices.size());
+  importances->resize(indices->indices.size());
   for (size_t indices_i = 0; indices_i < indices->indices.size(); ++indices_i) {
     int index = indices->indices[indices_i];
     vector<int> k_indices;
@@ -174,15 +211,17 @@ bool PoseEstimator::Find() {
       }
     }
     avg_close_matches /= k_indices.size();
-    importances(indices_i) = avg_close_matches;
+    (*importances)(indices_i) = avg_close_matches;
   }
 
-  double max = importances.maxCoeff();
-  importances /= max;
+  double max = importances->maxCoeff();
+  (*importances) /= max;
 
   // Color point cloud for visualization
+  PointCloudN::Ptr working_scene(new PointCloudN);
+  *working_scene = *scene_;
   for (size_t indices_i = 0; indices_i < indices->indices.size(); ++indices_i) {
-    int color = static_cast<int>(round(255 * importances(indices_i)));
+    int color = static_cast<int>(round(255 * (*importances)(indices_i)));
     int index = indices->indices[indices_i];
     working_scene->points[index].r = color;
     working_scene->points[index].g = color;
@@ -194,14 +233,19 @@ bool PoseEstimator::Find() {
   extract.setIndices(indices);
   extract.filter(*viz_cloud);
   PublishCloud(heatmap_pub_, *viz_cloud);
+}
 
+void PoseEstimator::ComputeCandidates(Eigen::VectorXd& importances,
+                                      pcl::PointIndicesPtr heatmap_indices,
+                                      pcl::PointIndicesPtr candidate_indices) {
   // Sample points based on importance
   double sum = importances.sum();
   importances /= sum;
 
   vector<double> cdf;
   double cdf_val = 0;
-  for (size_t indices_i = 0; indices_i < indices->indices.size(); ++indices_i) {
+  for (size_t indices_i = 0; indices_i < heatmap_indices->indices.size();
+       ++indices_i) {
     double prob = importances(indices_i);
     cdf_val += prob;
     cdf.push_back(cdf_val);
@@ -215,30 +259,34 @@ bool PoseEstimator::Find() {
   utils::StochasticUniversalSampling(cdf, num_candidates_,
                                      &sampled_important_indices);
 
-  pcl::PointIndices::Ptr candidate_indices(new pcl::PointIndices);
   for (size_t i = 0; i < sampled_important_indices.size(); ++i) {
     int index_into_indices = sampled_important_indices[i];
-    int point_index = indices->indices[index_into_indices];
+    int point_index = heatmap_indices->indices[index_into_indices];
     candidate_indices->indices.push_back(point_index);
   }
 
   // Visualize the candidate points
+  PointCloudN::Ptr viz_cloud(new PointCloudN());
   viz_cloud.reset(new PointCloudN());
-  extract.setInputCloud(working_scene);
+  pcl::ExtractIndices<PointN> extract;
+  extract.setInputCloud(scene_);
   extract.setIndices(candidate_indices);
   extract.filter(*viz_cloud);
   PublishCloud(candidates_pub_, *viz_cloud);
+}
 
-  // For each candidate point, run ICP
+void PoseEstimator::RunIcpCandidates(
+    pcl::PointIndices::Ptr candidate_indices,
+    vector<PoseEstimationMatch>* output_objects) {
   // Copy the object and its center.
   PointCloudN::Ptr working_object(new PointCloudN);
   PointCloudN::Ptr aligned_object(new PointCloudN);
-  vector<PoseEstimationMatch> output_objects;
   pcl::IterativeClosestPoint<PointN, PointN> icp;
   icp.setInputTarget(scene_);
+  output_objects->clear();
   for (size_t ci = 0; ci < candidate_indices->indices.size(); ++ci) {
     int index = candidate_indices->indices[ci];
-    const PointN& center = working_scene->points[index];
+    const PointN& center = scene_->points[index];
     // Transform the object to be centered on the center point
     // So far we just use a translation offset
     // Also assume that the object and scene are in the same frame
@@ -257,7 +305,7 @@ bool PoseEstimator::Find() {
       double fitness = icp.getFitnessScore();
       std::string threshold_marker = "";
       if (fitness < fitness_threshold_) {
-        output_objects.push_back(PoseEstimationMatch(aligned_object, fitness));
+        output_objects->push_back(PoseEstimationMatch(aligned_object, fitness));
         threshold_marker = " -- below threshold";
       }
       ROS_INFO("ICP converged with score: %f%s", fitness,
@@ -269,12 +317,10 @@ bool PoseEstimator::Find() {
       std::getline(std::cin, user_input);
     }
   }
+}
 
-  if (output_objects.size() == 0) {
-    ROS_WARN("No matches found.");
-    return false;
-  }
-
+void PoseEstimator::NonMaxSuppression(
+    std::vector<PoseEstimationMatch>& output_objects, std::vector<bool>* keep) {
   // Non-max supression of output objects
   // Index centers into a tree
   PointCloudP::Ptr output_centers(new PointCloudP);
@@ -285,7 +331,6 @@ bool PoseEstimator::Find() {
   output_centers_tree.setInputCloud(output_centers);
 
   // Suppress non max within a radius
-  vector<bool> keep;
   for (int i = 0; i < static_cast<int>(output_objects.size()); ++i) {
     PoseEstimationMatch& match = output_objects[i];
     vector<int> neighbor_indices;
@@ -313,25 +358,8 @@ bool PoseEstimator::Find() {
         neighbor.set_fitness(neighbor.fitness() * 1.01);
       }
     }
-    keep.push_back(keep_match);
+    keep->push_back(keep_match);
   }
-
-  PointCloudN::Ptr output_cloud(new PointCloudN);
-  int num_instances = 0;
-  for (size_t i = 0; i < output_objects.size(); ++i) {
-    if (keep[i]) {
-      double r = static_cast<double>(rand()) / RAND_MAX;
-      double g = static_cast<double>(rand()) / RAND_MAX;
-      double b = static_cast<double>(rand()) / RAND_MAX;
-      Colorize(output_objects[i].cloud(), r, g, b);
-      *output_cloud += *output_objects[i].cloud();
-      ++num_instances;
-    }
-  }
-  ROS_INFO("Found %d instances of the model", num_instances);
-  output_cloud->header.frame_id = scene_->header.frame_id;
-  PublishCloud(output_pub_, *output_cloud);
-  return true;
 }
 
 void PoseEstimator::Colorize(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud,
