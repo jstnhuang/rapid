@@ -37,8 +37,9 @@ void CloudToImage(const sensor_msgs::CameraInfo& camera_info,
     }
     const pcl::PointXYZRGB& point = cloud.points[index];
     cv::Point3d p3d(point.x, point.y, point.z);
-    std::cout << "index: " << index << ", x: " << point.x << ", y: " << point.y
-              << ", z: " << point.z << std::endl;
+    // std::cout << "index: " << index << ", x: " << point.x << ", y: " <<
+    // point.y
+    //          << ", z: " << point.z << std::endl;
     cv::Point2d p2d = model.project3dToPixel(p3d);
     int row = static_cast<int>(p2d.y);
     int col = static_cast<int>(p2d.x);

@@ -127,7 +127,7 @@ void PoseEstimator::set_object_camera(
   PublishImage(landmark_image_pub_, object_rgb_camera_->header, object_image);
   image_recognizer_.set_image(object_image);
   std::string error;
-  object_cnn_features_ = image_recognizer_.layer("conv3", &error);
+  object_cnn_features_ = image_recognizer_.layer("fc6", &error);
   if (error != "") {
     ROS_ERROR("Error setting object: %s", error.c_str());
   }
@@ -242,13 +242,15 @@ void PoseEstimator::ComputeHeatmap(pcl::PointIndicesPtr indices,
   pcl::PointIndicesPtr k_indices_ptr(new pcl::PointIndices);
   for (size_t indices_i = 0; indices_i < indices->indices.size(); ++indices_i) {
     int index = indices->indices[indices_i];
-    std::cout << "Finding neighbors of: x: " << scene_->at(index).x
-              << ", y: " << scene_->at(index).y
-              << ", z: " << scene_->at(index).z << std::endl;
+    // std::cout << "Finding neighbors of: x: " << scene_->at(index).x
+    //          << ", y: " << scene_->at(index).y
+    //          << ", z: " << scene_->at(index).z << std::endl;
     vector<int> k_indices;
     vector<float> k_distances;
+    // scene_tree_->radiusSearch(index, search_radius, k_indices, k_distances,
+    //                          max_neighbors_);
     scene_tree_->radiusSearch(index, search_radius, k_indices, k_distances,
-                              max_neighbors_);
+                              object_->size());
     k_indices_ptr->indices = k_indices;
     cv::Mat scene_image;
     CloudToImage(HeadMountKinectCameraInfo(), *scene_rgb_camera_, k_indices_ptr,
@@ -256,7 +258,7 @@ void PoseEstimator::ComputeHeatmap(pcl::PointIndicesPtr indices,
     PublishImage(scene_image_pub_, scene_rgb_camera_->header, scene_image);
     image_recognizer_.set_image(scene_image);
     std::string error;
-    cv::Mat scene_features = image_recognizer_.layer("conv3", &error);
+    cv::Mat scene_features = image_recognizer_.layer("fc6", &error);
     if (error != "") {
       ROS_ERROR("Error getting scene image: %s", error.c_str());
     }
@@ -264,6 +266,15 @@ void PoseEstimator::ComputeHeatmap(pcl::PointIndicesPtr indices,
                         (cv::norm(scene_features) * object_cnn_norm_);
     (*importances)(indices_i) = cosine_sim;
     if (debug_) {
+      PointCloudN::Ptr debug(new PointCloudN);
+      const PointN& current = scene_->at(index);
+      PointN current_copy = current;
+      current_copy.r = 255;
+      current_copy.g = 0;
+      current_copy.b = 0;
+      debug->push_back(current_copy);
+      debug->header.frame_id = scene_->header.frame_id;
+      PublishCloud(heatmap_pub_, *debug);
       std::cout << "dot prod: " << scene_features.dot(object_cnn_features_)
                 << ", scene norm: " << cv::norm(scene_features)
                 << ", object norm: " << object_cnn_norm_
@@ -298,11 +309,12 @@ void PoseEstimator::ComputeHeatmap(pcl::PointIndicesPtr indices,
     //(*importances)(indices_i) = avg_close_matches;
   }
 
-  double max = importances->maxCoeff();
   double min = importances->minCoeff();
   if (min < 0) {
     ROS_ERROR("Min cosine distance was negative");
   }
+  (*importances) = (importances->array() - min).matrix();
+  double max = importances->maxCoeff();
   (*importances) /= max;
 
   // Color point cloud for visualization

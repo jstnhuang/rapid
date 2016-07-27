@@ -198,7 +198,7 @@ void UseCommand::Execute(std::vector<std::string>& args) {
 
   // Visualize object/scene
   sensor_msgs::PointCloud2 viz;
-  pcl::toROSMsg(*pcl_cloud, viz);
+  pcl::toROSMsg(*pcl_cloud_base, viz);
   viz.header.stamp = ros::Time::now();
   pub_.publish(viz);
 
@@ -210,13 +210,6 @@ void UseCommand::Execute(std::vector<std::string>& args) {
     estimator_->set_object(pcl_cloud_base);
     // estimator_->set_object_features(features);
   } else {
-    std::cout << "Take another look: ";
-    std::string input;
-    std::getline(std::cin, input);
-    pcl::toROSMsg(*pcl_cloud_base, viz);
-    viz.header.stamp = ros::Time::now();
-    pub_.publish(viz);
-
     estimator_->set_scene(pcl_cloud_base);
     // estimator_->set_scene_features(features);
   }

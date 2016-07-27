@@ -52,7 +52,6 @@ cv::Mat ImageRecognizer::layer(const string& layer_name, string* error) {
     return mat;
   }
   if (needs_update_) {
-    std::cout << "Doing forward pass" << std::endl;
     ForwardPass(error);
     if (*error != "") {
       cv::Mat mat;
