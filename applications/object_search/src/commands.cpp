@@ -7,11 +7,13 @@
 #include "Eigen/Core"
 #include "pcl/common/time.h"
 #include "pcl/filters/crop_box.h"
+#include "pcl/filters/extract_indices.h"
 #include "pcl/filters/filter.h"
 #include "pcl/features/fpfh_omp.h"
 #include "pcl/features/normal_3d_omp.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
+#include "pcl/PointIndices.h"
 #include "pcl_conversions/pcl_conversions.h"
 #include "pcl_ros/transforms.h"
 #include "rapid_msgs/StaticCloud.h"
@@ -21,6 +23,7 @@
 #include "sensor_msgs/PointCloud2.h"
 #include "tf/transform_datatypes.h"
 #include "tf/transform_listener.h"
+#include "tf_conversions/tf_eigen.h"
 
 #include "object_search/capture_roi.h"
 #include "object_search/cloud_database.h"
@@ -144,24 +147,53 @@ void UseCommand::Execute(std::vector<std::string>& args) {
       new PointCloud<PointXYZRGBNormal>);
   pcl::fromROSMsg(cloud.cloud, *pcl_cloud);
 
-  // Transform into base_footprint
-  tf::Transform base_to_camera;
-  tf::transformMsgToTF(cloud.base_to_camera, base_to_camera);
-  pcl_ros::transformPointCloud(*pcl_cloud, *pcl_cloud,
-                               base_to_camera.inverse());
-  pcl_cloud->header.frame_id = cloud.parent_frame_id;
-
-  ROS_INFO("Loaded point cloud with %ld points", pcl_cloud->size());
-
   if (type_ == "scene") {
     // Filter NaNs
     std::vector<int> mapping;
     pcl_cloud->is_dense = false;  // Force check for NaNs
     pcl::removeNaNFromPointCloud(*pcl_cloud, *pcl_cloud, mapping);
     ROS_INFO("Filtered NaNs, there are now %ld points", pcl_cloud->size());
+  }
+  if (type_ == "object") {
+    estimator_->set_object_camera(pcl_cloud);
+  }
 
-    // Crop scene
-    CropScene(pcl_cloud);
+  // Transform into base_footprint
+  tf::Transform base_to_camera;
+  tf::transformMsgToTF(cloud.base_to_camera, base_to_camera);
+  PointCloud<PointXYZRGBNormal>::Ptr pcl_cloud_base(
+      new PointCloud<PointXYZRGBNormal>);
+  pcl_ros::transformPointCloud(*pcl_cloud, *pcl_cloud_base,
+                               base_to_camera.inverse());
+  // Eigen::Affine3d affine;
+  // tf::transformTFToEigen(base_to_camera.inverse(), affine);
+  // for (size_t i = 0; i < pcl_cloud->size(); ++i) {
+  //  pcl::PointXYZRGBNormal transformed =
+  //      pcl::transformPoint(pcl_cloud->at(i), affine);
+  //  pcl_cloud_base->push_back(transformed);
+  //}
+  // pcl::transformPointCloud(*pcl_cloud, *pcl_cloud_base, affine);
+  pcl_cloud_base->header.frame_id = cloud.parent_frame_id;
+
+  ROS_INFO("Loaded point cloud with %ld points", pcl_cloud_base->size());
+
+  if (type_ == "scene") {
+    vector<int> indices;
+    CropScene(pcl_cloud_base, &indices);
+    pcl::PointIndicesPtr indices_ptr(new pcl::PointIndices);
+    indices_ptr->indices = indices;
+
+    // Get cropped versions of scene in both frames
+    pcl::ExtractIndices<pcl::PointXYZRGBNormal> extract;
+    extract.setInputCloud(pcl_cloud);
+    extract.setIndices(indices_ptr);
+    extract.filter(*pcl_cloud);
+    estimator_->set_scene_camera(pcl_cloud);
+
+    // Get cropped version of camera frame image
+    extract.setInputCloud(pcl_cloud_base);
+    extract.setIndices(indices_ptr);
+    extract.filter(*pcl_cloud_base);
   }
 
   // Visualize object/scene
@@ -170,20 +202,28 @@ void UseCommand::Execute(std::vector<std::string>& args) {
   viz.header.stamp = ros::Time::now();
   pub_.publish(viz);
 
-  ComputeNormals(pcl_cloud);
-  PointCloud<FPFHSignature33>::Ptr features(new PointCloud<FPFHSignature33>);
-  ComputeFeatures(pcl_cloud, features);
+  // ComputeNormals(pcl_cloud);
+  // PointCloud<FPFHSignature33>::Ptr features(new PointCloud<FPFHSignature33>);
+  // ComputeFeatures(pcl_cloud, features);
 
   if (type_ == "object") {
-    estimator_->set_object(pcl_cloud);
-    estimator_->set_object_features(features);
+    estimator_->set_object(pcl_cloud_base);
+    // estimator_->set_object_features(features);
   } else {
-    estimator_->set_scene(pcl_cloud);
-    estimator_->set_scene_features(features);
+    std::cout << "Take another look: ";
+    std::string input;
+    std::getline(std::cin, input);
+    pcl::toROSMsg(*pcl_cloud_base, viz);
+    viz.header.stamp = ros::Time::now();
+    pub_.publish(viz);
+
+    estimator_->set_scene(pcl_cloud_base);
+    // estimator_->set_scene_features(features);
   }
 }
 
-void UseCommand::CropScene(PointCloud<PointXYZRGBNormal>::Ptr scene) {
+void UseCommand::CropScene(PointCloud<PointXYZRGBNormal>::Ptr scene,
+                           vector<int>* indices) {
   double min_x, min_y, min_z, max_x, max_y, max_z;
   ros::param::param<double>("min_x", min_x, 0.2);
   ros::param::param<double>("min_y", min_y, -1);
@@ -209,8 +249,9 @@ void UseCommand::CropScene(PointCloud<PointXYZRGBNormal>::Ptr scene) {
   max << max_x, max_y, max_z, 1;
   crop.setMin(min);
   crop.setMax(max);
-  crop.filter(*scene);
-  ROS_INFO("Cropped to %ld points", scene->size());
+  crop.filter(*indices);
+  // crop.filter(*scene);
+  ROS_INFO("Cropped to %ld points", indices->size());
 }
 
 void UseCommand::ComputeNormals(

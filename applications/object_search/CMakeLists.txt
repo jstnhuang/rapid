@@ -14,6 +14,8 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   rospy_message_converter
   sensor_msgs
+  tf
+  tf_conversions
 )
 
 find_package(Boost REQUIRED)
@@ -23,6 +25,9 @@ include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
+# Caffe
+set(CAFFE_INSTALL_DIR /usr/local/caffe)
+set(CUDA_INSTALL_DIR /usr/local/cuda)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -126,6 +131,8 @@ catkin_package(
     rospy
     rospy_message_converter
     sensor_msgs
+    tf
+    tf_conversions
   DEPENDS
     Boost
     Eigen
@@ -145,18 +152,30 @@ include_directories(
   ${PCL_INCLUDE_DIRS}
 )
 
-add_executable(object_search_main
-  src/capture_roi.cpp
-  src/object_search_main.cpp
-  src/cloud_database.cpp
-  src/command_line.cpp
-  src/commands.cpp
-)
-add_dependencies(object_search_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(object_search_main
-  ${catkin_LIBRARIES}
-  ${pcl_LIBRARIES}
-)
+if (CAFFE_INSTALL_DIR)
+  include_directories(${CAFFE_INSTALL_DIR}/include)
+  link_directories(${CAFFE_INSTALL_DIR}/lib)
+  find_library(caffe libcaffe.so ${CAFFE_INSTALL_DIR}/lib)
+  if (CUDA_INSTALL_DIR)
+    include_directories(${CUDA_INSTALL_DIR}/include)
+  else()
+    add_definitions(-DCPU_ONLY)
+  endif()
+
+  add_executable(object_search_main
+    src/capture_roi.cpp
+    src/object_search_main.cpp
+    src/cloud_database.cpp
+    src/command_line.cpp
+    src/commands.cpp
+  )
+  add_dependencies(object_search_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+  target_link_libraries(object_search_main
+    ${catkin_LIBRARIES}
+    ${pcl_LIBRARIES}
+    caffe
+  )
+endif()
 
 #############
 ## Install ##

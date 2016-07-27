@@ -3,12 +3,15 @@
 
 #include <vector>
 
+#include "opencv2/core/core.hpp"
 #include "pcl/features/fpfh_omp.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "pcl/search/kdtree.h"
 #include "ros/ros.h"
 #include "Eigen/Core"
+
+#include "rapid_perception/image_recognition.h"
 
 namespace rapid {
 namespace perception {
@@ -32,7 +35,11 @@ class PoseEstimator {
   PoseEstimator();
   // Setters for source and target
   void set_scene(pcl::PointCloud<pcl::PointXYZRGBNormal>::ConstPtr scene);
+  void set_scene_camera(
+      pcl::PointCloud<pcl::PointXYZRGBNormal>::ConstPtr scene);
   void set_object(pcl::PointCloud<pcl::PointXYZRGBNormal>::ConstPtr object);
+  void set_object_camera(
+      pcl::PointCloud<pcl::PointXYZRGBNormal>::ConstPtr object);
   void set_scene_features(
       pcl::PointCloud<pcl::FPFHSignature33>::ConstPtr scene_features);
   void set_object_features(
@@ -56,6 +63,10 @@ class PoseEstimator {
   void set_candidates_publisher(const ros::Publisher& pub);
   void set_alignment_publisher(const ros::Publisher& pub);
   void set_output_publisher(const ros::Publisher& pub);
+  void set_landmark_image_publisher(const ros::Publisher& pub);
+  void set_scene_image_publisher(const ros::Publisher& pub);
+
+  void set_image_recognizer(const ImageRecognizer& val);
 
   // Method for doing the alignment
   bool Find();
@@ -82,22 +93,32 @@ class PoseEstimator {
   // Publish a point cloud using the given publisher.
   void PublishCloud(const ros::Publisher& pub,
                     pcl::PointCloud<pcl::PointXYZRGBNormal>& cloud);
+  void PublishImage(const ros::Publisher& pub,
+                    const pcl::PCLHeader& cloud_header, const cv::Mat& mat);
 
   // Convert a feature to a string for debugging purposes.
   std::string FeatureString(const pcl::FPFHSignature33& feature);
 
   // Source and target data structures
   pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr scene_;
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene_rgb_camera_;
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene_rgb_;
   pcl::search::KdTree<pcl::PointXYZRGBNormal>::Ptr scene_tree_;
 
   pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr object_;
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr object_rgb_camera_;
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr object_rgb_;
   double object_radius_est_;       // Object radius estimate.
   Eigen::Vector3d object_center_;  // Approx center point of object.
+  cv::Mat object_cnn_features_;
+  double object_cnn_norm_;
 
   pcl::PointCloud<pcl::FPFHSignature33>::Ptr scene_features_;
 
   pcl::PointCloud<pcl::FPFHSignature33>::Ptr object_features_;
   pcl::search::KdTree<pcl::FPFHSignature33>::Ptr object_features_tree_;
+
+  ImageRecognizer image_recognizer_;
 
   // Parameters
   // The fraction of points in the scene to randomly sample when searching for
@@ -130,6 +151,8 @@ class PoseEstimator {
   ros::Publisher candidates_pub_;
   ros::Publisher alignment_pub_;
   ros::Publisher output_pub_;
+  ros::Publisher landmark_image_pub_;
+  ros::Publisher scene_image_pub_;
 };
 }  // namespace perception
 }  // namespace rapid

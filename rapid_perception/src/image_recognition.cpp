@@ -47,13 +47,17 @@ void ImageRecognizer::set_image(const cv::Mat& image) {
 
 cv::Mat ImageRecognizer::layer(const string& layer_name, string* error) {
   if (!net_->has_blob(layer_name)) {
+    *error = "CNN has no layer named " + layer_name;
     cv::Mat mat;
     return mat;
   }
   if (needs_update_) {
+    std::cout << "Doing forward pass" << std::endl;
     ForwardPass(error);
-    cv::Mat empty;
-    return empty;
+    if (*error != "") {
+      cv::Mat mat;
+      return mat;
+    }
   }
   const boost::shared_ptr<caffe::Blob<float> > feature_blob =
       net_->blob_by_name(layer_name);
@@ -78,11 +82,14 @@ cv::Mat ImageRecognizer::layer(const string& layer_name, string* error) {
 
 vector<pair<string, float> > ImageRecognizer::predictions(int num_predictions,
                                                           string* error) {
+  vector<pair<string, float> > predictions;
   std::vector<float> output = Predict(image_, error);
+  if (*error != "") {
+    return predictions;
+  }
 
   num_predictions = std::min<int>(labels_.size(), num_predictions);
   vector<int> maxN = Argmax(output, num_predictions);
-  vector<pair<string, float> > predictions;
   for (int i = 0; i < num_predictions; ++i) {
     int idx = maxN[i];
     predictions.push_back(std::make_pair(labels_[idx], output[idx]));
@@ -102,6 +109,9 @@ void ImageRecognizer::ForwardPass(string* error) {
   WrapInputLayer(&input_channels);
 
   Preprocess(image_, &input_channels, error);
+  if (*error != "") {
+    return;
+  }
 
   net_->Forward();
   needs_update_ = false;
@@ -110,6 +120,10 @@ void ImageRecognizer::ForwardPass(string* error) {
 vector<float> ImageRecognizer::Predict(const cv::Mat& image, string* error) {
   if (needs_update_) {
     ForwardPass(error);
+    if (*error != "") {
+      vector<float> empty;
+      return empty;
+    }
   }
 
   /* Copy the output layer to a std::vector */
@@ -138,10 +152,6 @@ void ImageRecognizer::Preprocess(const cv::Mat& img,
 
   cv::Mat sample_resized;
   if (sample.size() != input_geometry_) {
-    std::cout << "sample size: " << sample.size().width << "x"
-              << sample.size().height << std::endl;
-    std::cout << "input geometry size: " << input_geometry_.width << "x"
-              << input_geometry_.height << std::endl;
     cv::resize(sample, sample_resized, input_geometry_);
   } else {
     sample_resized = sample;

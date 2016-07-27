@@ -17,12 +17,14 @@
 #include "pcl_ros/transforms.h"
 #include "rapid_perception/pr2.h"
 #include "rapid_perception/box3d_roi_server.h"
+#include "rapid_perception/image_recognition.h"
 #include "rapid_perception/pose_estimation.h"
 #include "rapid_msgs/GetStaticCloud.h"
 #include "rapid_msgs/ListStaticClouds.h"
 #include "rapid_msgs/RemoveStaticCloud.h"
 #include "rapid_msgs/SaveStaticCloud.h"
 #include "ros/ros.h"
+#include "sensor_msgs/Image.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "visualization_msgs/Marker.h"
 
@@ -31,6 +33,7 @@
 #include "object_search/command_line.h"
 #include "object_search/cloud_database.h"
 
+using sensor_msgs::Image;
 using sensor_msgs::PointCloud2;
 using pcl::FPFHSignature33;
 using pcl::PointCloud;
@@ -42,6 +45,10 @@ namespace rp = rapid::perception;
 using namespace object_search;
 
 int main(int argc, char** argv) {
+  if (argc < 2) {
+    std::cout << "object_search_main /path/to/alexnet" << std::endl;
+    return 1;
+  }
   ros::init(argc, argv, "object_search");
   ros::NodeHandle nh;
   ros::AsyncSpinner spinner(4);
@@ -70,14 +77,26 @@ int main(int argc, char** argv) {
   ros::Publisher alignment_pub =
       nh.advertise<PointCloud2>("/alignment", 1, true);
   ros::Publisher output_pub = nh.advertise<PointCloud2>("/output", 1, true);
+  ros::Publisher landmark_image_pub =
+      nh.advertise<Image>("/landmark_image", 1, true);
+  ros::Publisher scene_image_pub = nh.advertise<Image>("/scene_image", 1, true);
 
   // Build ROI server
   tf::TransformListener tf_listener;
   rapid::perception::Box3DRoiServer roi_server("roi");
   CaptureRoi capture(&roi_server);
 
+  // Build image recognizer
+  rapid::perception::ImageRecognizer image_recognizer;
+  std::string error;
+  rapid::perception::ImageRecognizer::AlexNet(argv[1], &image_recognizer,
+                                              &error);
+
   // Build pose estimator
   rapid::perception::PoseEstimator pose_estimator;
+  pose_estimator.set_image_recognizer(image_recognizer);
+  pose_estimator.set_landmark_image_publisher(landmark_image_pub);
+  pose_estimator.set_scene_image_publisher(scene_image_pub);
 
   ListCommand list_objects(&object_db, "object");
   ListCommand list_scenes(&scene_db, "scene");

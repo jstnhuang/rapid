@@ -72,7 +72,8 @@ class UseCommand : public Command {
   void Execute(std::vector<std::string>& args);
 
  private:
-  void CropScene(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr scene);
+  void CropScene(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr scene,
+                 std::vector<int>* indices);
   void ComputeNormals(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud);
   void ComputeFeatures(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr in,
                        pcl::PointCloud<pcl::FPFHSignature33>::Ptr out);

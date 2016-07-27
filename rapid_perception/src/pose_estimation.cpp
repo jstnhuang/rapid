@@ -7,6 +7,7 @@
 #include <sstream>
 #include <vector>
 
+#include "cv_bridge/cv_bridge.h"
 #include "pcl/common/common.h"
 #include "pcl/common/time.h"
 #include "pcl/point_cloud.h"
@@ -19,12 +20,18 @@
 #include "pcl/registration/icp.h"
 #include "pcl_conversions/pcl_conversions.h"
 #include "sensor_msgs/PointCloud2.h"
+#include "sensor_msgs/image_encodings.h"
+#include "std_msgs/Header.h"
 #include "Eigen/Core"
 
+#include "rapid_perception/cloud_projection.h"
+#include "rapid_perception/image_recognition.h"
 #include "rapid_utils/stochastic_universal_sampling.h"
 
+typedef pcl::PointXYZRGB PointC;
 typedef pcl::PointXYZRGBNormal PointN;
 typedef pcl::PointXYZ PointP;
+typedef pcl::PointCloud<PointC> PointCloudC;
 typedef pcl::PointCloud<PointN> PointCloudN;
 typedef pcl::PointCloud<PointP> PointCloudP;
 typedef pcl::FPFHSignature33 FPFH;
@@ -38,8 +45,12 @@ namespace rapid {
 namespace perception {
 PoseEstimator::PoseEstimator()
     : scene_(new PointCloudN()),
+      scene_rgb_camera_(new PointCloudC()),
+      scene_rgb_(new PointCloudC()),
       scene_tree_(),
       object_(new PointCloudN()),
+      object_rgb_camera_(new PointCloudC()),
+      object_rgb_(new PointCloudC()),
       object_radius_est_(0),
       object_center_(),
       scene_features_(new PointCloudF()),
@@ -65,6 +76,13 @@ void PoseEstimator::set_scene(PointCloudN::ConstPtr scene) {
   *scene_ = *scene;
   scene_tree_.reset(new PointNTree());
   scene_tree_->setInputCloud(scene_);
+  pcl::copyPointCloud(*scene_, *scene_rgb_);
+}
+
+void PoseEstimator::set_scene_camera(
+    pcl::PointCloud<pcl::PointXYZRGBNormal>::ConstPtr scene) {
+  scene_rgb_camera_.reset(new PointCloudC);
+  pcl::copyPointCloud(*scene, *scene_rgb_camera_);
 }
 
 void PoseEstimator::set_object(PointCloudN::ConstPtr object) {
@@ -78,11 +96,42 @@ void PoseEstimator::set_object(PointCloudN::ConstPtr object) {
   double x = max_pt.x() - min_pt.x();
   double y = max_pt.y() - min_pt.y();
   double z = max_pt.z() - min_pt.z();
-  object_radius_est_ = (x + y + z) / 3;
+  object_radius_est_ = std::max(x, std::max(y, z));
 
   object_center_.x() = (max_pt.x() + min_pt.x()) / 2;
   object_center_.y() = (max_pt.y() + min_pt.y()) / 2;
   object_center_.z() = (max_pt.z() + min_pt.z()) / 2;
+
+  // TODO(jstn): If this works out, use PointXYZRGB throughout.
+  pcl::copyPointCloud(*object_, *object_rgb_);
+}
+
+void PoseEstimator::PublishImage(const ros::Publisher& pub,
+                                 const pcl::PCLHeader& cloud_header,
+                                 const cv::Mat& mat) {
+  std_msgs::Header header;
+  header.frame_id = cloud_header.frame_id;
+  cv_bridge::CvImage cv_bridge(header, sensor_msgs::image_encodings::TYPE_8UC3,
+                               mat);
+  sensor_msgs::Image image_msg;
+  cv_bridge.toImageMsg(image_msg);
+  pub.publish(image_msg);
+}
+
+void PoseEstimator::set_object_camera(
+    pcl::PointCloud<pcl::PointXYZRGBNormal>::ConstPtr object) {
+  object_rgb_camera_.reset(new PointCloudC);
+  pcl::copyPointCloud(*object, *object_rgb_camera_);
+  cv::Mat object_image;
+  CloudToImage(HeadMountKinectCameraInfo(), *object_rgb_camera_, &object_image);
+  PublishImage(landmark_image_pub_, object_rgb_camera_->header, object_image);
+  image_recognizer_.set_image(object_image);
+  std::string error;
+  object_cnn_features_ = image_recognizer_.layer("conv3", &error);
+  if (error != "") {
+    ROS_ERROR("Error setting object: %s", error.c_str());
+  }
+  object_cnn_norm_ = cv::norm(object_cnn_features_);
 }
 
 void PoseEstimator::set_scene_features(PointCloudF::ConstPtr scene_features) {
@@ -124,6 +173,16 @@ void PoseEstimator::set_alignment_publisher(const ros::Publisher& pub) {
 }
 void PoseEstimator::set_output_publisher(const ros::Publisher& pub) {
   output_pub_ = pub;
+}
+void PoseEstimator::set_landmark_image_publisher(const ros::Publisher& pub) {
+  landmark_image_pub_ = pub;
+}
+void PoseEstimator::set_scene_image_publisher(const ros::Publisher& pub) {
+  scene_image_pub_ = pub;
+}
+
+void PoseEstimator::set_image_recognizer(const ImageRecognizer& val) {
+  image_recognizer_ = val;
 }
 
 bool PoseEstimator::Find() {
@@ -176,45 +235,74 @@ void PoseEstimator::ComputeHeatmap(pcl::PointIndicesPtr indices,
   random.filter(indices->indices);
   ROS_INFO("Randomly sampled %ld points", indices->indices.size());
 
-  // For each sample, look at an area around it and count the number of features
-  // in common with the object.
+  // For each sample, look at the points around it, project the image into 2D,
+  // and use CNN features to compare to the landmark.
   double search_radius = std::min(max_sample_radius_, object_radius_est_);
-  // For each scene point, caches whether there is a close match on the object.
-  // 0 = unknown, 1 = yes, -1 = no
-  vector<int8_t> importance_cache(scene_->size(), 0);
   importances->resize(indices->indices.size());
+  pcl::PointIndicesPtr k_indices_ptr(new pcl::PointIndices);
   for (size_t indices_i = 0; indices_i < indices->indices.size(); ++indices_i) {
     int index = indices->indices[indices_i];
+    std::cout << "Finding neighbors of: x: " << scene_->at(index).x
+              << ", y: " << scene_->at(index).y
+              << ", z: " << scene_->at(index).z << std::endl;
     vector<int> k_indices;
     vector<float> k_distances;
     scene_tree_->radiusSearch(index, search_radius, k_indices, k_distances,
                               max_neighbors_);
-    double avg_close_matches = 0;
-    for (size_t k = 0; k < k_indices.size(); ++k) {
-      int k_index = k_indices[k];
-      if (importance_cache[k_index] == 1) {
-        avg_close_matches += 1;
-        continue;
-      } else if (importance_cache[k_index] == -1) {
-        continue;
-      }
-      const FPFH& feature = scene_features_->at(k_index);
-      vector<int> nearest_indices;
-      vector<float> nearest_distances;
-      object_features_tree_->nearestKSearch(feature, 1, nearest_indices,
-                                            nearest_distances);
-      if (nearest_distances[0] < feature_threshold_) {
-        avg_close_matches += 1;
-        importance_cache[k_index] = 1;
-      } else {
-        importance_cache[k_index] = -1;
-      }
+    k_indices_ptr->indices = k_indices;
+    cv::Mat scene_image;
+    CloudToImage(HeadMountKinectCameraInfo(), *scene_rgb_camera_, k_indices_ptr,
+                 &scene_image);
+    PublishImage(scene_image_pub_, scene_rgb_camera_->header, scene_image);
+    image_recognizer_.set_image(scene_image);
+    std::string error;
+    cv::Mat scene_features = image_recognizer_.layer("conv3", &error);
+    if (error != "") {
+      ROS_ERROR("Error getting scene image: %s", error.c_str());
     }
-    avg_close_matches /= k_indices.size();
-    (*importances)(indices_i) = avg_close_matches;
+    double cosine_sim = scene_features.dot(object_cnn_features_) /
+                        (cv::norm(scene_features) * object_cnn_norm_);
+    (*importances)(indices_i) = cosine_sim;
+    if (debug_) {
+      std::cout << "dot prod: " << scene_features.dot(object_cnn_features_)
+                << ", scene norm: " << cv::norm(scene_features)
+                << ", object norm: " << object_cnn_norm_
+                << ", # scene points: " << k_indices.size()
+                << ", cosine sim: " << cosine_sim;
+      std::string input;
+      std::getline(std::cin, input);
+    }
+
+    // double avg_close_matches = 0;
+    // for (size_t k = 0; k < k_indices.size(); ++k) {
+    //  int k_index = k_indices[k];
+    //  if (importance_cache[k_index] == 1) {
+    //    avg_close_matches += 1;
+    //    continue;
+    //  } else if (importance_cache[k_index] == -1) {
+    //    continue;
+    //  }
+    //  const FPFH& feature = scene_features_->at(k_index);
+    //  vector<int> nearest_indices;
+    //  vector<float> nearest_distances;
+    //  object_features_tree_->nearestKSearch(feature, 1, nearest_indices,
+    //                                        nearest_distances);
+    //  if (nearest_distances[0] < feature_threshold_) {
+    //    avg_close_matches += 1;
+    //    importance_cache[k_index] = 1;
+    //  } else {
+    //    importance_cache[k_index] = -1;
+    //  }
+    //}
+    // avg_close_matches /= k_indices.size();
+    //(*importances)(indices_i) = avg_close_matches;
   }
 
   double max = importances->maxCoeff();
+  double min = importances->minCoeff();
+  if (min < 0) {
+    ROS_ERROR("Min cosine distance was negative");
+  }
   (*importances) /= max;
 
   // Color point cloud for visualization
