@@ -58,7 +58,7 @@ install:
     - cd ~/catkin_ws/
     - rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y -q
     # Build
-    - catkin build
+    - catkin build --cmake-args -DCAFFE_INSTALL_DIR="" -DCUDA_INSTALL_DIR=""
 
 # Command to run tests
 # --------------------
@@ -68,7 +68,7 @@ script:
     - cd ~/catkin_ws/src/rapid/rapid_perception/scripts
     - ./download_test_data.sh
     - cd ~/catkin_ws
-    - catkin build --catkin-make-args run_tests -- rapid --no-deps
+    - catkin build --cmake-args -DCAFFE_INSTALL_DIR="" -DCUDA_INSTALL_DIR="" --catkin-make-args run_tests -- rapid --no-deps
     - catkin_test_results build/rapid_display
     - catkin_test_results build/rapid_manipulation
     - catkin_test_results build/rapid_perception
