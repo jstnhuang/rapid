@@ -131,7 +131,7 @@ set(MY_RAPID_PERCEPTION_EXPORTED_LIBRARIES
   rapid_perception_scene_viz
 )
 
-if (CAFFE_INSTALL_DIR)
+if (${CAFFE_INSTALL_DIR})
   LIST(APPEND MY_RAPID_PERCEPTION_EXPORTED_LIBRARIES
     rapid_perception_image_recognition
     rapid_perception_pose_estimation_cnn_heat_mapper
