@@ -17,6 +17,7 @@
 #include "rapid_msgs/StaticCloud.h"
 #include "rapid_msgs/StaticCloudInfo.h"
 #include "rapid_perception/pose_estimation.h"
+#include "rapid_perception/pose_estimation_fpfh_heat_mapper.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "tf/transform_datatypes.h"
@@ -157,8 +158,10 @@ void UseCommand::Execute(std::vector<std::string>& args) {
     ROS_INFO("Filtered NaNs, there are now %ld points", pcl_cloud->size());
   }
   if (heat_mapper_type_ == "cnn" && type_ == "object") {
-    static_cast<rapid::perception::CnnHeatMapper*>(estimator_->heat_mapper())
-        ->set_object_camera(pcl_cloud);
+    ROS_ERROR("CNN heat mapper not enabled, update the code.");
+    return;
+    // static_cast<rapid::perception::CnnHeatMapper*>(estimator_->heat_mapper())
+    //    ->set_object_camera(pcl_cloud);
   }
 
   // Transform into base_footprint
@@ -191,8 +194,10 @@ void UseCommand::Execute(std::vector<std::string>& args) {
     extract.setIndices(indices_ptr);
     extract.filter(*pcl_cloud);
     if (heat_mapper_type_ == "cnn") {
-      static_cast<rapid::perception::CnnHeatMapper*>(estimator_->heat_mapper())
-          ->set_scene_camera(pcl_cloud);
+      ROS_ERROR("CNN heat mapper not enabled, update the code.");
+      return;
+      // static_cast<rapid::perception::CnnHeatMapper*>(estimator_->heat_mapper())
+      //    ->set_scene_camera(pcl_cloud);
     }
 
     // Get cropped version of camera frame image
@@ -285,7 +290,6 @@ void RunCommand::UpdateParams() {
   ros::param::param<int>("num_candidates", num_candidates, 100);
   ros::param::param<double>("fitness_threshold", fitness_threshold, 0.00002);
   ros::param::param<double>("nms_radius", nms_radius, 0.03);
-  ros::param::param<string>("cnn_layer", cnn_layer, "fc6");
   ROS_INFO(
       "Parameters:\n"
       "sample_ratio: %f\n"
@@ -295,21 +299,21 @@ void RunCommand::UpdateParams() {
       "feature_threshold: %f\n"
       "num_candidates: %d\n"
       "fitness_threshold: %f\n"
-      "nms_radius: %f\n"
-      "cnn_layer: %s\n",
+      "nms_radius: %f\n",
       sample_ratio, max_samples, max_sample_radius, max_neighbors,
-      feature_threshold, num_candidates, fitness_threshold, nms_radius,
-      cnn_layer.c_str());
+      feature_threshold, num_candidates, fitness_threshold, nms_radius);
 
   if (heat_mapper_type_ == "cnn") {
-    rapid::perception::CnnHeatMapper* mapper =
-        static_cast<rapid::perception::CnnHeatMapper*>(
-            estimator_->heat_mapper());
-    mapper->set_sample_ratio(sample_ratio);
-    mapper->set_max_samples(max_samples);
-    mapper->set_max_sample_radius(max_sample_radius);
-    mapper->set_max_neighbors(max_neighbors);
-    mapper->set_cnn_layer(cnn_layer);
+    ROS_ERROR("CNN heat mapper not enabled, update the code.");
+    return;
+    // rapid::perception::CnnHeatMapper* mapper =
+    //    static_cast<rapid::perception::CnnHeatMapper*>(
+    //        estimator_->heat_mapper());
+    // mapper->set_sample_ratio(sample_ratio);
+    // mapper->set_max_samples(max_samples);
+    // mapper->set_max_sample_radius(max_sample_radius);
+    // mapper->set_max_neighbors(max_neighbors);
+    // mapper->set_cnn_layer(cnn_layer);
   } else {
     rapid::perception::FpfhHeatMapper* mapper =
         static_cast<rapid::perception::FpfhHeatMapper*>(

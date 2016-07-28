@@ -17,8 +17,8 @@
 #include "pcl_ros/transforms.h"
 #include "rapid_perception/pr2.h"
 #include "rapid_perception/box3d_roi_server.h"
-#include "rapid_perception/image_recognition.h"
 #include "rapid_perception/pose_estimation.h"
+#include "rapid_perception/pose_estimation_fpfh_heat_mapper.h"
 #include "rapid_msgs/GetStaticCloud.h"
 #include "rapid_msgs/ListStaticClouds.h"
 #include "rapid_msgs/RemoveStaticCloud.h"
@@ -77,33 +77,21 @@ int main(int argc, char** argv) {
   ros::Publisher alignment_pub =
       nh.advertise<PointCloud2>("/alignment", 1, true);
   ros::Publisher output_pub = nh.advertise<PointCloud2>("/output", 1, true);
-  ros::Publisher landmark_image_pub =
-      nh.advertise<Image>("/landmark_image", 1, true);
-  ros::Publisher scene_image_pub = nh.advertise<Image>("/scene_image", 1, true);
 
   // Build ROI server
   tf::TransformListener tf_listener;
   rapid::perception::Box3DRoiServer roi_server("roi");
   CaptureRoi capture(&roi_server);
 
-  // Build image recognizer
-  rapid::perception::ImageRecognizer image_recognizer;
-  std::string error;
-  rapid::perception::ImageRecognizer::AlexNet(argv[1], &image_recognizer,
-                                              &error);
-
   // Build heat mapper
-  std::string heat_mapper_type = "cnn";
-  rapid::perception::CnnHeatMapper* cnn_heat_mapper =
-      new rapid::perception::CnnHeatMapper();
-  cnn_heat_mapper->set_image_recognizer(image_recognizer);
-  cnn_heat_mapper->set_heatmap_publisher(heatmap_pub);
-  cnn_heat_mapper->set_landmark_image_publisher(landmark_image_pub);
-  cnn_heat_mapper->set_scene_image_publisher(scene_image_pub);
+  std::string heat_mapper_type = "fpfh";
+  rapid::perception::FpfhHeatMapper* heat_mapper =
+      new rapid::perception::FpfhHeatMapper();
+  heat_mapper->set_heatmap_publisher(heatmap_pub);
 
   // Build pose estimator
   rapid::perception::PoseEstimator pose_estimator;
-  pose_estimator.set_heat_mapper(cnn_heat_mapper);
+  pose_estimator.set_heat_mapper(heat_mapper);
 
   ListCommand list_objects(&object_db, "object");
   ListCommand list_scenes(&scene_db, "scene");

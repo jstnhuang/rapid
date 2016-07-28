@@ -5,11 +5,14 @@ project(rapid_viz)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  cv_bridge
   geometry_msgs
   interactive_markers
+  pcl_conversions
   rapid_ros
   rapid_utils
   roscpp
+  sensor_msgs
   std_msgs
   tf
   visualization_msgs
@@ -106,13 +109,19 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES rapid_viz
+  LIBRARIES
+    rapid_viz
+    rapid_viz_publish
   CATKIN_DEPENDS
+    cv_bridge
     geometry_msgs
     interactive_markers
+    pcl_conversions
     rapid_ros
     rapid_utils
     roscpp
+    sensor_msgs
+    std_msgs
     tf
     visualization_msgs
 #  DEPENDS system_lib
@@ -140,6 +149,17 @@ add_dependencies(rapid_viz
   ${catkin_EXPORTED_TARGETS}
 )
 target_link_libraries(rapid_viz
+  ${catkin_LIBRARIES}
+)
+
+add_library(rapid_viz_publish
+  src/publish.cpp
+)
+add_dependencies(rapid_viz_publish
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(rapid_viz_publish
   ${catkin_LIBRARIES}
 )
 

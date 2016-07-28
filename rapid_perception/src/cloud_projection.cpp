@@ -20,6 +20,7 @@ void CloudToImage(const sensor_msgs::CameraInfo& camera_info,
   model.fromCameraInfo(camera_info);
   cv::Mat output =
       cv::Mat::zeros(camera_info.height, camera_info.width, CV_8UC3);
+  // cv::randu(output, 0, 255);
   // pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_cloud(
   //    new pcl::PointCloud<pcl::PointXYZRGB>);
   int min_row = std::numeric_limits<int>::max();
