@@ -118,22 +118,31 @@ set(CUDA_INSTALL_DIR /usr/local/cuda)
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
+set(MY_RAPID_PERCEPTION_EXPORTED_LIBRARIES
+  rapid_perception_box3d_roi_server
+  rapid_perception_cloud_projection
+  rapid_perception_pose_estimation
+  rapid_perception_pose_estimation_heat_mapper
+  rapid_perception_pose_estimation_fpfh_heat_mapper
+  rapid_perception_pr2
+  rapid_perception_rgbd
+  rapid_perception_scene
+  rapid_perception_scene_parsing
+  rapid_perception_scene_viz
+)
+
+if (CAFFE_INSTALL_DIR)
+  LIST(APPEND MY_RAPID_PERCEPTION_EXPORTED_LIBRARIES
+    rapid_perception_image_recognition
+    rapid_perception_pose_estimation_cnn_heat_mapper
+  )
+endif()
+
 catkin_package(
   INCLUDE_DIRS
     include
   LIBRARIES
-    rapid_perception_box3d_roi_server
-    rapid_perception_cloud_projection
-    rapid_perception_image_recognition
-    rapid_perception_pose_estimation
-    rapid_perception_pose_estimation_heat_mapper
-    rapid_perception_pose_estimation_cnn_heat_mapper
-    rapid_perception_pose_estimation_fpfh_heat_mapper
-    rapid_perception_pr2
-    rapid_perception_rgbd
-    rapid_perception_scene
-    rapid_perception_scene_parsing
-    rapid_perception_scene_viz
+    ${MY_RAPID_PERCEPTION_EXPORTED_LIBRARIES}
   CATKIN_DEPENDS
     geometry_msgs
     interactive_markers
