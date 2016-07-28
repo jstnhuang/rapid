@@ -166,15 +166,6 @@ target_link_libraries(pr2_gripper_viz_main
   ${catkin_LIBRARIES}
 )
 
-#add_executable(project_image_main src/project_image_main.cpp)
-#add_dependencies(project_image_main
-#  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-#  ${catkin_EXPORTED_TARGETS}
-#)
-#target_link_libraries(project_image_main
-#  ${catkin_LIBRARIES}
-#)
-
 #############
 ## Install ##
 #############

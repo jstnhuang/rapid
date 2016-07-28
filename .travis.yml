@@ -50,7 +50,6 @@ install:
     - cd ~/catkin_ws/src
     - git clone https://github.com/hcrlab/blinky.git
     - git clone https://github.com/jstnhuang/agile_grasp.git
-    - git clone https://github.com/PR2/pr2_pbd.git
     - git clone https://github.com/jstnhuang/mongo_msg_db_msgs.git
     - git clone https://github.com/jstnhuang/mongo_msg_db.git
     - catkin_init_workspace
