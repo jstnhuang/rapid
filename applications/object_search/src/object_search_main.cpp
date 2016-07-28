@@ -92,11 +92,18 @@ int main(int argc, char** argv) {
   rapid::perception::ImageRecognizer::AlexNet(argv[1], &image_recognizer,
                                               &error);
 
+  // Build heat mapper
+  std::string heat_mapper_type = "cnn";
+  rapid::perception::CnnHeatMapper* cnn_heat_mapper =
+      new rapid::perception::CnnHeatMapper();
+  cnn_heat_mapper->set_image_recognizer(image_recognizer);
+  cnn_heat_mapper->set_heatmap_publisher(heatmap_pub);
+  cnn_heat_mapper->set_landmark_image_publisher(landmark_image_pub);
+  cnn_heat_mapper->set_scene_image_publisher(scene_image_pub);
+
   // Build pose estimator
   rapid::perception::PoseEstimator pose_estimator;
-  pose_estimator.set_image_recognizer(image_recognizer);
-  pose_estimator.set_landmark_image_publisher(landmark_image_pub);
-  pose_estimator.set_scene_image_publisher(scene_image_pub);
+  pose_estimator.set_heat_mapper(cnn_heat_mapper);
 
   ListCommand list_objects(&object_db, "object");
   ListCommand list_scenes(&scene_db, "scene");
@@ -104,10 +111,12 @@ int main(int argc, char** argv) {
   RecordSceneCommand record_scene(&scene_db);
   DeleteCommand delete_object(&object_db);
   DeleteCommand delete_scene(&scene_db);
-  UseCommand use_object(&object_db, &pose_estimator, "object", object_pub);
-  UseCommand use_scene(&scene_db, &pose_estimator, "scene", scene_pub);
-  RunCommand run(&pose_estimator, heatmap_pub, candidates_pub, alignment_pub,
-                 output_pub);
+  UseCommand use_object(&object_db, &pose_estimator, "object", object_pub,
+                        heat_mapper_type);
+  UseCommand use_scene(&scene_db, &pose_estimator, "scene", scene_pub,
+                       heat_mapper_type);
+  RunCommand run(&pose_estimator, candidates_pub, alignment_pub, output_pub,
+                 heat_mapper_type);
   SetDebugCommand set_debug(&pose_estimator);
 
   CommandLine cli;
