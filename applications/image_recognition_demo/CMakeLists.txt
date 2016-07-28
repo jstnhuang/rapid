@@ -131,9 +131,9 @@ include_directories(
 # add_dependencies(image_recognition_demo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-if (CAFFE_INSTALL_DIR)
+if (${CAFFE_INSTALL_DIR})
   include_directories(${CAFFE_INSTALL_DIR}/include)
-  if (CUDA_INSTALL_DIR)
+  if (${CUDA_INSTALL_DIR})
     include_directories(${CUDA_INSTALL_DIR}/include)
   else()
     add_definitions(-DCPU_ONLY)
