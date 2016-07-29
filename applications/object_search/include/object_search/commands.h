@@ -68,33 +68,34 @@ class DeleteCommand : public Command {
 class UseCommand : public Command {
  public:
   UseCommand(Database* db, rapid::perception::PoseEstimator* estimator,
-             const std::string& type, const ros::Publisher& pub);
+             const std::string& type, const ros::Publisher& pub,
+             const std::string& heat_mapper_type);
   void Execute(std::vector<std::string>& args);
 
  private:
-  void CropScene(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr scene);
-  void ComputeNormals(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud);
-  void ComputeFeatures(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr in,
-                       pcl::PointCloud<pcl::FPFHSignature33>::Ptr out);
+  void CropScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene,
+                 std::vector<int>* indices);
 
   Database* db_;
   rapid::perception::PoseEstimator* estimator_;
   std::string type_;
   ros::Publisher pub_;
+  std::string heat_mapper_type_;
 };
 
 class RunCommand : public Command {
  public:
   RunCommand(rapid::perception::PoseEstimator* estimator,
-             const ros::Publisher& heatmap_pub,
              const ros::Publisher& candidates_pub,
              const ros::Publisher& alignment_pub,
-             const ros::Publisher& output_pub);
+             const ros::Publisher& output_pub,
+             const std::string& heat_mapper_type);
   void Execute(std::vector<std::string>& args);
 
  private:
   void UpdateParams();
   rapid::perception::PoseEstimator* estimator_;
+  std::string heat_mapper_type_;
 };
 
 class SetDebugCommand : public Command {

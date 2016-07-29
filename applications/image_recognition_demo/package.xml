@@ -1,25 +1,25 @@
 <?xml version="1.0"?>
 <package>
-  <name>rapid_perception</name>
-  <version>0.1.0</version>
-  <description>Perception library for ROS.</description>
+  <name>image_recognition_demo</name>
+  <version>0.0.0</version>
+  <description>The image_recognition_demo package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
-  <maintainer email="jstn@cs.washington.edu">Justin Huang</maintainer>
+  <maintainer email="jstn@todo.todo">jstn</maintainer>
 
 
   <!-- One license tag required, multiple allowed, one license per tag -->
   <!-- Commonly used license strings: -->
   <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
-  <license>MIT</license>
+  <license>TODO</license>
 
 
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/rapid_perception</url> -->
+  <!-- <url type="website">http://wiki.ros.org/image_recognition_demo</url> -->
 
 
   <!-- Author tags are optional, mutiple are allowed, one per tag -->
@@ -40,38 +40,11 @@
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>geometry_msgs</build_depend>
-  <build_depend>image_geometry</build_depend>
-  <build_depend>interactive_markers</build_depend>
-  <build_depend>libpcl-all-dev</build_depend>
-  <build_depend>pcl_conversions</build_depend>
-  <build_depend>pcl_ros</build_depend>
-  <build_depend>rapid_msgs</build_depend>
-  <build_depend>rapid_ros</build_depend>
-  <build_depend>rapid_utils</build_depend>
-  <build_depend>rapid_viz</build_depend>
-  <build_depend>rosbag</build_depend>
+  <build_depend>rapid_perception</build_depend>
   <build_depend>roscpp</build_depend>
-  <build_depend>rostest</build_depend>
-  <build_depend>sensor_msgs</build_depend>
-  <build_depend>visualization_msgs</build_depend>
-  <run_depend>geometry_msgs</run_depend>
-  <run_depend>image_geometry</run_depend>
-  <run_depend>interactive_markers</run_depend>
-  <run_depend>libpcl-all-dev</run_depend>
-  <run_depend>pcl_conversions</run_depend>
-  <run_depend>pcl_ros</run_depend>
-  <run_depend>rapid_msgs</run_depend>
-  <run_depend>rapid_ros</run_depend>
-  <run_depend>rapid_utils</run_depend>
-  <run_depend>rapid_viz</run_depend>
-  <run_depend>rosbag</run_depend>
+  <run_depend>rapid_perception</run_depend>
   <run_depend>roscpp</run_depend>
-  <run_depend>rostest</run_depend>
-  <run_depend>sensor_msgs</run_depend>
-  <run_depend>visualization_msgs</run_depend>
-  <test_depend>google-mock</test_depend>
-  <test_depend>gtest</test_depend>
+
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

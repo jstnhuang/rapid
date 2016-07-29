@@ -14,6 +14,8 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   rospy_message_converter
   sensor_msgs
+  tf
+  tf_conversions
 )
 
 find_package(Boost REQUIRED)
@@ -22,7 +24,6 @@ find_package(PCL REQUIRED)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
-
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -126,6 +127,8 @@ catkin_package(
     rospy
     rospy_message_converter
     sensor_msgs
+    tf
+    tf_conversions
   DEPENDS
     Boost
     Eigen

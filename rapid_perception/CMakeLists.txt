@@ -6,6 +6,7 @@ project(rapid_perception)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
+  image_geometry
   interactive_markers
   pcl_conversions
   pcl_ros
@@ -22,10 +23,15 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(Boost REQUIRED)
 find_package(Eigen REQUIRED)
+find_package(OpenCV REQUIRED)
 find_package(PCL REQUIRED)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
+
+# Caffe
+set(CAFFE_INSTALL_DIR /usr/local/caffe)
+set(CUDA_INSTALL_DIR /usr/local/cuda)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -112,17 +118,31 @@ add_definitions(${PCL_DEFINITIONS})
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
+set(MY_RAPID_PERCEPTION_EXPORTED_LIBRARIES
+  rapid_perception_box3d_roi_server
+  rapid_perception_cloud_projection
+  rapid_perception_pose_estimation
+  rapid_perception_pose_estimation_heat_mapper
+  rapid_perception_pose_estimation_fpfh_heat_mapper
+  rapid_perception_pr2
+  rapid_perception_rgbd
+  rapid_perception_scene
+  rapid_perception_scene_parsing
+  rapid_perception_scene_viz
+)
+
+if (${CAFFE_INSTALL_DIR})
+  LIST(APPEND MY_RAPID_PERCEPTION_EXPORTED_LIBRARIES
+    rapid_perception_image_recognition
+    rapid_perception_pose_estimation_cnn_heat_mapper
+  )
+endif()
+
 catkin_package(
   INCLUDE_DIRS
     include
   LIBRARIES
-    rapid_perception_box3d_roi_server
-    rapid_perception_pose_estimation
-    rapid_perception_pr2
-    rapid_perception_rgbd
-    rapid_perception_scene
-    rapid_perception_scene_parsing
-    rapid_perception_scene_viz
+    ${MY_RAPID_PERCEPTION_EXPORTED_LIBRARIES}
   CATKIN_DEPENDS
     geometry_msgs
     interactive_markers
@@ -139,6 +159,7 @@ catkin_package(
   DEPENDS
     Boost
     Eigen
+    OpenCV
     PCL
 )
 
@@ -152,6 +173,7 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
 )
 
@@ -165,16 +187,112 @@ target_link_libraries(rapid_perception_box3d_roi_server
   ${catkin_LIBRARIES}
 )
 
+add_library(rapid_perception_cloud_projection src/cloud_projection.cpp)
+add_dependencies(rapid_perception_cloud_projection
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(rapid_perception_cloud_projection
+  ${PCL_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
+
+# To use the image recognition library, we must have Caffe installed to /usr/local
+# To build with GPU support, we must have Cuda installed to /usr/local/cuda
+if (${CAFFE_INSTALL_DIR})
+  include_directories(${CAFFE_INSTALL_DIR}/include)
+  link_directories(${CAFFE_INSTALL_DIR}/lib)
+  find_library(caffe libcaffe.so ${CAFFE_INSTALL_DIR}/lib)
+  if (${CUDA_INSTALL_DIR})
+    include_directories(${CUDA_INSTALL_DIR}/include)
+  else()
+    add_definitions(-DCPU_ONLY)
+  endif()
+
+  add_library(rapid_perception_image_recognition
+    src/image_recognition.cpp
+  )
+  add_dependencies(rapid_perception_image_recognition
+    ${${PROJECT_NAME}_EXPORTED_TARGETS}
+    ${catkin_EXPORTED_TARGETS}
+  )
+  target_link_libraries(rapid_perception_image_recognition
+    ${catkin_LIBRARIES}
+    caffe
+  )
+endif()
+
+add_library(rapid_perception_pose_estimation_heat_mapper
+  src/pose_estimation_heat_mapper.cpp
+)
+add_dependencies(rapid_perception_pose_estimation_heat_mapper
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(rapid_perception_pose_estimation_heat_mapper
+  ${PCL_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
+
+if (${CAFFE_INSTALL_DIR})
+  include_directories(${CAFFE_INSTALL_DIR}/include)
+  link_directories(${CAFFE_INSTALL_DIR}/lib)
+  find_library(caffe libcaffe.so ${CAFFE_INSTALL_DIR}/lib)
+  if (${CUDA_INSTALL_DIR})
+    include_directories(${CUDA_INSTALL_DIR}/include)
+  else()
+    add_definitions(-DCPU_ONLY)
+  endif()
+
+  add_library(rapid_perception_pose_estimation_cnn_heat_mapper
+    src/pose_estimation_cnn_heat_mapper.cpp
+  )
+  add_dependencies(rapid_perception_pose_estimation_cnn_heat_mapper
+    ${${PROJECT_NAME}_EXPORTED_TARGETS}
+    ${catkin_EXPORTED_TARGETS}
+    rapid_perception_cloud_projection
+    rapid_perception_image_recognition
+    rapid_perception_pose_estimation_heat_mapper
+  )
+  target_link_libraries(rapid_perception_pose_estimation_cnn_heat_mapper
+    ${PCL_LIBRARIES}
+    ${catkin_LIBRARIES}
+    caffe
+    rapid_perception_cloud_projection
+    rapid_perception_image_recognition
+    rapid_perception_pose_estimation_heat_mapper
+  )
+endif()
+
+add_library(rapid_perception_pose_estimation_fpfh_heat_mapper
+  src/pose_estimation_fpfh_heat_mapper.cpp
+)
+add_dependencies(rapid_perception_pose_estimation_fpfh_heat_mapper
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+  rapid_perception_pose_estimation_heat_mapper
+)
+target_link_libraries(rapid_perception_pose_estimation_fpfh_heat_mapper
+  ${PCL_LIBRARIES}
+  ${catkin_LIBRARIES}
+  rapid_perception_pose_estimation_heat_mapper
+)
+
 add_library(rapid_perception_pose_estimation
   src/pose_estimation.cpp
 )
 add_dependencies(rapid_perception_pose_estimation
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
+  rapid_perception_cloud_projection
+  rapid_perception_pose_estimation_fpfh_heat_mapper
 )
 target_link_libraries(rapid_perception_pose_estimation
   ${PCL_LIBRARIES}
   ${catkin_LIBRARIES}
+  rapid_perception_cloud_projection
+  rapid_perception_pose_estimation_fpfh_heat_mapper
 )
 
 add_library(rapid_perception_pr2 src/pr2.cpp)

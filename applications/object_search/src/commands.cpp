@@ -7,20 +7,22 @@
 #include "Eigen/Core"
 #include "pcl/common/time.h"
 #include "pcl/filters/crop_box.h"
+#include "pcl/filters/extract_indices.h"
 #include "pcl/filters/filter.h"
-#include "pcl/features/fpfh_omp.h"
-#include "pcl/features/normal_3d_omp.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
+#include "pcl/PointIndices.h"
 #include "pcl_conversions/pcl_conversions.h"
 #include "pcl_ros/transforms.h"
 #include "rapid_msgs/StaticCloud.h"
 #include "rapid_msgs/StaticCloudInfo.h"
 #include "rapid_perception/pose_estimation.h"
+#include "rapid_perception/pose_estimation_fpfh_heat_mapper.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "tf/transform_datatypes.h"
 #include "tf/transform_listener.h"
+#include "tf_conversions/tf_eigen.h"
 
 #include "object_search/capture_roi.h"
 #include "object_search/cloud_database.h"
@@ -129,8 +131,13 @@ void DeleteCommand::Execute(std::vector<std::string>& args) {
 
 UseCommand::UseCommand(Database* db,
                        rapid::perception::PoseEstimator* estimator,
-                       const std::string& type, const ros::Publisher& pub)
-    : db_(db), estimator_(estimator), type_(type), pub_(pub) {}
+                       const std::string& type, const ros::Publisher& pub,
+                       const std::string& heat_mapper_type)
+    : db_(db),
+      estimator_(estimator),
+      type_(type),
+      pub_(pub),
+      heat_mapper_type_(heat_mapper_type) {}
 
 void UseCommand::Execute(std::vector<std::string>& args) {
   StaticCloud cloud;
@@ -140,18 +147,8 @@ void UseCommand::Execute(std::vector<std::string>& args) {
     return;
   }
 
-  PointCloud<PointXYZRGBNormal>::Ptr pcl_cloud(
-      new PointCloud<PointXYZRGBNormal>);
+  PointCloud<PointXYZRGB>::Ptr pcl_cloud(new PointCloud<PointXYZRGB>);
   pcl::fromROSMsg(cloud.cloud, *pcl_cloud);
-
-  // Transform into base_footprint
-  tf::Transform base_to_camera;
-  tf::transformMsgToTF(cloud.base_to_camera, base_to_camera);
-  pcl_ros::transformPointCloud(*pcl_cloud, *pcl_cloud,
-                               base_to_camera.inverse());
-  pcl_cloud->header.frame_id = cloud.parent_frame_id;
-
-  ROS_INFO("Loaded point cloud with %ld points", pcl_cloud->size());
 
   if (type_ == "scene") {
     // Filter NaNs
@@ -159,31 +156,75 @@ void UseCommand::Execute(std::vector<std::string>& args) {
     pcl_cloud->is_dense = false;  // Force check for NaNs
     pcl::removeNaNFromPointCloud(*pcl_cloud, *pcl_cloud, mapping);
     ROS_INFO("Filtered NaNs, there are now %ld points", pcl_cloud->size());
+  }
+  if (heat_mapper_type_ == "cnn" && type_ == "object") {
+    ROS_ERROR("CNN heat mapper not enabled, update the code.");
+    return;
+    // static_cast<rapid::perception::CnnHeatMapper*>(estimator_->heat_mapper())
+    //    ->set_object_camera(pcl_cloud);
+  }
 
-    // Crop scene
-    CropScene(pcl_cloud);
+  // Transform into base_footprint
+  tf::Transform base_to_camera;
+  tf::transformMsgToTF(cloud.base_to_camera, base_to_camera);
+  PointCloud<PointXYZRGB>::Ptr pcl_cloud_base(new PointCloud<PointXYZRGB>);
+  pcl_ros::transformPointCloud(*pcl_cloud, *pcl_cloud_base,
+                               base_to_camera.inverse());
+  // Eigen::Affine3d affine;
+  // tf::transformTFToEigen(base_to_camera.inverse(), affine);
+  // for (size_t i = 0; i < pcl_cloud->size(); ++i) {
+  //  pcl::PointXYZRGBNormal transformed =
+  //      pcl::transformPoint(pcl_cloud->at(i), affine);
+  //  pcl_cloud_base->push_back(transformed);
+  //}
+  // pcl::transformPointCloud(*pcl_cloud, *pcl_cloud_base, affine);
+  pcl_cloud_base->header.frame_id = cloud.parent_frame_id;
+
+  ROS_INFO("Loaded point cloud with %ld points", pcl_cloud_base->size());
+
+  if (type_ == "scene") {
+    vector<int> indices;
+    CropScene(pcl_cloud_base, &indices);
+    pcl::PointIndicesPtr indices_ptr(new pcl::PointIndices);
+    indices_ptr->indices = indices;
+
+    // Get cropped versions of scene in both frames
+    pcl::ExtractIndices<pcl::PointXYZRGB> extract;
+    extract.setInputCloud(pcl_cloud);
+    extract.setIndices(indices_ptr);
+    extract.filter(*pcl_cloud);
+    if (heat_mapper_type_ == "cnn") {
+      ROS_ERROR("CNN heat mapper not enabled, update the code.");
+      return;
+      // static_cast<rapid::perception::CnnHeatMapper*>(estimator_->heat_mapper())
+      //    ->set_scene_camera(pcl_cloud);
+    }
+
+    // Get cropped version of camera frame image
+    extract.setInputCloud(pcl_cloud_base);
+    extract.setIndices(indices_ptr);
+    extract.filter(*pcl_cloud_base);
   }
 
   // Visualize object/scene
   sensor_msgs::PointCloud2 viz;
-  pcl::toROSMsg(*pcl_cloud, viz);
+  pcl::toROSMsg(*pcl_cloud_base, viz);
   viz.header.stamp = ros::Time::now();
   pub_.publish(viz);
 
-  ComputeNormals(pcl_cloud);
-  PointCloud<FPFHSignature33>::Ptr features(new PointCloud<FPFHSignature33>);
-  ComputeFeatures(pcl_cloud, features);
+  // ComputeNormals(pcl_cloud);
+  // PointCloud<FPFHSignature33>::Ptr features(new PointCloud<FPFHSignature33>);
+  // ComputeFeatures(pcl_cloud, features);
 
   if (type_ == "object") {
-    estimator_->set_object(pcl_cloud);
-    estimator_->set_object_features(features);
+    estimator_->set_object(pcl_cloud_base);
   } else {
-    estimator_->set_scene(pcl_cloud);
-    estimator_->set_scene_features(features);
+    estimator_->set_scene(pcl_cloud_base);
   }
 }
 
-void UseCommand::CropScene(PointCloud<PointXYZRGBNormal>::Ptr scene) {
+void UseCommand::CropScene(PointCloud<PointXYZRGB>::Ptr scene,
+                           vector<int>* indices) {
   double min_x, min_y, min_z, max_x, max_y, max_z;
   ros::param::param<double>("min_x", min_x, 0.2);
   ros::param::param<double>("min_y", min_y, -1);
@@ -201,7 +242,7 @@ void UseCommand::CropScene(PointCloud<PointXYZRGBNormal>::Ptr scene) {
       "  max_z: %f\n",
       min_x, min_y, min_z, max_x, max_y, max_z);
 
-  pcl::CropBox<PointXYZRGBNormal> crop;
+  pcl::CropBox<PointXYZRGB> crop;
   crop.setInputCloud(scene);
   Eigen::Vector4f min;
   min << min_x, min_y, min_z, 1;
@@ -209,48 +250,17 @@ void UseCommand::CropScene(PointCloud<PointXYZRGBNormal>::Ptr scene) {
   max << max_x, max_y, max_z, 1;
   crop.setMin(min);
   crop.setMax(max);
-  crop.filter(*scene);
-  ROS_INFO("Cropped to %ld points", scene->size());
-}
-
-void UseCommand::ComputeNormals(
-    pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud) {
-  double normal_radius;
-  ros::param::param<double>("normal_radius", normal_radius, 0.03);
-  ROS_INFO("Computing normals with radius: %f", normal_radius);
-
-  pcl::ScopeTime normal_timer("Computing normals");
-  pcl::NormalEstimationOMP<PointXYZRGBNormal, PointXYZRGBNormal> nest;
-  nest.setRadiusSearch(normal_radius);
-  nest.setInputCloud(cloud);
-  nest.compute(*cloud);
-}
-
-void UseCommand::ComputeFeatures(
-    pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr in,
-    pcl::PointCloud<pcl::FPFHSignature33>::Ptr out) {
-  double feature_radius;
-  ros::param::param<double>("feature_radius", feature_radius, 0.04);
-  ROS_INFO("Computing features with radius: %f", feature_radius);
-
-  pcl::ScopeTime fest_time("Computing features");
-  pcl::FPFHEstimationOMP<PointXYZRGBNormal, PointXYZRGBNormal, FPFHSignature33>
-      fest;
-  fest.setRadiusSearch(feature_radius);
-  PointCloud<FPFHSignature33>::Ptr object_features(
-      new PointCloud<FPFHSignature33>());
-  fest.setInputCloud(in);
-  fest.setInputNormals(in);
-  fest.compute(*out);
+  crop.filter(*indices);
+  // crop.filter(*scene);
+  ROS_INFO("Cropped to %ld points", indices->size());
 }
 
 RunCommand::RunCommand(rapid::perception::PoseEstimator* estimator,
-                       const ros::Publisher& heatmap_pub,
                        const ros::Publisher& candidates_pub,
                        const ros::Publisher& alignment_pub,
-                       const ros::Publisher& output_pub)
-    : estimator_(estimator) {
-  estimator_->set_heatmap_publisher(heatmap_pub);
+                       const ros::Publisher& output_pub,
+                       const std::string& heat_mapper_type)
+    : estimator_(estimator), heat_mapper_type_(heat_mapper_type) {
   estimator_->set_candidates_publisher(candidates_pub);
   estimator_->set_alignment_publisher(alignment_pub);
   estimator_->set_output_publisher(output_pub);
@@ -271,6 +281,7 @@ void RunCommand::UpdateParams() {
   int num_candidates;
   double fitness_threshold;
   double nms_radius;
+  string cnn_layer;
   ros::param::param<double>("sample_ratio", sample_ratio, 0.01);
   ros::param::param<int>("max_samples", max_samples, 1000);
   ros::param::param<double>("max_sample_radius", max_sample_radius, 0.1);
@@ -292,11 +303,27 @@ void RunCommand::UpdateParams() {
       sample_ratio, max_samples, max_sample_radius, max_neighbors,
       feature_threshold, num_candidates, fitness_threshold, nms_radius);
 
-  estimator_->set_sample_ratio(sample_ratio);
-  estimator_->set_max_samples(max_samples);
-  estimator_->set_max_sample_radius(max_sample_radius);
-  estimator_->set_max_neighbors(max_neighbors);
-  estimator_->set_feature_threshold(feature_threshold);
+  if (heat_mapper_type_ == "cnn") {
+    ROS_ERROR("CNN heat mapper not enabled, update the code.");
+    return;
+    // rapid::perception::CnnHeatMapper* mapper =
+    //    static_cast<rapid::perception::CnnHeatMapper*>(
+    //        estimator_->heat_mapper());
+    // mapper->set_sample_ratio(sample_ratio);
+    // mapper->set_max_samples(max_samples);
+    // mapper->set_max_sample_radius(max_sample_radius);
+    // mapper->set_max_neighbors(max_neighbors);
+    // mapper->set_cnn_layer(cnn_layer);
+  } else {
+    rapid::perception::FpfhHeatMapper* mapper =
+        static_cast<rapid::perception::FpfhHeatMapper*>(
+            estimator_->heat_mapper());
+    mapper->set_sample_ratio(sample_ratio);
+    mapper->set_max_samples(max_samples);
+    mapper->set_max_sample_radius(max_sample_radius);
+    mapper->set_max_neighbors(max_neighbors);
+    mapper->set_feature_threshold(feature_threshold);
+  }
   estimator_->set_num_candidates(num_candidates);
   estimator_->set_fitness_threshold(fitness_threshold);
   estimator_->set_nms_radius(nms_radius);

@@ -1,25 +1,21 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(rapid_main)
+project(image_recognition_demo)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  cv_bridge
-  image_geometry
-  interactive_markers
-  moveit_core
-  moveit_ros_planning_interface
-  pcl_conversions
-  pcl_ros
-  rapid_manipulation
   rapid_perception
-  rapid_pr2
-  rapid_ros
-  rapid_viz
   roscpp
-  visualization_msgs
 )
+
+# Caffe
+set(CAFFE_INSTALL_DIR /usr/local/caffe)
+set(CUDA_INSTALL_DIR /usr/local/cuda)
+
+## System dependencies are found with CMake's conventions
+# find_package(Boost REQUIRED COMPONENTS system)
+
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -108,23 +104,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES rapid_main
-  CATKIN_DEPENDS
-    cv_bridge
-    image_geometry
-    interactive_markers
-    moveit_core
-    moveit_ros_planning_interface
-    pcl_conversions
-    pcl_ros
-    rapid_manipulation
-    rapid_perception
-    rapid_pr2
-    rapid_ros
-    rapid_viz
-    roscpp
-    visualization_msgs
-  # DEPENDS
+#  LIBRARIES image_recognition_demo
+#  CATKIN_DEPENDS rapid_perception roscpp
+#  DEPENDS system_lib
 )
 
 ###########
@@ -139,32 +121,30 @@ include_directories(
 )
 
 ## Declare a C++ library
-# add_library(rapid_main
-#   src/${PROJECT_NAME}/rapid_main.cpp
+# add_library(image_recognition_demo
+#   src/${PROJECT_NAME}/image_recognition_demo.cpp
 # )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(rapid_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(image_recognition_demo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-add_executable(pick_place_main src/pick_place_main.cpp)
-add_dependencies(pick_place_main
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-)
-target_link_libraries(pick_place_main
-  ${catkin_LIBRARIES}
-)
+## Declare a C++ executable
+if (${CAFFE_INSTALL_DIR})
+  include_directories(${CAFFE_INSTALL_DIR}/include)
+  if (${CUDA_INSTALL_DIR})
+    include_directories(${CUDA_INSTALL_DIR}/include)
+  else()
+    add_definitions(-DCPU_ONLY)
+  endif()
 
-add_executable(pr2_gripper_viz_main src/pr2_gripper_viz_main.cpp)
-add_dependencies(pr2_gripper_viz_main
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-)
-target_link_libraries(pr2_gripper_viz_main
-  ${catkin_LIBRARIES}
-)
+  add_executable(image_recognition_main src/image_recognition_main.cpp)
+  add_dependencies(image_recognition_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+  target_link_libraries(image_recognition_main
+    ${catkin_LIBRARIES}
+  )
+endif()
 
 #############
 ## Install ##
@@ -181,7 +161,7 @@ target_link_libraries(pr2_gripper_viz_main
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS rapid_main rapid_main_node
+# install(TARGETS image_recognition_demo image_recognition_demo_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -206,7 +186,7 @@ target_link_libraries(pr2_gripper_viz_main
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_rapid_main.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_image_recognition_demo.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
