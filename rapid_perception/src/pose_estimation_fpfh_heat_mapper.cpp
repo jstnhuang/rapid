@@ -35,12 +35,12 @@ namespace rapid {
 namespace perception {
 FpfhHeatMapper::FpfhHeatMapper()
     : scene_(new PointCloudN()),
-      scene_tree_(),
-      scene_features_(),
+      scene_tree_(new PointNTree),
+      scene_features_(new PointCloudF),
       object_(new PointCloudN()),
       object_radius_est_(0),
-      object_features_(),
-      object_features_tree_(),
+      object_features_(new PointCloudF),
+      object_features_tree_(new FeatureTree),
       normal_radius_(0.03),
       feature_radius_(0.04),
       sample_ratio_(0.01),
@@ -100,16 +100,8 @@ void FpfhHeatMapper::Compute(pcl::PointIndicesPtr indices,
     (*importances)(indices_i) = avg_close_matches;
   }
 
-  double min = importances->minCoeff();
-  if (min < 0) {
-    ROS_ERROR("Min cosine distance was negative");
-  }
-  (*importances) = (importances->array() - min).matrix();
   double max = importances->maxCoeff();
   (*importances) /= max;
-
-  // Do softmax on top of normalizing between 0 and 1
-  (*importances) = importances->array().exp().matrix();
 
   // Color point cloud for visualization
   PointCloudN::Ptr working_scene(new PointCloudN);

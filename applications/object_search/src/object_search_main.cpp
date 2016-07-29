@@ -45,10 +45,6 @@ namespace rp = rapid::perception;
 using namespace object_search;
 
 int main(int argc, char** argv) {
-  if (argc < 2) {
-    std::cout << "object_search_main /path/to/alexnet" << std::endl;
-    return 1;
-  }
   ros::init(argc, argv, "object_search");
   ros::NodeHandle nh;
   ros::AsyncSpinner spinner(4);
