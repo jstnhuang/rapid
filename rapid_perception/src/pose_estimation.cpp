@@ -5,6 +5,7 @@
 #include <iostream>
 #include <limits.h>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "Eigen/Core"
@@ -28,6 +29,7 @@ typedef pcl::PointCloud<FPFH> PointCloudF;
 typedef pcl::search::KdTree<FPFH> FeatureTree;
 typedef pcl::search::KdTree<PointC> PointCTree;
 typedef pcl::search::KdTree<PointP> PointPTree;
+using std::pair;
 using std::string;
 using std::vector;
 
@@ -119,7 +121,7 @@ bool PoseEstimator::Find() {
 
   // Sample candidate points from the heatmap
   pcl::PointIndices::Ptr candidate_indices(new pcl::PointIndices);
-  ComputeCandidates(importances, heatmap_indices, candidate_indices);
+  ComputeTopCandidates(importances, heatmap_indices, candidate_indices);
 
   // For each candidate point, run ICP
   vector<PoseEstimationMatch> output_objects;
@@ -179,6 +181,41 @@ void PoseEstimator::ComputeCandidates(Eigen::VectorXd& importances,
     int index_into_indices = sampled_important_indices[i];
     int point_index = heatmap_indices->indices[index_into_indices];
     candidate_indices->indices.push_back(point_index);
+  }
+
+  // Visualize the candidate points
+  PointCloudC::Ptr viz_cloud(new PointCloudC());
+  viz_cloud.reset(new PointCloudC());
+  pcl::ExtractIndices<PointC> extract;
+  extract.setInputCloud(scene_);
+  extract.setIndices(candidate_indices);
+  extract.filter(*viz_cloud);
+  viz::PublishCloud(candidates_pub_, *viz_cloud);
+}
+
+// This is used to sort heatmap scores, represented as (index, score).
+// Higher scores are better.
+bool CompareScores(const pair<int, double>& a, const pair<int, double>& b) {
+  return a.second > b.second;
+}
+
+void PoseEstimator::ComputeTopCandidates(
+    Eigen::VectorXd& importances, pcl::PointIndicesPtr heatmap_indices,
+    pcl::PointIndicesPtr candidate_indices) {
+  std::vector<std::pair<int, double> > scores;
+  for (size_t i = 0; i < heatmap_indices->indices.size(); ++i) {
+    int index = heatmap_indices->indices[i];
+    double score = importances[i];
+    scores.push_back(std::make_pair(index, score));
+  }
+
+  size_t num = std::min(scores.size(), static_cast<size_t>(num_candidates_));
+  std::partial_sort(scores.begin(), scores.begin() + num, scores.end(),
+                    &CompareScores);
+
+  candidate_indices->indices.clear();
+  for (size_t i = 0; i < num; ++i) {
+    candidate_indices->indices.push_back(scores[i].first);
   }
 
   // Visualize the candidate points

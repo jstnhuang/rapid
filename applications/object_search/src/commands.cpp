@@ -9,6 +9,7 @@
 #include "pcl/filters/crop_box.h"
 #include "pcl/filters/extract_indices.h"
 #include "pcl/filters/filter.h"
+#include "pcl/filters/voxel_grid.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "pcl/PointIndices.h"
@@ -18,6 +19,7 @@
 #include "rapid_msgs/StaticCloudInfo.h"
 #include "rapid_perception/pose_estimation.h"
 #include "rapid_perception/pose_estimation_fpfh_heat_mapper.h"
+#include "rapid_perception/template_matching_heat_mapper.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "tf/transform_datatypes.h"
@@ -147,8 +149,16 @@ void UseCommand::Execute(std::vector<std::string>& args) {
     return;
   }
 
+  PointCloud<PointXYZRGB>::Ptr pcl_cloud_unfiltered(
+      new PointCloud<PointXYZRGB>);
   PointCloud<PointXYZRGB>::Ptr pcl_cloud(new PointCloud<PointXYZRGB>);
-  pcl::fromROSMsg(cloud.cloud, *pcl_cloud);
+  pcl::fromROSMsg(cloud.cloud, *pcl_cloud_unfiltered);
+
+  pcl::VoxelGrid<PointXYZRGB> vox;
+  vox.setInputCloud(pcl_cloud_unfiltered);
+  vox.setLeafSize(0.005, 0.005, 0.005);
+  vox.filter(*pcl_cloud);
+  ROS_INFO("Downsampled to %ld points", pcl_cloud->size());
 
   if (type_ == "scene") {
     // Filter NaNs
@@ -170,14 +180,6 @@ void UseCommand::Execute(std::vector<std::string>& args) {
   PointCloud<PointXYZRGB>::Ptr pcl_cloud_base(new PointCloud<PointXYZRGB>);
   pcl_ros::transformPointCloud(*pcl_cloud, *pcl_cloud_base,
                                base_to_camera.inverse());
-  // Eigen::Affine3d affine;
-  // tf::transformTFToEigen(base_to_camera.inverse(), affine);
-  // for (size_t i = 0; i < pcl_cloud->size(); ++i) {
-  //  pcl::PointXYZRGBNormal transformed =
-  //      pcl::transformPoint(pcl_cloud->at(i), affine);
-  //  pcl_cloud_base->push_back(transformed);
-  //}
-  // pcl::transformPointCloud(*pcl_cloud, *pcl_cloud_base, affine);
   pcl_cloud_base->header.frame_id = cloud.parent_frame_id;
 
   ROS_INFO("Loaded point cloud with %ld points", pcl_cloud_base->size());
@@ -211,10 +213,6 @@ void UseCommand::Execute(std::vector<std::string>& args) {
   pcl::toROSMsg(*pcl_cloud_base, viz);
   viz.header.stamp = ros::Time::now();
   pub_.publish(viz);
-
-  // ComputeNormals(pcl_cloud);
-  // PointCloud<FPFHSignature33>::Ptr features(new PointCloud<FPFHSignature33>);
-  // ComputeFeatures(pcl_cloud, features);
 
   if (type_ == "object") {
     estimator_->set_object(pcl_cloud_base);
@@ -314,7 +312,7 @@ void RunCommand::UpdateParams() {
     // mapper->set_max_sample_radius(max_sample_radius);
     // mapper->set_max_neighbors(max_neighbors);
     // mapper->set_cnn_layer(cnn_layer);
-  } else {
+  } else if (heat_mapper_type_ == "fpfh") {
     rapid::perception::FpfhHeatMapper* mapper =
         static_cast<rapid::perception::FpfhHeatMapper*>(
             estimator_->heat_mapper());
@@ -323,6 +321,12 @@ void RunCommand::UpdateParams() {
     mapper->set_max_sample_radius(max_sample_radius);
     mapper->set_max_neighbors(max_neighbors);
     mapper->set_feature_threshold(feature_threshold);
+  } else if (heat_mapper_type_ == "template_matching") {
+    rapid::perception::TemplateMatchingHeatMapper* mapper =
+        static_cast<rapid::perception::TemplateMatchingHeatMapper*>(
+            estimator_->heat_mapper());
+    mapper->set_sample_ratio(sample_ratio);
+    mapper->set_max_samples(max_samples);
   }
   estimator_->set_num_candidates(num_candidates);
   estimator_->set_fitness_threshold(fitness_threshold);

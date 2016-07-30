@@ -59,6 +59,10 @@ class PoseEstimator {
   void ComputeCandidates(Eigen::VectorXd& importances,
                          pcl::PointIndicesPtr heatmap_indices,
                          pcl::PointIndicesPtr candidate_indices);
+  // Pick the top candidates from the heat map.
+  void ComputeTopCandidates(Eigen::VectorXd& importances,
+                            pcl::PointIndicesPtr heatmap_indices,
+                            pcl::PointIndicesPtr candidate_indices);
   // Initialize and run ICP at each of the candidate points.
   void RunIcpCandidates(pcl::PointIndices::Ptr candidate_indices,
                         std::vector<PoseEstimationMatch>* output_objects);
