@@ -19,6 +19,7 @@
 #include "rapid_perception/box3d_roi_server.h"
 #include "rapid_perception/pose_estimation.h"
 #include "rapid_perception/pose_estimation_fpfh_heat_mapper.h"
+#include "rapid_perception/template_matching_heat_mapper.h"
 #include "rapid_msgs/GetStaticCloud.h"
 #include "rapid_msgs/ListStaticClouds.h"
 #include "rapid_msgs/RemoveStaticCloud.h"
@@ -45,10 +46,6 @@ namespace rp = rapid::perception;
 using namespace object_search;
 
 int main(int argc, char** argv) {
-  if (argc < 2) {
-    std::cout << "object_search_main /path/to/alexnet" << std::endl;
-    return 1;
-  }
   ros::init(argc, argv, "object_search");
   ros::NodeHandle nh;
   ros::AsyncSpinner spinner(4);
@@ -84,9 +81,12 @@ int main(int argc, char** argv) {
   CaptureRoi capture(&roi_server);
 
   // Build heat mapper
-  std::string heat_mapper_type = "fpfh";
-  rapid::perception::FpfhHeatMapper* heat_mapper =
-      new rapid::perception::FpfhHeatMapper();
+  // std::string heat_mapper_type = "fpfh";
+  // rapid::perception::FpfhHeatMapper* heat_mapper =
+  //    new rapid::perception::FpfhHeatMapper();
+  std::string heat_mapper_type = "template_matching";
+  rapid::perception::TemplateMatchingHeatMapper* heat_mapper =
+      new rapid::perception::TemplateMatchingHeatMapper();
   heat_mapper->set_heatmap_publisher(heatmap_pub);
 
   // Build pose estimator
