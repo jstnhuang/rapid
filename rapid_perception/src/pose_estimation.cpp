@@ -5,6 +5,7 @@
 #include <iostream>
 #include <limits.h>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "Eigen/Core"
@@ -28,6 +29,7 @@ typedef pcl::PointCloud<FPFH> PointCloudF;
 typedef pcl::search::KdTree<FPFH> FeatureTree;
 typedef pcl::search::KdTree<PointC> PointCTree;
 typedef pcl::search::KdTree<PointP> PointPTree;
+using std::pair;
 using std::string;
 using std::vector;
 
