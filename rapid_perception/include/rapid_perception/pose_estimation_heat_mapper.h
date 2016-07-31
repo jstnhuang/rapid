@@ -1,6 +1,8 @@
 #ifndef _RAPID_PERCEPTION_POSE_ESTIMATION_HEAT_MAPPER_H_
 #define _RAPID_PERCEPTION_POSE_ESTIMATION_HEAT_MAPPER_H_
 
+#include <string>
+
 #include "Eigen/Core"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
@@ -24,10 +26,13 @@ class PoseEstimationHeatMapper {
 
   virtual void set_scene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene) = 0;
   virtual void set_object(pcl::PointCloud<pcl::PointXYZRGB>::Ptr object) = 0;
+  void set_name(const std::string& val);
   void set_debug(bool val);
   void set_heatmap_publisher(const ros::Publisher& pub);
+  std::string name();
 
  protected:
+  std::string name_;
   bool debug_;
   ros::Publisher heatmap_pub_;
 };

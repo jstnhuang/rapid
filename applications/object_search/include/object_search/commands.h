@@ -68,8 +68,7 @@ class DeleteCommand : public Command {
 class UseCommand : public Command {
  public:
   UseCommand(Database* db, rapid::perception::PoseEstimator* estimator,
-             const std::string& type, const ros::Publisher& pub,
-             const std::string& heat_mapper_type);
+             const std::string& type, const ros::Publisher& pub);
   void Execute(std::vector<std::string>& args);
 
  private:
@@ -80,7 +79,6 @@ class UseCommand : public Command {
   rapid::perception::PoseEstimator* estimator_;
   std::string type_;
   ros::Publisher pub_;
-  std::string heat_mapper_type_;
 };
 
 class RunCommand : public Command {
@@ -88,14 +86,12 @@ class RunCommand : public Command {
   RunCommand(rapid::perception::PoseEstimator* estimator,
              const ros::Publisher& candidates_pub,
              const ros::Publisher& alignment_pub,
-             const ros::Publisher& output_pub,
-             const std::string& heat_mapper_type);
+             const ros::Publisher& output_pub);
   void Execute(std::vector<std::string>& args);
 
  private:
   void UpdateParams();
   rapid::perception::PoseEstimator* estimator_;
-  std::string heat_mapper_type_;
 };
 
 class SetDebugCommand : public Command {

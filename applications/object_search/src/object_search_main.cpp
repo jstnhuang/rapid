@@ -81,12 +81,12 @@ int main(int argc, char** argv) {
   CaptureRoi capture(&roi_server);
 
   // Build heat mapper
-  // std::string heat_mapper_type = "fpfh";
   // rapid::perception::FpfhHeatMapper* heat_mapper =
   //    new rapid::perception::FpfhHeatMapper();
-  std::string heat_mapper_type = "template_matching";
+  // heat_mapper->set_name("fpfh");
   rapid::perception::TemplateMatchingHeatMapper* heat_mapper =
       new rapid::perception::TemplateMatchingHeatMapper();
+  heat_mapper->set_name("template_matching");
   heat_mapper->set_heatmap_publisher(heatmap_pub);
 
   // Build pose estimator
@@ -99,12 +99,9 @@ int main(int argc, char** argv) {
   RecordSceneCommand record_scene(&scene_db);
   DeleteCommand delete_object(&object_db);
   DeleteCommand delete_scene(&scene_db);
-  UseCommand use_object(&object_db, &pose_estimator, "object", object_pub,
-                        heat_mapper_type);
-  UseCommand use_scene(&scene_db, &pose_estimator, "scene", scene_pub,
-                       heat_mapper_type);
-  RunCommand run(&pose_estimator, candidates_pub, alignment_pub, output_pub,
-                 heat_mapper_type);
+  UseCommand use_object(&object_db, &pose_estimator, "object", object_pub);
+  UseCommand use_scene(&scene_db, &pose_estimator, "scene", scene_pub);
+  RunCommand run(&pose_estimator, candidates_pub, alignment_pub, output_pub);
   SetDebugCommand set_debug(&pose_estimator);
 
   CommandLine cli;

@@ -133,13 +133,8 @@ void DeleteCommand::Execute(std::vector<std::string>& args) {
 
 UseCommand::UseCommand(Database* db,
                        rapid::perception::PoseEstimator* estimator,
-                       const std::string& type, const ros::Publisher& pub,
-                       const std::string& heat_mapper_type)
-    : db_(db),
-      estimator_(estimator),
-      type_(type),
-      pub_(pub),
-      heat_mapper_type_(heat_mapper_type) {}
+                       const std::string& type, const ros::Publisher& pub)
+    : db_(db), estimator_(estimator), type_(type), pub_(pub) {}
 
 void UseCommand::Execute(std::vector<std::string>& args) {
   StaticCloud cloud;
@@ -167,7 +162,7 @@ void UseCommand::Execute(std::vector<std::string>& args) {
     pcl::removeNaNFromPointCloud(*pcl_cloud, *pcl_cloud, mapping);
     ROS_INFO("Filtered NaNs, there are now %ld points", pcl_cloud->size());
   }
-  if (heat_mapper_type_ == "cnn" && type_ == "object") {
+  if (estimator_->heat_mapper()->name() == "cnn" && type_ == "object") {
     ROS_ERROR("CNN heat mapper not enabled, update the code.");
     return;
     // static_cast<rapid::perception::CnnHeatMapper*>(estimator_->heat_mapper())
@@ -195,7 +190,7 @@ void UseCommand::Execute(std::vector<std::string>& args) {
     extract.setInputCloud(pcl_cloud);
     extract.setIndices(indices_ptr);
     extract.filter(*pcl_cloud);
-    if (heat_mapper_type_ == "cnn") {
+    if (estimator_->heat_mapper()->name() == "cnn") {
       ROS_ERROR("CNN heat mapper not enabled, update the code.");
       return;
       // static_cast<rapid::perception::CnnHeatMapper*>(estimator_->heat_mapper())
@@ -256,9 +251,8 @@ void UseCommand::CropScene(PointCloud<PointXYZRGB>::Ptr scene,
 RunCommand::RunCommand(rapid::perception::PoseEstimator* estimator,
                        const ros::Publisher& candidates_pub,
                        const ros::Publisher& alignment_pub,
-                       const ros::Publisher& output_pub,
-                       const std::string& heat_mapper_type)
-    : estimator_(estimator), heat_mapper_type_(heat_mapper_type) {
+                       const ros::Publisher& output_pub)
+    : estimator_(estimator) {
   estimator_->set_candidates_publisher(candidates_pub);
   estimator_->set_alignment_publisher(alignment_pub);
   estimator_->set_output_publisher(output_pub);
@@ -301,7 +295,7 @@ void RunCommand::UpdateParams() {
       sample_ratio, max_samples, max_sample_radius, max_neighbors,
       feature_threshold, num_candidates, fitness_threshold, nms_radius);
 
-  if (heat_mapper_type_ == "cnn") {
+  if (estimator_->heat_mapper()->name() == "cnn") {
     ROS_ERROR("CNN heat mapper not enabled, update the code.");
     return;
     // rapid::perception::CnnHeatMapper* mapper =
@@ -312,7 +306,7 @@ void RunCommand::UpdateParams() {
     // mapper->set_max_sample_radius(max_sample_radius);
     // mapper->set_max_neighbors(max_neighbors);
     // mapper->set_cnn_layer(cnn_layer);
-  } else if (heat_mapper_type_ == "fpfh") {
+  } else if (estimator_->heat_mapper()->name() == "fpfh") {
     rapid::perception::FpfhHeatMapper* mapper =
         static_cast<rapid::perception::FpfhHeatMapper*>(
             estimator_->heat_mapper());
@@ -321,7 +315,7 @@ void RunCommand::UpdateParams() {
     mapper->set_max_sample_radius(max_sample_radius);
     mapper->set_max_neighbors(max_neighbors);
     mapper->set_feature_threshold(feature_threshold);
-  } else if (heat_mapper_type_ == "template_matching") {
+  } else if (estimator_->heat_mapper()->name() == "template_matching") {
     rapid::perception::TemplateMatchingHeatMapper* mapper =
         static_cast<rapid::perception::TemplateMatchingHeatMapper*>(
             estimator_->heat_mapper());
