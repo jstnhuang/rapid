@@ -121,6 +121,7 @@ set(CUDA_INSTALL_DIR /usr/local/cuda)
 set(MY_RAPID_PERCEPTION_EXPORTED_LIBRARIES
   rapid_perception_box3d_roi_server
   rapid_perception_cloud_projection
+  rapid_perception_icp_fitness_functions
   rapid_perception_pose_estimation
   rapid_perception_pose_estimation_heat_mapper
   rapid_perception_fpfh_heat_mapper
@@ -196,6 +197,16 @@ add_dependencies(rapid_perception_cloud_projection
 target_link_libraries(rapid_perception_cloud_projection
   ${PCL_LIBRARIES}
   ${OpenCV_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
+
+add_library(rapid_perception_icp_fitness_functions src/icp_fitness_functions.cpp)
+add_dependencies(rapid_perception_icp_fitness_functions
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(rapid_perception_icp_fitness_functions
+  ${PCL_LIBRARIES}
   ${catkin_LIBRARIES}
 )
 
@@ -300,14 +311,14 @@ add_library(rapid_perception_pose_estimation
 add_dependencies(rapid_perception_pose_estimation
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
-  rapid_perception_cloud_projection
+  rapid_perception_icp_fitness_functions
   rapid_perception_fpfh_heat_mapper
   rapid_perception_template_matching_heat_mapper
 )
 target_link_libraries(rapid_perception_pose_estimation
   ${PCL_LIBRARIES}
   ${catkin_LIBRARIES}
-  rapid_perception_cloud_projection
+  rapid_perception_icp_fitness_functions
   rapid_perception_fpfh_heat_mapper
   rapid_perception_template_matching_heat_mapper
 )

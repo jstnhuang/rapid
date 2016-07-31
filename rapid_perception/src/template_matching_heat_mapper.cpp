@@ -15,6 +15,7 @@
 #include "pcl/point_types.h"
 #include "pcl/recognition/line_rgbd.h"
 
+#include "rapid_msgs/Roi3D.h"
 #include "rapid_viz/publish.h"
 
 typedef pcl::PointXYZRGB PointC;
@@ -24,7 +25,11 @@ using std::vector;
 namespace rapid {
 namespace perception {
 TemplateMatchingHeatMapper::TemplateMatchingHeatMapper()
-    : scene_(), object_(), sample_ratio_(0.01), max_samples_(1000) {}
+    : scene_(),
+      object_(),
+      object_roi_(),
+      sample_ratio_(0.01),
+      max_samples_(1000) {}
 
 void TemplateMatchingHeatMapper::Compute(pcl::PointIndicesPtr indices,
                                          Eigen::VectorXd* importances) {
@@ -105,9 +110,14 @@ void TemplateMatchingHeatMapper::set_object(PointCloudC::Ptr object) {
   object_center_.z() = (max_pt.z() + min_pt.z()) / 2;
 }
 
+void TemplateMatchingHeatMapper::set_object_roi(const rapid_msgs::Roi3D& roi) {
+  object_roi_ = roi;
+}
+
 void TemplateMatchingHeatMapper::set_sample_ratio(double val) {
   sample_ratio_ = val;
 }
+
 void TemplateMatchingHeatMapper::set_max_samples(int val) {
   max_samples_ = val;
 }
