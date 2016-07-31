@@ -1,5 +1,5 @@
-#ifndef _RAPID_PERCEPTION_POSE_ESTIMATION_LINEMOD_HEAT_MAPPER_H_
-#define _RAPID_PERCEPTION_POSE_ESTIMATION_LINEMOD_HEAT_MAPPER_H_
+#ifndef _RAPID_PERCEPTION_LINEMOD_HEAT_MAPPER_H_
+#define _RAPID_PERCEPTION_LINEMOD_HEAT_MAPPER_H_
 
 #include "Eigen/Core"
 #include "pcl/PointIndices.h"
@@ -31,4 +31,4 @@ class LinemodHeatMapper : public PoseEstimationHeatMapper {
 }  // namespace perception
 }  // namespace rapid
 
-#endif  // _RAPID_PERCEPTION_POSE_ESTIMATION_LINEMOD_HEAT_MAPPER_H_
+#endif  // _RAPID_PERCEPTION_LINEMOD_HEAT_MAPPER_H_

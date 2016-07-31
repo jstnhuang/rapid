@@ -18,7 +18,7 @@
 #include "rapid_msgs/StaticCloud.h"
 #include "rapid_msgs/StaticCloudInfo.h"
 #include "rapid_perception/pose_estimation.h"
-#include "rapid_perception/pose_estimation_fpfh_heat_mapper.h"
+#include "rapid_perception/fpfh_heat_mapper.h"
 #include "rapid_perception/template_matching_heat_mapper.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"

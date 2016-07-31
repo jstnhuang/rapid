@@ -1,4 +1,4 @@
-#include "rapid_perception/pose_estimation_fpfh_heat_mapper.h"
+#include "rapid_perception/fpfh_heat_mapper.h"
 
 #include <sstream>
 #include <string>

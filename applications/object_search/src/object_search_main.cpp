@@ -18,7 +18,7 @@
 #include "rapid_perception/pr2.h"
 #include "rapid_perception/box3d_roi_server.h"
 #include "rapid_perception/pose_estimation.h"
-#include "rapid_perception/pose_estimation_fpfh_heat_mapper.h"
+#include "rapid_perception/fpfh_heat_mapper.h"
 #include "rapid_perception/template_matching_heat_mapper.h"
 #include "rapid_msgs/GetStaticCloud.h"
 #include "rapid_msgs/ListStaticClouds.h"

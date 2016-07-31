@@ -1,4 +1,4 @@
-#include "rapid_perception/pose_estimation_linemod_heat_mapper.h"
+#include "rapid_perception/linemod_heat_mapper.h"
 
 // Heat mapper based on Linemod - only works if point clouds are organized.
 

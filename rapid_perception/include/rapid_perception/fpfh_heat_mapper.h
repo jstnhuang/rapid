@@ -1,5 +1,5 @@
-#ifndef _RAPID_PERCEPTION_POSE_ESTIMATION_FPFH_HEAT_MAPPER_H_
-#define _RAPID_PERCEPTION_POSE_ESTIMATION_FPFH_HEAT_MAPPER_H_
+#ifndef _RAPID_PERCEPTION_FPFH_HEAT_MAPPER_H_
+#define _RAPID_PERCEPTION_FPFH_HEAT_MAPPER_H_
 
 #include "Eigen/Core"
 #include "pcl/features/fpfh_omp.h"
@@ -65,4 +65,4 @@ std::string FpfhFeatureString(const pcl::FPFHSignature33& feature);
 }  // namespace perception
 }  // namespace rapid
 
-#endif  // _RAPID_PERCEPTION_POSE_ESTIMATION_FPFH_HEAT_MAPPER_H_
+#endif  // _RAPID_PERCEPTION_FPFH_HEAT_MAPPER_H_
