@@ -250,6 +250,7 @@ void PoseEstimator::RunIcpCandidates(
   pcl::IterativeClosestPoint<PointC, PointC> icp;
   icp.setInputTarget(scene_);
   output_objects->clear();
+  double best_fitness = std::numeric_limits<double>::max();
   for (size_t ci = 0; ci < candidate_indices->indices.size(); ++ci) {
     int index = candidate_indices->indices[ci];
     const PointC& center = scene_->points[index];
@@ -281,6 +282,9 @@ void PoseEstimator::RunIcpCandidates(
       roi.transform.rotation.z = q.z();
 
       double fitness = ComputeIcpFitness(scene_, aligned_object, roi);
+      if (fitness < best_fitness) {
+        best_fitness = fitness;
+      }
 
       string threshold_marker = "";
       if (fitness < fitness_threshold_) {
@@ -296,6 +300,7 @@ void PoseEstimator::RunIcpCandidates(
       std::getline(std::cin, user_input);
     }
   }
+  ROS_INFO("Best score in candidates: %f", best_fitness);
 }
 
 void PoseEstimator::NonMaxSuppression(
