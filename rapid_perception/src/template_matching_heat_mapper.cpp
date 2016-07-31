@@ -16,6 +16,7 @@
 #include "pcl/recognition/line_rgbd.h"
 
 #include "rapid_msgs/Roi3D.h"
+#include "rapid_perception/icp_fitness_functions.h"
 #include "rapid_viz/publish.h"
 
 typedef pcl::PointXYZRGB PointC;
@@ -62,11 +63,17 @@ void TemplateMatchingHeatMapper::Compute(pcl::PointIndicesPtr indices,
     // Run ICP
     icp.setInputSource(working_object);
     icp.align(*aligned_object);
-    (*importances)(indices_i) = icp.getFitnessScore();
+
+    rapid_msgs::Roi3D roi = object_roi_;
+    roi.transform.translation.x += translation.x();
+    roi.transform.translation.y += translation.y();
+    roi.transform.translation.z += translation.z();
+    double fitness = ComputeIcpFitness(scene_, aligned_object, roi);
+    (*importances)(indices_i) = fitness;
 
     // viz::PublishCloud(heatmap_pub_, *aligned_object);
     // if (debug_) {
-    //  std::cout << "Score: " << icp.getFitnessScore();
+    //  std::cout << "Score: " << fitness;
     //  std::string input;
     //  std::getline(std::cin, input);
     //}
