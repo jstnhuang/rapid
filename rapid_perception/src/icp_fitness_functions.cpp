@@ -73,7 +73,7 @@ double ComputeIcpFitness(PointCloudC::Ptr& scene, PointCloudC::Ptr& object,
     int index = indices[index_i];
     const PointC& scene_pt = scene->at(index);
     object_tree.nearestKSearch(scene_pt, 1, nn_indices, nn_dists);
-    fitness += nn_dists[0];
+    fitness += sqrt(nn_dists[0]);
   }
   fitness /= indices.size();
   return fitness;
