@@ -29,7 +29,7 @@ TemplateMatchingHeatMapper::TemplateMatchingHeatMapper()
     : scene_(),
       object_(),
       object_roi_(),
-      sample_ratio_(0.01),
+      sample_ratio_(0.05),
       max_samples_(1000) {}
 
 void TemplateMatchingHeatMapper::Compute(pcl::PointIndicesPtr indices,
