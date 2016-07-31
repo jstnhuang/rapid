@@ -59,12 +59,12 @@ void TemplateMatchingHeatMapper::Compute(pcl::PointIndicesPtr indices,
     icp.align(*aligned_object);
     (*importances)(indices_i) = icp.getFitnessScore();
 
-    viz::PublishCloud(heatmap_pub_, *aligned_object);
-    if (debug_) {
-      std::cout << "Score: " << icp.getFitnessScore();
-      std::string input;
-      std::getline(std::cin, input);
-    }
+    // viz::PublishCloud(heatmap_pub_, *aligned_object);
+    // if (debug_) {
+    //  std::cout << "Score: " << icp.getFitnessScore();
+    //  std::string input;
+    //  std::getline(std::cin, input);
+    //}
   }
 
   double min = importances->minCoeff();

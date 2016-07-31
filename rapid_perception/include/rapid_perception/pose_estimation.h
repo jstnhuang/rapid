@@ -6,8 +6,10 @@
 #include "Eigen/Core"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
+#include "pcl/search/kdtree.h"
 #include "ros/ros.h"
 
+#include "rapid_msgs/Roi3D.h"
 #include "rapid_perception/pose_estimation_heat_mapper.h"
 
 namespace rapid {
@@ -35,7 +37,8 @@ class PoseEstimator {
 
   // Setters for source and target
   void set_scene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene);
-  void set_object(pcl::PointCloud<pcl::PointXYZRGB>::Ptr object);
+  void set_object(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& object,
+                  const rapid_msgs::Roi3D& roi);
 
   PoseEstimationHeatMapper* heat_mapper();
 
@@ -69,6 +72,29 @@ class PoseEstimator {
   // Do non-max suppression on ICP outputs.
   void NonMaxSuppression(std::vector<PoseEstimationMatch>& output_objects,
                          std::vector<bool>* keep);
+  // Computes an alternative ICP fitness score between the scene and an object
+  // with a bounding box around it. This metric measures the distance between
+  // the
+  // scene points inside the bounding box and the nearest point on the object.
+  // This allows us to assert that there should be free space in the given
+  // bounding box.
+  //
+  // We assume that the scene, object, and ROI are all given in the same
+  // reference
+  // frame.
+  //
+  // We do not take into account the difference between free space that is
+  // visibly
+  // free or free space with unknown occupancy (in practice it may not make a
+  // difference?).
+  //
+  // Args:
+  //  scene: The scene the object is in.
+  //  object: The object to compute the score of.
+  //  roi: The region of interest to get scene points from.
+  double ComputeIcpFitness(pcl::PointCloud<pcl::PointXYZRGB>::Ptr& scene,
+                           pcl::PointCloud<pcl::PointXYZRGB>::Ptr& object,
+                           const rapid_msgs::Roi3D& roi);
 
   PoseEstimationHeatMapper* heat_mapper_;
 
@@ -76,6 +102,7 @@ class PoseEstimator {
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene_;
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr object_;
   Eigen::Vector3d object_center_;  // Approx center point of object.
+  rapid_msgs::Roi3D object_roi_;
 
   // Parameters
   // Number of candidate samples to consider for ICP.

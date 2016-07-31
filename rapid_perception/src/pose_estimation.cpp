@@ -9,14 +9,20 @@
 #include <vector>
 
 #include "Eigen/Core"
+#include "Eigen/Geometry"
+#include "geometry_msgs/Vector3.h"
 #include "pcl/PointIndices.h"
 #include "pcl/common/common.h"
+#include "pcl/filters/crop_box.h"
 #include "pcl/filters/extract_indices.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "pcl/registration/icp.h"
+#include "pcl/search/kdtree.h"
+#include "pcl_conversions/pcl_conversions.h"
 #include "sensor_msgs/PointCloud2.h"
 
+#include "rapid_msgs/Roi3D.h"
 #include "rapid_utils/stochastic_universal_sampling.h"
 #include "rapid_viz/publish.h"
 
@@ -77,8 +83,11 @@ void PoseEstimator::set_scene(PointCloudC::Ptr scene) {
   heat_mapper_->set_scene(scene);
 }
 
-void PoseEstimator::set_object(PointCloudC::Ptr object) {
+void PoseEstimator::set_object(
+    const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& object,
+    const rapid_msgs::Roi3D& roi) {
   object_ = object;
+  object_roi_ = roi;
 
   // Estimate object radius, just average of x/y/z dimensions.
   Eigen::Vector4f min_pt;
@@ -88,7 +97,7 @@ void PoseEstimator::set_object(PointCloudC::Ptr object) {
   object_center_.y() = (max_pt.y() + min_pt.y()) / 2;
   object_center_.z() = (max_pt.z() + min_pt.z()) / 2;
 
-  heat_mapper_->set_object(object);
+  heat_mapper_->set_object(object_);
 }
 
 PoseEstimationHeatMapper* PoseEstimator::heat_mapper() { return heat_mapper_; }
@@ -255,7 +264,20 @@ void PoseEstimator::RunIcpCandidates(
     icp.align(*aligned_object);
     viz::PublishCloud(alignment_pub_, *aligned_object);
     if (icp.hasConverged()) {
-      double fitness = icp.getFitnessScore();
+      Eigen::Matrix4f final_transform = icp.getFinalTransformation();
+      rapid_msgs::Roi3D roi = object_roi_;
+      roi.transform.translation.x += translation.x();
+      roi.transform.translation.y += translation.y();
+      roi.transform.translation.z += translation.z();
+      Eigen::Matrix3f rot_matrix(final_transform.topLeftCorner(3, 3));
+      Eigen::Quaternionf q(rot_matrix);
+      roi.transform.rotation.w = q.w();
+      roi.transform.rotation.x = q.x();
+      roi.transform.rotation.y = q.y();
+      roi.transform.rotation.z = q.z();
+
+      double fitness = ComputeIcpFitness(scene_, aligned_object, roi);
+
       string threshold_marker = "";
       if (fitness < fitness_threshold_) {
         output_objects->push_back(PoseEstimationMatch(aligned_object, fitness));
@@ -322,6 +344,67 @@ void Colorize(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, double r, double g,
     cloud->points[i].g = static_cast<int>(round(g * 255));
     cloud->points[i].b = static_cast<int>(round(b * 255));
   }
+}
+
+double PoseEstimator::ComputeIcpFitness(PointCloudC::Ptr& scene,
+                                        PointCloudC::Ptr& object,
+                                        const rapid_msgs::Roi3D& roi) {
+  Eigen::Vector4f min;
+  min.x() = -roi.dimensions.x / 2;
+  min.y() = -roi.dimensions.y / 2;
+  min.z() = -roi.dimensions.z / 2;
+  Eigen::Vector4f max;
+  max.x() = roi.dimensions.x / 2;
+  max.y() = roi.dimensions.y / 2;
+  max.z() = roi.dimensions.z / 2;
+  Eigen::Vector3f translation;
+  translation.x() = roi.transform.translation.x;
+  translation.y() = roi.transform.translation.y;
+  translation.z() = roi.transform.translation.z;
+  Eigen::Quaternionf rotation;
+  rotation.w() = roi.transform.rotation.w;
+  rotation.x() = roi.transform.rotation.x;
+  rotation.y() = roi.transform.rotation.y;
+  rotation.z() = roi.transform.rotation.z;
+  Eigen::Matrix3f rot_mat = rotation.toRotationMatrix();
+  Eigen::Vector3f ea;
+  ea.x() = atan2(rot_mat(2, 1), rot_mat(1, 1));
+  ea.y() = atan2(rot_mat(2, 0), rot_mat(0, 0));
+  ea.z() = atan2(rot_mat(1, 0), rot_mat(0, 0));
+
+  pcl::CropBox<PointC> crop;
+  crop.setInputCloud(scene);
+  crop.setMin(min);
+  crop.setMax(max);
+  crop.setTranslation(translation);
+  crop.setRotation(ea);
+  vector<int> indices;
+  crop.filter(indices);
+
+  // if (debug_) {
+  //  std::cout << "Press enter to view cropped area" << std::endl;
+  //  string input;
+  //  std::getline(std::cin, input);
+  //  PointCloudC::Ptr cropped(new PointCloudC);
+  //  crop.filter(*cropped);
+  //  viz::PublishCloud(alignment_pub_, *cropped);
+  //  std::cout << "Press enter to finish viewing cropped area" << std::endl;
+  //  std::getline(std::cin, input);
+  //}
+
+  PointCTree object_tree;
+  object_tree.setInputCloud(object);
+  vector<int> nn_indices(1);
+  vector<float> nn_dists(1);
+  double fitness = 0;
+  for (size_t index_i = 0; index_i < indices.size(); ++index_i) {
+    int index = indices[index_i];
+    const PointC& scene_pt = scene->at(index);
+    object_tree.nearestKSearch(scene_pt, 1, nn_indices, nn_dists);
+    fitness += nn_dists[0];
+  }
+  fitness /= indices.size();
+  return fitness;
 }
 }  // namespace perception
 }  // namespace rapid

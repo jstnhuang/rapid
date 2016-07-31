@@ -1,6 +1,8 @@
 #ifndef _RAPID_PERCEPTION_TEMPLATE_MATCHING_HEAT_MAPPER_H_
 #define _RAPID_PERCEPTION_TEMPLATE_MATCHING_HEAT_MAPPER_H_
 
+#include <string>
+
 #include "Eigen/Core"
 #include "pcl/PointIndices.h"
 #include "pcl/point_cloud.h"
