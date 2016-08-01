@@ -72,7 +72,7 @@ PoseEstimator::PoseEstimator()
       object_(new PointCloudC()),
       object_center_(),
       num_candidates_(100),
-      fitness_threshold_(0.00002),
+      fitness_threshold_(0.0035),
       sigma_threshold_(2),
       nms_radius_(0.03),
       debug_(false),

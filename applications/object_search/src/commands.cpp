@@ -281,7 +281,7 @@ void RunCommand::UpdateParams() {
   ros::param::param<int>("max_neighbors", max_neighbors, 400);
   ros::param::param<double>("feature_threshold", feature_threshold, 1500);
   ros::param::param<int>("num_candidates", num_candidates, 100);
-  ros::param::param<double>("fitness_threshold", fitness_threshold, 0.00002);
+  ros::param::param<double>("fitness_threshold", fitness_threshold, 0.0035);
   ros::param::param<double>("sigma_threshold", sigma_threshold, 2);
   ros::param::param<double>("nms_radius", nms_radius, 0.03);
   ROS_INFO(
