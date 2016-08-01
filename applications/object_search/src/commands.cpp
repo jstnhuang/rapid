@@ -272,6 +272,7 @@ void RunCommand::UpdateParams() {
   double feature_threshold;
   int num_candidates;
   double fitness_threshold;
+  double sigma_threshold;
   double nms_radius;
   string cnn_layer;
   ros::param::param<double>("sample_ratio", sample_ratio, 0.01);
@@ -281,6 +282,7 @@ void RunCommand::UpdateParams() {
   ros::param::param<double>("feature_threshold", feature_threshold, 1500);
   ros::param::param<int>("num_candidates", num_candidates, 100);
   ros::param::param<double>("fitness_threshold", fitness_threshold, 0.00002);
+  ros::param::param<double>("sigma_threshold", sigma_threshold, 2);
   ros::param::param<double>("nms_radius", nms_radius, 0.03);
   ROS_INFO(
       "Parameters:\n"
@@ -291,9 +293,11 @@ void RunCommand::UpdateParams() {
       "feature_threshold: %f\n"
       "num_candidates: %d\n"
       "fitness_threshold: %f\n"
+      "sigma_threshold: %f\n"
       "nms_radius: %f\n",
       sample_ratio, max_samples, max_sample_radius, max_neighbors,
-      feature_threshold, num_candidates, fitness_threshold, nms_radius);
+      feature_threshold, num_candidates, fitness_threshold, sigma_threshold,
+      nms_radius);
 
   if (estimator_->heat_mapper()->name() == "cnn") {
     ROS_ERROR("CNN heat mapper not enabled, update the code.");
@@ -324,6 +328,7 @@ void RunCommand::UpdateParams() {
   }
   estimator_->set_num_candidates(num_candidates);
   estimator_->set_fitness_threshold(fitness_threshold);
+  estimator_->set_sigma_threshold(sigma_threshold);
   estimator_->set_nms_radius(nms_radius);
 }
 

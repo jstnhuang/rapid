@@ -15,8 +15,10 @@ namespace rapid {
 namespace perception {
 class PoseEstimationMatch {
  public:
-  explicit PoseEstimationMatch(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud,
-                               double fitness);
+  // Do not use default constructor except to initialize empty objects.
+  PoseEstimationMatch();
+  PoseEstimationMatch(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud,
+                      double fitness);
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud();
   pcl::PointXYZ center() const;
   double fitness() const;
@@ -44,6 +46,7 @@ class PoseEstimator {
   // Setters for parameters
   void set_num_candidates(int val);
   void set_fitness_threshold(double val);
+  void set_sigma_threshold(double val);
   void set_nms_radius(double val);
 
   void set_debug(bool val);
@@ -86,6 +89,10 @@ class PoseEstimator {
   // The ICP fitness threshold below which we consider the alignment a positive
   // match
   double fitness_threshold_;
+  // The number of standard deviations below the mean fitness with which we'll
+  // accept the best match, if none of the matches are below the fitness
+  // threshold.
+  double sigma_threshold_;
   // Radius to look for other matches when doing non-max suppression
   double nms_radius_;
 

@@ -4,6 +4,7 @@
 #include <cmath>
 #include <iostream>
 #include <limits.h>
+#include <numeric>
 #include <string>
 #include <utility>
 #include <vector>
@@ -42,6 +43,9 @@ using std::vector;
 
 namespace rapid {
 namespace perception {
+PoseEstimationMatch::PoseEstimationMatch()
+    : cloud_(new PointCloudC), fitness_(std::numeric_limits<double>::max()) {}
+
 PoseEstimationMatch::PoseEstimationMatch(PointCloudC::Ptr cloud, double fitness)
     : cloud_(new PointCloudC), fitness_(fitness) {
   *cloud_ = *cloud;
@@ -69,6 +73,7 @@ PoseEstimator::PoseEstimator()
       object_center_(),
       num_candidates_(100),
       fitness_threshold_(0.00002),
+      sigma_threshold_(2),
       nms_radius_(0.03),
       debug_(false),
       candidates_pub_(),
@@ -114,6 +119,7 @@ void PoseEstimator::set_num_candidates(int val) { num_candidates_ = val; }
 void PoseEstimator::set_fitness_threshold(double val) {
   fitness_threshold_ = val;
 }
+void PoseEstimator::set_sigma_threshold(double val) { sigma_threshold_ = val; }
 void PoseEstimator::set_nms_radius(double val) { nms_radius_ = val; }
 
 void PoseEstimator::set_candidates_publisher(const ros::Publisher& pub) {
@@ -251,6 +257,8 @@ void PoseEstimator::RunIcpCandidates(
   icp.setInputTarget(scene_);
   output_objects->clear();
   double best_fitness = std::numeric_limits<double>::max();
+  PoseEstimationMatch best_match;
+  vector<double> scores(candidate_indices->indices.size());
   for (size_t ci = 0; ci < candidate_indices->indices.size(); ++ci) {
     int index = candidate_indices->indices[ci];
     const PointC& center = scene_->points[index];
@@ -282,8 +290,10 @@ void PoseEstimator::RunIcpCandidates(
       roi.transform.rotation.z = q.z();
 
       double fitness = ComputeIcpFitness(scene_, aligned_object, roi);
+      scores[ci] = fitness;
       if (fitness < best_fitness) {
         best_fitness = fitness;
+        best_match = PoseEstimationMatch(aligned_object, fitness);
       }
 
       string threshold_marker = "";
@@ -301,6 +311,23 @@ void PoseEstimator::RunIcpCandidates(
     }
   }
   ROS_INFO("Best score in candidates: %f", best_fitness);
+  if (output_objects->size() == 0) {
+    // Some matches don't meet the threshold but are significantly better than
+    // the other matches. We look at the # of standard deviations from the mean
+    // to see if the best match should be output anyway.
+    double sum = std::accumulate(scores.begin(), scores.end(), 0.0);
+    double mean = sum / scores.size();
+    double sq_sum =
+        std::inner_product(scores.begin(), scores.end(), scores.begin(), 0.0);
+    double stdev = std::sqrt(sq_sum / scores.size() - mean * mean);
+
+    double sigmas = (mean - best_fitness) / stdev;
+    if (sigmas >= sigma_threshold_) {
+      output_objects->push_back(best_match);
+    }
+    ROS_INFO("Fitness mean: %f stdev: %f, best is %f sigmas from mean", mean,
+             stdev, sigmas);
+  }
 }
 
 void PoseEstimator::NonMaxSuppression(
