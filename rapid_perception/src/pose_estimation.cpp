@@ -57,7 +57,7 @@ PoseEstimationMatch::PoseEstimationMatch(PointCloudC::Ptr cloud, double fitness)
   center_.z = min_pt.z() + (max_pt.z() - min_pt.z()) / 2;
 }
 
-pcl::PointCloud<pcl::PointXYZRGB>::Ptr PoseEstimationMatch::cloud() {
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr PoseEstimationMatch::cloud() const {
   return cloud_;
 }
 
@@ -95,7 +95,6 @@ void PoseEstimator::set_object(
   object_ = object;
   object_roi_ = roi;
 
-  // Estimate object radius, just average of x/y/z dimensions.
   Eigen::Vector4f min_pt;
   Eigen::Vector4f max_pt;
   pcl::getMinMax3D(*object_, min_pt, max_pt);
@@ -143,28 +142,33 @@ bool PoseEstimator::Find() {
   ComputeTopCandidates(importances, heatmap_indices, candidate_indices);
 
   // For each candidate point, run ICP
-  vector<PoseEstimationMatch> output_objects;
-  RunIcpCandidates(candidate_indices, &output_objects);
-  if (output_objects.size() == 0) {
+  vector<PoseEstimationMatch> aligned_objects;
+  RunIcpCandidates(candidate_indices, &aligned_objects);
+
+  // Non-max suppression
+  vector<int> deduped_indices;
+  NonMaxSuppression(aligned_objects, &deduped_indices);
+  ROS_INFO("Non-max suppression reduced %ld candidates to %ld",
+           aligned_objects.size(), deduped_indices.size());
+
+  // Final filtering by score
+  vector<int> output_indices;
+  FilterMatches(aligned_objects, deduped_indices, &output_indices);
+  if (output_indices.size() == 0) {
     ROS_WARN("No matches found.");
     return false;
   }
 
-  // Non-max suppression
-  vector<bool> keep;
-  NonMaxSuppression(output_objects, &keep);
-
   PointCloudC::Ptr output_cloud(new PointCloudC);
   int num_instances = 0;
-  for (size_t i = 0; i < output_objects.size(); ++i) {
-    if (keep[i]) {
-      double r = static_cast<double>(rand()) / RAND_MAX;
-      double g = static_cast<double>(rand()) / RAND_MAX;
-      double b = static_cast<double>(rand()) / RAND_MAX;
-      Colorize(output_objects[i].cloud(), r, g, b);
-      *output_cloud += *output_objects[i].cloud();
-      ++num_instances;
-    }
+  for (size_t i = 0; i < output_indices.size(); ++i) {
+    int index = output_indices[i];
+    double r = static_cast<double>(rand()) / RAND_MAX;
+    double g = static_cast<double>(rand()) / RAND_MAX;
+    double b = static_cast<double>(rand()) / RAND_MAX;
+    Colorize(aligned_objects[index].cloud(), r, g, b);
+    *output_cloud += *aligned_objects[index].cloud();
+    ++num_instances;
   }
   ROS_INFO("Found %d instances of the model", num_instances);
   output_cloud->header.frame_id = scene_->header.frame_id;
@@ -249,19 +253,17 @@ void PoseEstimator::ComputeTopCandidates(
 
 void PoseEstimator::RunIcpCandidates(
     pcl::PointIndices::Ptr candidate_indices,
-    vector<PoseEstimationMatch>* output_objects) {
+    vector<PoseEstimationMatch>* aligned_objects) {
   // Copy the object and its center.
   PointCloudC::Ptr working_object(new PointCloudC);
   PointCloudC::Ptr aligned_object(new PointCloudC);
   pcl::IterativeClosestPoint<PointC, PointC> icp;
   icp.setInputTarget(scene_);
-  output_objects->clear();
-  double best_fitness = std::numeric_limits<double>::max();
-  PoseEstimationMatch best_match;
-  vector<double> scores(candidate_indices->indices.size());
+  aligned_objects->clear();
   for (size_t ci = 0; ci < candidate_indices->indices.size(); ++ci) {
     int index = candidate_indices->indices[ci];
     const PointC& center = scene_->points[index];
+    rapid_msgs::Roi3D roi = object_roi_;
     // Transform the object to be centered on the center point
     // So far we just use a translation offset
     // Also assume that the object and scene are in the same frame
@@ -278,10 +280,18 @@ void PoseEstimator::RunIcpCandidates(
     viz::PublishCloud(alignment_pub_, *aligned_object);
     if (icp.hasConverged()) {
       Eigen::Matrix4f final_transform = icp.getFinalTransformation();
-      rapid_msgs::Roi3D roi = object_roi_;
       roi.transform.translation.x += translation.x();
       roi.transform.translation.y += translation.y();
       roi.transform.translation.z += translation.z();
+      pcl::PointXYZ roi_pt;
+      roi_pt.x = roi.transform.translation.x;
+      roi_pt.y = roi.transform.translation.y;
+      roi_pt.z = roi.transform.translation.z;
+      Eigen::Affine3f affine(final_transform);
+      roi_pt = pcl::transformPoint(roi_pt, affine);
+      roi.transform.translation.x = roi_pt.x;
+      roi.transform.translation.y = roi_pt.y;
+      roi.transform.translation.z = roi_pt.z;
       Eigen::Matrix3f rot_matrix(final_transform.topLeftCorner(3, 3));
       Eigen::Quaternionf q(rot_matrix);
       roi.transform.rotation.w = q.w();
@@ -290,60 +300,27 @@ void PoseEstimator::RunIcpCandidates(
       roi.transform.rotation.z = q.z();
 
       double fitness = ComputeIcpFitness(scene_, aligned_object, roi);
-      scores[ci] = fitness;
-      if (fitness < best_fitness) {
-        best_fitness = fitness;
-        best_match = PoseEstimationMatch(aligned_object, fitness);
-      }
-
-      string threshold_marker = "";
-      if (fitness < fitness_threshold_) {
-        output_objects->push_back(PoseEstimationMatch(aligned_object, fitness));
-        threshold_marker = " -- below threshold";
-      }
-      ROS_INFO("ICP converged with score: %f%s", fitness,
-               threshold_marker.c_str());
+      aligned_objects->push_back(PoseEstimationMatch(aligned_object, fitness));
     }
-    if (debug_) {
-      std::cout << "Press enter to continue ";
-      string user_input;
-      std::getline(std::cin, user_input);
-    }
-  }
-  ROS_INFO("Best score in candidates: %f", best_fitness);
-  if (output_objects->size() == 0) {
-    // Some matches don't meet the threshold but are significantly better than
-    // the other matches. We look at the # of standard deviations from the mean
-    // to see if the best match should be output anyway.
-    double sum = std::accumulate(scores.begin(), scores.end(), 0.0);
-    double mean = sum / scores.size();
-    double sq_sum =
-        std::inner_product(scores.begin(), scores.end(), scores.begin(), 0.0);
-    double stdev = std::sqrt(sq_sum / scores.size() - mean * mean);
-
-    double sigmas = (mean - best_fitness) / stdev;
-    if (sigmas >= sigma_threshold_) {
-      output_objects->push_back(best_match);
-    }
-    ROS_INFO("Fitness mean: %f stdev: %f, best is %f sigmas from mean", mean,
-             stdev, sigmas);
   }
 }
 
 void PoseEstimator::NonMaxSuppression(
-    vector<PoseEstimationMatch>& output_objects, vector<bool>* keep) {
+    vector<PoseEstimationMatch>& aligned_objects,
+    vector<int>* deduped_indices) {
+  deduped_indices->clear();
   // Non-max supression of output objects
   // Index centers into a tree
   PointCloudP::Ptr output_centers(new PointCloudP);
-  for (size_t i = 0; i < output_objects.size(); ++i) {
-    output_centers->push_back(output_objects[i].center());
+  for (size_t i = 0; i < aligned_objects.size(); ++i) {
+    output_centers->push_back(aligned_objects[i].center());
   }
   PointPTree output_centers_tree;
   output_centers_tree.setInputCloud(output_centers);
 
   // Suppress non max within a radius
-  for (int i = 0; i < static_cast<int>(output_objects.size()); ++i) {
-    PoseEstimationMatch& match = output_objects[i];
+  for (int i = 0; i < static_cast<int>(aligned_objects.size()); ++i) {
+    PoseEstimationMatch& match = aligned_objects[i];
     vector<int> neighbor_indices;
     vector<float> neighbor_distances;
     output_centers_tree.radiusSearch(match.center(), nms_radius_,
@@ -355,7 +332,7 @@ void PoseEstimator::NonMaxSuppression(
       if (index == i) {
         continue;
       }
-      PoseEstimationMatch& neighbor = output_objects[index];
+      PoseEstimationMatch& neighbor = aligned_objects[index];
       if (neighbor.fitness() < match.fitness()) {
         if (debug_) {
           ROS_INFO("Suppressing match %d, %f >= neighbor %d, %f", i,
@@ -369,7 +346,61 @@ void PoseEstimator::NonMaxSuppression(
         neighbor.set_fitness(neighbor.fitness() * 1.01);
       }
     }
-    keep->push_back(keep_match);
+    if (keep_match) {
+      deduped_indices->push_back(i);
+    }
+  }
+}
+
+void PoseEstimator::FilterMatches(
+    const vector<PoseEstimationMatch>& aligned_objects,
+    const vector<int>& deduped_indices, vector<int>* output_indices) {
+  double best_fitness = std::numeric_limits<double>::max();
+  int best_index = 0;
+  vector<double> scores(deduped_indices.size());
+  for (size_t di = 0; di < deduped_indices.size(); ++di) {
+    int index = deduped_indices[di];
+    const PoseEstimationMatch& match = aligned_objects[index];
+    double fitness = match.fitness();
+    scores[di] = fitness;
+    string threshold_marker = "";
+    if (fitness < fitness_threshold_) {
+      output_indices->push_back(index);
+      threshold_marker = " -- below threshold";
+    }
+    ROS_INFO("(%ld/%ld) ICP converged with score: %f%s", di + 1,
+             deduped_indices.size(), fitness, threshold_marker.c_str());
+
+    if (fitness < best_fitness) {
+      best_fitness = fitness;
+      best_index = index;
+    }
+
+    viz::PublishCloud(alignment_pub_, *(match.cloud()));
+    if (debug_) {
+      std::cout << "Press enter to continue ";
+      string user_input;
+      std::getline(std::cin, user_input);
+    }
+  }
+  ROS_INFO("Best score in candidates: %f", best_fitness);
+
+  if (output_indices->size() == 0) {
+    // Some matches don't meet the threshold but are significantly better than
+    // the other matches. We look at the # of standard deviations from the mean
+    // to see if the best match should be output anyway.
+    double sum = std::accumulate(scores.begin(), scores.end(), 0.0);
+    double mean = sum / scores.size();
+    double sq_sum =
+        std::inner_product(scores.begin(), scores.end(), scores.begin(), 0.0);
+    double stdev = std::sqrt(sq_sum / scores.size() - mean * mean);
+
+    double sigmas = (mean - best_fitness) / stdev;
+    if (sigmas >= sigma_threshold_) {
+      output_indices->push_back(best_index);
+    }
+    ROS_INFO("Fitness mean: %f stdev: %f, best is %f sigmas from mean", mean,
+             stdev, sigmas);
   }
 }
 

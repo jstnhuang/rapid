@@ -6,6 +6,10 @@
 
 #include "rapid_msgs/Roi3D.h"
 
+namespace ros {
+class Publisher;
+}  // namespace ros
+
 namespace rapid {
 namespace perception {
 // Computes an alternative ICP fitness score between the scene and an object
@@ -30,7 +34,8 @@ namespace perception {
 //  roi: The region of interest to get scene points from.
 double ComputeIcpFitness(pcl::PointCloud<pcl::PointXYZRGB>::Ptr& scene,
                          pcl::PointCloud<pcl::PointXYZRGB>::Ptr& object,
-                         const rapid_msgs::Roi3D& roi);
+                         const rapid_msgs::Roi3D& roi, bool debug = false,
+                         ros::Publisher* pub = NULL);
 }  // namespace perception
 }  // namespace rapid
 

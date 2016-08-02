@@ -19,7 +19,7 @@ class PoseEstimationMatch {
   PoseEstimationMatch();
   PoseEstimationMatch(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud,
                       double fitness);
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud();
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud() const;
   pcl::PointXYZ center() const;
   double fitness() const;
   void set_fitness(double fitness);
@@ -70,10 +70,14 @@ class PoseEstimator {
                             pcl::PointIndicesPtr candidate_indices);
   // Initialize and run ICP at each of the candidate points.
   void RunIcpCandidates(pcl::PointIndices::Ptr candidate_indices,
-                        std::vector<PoseEstimationMatch>* output_objects);
+                        std::vector<PoseEstimationMatch>* aligned_objects);
   // Do non-max suppression on ICP outputs.
-  void NonMaxSuppression(std::vector<PoseEstimationMatch>& output_objects,
-                         std::vector<bool>* keep);
+  void NonMaxSuppression(std::vector<PoseEstimationMatch>& aligned_objects,
+                         std::vector<int>* deduped_indices);
+  // Filter matches based on score and/or statistical tests.
+  void FilterMatches(const std::vector<PoseEstimationMatch>& aligned_objects,
+                     const std::vector<int>& deduped_indices,
+                     std::vector<int>* output_indices);
 
   PoseEstimationHeatMapper* heat_mapper_;
 
