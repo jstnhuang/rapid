@@ -34,11 +34,16 @@ TemplateMatchingHeatMapper::TemplateMatchingHeatMapper()
 
 void TemplateMatchingHeatMapper::Compute(pcl::PointIndicesPtr indices,
                                          Eigen::VectorXd* importances) {
-  pcl::RandomSample<PointC> random;
-  random.setInputCloud(scene_);
+  indices->indices.clear();
   int num_samples = static_cast<int>(round(sample_ratio_ * scene_->size()));
-  random.setSample(std::min(max_samples_, num_samples));
-  random.filter(indices->indices);
+  num_samples = std::min(num_samples, max_samples_);
+  int points_between_samples =
+      round(scene_->size() / static_cast<double>(num_samples));
+  size_t sample_index = 0;
+  while (sample_index < scene_->size()) {
+    indices->indices.push_back(sample_index);
+    sample_index += points_between_samples;
+  }
   ROS_INFO("Randomly sampled %ld points", indices->indices.size());
 
   PointCloudC::Ptr working_object(new PointCloudC);
