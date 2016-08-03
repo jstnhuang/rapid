@@ -39,6 +39,7 @@ using std::string;
 using std::vector;
 using rapid_msgs::StaticCloud;
 using rapid_msgs::StaticCloudInfo;
+using rapid::perception::PoseEstimationMatch;
 
 namespace object_search {
 ListCommand::ListCommand(Database* db, const string& type)
@@ -260,7 +261,8 @@ RunCommand::RunCommand(rapid::perception::PoseEstimator* estimator,
 void RunCommand::Execute(std::vector<std::string>& args) {
   UpdateParams();
   pcl::ScopeTime timer("Running algorithm");
-  estimator_->Find();
+  vector<PoseEstimationMatch> matches;
+  estimator_->Find(&matches);
 }
 
 void RunCommand::UpdateParams() {
@@ -273,7 +275,7 @@ void RunCommand::UpdateParams() {
   double fitness_threshold;
   double sigma_threshold;
   double nms_radius;
-  string cnn_layer;
+  int min_results;
   ros::param::param<double>("sample_ratio", sample_ratio, 0.01);
   ros::param::param<int>("max_samples", max_samples, 1000);
   ros::param::param<double>("max_sample_radius", max_sample_radius, 0.1);
@@ -283,6 +285,7 @@ void RunCommand::UpdateParams() {
   ros::param::param<double>("fitness_threshold", fitness_threshold, 0.0035);
   ros::param::param<double>("sigma_threshold", sigma_threshold, 2);
   ros::param::param<double>("nms_radius", nms_radius, 0.03);
+  ros::param::param<int>("min_results", min_results, 0);
   ROS_INFO(
       "Parameters:\n"
       "sample_ratio: %f\n"
@@ -293,10 +296,11 @@ void RunCommand::UpdateParams() {
       "num_candidates: %d\n"
       "fitness_threshold: %f\n"
       "sigma_threshold: %f\n"
-      "nms_radius: %f\n",
+      "nms_radius: %f\n"
+      "min_results: %d\n",
       sample_ratio, max_samples, max_sample_radius, max_neighbors,
       feature_threshold, num_candidates, fitness_threshold, sigma_threshold,
-      nms_radius);
+      nms_radius, min_results);
 
   if (estimator_->heat_mapper()->name() == "cnn") {
     ROS_ERROR("CNN heat mapper not enabled, update the code.");
@@ -339,6 +343,7 @@ void RunCommand::UpdateParams() {
   estimator_->set_fitness_threshold(fitness_threshold);
   estimator_->set_sigma_threshold(sigma_threshold);
   estimator_->set_nms_radius(nms_radius);
+  estimator_->set_min_results(min_results);
 }
 
 SetDebugCommand::SetDebugCommand(rapid::perception::PoseEstimator* estimator)

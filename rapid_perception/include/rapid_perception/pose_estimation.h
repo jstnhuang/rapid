@@ -30,24 +30,93 @@ class PoseEstimationMatch {
   double fitness_;
 };
 
+// Finds instances of a given object in a scene. It is designed and tested to
+// work with single-view point clouds that are voxelized to a resolution of a
+// 0.5cm.
+//
+// In addition to providing an object, you must also provide a region of
+// interest, represented as a box, around the object. Empty space in your box
+// matters -- the algorithm will look for that space to be empty when
+// considering candidate poses for the object.
+//
+// Usage:
+//  RandomHeatMapper* heat_mapper = new RandomHeatMapper();
+//  PoseEstimator estimator(heat_mapper);
+//  estimator.set_scene(scene);
+//  estimator.set_object(object, object_roi);
+//
+//  estimator.set_fitness_threshold(0.0045);
+//  estimator.set_min_results(1); // Overrides the fitness threshold if set.
+//  vector<PoseEstimationMatch> matches;
+//  estimator.Find(&matches);
+//
+// There are two ways to use the algorithm. You can ask it to return all matches
+// whose fitness scores are less than the given fitness threshold (by default,
+// 0.45cm). Note that the lower the fitness, the better the match.
+//
+// You can also ask it to return at least N results, even if some or all of
+// those results are above the fitness threshold. This is helpful when you
+// already know from context that N instances of the object are in the scene.
 class PoseEstimator {
  public:
-  PoseEstimator();
-  // Compute scene points to initialize ICP at.
-  void set_heat_mapper(PoseEstimationHeatMapper* heat_mapper);
+  // Constructs a pose estimator given a heat mapper. We do not take ownership
+  // over the pointer.
+  PoseEstimator(PoseEstimationHeatMapper* heat_mapper);
 
-  // Setters for source and target
+  // Set the scene to search for the object in. We recommend voxelizing it for
+  // speed at the same resolution as the object. A resolution of 0.5cm works
+  // well.
+  //
+  // We assume it has already been filtered for NaNs. The scene should be in the
+  // same frame as the object.
   void set_scene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene);
+
+  // Set the object to search for. We recommend voxelizing it for speed at the
+  // same resolution as the scene. A resolution of 0.5cm works well.
+  //
+  // We assume it has already been filtered for NaNs. The object should be in
+  // the same frame as the scene.
+  //
+  // The region of interest (ROI) is a box around the object, which indicates
+  // how much empty space around the object you want to enforce. For example, if
+  // the object is a horizontal cross-section of a cylinder, and there's no
+  // empty space on top or bottom, then many such cross-sections may be found on
+  // a single cylinder. However, if the ROI includes empty space above the cross
+  // section, then the algorithm will only find the top-most cross section of
+  // the cylinder (e.g., the cap of a bottle).
   void set_object(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& object,
                   const rapid_msgs::Roi3D& roi);
 
   PoseEstimationHeatMapper* heat_mapper();
 
   // Setters for parameters
+  // num_candidates is the number of samples to initialize ICP at. More
+  // candidates will improve recall but possibly decrease precision, and take
+  // longer. The default value is 100.
   void set_num_candidates(int val);
-  void set_fitness_threshold(double val);
+
+  // sigma_threshold can sometimes help find objects, although we don't
+  // recommend using it as it's not very precise.
   void set_sigma_threshold(double val);
+
+  // nms_radius is the radius to look around each match to eliminate worse
+  // matches. Often, many matches will be clustered in the same location, so we
+  // want to consolidate all of them into the single best match in the cluster.
+  // The default value is 0.02.
   void set_nms_radius(double val);
+
+  // If the fitness threshold is set, then we return matches whose fitness
+  // values are below the threshold. A higher threshold will lead to higher
+  // recall but lower precision. The default value is 0.0045. It can be
+  // interpreted as the average error distance between points on the object and
+  // points in the scene (within the object's ROI).
+  void set_fitness_threshold(double val);
+
+  // Sets the minimum number of matches to return, even if some or all of the
+  // matches are above the fitness threshold. This can be helpful if you already
+  // know from context that a match exists. Often, the best match is correct
+  // even though it's above the fitness threshold. The default value is 0.
+  void set_min_results(int val);
 
   void set_debug(bool val);
 
@@ -56,8 +125,11 @@ class PoseEstimator {
   void set_alignment_publisher(const ros::Publisher& pub);
   void set_output_publisher(const ros::Publisher& pub);
 
-  // Method for doing the alignment
-  bool Find();
+  // Runs the pose estimation algorithm. It will return all matches whose
+  // fitness are below the fitness threshold (lower fitness means a better
+  // match). If min_results is set, it will return at least that many matches,
+  // even if they are above the fitness threshold.
+  void Find(std::vector<PoseEstimationMatch>* matches);
 
  private:
   // Sample the heatmap by importance to generate candidate points.
@@ -99,6 +171,8 @@ class PoseEstimator {
   double sigma_threshold_;
   // Radius to look for other matches when doing non-max suppression
   double nms_radius_;
+  // The minimum number of matches to return, regardless of fitness score.
+  int min_results_;
 
   bool debug_;
 

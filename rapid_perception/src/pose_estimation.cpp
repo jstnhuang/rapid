@@ -67,22 +67,20 @@ double PoseEstimationMatch::fitness() const { return fitness_; }
 
 void PoseEstimationMatch::set_fitness(double fitness) { fitness_ = fitness; }
 
-PoseEstimator::PoseEstimator()
-    : scene_(new PointCloudC()),
+PoseEstimator::PoseEstimator(PoseEstimationHeatMapper* heat_mapper)
+    : heat_mapper_(heat_mapper),
+      scene_(new PointCloudC()),
       object_(new PointCloudC()),
       object_center_(),
       num_candidates_(100),
-      fitness_threshold_(0.0035),
-      sigma_threshold_(2),
-      nms_radius_(0.03),
+      fitness_threshold_(0.0045),
+      sigma_threshold_(8),
+      nms_radius_(0.02),
+      min_results_(0),
       debug_(false),
       candidates_pub_(),
       alignment_pub_(),
       output_pub_() {}
-
-void PoseEstimator::set_heat_mapper(PoseEstimationHeatMapper* heat_mapper) {
-  heat_mapper_ = heat_mapper;
-}
 
 void PoseEstimator::set_scene(PointCloudC::Ptr scene) {
   scene_ = scene;
@@ -115,11 +113,12 @@ void PoseEstimator::set_debug(bool val) {
   heat_mapper_->set_debug(val);
 }
 void PoseEstimator::set_num_candidates(int val) { num_candidates_ = val; }
+void PoseEstimator::set_sigma_threshold(double val) { sigma_threshold_ = val; }
+void PoseEstimator::set_nms_radius(double val) { nms_radius_ = val; }
 void PoseEstimator::set_fitness_threshold(double val) {
   fitness_threshold_ = val;
 }
-void PoseEstimator::set_sigma_threshold(double val) { sigma_threshold_ = val; }
-void PoseEstimator::set_nms_radius(double val) { nms_radius_ = val; }
+void PoseEstimator::set_min_results(int val) { min_results_ = val; }
 
 void PoseEstimator::set_candidates_publisher(const ros::Publisher& pub) {
   candidates_pub_ = pub;
@@ -131,7 +130,7 @@ void PoseEstimator::set_output_publisher(const ros::Publisher& pub) {
   output_pub_ = pub;
 }
 
-bool PoseEstimator::Find() {
+void PoseEstimator::Find(vector<PoseEstimationMatch>* matches) {
   // Compute heatmap of features
   pcl::PointIndicesPtr heatmap_indices(new pcl::PointIndices);
   Eigen::VectorXd importances;
@@ -156,24 +155,25 @@ bool PoseEstimator::Find() {
   FilterMatches(aligned_objects, deduped_indices, &output_indices);
   if (output_indices.size() == 0) {
     ROS_WARN("No matches found.");
-    return false;
+    return;
   }
 
-  PointCloudC::Ptr output_cloud(new PointCloudC);
-  int num_instances = 0;
-  for (size_t i = 0; i < output_indices.size(); ++i) {
-    int index = output_indices[i];
-    double r = static_cast<double>(rand()) / RAND_MAX;
-    double g = static_cast<double>(rand()) / RAND_MAX;
-    double b = static_cast<double>(rand()) / RAND_MAX;
-    Colorize(aligned_objects[index].cloud(), r, g, b);
-    *output_cloud += *aligned_objects[index].cloud();
-    ++num_instances;
+  if (output_pub_) {
+    PointCloudC::Ptr output_cloud(new PointCloudC);
+    int num_instances = 0;
+    for (size_t i = 0; i < output_indices.size(); ++i) {
+      int index = output_indices[i];
+      double r = static_cast<double>(rand()) / RAND_MAX;
+      double g = static_cast<double>(rand()) / RAND_MAX;
+      double b = static_cast<double>(rand()) / RAND_MAX;
+      Colorize(aligned_objects[index].cloud(), r, g, b);
+      *output_cloud += *aligned_objects[index].cloud();
+      ++num_instances;
+    }
+    ROS_INFO("Found %d instances of the model", num_instances);
+    output_cloud->header.frame_id = scene_->header.frame_id;
+    viz::PublishCloud(output_pub_, *output_cloud);
   }
-  ROS_INFO("Found %d instances of the model", num_instances);
-  output_cloud->header.frame_id = scene_->header.frame_id;
-  viz::PublishCloud(output_pub_, *output_cloud);
-  return true;
 }
 
 void PoseEstimator::ComputeCandidates(Eigen::VectorXd& importances,
@@ -207,25 +207,27 @@ void PoseEstimator::ComputeCandidates(Eigen::VectorXd& importances,
   }
 
   // Visualize the candidate points
-  PointCloudC::Ptr viz_cloud(new PointCloudC());
-  viz_cloud.reset(new PointCloudC());
-  pcl::ExtractIndices<PointC> extract;
-  extract.setInputCloud(scene_);
-  extract.setIndices(candidate_indices);
-  extract.filter(*viz_cloud);
-  viz::PublishCloud(candidates_pub_, *viz_cloud);
+  if (candidates_pub_) {
+    PointCloudC::Ptr viz_cloud(new PointCloudC());
+    viz_cloud.reset(new PointCloudC());
+    pcl::ExtractIndices<PointC> extract;
+    extract.setInputCloud(scene_);
+    extract.setIndices(candidate_indices);
+    extract.filter(*viz_cloud);
+    viz::PublishCloud(candidates_pub_, *viz_cloud);
+  }
 }
 
 // This is used to sort heatmap scores, represented as (index, score).
-// Higher scores are better.
+// Lower scores are better.
 bool CompareScores(const pair<int, double>& a, const pair<int, double>& b) {
-  return a.second > b.second;
+  return a.second < b.second;
 }
 
 void PoseEstimator::ComputeTopCandidates(
     Eigen::VectorXd& importances, pcl::PointIndicesPtr heatmap_indices,
     pcl::PointIndicesPtr candidate_indices) {
-  std::vector<std::pair<int, double> > scores;
+  vector<pair<int, double> > scores;
   for (size_t i = 0; i < heatmap_indices->indices.size(); ++i) {
     int index = heatmap_indices->indices[i];
     double score = importances[i];
@@ -242,13 +244,15 @@ void PoseEstimator::ComputeTopCandidates(
   }
 
   // Visualize the candidate points
-  PointCloudC::Ptr viz_cloud(new PointCloudC());
-  viz_cloud.reset(new PointCloudC());
-  pcl::ExtractIndices<PointC> extract;
-  extract.setInputCloud(scene_);
-  extract.setIndices(candidate_indices);
-  extract.filter(*viz_cloud);
-  viz::PublishCloud(candidates_pub_, *viz_cloud);
+  if (candidates_pub_) {
+    PointCloudC::Ptr viz_cloud(new PointCloudC());
+    viz_cloud.reset(new PointCloudC());
+    pcl::ExtractIndices<PointC> extract;
+    extract.setInputCloud(scene_);
+    extract.setIndices(candidate_indices);
+    extract.filter(*viz_cloud);
+    viz::PublishCloud(candidates_pub_, *viz_cloud);
+  }
 }
 
 void PoseEstimator::RunIcpCandidates(
@@ -358,11 +362,13 @@ void PoseEstimator::FilterMatches(
   double best_fitness = std::numeric_limits<double>::max();
   int best_index = 0;
   vector<double> scores(deduped_indices.size());
+  vector<pair<int, double> > index_scores(deduped_indices.size());
   for (size_t di = 0; di < deduped_indices.size(); ++di) {
     int index = deduped_indices[di];
     const PoseEstimationMatch& match = aligned_objects[index];
     double fitness = match.fitness();
     scores[di] = fitness;
+    index_scores[di] = std::make_pair(index, fitness);
     string threshold_marker = "";
     if (fitness < fitness_threshold_) {
       output_indices->push_back(index);
@@ -401,6 +407,18 @@ void PoseEstimator::FilterMatches(
     }
     ROS_INFO("Fitness mean: %f stdev: %f, best is %f sigmas from mean", mean,
              stdev, sigmas);
+  }
+
+  if (static_cast<int>(output_indices->size()) < min_results_) {
+    int num_results =
+        std::min(min_results_, static_cast<int>(index_scores.size()));
+    std::partial_sort(index_scores.begin(), index_scores.begin() + num_results,
+                      index_scores.end(), &CompareScores);
+    int start = static_cast<int>(output_indices->size());
+    for (int i = start; i < num_results; ++i) {
+      const pair<int, double>& index_score = index_scores[i];
+      output_indices->push_back(index_score.first);
+    }
   }
 }
 

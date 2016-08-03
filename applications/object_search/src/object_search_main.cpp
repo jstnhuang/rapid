@@ -94,8 +94,7 @@ int main(int argc, char** argv) {
   heat_mapper->set_heatmap_publisher(heatmap_pub);
 
   // Build pose estimator
-  rapid::perception::PoseEstimator pose_estimator;
-  pose_estimator.set_heat_mapper(heat_mapper);
+  rapid::perception::PoseEstimator pose_estimator(heat_mapper);
 
   ListCommand list_objects(&object_db, "object");
   ListCommand list_scenes(&scene_db, "scene");
