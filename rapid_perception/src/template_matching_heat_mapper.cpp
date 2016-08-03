@@ -13,7 +13,6 @@
 #include "pcl/registration/icp.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
-#include "pcl/recognition/line_rgbd.h"
 
 #include "rapid_msgs/Roi3D.h"
 #include "rapid_perception/icp_fitness_functions.h"
