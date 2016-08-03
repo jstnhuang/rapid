@@ -126,6 +126,7 @@ set(MY_RAPID_PERCEPTION_EXPORTED_LIBRARIES
   rapid_perception_pose_estimation_heat_mapper
   rapid_perception_fpfh_heat_mapper
   rapid_perception_template_matching_heat_mapper
+  rapid_perception_random_heat_mapper
   rapid_perception_pr2
   rapid_perception_rgbd
   rapid_perception_scene
@@ -305,6 +306,20 @@ target_link_libraries(rapid_perception_template_matching_heat_mapper
   rapid_perception_pose_estimation_heat_mapper
 )
 
+add_library(rapid_perception_random_heat_mapper
+  src/random_heat_mapper.cpp
+)
+add_dependencies(rapid_perception_random_heat_mapper
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+  rapid_perception_pose_estimation_heat_mapper
+)
+target_link_libraries(rapid_perception_random_heat_mapper
+  ${PCL_LIBRARIES}
+  ${catkin_LIBRARIES}
+  rapid_perception_pose_estimation_heat_mapper
+)
+
 add_library(rapid_perception_pose_estimation
   src/pose_estimation.cpp
 )
@@ -312,15 +327,13 @@ add_dependencies(rapid_perception_pose_estimation
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
   rapid_perception_icp_fitness_functions
-  rapid_perception_fpfh_heat_mapper
-  rapid_perception_template_matching_heat_mapper
+  rapid_perception_random_heat_mapper
 )
 target_link_libraries(rapid_perception_pose_estimation
   ${PCL_LIBRARIES}
   ${catkin_LIBRARIES}
   rapid_perception_icp_fitness_functions
-  rapid_perception_fpfh_heat_mapper
-  rapid_perception_template_matching_heat_mapper
+  rapid_perception_random_heat_mapper
 )
 
 add_library(rapid_perception_pr2 src/pr2.cpp)

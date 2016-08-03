@@ -18,8 +18,7 @@
 #include "rapid_perception/pr2.h"
 #include "rapid_perception/box3d_roi_server.h"
 #include "rapid_perception/pose_estimation.h"
-#include "rapid_perception/fpfh_heat_mapper.h"
-#include "rapid_perception/template_matching_heat_mapper.h"
+#include "rapid_perception/random_heat_mapper.h"
 #include "rapid_msgs/GetStaticCloud.h"
 #include "rapid_msgs/ListStaticClouds.h"
 #include "rapid_msgs/RemoveStaticCloud.h"
@@ -84,9 +83,14 @@ int main(int argc, char** argv) {
   // rapid::perception::FpfhHeatMapper* heat_mapper =
   //    new rapid::perception::FpfhHeatMapper();
   // heat_mapper->set_name("fpfh");
-  rapid::perception::TemplateMatchingHeatMapper* heat_mapper =
-      new rapid::perception::TemplateMatchingHeatMapper();
-  heat_mapper->set_name("template_matching");
+
+  // rapid::perception::TemplateMatchingHeatMapper* heat_mapper =
+  //    new rapid::perception::TemplateMatchingHeatMapper();
+  // heat_mapper->set_name("template_matching");
+
+  rapid::perception::RandomHeatMapper* heat_mapper =
+      new rapid::perception::RandomHeatMapper();
+  heat_mapper->set_name("random");
   heat_mapper->set_heatmap_publisher(heatmap_pub);
 
   // Build pose estimator

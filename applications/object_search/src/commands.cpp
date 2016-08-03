@@ -18,8 +18,7 @@
 #include "rapid_msgs/StaticCloud.h"
 #include "rapid_msgs/StaticCloudInfo.h"
 #include "rapid_perception/pose_estimation.h"
-#include "rapid_perception/fpfh_heat_mapper.h"
-#include "rapid_perception/template_matching_heat_mapper.h"
+#include "rapid_perception/random_heat_mapper.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "tf/transform_datatypes.h"
@@ -311,17 +310,27 @@ void RunCommand::UpdateParams() {
     // mapper->set_max_neighbors(max_neighbors);
     // mapper->set_cnn_layer(cnn_layer);
   } else if (estimator_->heat_mapper()->name() == "fpfh") {
-    rapid::perception::FpfhHeatMapper* mapper =
-        static_cast<rapid::perception::FpfhHeatMapper*>(
-            estimator_->heat_mapper());
-    mapper->set_sample_ratio(sample_ratio);
-    mapper->set_max_samples(max_samples);
-    mapper->set_max_sample_radius(max_sample_radius);
-    mapper->set_max_neighbors(max_neighbors);
-    mapper->set_feature_threshold(feature_threshold);
+    ROS_ERROR("FPFH heat mapper not enabled, update the code.");
+    return;
+    // rapid::perception::FpfhHeatMapper* mapper =
+    //    static_cast<rapid::perception::FpfhHeatMapper*>(
+    //        estimator_->heat_mapper());
+    // mapper->set_sample_ratio(sample_ratio);
+    // mapper->set_max_samples(max_samples);
+    // mapper->set_max_sample_radius(max_sample_radius);
+    // mapper->set_max_neighbors(max_neighbors);
+    // mapper->set_feature_threshold(feature_threshold);
   } else if (estimator_->heat_mapper()->name() == "template_matching") {
-    rapid::perception::TemplateMatchingHeatMapper* mapper =
-        static_cast<rapid::perception::TemplateMatchingHeatMapper*>(
+    ROS_ERROR("Template matching heat mapper not enabled, update the code.");
+    return;
+    // rapid::perception::TemplateMatchingHeatMapper* mapper =
+    //    static_cast<rapid::perception::TemplateMatchingHeatMapper*>(
+    //        estimator_->heat_mapper());
+    // mapper->set_sample_ratio(sample_ratio);
+    // mapper->set_max_samples(max_samples);
+  } else if (estimator_->heat_mapper()->name() == "random") {
+    rapid::perception::RandomHeatMapper* mapper =
+        static_cast<rapid::perception::RandomHeatMapper*>(
             estimator_->heat_mapper());
     mapper->set_sample_ratio(sample_ratio);
     mapper->set_max_samples(max_samples);
