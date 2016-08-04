@@ -4,12 +4,15 @@
 #include <vector>
 
 #include "Eigen/Core"
+#include "Eigen/Geometry"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "ros/ros.h"
+#include "visualization_msgs/Marker.h"
 
 #include "rapid_msgs/Roi3D.h"
 #include "rapid_perception/pose_estimation_heat_mapper.h"
+#include "rapid_ros/publisher.h"
 
 namespace rapid {
 namespace perception {
@@ -124,6 +127,8 @@ class PoseEstimator {
   void set_candidates_publisher(const ros::Publisher& pub);
   void set_alignment_publisher(const ros::Publisher& pub);
   void set_output_publisher(const ros::Publisher& pub);
+  void set_marker_publisher(
+      rapid_ros::Publisher<visualization_msgs::Marker>* pub);
 
   // Runs the pose estimation algorithm. It will return all matches whose
   // fitness are below the fitness threshold (lower fitness means a better
@@ -150,13 +155,14 @@ class PoseEstimator {
   void FilterMatches(const std::vector<PoseEstimationMatch>& aligned_objects,
                      const std::vector<int>& deduped_indices,
                      std::vector<int>* output_indices);
+  void GenerateRotations(std::vector<Eigen::Quaternionf>* rotations);
 
   PoseEstimationHeatMapper* heat_mapper_;
 
   // Source and target data structures
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene_;
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr object_;
-  Eigen::Vector3d object_center_;  // Approx center point of object.
+  Eigen::Vector3f object_center_;  // Approx center point of object.
   rapid_msgs::Roi3D object_roi_;
 
   // Parameters
@@ -180,6 +186,7 @@ class PoseEstimator {
   ros::Publisher candidates_pub_;
   ros::Publisher alignment_pub_;
   ros::Publisher output_pub_;
+  rapid_ros::Publisher<visualization_msgs::Marker>* marker_pub_;
 };
 
 // Set the color of a point cloud for visualization.

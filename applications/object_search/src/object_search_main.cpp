@@ -23,6 +23,7 @@
 #include "rapid_msgs/ListStaticClouds.h"
 #include "rapid_msgs/RemoveStaticCloud.h"
 #include "rapid_msgs/SaveStaticCloud.h"
+#include "rapid_ros/publisher.h"
 #include "ros/ros.h"
 #include "sensor_msgs/Image.h"
 #include "sensor_msgs/PointCloud2.h"
@@ -73,6 +74,9 @@ int main(int argc, char** argv) {
   ros::Publisher alignment_pub =
       nh.advertise<PointCloud2>("/alignment", 1, true);
   ros::Publisher output_pub = nh.advertise<PointCloud2>("/output", 1, true);
+  rapid_ros::Publisher<visualization_msgs::Marker> marker_pub(
+      nh.advertise<visualization_msgs::Marker>("/visualization_markers", 1,
+                                               true));
 
   // Build ROI server
   tf::TransformListener tf_listener;
@@ -95,6 +99,7 @@ int main(int argc, char** argv) {
 
   // Build pose estimator
   rapid::perception::PoseEstimator pose_estimator(heat_mapper);
+  pose_estimator.set_marker_publisher(&marker_pub);
 
   ListCommand list_objects(&object_db, "object");
   ListCommand list_scenes(&scene_db, "scene");

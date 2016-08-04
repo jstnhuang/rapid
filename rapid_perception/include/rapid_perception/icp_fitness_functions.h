@@ -5,6 +5,8 @@
 #include "pcl/point_types.h"
 
 #include "rapid_msgs/Roi3D.h"
+#include "rapid_ros/publisher.h"
+#include "visualization_msgs/Marker.h"
 
 namespace ros {
 class Publisher;
@@ -32,10 +34,11 @@ namespace perception {
 //  scene: The scene the object is in.
 //  object: The object to compute the score of.
 //  roi: The region of interest to get scene points from.
-double ComputeIcpFitness(pcl::PointCloud<pcl::PointXYZRGB>::Ptr& scene,
-                         pcl::PointCloud<pcl::PointXYZRGB>::Ptr& object,
-                         const rapid_msgs::Roi3D& roi, bool debug = false,
-                         ros::Publisher* pub = NULL);
+double ComputeIcpFitness(
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr& scene,
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr& object,
+    const rapid_msgs::Roi3D& roi, bool debug = false,
+    rapid_ros::Publisher<visualization_msgs::Marker>* pub = NULL);
 }  // namespace perception
 }  // namespace rapid
 

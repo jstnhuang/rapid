@@ -9,6 +9,13 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
 )
 
+find_package(Eigen REQUIRED)
+find_package(PCL REQUIRED)
+
+include_directories(${PCL_INCLUDE_DIRS})
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
+
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -100,11 +107,16 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES rapid_utils
+  LIBRARIES
+    rapid_utils_eigen_conversions
+    rapid_utils_pcl_conversions
+    rapid_utils
   CATKIN_DEPENDS
     geometry_msgs
     roscpp
-#  DEPENDS system_lib
+  DEPENDS
+    Eigen
+    PCL
 )
 
 ###########
@@ -119,7 +131,29 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-## Declare a C++ library
+add_library(rapid_utils_eigen_conversions
+  src/eigen_conversions.cpp
+)
+add_dependencies(rapid_utils_eigen_conversions
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(rapid_utils_eigen_conversions
+  ${catkin_LIBRARIES}
+)
+
+add_library(rapid_utils_pcl_conversions
+  src/pcl_conversions.cpp
+)
+add_dependencies(rapid_utils_pcl_conversions
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(rapid_utils_pcl_conversions
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}
+)
+
 add_library(rapid_utils
   src/math.cpp
   src/random.cpp

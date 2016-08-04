@@ -25,6 +25,8 @@
 #include "rapid_msgs/Roi3D.h"
 #include "rapid_perception/icp_fitness_functions.h"
 #include "rapid_perception/template_matching_heat_mapper.h"
+#include "rapid_utils/eigen_conversions.h"
+#include "rapid_utils/pcl_conversions.h"
 #include "rapid_utils/stochastic_universal_sampling.h"
 #include "rapid_viz/publish.h"
 
@@ -80,7 +82,8 @@ PoseEstimator::PoseEstimator(PoseEstimationHeatMapper* heat_mapper)
       debug_(false),
       candidates_pub_(),
       alignment_pub_(),
-      output_pub_() {}
+      output_pub_(),
+      marker_pub_(NULL) {}
 
 void PoseEstimator::set_scene(PointCloudC::Ptr scene) {
   scene_ = scene;
@@ -128,6 +131,10 @@ void PoseEstimator::set_alignment_publisher(const ros::Publisher& pub) {
 }
 void PoseEstimator::set_output_publisher(const ros::Publisher& pub) {
   output_pub_ = pub;
+}
+void PoseEstimator::set_marker_publisher(
+    rapid_ros::Publisher<visualization_msgs::Marker>* pub) {
+  marker_pub_ = pub;
 }
 
 void PoseEstimator::Find(vector<PoseEstimationMatch>* matches) {
@@ -264,47 +271,71 @@ void PoseEstimator::RunIcpCandidates(
   pcl::IterativeClosestPoint<PointC, PointC> icp;
   icp.setInputTarget(scene_);
   aligned_objects->clear();
+
+  // Compute object to base transform.
+  Eigen::Affine3f object_to_base;
+  object_to_base = Eigen::Translation3f(-object_center_);
+
+  pcl::PointXYZ roi_translation;
+  utils::GeometryMsgToPcl(object_roi_.transform.translation, &roi_translation);
+  Eigen::Quaternionf roi_rotation;
+  utils::GeometryMsgToEigen(object_roi_.transform.rotation, &roi_rotation);
+
   for (size_t ci = 0; ci < candidate_indices->indices.size(); ++ci) {
     int index = candidate_indices->indices[ci];
     const PointC& center = scene_->points[index];
     rapid_msgs::Roi3D roi = object_roi_;
+
+    Eigen::Affine3f base_to_candidate;
+    base_to_candidate = Eigen::Translation3f(center.x, center.y, center.z);
+
     // Transform the object to be centered on the center point
-    // So far we just use a translation offset
     // Also assume that the object and scene are in the same frame
-    Eigen::Vector3d translation;
-    translation.x() = center.x - object_center_.x();
-    translation.y() = center.y - object_center_.y();
-    translation.z() = center.z - object_center_.z();
-    pcl::transformPointCloud(*object_, *working_object, translation,
-                             Eigen::Quaterniond::Identity());
 
-    // Run ICP
-    icp.setInputSource(working_object);
-    icp.align(*aligned_object);
-    viz::PublishCloud(alignment_pub_, *aligned_object);
-    if (icp.hasConverged()) {
-      Eigen::Matrix4f final_transform = icp.getFinalTransformation();
-      roi.transform.translation.x += translation.x();
-      roi.transform.translation.y += translation.y();
-      roi.transform.translation.z += translation.z();
-      pcl::PointXYZ roi_pt;
-      roi_pt.x = roi.transform.translation.x;
-      roi_pt.y = roi.transform.translation.y;
-      roi_pt.z = roi.transform.translation.z;
-      Eigen::Affine3f affine(final_transform);
-      roi_pt = pcl::transformPoint(roi_pt, affine);
-      roi.transform.translation.x = roi_pt.x;
-      roi.transform.translation.y = roi_pt.y;
-      roi.transform.translation.z = roi_pt.z;
-      Eigen::Matrix3f rot_matrix(final_transform.topLeftCorner(3, 3));
-      Eigen::Quaternionf q(rot_matrix);
-      roi.transform.rotation.w = q.w();
-      roi.transform.rotation.x = q.x();
-      roi.transform.rotation.y = q.y();
-      roi.transform.rotation.z = q.z();
+    // Apply one of 8 rotations: 0/90 degree roll, 0/90 degree pitch, 0/90
+    // degree yaw
+    vector<Eigen::Quaternionf> rotations;
+    GenerateRotations(&rotations);
+    for (size_t rot_i = 0; rot_i < rotations.size(); ++rot_i) {
+      Eigen::Affine3f candidate_rotation = Eigen::Affine3f::Identity();
+      candidate_rotation *= rotations[rot_i];
 
-      double fitness = ComputeIcpFitness(scene_, aligned_object, roi);
-      aligned_objects->push_back(PoseEstimationMatch(aligned_object, fitness));
+      Eigen::Affine3f candidate_transform =
+          base_to_candidate * candidate_rotation * object_to_base;
+      pcl::transformPointCloud(*object_, *working_object, candidate_transform);
+      // if (debug_) {
+      //  viz::PublishCloud(alignment_pub_, *working_object);
+      //  std::cout << "Showing candidate object, press enter to continue";
+      //  string input;
+      //  std::getline(std::cin, input);
+      //}
+
+      // Run ICP
+      icp.setInputSource(working_object);
+      icp.align(*aligned_object);
+      viz::PublishCloud(alignment_pub_, *aligned_object);
+      if (icp.hasConverged()) {
+        Eigen::Matrix4f icp_transform = icp.getFinalTransformation();
+        Eigen::Affine3f icp_affine;
+        icp_affine = icp_transform;
+        Eigen::Affine3f final_affine = icp_affine * candidate_transform;
+
+        // Apply transform to ROI position
+        pcl::PointXYZ roi_pt =
+            pcl::transformPoint(roi_translation, final_affine);
+        utils::PclToGeometryMsg(roi_pt, &roi.transform.translation);
+
+        // Apply transform to ROI rotation
+        Eigen::Affine3f final_rotation = final_affine * roi_rotation;
+        Eigen::Quaternionf q;
+        q = final_rotation.rotation();
+        utils::EigenToGeometryMsg(q, &roi.transform.rotation);
+
+        double fitness =
+            ComputeIcpFitness(scene_, aligned_object, roi, debug_, marker_pub_);
+        aligned_objects->push_back(
+            PoseEstimationMatch(aligned_object, fitness));
+      }
     }
   }
 }
@@ -420,6 +451,20 @@ void PoseEstimator::FilterMatches(
       output_indices->push_back(index_score.first);
     }
   }
+}
+
+void PoseEstimator::GenerateRotations(
+    std::vector<Eigen::Quaternionf>* rotations) {
+  rotations->clear();
+  // for (double roll = 0; roll < 2 * M_PI - 0.01; roll += M_PI / 2) {
+  // for (double pitch = 0; pitch < M_PI / 2 + 0.01; pitch += M_PI / 2) {
+  //  for (double yaw = 0; yaw < M_PI / 2 + 0.01; yaw += M_PI / 2) {
+  Eigen::Affine3f affine = pcl::getTransformation(0, 0, 0, 0, 0, 0);
+  Eigen::Quaternionf q(affine.rotation());
+  rotations->push_back(q);
+  //}
+  //}
+  //}
 }
 
 void Colorize(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, double r, double g,

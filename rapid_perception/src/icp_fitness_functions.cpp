@@ -11,10 +11,13 @@
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "pcl/search/kdtree.h"
-#include "ros/ros.h"
 
 #include "rapid_msgs/Roi3D.h"
 #include "rapid_viz/publish.h"
+
+#include "geometry_msgs/PoseStamped.h"
+#include "geometry_msgs/Vector3.h"
+#include "rapid_viz/markers.h"
 
 typedef pcl::PointXYZRGB PointC;
 typedef pcl::PointCloud<PointC> PointCloudC;
@@ -23,9 +26,10 @@ using std::vector;
 
 namespace rapid {
 namespace perception {
-double ComputeIcpFitness(PointCloudC::Ptr& scene, PointCloudC::Ptr& object,
-                         const rapid_msgs::Roi3D& roi, bool debug,
-                         ros::Publisher* pub) {
+double ComputeIcpFitness(
+    PointCloudC::Ptr& scene, PointCloudC::Ptr& object,
+    const rapid_msgs::Roi3D& roi, bool debug,
+    rapid_ros::Publisher<visualization_msgs::Marker>* pub) {
   Eigen::Vector4f min;
   min.x() = -roi.dimensions.x / 2;
   min.y() = -roi.dimensions.y / 2;
@@ -58,34 +62,28 @@ double ComputeIcpFitness(PointCloudC::Ptr& scene, PointCloudC::Ptr& object,
   pcl::IndicesPtr indices(new vector<int>);
   crop.filter(*indices);
 
-  if (debug && pub != NULL) {
-    std::string input;
-    PointCloudC cropped;
-    crop.filter(cropped);
-    viz::PublishCloud(*pub, cropped);
-    std::cout << "Press enter to finish viewing cropped area" << std::endl;
-    std::getline(std::cin, input);
-  }
-
   vector<bool> visited(object->size());
   PointCTree object_tree;
   object_tree.setInputCloud(object);
   vector<int> nn_indices(1);
   vector<float> nn_dists(1);
   double fitness = 0;
-  int denominator = static_cast<int>(indices->size());
+  int denominator = 0;
   for (size_t index_i = 0; index_i < indices->size(); ++index_i) {
     int index = indices->at(index_i);
     const PointC& scene_pt = scene->at(index);
     object_tree.nearestKSearch(scene_pt, 1, nn_indices, nn_dists);
-    fitness += sqrt(nn_dists[0]);
+    double distance = sqrt(nn_dists[0]);
+    if (distance < 0.05) {
+      fitness += distance;
+      ++denominator;
+    }
     visited[nn_indices[0]] = true;
   }
 
   // Compute distance for unvisited object points
   bool scene_tree_built = false;
   PointCTree scene_tree;
-  int num_visited = 0;
   for (size_t i = 0; i < visited.size(); ++i) {
     if (!visited[i]) {
       if (!scene_tree_built) {
@@ -94,14 +92,39 @@ double ComputeIcpFitness(PointCloudC::Ptr& scene, PointCloudC::Ptr& object,
       }
       const PointC& obj_pt = object->at(i);
       scene_tree.nearestKSearch(obj_pt, 1, nn_indices, nn_dists);
-      fitness += sqrt(nn_dists[0]);
-      ++denominator;
-    } else {
-      ++num_visited;
+      double distance = sqrt(nn_dists[0]);
+      if (distance < 0.05) {
+        fitness += distance;
+        ++denominator;
+      }
     }
   }
 
   fitness /= denominator;
+
+  if (debug && pub != NULL) {
+    geometry_msgs::PoseStamped ps;
+    ps.header.frame_id = object->header.frame_id;
+    ps.pose.position.x = translation.x();
+    ps.pose.position.y = translation.y();
+    ps.pose.position.z = translation.z();
+    ps.pose.orientation.w = rotation.w();
+    ps.pose.orientation.x = rotation.x();
+    ps.pose.orientation.y = rotation.y();
+    ps.pose.orientation.z = rotation.z();
+    geometry_msgs::Vector3 scale;
+    scale.x = roi.dimensions.x;
+    scale.y = roi.dimensions.y;
+    scale.z = roi.dimensions.z;
+    viz::Marker box = viz::Marker::Box(pub, ps, scale);
+    box.SetColor(1, 0, 0, 0.25);
+    box.Publish();
+    std::string input;
+    std::cout << "Fitness: " << fitness
+              << ". Press enter to continue: " << std::endl;
+    std::getline(std::cin, input);
+  }
+
   return fitness;
 }
 }  // namespace perception
