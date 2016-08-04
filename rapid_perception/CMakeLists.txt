@@ -505,6 +505,11 @@ if(CATKIN_ENABLE_TESTING)
     rapid_perception_scene_viz
     ${catkin_LIBRARIES}
   )
+  catkin_add_gtest(rapid_perception_icp_fitness_functions_test test/icp_fitness_functions_test.cpp)
+  target_link_libraries(rapid_perception_icp_fitness_functions_test
+    rapid_perception_icp_fitness_functions
+    ${catkin_LIBRARIES}
+  )
 endif()
 
 ## Add folders to be run by python nosetests
