@@ -82,9 +82,13 @@ bool ObjectSearchNode::Serve(object_search_msgs::SearchRequest& req,
   for (size_t i = 0; i < matches.size(); ++i) {
     const rapid::perception::PoseEstimationMatch& match = matches[i];
     object_search_msgs::Match msg;
-    msg.transform.translation.x = match.center().x;
-    msg.transform.translation.y = match.center().y;
-    msg.transform.translation.z = match.center().z;
+    msg.transform.translation.x = match.translation().x();
+    msg.transform.translation.y = match.translation().y();
+    msg.transform.translation.z = match.translation().z();
+    msg.transform.rotation.w = match.rotation().w();
+    msg.transform.rotation.x = match.rotation().x();
+    msg.transform.rotation.y = match.rotation().y();
+    msg.transform.rotation.z = match.rotation().z();
     pcl::toROSMsg(*match.cloud(), msg.cloud);
     msg.error = match.fitness();
   }
@@ -169,6 +173,8 @@ int main(int argc, char** argv) {
 
   // Build pose estimator
   rapid::perception::PoseEstimator pose_estimator(heat_mapper);
+  pose_estimator.set_scene_publisher(scene_pub);
+  pose_estimator.set_object_publisher(object_pub);
   pose_estimator.set_candidates_publisher(candidates_pub);
   pose_estimator.set_alignment_publisher(alignment_pub);
   pose_estimator.set_output_publisher(output_pub);

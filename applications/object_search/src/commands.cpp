@@ -133,8 +133,8 @@ void DeleteCommand::Execute(std::vector<std::string>& args) {
 
 UseCommand::UseCommand(Database* db,
                        rapid::perception::PoseEstimator* estimator,
-                       const std::string& type, const ros::Publisher& pub)
-    : db_(db), estimator_(estimator), type_(type), pub_(pub) {}
+                       const std::string& type)
+    : db_(db), estimator_(estimator), type_(type) {}
 
 void UseCommand::Execute(std::vector<std::string>& args) {
   StaticCloud cloud;
@@ -203,12 +203,6 @@ void UseCommand::Execute(std::vector<std::string>& args) {
     extract.filter(*pcl_cloud_base);
   }
 
-  // Visualize object/scene
-  sensor_msgs::PointCloud2 viz;
-  pcl::toROSMsg(*pcl_cloud_base, viz);
-  viz.header.stamp = ros::Time::now();
-  pub_.publish(viz);
-
   if (type_ == "object") {
     estimator_->set_object(pcl_cloud_base, cloud.roi);
   } else {
@@ -248,15 +242,8 @@ void UseCommand::CropScene(PointCloud<PointXYZRGB>::Ptr scene,
   ROS_INFO("Cropped to %ld points", indices->size());
 }
 
-RunCommand::RunCommand(rapid::perception::PoseEstimator* estimator,
-                       const ros::Publisher& candidates_pub,
-                       const ros::Publisher& alignment_pub,
-                       const ros::Publisher& output_pub)
-    : estimator_(estimator) {
-  estimator_->set_candidates_publisher(candidates_pub);
-  estimator_->set_alignment_publisher(alignment_pub);
-  estimator_->set_output_publisher(output_pub);
-}
+RunCommand::RunCommand(rapid::perception::PoseEstimator* estimator)
+    : estimator_(estimator) {}
 
 void RunCommand::Execute(std::vector<std::string>& args) {
   UpdateParams();

@@ -99,6 +99,11 @@ int main(int argc, char** argv) {
 
   // Build pose estimator
   rapid::perception::PoseEstimator pose_estimator(heat_mapper);
+  pose_estimator.set_scene_publisher(scene_pub);
+  pose_estimator.set_object_publisher(object_pub);
+  pose_estimator.set_candidates_publisher(candidates_pub);
+  pose_estimator.set_alignment_publisher(alignment_pub);
+  pose_estimator.set_output_publisher(output_pub);
   pose_estimator.set_marker_publisher(&marker_pub);
 
   ListCommand list_objects(&object_db, "object");
@@ -107,9 +112,9 @@ int main(int argc, char** argv) {
   RecordSceneCommand record_scene(&scene_db);
   DeleteCommand delete_object(&object_db);
   DeleteCommand delete_scene(&scene_db);
-  UseCommand use_object(&object_db, &pose_estimator, "object", object_pub);
-  UseCommand use_scene(&scene_db, &pose_estimator, "scene", scene_pub);
-  RunCommand run(&pose_estimator, candidates_pub, alignment_pub, output_pub);
+  UseCommand use_object(&object_db, &pose_estimator, "object");
+  UseCommand use_scene(&scene_db, &pose_estimator, "scene");
+  RunCommand run(&pose_estimator);
   SetDebugCommand set_debug(&pose_estimator);
 
   CommandLine cli;

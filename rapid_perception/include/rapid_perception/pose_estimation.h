@@ -21,14 +21,21 @@ class PoseEstimationMatch {
   // Do not use default constructor except to initialize empty objects.
   PoseEstimationMatch();
   PoseEstimationMatch(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud,
-                      double fitness);
+                      const Eigen::Affine3f& transform, double fitness);
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud() const;
+  // Returns the center point of the point cloud
   pcl::PointXYZ center() const;
+  // Returns the translation from the input object to the aligned output.
+  Eigen::Vector3f translation() const;
+  // Returns the rotation from the input object to the aligned output.
+  Eigen::Quaternionf rotation() const;
+  // Returns the ICP fitness score (lower score is a better match).
   double fitness() const;
   void set_fitness(double fitness);
 
  private:
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_;
+  Eigen::Affine3f transform_;
   pcl::PointXYZ center_;
   double fitness_;
 };
@@ -124,6 +131,8 @@ class PoseEstimator {
   void set_debug(bool val);
 
   // Setters for visualization publishers
+  void set_scene_publisher(const ros::Publisher& pub);
+  void set_object_publisher(const ros::Publisher& pub);
   void set_candidates_publisher(const ros::Publisher& pub);
   void set_alignment_publisher(const ros::Publisher& pub);
   void set_output_publisher(const ros::Publisher& pub);
@@ -183,6 +192,8 @@ class PoseEstimator {
   bool debug_;
 
   // Visualization publishers
+  ros::Publisher scene_pub_;
+  ros::Publisher object_pub_;
   ros::Publisher candidates_pub_;
   ros::Publisher alignment_pub_;
   ros::Publisher output_pub_;

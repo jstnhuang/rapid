@@ -48,8 +48,10 @@ namespace perception {
 PoseEstimationMatch::PoseEstimationMatch()
     : cloud_(new PointCloudC), fitness_(std::numeric_limits<double>::max()) {}
 
-PoseEstimationMatch::PoseEstimationMatch(PointCloudC::Ptr cloud, double fitness)
-    : cloud_(new PointCloudC), fitness_(fitness) {
+PoseEstimationMatch::PoseEstimationMatch(PointCloudC::Ptr cloud,
+                                         const Eigen::Affine3f& transform,
+                                         double fitness)
+    : cloud_(new PointCloudC), transform_(transform), fitness_(fitness) {
   *cloud_ = *cloud;
   Eigen::Vector4f min_pt;
   Eigen::Vector4f max_pt;
@@ -64,6 +66,16 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr PoseEstimationMatch::cloud() const {
 }
 
 pcl::PointXYZ PoseEstimationMatch::center() const { return center_; }
+
+Eigen::Vector3f PoseEstimationMatch::translation() const {
+  return transform_.translation();
+}
+
+Eigen::Quaternionf PoseEstimationMatch::rotation() const {
+  Eigen::Quaternionf q;
+  q = transform_.rotation();
+  return q;
+}
 
 double PoseEstimationMatch::fitness() const { return fitness_; }
 
@@ -88,6 +100,7 @@ PoseEstimator::PoseEstimator(PoseEstimationHeatMapper* heat_mapper)
 void PoseEstimator::set_scene(PointCloudC::Ptr scene) {
   scene_ = scene;
   heat_mapper_->set_scene(scene);
+  viz::PublishCloud(scene_pub_, *scene);
 }
 
 void PoseEstimator::set_object(
@@ -107,6 +120,8 @@ void PoseEstimator::set_object(
   if (heat_mapper_->name() == "template_matching") {
     static_cast<TemplateMatchingHeatMapper*>(heat_mapper_)->set_object_roi(roi);
   }
+
+  viz::PublishCloud(object_pub_, *object);
 }
 
 PoseEstimationHeatMapper* PoseEstimator::heat_mapper() { return heat_mapper_; }
@@ -123,6 +138,12 @@ void PoseEstimator::set_fitness_threshold(double val) {
 }
 void PoseEstimator::set_min_results(int val) { min_results_ = val; }
 
+void PoseEstimator::set_scene_publisher(const ros::Publisher& pub) {
+  scene_pub_ = pub;
+}
+void PoseEstimator::set_object_publisher(const ros::Publisher& pub) {
+  object_pub_ = pub;
+}
 void PoseEstimator::set_candidates_publisher(const ros::Publisher& pub) {
   candidates_pub_ = pub;
 }
@@ -334,7 +355,7 @@ void PoseEstimator::RunIcpCandidates(
         double fitness =
             ComputeIcpFitness(scene_, aligned_object, roi, debug_, marker_pub_);
         aligned_objects->push_back(
-            PoseEstimationMatch(aligned_object, fitness));
+            PoseEstimationMatch(aligned_object, final_affine, fitness));
       }
     }
   }
