@@ -10,6 +10,7 @@
   <depend>libpcl-all-dev</depend>
   <depend>mongo_msg_db</depend>
   <depend>mongo_msg_db_msgs</depend>
+  <depend>object_search_msgs</depend>
   <depend>pcl_conversions</depend>
   <depend>pcl_ros</depend>
   <depend>rapid_perception</depend>

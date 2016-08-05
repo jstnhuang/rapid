@@ -1,0 +1,19 @@
+# Find an object in a scene.
+# All point clouds and measurements are in the robot's base frame.
+
+# The scene to search in. The object should be roughly in the center of the scene.
+# The point cloud can be in any frame, but you must specify the transform from the base frame to the camera frame.
+# The ROI is unused, feel free to leave it empty.
+# Cropping parameters are set using rosparam, and are given in the base frame of the robot.
+rapid_msgs/StaticCloud scene 
+
+# The object to search for.
+# The ROI is expected to be in the base frame. It surrounds the object, and also specifies how much empty space to search for around the object.
+# The object point cloud can be in any frame, but you must specify the transform from the base frame to the camera frame so that the object can be transformed into the base frame.
+rapid_msgs/StaticCloud object 
+
+bool is_tabletop # Set to true if the algorithm can assume that the given scene is a tabletop scene
+float64 max_error # Will return all matches whose error is less than max_error.
+int32 min_results # Return at least min_results, even if some or all matches have error above max_error.
+---
+object_search_msgs/Match[] matches # Sorted in increasing order of error.

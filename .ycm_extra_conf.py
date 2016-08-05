@@ -77,7 +77,9 @@ flags = [
 '-I',
 'rapid_viz/include',
 '-I',
-'applications/object_search/include'
+'applications/object_search/include',
+'-I',
+'applications/object_search_msgs/include'
 ]
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
