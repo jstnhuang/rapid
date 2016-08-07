@@ -1,0 +1,4 @@
+string name # The name to save the object to.
+---
+bool success # True if the user saved the object, false if they canceled.
+string db_id # The ID in MongoDB where the the object was saved.
