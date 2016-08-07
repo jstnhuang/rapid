@@ -4,17 +4,23 @@
 #include <string>
 
 #include "geometry_msgs/Transform.h"
-#include "object_search_msgs/Search.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "rapid_perception/pose_estimation.h"
 
+#include "object_search/commands.h"
+#include "object_search_msgs/RecordObject.h"
+#include "object_search_msgs/Search.h"
+
 namespace object_search {
 class ObjectSearchNode {
  public:
-  ObjectSearchNode(const rapid::perception::PoseEstimator& estimator);
-  bool Serve(object_search_msgs::SearchRequest& req,
-             object_search_msgs::SearchResponse& resp);
+  ObjectSearchNode(const rapid::perception::PoseEstimator& estimator,
+                   const RecordObjectCommand& record_object);
+  bool ServeRecordObject(object_search_msgs::RecordObjectRequest& req,
+                         object_search_msgs::RecordObjectResponse& resp);
+  bool ServeSearch(object_search_msgs::SearchRequest& req,
+                   object_search_msgs::SearchResponse& resp);
 
  private:
   void UpdateParams();
@@ -27,6 +33,7 @@ class ObjectSearchNode {
   void CropScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene);
 
   rapid::perception::PoseEstimator estimator_;
+  RecordObjectCommand record_object_;
 
   // Parameters
   // Voxelization

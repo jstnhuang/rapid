@@ -1,10 +1,17 @@
 #include "object_search/object_search_node.h"
 
+#include <string>
+#include <vector>
+
 #include "pcl/filters/voxel_grid.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "pcl_conversions/pcl_conversions.h"
 #include "pcl_ros/transforms.h"
+#include "rapid_msgs/GetStaticCloud.h"
+#include "rapid_msgs/ListStaticClouds.h"
+#include "rapid_msgs/RemoveStaticCloud.h"
+#include "rapid_msgs/SaveStaticCloud.h"
 #include "rapid_perception/pose_estimation.h"
 #include "rapid_perception/random_heat_mapper.h"
 #include "rapid_ros/publisher.h"
@@ -15,14 +22,19 @@
 
 #include "object_search_msgs/Match.h"
 #include "object_search_msgs/Search.h"
+#include "object_search/capture_roi.h"
+#include "object_search/commands.h"
+#include "object_search/cloud_database.h"
 
 typedef pcl::PointXYZRGB PointC;
 typedef pcl::PointCloud<pcl::PointXYZRGB> PointCloudC;
 
 namespace object_search {
 ObjectSearchNode::ObjectSearchNode(
-    const rapid::perception::PoseEstimator& estimator)
+    const rapid::perception::PoseEstimator& estimator,
+    const RecordObjectCommand& record_object)
     : estimator_(estimator),
+      record_object_(record_object),
       leaf_size_(0.005),
       min_x_(0.2),
       min_y_(-1),
@@ -36,8 +48,19 @@ ObjectSearchNode::ObjectSearchNode(
       sigma_threshold_(8),
       nms_radius_(0.02) {}
 
-bool ObjectSearchNode::Serve(object_search_msgs::SearchRequest& req,
-                             object_search_msgs::SearchResponse& resp) {
+bool ObjectSearchNode::ServeRecordObject(
+    object_search_msgs::RecordObjectRequest& req,
+    object_search_msgs::RecordObjectResponse& resp) {
+  std::vector<std::string> args(1);
+  args.push_back(req.name);
+  record_object_.Execute(args);
+  resp.success = record_object_.last_id() != "";
+  resp.db_id = record_object_.last_id();
+  return true;
+}
+
+bool ObjectSearchNode::ServeSearch(object_search_msgs::SearchRequest& req,
+                                   object_search_msgs::SearchResponse& resp) {
   UpdateParams();
 
   PointCloudC::Ptr scene_in(new PointCloudC);
@@ -147,6 +170,8 @@ void ObjectSearchNode::CropScene(PointCloudC::Ptr scene) {
 int main(int argc, char** argv) {
   ros::init(argc, argv, "object_search_service");
   ros::NodeHandle nh;
+  ros::AsyncSpinner spinner(4);
+  spinner.start();
 
   // Visualization publishers
   ros::Publisher object_pub =
@@ -180,9 +205,32 @@ int main(int argc, char** argv) {
   pose_estimator.set_output_publisher(output_pub);
   pose_estimator.set_marker_publisher(&marker_pub);
 
-  object_search::ObjectSearchNode node(pose_estimator);
-  ros::ServiceServer service = nh.advertiseService(
-      "find_object", &object_search::ObjectSearchNode::Serve, &node);
-  ros::spin();
+  // Build databases
+  ros::ServiceClient get_cloud =
+      nh.serviceClient<rapid_msgs::GetStaticCloud>("get_static_cloud");
+  ros::ServiceClient list_clouds =
+      nh.serviceClient<rapid_msgs::ListStaticClouds>("list_static_clouds");
+  ros::ServiceClient remove_cloud =
+      nh.serviceClient<rapid_msgs::RemoveStaticCloud>("remove_static_cloud");
+  ros::ServiceClient save_cloud =
+      nh.serviceClient<rapid_msgs::SaveStaticCloud>("save_static_cloud");
+  object_search::Database object_db("object_search", "objects", get_cloud,
+                                    list_clouds, remove_cloud, save_cloud);
+
+  rapid::perception::Box3DRoiServer roi_server("roi");
+  roi_server.set_base_frame("base_link");
+  object_search::CaptureRoi capture(&roi_server);
+  capture.set_base_frame("base_link");
+  object_search::RecordObjectCommand record_object(&object_db, &capture);
+
+  object_search::ObjectSearchNode node(pose_estimator, record_object);
+  ros::ServiceServer search_service = nh.advertiseService(
+      "find_object", &object_search::ObjectSearchNode::ServeSearch, &node);
+  ros::ServiceServer record_object_service = nh.advertiseService(
+      "record_object", &object_search::ObjectSearchNode::ServeRecordObject,
+      &node);
+
+  ros::waitForShutdown();
+  spinner.stop();
   return 0;
 }
