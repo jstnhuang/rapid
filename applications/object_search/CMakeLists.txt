@@ -117,7 +117,11 @@ add_definitions(${PCL_DEFINITIONS})
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-#  LIBRARIES object_search
+  LIBRARIES
+    object_search_capture_roi
+    object_search_cloud_database
+    object_search_command_line
+    object_search_commands
   CATKIN_DEPENDS
     mongo_msg_db
     mongo_msg_db_msgs
@@ -150,33 +154,73 @@ include_directories(
   ${PCL_INCLUDE_DIRS}
 )
 
+add_library(object_search_capture_roi
+  src/capture_roi.cpp)
+add_dependencies(object_search_capture_roi
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS})
+target_link_libraries(object_search_capture_roi
+  ${catkin_LIBRARIES}
+  ${pcl_LIBRARIES})
+
+add_library(object_search_cloud_database
+  src/cloud_database.cpp)
+add_dependencies(object_search_cloud_database
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS})
+target_link_libraries(object_search_cloud_database
+  ${catkin_LIBRARIES}
+  ${pcl_LIBRARIES})
+
+add_library(object_search_commands
+  src/commands.cpp)
+add_dependencies(object_search_commands
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS})
+target_link_libraries(object_search_commands
+  ${catkin_LIBRARIES}
+  ${pcl_LIBRARIES})
+
+add_library(object_search_command_line
+  src/command_line.cpp)
+add_dependencies(object_search_command_line
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS})
+target_link_libraries(object_search_command_line
+  ${catkin_LIBRARIES}
+  ${pcl_LIBRARIES})
+
 add_executable(object_search_main
-  src/capture_roi.cpp
-  src/object_search_main.cpp
-  src/cloud_database.cpp
-  src/command_line.cpp
-  src/commands.cpp
-)
+  src/object_search_main.cpp)
 add_dependencies(object_search_main
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
-)
+  object_search_capture_roi
+  object_search_cloud_database
+  object_search_command_line
+  object_search_commands)
 target_link_libraries(object_search_main
   ${catkin_LIBRARIES}
   ${pcl_LIBRARIES}
-)
+  object_search_capture_roi
+  object_search_cloud_database
+  object_search_command_line
+  object_search_commands)
 
 add_executable(object_search_service_node
-  src/object_search_node.cpp
-)
+  src/object_search_node.cpp)
 add_dependencies(object_search_service_node
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
-)
+  object_search_capture_roi
+  object_search_cloud_database
+  object_search_commands)
 target_link_libraries(object_search_service_node
   ${catkin_LIBRARIES}
   ${pcl_LIBRARIES}
-)
+  object_search_capture_roi
+  object_search_cloud_database
+  object_search_commands)
 
 #############
 ## Install ##
