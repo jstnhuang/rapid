@@ -1,21 +1,11 @@
 #include <iostream>
 #include <string>
-#include <vector>
 
-#include "pcl/common/time.h"
-#include "pcl/features/fpfh_omp.h"
-#include "pcl/features/normal_3d_omp.h"
-#include "pcl/filters/crop_box.h"
 #include "pcl/filters/filter.h"
-#include "pcl/filters/voxel_grid.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
-#include "pcl/registration/icp.h"
-#include "pcl/registration/sample_consensus_prerejective.h"
-#include "pcl/segmentation/sac_segmentation.h"
 #include "pcl_conversions/pcl_conversions.h"
 #include "pcl_ros/transforms.h"
-#include "rapid_perception/pr2.h"
 #include "rapid_perception/box3d_roi_server.h"
 #include "rapid_perception/pose_estimation.h"
 #include "rapid_perception/random_heat_mapper.h"
@@ -25,7 +15,6 @@
 #include "rapid_msgs/SaveStaticCloud.h"
 #include "rapid_ros/publisher.h"
 #include "ros/ros.h"
-#include "sensor_msgs/Image.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "visualization_msgs/Marker.h"
 
@@ -34,14 +23,10 @@
 #include "object_search/command_line.h"
 #include "object_search/cloud_database.h"
 
-using sensor_msgs::Image;
 using sensor_msgs::PointCloud2;
-using pcl::FPFHSignature33;
 using pcl::PointCloud;
 using pcl::PointXYZRGB;
-using pcl::PointXYZRGBNormal;
 using visualization_msgs::Marker;
-namespace rp = rapid::perception;
 
 using namespace object_search;
 
@@ -79,7 +64,6 @@ int main(int argc, char** argv) {
                                                true));
 
   // Build ROI server
-  tf::TransformListener tf_listener;
   rapid::perception::Box3DRoiServer roi_server("roi");
   CaptureRoi capture(&roi_server);
 
