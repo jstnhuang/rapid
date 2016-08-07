@@ -21,14 +21,15 @@ CaptureRoi::CaptureRoi(rapid::perception::Box3DRoiServer* marker_server)
       marker_server_(marker_server),
       pcl_cloud_(new pcl::PointCloud<pcl::PointXYZRGB>()),
       cloud_to_base_(),
-      roi_() {}
+      roi_(),
+      base_frame_("base_footprint") {}
 
 void CaptureRoi::ShowMarker() { marker_server_->Start(); }
 void CaptureRoi::HideMarker() { marker_server_->Stop(); }
 
 void CaptureRoi::set_cloud(sensor_msgs::PointCloud2ConstPtr cloud) {
   try {
-    tf_listener_.lookupTransform("base_footprint", cloud->header.frame_id,
+    tf_listener_.lookupTransform(base_frame_, cloud->header.frame_id,
                                  cloud->header.stamp, cloud_to_base_);
   } catch (tf::TransformException e) {
     ROS_WARN("%s", e.what());
@@ -78,4 +79,8 @@ void CaptureRoi::Capture(sensor_msgs::PointCloud2* cloud_out) {
 tf::StampedTransform CaptureRoi::cloud_to_base() { return cloud_to_base_; }
 
 rapid_msgs::Roi3D CaptureRoi::roi() { return roi_; }
+
+void CaptureRoi::set_base_frame(const std::string& base_frame) {
+  base_frame_ = base_frame;
+}
 }  // namespace object_search

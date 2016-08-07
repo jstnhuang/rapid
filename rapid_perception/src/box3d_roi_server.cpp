@@ -21,7 +21,8 @@ using visualization_msgs::Marker;
 namespace rapid {
 namespace perception {
 Box3DRoiServer::Box3DRoiServer(const std::string& topic)
-    : server_(new InteractiveMarkerServer(topic)) {}
+    : server_(new InteractiveMarkerServer(topic)),
+      base_frame_("base_footprint") {}
 
 Box3DRoiServer::~Box3DRoiServer() {
   if (server_ != NULL) {
@@ -50,7 +51,7 @@ InteractiveMarker Box3DRoiServer::Box(double x, double y, double z,
   InteractiveMarker marker;
   marker.name = "box";
   marker.controls.push_back(control);
-  marker.header.frame_id = "base_footprint";
+  marker.header.frame_id = base_frame_;
   marker.pose.position.x = x;
   marker.pose.position.y = y;
   marker.pose.position.z = z;
@@ -145,7 +146,7 @@ InteractiveMarker Box3DRoiServer::Arrow(const std::string& dim,
   InteractiveMarker marker;
   marker.name = polarity + "_" + dim;
   marker.controls.push_back(control);
-  marker.header.frame_id = "base_footprint";
+  marker.header.frame_id = base_frame_;
   marker.pose.position.x = box_x;
   marker.pose.position.y = box_y;
   marker.pose.position.z = box_z;
@@ -275,5 +276,8 @@ void Box3DRoiServer::Feedback(
 
 rapid_msgs::Roi3D Box3DRoiServer::roi() { return roi_; }
 
+void Box3DRoiServer::set_base_frame(const std::string& base_frame) {
+  base_frame_ = base_frame;
+}
 }  // namespace perception
 }  // namespace rapid

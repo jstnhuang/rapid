@@ -1,6 +1,8 @@
 #ifndef _OBJECT_SEARCH_CAPTURE_ROI_H_
 #define _OBJECT_SEARCH_CAPTURE_ROI_H_
 
+#include <string>
+
 #include "geometry_msgs/Transform.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
@@ -35,6 +37,7 @@ class CaptureRoi {
   void Capture(sensor_msgs::PointCloud2* cloud_out);
   tf::StampedTransform cloud_to_base();
   rapid_msgs::Roi3D roi();
+  void set_base_frame(const std::string& base_frame);
 
  private:
   tf::TransformListener tf_listener_;
@@ -42,6 +45,7 @@ class CaptureRoi {
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_cloud_;
   tf::StampedTransform cloud_to_base_;
   rapid_msgs::Roi3D roi_;
+  std::string base_frame_;
 };
 }  // namespace object_search
 

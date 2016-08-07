@@ -19,6 +19,7 @@ class Box3DRoiServer {
   void Start();
   void Stop();
   rapid_msgs::Roi3D roi();
+  void set_base_frame(const std::string& base_frame);
 
  private:
   void Feedback(
@@ -35,6 +36,7 @@ class Box3DRoiServer {
               const geometry_msgs::Point& point);
   interactive_markers::InteractiveMarkerServer* server_;
   rapid_msgs::Roi3D roi_;
+  std::string base_frame_;
 };
 }  // namespace perception
 }  // namespace rapid
