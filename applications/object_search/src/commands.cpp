@@ -62,17 +62,28 @@ void ListCommand::Execute(vector<string>& args) {
 }
 
 RecordObjectCommand::RecordObjectCommand(Database* db, CaptureRoi* capture)
-    : db_(db), capture_(capture), tf_listener_() {}
+    : db_(db), capture_(capture) {}
 
 void RecordObjectCommand::Execute(std::vector<std::string>& args) {
+  last_id_ = "";  // Reset ID
+
   // Start server and wait for input
   capture_->ShowMarker();
   cout << "Adjust the ROI marker in rviz." << endl;
-  cout << "Type \"save\" or anything else to cancel: ";
-  string input;
-  std::getline(std::cin, input);
+
+  string name("");
+  string input("");
+  if (args.size() == 0 && args[0] != "") {
+    name = args[0];
+    cout << "Type \"save\" to save or \"cancel\" to cancel: ";
+    std::getline(std::cin, input);
+  } else {
+    cout << "Give this landmark a name, or type \"cancel\" to cancel: ";
+    std::getline(std::cin, input);
+    name = input;
+  }
   capture_->HideMarker();
-  if (input != "save") {
+  if (input == "cancel") {
     return;
   }
 
@@ -84,16 +95,19 @@ void RecordObjectCommand::Execute(std::vector<std::string>& args) {
   capture_->Capture(&static_cloud.cloud);
 
   // Get transform
-  static_cloud.parent_frame_id = "base_footprint";
+  static_cloud.parent_frame_id = capture_->base_frame();
   tf::transformTFToMsg(capture_->cloud_to_base().inverse(),
                        static_cloud.base_to_camera);
   static_cloud.roi = capture_->roi();
 
   // Save static cloud
-  static_cloud.name = args[0];
-  string id = db_->Save(static_cloud);
-  std::cout << "Saved " << static_cloud.name << " with ID " << id << std::endl;
+  static_cloud.name = name;
+  last_id_ = db_->Save(static_cloud);
+  std::cout << "Saved " << static_cloud.name << " with ID " << last_id_
+            << std::endl;
 }
+
+std::string RecordObjectCommand::last_id() { return last_id_; }
 
 RecordSceneCommand::RecordSceneCommand(Database* db)
     : db_(db), tf_listener_() {}
@@ -243,13 +257,18 @@ void UseCommand::CropScene(PointCloud<PointXYZRGB>::Ptr scene,
 }
 
 RunCommand::RunCommand(rapid::perception::PoseEstimator* estimator)
-    : estimator_(estimator) {}
+    : estimator_(estimator), matches_() {}
 
 void RunCommand::Execute(std::vector<std::string>& args) {
   UpdateParams();
   pcl::ScopeTime timer("Running algorithm");
-  vector<PoseEstimationMatch> matches;
-  estimator_->Find(&matches);
+  matches_.clear();
+  estimator_->Find(&matches_);
+}
+
+void RunCommand::matches(
+    std::vector<rapid::perception::PoseEstimationMatch>* matches) {
+  *matches = matches_;
 }
 
 void RunCommand::UpdateParams() {

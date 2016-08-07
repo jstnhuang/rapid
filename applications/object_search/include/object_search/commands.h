@@ -12,6 +12,7 @@
 namespace rapid {
 namespace perception {
 class PoseEstimator;
+class PoseEstimationMatch;
 }
 }
 
@@ -39,16 +40,17 @@ class RecordObjectCommand : public Command {
  public:
   RecordObjectCommand(Database* db, CaptureRoi* capture);
   void Execute(std::vector<std::string>& args);
+  std::string last_id();
 
  private:
   Database* db_;
   CaptureRoi* capture_;
-  tf::TransformListener tf_listener_;
+  std::string last_id_;  // Most recent ID saved.
 };
 
 class RecordSceneCommand : public Command {
  public:
-  RecordSceneCommand(Database* db);
+  explicit RecordSceneCommand(Database* db);
   void Execute(std::vector<std::string>& args);
 
  private:
@@ -84,10 +86,12 @@ class RunCommand : public Command {
  public:
   RunCommand(rapid::perception::PoseEstimator* estimator);
   void Execute(std::vector<std::string>& args);
+  void matches(std::vector<rapid::perception::PoseEstimationMatch>* matches);
 
  private:
   void UpdateParams();
   rapid::perception::PoseEstimator* estimator_;
+  std::vector<rapid::perception::PoseEstimationMatch> matches_;
 };
 
 class SetDebugCommand : public Command {
