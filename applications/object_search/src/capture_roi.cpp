@@ -83,4 +83,6 @@ rapid_msgs::Roi3D CaptureRoi::roi() { return roi_; }
 void CaptureRoi::set_base_frame(const std::string& base_frame) {
   base_frame_ = base_frame;
 }
+
+std::string CaptureRoi::base_frame() const { return base_frame_; }
 }  // namespace object_search

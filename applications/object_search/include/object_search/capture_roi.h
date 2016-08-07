@@ -38,6 +38,7 @@ class CaptureRoi {
   tf::StampedTransform cloud_to_base();
   rapid_msgs::Roi3D roi();
   void set_base_frame(const std::string& base_frame);
+  std::string base_frame() const;
 
  private:
   tf::TransformListener tf_listener_;
