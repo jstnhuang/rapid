@@ -91,14 +91,17 @@ bool ObjectSearchNode::ServeSearch(object_search_msgs::SearchRequest& req,
   heat_mapper->set_sample_ratio(sample_ratio_);
   heat_mapper->set_max_samples(max_samples_);
 
-  estimator_.set_fitness_threshold(fitness_threshold_);
   estimator_.set_sigma_threshold(sigma_threshold_);
   estimator_.set_nms_radius(nms_radius_);
   estimator_.set_num_candidates(max_samples_);
 
   estimator_.set_scene(scene_transformed);
   estimator_.set_object(object_transformed, req.object.roi);
-  estimator_.set_fitness_threshold(req.max_error);
+  if (req.max_error == 0) {
+    estimator_.set_fitness_threshold(fitness_threshold_);
+  } else {
+    estimator_.set_fitness_threshold(req.max_error);
+  }
   estimator_.set_min_results(req.min_results);
 
   std::vector<rapid::perception::PoseEstimationMatch> matches;
