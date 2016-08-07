@@ -16,4 +16,4 @@ bool is_tabletop # Set to true if the algorithm can assume that the given scene 
 float64 max_error # Will return all matches whose error is less than max_error.
 int32 min_results # Return at least min_results, even if some or all matches have error above max_error.
 ---
-object_search_msgs/Match[] matches # Sorted in increasing order of error.
+object_search_msgs/Match[] matches
