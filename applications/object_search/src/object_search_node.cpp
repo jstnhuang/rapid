@@ -56,6 +56,7 @@ bool ObjectSearchNode::ServeRecordObject(
   record_object_.Execute(args);
   resp.success = record_object_.last_id() != "";
   resp.db_id = record_object_.last_id();
+  resp.name = record_object.last_name();
   return true;
 }
 

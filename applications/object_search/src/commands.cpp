@@ -62,10 +62,11 @@ void ListCommand::Execute(vector<string>& args) {
 }
 
 RecordObjectCommand::RecordObjectCommand(Database* db, CaptureRoi* capture)
-    : db_(db), capture_(capture) {}
+    : db_(db), capture_(capture), last_id_(""), last_name_("") {}
 
 void RecordObjectCommand::Execute(std::vector<std::string>& args) {
-  last_id_ = "";  // Reset ID
+  last_id_ = "";    // Reset ID
+  last_name_ = "";  // Reset ID
 
   // Start server and wait for input
   capture_->ShowMarker();
@@ -103,11 +104,14 @@ void RecordObjectCommand::Execute(std::vector<std::string>& args) {
   // Save static cloud
   static_cloud.name = name;
   last_id_ = db_->Save(static_cloud);
+  last_name_ = name;
   std::cout << "Saved " << static_cloud.name << " with ID " << last_id_
             << std::endl;
 }
 
 std::string RecordObjectCommand::last_id() { return last_id_; }
+
+std::string RecordObjectCommand::last_name() { return last_name_; }
 
 RecordSceneCommand::RecordSceneCommand(Database* db)
     : db_(db), tf_listener_() {}

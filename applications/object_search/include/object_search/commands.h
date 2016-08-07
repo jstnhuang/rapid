@@ -41,11 +41,13 @@ class RecordObjectCommand : public Command {
   RecordObjectCommand(Database* db, CaptureRoi* capture);
   void Execute(std::vector<std::string>& args);
   std::string last_id();
+  std::string last_name();
 
  private:
   Database* db_;
   CaptureRoi* capture_;
-  std::string last_id_;  // Most recent ID saved.
+  std::string last_id_;    // MongoDB ID of most recent object saved.
+  std::string last_name_;  // Name of most recent object saved.
 };
 
 class RecordSceneCommand : public Command {
