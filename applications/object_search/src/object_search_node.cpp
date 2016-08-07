@@ -52,7 +52,7 @@ bool ObjectSearchNode::ServeRecordObject(
     object_search_msgs::RecordObjectRequest& req,
     object_search_msgs::RecordObjectResponse& resp) {
   std::vector<std::string> args(1);
-  args.push_back(req.name);
+  args[0] = req.name;
   record_object_.Execute(args);
   resp.success = record_object_.last_id() != "";
   resp.db_id = record_object_.last_id();

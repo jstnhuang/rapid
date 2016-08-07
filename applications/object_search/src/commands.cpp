@@ -73,7 +73,7 @@ void RecordObjectCommand::Execute(std::vector<std::string>& args) {
 
   string name("");
   string input("");
-  if (args.size() == 0 && args[0] != "") {
+  if (args.size() > 0 && args[0] != "") {
     name = args[0];
     cout << "Type \"save\" to save or \"cancel\" to cancel: ";
     std::getline(std::cin, input);
