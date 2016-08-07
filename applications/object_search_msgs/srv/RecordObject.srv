@@ -3,3 +3,4 @@ string name # The name to save the object to. If blank then the object search no
 bool success # True if the user saved the object, false if they canceled.
 string name # The name of the object. If a name was provided in the request, then this is the same. Otherwise, it's what the user entered when prompted.
 string db_id # The ID in MongoDB where the the object was saved.
+rapid_msgs/Roi3D roi # The ROI used to capture the object

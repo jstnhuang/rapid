@@ -67,6 +67,8 @@ RecordObjectCommand::RecordObjectCommand(Database* db, CaptureRoi* capture)
 void RecordObjectCommand::Execute(std::vector<std::string>& args) {
   last_id_ = "";    // Reset ID
   last_name_ = "";  // Reset ID
+  rapid_msgs::Roi3D roi;
+  last_roi_ = roi;
 
   // Start server and wait for input
   capture_->ShowMarker();
@@ -100,6 +102,7 @@ void RecordObjectCommand::Execute(std::vector<std::string>& args) {
   tf::transformTFToMsg(capture_->cloud_to_base().inverse(),
                        static_cloud.base_to_camera);
   static_cloud.roi = capture_->roi();
+  last_roi_ = static_cloud.roi;
 
   // Save static cloud
   static_cloud.name = name;
@@ -112,6 +115,8 @@ void RecordObjectCommand::Execute(std::vector<std::string>& args) {
 std::string RecordObjectCommand::last_id() { return last_id_; }
 
 std::string RecordObjectCommand::last_name() { return last_name_; }
+
+rapid_msgs::Roi3D RecordObjectCommand::last_roi() { return last_roi_; }
 
 RecordSceneCommand::RecordSceneCommand(Database* db)
     : db_(db), tf_listener_() {}

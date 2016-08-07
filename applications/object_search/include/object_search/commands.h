@@ -6,6 +6,7 @@
 
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
+#include "rapid_msgs/Roi3D.h"
 #include "rapid_msgs/StaticCloud.h"
 #include "tf/transform_listener.h"
 
@@ -42,12 +43,14 @@ class RecordObjectCommand : public Command {
   void Execute(std::vector<std::string>& args);
   std::string last_id();
   std::string last_name();
+  rapid_msgs::Roi3D last_roi();
 
  private:
   Database* db_;
   CaptureRoi* capture_;
   std::string last_id_;    // MongoDB ID of most recent object saved.
   std::string last_name_;  // Name of most recent object saved.
+  rapid_msgs::Roi3D last_roi_;
 };
 
 class RecordSceneCommand : public Command {
