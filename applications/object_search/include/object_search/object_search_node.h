@@ -30,7 +30,8 @@ class ObjectSearchNode {
                        const std::string& parent_frame_id,
                        const geometry_msgs::Transform& base_to_camera,
                        pcl::PointCloud<pcl::PointXYZRGB>::Ptr out);
-  void CropScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene);
+  void CropScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr in,
+                 pcl::PointCloud<pcl::PointXYZRGB>::Ptr out);
 
   rapid::perception::PoseEstimator estimator_;
   RecordObjectCommand record_object_;

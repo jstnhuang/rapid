@@ -5,6 +5,7 @@
 
 #include "Eigen/Core"
 #include "Eigen/Geometry"
+#include "geometry_msgs/Pose.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "ros/ros.h"
@@ -21,21 +22,19 @@ class PoseEstimationMatch {
   // Do not use default constructor except to initialize empty objects.
   PoseEstimationMatch();
   PoseEstimationMatch(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud,
-                      const Eigen::Affine3f& transform, double fitness);
+                      const geometry_msgs::Pose& pose, double fitness);
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud() const;
+  // Returns the pose of the match.
+  geometry_msgs::Pose pose() const;
   // Returns the center point of the point cloud
   pcl::PointXYZ center() const;
-  // Returns the translation from the input object to the aligned output.
-  Eigen::Vector3f translation() const;
-  // Returns the rotation from the input object to the aligned output.
-  Eigen::Quaternionf rotation() const;
   // Returns the ICP fitness score (lower score is a better match).
   double fitness() const;
   void set_fitness(double fitness);
 
  private:
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_;
-  Eigen::Affine3f transform_;
+  geometry_msgs::Pose pose_;
   pcl::PointXYZ center_;
   double fitness_;
 };
