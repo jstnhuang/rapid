@@ -11,6 +11,7 @@
 
 #include "Eigen/Core"
 #include "Eigen/Geometry"
+#include "geometry_msgs/Pose.h"
 #include "geometry_msgs/Vector3.h"
 #include "pcl/PointIndices.h"
 #include "pcl/common/common.h"
@@ -49,9 +50,9 @@ PoseEstimationMatch::PoseEstimationMatch()
     : cloud_(new PointCloudC), fitness_(std::numeric_limits<double>::max()) {}
 
 PoseEstimationMatch::PoseEstimationMatch(PointCloudC::Ptr cloud,
-                                         const Eigen::Affine3f& transform,
+                                         const geometry_msgs::Pose& pose,
                                          double fitness)
-    : cloud_(new PointCloudC), transform_(transform), fitness_(fitness) {
+    : cloud_(new PointCloudC), pose_(pose), fitness_(fitness) {
   *cloud_ = *cloud;
   Eigen::Vector4f min_pt;
   Eigen::Vector4f max_pt;
@@ -65,17 +66,11 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr PoseEstimationMatch::cloud() const {
   return cloud_;
 }
 
+geometry_msgs::Pose PoseEstimationMatch::pose() const {
+  return pose_;
+}
+
 pcl::PointXYZ PoseEstimationMatch::center() const { return center_; }
-
-Eigen::Vector3f PoseEstimationMatch::translation() const {
-  return transform_.translation();
-}
-
-Eigen::Quaternionf PoseEstimationMatch::rotation() const {
-  Eigen::Quaternionf q;
-  q = transform_.rotation();
-  return q;
-}
 
 double PoseEstimationMatch::fitness() const { return fitness_; }
 
@@ -201,6 +196,15 @@ void PoseEstimator::Find(vector<PoseEstimationMatch>* matches) {
     ROS_INFO("Found %d instances of the model", num_instances);
     output_cloud->header.frame_id = scene_->header.frame_id;
     viz::PublishCloud(output_pub_, *output_cloud);
+  }
+
+  matches->clear();
+  for (size_t i = 0; i < output_indices.size(); ++i) {
+    int index = output_indices[i];
+    matches->push_back(aligned_objects[index]);
+    ROS_INFO("Pose: %f %f %f", aligned_objects[index].pose().position.x,
+      aligned_objects[index].pose().position.y,
+      aligned_objects[index].pose().position.z);
   }
 }
 
@@ -352,10 +356,16 @@ void PoseEstimator::RunIcpCandidates(
         q = final_rotation.rotation();
         utils::EigenToGeometryMsg(q, &roi.transform.rotation);
 
+        // The transformation of the match, in the base frame.
         double fitness =
             ComputeIcpFitness(scene_, aligned_object, roi, debug_, marker_pub_);
+        geometry_msgs::Pose output_pose;
+        output_pose.position.x = roi.transform.translation.x;
+        output_pose.position.y = roi.transform.translation.y;
+        output_pose.position.z = roi.transform.translation.z;
+        output_pose.orientation = roi.transform.rotation;
         aligned_objects->push_back(
-            PoseEstimationMatch(aligned_object, final_affine, fitness));
+            PoseEstimationMatch(aligned_object, output_pose, fitness));
       }
     }
   }

@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "Eigen/Core"
+#include "pcl/filters/crop_box.h"
 #include "pcl/filters/voxel_grid.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
@@ -69,21 +71,27 @@ bool ObjectSearchNode::ServeSearch(object_search_msgs::SearchRequest& req,
   PointCloudC::Ptr object_in(new PointCloudC);
   pcl::fromROSMsg(req.scene.cloud, *scene_in);
   pcl::fromROSMsg(req.object.cloud, *object_in);
-
-  PointCloudC::Ptr scene_sampled(new PointCloudC);
-  PointCloudC::Ptr object_sampled(new PointCloudC);
-  Downsample(scene_in, scene_sampled);
-  ROS_INFO("Downsampled scene to %ld points", scene_sampled->size());
-  Downsample(object_in, object_sampled);
+  ROS_INFO("Scene (frame %s) has %ld points", scene_in->header.frame_id.c_str(), scene_in->size());
+  ROS_INFO("Object (frame %s) has %ld points", object_in->header.frame_id.c_str(), object_in->size());
 
   PointCloudC::Ptr scene_transformed(new PointCloudC);
   PointCloudC::Ptr object_transformed(new PointCloudC);
-  TransformToBase(scene_sampled, req.scene.parent_frame_id,
+  TransformToBase(scene_in, req.scene.parent_frame_id,
                   req.scene.base_to_camera, scene_transformed);
-  TransformToBase(scene_sampled, req.object.parent_frame_id,
-                  req.object.base_to_camera, scene_transformed);
+  TransformToBase(object_in, req.object.parent_frame_id,
+                  req.object.base_to_camera, object_transformed);
+  ROS_INFO("Scene transformed to frame %s", scene_transformed->header.frame_id.c_str());
+  ROS_INFO("Object transformed to frame %s", object_transformed->header.frame_id.c_str());
 
-  CropScene(scene_transformed);
+  PointCloudC::Ptr scene_cropped(new PointCloudC);
+  CropScene(scene_transformed, scene_cropped);
+  ROS_INFO("Cropped scene to %ld points", scene_cropped->size());
+
+  PointCloudC::Ptr scene_sampled(new PointCloudC);
+  PointCloudC::Ptr object_sampled(new PointCloudC);
+  Downsample(scene_cropped, scene_sampled);
+  ROS_INFO("Downsampled scene to %ld points", scene_sampled->size());
+  Downsample(object_transformed, object_sampled);
 
   rapid::perception::RandomHeatMapper* heat_mapper =
       static_cast<rapid::perception::RandomHeatMapper*>(
@@ -95,8 +103,8 @@ bool ObjectSearchNode::ServeSearch(object_search_msgs::SearchRequest& req,
   estimator_.set_nms_radius(nms_radius_);
   estimator_.set_num_candidates(max_samples_);
 
-  estimator_.set_scene(scene_transformed);
-  estimator_.set_object(object_transformed, req.object.roi);
+  estimator_.set_scene(scene_sampled);
+  estimator_.set_object(object_sampled, req.object.roi);
   if (req.max_error == 0) {
     estimator_.set_fitness_threshold(fitness_threshold_);
   } else {
@@ -110,15 +118,10 @@ bool ObjectSearchNode::ServeSearch(object_search_msgs::SearchRequest& req,
   for (size_t i = 0; i < matches.size(); ++i) {
     const rapid::perception::PoseEstimationMatch& match = matches[i];
     object_search_msgs::Match msg;
-    msg.transform.translation.x = match.translation().x();
-    msg.transform.translation.y = match.translation().y();
-    msg.transform.translation.z = match.translation().z();
-    msg.transform.rotation.w = match.rotation().w();
-    msg.transform.rotation.x = match.rotation().x();
-    msg.transform.rotation.y = match.rotation().y();
-    msg.transform.rotation.z = match.rotation().z();
+    msg.pose = match.pose();
     pcl::toROSMsg(*match.cloud(), msg.cloud);
     msg.error = match.fitness();
+    resp.matches.push_back(msg);
   }
 
   return true;
@@ -159,7 +162,7 @@ void ObjectSearchNode::TransformToBase(
   out->header.frame_id = parent_frame_id;
 }
 
-void ObjectSearchNode::CropScene(PointCloudC::Ptr scene) {
+void ObjectSearchNode::CropScene(PointCloudC::Ptr in, PointCloudC::Ptr out) {
   ROS_INFO(
       "Cropping:\n"
       "  min_x: %f\n"
@@ -169,6 +172,15 @@ void ObjectSearchNode::CropScene(PointCloudC::Ptr scene) {
       "  max_y: %f\n"
       "  max_z: %f\n",
       min_x_, min_y_, min_z_, max_x_, max_y_, max_z_);
+  pcl::CropBox<PointC> crop;
+  crop.setInputCloud(in);
+  Eigen::Vector4f min;
+  min << min_x_, min_y_, min_z_, 1;
+  Eigen::Vector4f max;
+  max << max_x_, max_y_, max_z_, 1;
+  crop.setMin(min);
+  crop.setMax(max);
+  crop.filter(*out);
 }
 }  // namespace object_search
 
