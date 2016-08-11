@@ -125,12 +125,12 @@ bool ObjectSearchNode::ServeSearch(object_search_msgs::SearchRequest& req,
 }
 
 void ObjectSearchNode::UpdateParams() {
-  ros::param::param<double>("leaf_size_", leaf_size_, 0.005);
-  ros::param::param<double>("min_x", min_x_, 0.2);
-  ros::param::param<double>("min_y", min_y_, -1);
+  ros::param::param<double>("leaf_size", leaf_size_, 0.005);
+  ros::param::param<double>("min_x", min_x_, 0.3);
+  ros::param::param<double>("min_y", min_y_, -0.75);
   ros::param::param<double>("min_z", min_z_, 0.3);
   ros::param::param<double>("max_x", max_x_, 1.2);
-  ros::param::param<double>("max_y", max_y_, 1);
+  ros::param::param<double>("max_y", max_y_, 0.75);
   ros::param::param<double>("max_z", max_z_, 1.7);
   ros::param::param<double>("sample_ratio", sample_ratio_, 0.02);
   ros::param::param<int>("max_samples", max_samples_, 500);
