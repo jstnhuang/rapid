@@ -66,9 +66,7 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr PoseEstimationMatch::cloud() const {
   return cloud_;
 }
 
-geometry_msgs::Pose PoseEstimationMatch::pose() const {
-  return pose_;
-}
+geometry_msgs::Pose PoseEstimationMatch::pose() const { return pose_; }
 
 pcl::PointXYZ PoseEstimationMatch::center() const { return center_; }
 
@@ -202,9 +200,10 @@ void PoseEstimator::Find(vector<PoseEstimationMatch>* matches) {
   for (size_t i = 0; i < output_indices.size(); ++i) {
     int index = output_indices[i];
     matches->push_back(aligned_objects[index]);
-    ROS_INFO("Pose: %f %f %f", aligned_objects[index].pose().position.x,
-      aligned_objects[index].pose().position.y,
-      aligned_objects[index].pose().position.z);
+    ROS_INFO("Score: %f, Pose: %f %f %f", aligned_objects[index].fitness(),
+             aligned_objects[index].pose().position.x,
+             aligned_objects[index].pose().position.y,
+             aligned_objects[index].pose().position.z);
   }
 }
 
@@ -445,8 +444,8 @@ void PoseEstimator::FilterMatches(
     }
 
     viz::PublishCloud(alignment_pub_, *(match.cloud()));
-    if (debug_) {
-      std::cout << "Press enter to continue ";
+    if (debug_ && match.fitness() < 0.007) {
+      std::cout << "Score: " << match.fitness() << ", press enter to continue ";
       string user_input;
       std::getline(std::cin, user_input);
     }

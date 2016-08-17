@@ -172,9 +172,11 @@ void UseCommand::Execute(std::vector<std::string>& args) {
   PointCloud<PointXYZRGB>::Ptr pcl_cloud(new PointCloud<PointXYZRGB>);
   pcl::fromROSMsg(cloud.cloud, *pcl_cloud_unfiltered);
 
+  double leaf_size = 0.01;
+  ros::param::param<double>("leaf_size", leaf_size, 0.01);
   pcl::VoxelGrid<PointXYZRGB> vox;
   vox.setInputCloud(pcl_cloud_unfiltered);
-  vox.setLeafSize(0.005, 0.005, 0.005);
+  vox.setLeafSize(leaf_size, leaf_size, leaf_size);
   vox.filter(*pcl_cloud);
   ROS_INFO("Downsampled to %ld points", pcl_cloud->size());
 
@@ -297,7 +299,7 @@ void RunCommand::UpdateParams() {
   ros::param::param<int>("max_neighbors", max_neighbors, 400);
   ros::param::param<double>("feature_threshold", feature_threshold, 1500);
   ros::param::param<int>("num_candidates", num_candidates, 100);
-  ros::param::param<double>("fitness_threshold", fitness_threshold, 0.0035);
+  ros::param::param<double>("fitness_threshold", fitness_threshold, 0.0055);
   ros::param::param<double>("sigma_threshold", sigma_threshold, 2);
   ros::param::param<double>("nms_radius", nms_radius, 0.03);
   ros::param::param<int>("min_results", min_results, 0);

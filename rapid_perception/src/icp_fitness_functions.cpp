@@ -102,28 +102,28 @@ double ComputeIcpFitness(
 
   fitness /= denominator;
 
-  if (debug && pub != NULL) {
-    geometry_msgs::PoseStamped ps;
-    ps.header.frame_id = object->header.frame_id;
-    ps.pose.position.x = translation.x();
-    ps.pose.position.y = translation.y();
-    ps.pose.position.z = translation.z();
-    ps.pose.orientation.w = rotation.w();
-    ps.pose.orientation.x = rotation.x();
-    ps.pose.orientation.y = rotation.y();
-    ps.pose.orientation.z = rotation.z();
-    geometry_msgs::Vector3 scale;
-    scale.x = roi.dimensions.x;
-    scale.y = roi.dimensions.y;
-    scale.z = roi.dimensions.z;
-    viz::Marker box = viz::Marker::Box(pub, ps, scale);
-    box.SetColor(1, 0, 0, 0.25);
-    box.Publish();
-    std::string input;
-    std::cout << "Fitness: " << fitness
-              << ". Press enter to continue: " << std::endl;
-    std::getline(std::cin, input);
-  }
+  // if (debug && pub != NULL) {
+  //  geometry_msgs::PoseStamped ps;
+  //  ps.header.frame_id = object->header.frame_id;
+  //  ps.pose.position.x = translation.x();
+  //  ps.pose.position.y = translation.y();
+  //  ps.pose.position.z = translation.z();
+  //  ps.pose.orientation.w = rotation.w();
+  //  ps.pose.orientation.x = rotation.x();
+  //  ps.pose.orientation.y = rotation.y();
+  //  ps.pose.orientation.z = rotation.z();
+  //  geometry_msgs::Vector3 scale;
+  //  scale.x = roi.dimensions.x;
+  //  scale.y = roi.dimensions.y;
+  //  scale.z = roi.dimensions.z;
+  //  viz::Marker box = viz::Marker::Box(pub, ps, scale);
+  //  box.SetColor(1, 0, 0, 0.25);
+  //  box.Publish();
+  //  std::string input;
+  //  std::cout << "Fitness: " << fitness
+  //            << ". Press enter to continue: " << std::endl;
+  //  std::getline(std::cin, input);
+  //}
 
   return fitness;
 }

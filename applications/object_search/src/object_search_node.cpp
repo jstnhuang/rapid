@@ -71,17 +71,21 @@ bool ObjectSearchNode::ServeSearch(object_search_msgs::SearchRequest& req,
   PointCloudC::Ptr object_in(new PointCloudC);
   pcl::fromROSMsg(req.scene.cloud, *scene_in);
   pcl::fromROSMsg(req.object.cloud, *object_in);
-  ROS_INFO("Scene (frame %s) has %ld points", scene_in->header.frame_id.c_str(), scene_in->size());
-  ROS_INFO("Object (frame %s) has %ld points", object_in->header.frame_id.c_str(), object_in->size());
+  ROS_INFO("Scene (frame %s) has %ld points", scene_in->header.frame_id.c_str(),
+           scene_in->size());
+  ROS_INFO("Object (frame %s) has %ld points",
+           object_in->header.frame_id.c_str(), object_in->size());
 
   PointCloudC::Ptr scene_transformed(new PointCloudC);
   PointCloudC::Ptr object_transformed(new PointCloudC);
-  TransformToBase(scene_in, req.scene.parent_frame_id,
-                  req.scene.base_to_camera, scene_transformed);
+  TransformToBase(scene_in, req.scene.parent_frame_id, req.scene.base_to_camera,
+                  scene_transformed);
   TransformToBase(object_in, req.object.parent_frame_id,
                   req.object.base_to_camera, object_transformed);
-  ROS_INFO("Scene transformed to frame %s", scene_transformed->header.frame_id.c_str());
-  ROS_INFO("Object transformed to frame %s", object_transformed->header.frame_id.c_str());
+  ROS_INFO("Scene transformed to frame %s",
+           scene_transformed->header.frame_id.c_str());
+  ROS_INFO("Object transformed to frame %s",
+           object_transformed->header.frame_id.c_str());
 
   PointCloudC::Ptr scene_cropped(new PointCloudC);
   CropScene(scene_transformed, scene_cropped);
@@ -137,7 +141,7 @@ void ObjectSearchNode::UpdateParams() {
   ros::param::param<double>("max_z", max_z_, 1.7);
   ros::param::param<double>("sample_ratio", sample_ratio_, 0.02);
   ros::param::param<int>("max_samples", max_samples_, 500);
-  ros::param::param<double>("fitness_threshold", fitness_threshold_, 0.0045);
+  ros::param::param<double>("fitness_threshold", fitness_threshold_, 0.0055);
   ros::param::param<double>("sigma_threshold", sigma_threshold_, 8);
   ros::param::param<double>("nms_radius", nms_radius_, 0.02);
 }
