@@ -78,6 +78,7 @@ bool Blinky::AskMultipleChoice(const std::string& question,
   goal.question = question;
   goal.choices = choices;
   client_->sendGoal(goal);
+  client_->waitForResult();
   blinky::FaceResultConstPtr result = client_->getResult();
   *choice = result->choice;
   return true;
