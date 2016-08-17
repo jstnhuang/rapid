@@ -1,0 +1,3 @@
+mongo_msg_db_msgs/Collection collection
+---
+rapid_msgs/StaticCloudInfo[] clouds

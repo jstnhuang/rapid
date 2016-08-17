@@ -1,0 +1,5 @@
+mongo_msg_db_msgs/Collection collection
+string id
+string name # Name of the object, will be used if provided.
+---
+string error # Empty on success

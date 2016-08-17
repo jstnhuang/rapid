@@ -7,6 +7,7 @@ project(rapid_msgs)
 find_package(catkin REQUIRED
   geometry_msgs
   message_generation
+  mongo_msg_db_msgs
   sensor_msgs
 )
 
@@ -47,13 +48,19 @@ find_package(catkin REQUIRED
 add_message_files(
   FILES
   Roi3D.msg
+  StaticCloud.msg
+  StaticCloudInfo.msg
 )
 
 ## Generate services in the 'srv' folder
 add_service_files(
   FILES
   CaptureRoi3D.srv
+  GetStaticCloud.srv
+  ListStaticClouds.srv
   MoveArm.srv
+  RemoveStaticCloud.srv
+  SaveStaticCloud.srv
   UseGrippers.srv
 )
 
@@ -68,6 +75,7 @@ add_service_files(
 generate_messages(
   DEPENDENCIES
   geometry_msgs
+  mongo_msg_db_msgs
   sensor_msgs
 )
 
@@ -106,6 +114,7 @@ catkin_package(
   CATKIN_DEPENDS
     geometry_msgs
     message_runtime
+    mongo_msg_db_msgs
     sensor_msgs
 #  DEPENDS system_lib
 )

@@ -57,6 +57,10 @@ flags = [
 '-I',
 '/usr/include/eigen3',
 '-I',
+'/usr/local/caffe/include',
+'-I',
+'/usr/local/cuda/include',
+'-I',
 'rapid_display/include',
 '-I',
 'rapid_manipulation/include',
@@ -71,7 +75,11 @@ flags = [
 '-I',
 'rapid_utils/include',
 '-I',
-'rapid_viz/include'
+'rapid_viz/include',
+'-I',
+'applications/object_search/include',
+'-I',
+'applications/object_search_msgs/include'
 ]
 
 # Set this to the absolute path to the folder (NOT the file!) containing the

@@ -1,7 +1,6 @@
 #include "rapid_perception/scene_parsing.h"
 
 #include <sstream>
-#include <set>  // TODO(jstn): change to unordered_set once using C++11
 #include <vector>
 
 #include "Eigen/Dense"
@@ -9,12 +8,14 @@
 #include "geometry_msgs/Vector3.h"
 #include "pcl/PointIndices.h"
 #include "pcl/filters/crop_box.h"
+#include "pcl/filters/radius_outlier_removal.h"
+#include "pcl/filters/passthrough.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "pcl/search/kdtree.h"
 #include "pcl/segmentation/region_growing_rgb.h"
 
-#include "rapid_perception/rgbd.hpp"
+#include "rapid_perception/rgbd.h"
 #include "rapid_perception/scene.h"
 #include "rapid_utils/math.h"
 
@@ -42,7 +43,7 @@ ParseParams Pr2Params() {
   return p;
 }
 
-bool ParseScene(const PointCloud<PointXYZRGB>::Ptr& cloud,
+bool ParseScene(const PointCloud<PointXYZRGB>::ConstPtr& cloud,
                 const ParseParams& params, Scene* scene) {
   // This function just crops the scene to a box given by the params.
   scene->set_cloud(cloud);
@@ -81,36 +82,30 @@ bool ParseScene(const PointCloud<PointXYZRGB>::Ptr& cloud,
   return true;
 }
 
-bool ParseHSurface(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
+bool ParseHSurface(const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud,
                    const PointIndices::ConstPtr& indices,
                    const ParseParams& params, HSurface* surface) {
   // Find the dominant plane, which should be mostly horizontal. This becomes
   // the HSurface.
-  // Then, subtract the HSurface, and pass the points above the HSurface to
-  // ParseObjects.
   PointIndices::Ptr plane_inliers(new PointIndices);
-  bool found = FindHorizontalPlane<PointXYZRGB>(
-      cloud, indices, params.hsurface.distance_threshold,
-      params.hsurface.eps_angle, plane_inliers);
+  bool found =
+      FindHorizontalPlane(cloud, indices, params.hsurface.distance_threshold,
+                          params.hsurface.eps_angle, plane_inliers);
   if (!found) {
     return false;
   }
 
   geometry_msgs::PoseStamped ps;
-  ps.header.frame_id = cloud->header.frame_id;
   geometry_msgs::Vector3 scale;
-  GetPlanarBoundingBox(cloud, plane_inliers, &ps.pose, &scale);
+  GetBoundingBox(cloud, plane_inliers, &ps, &scale);
 
   surface->SetCloud(cloud, plane_inliers);
   surface->set_name("primary_surface");
   surface->set_pose(ps);
   surface->set_scale(scale);
 
-  std::set<int> plane_set(plane_inliers->indices.begin(),
-                          plane_inliers->indices.end());
-
-  // Find points above the surface.
-  PointIndices::Ptr obj_indices(new PointIndices);
+  // Find points above the HSurface
+  PointIndices::Ptr object_indices(new PointIndices);
   tf::Vector3 surface_translation(ps.pose.position.x, ps.pose.position.y,
                                   ps.pose.position.z);
   tf::Quaternion surface_orientation;
@@ -118,39 +113,50 @@ bool ParseHSurface(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
   tf::Transform base_to_surface(surface_orientation, surface_translation);
   for (size_t i = 0; i < indices->indices.size(); ++i) {
     int index = indices->indices[i];
-    PointXYZRGB& point = cloud->points[index];
+    const PointXYZRGB& point = cloud->points[index];
     tf::Vector3 point_v(point.x, point.y, point.z);
     // Project point into table space
     tf::Vector3 table_p = base_to_surface.inverse() * point_v;
     if (table_p.x() >= -scale.x / 2 && table_p.x() <= scale.x / 2 &&
         table_p.y() >= -scale.y / 2 && table_p.y() <= scale.y / 2 &&
         table_p.z() > scale.z / 2) {
-      if (plane_set.find(index) == plane_set.end()) {
-        obj_indices->indices.push_back(index);
-      }
+      object_indices->indices.push_back(index);
     }
   }
 
+  // We must reify the object cloud now because the outlier filters search for
+  // neighbors in the entire input cloud, not just in the indices subset.
+  PointCloud<PointXYZRGB>::Ptr object_cloud =
+      IndicesToCloud(cloud, object_indices);
+
+  pcl::RadiusOutlierRemoval<PointXYZRGB> radius;
+  radius.setInputCloud(object_cloud);
+  radius.setRadiusSearch(0.05);
+  radius.setMinNeighborsInRadius(10);
+  radius.filter(*object_cloud);
+
   vector<Object> objects;
-  ParseObjects(cloud, obj_indices, params, &objects);
+  PointIndices::Ptr all_indices(new PointIndices);
+  ParseObjects(object_cloud, all_indices, params, &objects);
   for (size_t i = 0; i < objects.size(); ++i) {
     surface->AddObject(objects[i]);
   }
   return true;
 }
 
-bool ParseObjects(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
+bool ParseObjects(const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud,
                   const pcl::PointIndices::ConstPtr& indices,
                   const ParseParams& params, std::vector<Object>* objects) {
   pcl::search::KdTree<PointXYZRGB>::Ptr tree(
       new pcl::search::KdTree<PointXYZRGB>);
-  boost::shared_ptr<vector<int> > indices_v(new vector<int>(indices->indices));
-  tree->setInputCloud(cloud, indices_v);
+  tree->setInputCloud(cloud);
 
   vector<PointIndices> cluster_indices;
   pcl::RegionGrowingRGB<PointXYZRGB> ec;
   ec.setInputCloud(cloud);
-  ec.setIndices(indices);
+  if (indices->indices.size() != 0) {
+    ec.setIndices(indices);
+  }
   ec.setSearchMethod(tree);
   ec.setDistanceThreshold(params.objects.distance_threshold);
   ec.setPointColorThreshold(params.objects.point_color_threshold);

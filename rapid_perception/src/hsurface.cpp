@@ -9,7 +9,7 @@
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 
-#include "rapid_perception/rgbd.hpp"
+#include "rapid_perception/rgbd.h"
 
 using geometry_msgs::PoseStamped;
 using geometry_msgs::Vector3;
@@ -28,7 +28,7 @@ void HSurface::AddObject(const Object& obj) { objects_.push_back(obj); }
 
 PointCloud<PointXYZRGB>::Ptr HSurface::GetCloud() const {
   PointCloud<PointXYZRGB>::Ptr cloud(new PointCloud<PointXYZRGB>);
-  return IndicesToCloud<PointXYZRGB>(cloud_, indices_);
+  return IndicesToCloud(cloud_, indices_);
 }
 
 void HSurface::SetCloud(const PointCloud<PointXYZRGB>::ConstPtr& cloud,

@@ -1,0 +1,6 @@
+mongo_msg_db_msgs/Collection collection
+string id # Look up by ID if name not provided
+string name # If name is provided, then try to look up by name
+---
+string error # Empty on success
+rapid_msgs/StaticCloud cloud

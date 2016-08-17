@@ -13,7 +13,7 @@
 #include "rapid_manipulation/pick.h"
 #include "rapid_manipulation/place.h"
 #include "rapid_perception/pr2.h"
-#include "rapid_perception/rgbd.hpp"
+#include "rapid_perception/rgbd.h"
 #include "rapid_perception/scene.h"
 #include "rapid_perception/scene_viz.h"
 #include "rapid_perception/scene_parsing.h"
@@ -72,7 +72,8 @@ int main(int argc, char** argv) {
 
     // Parse scene
     Scene scene;
-    ros::Publisher marker_ros_pub = nh.advertise<Marker>("/code_it_markers", 100);
+    ros::Publisher marker_ros_pub =
+        nh.advertise<Marker>("/code_it_markers", 100);
     Publisher<Marker>* marker_pub = new Publisher<Marker>(marker_ros_pub);
     SceneViz viz(marker_pub);
     rapid::perception::ParseScene(cloud, Pr2Params(), &scene);

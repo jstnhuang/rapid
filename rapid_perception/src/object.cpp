@@ -8,7 +8,7 @@
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 
-#include "rapid_perception/rgbd.hpp"
+#include "rapid_perception/rgbd.h"
 
 using geometry_msgs::PoseStamped;
 using geometry_msgs::Vector3;
@@ -22,7 +22,7 @@ namespace perception {
 Object::Object() : cloud_(), indices_(), name_(), pose_stamped_(), scale_() {}
 
 PointCloud<PointXYZRGB>::Ptr Object::GetCloud() const {
-  return IndicesToCloud<PointXYZRGB>(cloud_, indices_);
+  return IndicesToCloud(cloud_, indices_);
 }
 
 void Object::SetCloud(const PointCloud<PointXYZRGB>::ConstPtr& cloud,
