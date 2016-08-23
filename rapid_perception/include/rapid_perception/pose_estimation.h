@@ -14,6 +14,7 @@
 #include "rapid_msgs/Roi3D.h"
 #include "rapid_perception/pose_estimation_heat_mapper.h"
 #include "rapid_ros/publisher.h"
+#include "rapid_viz/markers.h"
 
 namespace rapid {
 namespace perception {
@@ -172,6 +173,9 @@ class PoseEstimator {
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr object_;
   Eigen::Vector3f object_center_;  // Approx center point of object.
   rapid_msgs::Roi3D object_roi_;
+  viz::Marker object_box_;
+
+  std::vector<viz::Marker> output_boxes_;
 
   // Parameters
   // Number of candidate samples to consider for ICP.

@@ -29,6 +29,7 @@
 #include "rapid_utils/eigen_conversions.h"
 #include "rapid_utils/pcl_conversions.h"
 #include "rapid_utils/stochastic_universal_sampling.h"
+#include "rapid_viz/markers.h"
 #include "rapid_viz/publish.h"
 
 typedef pcl::PointXYZRGB PointC;
@@ -79,6 +80,8 @@ PoseEstimator::PoseEstimator(PoseEstimationHeatMapper* heat_mapper)
       scene_(new PointCloudC()),
       object_(new PointCloudC()),
       object_center_(),
+      object_box_(viz::Marker::Null()),
+      output_boxes_(),
       num_candidates_(100),
       fitness_threshold_(0.0045),
       sigma_threshold_(8),
@@ -114,6 +117,18 @@ void PoseEstimator::set_object(
     static_cast<TemplateMatchingHeatMapper*>(heat_mapper_)->set_object_roi(roi);
   }
 
+  geometry_msgs::PoseStamped pose;
+  pose.header.frame_id = object->header.frame_id;
+  pose.pose.position.x = roi.transform.translation.x;
+  pose.pose.position.y = roi.transform.translation.y;
+  pose.pose.position.z = roi.transform.translation.z;
+  pose.pose.orientation = roi.transform.rotation;
+  object_box_ = viz::Marker::OutlineBox(marker_pub_, pose, roi.dimensions);
+  geometry_msgs::Vector3 scale;
+  scale.x = 0.0025;
+  object_box_.SetScale(scale);
+  object_box_.SetNamespace("object");
+  object_box_.Publish();
   viz::PublishCloud(object_pub_, *object);
 }
 
@@ -152,6 +167,8 @@ void PoseEstimator::set_marker_publisher(
 }
 
 void PoseEstimator::Find(vector<PoseEstimationMatch>* matches) {
+  output_boxes_.clear();  // Clear visualization.
+
   // Compute heatmap of features
   pcl::PointIndicesPtr heatmap_indices(new pcl::PointIndices);
   Eigen::VectorXd importances;
@@ -189,6 +206,18 @@ void PoseEstimator::Find(vector<PoseEstimationMatch>* matches) {
       double b = static_cast<double>(rand()) / RAND_MAX;
       Colorize(aligned_objects[index].cloud(), r, g, b);
       *output_cloud += *aligned_objects[index].cloud();
+
+      geometry_msgs::PoseStamped ps;
+      ps.header.frame_id = aligned_objects[index].cloud()->header.frame_id;
+      ps.pose = aligned_objects[index].pose();
+      viz::Marker output_box =
+          viz::Marker::OutlineBox(marker_pub_, ps, object_roi_.dimensions);
+      geometry_msgs::Vector3 scale;
+      scale.x = 0.0025;
+      output_box.SetScale(scale);
+      output_box.SetNamespace("output");
+      output_boxes_.push_back(output_box);
+      output_boxes_[output_boxes_.size() - 1].Publish();
       ++num_instances;
     }
     ROS_INFO("Found %d instances of the model", num_instances);
