@@ -16,6 +16,8 @@
 #include "rapid_msgs/SaveStaticCloud.h"
 #include "rapid_perception/pose_estimation.h"
 #include "rapid_perception/random_heat_mapper.h"
+#include "rapid_perception/scene.h"
+#include "rapid_perception/scene_parsing.h"
 #include "rapid_ros/publisher.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
@@ -88,8 +90,13 @@ bool ObjectSearchNode::ServeSearch(object_search_msgs::SearchRequest& req,
            object_transformed->header.frame_id.c_str());
 
   PointCloudC::Ptr scene_cropped(new PointCloudC);
-  CropScene(scene_transformed, scene_cropped);
-  ROS_INFO("Cropped scene to %ld points", scene_cropped->size());
+  if (req.is_tabletop) {
+    ExtractTabletop(scene_transformed, scene_cropped);
+    ROS_INFO("Extracted %ld points from tabletop", scene_cropped->size());
+  } else {
+    CropScene(scene_transformed, scene_cropped);
+    ROS_INFO("Cropped scene to %ld points", scene_cropped->size());
+  }
 
   PointCloudC::Ptr scene_sampled(new PointCloudC);
   PointCloudC::Ptr object_sampled(new PointCloudC);
@@ -185,6 +192,19 @@ void ObjectSearchNode::CropScene(PointCloudC::Ptr in, PointCloudC::Ptr out) {
   crop.setMin(min);
   crop.setMax(max);
   crop.filter(*out);
+}
+
+void ObjectSearchNode::ExtractTabletop(PointCloudC::Ptr in,
+                                       PointCloudC::Ptr out) {
+  rapid::perception::Scene scene;
+  rapid::perception::ParseScene(in, rapid::perception::Pr2Params(), &scene);
+  std::vector<rapid::perception::Object> objects =
+      scene.primary_surface().objects();
+  for (size_t i = 0; i < objects.size(); ++i) {
+    const rapid::perception::Object& object = objects[i];
+    *out += *object.GetCloud();
+  }
+  out->header.frame_id = in->header.frame_id;
 }
 }  // namespace object_search
 
