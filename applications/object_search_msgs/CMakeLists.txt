@@ -6,6 +6,7 @@ project(object_search_msgs)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   message_generation
+  mongo_msg_db_msgs
   rapid_msgs
   roscpp
   rospy
@@ -55,6 +56,7 @@ add_service_files(
   FILES
   RecordObject.srv
   Search.srv
+  SearchFromDb.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -67,6 +69,7 @@ add_service_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
+  mongo_msg_db_msgs
   rapid_msgs
   sensor_msgs
 )
@@ -105,6 +108,7 @@ catkin_package(
 #  LIBRARIES object_search_msgs
   CATKIN_DEPENDS
     message_runtime
+    mongo_msg_db_msgs
     rapid_msgs
     roscpp
     rospy

@@ -40,6 +40,24 @@ bool Database::Get(const std::string& name, rapid_msgs::StaticCloud* cloud) {
   return true;
 }
 
+bool Database::GetById(const std::string& id, rapid_msgs::StaticCloud* cloud) {
+  rapid_msgs::GetStaticCloudRequest req;
+  req.collection.db = db_;
+  req.collection.collection = collection_;
+  req.id = id;
+  rapid_msgs::GetStaticCloudResponse res;
+  bool success = get_.call(req, res);
+  if (!success) {
+    ROS_ERROR("Get call failed.");
+  }
+  if (res.error != "") {
+    ROS_ERROR("%s", res.error.c_str());
+    return false;
+  }
+  *cloud = res.cloud;
+  return true;
+}
+
 void Database::List(std::vector<rapid_msgs::StaticCloudInfo>* clouds) {
   rapid_msgs::ListStaticCloudsRequest req;
   req.collection.db = db_;
