@@ -24,6 +24,7 @@
 #include "tf/tf.h"
 #include "visualization_msgs/Marker.h"
 
+#include "object_search_msgs/GetObjectInfo.h"
 #include "object_search_msgs/Match.h"
 #include "object_search_msgs/Search.h"
 #include "object_search/capture_roi.h"
@@ -33,11 +34,14 @@
 typedef pcl::PointXYZRGB PointC;
 typedef pcl::PointCloud<pcl::PointXYZRGB> PointCloudC;
 
+using sensor_msgs::PointCloud2;
+
 namespace object_search {
 ObjectSearchNode::ObjectSearchNode(
     const rapid::perception::PoseEstimator& estimator,
     const RecordObjectCommand& record_object, const Database& object_db)
-    : estimator_(estimator),
+    : tf_listener_(),
+      estimator_(estimator),
       record_object_(record_object),
       object_db_(object_db),
       leaf_size_(0.005),
@@ -52,6 +56,16 @@ ObjectSearchNode::ObjectSearchNode(
       fitness_threshold_(0.0045),
       sigma_threshold_(8),
       nms_radius_(0.02) {}
+
+bool ObjectSearchNode::ServeGetObjectInfo(
+    object_search_msgs::GetObjectInfoRequest& req,
+    object_search_msgs::GetObjectInfoResponse& resp) {
+  rapid_msgs::StaticCloud cloud;
+  object_db_.GetById(req.db_id, &cloud);
+  resp.name = cloud.name;
+  resp.dimensions = cloud.roi.dimensions;
+  return true;
+}
 
 bool ObjectSearchNode::ServeRecordObject(
     object_search_msgs::RecordObjectRequest& req,
@@ -151,6 +165,23 @@ bool ObjectSearchNode::ServeSearch(object_search_msgs::SearchRequest& req,
 bool ObjectSearchNode::ServeSearchFromDb(
     object_search_msgs::SearchFromDbRequest& req,
     object_search_msgs::SearchFromDbResponse& resp) {
+  // Read scene from cloud_in
+  PointCloud2::ConstPtr cloud_in =
+      ros::topic::waitForMessage<PointCloud2>("cloud_in", ros::Duration(10));
+  rapid_msgs::StaticCloud scene;
+  scene.cloud = *cloud_in;
+
+  // Get transform
+  scene.parent_frame_id = "base_link";
+  try {
+    tf::StampedTransform base_to_camera_tf;
+    tf_listener_.lookupTransform(scene.cloud.header.frame_id, "base_link",
+                                 scene.cloud.header.stamp, base_to_camera_tf);
+    tf::transformTFToMsg(base_to_camera_tf, scene.base_to_camera);
+  } catch (tf::TransformException e) {
+    ROS_WARN("%s", e.what());
+  }
+
   rapid_msgs::StaticCloud object;
   bool success = object_db_.GetById(req.object_id, &object);
   if (!success) {
@@ -158,7 +189,7 @@ bool ObjectSearchNode::ServeSearchFromDb(
     return false;
   }
 
-  Search(req.scene, object, req.is_tabletop, req.max_error, req.min_results,
+  Search(scene, object, req.is_tabletop, req.max_error, req.min_results,
          &resp.matches);
   return true;
 }
@@ -291,6 +322,9 @@ int main(int argc, char** argv) {
 
   object_search::ObjectSearchNode node(pose_estimator, record_object,
                                        object_db);
+  ros::ServiceServer get_info_service = nh.advertiseService(
+      "get_object_info", &object_search::ObjectSearchNode::ServeGetObjectInfo,
+      &node);
   ros::ServiceServer search_service = nh.advertiseService(
       "find_object", &object_search::ObjectSearchNode::ServeSearch, &node);
   ros::ServiceServer search_from_db_service = nh.advertiseService(

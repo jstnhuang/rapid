@@ -54,6 +54,7 @@ add_message_files(
 ## Generate services in the 'srv' folder
 add_service_files(
   FILES
+  GetObjectInfo.srv
   RecordObject.srv
   Search.srv
   SearchFromDb.srv

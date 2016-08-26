@@ -1,14 +1,7 @@
 # Find an object, saved in a database, in a scene.
 # All point clouds and measurements are in the robot's base frame.
 
-# The scene to search in. The object should be roughly in the center of the scene.
-# The point cloud can be in any frame, but you must specify the transform from the base frame to the camera frame.
-# The ROI is unused, feel free to leave it empty.
-# Cropping parameters are set using rosparam, and are given in the base frame of the robot.
-rapid_msgs/StaticCloud scene 
-
-mongo_msg_db_msgs/Collection collection # The collection to look for the object in.
-string object_id # ID of the object in the database.
+string object_id # ID of the object in the database. The collection is assumed to be known from context.
 
 bool is_tabletop # Set to true if the algorithm can assume that the given scene is a tabletop scene
 float64 max_error # Will return all matches whose error is less than max_error.

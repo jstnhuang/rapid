@@ -12,6 +12,7 @@
 
 #include "object_search/cloud_database.h"
 #include "object_search/commands.h"
+#include "object_search_msgs/GetObjectInfo.h"
 #include "object_search_msgs/Match.h"
 #include "object_search_msgs/RecordObject.h"
 #include "object_search_msgs/Search.h"
@@ -23,6 +24,8 @@ class ObjectSearchNode {
   ObjectSearchNode(const rapid::perception::PoseEstimator& estimator,
                    const RecordObjectCommand& record_object,
                    const Database& object_db);
+  bool ServeGetObjectInfo(object_search_msgs::GetObjectInfoRequest& req,
+                          object_search_msgs::GetObjectInfoResponse& resp);
   bool ServeRecordObject(object_search_msgs::RecordObjectRequest& req,
                          object_search_msgs::RecordObjectResponse& resp);
   bool ServeSearch(object_search_msgs::SearchRequest& req,
@@ -47,6 +50,7 @@ class ObjectSearchNode {
   void CropScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr in,
                  pcl::PointCloud<pcl::PointXYZRGB>::Ptr out);
 
+  tf::TransformListener tf_listener_;
   rapid::perception::PoseEstimator estimator_;
   RecordObjectCommand record_object_;
   Database object_db_;
