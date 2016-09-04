@@ -38,10 +38,10 @@ InteractiveMarker Box3DRoiServer::Box(double x, double y, double z,
   box.scale.x = scale_x;
   box.scale.y = scale_y;
   box.scale.z = scale_z;
-  box.color.r = 0.5;
-  box.color.g = 0.5;
+  box.color.r = 0.25;
+  box.color.g = 0.25;
   box.color.b = 0.5;
-  box.color.a = 0.25;
+  box.color.a = 0.5;
 
   InteractiveMarkerControl control;
   control.markers.push_back(box);
