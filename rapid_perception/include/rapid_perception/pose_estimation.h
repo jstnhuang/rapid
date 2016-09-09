@@ -40,6 +40,10 @@ class PoseEstimationMatch {
   double fitness_;
 };
 
+// Returns true if a has a lower fitness score than b.
+bool ComparePoseEstimationMatch(const PoseEstimationMatch& a,
+                                const PoseEstimationMatch& b);
+
 // Finds instances of a given object in a scene. It is designed and tested to
 // work with single-view point clouds that are voxelized to a resolution of a
 // 0.5cm.

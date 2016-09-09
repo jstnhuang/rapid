@@ -75,6 +75,11 @@ double PoseEstimationMatch::fitness() const { return fitness_; }
 
 void PoseEstimationMatch::set_fitness(double fitness) { fitness_ = fitness; }
 
+bool ComparePoseEstimationMatch(const PoseEstimationMatch& a,
+                                const PoseEstimationMatch& b) {
+  return a.fitness() < b.fitness();
+}
+
 PoseEstimator::PoseEstimator(PoseEstimationHeatMapper* heat_mapper)
     : heat_mapper_(heat_mapper),
       scene_(new PointCloudC()),
@@ -229,10 +234,15 @@ void PoseEstimator::Find(vector<PoseEstimationMatch>* matches) {
   for (size_t i = 0; i < output_indices.size(); ++i) {
     int index = output_indices[i];
     matches->push_back(aligned_objects[index]);
-    ROS_INFO("Score: %f, Pose: %f %f %f", aligned_objects[index].fitness(),
-             aligned_objects[index].pose().position.x,
-             aligned_objects[index].pose().position.y,
-             aligned_objects[index].pose().position.z);
+  }
+
+  // Sort matches by score.
+  std::sort(matches->begin(), matches->end(), &ComparePoseEstimationMatch);
+  for (size_t i = 0; i < matches->size(); ++i) {
+    const PoseEstimationMatch& match = matches->at(i);
+    ROS_INFO("Score: %f, Pose: %f %f %f", match.fitness(),
+             match.pose().position.x, match.pose().position.y,
+             match.pose().position.z);
   }
 }
 
