@@ -9,6 +9,10 @@
 #include <utility>
 #include <vector>
 
+#include "boost/asio/io_service.hpp"
+#include "boost/bind.hpp"
+#include "boost/thread/thread.hpp"
+
 #include "Eigen/Core"
 #include "Eigen/Geometry"
 #include "geometry_msgs/Pose.h"
@@ -325,15 +329,14 @@ void PoseEstimator::ComputeTopCandidates(
   }
 }
 
-void PoseEstimator::RunIcpCandidates(
-    pcl::PointIndices::Ptr candidate_indices,
+void PoseEstimator::RunIcpCandidatesInThread(
+    pcl::PointIndices::Ptr candidate_indices, size_t start, size_t end,
     vector<PoseEstimationMatch>* aligned_objects) {
   // Copy the object and its center.
   PointCloudC::Ptr working_object(new PointCloudC);
   PointCloudC::Ptr aligned_object(new PointCloudC);
   pcl::IterativeClosestPoint<PointC, PointC> icp;
   icp.setInputTarget(scene_);
-  aligned_objects->clear();
 
   // Compute object to base transform.
   Eigen::Affine3f object_to_base;
@@ -344,7 +347,7 @@ void PoseEstimator::RunIcpCandidates(
   Eigen::Quaternionf roi_rotation;
   utils::GeometryMsgToEigen(object_roi_.transform.rotation, &roi_rotation);
 
-  for (size_t ci = 0; ci < candidate_indices->indices.size(); ++ci) {
+  for (size_t ci = start; ci < end; ++ci) {
     int index = candidate_indices->indices[ci];
     const PointC& center = scene_->points[index];
     rapid_msgs::Roi3D roi = object_roi_;
@@ -402,11 +405,45 @@ void PoseEstimator::RunIcpCandidates(
         output_pose.position.y = roi.transform.translation.y;
         output_pose.position.z = roi.transform.translation.z;
         output_pose.orientation = roi.transform.rotation;
-        aligned_objects->push_back(
-            PoseEstimationMatch(aligned_object, output_pose, fitness));
+        (*aligned_objects)[ci] =
+            PoseEstimationMatch(aligned_object, output_pose, fitness);
       }
     }
   }
+}
+
+void PoseEstimator::RunIcpCandidates(
+    pcl::PointIndices::Ptr candidate_indices,
+    vector<PoseEstimationMatch>* aligned_objects) {
+  boost::asio::io_service io_service;
+  boost::thread_group threadpool;
+  boost::asio::io_service::work work(io_service);
+
+  aligned_objects->clear();
+  aligned_objects->resize(candidate_indices->indices.size());
+
+  int num_threads = 4;
+  ros::param::param<int>("num_threads", num_threads, 4);
+  for (int i = 0; i < num_threads; ++i) {
+    threadpool.create_thread(
+        boost::bind(&boost::asio::io_service::run, &io_service));
+  }
+
+  int num_candidates = candidate_indices->indices.size() / 4;
+
+  for (int i = 0; i < num_threads; ++i) {
+    int start = i * num_candidates;
+    int end = (i + 1) * num_candidates - 1;
+    if (i == num_threads - 1) {
+      end = candidate_indices->indices.size() - 1;
+    }
+    io_service.post(boost::bind(&PoseEstimator::RunIcpCandidatesInThread, this,
+                                candidate_indices, start, end,
+                                aligned_objects));
+  }
+
+  io_service.stop();
+  threadpool.join_all();
 }
 
 void PoseEstimator::NonMaxSuppression(
