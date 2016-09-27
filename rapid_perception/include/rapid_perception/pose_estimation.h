@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "boost/thread/mutex.hpp"
 #include "Eigen/Core"
 #include "Eigen/Geometry"
 #include "geometry_msgs/Pose.h"
@@ -161,8 +162,9 @@ class PoseEstimator {
   // Initialize and run ICP at each of the candidate points.
   void RunIcpCandidates(pcl::PointIndices::Ptr candidate_indices,
                         std::vector<PoseEstimationMatch>* aligned_objects);
-  void RunIcpCandidatesInThread(
-      pcl::PointIndices::Ptr candidate_indices, size_t start, size_t end,
+  void RunIcpCandidateInThread(
+      pcl::PointIndices::Ptr candidate_indices, size_t candidate_index,
+      boost::mutex& output_mutex,
       std::vector<PoseEstimationMatch>* aligned_objects);
   // Do non-max suppression on ICP outputs.
   void NonMaxSuppression(std::vector<PoseEstimationMatch>& aligned_objects,
