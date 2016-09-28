@@ -74,10 +74,10 @@ double ComputeIcpFitness(
     const PointC& scene_pt = scene->at(index);
     object_tree.nearestKSearch(scene_pt, 1, nn_indices, nn_dists);
     double distance = sqrt(nn_dists[0]);
-    if (distance < 0.05) {
-      fitness += distance;
-      ++denominator;
-    }
+    // if (distance < 0.05) {
+    fitness += distance;
+    ++denominator;
+    //}
     visited[nn_indices[0]] = true;
   }
 
