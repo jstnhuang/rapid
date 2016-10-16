@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "boost/thread/mutex.hpp"
 #include "Eigen/Core"
 #include "Eigen/Geometry"
 #include "geometry_msgs/Pose.h"
@@ -14,6 +15,7 @@
 #include "rapid_msgs/Roi3D.h"
 #include "rapid_perception/pose_estimation_heat_mapper.h"
 #include "rapid_ros/publisher.h"
+#include "rapid_viz/markers.h"
 
 namespace rapid {
 namespace perception {
@@ -38,6 +40,10 @@ class PoseEstimationMatch {
   pcl::PointXYZ center_;
   double fitness_;
 };
+
+// Returns true if a has a lower fitness score than b.
+bool ComparePoseEstimationMatch(const PoseEstimationMatch& a,
+                                const PoseEstimationMatch& b);
 
 // Finds instances of a given object in a scene. It is designed and tested to
 // work with single-view point clouds that are voxelized to a resolution of a
@@ -156,6 +162,10 @@ class PoseEstimator {
   // Initialize and run ICP at each of the candidate points.
   void RunIcpCandidates(pcl::PointIndices::Ptr candidate_indices,
                         std::vector<PoseEstimationMatch>* aligned_objects);
+  void RunIcpCandidateInThread(
+      pcl::PointIndices::Ptr candidate_indices, size_t candidate_index,
+      boost::mutex& output_mutex,
+      std::vector<PoseEstimationMatch>* aligned_objects);
   // Do non-max suppression on ICP outputs.
   void NonMaxSuppression(std::vector<PoseEstimationMatch>& aligned_objects,
                          std::vector<int>* deduped_indices);
@@ -172,6 +182,9 @@ class PoseEstimator {
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr object_;
   Eigen::Vector3f object_center_;  // Approx center point of object.
   rapid_msgs::Roi3D object_roi_;
+  viz::Marker object_box_;
+
+  std::vector<viz::Marker> output_boxes_;
 
   // Parameters
   // Number of candidate samples to consider for ICP.

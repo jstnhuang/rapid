@@ -9,6 +9,11 @@
 #include <utility>
 #include <vector>
 
+#include "boost/asio/io_service.hpp"
+#include "boost/thread/mutex.hpp"
+#include "boost/bind.hpp"
+#include "boost/thread/thread.hpp"
+
 #include "Eigen/Core"
 #include "Eigen/Geometry"
 #include "geometry_msgs/Pose.h"
@@ -29,6 +34,7 @@
 #include "rapid_utils/eigen_conversions.h"
 #include "rapid_utils/pcl_conversions.h"
 #include "rapid_utils/stochastic_universal_sampling.h"
+#include "rapid_viz/markers.h"
 #include "rapid_viz/publish.h"
 
 typedef pcl::PointXYZRGB PointC;
@@ -66,9 +72,7 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr PoseEstimationMatch::cloud() const {
   return cloud_;
 }
 
-geometry_msgs::Pose PoseEstimationMatch::pose() const {
-  return pose_;
-}
+geometry_msgs::Pose PoseEstimationMatch::pose() const { return pose_; }
 
 pcl::PointXYZ PoseEstimationMatch::center() const { return center_; }
 
@@ -76,11 +80,18 @@ double PoseEstimationMatch::fitness() const { return fitness_; }
 
 void PoseEstimationMatch::set_fitness(double fitness) { fitness_ = fitness; }
 
+bool ComparePoseEstimationMatch(const PoseEstimationMatch& a,
+                                const PoseEstimationMatch& b) {
+  return a.fitness() < b.fitness();
+}
+
 PoseEstimator::PoseEstimator(PoseEstimationHeatMapper* heat_mapper)
     : heat_mapper_(heat_mapper),
       scene_(new PointCloudC()),
       object_(new PointCloudC()),
       object_center_(),
+      object_box_(viz::Marker::Null()),
+      output_boxes_(),
       num_candidates_(100),
       fitness_threshold_(0.0045),
       sigma_threshold_(8),
@@ -116,6 +127,18 @@ void PoseEstimator::set_object(
     static_cast<TemplateMatchingHeatMapper*>(heat_mapper_)->set_object_roi(roi);
   }
 
+  geometry_msgs::PoseStamped pose;
+  pose.header.frame_id = object->header.frame_id;
+  pose.pose.position.x = roi.transform.translation.x;
+  pose.pose.position.y = roi.transform.translation.y;
+  pose.pose.position.z = roi.transform.translation.z;
+  pose.pose.orientation = roi.transform.rotation;
+  object_box_ = viz::Marker::OutlineBox(marker_pub_, pose, roi.dimensions);
+  geometry_msgs::Vector3 scale;
+  scale.x = 0.0025;
+  object_box_.SetScale(scale);
+  object_box_.SetNamespace("object");
+  object_box_.Publish();
   viz::PublishCloud(object_pub_, *object);
 }
 
@@ -154,6 +177,8 @@ void PoseEstimator::set_marker_publisher(
 }
 
 void PoseEstimator::Find(vector<PoseEstimationMatch>* matches) {
+  output_boxes_.clear();  // Clear visualization.
+
   // Compute heatmap of features
   pcl::PointIndicesPtr heatmap_indices(new pcl::PointIndices);
   Eigen::VectorXd importances;
@@ -191,6 +216,18 @@ void PoseEstimator::Find(vector<PoseEstimationMatch>* matches) {
       double b = static_cast<double>(rand()) / RAND_MAX;
       Colorize(aligned_objects[index].cloud(), r, g, b);
       *output_cloud += *aligned_objects[index].cloud();
+
+      geometry_msgs::PoseStamped ps;
+      ps.header.frame_id = aligned_objects[index].cloud()->header.frame_id;
+      ps.pose = aligned_objects[index].pose();
+      viz::Marker output_box =
+          viz::Marker::OutlineBox(marker_pub_, ps, object_roi_.dimensions);
+      geometry_msgs::Vector3 scale;
+      scale.x = 0.0025;
+      output_box.SetScale(scale);
+      output_box.SetNamespace("output");
+      output_boxes_.push_back(output_box);
+      output_boxes_[output_boxes_.size() - 1].Publish();
       ++num_instances;
     }
     ROS_INFO("Found %d instances of the model", num_instances);
@@ -202,9 +239,15 @@ void PoseEstimator::Find(vector<PoseEstimationMatch>* matches) {
   for (size_t i = 0; i < output_indices.size(); ++i) {
     int index = output_indices[i];
     matches->push_back(aligned_objects[index]);
-    ROS_INFO("Pose: %f %f %f", aligned_objects[index].pose().position.x,
-      aligned_objects[index].pose().position.y,
-      aligned_objects[index].pose().position.z);
+  }
+
+  // Sort matches by score.
+  std::sort(matches->begin(), matches->end(), &ComparePoseEstimationMatch);
+  for (size_t i = 0; i < matches->size(); ++i) {
+    const PoseEstimationMatch& match = matches->at(i);
+    ROS_INFO("Score: %f, Pose: %f %f %f", match.fitness(),
+             match.pose().position.x, match.pose().position.y,
+             match.pose().position.z);
   }
 }
 
@@ -287,15 +330,14 @@ void PoseEstimator::ComputeTopCandidates(
   }
 }
 
-void PoseEstimator::RunIcpCandidates(
-    pcl::PointIndices::Ptr candidate_indices,
-    vector<PoseEstimationMatch>* aligned_objects) {
+void PoseEstimator::RunIcpCandidateInThread(
+    pcl::PointIndices::Ptr candidate_indices, size_t candidate_index,
+    boost::mutex& output_mutex, vector<PoseEstimationMatch>* aligned_objects) {
   // Copy the object and its center.
   PointCloudC::Ptr working_object(new PointCloudC);
   PointCloudC::Ptr aligned_object(new PointCloudC);
   pcl::IterativeClosestPoint<PointC, PointC> icp;
   icp.setInputTarget(scene_);
-  aligned_objects->clear();
 
   // Compute object to base transform.
   Eigen::Affine3f object_to_base;
@@ -306,69 +348,93 @@ void PoseEstimator::RunIcpCandidates(
   Eigen::Quaternionf roi_rotation;
   utils::GeometryMsgToEigen(object_roi_.transform.rotation, &roi_rotation);
 
-  for (size_t ci = 0; ci < candidate_indices->indices.size(); ++ci) {
-    int index = candidate_indices->indices[ci];
-    const PointC& center = scene_->points[index];
-    rapid_msgs::Roi3D roi = object_roi_;
+  int index = candidate_indices->indices[candidate_index];
+  const PointC& center = scene_->points[index];
+  rapid_msgs::Roi3D roi = object_roi_;
 
-    Eigen::Affine3f base_to_candidate;
-    base_to_candidate = Eigen::Translation3f(center.x, center.y, center.z);
+  Eigen::Affine3f base_to_candidate;
+  base_to_candidate = Eigen::Translation3f(center.x, center.y, center.z);
 
-    // Transform the object to be centered on the center point
-    // Also assume that the object and scene are in the same frame
+  // Transform the object to be centered on the center point
+  // Also assume that the object and scene are in the same frame
 
-    // Apply one of 8 rotations: 0/90 degree roll, 0/90 degree pitch, 0/90
-    // degree yaw
-    vector<Eigen::Quaternionf> rotations;
-    GenerateRotations(&rotations);
-    for (size_t rot_i = 0; rot_i < rotations.size(); ++rot_i) {
-      Eigen::Affine3f candidate_rotation = Eigen::Affine3f::Identity();
-      candidate_rotation *= rotations[rot_i];
+  vector<Eigen::Quaternionf> rotations;
+  GenerateRotations(&rotations);
+  for (size_t rot_i = 0; rot_i < rotations.size(); ++rot_i) {
+    Eigen::Affine3f candidate_rotation = Eigen::Affine3f::Identity();
+    candidate_rotation *= rotations[rot_i];
 
-      Eigen::Affine3f candidate_transform =
-          base_to_candidate * candidate_rotation * object_to_base;
-      pcl::transformPointCloud(*object_, *working_object, candidate_transform);
-      // if (debug_) {
-      //  viz::PublishCloud(alignment_pub_, *working_object);
-      //  std::cout << "Showing candidate object, press enter to continue";
-      //  string input;
-      //  std::getline(std::cin, input);
-      //}
+    Eigen::Affine3f candidate_transform =
+        base_to_candidate * candidate_rotation * object_to_base;
+    pcl::transformPointCloud(*object_, *working_object, candidate_transform);
+    // if (debug_) {
+    //  viz::PublishCloud(alignment_pub_, *working_object);
+    //  std::cout << "Showing candidate object, press enter to continue";
+    //  string input;
+    //  std::getline(std::cin, input);
+    //}
 
-      // Run ICP
-      icp.setInputSource(working_object);
-      icp.align(*aligned_object);
-      viz::PublishCloud(alignment_pub_, *aligned_object);
-      if (icp.hasConverged()) {
-        Eigen::Matrix4f icp_transform = icp.getFinalTransformation();
-        Eigen::Affine3f icp_affine;
-        icp_affine = icp_transform;
-        Eigen::Affine3f final_affine = icp_affine * candidate_transform;
+    // Run ICP
+    icp.setInputSource(working_object);
+    icp.align(*aligned_object);
+    viz::PublishCloud(alignment_pub_, *aligned_object);
+    if (icp.hasConverged()) {
+      Eigen::Matrix4f icp_transform = icp.getFinalTransformation();
+      Eigen::Affine3f icp_affine;
+      icp_affine = icp_transform;
+      Eigen::Affine3f final_affine = icp_affine * candidate_transform;
 
-        // Apply transform to ROI position
-        pcl::PointXYZ roi_pt =
-            pcl::transformPoint(roi_translation, final_affine);
-        utils::PclToGeometryMsg(roi_pt, &roi.transform.translation);
+      // Apply transform to ROI position
+      pcl::PointXYZ roi_pt = pcl::transformPoint(roi_translation, final_affine);
+      utils::PclToGeometryMsg(roi_pt, &roi.transform.translation);
 
-        // Apply transform to ROI rotation
-        Eigen::Affine3f final_rotation = final_affine * roi_rotation;
-        Eigen::Quaternionf q;
-        q = final_rotation.rotation();
-        utils::EigenToGeometryMsg(q, &roi.transform.rotation);
+      // Apply transform to ROI rotation
+      Eigen::Affine3f final_rotation = final_affine * roi_rotation;
+      Eigen::Quaternionf q;
+      q = final_rotation.rotation();
+      utils::EigenToGeometryMsg(q, &roi.transform.rotation);
 
-        // The transformation of the match, in the base frame.
-        double fitness =
-            ComputeIcpFitness(scene_, aligned_object, roi, debug_, marker_pub_);
-        geometry_msgs::Pose output_pose;
-        output_pose.position.x = roi.transform.translation.x;
-        output_pose.position.y = roi.transform.translation.y;
-        output_pose.position.z = roi.transform.translation.z;
-        output_pose.orientation = roi.transform.rotation;
-        aligned_objects->push_back(
-            PoseEstimationMatch(aligned_object, output_pose, fitness));
-      }
+      // The transformation of the match, in the base frame.
+      double fitness =
+          ComputeIcpFitness(scene_, aligned_object, roi, debug_, marker_pub_);
+      geometry_msgs::Pose output_pose;
+      output_pose.position.x = roi.transform.translation.x;
+      output_pose.position.y = roi.transform.translation.y;
+      output_pose.position.z = roi.transform.translation.z;
+      output_pose.orientation = roi.transform.rotation;
+      output_mutex.lock();
+      aligned_objects->push_back(
+          PoseEstimationMatch(aligned_object, output_pose, fitness));
+      output_mutex.unlock();
     }
   }
+}
+
+void PoseEstimator::RunIcpCandidates(
+    pcl::PointIndices::Ptr candidate_indices,
+    vector<PoseEstimationMatch>* aligned_objects) {
+  boost::asio::io_service io_service;
+  boost::thread_group threadpool;
+  boost::shared_ptr<boost::asio::io_service::work> work(
+      new boost::asio::io_service::work(io_service));
+
+  aligned_objects->clear();
+
+  int num_threads = 4;
+  ros::param::param<int>("num_threads", num_threads, 4);
+  for (int i = 0; i < num_threads; ++i) {
+    threadpool.create_thread(
+        boost::bind(&boost::asio::io_service::run, &io_service));
+  }
+
+  boost::mutex output_mutex;
+  for (size_t ci = 0; ci < candidate_indices->indices.size(); ++ci) {
+    io_service.post(boost::bind(&PoseEstimator::RunIcpCandidateInThread, this,
+                                candidate_indices, ci, boost::ref(output_mutex),
+                                aligned_objects));
+  }
+  work.reset();
+  threadpool.join_all();
 }
 
 void PoseEstimator::NonMaxSuppression(
@@ -445,8 +511,8 @@ void PoseEstimator::FilterMatches(
     }
 
     viz::PublishCloud(alignment_pub_, *(match.cloud()));
-    if (debug_) {
-      std::cout << "Press enter to continue ";
+    if (debug_ && match.fitness() < 0.007) {
+      std::cout << "Score: " << match.fitness() << ", press enter to continue ";
       string user_input;
       std::getline(std::cin, user_input);
     }

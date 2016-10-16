@@ -114,10 +114,6 @@ TEST_F(BlinkyTest, FailIfResultTooSlow) {
   EXPECT_EQ(false, success);
   success = blinky_.ShowMessage("H1", "H2");
   EXPECT_EQ(false, success);
-  std::vector<std::string> choices;
-  std::string choice;
-  success = blinky_.AskMultipleChoice("Question", choices, &choice);
-  EXPECT_EQ(false, success);
 }
 }  // namespace display
 }  // namespace rapid

@@ -16,12 +16,15 @@
 #include "rapid_msgs/SaveStaticCloud.h"
 #include "rapid_perception/pose_estimation.h"
 #include "rapid_perception/random_heat_mapper.h"
+#include "rapid_perception/scene.h"
+#include "rapid_perception/scene_parsing.h"
 #include "rapid_ros/publisher.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "tf/tf.h"
 #include "visualization_msgs/Marker.h"
 
+#include "object_search_msgs/GetObjectInfo.h"
 #include "object_search_msgs/Match.h"
 #include "object_search_msgs/Search.h"
 #include "object_search/capture_roi.h"
@@ -31,12 +34,16 @@
 typedef pcl::PointXYZRGB PointC;
 typedef pcl::PointCloud<pcl::PointXYZRGB> PointCloudC;
 
+using sensor_msgs::PointCloud2;
+
 namespace object_search {
 ObjectSearchNode::ObjectSearchNode(
     const rapid::perception::PoseEstimator& estimator,
-    const RecordObjectCommand& record_object)
-    : estimator_(estimator),
+    const RecordObjectCommand& record_object, const Database& object_db)
+    : tf_listener_(),
+      estimator_(estimator),
       record_object_(record_object),
+      object_db_(object_db),
       leaf_size_(0.005),
       min_x_(0.2),
       min_y_(-1),
@@ -49,6 +56,16 @@ ObjectSearchNode::ObjectSearchNode(
       fitness_threshold_(0.0045),
       sigma_threshold_(8),
       nms_radius_(0.02) {}
+
+bool ObjectSearchNode::ServeGetObjectInfo(
+    object_search_msgs::GetObjectInfoRequest& req,
+    object_search_msgs::GetObjectInfoResponse& resp) {
+  rapid_msgs::StaticCloud cloud;
+  object_db_.GetById(req.db_id, &cloud);
+  resp.name = cloud.name;
+  resp.dimensions = cloud.roi.dimensions;
+  return true;
+}
 
 bool ObjectSearchNode::ServeRecordObject(
     object_search_msgs::RecordObjectRequest& req,
@@ -63,29 +80,42 @@ bool ObjectSearchNode::ServeRecordObject(
   return true;
 }
 
-bool ObjectSearchNode::ServeSearch(object_search_msgs::SearchRequest& req,
-                                   object_search_msgs::SearchResponse& resp) {
+void ObjectSearchNode::Search(const rapid_msgs::StaticCloud& scene,
+                              const rapid_msgs::StaticCloud& object,
+                              const bool is_tabletop, const double max_error,
+                              const int min_results,
+                              std::vector<object_search_msgs::Match>* matches) {
+  matches->clear();
   UpdateParams();
 
   PointCloudC::Ptr scene_in(new PointCloudC);
   PointCloudC::Ptr object_in(new PointCloudC);
-  pcl::fromROSMsg(req.scene.cloud, *scene_in);
-  pcl::fromROSMsg(req.object.cloud, *object_in);
-  ROS_INFO("Scene (frame %s) has %ld points", scene_in->header.frame_id.c_str(), scene_in->size());
-  ROS_INFO("Object (frame %s) has %ld points", object_in->header.frame_id.c_str(), object_in->size());
+  pcl::fromROSMsg(scene.cloud, *scene_in);
+  pcl::fromROSMsg(object.cloud, *object_in);
+  ROS_INFO("Scene (frame %s) has %ld points", scene_in->header.frame_id.c_str(),
+           scene_in->size());
+  ROS_INFO("Object (frame %s) has %ld points",
+           object_in->header.frame_id.c_str(), object_in->size());
 
   PointCloudC::Ptr scene_transformed(new PointCloudC);
   PointCloudC::Ptr object_transformed(new PointCloudC);
-  TransformToBase(scene_in, req.scene.parent_frame_id,
-                  req.scene.base_to_camera, scene_transformed);
-  TransformToBase(object_in, req.object.parent_frame_id,
-                  req.object.base_to_camera, object_transformed);
-  ROS_INFO("Scene transformed to frame %s", scene_transformed->header.frame_id.c_str());
-  ROS_INFO("Object transformed to frame %s", object_transformed->header.frame_id.c_str());
+  TransformToBase(scene_in, scene.parent_frame_id, scene.base_to_camera,
+                  scene_transformed);
+  TransformToBase(object_in, object.parent_frame_id, object.base_to_camera,
+                  object_transformed);
+  ROS_INFO("Scene transformed to frame %s",
+           scene_transformed->header.frame_id.c_str());
+  ROS_INFO("Object transformed to frame %s",
+           object_transformed->header.frame_id.c_str());
 
   PointCloudC::Ptr scene_cropped(new PointCloudC);
-  CropScene(scene_transformed, scene_cropped);
-  ROS_INFO("Cropped scene to %ld points", scene_cropped->size());
+  if (is_tabletop) {
+    ExtractTabletop(scene_transformed, scene_cropped);
+    ROS_INFO("Extracted %ld points from tabletop", scene_cropped->size());
+  } else {
+    CropScene(scene_transformed, scene_cropped);
+    ROS_INFO("Cropped scene to %ld points", scene_cropped->size());
+  }
 
   PointCloudC::Ptr scene_sampled(new PointCloudC);
   PointCloudC::Ptr object_sampled(new PointCloudC);
@@ -104,26 +134,63 @@ bool ObjectSearchNode::ServeSearch(object_search_msgs::SearchRequest& req,
   estimator_.set_num_candidates(max_samples_);
 
   estimator_.set_scene(scene_sampled);
-  estimator_.set_object(object_sampled, req.object.roi);
-  if (req.max_error == 0) {
+  estimator_.set_object(object_sampled, object.roi);
+  if (max_error == 0) {
     estimator_.set_fitness_threshold(fitness_threshold_);
   } else {
-    estimator_.set_fitness_threshold(req.max_error);
+    estimator_.set_fitness_threshold(max_error);
   }
-  estimator_.set_min_results(req.min_results);
+  estimator_.set_min_results(min_results);
 
-  std::vector<rapid::perception::PoseEstimationMatch> matches;
-  estimator_.Find(&matches);
+  std::vector<rapid::perception::PoseEstimationMatch> pe_matches;
+  estimator_.Find(&pe_matches);
 
-  for (size_t i = 0; i < matches.size(); ++i) {
-    const rapid::perception::PoseEstimationMatch& match = matches[i];
+  for (size_t i = 0; i < pe_matches.size(); ++i) {
+    const rapid::perception::PoseEstimationMatch& match = pe_matches[i];
     object_search_msgs::Match msg;
     msg.pose = match.pose();
     pcl::toROSMsg(*match.cloud(), msg.cloud);
     msg.error = match.fitness();
-    resp.matches.push_back(msg);
+    matches->push_back(msg);
+  }
+}
+
+bool ObjectSearchNode::ServeSearch(object_search_msgs::SearchRequest& req,
+                                   object_search_msgs::SearchResponse& resp) {
+  Search(req.scene, req.object, req.is_tabletop, req.max_error, req.min_results,
+         &resp.matches);
+  return true;
+}
+
+bool ObjectSearchNode::ServeSearchFromDb(
+    object_search_msgs::SearchFromDbRequest& req,
+    object_search_msgs::SearchFromDbResponse& resp) {
+  // Read scene from cloud_in
+  PointCloud2::ConstPtr cloud_in =
+      ros::topic::waitForMessage<PointCloud2>("cloud_in", ros::Duration(10));
+  rapid_msgs::StaticCloud scene;
+  scene.cloud = *cloud_in;
+
+  // Get transform
+  scene.parent_frame_id = "base_link";
+  try {
+    tf::StampedTransform base_to_camera_tf;
+    tf_listener_.lookupTransform(scene.cloud.header.frame_id, "base_link",
+                                 scene.cloud.header.stamp, base_to_camera_tf);
+    tf::transformTFToMsg(base_to_camera_tf, scene.base_to_camera);
+  } catch (tf::TransformException e) {
+    ROS_WARN("%s", e.what());
   }
 
+  rapid_msgs::StaticCloud object;
+  bool success = object_db_.GetById(req.object_id, &object);
+  if (!success) {
+    ROS_ERROR("Invalid ID: %s", req.object_id.c_str());
+    return false;
+  }
+
+  Search(scene, object, req.is_tabletop, req.max_error, req.min_results,
+         &resp.matches);
   return true;
 }
 
@@ -137,7 +204,7 @@ void ObjectSearchNode::UpdateParams() {
   ros::param::param<double>("max_z", max_z_, 1.7);
   ros::param::param<double>("sample_ratio", sample_ratio_, 0.02);
   ros::param::param<int>("max_samples", max_samples_, 500);
-  ros::param::param<double>("fitness_threshold", fitness_threshold_, 0.0045);
+  ros::param::param<double>("fitness_threshold", fitness_threshold_, 0.0055);
   ros::param::param<double>("sigma_threshold", sigma_threshold_, 8);
   ros::param::param<double>("nms_radius", nms_radius_, 0.02);
 }
@@ -181,6 +248,19 @@ void ObjectSearchNode::CropScene(PointCloudC::Ptr in, PointCloudC::Ptr out) {
   crop.setMin(min);
   crop.setMax(max);
   crop.filter(*out);
+}
+
+void ObjectSearchNode::ExtractTabletop(PointCloudC::Ptr in,
+                                       PointCloudC::Ptr out) {
+  rapid::perception::Scene scene;
+  rapid::perception::ParseScene(in, rapid::perception::Pr2Params(), &scene);
+  std::vector<rapid::perception::Object> objects =
+      scene.primary_surface().objects();
+  for (size_t i = 0; i < objects.size(); ++i) {
+    const rapid::perception::Object& object = objects[i];
+    *out += *object.GetCloud();
+  }
+  out->header.frame_id = in->header.frame_id;
 }
 }  // namespace object_search
 
@@ -240,9 +320,16 @@ int main(int argc, char** argv) {
   capture.set_base_frame("base_link");
   object_search::RecordObjectCommand record_object(&object_db, &capture);
 
-  object_search::ObjectSearchNode node(pose_estimator, record_object);
+  object_search::ObjectSearchNode node(pose_estimator, record_object,
+                                       object_db);
+  ros::ServiceServer get_info_service = nh.advertiseService(
+      "get_object_info", &object_search::ObjectSearchNode::ServeGetObjectInfo,
+      &node);
   ros::ServiceServer search_service = nh.advertiseService(
       "find_object", &object_search::ObjectSearchNode::ServeSearch, &node);
+  ros::ServiceServer search_from_db_service = nh.advertiseService(
+      "find_object_from_db",
+      &object_search::ObjectSearchNode::ServeSearchFromDb, &node);
   ros::ServiceServer record_object_service = nh.advertiseService(
       "record_object", &object_search::ObjectSearchNode::ServeRecordObject,
       &node);
