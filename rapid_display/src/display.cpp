@@ -78,10 +78,7 @@ bool Blinky::AskMultipleChoice(const std::string& question,
   goal.question = question;
   goal.choices = choices;
   client_->sendGoal(goal);
-  if (!client_->waitForResult(Duration(server_wait_time_))) {
-    ROS_ERROR("Timed out waiting for Blinky result.");
-    return false;
-  }
+  client_->waitForResult(ros::Duration(0));
   blinky::FaceResultConstPtr result = client_->getResult();
   *choice = result->choice;
   return true;
