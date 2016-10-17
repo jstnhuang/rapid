@@ -7,6 +7,7 @@ project(rapid_manipulation)
 find_package(catkin REQUIRED COMPONENTS
   actionlib
   agile_grasp
+  cmake_modules
   geometry_msgs
   moveit_core
   moveit_msgs

@@ -5,6 +5,7 @@ project(object_search)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  cmake_modules
   mongo_msg_db
   mongo_msg_db_msgs
   object_search_msgs

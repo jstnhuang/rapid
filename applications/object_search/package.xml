@@ -7,6 +7,7 @@
   <license>MIT</license>
   <url type="repository">https://github.com/jstnhuang/rapid</url>
   <buildtool_depend>catkin</buildtool_depend>
+  <depend>cmake_modules</depend>
   <depend>libpcl-all-dev</depend>
   <depend>mongo_msg_db</depend>
   <depend>mongo_msg_db_msgs</depend>
