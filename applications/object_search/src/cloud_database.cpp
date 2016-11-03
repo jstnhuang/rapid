@@ -31,6 +31,7 @@ bool Database::Get(const std::string& name, rapid_msgs::StaticCloud* cloud) {
   bool success = get_.call(req, res);
   if (!success) {
     ROS_ERROR("Get call failed.");
+    return false;
   }
   if (res.error != "") {
     ROS_ERROR("%s", res.error.c_str());

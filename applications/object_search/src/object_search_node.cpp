@@ -187,10 +187,19 @@ bool ObjectSearchNode::ServeSearchFromDb(
   }
 
   rapid_msgs::StaticCloud object;
-  bool success = object_db_.GetById(req.object_id, &object);
-  if (!success) {
-    ROS_ERROR("Invalid ID: %s", req.object_id.c_str());
-    return false;
+  ROS_INFO("object_id: %s, name: %s", req.object_id.c_str(), req.name.c_str());
+  if (req.object_id != "") {
+    bool success = object_db_.GetById(req.object_id, &object);
+    if (!success) {
+      ROS_ERROR("Invalid ID: %s", req.object_id.c_str());
+      return false;
+    }
+  } else {
+    bool success = object_db_.Get(req.name, &object);
+    if (!success) {
+      ROS_ERROR("Invalid name: %s", req.name.c_str());
+      return false;
+    }
   }
 
   Search(scene, object, req.is_tabletop, req.max_error, req.min_results,

@@ -2,6 +2,7 @@
 # All point clouds and measurements are in the robot's base frame.
 
 string object_id # ID of the object in the database. The collection is assumed to be known from context.
+string name # Name the object in the database, used to ID it if the object_id is not provided. The collection is assumed to be known from context.
 
 bool is_tabletop # Set to true if the algorithm can assume that the given scene is a tabletop scene
 float64 max_error # Will return all matches whose error is less than max_error.
