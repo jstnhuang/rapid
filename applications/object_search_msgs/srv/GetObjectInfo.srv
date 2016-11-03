@@ -1,5 +1,7 @@
 # Gets summarized information about a landmark.
+# The name field can be to ID the landmark if db_id is not provided.
 string db_id
+string name
 ---
 string name # Name of this landmark.
 geometry_msgs/Vector3 dimensions # x/y/z dimensions of the bounding box around the landmark.

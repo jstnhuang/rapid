@@ -61,7 +61,11 @@ bool ObjectSearchNode::ServeGetObjectInfo(
     object_search_msgs::GetObjectInfoRequest& req,
     object_search_msgs::GetObjectInfoResponse& resp) {
   rapid_msgs::StaticCloud cloud;
-  object_db_.GetById(req.db_id, &cloud);
+  if (req.db_id != "") {
+    object_db_.GetById(req.db_id, &cloud);
+  } else {
+    object_db_.Get(req.name, &cloud);
+  }
   resp.name = cloud.name;
   resp.dimensions = cloud.roi.dimensions;
   return true;
