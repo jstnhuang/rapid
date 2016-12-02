@@ -13,7 +13,7 @@ cd ~/catkin_ws/src
 git clone https://github.com/hcrlab/blinky.git
 git clone https://github.com/jstnhuang/agile_grasp.git
 cd ~/catkin_ws
-rosdep install --from-paths src --ignore-src --rosdistro=hydro -y
+rosdep install --from-paths src --ignore-src --rosdistro=indigo -y
 catkin build
 ```
 
