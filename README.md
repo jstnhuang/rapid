@@ -17,6 +17,20 @@ rosdep install --from-paths src --ignore-src --rosdistro=indigo -y
 catkin build
 ```
 
+If you get a bunch of gmock errors, the issue is probably that the system version of gmock does not match the version of gmock that rapid expects.
+To fix this issue, compile and install the latest version of [googletest](https://github.com/google/googletest).
+```
+mkdir ~/local
+cd ~/local
+git clone git@github.com:google/googletest.git
+cd googletest
+mkdir mybuild
+cd mybuild
+cmake ..
+make
+sudo make install
+```
+
 See [.travis.yml](.travis.yml) for an example installation.
 
 ## Summary
