@@ -93,7 +93,6 @@ bool CommandLine::ParseCommand(const string& input, string* command,
   boost::split(tokens, input, boost::is_space());
   if (tokens.size() == 0) {
     return false;
-    ;
   }
   *command = tokens[0];
   args->clear();
