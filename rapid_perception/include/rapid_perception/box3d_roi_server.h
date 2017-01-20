@@ -17,6 +17,8 @@ class Box3DRoiServer {
   Box3DRoiServer(const std::string& topic);
   ~Box3DRoiServer();
   void Start();
+  void Start(double x, double y, double z, double scale_x, double scale_y,
+             double scale_z);
   void Stop();
   rapid_msgs::Roi3D roi();
   void set_base_frame(const std::string& base_frame);

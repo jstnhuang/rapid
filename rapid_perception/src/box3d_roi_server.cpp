@@ -60,30 +60,39 @@ InteractiveMarker Box3DRoiServer::Box(double x, double y, double z,
   return marker;
 }
 
-void Box3DRoiServer::Start() {
-  InteractiveMarker box_marker = Box(0.5, 0, 1, 0.3, 0.3, 0.3);
-  server_->insert(box_marker);
-  roi_.transform.translation.x = 0.5;
-  roi_.transform.translation.y = 0;
-  roi_.transform.translation.z = 1;
-  roi_.transform.rotation.w = 1;
-  roi_.dimensions.x = 0.3;
-  roi_.dimensions.y = 0.3;
-  roi_.dimensions.z = 0.3;
+void Box3DRoiServer::Start() { Start(0.5, 0, 1, 0.3, 0.3, 0.3); }
 
-  InteractiveMarker x_marker = Arrow("x", "pos", 0.5, 0, 1, 0.3, 0.3, 0.3);
+void Box3DRoiServer::Start(double x, double y, double z, double scale_x,
+                           double scale_y, double scale_z) {
+  InteractiveMarker box_marker = Box(x, y, z, scale_x, scale_y, scale_z);
+  server_->insert(box_marker);
+  roi_.transform.translation.x = x;
+  roi_.transform.translation.y = y;
+  roi_.transform.translation.z = z;
+  roi_.transform.rotation.w = 1;
+  roi_.dimensions.x = scale_x;
+  roi_.dimensions.y = scale_y;
+  roi_.dimensions.z = scale_z;
+
+  InteractiveMarker x_marker =
+      Arrow("x", "pos", x, y, z, scale_x, scale_y, scale_z);
   server_->insert(x_marker, boost::bind(&Box3DRoiServer::Feedback, this, _1));
-  InteractiveMarker y_marker = Arrow("y", "pos", 0.5, 0, 1, 0.3, 0.3, 0.3);
+  InteractiveMarker y_marker =
+      Arrow("y", "pos", x, y, z, scale_x, scale_y, scale_z);
   server_->insert(y_marker, boost::bind(&Box3DRoiServer::Feedback, this, _1));
-  InteractiveMarker z_marker = Arrow("z", "pos", 0.5, 0, 1, 0.3, 0.3, 0.3);
+  InteractiveMarker z_marker =
+      Arrow("z", "pos", x, y, z, scale_x, scale_y, scale_z);
   server_->insert(z_marker, boost::bind(&Box3DRoiServer::Feedback, this, _1));
-  InteractiveMarker neg_x_marker = Arrow("x", "neg", 0.5, 0, 1, 0.3, 0.3, 0.3);
+  InteractiveMarker neg_x_marker =
+      Arrow("x", "neg", x, y, z, scale_x, scale_y, scale_z);
   server_->insert(neg_x_marker,
                   boost::bind(&Box3DRoiServer::Feedback, this, _1));
-  InteractiveMarker neg_y_marker = Arrow("y", "neg", 0.5, 0, 1, 0.3, 0.3, 0.3);
+  InteractiveMarker neg_y_marker =
+      Arrow("y", "neg", x, y, z, scale_x, scale_y, scale_z);
   server_->insert(neg_y_marker,
                   boost::bind(&Box3DRoiServer::Feedback, this, _1));
-  InteractiveMarker neg_z_marker = Arrow("z", "neg", 0.5, 0, 1, 0.3, 0.3, 0.3);
+  InteractiveMarker neg_z_marker =
+      Arrow("z", "neg", x, y, z, scale_x, scale_y, scale_z);
   server_->insert(neg_z_marker,
                   boost::bind(&Box3DRoiServer::Feedback, this, _1));
 
