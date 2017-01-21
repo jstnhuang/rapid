@@ -4,14 +4,17 @@
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 
+#include "rapid_perception/pose_estimation_match.h"
+
 namespace rapid {
 namespace perception {
 class PoseEstimationInterface {
  public:
-  virtual ~PoseEstimationInterface();
+  virtual ~PoseEstimationInterface() {}
   virtual void set_scene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene) = 0;
   virtual void set_object(
       const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& object) = 0;
+  virtual void Find(std::vector<PoseEstimationMatch>* matches) = 0;
 };
 }  // namespace perception
 }  // namespace rapid

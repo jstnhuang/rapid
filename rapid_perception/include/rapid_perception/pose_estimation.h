@@ -14,22 +14,13 @@
 
 #include "rapid_msgs/Roi3D.h"
 #include "rapid_perception/pose_estimation_heat_mapper.h"
+#include "rapid_perception/pose_estimation_interface.h"
 #include "rapid_perception/pose_estimation_match.h"
 #include "rapid_ros/publisher.h"
 #include "rapid_viz/markers.h"
 
 namespace rapid {
 namespace perception {
-
-class PoseEstimationInterface {
- public:
-  virtual ~PoseEstimationInterface() {}
-  virtual void set_scene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene) = 0;
-  virtual void set_object(
-      const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& object) = 0;
-  virtual void Find(std::vector<PoseEstimationMatch>* matches) = 0;
-};
-
 // Finds instances of a given object in a scene. It is designed and tested to
 // work with single-view point clouds that are voxelized to a resolution of a
 // 0.5cm.
