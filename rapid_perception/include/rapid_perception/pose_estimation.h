@@ -14,36 +14,12 @@
 
 #include "rapid_msgs/Roi3D.h"
 #include "rapid_perception/pose_estimation_heat_mapper.h"
+#include "rapid_perception/pose_estimation_match.h"
 #include "rapid_ros/publisher.h"
 #include "rapid_viz/markers.h"
 
 namespace rapid {
 namespace perception {
-class PoseEstimationMatch {
- public:
-  // Do not use default constructor except to initialize empty objects.
-  PoseEstimationMatch();
-  PoseEstimationMatch(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud,
-                      const geometry_msgs::Pose& pose, double fitness);
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud() const;
-  // Returns the pose of the match.
-  geometry_msgs::Pose pose() const;
-  // Returns the center point of the point cloud
-  pcl::PointXYZ center() const;
-  // Returns the ICP fitness score (lower score is a better match).
-  double fitness() const;
-  void set_fitness(double fitness);
-
- private:
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_;
-  geometry_msgs::Pose pose_;
-  pcl::PointXYZ center_;
-  double fitness_;
-};
-
-// Returns true if a has a lower fitness score than b.
-bool ComparePoseEstimationMatch(const PoseEstimationMatch& a,
-                                const PoseEstimationMatch& b);
 
 class PoseEstimationInterface {
  public:

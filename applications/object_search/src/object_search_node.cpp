@@ -15,6 +15,7 @@
 #include "rapid_msgs/RemoveStaticCloud.h"
 #include "rapid_msgs/SaveStaticCloud.h"
 #include "rapid_perception/pose_estimation.h"
+#include "rapid_perception/pose_estimation_match.h"
 #include "rapid_perception/random_heat_mapper.h"
 #include "rapid_perception/scene.h"
 #include "rapid_perception/scene_parsing.h"
