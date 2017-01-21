@@ -329,12 +329,14 @@ add_dependencies(rapid_perception_pose_estimation
   ${catkin_EXPORTED_TARGETS}
   rapid_perception_icp_fitness_functions
   rapid_perception_random_heat_mapper
+  rapid_perception_template_matching_heat_mapper
 )
 target_link_libraries(rapid_perception_pose_estimation
   ${PCL_LIBRARIES}
   ${catkin_LIBRARIES}
   rapid_perception_icp_fitness_functions
   rapid_perception_random_heat_mapper
+  rapid_perception_template_matching_heat_mapper
 )
 
 add_library(rapid_perception_pr2 src/pr2.cpp)

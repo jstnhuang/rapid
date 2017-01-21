@@ -229,7 +229,8 @@ void UseCommand::Execute(std::vector<std::string>& args) {
   }
 
   if (type_ == "object") {
-    estimator_->set_object(pcl_cloud_base, cloud.roi);
+    estimator_->set_object(pcl_cloud_base);
+    estimator_->set_roi(cloud.roi);
   } else {
     estimator_->set_scene(pcl_cloud_base);
   }

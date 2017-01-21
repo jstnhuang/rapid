@@ -45,6 +45,15 @@ class PoseEstimationMatch {
 bool ComparePoseEstimationMatch(const PoseEstimationMatch& a,
                                 const PoseEstimationMatch& b);
 
+class PoseEstimationInterface {
+ public:
+  virtual ~PoseEstimationInterface() {}
+  virtual void set_scene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene) = 0;
+  virtual void set_object(
+      const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& object) = 0;
+  virtual void Find(std::vector<PoseEstimationMatch>* matches) = 0;
+};
+
 // Finds instances of a given object in a scene. It is designed and tested to
 // work with single-view point clouds that are voxelized to a resolution of a
 // 0.5cm.
@@ -72,7 +81,7 @@ bool ComparePoseEstimationMatch(const PoseEstimationMatch& a,
 // You can also ask it to return at least N results, even if some or all of
 // those results are above the fitness threshold. This is helpful when you
 // already know from context that N instances of the object are in the scene.
-class PoseEstimator {
+class PoseEstimator : public PoseEstimationInterface {
  public:
   // Constructs a pose estimator given a heat mapper. We do not take ownership
   // over the pointer.
@@ -99,8 +108,8 @@ class PoseEstimator {
   // a single cylinder. However, if the ROI includes empty space above the cross
   // section, then the algorithm will only find the top-most cross section of
   // the cylinder (e.g., the cap of a bottle).
-  void set_object(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& object,
-                  const rapid_msgs::Roi3D& roi);
+  void set_object(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& object);
+  void set_roi(const rapid_msgs::Roi3D& roi);
 
   PoseEstimationHeatMapper* heat_mapper();
 

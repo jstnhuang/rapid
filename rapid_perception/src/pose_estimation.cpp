@@ -110,10 +110,8 @@ void PoseEstimator::set_scene(PointCloudC::Ptr scene) {
 }
 
 void PoseEstimator::set_object(
-    const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& object,
-    const rapid_msgs::Roi3D& roi) {
+    const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& object) {
   object_ = object;
-  object_roi_ = roi;
 
   Eigen::Vector4f min_pt;
   Eigen::Vector4f max_pt;
@@ -123,12 +121,18 @@ void PoseEstimator::set_object(
   object_center_.z() = (max_pt.z() + min_pt.z()) / 2;
 
   heat_mapper_->set_object(object_);
+  viz::PublishCloud(object_pub_, *object);
+}
+
+void PoseEstimator::set_roi(const rapid_msgs::Roi3D& roi) {
+  object_roi_ = roi;
+
   if (heat_mapper_->name() == "template_matching") {
     static_cast<TemplateMatchingHeatMapper*>(heat_mapper_)->set_object_roi(roi);
   }
 
   geometry_msgs::PoseStamped pose;
-  pose.header.frame_id = object->header.frame_id;
+  pose.header.frame_id = object_->header.frame_id;
   pose.pose.position.x = roi.transform.translation.x;
   pose.pose.position.y = roi.transform.translation.y;
   pose.pose.position.z = roi.transform.translation.z;
@@ -139,7 +143,6 @@ void PoseEstimator::set_object(
   object_box_.SetScale(scale);
   object_box_.SetNamespace("object");
   object_box_.Publish();
-  viz::PublishCloud(object_pub_, *object);
 }
 
 PoseEstimationHeatMapper* PoseEstimator::heat_mapper() { return heat_mapper_; }

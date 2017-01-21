@@ -138,7 +138,8 @@ void ObjectSearchNode::Search(const rapid_msgs::StaticCloud& scene,
   estimator_.set_num_candidates(max_samples_);
 
   estimator_.set_scene(scene_sampled);
-  estimator_.set_object(object_sampled, object.roi);
+  estimator_.set_object(object_sampled);
+  estimator_.set_roi(object.roi);
   if (max_error == 0) {
     estimator_.set_fitness_threshold(fitness_threshold_);
   } else {
