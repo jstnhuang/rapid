@@ -9,6 +9,7 @@
 #include "rapid_perception/box3d_roi_server.h"
 #include "rapid_perception/pose_estimation.h"
 #include "rapid_perception/random_heat_mapper.h"
+#include "rapid_perception/ransac_pose_estimator.h"
 #include "rapid_msgs/GetStaticCloud.h"
 #include "rapid_msgs/ListStaticClouds.h"
 #include "rapid_msgs/RemoveStaticCloud.h"
@@ -22,6 +23,7 @@
 #include "object_search/commands.h"
 #include "object_search/command_line.h"
 #include "object_search/cloud_database.h"
+#include "object_search/estimators.h"
 
 using sensor_msgs::PointCloud2;
 using pcl::PointCloud;
@@ -90,16 +92,21 @@ int main(int argc, char** argv) {
   pose_estimator.set_output_publisher(output_pub);
   pose_estimator.set_marker_publisher(&marker_pub);
 
+  rapid::perception::RansacPoseEstimator ransac_estimator;
+  Estimators estimators;
+  estimators.custom = &pose_estimator;
+  estimators.ransac = &ransac_estimator;
+
   ListCommand list_objects(&object_db, "object");
   ListCommand list_scenes(&scene_db, "scene");
   RecordObjectCommand record_object(&object_db, &capture);
   RecordSceneCommand record_scene(&scene_db);
   DeleteCommand delete_object(&object_db);
   DeleteCommand delete_scene(&scene_db);
-  UseCommand use_object(&object_db, &pose_estimator, "object");
-  UseCommand use_scene(&scene_db, &pose_estimator, "scene");
-  RunCommand run(&pose_estimator);
-  SetDebugCommand set_debug(&pose_estimator);
+  UseCommand use_object(&object_db, &estimators, "object");
+  UseCommand use_scene(&scene_db, &estimators, "scene");
+  RunCommand run(&estimators);
+  SetDebugCommand set_debug(&estimators);
 
   CommandLine cli;
   cli.set_list_objects(&list_objects);

@@ -28,6 +28,7 @@
 
 #include "object_search/capture_roi.h"
 #include "object_search/cloud_database.h"
+#include "object_search/estimators.h"
 
 using pcl::FPFHSignature33;
 using pcl::PointCloud;
@@ -155,10 +156,9 @@ void DeleteCommand::Execute(std::vector<std::string>& args) {
   }
 }
 
-UseCommand::UseCommand(Database* db,
-                       rapid::perception::PoseEstimator* estimator,
+UseCommand::UseCommand(Database* db, Estimators* estimators,
                        const std::string& type)
-    : db_(db), estimator_(estimator), type_(type) {}
+    : db_(db), estimators_(estimators), type_(type) {}
 
 void UseCommand::Execute(std::vector<std::string>& args) {
   StaticCloud cloud;
@@ -188,7 +188,8 @@ void UseCommand::Execute(std::vector<std::string>& args) {
     pcl::removeNaNFromPointCloud(*pcl_cloud, *pcl_cloud, mapping);
     ROS_INFO("Filtered NaNs, there are now %ld points", pcl_cloud->size());
   }
-  if (estimator_->heat_mapper()->name() == "cnn" && type_ == "object") {
+  if (estimators_->custom->heat_mapper()->name() == "cnn" &&
+      type_ == "object") {
     ROS_ERROR("CNN heat mapper not enabled, update the code.");
     return;
     // static_cast<rapid::perception::CnnHeatMapper*>(estimator_->heat_mapper())
@@ -216,7 +217,7 @@ void UseCommand::Execute(std::vector<std::string>& args) {
     extract.setInputCloud(pcl_cloud);
     extract.setIndices(indices_ptr);
     extract.filter(*pcl_cloud);
-    if (estimator_->heat_mapper()->name() == "cnn") {
+    if (estimators_->custom->heat_mapper()->name() == "cnn") {
       ROS_ERROR("CNN heat mapper not enabled, update the code.");
       return;
       // static_cast<rapid::perception::CnnHeatMapper*>(estimator_->heat_mapper())
@@ -230,10 +231,10 @@ void UseCommand::Execute(std::vector<std::string>& args) {
   }
 
   if (type_ == "object") {
-    estimator_->set_object(pcl_cloud_base);
-    estimator_->set_roi(cloud.roi);
+    estimators_->custom->set_object(pcl_cloud_base);
+    estimators_->custom->set_roi(cloud.roi);
   } else {
-    estimator_->set_scene(pcl_cloud_base);
+    estimators_->custom->set_scene(pcl_cloud_base);
   }
 }
 
@@ -269,14 +270,14 @@ void UseCommand::CropScene(PointCloud<PointXYZRGB>::Ptr scene,
   ROS_INFO("Cropped to %ld points", indices->size());
 }
 
-RunCommand::RunCommand(rapid::perception::PoseEstimator* estimator)
-    : estimator_(estimator), matches_() {}
+RunCommand::RunCommand(Estimators* estimators)
+    : estimators_(estimators), matches_() {}
 
 void RunCommand::Execute(std::vector<std::string>& args) {
   UpdateParams();
   pcl::ScopeTime timer("Running algorithm");
   matches_.clear();
-  estimator_->Find(&matches_);
+  estimators_->custom->Find(&matches_);
 }
 
 void RunCommand::matches(
@@ -321,7 +322,7 @@ void RunCommand::UpdateParams() {
       feature_threshold, num_candidates, fitness_threshold, sigma_threshold,
       nms_radius, min_results);
 
-  if (estimator_->heat_mapper()->name() == "cnn") {
+  if (estimators_->custom->heat_mapper()->name() == "cnn") {
     ROS_ERROR("CNN heat mapper not enabled, update the code.");
     return;
     // rapid::perception::CnnHeatMapper* mapper =
@@ -332,7 +333,7 @@ void RunCommand::UpdateParams() {
     // mapper->set_max_sample_radius(max_sample_radius);
     // mapper->set_max_neighbors(max_neighbors);
     // mapper->set_cnn_layer(cnn_layer);
-  } else if (estimator_->heat_mapper()->name() == "fpfh") {
+  } else if (estimators_->custom->heat_mapper()->name() == "fpfh") {
     ROS_ERROR("FPFH heat mapper not enabled, update the code.");
     return;
     // rapid::perception::FpfhHeatMapper* mapper =
@@ -343,7 +344,8 @@ void RunCommand::UpdateParams() {
     // mapper->set_max_sample_radius(max_sample_radius);
     // mapper->set_max_neighbors(max_neighbors);
     // mapper->set_feature_threshold(feature_threshold);
-  } else if (estimator_->heat_mapper()->name() == "template_matching") {
+  } else if (estimators_->custom->heat_mapper()->name() ==
+             "template_matching") {
     ROS_ERROR("Template matching heat mapper not enabled, update the code.");
     return;
     // rapid::perception::TemplateMatchingHeatMapper* mapper =
@@ -351,28 +353,28 @@ void RunCommand::UpdateParams() {
     //        estimator_->heat_mapper());
     // mapper->set_sample_ratio(sample_ratio);
     // mapper->set_max_samples(max_samples);
-  } else if (estimator_->heat_mapper()->name() == "random") {
+  } else if (estimators_->custom->heat_mapper()->name() == "random") {
     rapid::perception::RandomHeatMapper* mapper =
         static_cast<rapid::perception::RandomHeatMapper*>(
-            estimator_->heat_mapper());
+            estimators_->custom->heat_mapper());
     mapper->set_sample_ratio(sample_ratio);
     mapper->set_max_samples(max_samples);
   }
-  estimator_->set_num_candidates(num_candidates);
-  estimator_->set_fitness_threshold(fitness_threshold);
-  estimator_->set_sigma_threshold(sigma_threshold);
-  estimator_->set_nms_radius(nms_radius);
-  estimator_->set_min_results(min_results);
+  estimators_->custom->set_num_candidates(num_candidates);
+  estimators_->custom->set_fitness_threshold(fitness_threshold);
+  estimators_->custom->set_sigma_threshold(sigma_threshold);
+  estimators_->custom->set_nms_radius(nms_radius);
+  estimators_->custom->set_min_results(min_results);
 }
 
-SetDebugCommand::SetDebugCommand(rapid::perception::PoseEstimator* estimator)
-    : estimator_(estimator) {}
+SetDebugCommand::SetDebugCommand(Estimators* estimators)
+    : estimators_(estimators) {}
 
 void SetDebugCommand::Execute(std::vector<std::string>& args) {
   if (args[0] == "on") {
-    estimator_->set_debug(true);
+    estimators_->custom->set_debug(true);
   } else {
-    estimator_->set_debug(false);
+    estimators_->custom->set_debug(false);
   }
 }
 }  // namespace object_search

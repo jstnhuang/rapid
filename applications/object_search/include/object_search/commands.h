@@ -10,6 +10,8 @@
 #include "rapid_msgs/StaticCloud.h"
 #include "tf/transform_listener.h"
 
+#include "object_search/estimators.h"
+
 namespace rapid {
 namespace perception {
 class PoseEstimator;
@@ -74,8 +76,7 @@ class DeleteCommand : public Command {
 
 class UseCommand : public Command {
  public:
-  UseCommand(Database* db, rapid::perception::PoseEstimator* estimator,
-             const std::string& type);
+  UseCommand(Database* db, Estimators* estimators, const std::string& type);
   void Execute(std::vector<std::string>& args);
 
  private:
@@ -83,29 +84,29 @@ class UseCommand : public Command {
                  std::vector<int>* indices);
 
   Database* db_;
-  rapid::perception::PoseEstimator* estimator_;
+  Estimators* estimators_;
   std::string type_;
 };
 
 class RunCommand : public Command {
  public:
-  RunCommand(rapid::perception::PoseEstimator* estimator);
+  RunCommand(Estimators* estimator);
   void Execute(std::vector<std::string>& args);
   void matches(std::vector<rapid::perception::PoseEstimationMatch>* matches);
 
  private:
   void UpdateParams();
-  rapid::perception::PoseEstimator* estimator_;
+  Estimators* estimators_;
   std::vector<rapid::perception::PoseEstimationMatch> matches_;
 };
 
 class SetDebugCommand : public Command {
  public:
-  SetDebugCommand(rapid::perception::PoseEstimator* estimator);
+  SetDebugCommand(Estimators* estimator);
   void Execute(std::vector<std::string>& args);
 
  private:
-  rapid::perception::PoseEstimator* estimator_;
+  Estimators* estimators_;
 };
 }  // namespace object_search
 
