@@ -125,6 +125,7 @@ set(MY_RAPID_PERCEPTION_EXPORTED_LIBRARIES
   rapid_perception_icp_fitness_functions
   rapid_perception_pose_estimation
   rapid_perception_ransac_pose_estimator
+  rapid_perception_grouping_pose_estimator
   rapid_perception_pose_estimation_match
   rapid_perception_pose_estimation_heat_mapper
   rapid_perception_fpfh_heat_mapper
@@ -367,6 +368,22 @@ target_link_libraries(rapid_perception_ransac_pose_estimator
   ${PCL_LIBRARIES}
   ${catkin_LIBRARIES}
   rapid_perception_pose_estimation_match
+)
+
+add_library(rapid_perception_grouping_pose_estimator
+  src/grouping_pose_estimator.cpp
+)
+add_dependencies(rapid_perception_grouping_pose_estimator
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+  rapid_perception_pose_estimation_match
+  rapid_perception_rgbd
+)
+target_link_libraries(rapid_perception_grouping_pose_estimator
+  ${PCL_LIBRARIES}
+  ${catkin_LIBRARIES}
+  rapid_perception_pose_estimation_match
+  rapid_perception_rgbd
 )
 
 add_library(rapid_perception_pr2 src/pr2.cpp)
