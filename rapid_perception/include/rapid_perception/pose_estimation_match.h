@@ -1,9 +1,14 @@
 #ifndef _RAPID_POSE_ESTIMATION_MATCH_H_
 #define _RAPID_POSE_ESTIMATION_MATCH_H_
 
+#include <vector>
+
 #include "geometry_msgs/Pose.h"
+#include "geometry_msgs/Vector3.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
+
+#include "ros/ros.h"
 
 namespace rapid {
 namespace perception {
@@ -32,6 +37,14 @@ class PoseEstimationMatch {
 // Returns true if a has a lower fitness score than b.
 bool ComparePoseEstimationMatch(const PoseEstimationMatch& a,
                                 const PoseEstimationMatch& b);
+
+// Visualize matches to a PointCloud2 publisher.
+void VisualizeMatches(ros::Publisher& pub,
+                      const std::vector<PoseEstimationMatch>& matches);
+
+// Set the color of a point cloud for visualization.
+void Colorize(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, double r, double g,
+              double b);
 }  // namespace perception
 }  // namespace rapid
 

@@ -1,10 +1,18 @@
 #include "rapid_perception/pose_estimation_match.h"
 
+#include <vector>
+
 #include "Eigen/Dense"
 #include "geometry_msgs/Pose.h"
+#include "geometry_msgs/PoseStamped.h"
+#include "geometry_msgs/Vector3.h"
 #include "pcl/common/common.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
+#include "ros/ros.h"
+
+#include "rapid_viz/markers.h"
+#include "rapid_viz/publish.h"
 
 typedef pcl::PointXYZRGB PointC;
 typedef pcl::PointCloud<PointC> PointCloudC;
@@ -42,6 +50,52 @@ void PoseEstimationMatch::set_fitness(double fitness) { fitness_ = fitness; }
 bool ComparePoseEstimationMatch(const PoseEstimationMatch& a,
                                 const PoseEstimationMatch& b) {
   return a.fitness() < b.fitness();
+}
+
+void VisualizeMatches(ros::Publisher& pub,
+                      const std::vector<PoseEstimationMatch>& matches) {
+  std::string frame_id = "";
+  if (pub) {
+    PointCloudC::Ptr output_cloud(new PointCloudC);
+    for (size_t i = 0; i < matches.size(); ++i) {
+      const PoseEstimationMatch& match = matches[i];
+      double r = static_cast<double>(rand()) / RAND_MAX;
+      double g = static_cast<double>(rand()) / RAND_MAX;
+      double b = static_cast<double>(rand()) / RAND_MAX;
+      Colorize(match.cloud(), r, g, b);
+      *output_cloud += *match.cloud();
+      if (frame_id == "" && match.cloud()->header.frame_id != "") {
+        frame_id = match.cloud()->header.frame_id;
+      }
+
+      // geometry_msgs::PoseStamped ps;
+      // ps.header.frame_id = match.cloud()->header.frame_id;
+      // ps.pose = match.pose();
+      // viz::Marker output_box =
+      //    viz::Marker::OutlineBox(marker_pub, ps, object_roi_dimensions);
+      // geometry_msgs::Vector3 scale;
+      // scale.x = 0.0025;
+      // output_box.SetScale(scale);
+      // output_box.SetNamespace("output");
+      // output_boxes.push_back(output_box);
+      // output_boxes[output_boxes_.size() - 1].Publish();
+    }
+    if (frame_id == "") {
+      frame_id = "base_link";
+    }
+    ROS_INFO("Visualizing matches in frame: %s", frame_id.c_str());
+    output_cloud->header.frame_id = frame_id;
+    viz::PublishCloud(pub, *output_cloud);
+  }
+}
+
+void Colorize(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, double r, double g,
+              double b) {
+  for (size_t i = 0; i < cloud->size(); ++i) {
+    cloud->points[i].r = static_cast<int>(round(r * 255));
+    cloud->points[i].g = static_cast<int>(round(g * 255));
+    cloud->points[i].b = static_cast<int>(round(b * 255));
+  }
 }
 }  // namespace perception
 }  // namespace rapid

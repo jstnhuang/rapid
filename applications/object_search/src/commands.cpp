@@ -168,39 +168,24 @@ void UseCommand::Execute(std::vector<std::string>& args) {
     return;
   }
 
-  PointCloud<PointXYZRGB>::Ptr pcl_cloud_unfiltered(
-      new PointCloud<PointXYZRGB>);
-  PointCloud<PointXYZRGB>::Ptr pcl_cloud(new PointCloud<PointXYZRGB>);
-  pcl::fromROSMsg(cloud.cloud, *pcl_cloud_unfiltered);
-
-  double leaf_size = 0.01;
-  ros::param::param<double>("leaf_size", leaf_size, 0.01);
-  pcl::VoxelGrid<PointXYZRGB> vox;
-  vox.setInputCloud(pcl_cloud_unfiltered);
-  vox.setLeafSize(leaf_size, leaf_size, leaf_size);
-  vox.filter(*pcl_cloud);
-  ROS_INFO("Downsampled to %ld points", pcl_cloud->size());
+  PointCloud<PointXYZRGB>::Ptr pcl_cloud_filtered(new PointCloud<PointXYZRGB>);
+  pcl::fromROSMsg(cloud.cloud, *pcl_cloud_filtered);
 
   if (type_ == "scene") {
     // Filter NaNs
     std::vector<int> mapping;
-    pcl_cloud->is_dense = false;  // Force check for NaNs
-    pcl::removeNaNFromPointCloud(*pcl_cloud, *pcl_cloud, mapping);
-    ROS_INFO("Filtered NaNs, there are now %ld points", pcl_cloud->size());
-  }
-  if (estimators_->custom->heat_mapper()->name() == "cnn" &&
-      type_ == "object") {
-    ROS_ERROR("CNN heat mapper not enabled, update the code.");
-    return;
-    // static_cast<rapid::perception::CnnHeatMapper*>(estimator_->heat_mapper())
-    //    ->set_object_camera(pcl_cloud);
+    pcl_cloud_filtered->is_dense = false;  // Force check for NaNs
+    pcl::removeNaNFromPointCloud(*pcl_cloud_filtered, *pcl_cloud_filtered,
+                                 mapping);
+    ROS_INFO("Filtered NaNs, there are now %ld points",
+             pcl_cloud_filtered->size());
   }
 
   // Transform into base_footprint
   tf::Transform base_to_camera;
   tf::transformMsgToTF(cloud.base_to_camera, base_to_camera);
   PointCloud<PointXYZRGB>::Ptr pcl_cloud_base(new PointCloud<PointXYZRGB>);
-  pcl_ros::transformPointCloud(*pcl_cloud, *pcl_cloud_base,
+  pcl_ros::transformPointCloud(*pcl_cloud_filtered, *pcl_cloud_base,
                                base_to_camera.inverse());
   pcl_cloud_base->header.frame_id = cloud.parent_frame_id;
 
@@ -214,15 +199,9 @@ void UseCommand::Execute(std::vector<std::string>& args) {
 
     // Get cropped versions of scene in both frames
     pcl::ExtractIndices<pcl::PointXYZRGB> extract;
-    extract.setInputCloud(pcl_cloud);
-    extract.setIndices(indices_ptr);
-    extract.filter(*pcl_cloud);
-    if (estimators_->custom->heat_mapper()->name() == "cnn") {
-      ROS_ERROR("CNN heat mapper not enabled, update the code.");
-      return;
-      // static_cast<rapid::perception::CnnHeatMapper*>(estimator_->heat_mapper())
-      //    ->set_scene_camera(pcl_cloud);
-    }
+    // extract.setInputCloud(pcl_cloud);
+    // extract.setIndices(indices_ptr);
+    // extract.filter(*pcl_cloud);
 
     // Get cropped version of camera frame image
     extract.setInputCloud(pcl_cloud_base);
@@ -230,11 +209,27 @@ void UseCommand::Execute(std::vector<std::string>& args) {
     extract.filter(*pcl_cloud_base);
   }
 
+  // RANSAC estimator does downsampling internally.
+  PointCloud<PointXYZRGB>::Ptr pcl_cloud_downsampled(
+      new PointCloud<PointXYZRGB>);
+  double leaf_size = 0.01;
+  ros::param::param<double>("leaf_size", leaf_size, 0.01);
+  pcl::VoxelGrid<PointXYZRGB> vox;
+  vox.setInputCloud(pcl_cloud_base);
+  vox.setLeafSize(leaf_size, leaf_size, leaf_size);
+  vox.filter(*pcl_cloud_downsampled);
+  ROS_INFO("Downsampled to %ld points", pcl_cloud_downsampled->size());
+  if (estimators_->ransac->voxel_size() != leaf_size) {
+    estimators_->ransac->set_voxel_size(leaf_size);
+  }
+
   if (type_ == "object") {
-    estimators_->custom->set_object(pcl_cloud_base);
+    estimators_->custom->set_object(pcl_cloud_downsampled);
     estimators_->custom->set_roi(cloud.roi);
+    estimators_->ransac->set_object(pcl_cloud_base);
   } else {
-    estimators_->custom->set_scene(pcl_cloud_base);
+    estimators_->custom->set_scene(pcl_cloud_downsampled);
+    estimators_->ransac->set_scene(pcl_cloud_base);
   }
 }
 
@@ -275,9 +270,16 @@ RunCommand::RunCommand(Estimators* estimators)
 
 void RunCommand::Execute(std::vector<std::string>& args) {
   UpdateParams();
-  pcl::ScopeTime timer("Running algorithm");
+  const std::string& algorithm = args[0];
   matches_.clear();
-  estimators_->custom->Find(&matches_);
+  pcl::ScopeTime timer(("Running algorithm: " + algorithm).c_str());
+  if (algorithm == "custom") {
+    estimators_->custom->Find(&matches_);
+  } else if (algorithm == "ransac") {
+    estimators_->ransac->Find(&matches_);
+  } else {
+    ROS_ERROR("Unknown algorithm: %s", algorithm.c_str());
+  }
 }
 
 void RunCommand::matches(
@@ -296,6 +298,12 @@ void RunCommand::UpdateParams() {
   double sigma_threshold;
   double nms_radius;
   int min_results;
+
+  // For RANSAC
+  double pair_width;
+  double scene_radius;
+  double object_radius;
+  double ransac_threshold;
   ros::param::param<double>("sample_ratio", sample_ratio, 0.01);
   ros::param::param<int>("max_samples", max_samples, 1000);
   ros::param::param<double>("max_sample_radius", max_sample_radius, 0.1);
@@ -306,6 +314,10 @@ void RunCommand::UpdateParams() {
   ros::param::param<double>("sigma_threshold", sigma_threshold, 2);
   ros::param::param<double>("nms_radius", nms_radius, 0.03);
   ros::param::param<int>("min_results", min_results, 0);
+  ros::param::param<double>("pair_width", pair_width, 0.025);
+  ros::param::param<double>("scene_radius", scene_radius, 0.025);
+  ros::param::param<double>("object_radius", object_radius, 0.01);
+  ros::param::param<double>("ransac_threshold", ransac_threshold, 0.3);
   ROS_INFO(
       "Parameters:\n"
       "sample_ratio: %f\n"
@@ -317,43 +329,17 @@ void RunCommand::UpdateParams() {
       "fitness_threshold: %f\n"
       "sigma_threshold: %f\n"
       "nms_radius: %f\n"
-      "min_results: %d\n",
+      "min_results: %d\n"
+      "pair_width: %f\n"
+      "scene_radius: %f\n"
+      "object_radius: %f\n"
+      "ransac_threshold: %f\n",
       sample_ratio, max_samples, max_sample_radius, max_neighbors,
       feature_threshold, num_candidates, fitness_threshold, sigma_threshold,
-      nms_radius, min_results);
+      nms_radius, min_results, pair_width, scene_radius, object_radius,
+      ransac_threshold);
 
-  if (estimators_->custom->heat_mapper()->name() == "cnn") {
-    ROS_ERROR("CNN heat mapper not enabled, update the code.");
-    return;
-    // rapid::perception::CnnHeatMapper* mapper =
-    //    static_cast<rapid::perception::CnnHeatMapper*>(
-    //        estimator_->heat_mapper());
-    // mapper->set_sample_ratio(sample_ratio);
-    // mapper->set_max_samples(max_samples);
-    // mapper->set_max_sample_radius(max_sample_radius);
-    // mapper->set_max_neighbors(max_neighbors);
-    // mapper->set_cnn_layer(cnn_layer);
-  } else if (estimators_->custom->heat_mapper()->name() == "fpfh") {
-    ROS_ERROR("FPFH heat mapper not enabled, update the code.");
-    return;
-    // rapid::perception::FpfhHeatMapper* mapper =
-    //    static_cast<rapid::perception::FpfhHeatMapper*>(
-    //        estimator_->heat_mapper());
-    // mapper->set_sample_ratio(sample_ratio);
-    // mapper->set_max_samples(max_samples);
-    // mapper->set_max_sample_radius(max_sample_radius);
-    // mapper->set_max_neighbors(max_neighbors);
-    // mapper->set_feature_threshold(feature_threshold);
-  } else if (estimators_->custom->heat_mapper()->name() ==
-             "template_matching") {
-    ROS_ERROR("Template matching heat mapper not enabled, update the code.");
-    return;
-    // rapid::perception::TemplateMatchingHeatMapper* mapper =
-    //    static_cast<rapid::perception::TemplateMatchingHeatMapper*>(
-    //        estimator_->heat_mapper());
-    // mapper->set_sample_ratio(sample_ratio);
-    // mapper->set_max_samples(max_samples);
-  } else if (estimators_->custom->heat_mapper()->name() == "random") {
+  if (estimators_->custom->heat_mapper()->name() == "random") {
     rapid::perception::RandomHeatMapper* mapper =
         static_cast<rapid::perception::RandomHeatMapper*>(
             estimators_->custom->heat_mapper());
@@ -365,6 +351,13 @@ void RunCommand::UpdateParams() {
   estimators_->custom->set_sigma_threshold(sigma_threshold);
   estimators_->custom->set_nms_radius(nms_radius);
   estimators_->custom->set_min_results(min_results);
+
+  if (estimators_->ransac->pair_width() != pair_width) {
+    estimators_->ransac->set_pair_width(pair_width);
+  }
+  estimators_->ransac->set_scene_normal_radius(scene_radius);
+  estimators_->ransac->set_object_normal_radius(object_radius);
+  estimators_->ransac->set_threshold(ransac_threshold);
 }
 
 SetDebugCommand::SetDebugCommand(Estimators* estimators)

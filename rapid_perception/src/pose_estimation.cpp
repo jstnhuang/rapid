@@ -177,40 +177,15 @@ void PoseEstimator::Find(vector<PoseEstimationMatch>* matches) {
     return;
   }
 
-  if (output_pub_) {
-    PointCloudC::Ptr output_cloud(new PointCloudC);
-    int num_instances = 0;
-    for (size_t i = 0; i < output_indices.size(); ++i) {
-      int index = output_indices[i];
-      double r = static_cast<double>(rand()) / RAND_MAX;
-      double g = static_cast<double>(rand()) / RAND_MAX;
-      double b = static_cast<double>(rand()) / RAND_MAX;
-      Colorize(aligned_objects[index].cloud(), r, g, b);
-      *output_cloud += *aligned_objects[index].cloud();
-
-      geometry_msgs::PoseStamped ps;
-      ps.header.frame_id = aligned_objects[index].cloud()->header.frame_id;
-      ps.pose = aligned_objects[index].pose();
-      viz::Marker output_box =
-          viz::Marker::OutlineBox(marker_pub_, ps, object_roi_.dimensions);
-      geometry_msgs::Vector3 scale;
-      scale.x = 0.0025;
-      output_box.SetScale(scale);
-      output_box.SetNamespace("output");
-      output_boxes_.push_back(output_box);
-      output_boxes_[output_boxes_.size() - 1].Publish();
-      ++num_instances;
-    }
-    ROS_INFO("Found %d instances of the model", num_instances);
-    output_cloud->header.frame_id = scene_->header.frame_id;
-    viz::PublishCloud(output_pub_, *output_cloud);
-  }
+  ROS_INFO("Found %ld instances of the model", output_indices.size());
 
   matches->clear();
   for (size_t i = 0; i < output_indices.size(); ++i) {
     int index = output_indices[i];
     matches->push_back(aligned_objects[index]);
   }
+
+  VisualizeMatches(output_pub_, *matches);
 
   // Sort matches by score.
   std::sort(matches->begin(), matches->end(), &ComparePoseEstimationMatch);
@@ -533,15 +508,6 @@ void PoseEstimator::GenerateRotations(
   //}
   //}
   //}
-}
-
-void Colorize(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, double r, double g,
-              double b) {
-  for (size_t i = 0; i < cloud->size(); ++i) {
-    cloud->points[i].r = static_cast<int>(round(r * 255));
-    cloud->points[i].g = static_cast<int>(round(g * 255));
-    cloud->points[i].b = static_cast<int>(round(b * 255));
-  }
 }
 }  // namespace perception
 }  // namespace rapid

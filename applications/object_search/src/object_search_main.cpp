@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 
+#include "geometry_msgs/PoseArray.h"
 #include "pcl/filters/filter.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
@@ -85,14 +86,20 @@ int main(int argc, char** argv) {
 
   // Build pose estimator
   rapid::perception::PoseEstimator pose_estimator(heat_mapper);
-  pose_estimator.set_scene_publisher(scene_pub);
-  pose_estimator.set_object_publisher(object_pub);
+  // pose_estimator.set_scene_publisher(scene_pub);
+  // pose_estimator.set_object_publisher(object_pub);
   pose_estimator.set_candidates_publisher(candidates_pub);
   pose_estimator.set_alignment_publisher(alignment_pub);
   pose_estimator.set_output_publisher(output_pub);
   pose_estimator.set_marker_publisher(&marker_pub);
 
   rapid::perception::RansacPoseEstimator ransac_estimator;
+  ransac_estimator.set_scene_publisher(scene_pub);
+  ransac_estimator.set_object_publisher(object_pub);
+  ransac_estimator.set_output_publisher(output_pub);
+  ros::Publisher pose_pub =
+      nh.advertise<geometry_msgs::PoseArray>("/poses", 1, true);
+  ransac_estimator.set_pose_publisher(pose_pub);
   Estimators estimators;
   estimators.custom = &pose_estimator;
   estimators.ransac = &ransac_estimator;

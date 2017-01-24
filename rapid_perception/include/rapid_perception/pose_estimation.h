@@ -187,10 +187,6 @@ class PoseEstimator : public PoseEstimationInterface {
   ros::Publisher output_pub_;
   rapid_ros::Publisher<visualization_msgs::Marker>* marker_pub_;
 };
-
-// Set the color of a point cloud for visualization.
-void Colorize(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, double r, double g,
-              double b);
 }  // namespace perception
 }  // namespace rapid
 
