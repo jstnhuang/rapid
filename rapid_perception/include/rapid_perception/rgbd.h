@@ -12,6 +12,7 @@
 #include "pcl/filters/extract_indices.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
+#include "pcl/search/search.h"
 #include "pcl/sample_consensus/method_types.h"
 #include "pcl/sample_consensus/model_types.h"
 #include "pcl/segmentation/sac_segmentation.h"
@@ -88,6 +89,13 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr IndicesToCloud(
     const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud,
     const pcl::PointIndices::ConstPtr& indices);
 
+// Computes the resolution of the given point cloud, defined as the average
+// distance between a point and its nearest neighbor.
+double ComputeResolution(
+    const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud);
+double ComputeResolution(
+    const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud,
+    const pcl::search::Search<pcl::PointXYZRGB>& tree);
 }  // namespace perception
 }  // namespace rapid
 #endif  // _RAPID_PERCEPTION_RGBD_H_
