@@ -12,6 +12,8 @@
 #include "pcl/features/normal_3d_omp.h"
 #include "pcl/features/shot_omp.h"
 
+#include "ros/ros.h"
+
 namespace rapid {
 namespace perception {
 // PoseEstimator based on correspondence grouping.
@@ -21,6 +23,10 @@ class GroupingPoseEstimator : public PoseEstimationInterface {
   void set_scene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene);
   void set_object(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& object);
   void Find(std::vector<PoseEstimationMatch>* matches);
+
+  void set_correspondence_publisher(const ros::Publisher& pub);
+  void set_scene_keypoints_publisher(const ros::Publisher& pub);
+  void set_object_keypoints_publisher(const ros::Publisher& pub);
 
   // Default parameter values
   const static int kDefaultNormalK;
@@ -32,6 +38,17 @@ class GroupingPoseEstimator : public PoseEstimationInterface {
   const static double kDefaultRfRadius;
   const static double kDefaultCgSize;
   const static double kDefaultCgThreshold;
+
+  // Parameters
+  int normal_k_;
+  double shot_radius_;
+  double object_vox_;
+  double scene_vox_;
+  double corr_match_threshold_;
+  bool use_hough_;
+  double rf_radius_;
+  double cg_size_;
+  double cg_threshold_;
 
  private:
   void ComputeNormals(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
@@ -62,16 +79,9 @@ class GroupingPoseEstimator : public PoseEstimationInterface {
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr object_keypoints_;
   pcl::PointCloud<pcl::SHOT352>::Ptr object_descriptors_;
 
-  // Parameters
-  int normal_k_;
-  double shot_radius_;
-  double object_vox_;
-  double scene_vox_;
-  double corr_match_threshold_;
-  bool use_hough_;
-  double rf_radius_;
-  double cg_size_;
-  double cg_threshold_;
+  ros::Publisher correspondence_pub_;
+  ros::Publisher scene_keypoints_pub_;
+  ros::Publisher object_keypoints_pub_;
 };
 }  // namespace perception
 }  // namespace rapid

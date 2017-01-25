@@ -13,8 +13,11 @@
 #include "pcl/point_types.h"
 #include "pcl/recognition/cg/geometric_consistency.h"
 #include "pcl/recognition/cg/hough_3d.h"
+#include "visualization_msgs/Marker.h"
+#include "visualization_msgs/MarkerArray.h"
 
 #include "rapid_perception/pose_estimation_match.h"
+#include "rapid_viz/publish.h"
 
 using pcl::Normal;
 using pcl::SHOT352;
@@ -48,7 +51,18 @@ GroupingPoseEstimator::GroupingPoseEstimator()
       use_hough_(kDefaultUseHough),
       rf_radius_(kDefaultRfRadius),
       cg_size_(kDefaultCgSize),
-      cg_threshold_(kDefaultCgThreshold) {}
+      cg_threshold_(kDefaultCgThreshold),
+      scene_(new PointCloudC),
+      scene_normals_(new PointCloudN),
+      scene_keypoints_(new PointCloudC),
+      scene_descriptors_(new PointCloudD),
+      object_(new PointCloudC),
+      object_normals_(new PointCloudN),
+      object_keypoints_(new PointCloudC),
+      object_descriptors_(new PointCloudD),
+      correspondence_pub_(),
+      scene_keypoints_pub_(),
+      object_keypoints_pub_() {}
 
 void GroupingPoseEstimator::set_scene(PointCloudC::Ptr scene) {
   scene_ = scene;
@@ -56,6 +70,7 @@ void GroupingPoseEstimator::set_scene(PointCloudC::Ptr scene) {
   ComputeKeypoints(scene_, scene_vox_, scene_keypoints_);
   ComputeDescriptors(scene_keypoints_, scene_normals_, scene_,
                      scene_descriptors_);
+  viz::PublishCloud(scene_keypoints_pub_, *scene_keypoints_);
   ROS_INFO("Loaded scene with %ld points, %ld keypoints", scene_->size(),
            scene_keypoints_->size());
 }
@@ -67,6 +82,7 @@ void GroupingPoseEstimator::set_object(
   ComputeKeypoints(object_, object_vox_, object_keypoints_);
   ComputeDescriptors(object_keypoints_, object_normals_, object_,
                      object_descriptors_);
+  viz::PublishCloud(object_keypoints_pub_, *object_keypoints_);
   ROS_INFO("Loaded object with %ld points, %ld keypoints", object_->size(),
            object_keypoints_->size());
 }
@@ -103,10 +119,24 @@ void GroupingPoseEstimator::Find(std::vector<PoseEstimationMatch>* matches) {
   }
 }
 
+void GroupingPoseEstimator::set_correspondence_publisher(
+    const ros::Publisher& pub) {
+  correspondence_pub_ = pub;
+}
+
+void GroupingPoseEstimator::set_scene_keypoints_publisher(
+    const ros::Publisher& pub) {
+  scene_keypoints_pub_ = pub;
+}
+
+void GroupingPoseEstimator::set_object_keypoints_publisher(
+    const ros::Publisher& pub) {
+  object_keypoints_pub_ = pub;
+}
+
 void GroupingPoseEstimator::ComputeNormals(
     const PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
     PointCloud<pcl::Normal>::Ptr normals) {
-  normals.reset(new PointCloudN);
   pcl::NormalEstimationOMP<PointC, Normal> nest;
   nest.setKSearch(normal_k_);
   nest.setInputCloud(cloud);
@@ -116,7 +146,6 @@ void GroupingPoseEstimator::ComputeNormals(
 void GroupingPoseEstimator::ComputeKeypoints(
     const PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
     const double sampling_radius, PointCloud<pcl::PointXYZRGB>::Ptr keypoints) {
-  keypoints.reset(new PointCloudC);
   pcl::VoxelGrid<PointC> vox;
   vox.setInputCloud(cloud);
   vox.setLeafSize(sampling_radius, sampling_radius, sampling_radius);
@@ -128,7 +157,6 @@ void GroupingPoseEstimator::ComputeDescriptors(
     const PointCloud<pcl::Normal>::Ptr& normals,
     const PointCloud<pcl::PointXYZRGB>::Ptr& surface,
     PointCloud<pcl::SHOT352>::Ptr descriptors) {
-  descriptors.reset(new PointCloudD);
   pcl::SHOTEstimation<PointC, Normal, SHOT352> shot;
   shot.setRadiusSearch(shot_radius_);
   shot.setInputCloud(keypoints);
@@ -141,25 +169,69 @@ void GroupingPoseEstimator::FindCorrespondences(
     pcl::CorrespondencesPtr model_scene_corrs) {
   pcl::KdTreeFLANN<SHOT352> match_search;
   match_search.setInputCloud(object_descriptors_);
-  //  For each scene keypoint descriptor, find nearest neighbor into the model
-  //  keypoints descriptor cloud and add it to the correspondences vector.
+  // For each scene keypoint descriptor, find nearest neighbor into the model
+  // keypoints descriptor cloud and add it to the correspondences vector.
+  int nan_count = 0;
+  int no_neighbors = 0;
+  int under_threshold = 0;
+  visualization_msgs::MarkerArray markers;
   for (size_t i = 0; i < scene_descriptors_->size(); ++i) {
     std::vector<int> neigh_indices(1);
     std::vector<float> neigh_sqr_dists(1);
     if (!pcl_isfinite(scene_descriptors_->at(i).descriptor[0])) {
+      ++nan_count;
       continue;
     }
     int found_neighs = match_search.nearestKSearch(
         scene_descriptors_->at(i), 1, neigh_indices, neigh_sqr_dists);
-    //  add match only if the squared descriptor distance is less than 0.25
-    //  (SHOT descriptor distances are between 0 and 1 by design)
-    if (found_neighs == 1 && neigh_sqr_dists[0] < corr_match_threshold_) {
+    if (found_neighs < 1) {
+      ++no_neighbors;
+      continue;
+    }
+    // add match only if the squared descriptor distance is less than 0.25
+    // (SHOT descriptor distances are between 0 and 1 by design)
+    if (neigh_sqr_dists[0] < corr_match_threshold_) {
       pcl::Correspondence corr(neigh_indices[0], static_cast<int>(i),
                                neigh_sqr_dists[0]);
       model_scene_corrs->push_back(corr);
+    } else {
+      ++under_threshold;
     }
   }
+  // Visualize correspondences
+  for (size_t i = 0; i < model_scene_corrs->size(); ++i) {
+    int index_query = model_scene_corrs->at(i).index_query;
+    int index_match = model_scene_corrs->at(i).index_match;
+
+    const PointC& model_point = object_keypoints_->at(index_query);
+    const PointC& scene_point = scene_keypoints_->at(index_match);
+    visualization_msgs::Marker marker;
+    marker.header.frame_id = "base_footprint";
+    marker.ns = "corrs";
+    marker.id = i;
+    marker.type = visualization_msgs::Marker::ARROW;
+    marker.scale.x = 0.0025;
+    marker.scale.y = 0.005;
+    marker.color.r = 1;
+    marker.color.a = 0.5;
+    marker.points.resize(2);
+    marker.points[0].x = model_point.x;
+    marker.points[0].y = model_point.y;
+    marker.points[0].z = model_point.z;
+    marker.points[1].x = scene_point.x;
+    marker.points[1].y = scene_point.y;
+    marker.points[1].z = scene_point.z;
+    markers.markers.push_back(marker);
+  }
+
+  correspondence_pub_.publish(markers);
+
   ROS_INFO("Found %ld correspondences", model_scene_corrs->size());
+  ROS_INFO(
+      "Out of %ld keypoints, %d were NaNs, %d had no neighbors, and %d were "
+      "over the threshold %f",
+      scene_descriptors_->size(), nan_count, no_neighbors, under_threshold,
+      corr_match_threshold_);
 }
 
 void GroupingPoseEstimator::ClusterCorrespondences(
@@ -198,6 +270,8 @@ void GroupingPoseEstimator::ClusterCorrespondences(
     clusterer.setSceneCloud(scene_keypoints_);
     clusterer.setSceneRf(scene_rf);
     clusterer.setModelSceneCorrespondences(model_scene_corrs);
+    viz::PublishCloud(scene_keypoints_pub_, *scene_keypoints_);
+    viz::PublishCloud(object_keypoints_pub_, *object_keypoints_);
     clusterer.recognize(*rototranslations, *clustered_corrs);
   } else {
     pcl::GeometricConsistencyGrouping<PointC, PointC> gc_clusterer;
