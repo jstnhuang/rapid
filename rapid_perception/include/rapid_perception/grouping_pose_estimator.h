@@ -5,8 +5,12 @@
 
 #include <vector>
 
+#include "Eigen/Dense"
+#include "pcl/correspondence.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
+#include "pcl/features/normal_3d_omp.h"
+#include "pcl/features/shot_omp.h"
 
 namespace rapid {
 namespace perception {
@@ -18,7 +22,56 @@ class GroupingPoseEstimator : public PoseEstimationInterface {
   void set_object(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& object);
   void Find(std::vector<PoseEstimationMatch>* matches);
 
+  // Default parameter values
+  const static int kDefaultNormalK;
+  const static double kDefaultShotRadius;
+  const static double kDefaultObjectVox;
+  const static double kDefaultSceneVox;
+  const static double kDefaultCorrMatchThreshold;
+  const static bool kDefaultUseHough;
+  const static double kDefaultRfRadius;
+  const static double kDefaultCgSize;
+  const static double kDefaultCgThreshold;
+
  private:
+  void ComputeNormals(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
+                      pcl::PointCloud<pcl::Normal>::Ptr normals);
+  void ComputeKeypoints(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& cloud,
+                        const double sample_radius,
+                        pcl::PointCloud<pcl::PointXYZRGB>::Ptr keypoints);
+  void ComputeDescriptors(
+      const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& keypoints,
+      const pcl::PointCloud<pcl::Normal>::Ptr& normals,
+      const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& surface,
+      pcl::PointCloud<pcl::SHOT352>::Ptr descriptors);
+  void FindCorrespondences(pcl::CorrespondencesPtr model_scene_corrs);
+  void ClusterCorrespondences(
+      const pcl::CorrespondencesPtr& model_scene_corrs,
+      std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> >*
+          rototranslations,
+      std::vector<pcl::Correspondences>* clustered_corrs);
+
+  // Data
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene_;
+  pcl::PointCloud<pcl::Normal>::Ptr scene_normals_;
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene_keypoints_;
+  pcl::PointCloud<pcl::SHOT352>::Ptr scene_descriptors_;
+
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr object_;
+  pcl::PointCloud<pcl::Normal>::Ptr object_normals_;
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr object_keypoints_;
+  pcl::PointCloud<pcl::SHOT352>::Ptr object_descriptors_;
+
+  // Parameters
+  int normal_k_;
+  double shot_radius_;
+  double object_vox_;
+  double scene_vox_;
+  double corr_match_threshold_;
+  bool use_hough_;
+  double rf_radius_;
+  double cg_size_;
+  double cg_threshold_;
 };
 }  // namespace perception
 }  // namespace rapid
