@@ -42,6 +42,7 @@ using std::vector;
 using rapid_msgs::StaticCloud;
 using rapid_msgs::StaticCloudInfo;
 using rapid::perception::PoseEstimationMatch;
+using rapid::perception::GroupingPoseEstimator;
 
 namespace object_search {
 ListCommand::ListCommand(Database* db, const string& type)
@@ -157,8 +158,8 @@ void DeleteCommand::Execute(std::vector<std::string>& args) {
 }
 
 UseCommand::UseCommand(Database* db, Estimators* estimators,
-                       const std::string& type)
-    : db_(db), estimators_(estimators), type_(type) {}
+                       const std::string& type, const ros::Publisher& pub)
+    : db_(db), estimators_(estimators), type_(type), pub_(pub) {}
 
 void UseCommand::Execute(std::vector<std::string>& args) {
   StaticCloud cloud;
@@ -209,6 +210,13 @@ void UseCommand::Execute(std::vector<std::string>& args) {
     extract.filter(*pcl_cloud_base);
   }
 
+  // Visualize the scene/object
+  sensor_msgs::PointCloud2 msg;
+  pcl::toROSMsg(*pcl_cloud_base, msg);
+  if (pub_) {
+    pub_.publish(msg);
+  }
+
   // RANSAC estimator does downsampling internally.
   PointCloud<PointXYZRGB>::Ptr pcl_cloud_downsampled(
       new PointCloud<PointXYZRGB>);
@@ -226,10 +234,12 @@ void UseCommand::Execute(std::vector<std::string>& args) {
   if (type_ == "object") {
     estimators_->custom->set_object(pcl_cloud_downsampled);
     estimators_->custom->set_roi(cloud.roi);
-    estimators_->ransac->set_object(pcl_cloud_base);
+    // estimators_->ransac->set_object(pcl_cloud_base);
+    estimators_->grouping->set_object(pcl_cloud_base);
   } else {
     estimators_->custom->set_scene(pcl_cloud_downsampled);
-    estimators_->ransac->set_scene(pcl_cloud_base);
+    // estimators_->ransac->set_scene(pcl_cloud_base);
+    estimators_->grouping->set_scene(pcl_cloud_base);
   }
 }
 
@@ -265,21 +275,29 @@ void UseCommand::CropScene(PointCloud<PointXYZRGB>::Ptr scene,
   ROS_INFO("Cropped to %ld points", indices->size());
 }
 
-RunCommand::RunCommand(Estimators* estimators)
-    : estimators_(estimators), matches_() {}
+RunCommand::RunCommand(Estimators* estimators, const ros::Publisher& output_pub)
+    : estimators_(estimators), matches_(), output_pub_(output_pub) {}
 
 void RunCommand::Execute(std::vector<std::string>& args) {
-  UpdateParams();
   const std::string& algorithm = args[0];
   matches_.clear();
-  pcl::ScopeTime timer(("Running algorithm: " + algorithm).c_str());
   if (algorithm == "custom") {
+    UpdateCustomParams();
+    pcl::ScopeTime timer(("Running algorithm: " + algorithm).c_str());
     estimators_->custom->Find(&matches_);
   } else if (algorithm == "ransac") {
+    UpdateRansacParams();
+    pcl::ScopeTime timer(("Running algorithm: " + algorithm).c_str());
     estimators_->ransac->Find(&matches_);
+  } else if (algorithm == "grouping") {
+    UpdateGroupingParams();
+    pcl::ScopeTime timer(("Running algorithm: " + algorithm).c_str());
+    estimators_->grouping->Find(&matches_);
   } else {
     ROS_ERROR("Unknown algorithm: %s", algorithm.c_str());
+    return;
   }
+  VisualizeMatches(output_pub_, matches_);
 }
 
 void RunCommand::matches(
@@ -287,57 +305,33 @@ void RunCommand::matches(
   *matches = matches_;
 }
 
-void RunCommand::UpdateParams() {
+void RunCommand::UpdateCustomParams() {
   double sample_ratio;
   int max_samples;
-  double max_sample_radius;
-  int max_neighbors;
-  double feature_threshold;
   int num_candidates;
   double fitness_threshold;
   double sigma_threshold;
   double nms_radius;
   int min_results;
 
-  // For RANSAC
-  double pair_width;
-  double scene_radius;
-  double object_radius;
-  double ransac_threshold;
   ros::param::param<double>("sample_ratio", sample_ratio, 0.01);
   ros::param::param<int>("max_samples", max_samples, 1000);
-  ros::param::param<double>("max_sample_radius", max_sample_radius, 0.1);
-  ros::param::param<int>("max_neighbors", max_neighbors, 400);
-  ros::param::param<double>("feature_threshold", feature_threshold, 1500);
   ros::param::param<int>("num_candidates", num_candidates, 100);
   ros::param::param<double>("fitness_threshold", fitness_threshold, 0.0055);
   ros::param::param<double>("sigma_threshold", sigma_threshold, 2);
   ros::param::param<double>("nms_radius", nms_radius, 0.03);
   ros::param::param<int>("min_results", min_results, 0);
-  ros::param::param<double>("pair_width", pair_width, 0.025);
-  ros::param::param<double>("scene_radius", scene_radius, 0.025);
-  ros::param::param<double>("object_radius", object_radius, 0.01);
-  ros::param::param<double>("ransac_threshold", ransac_threshold, 0.3);
   ROS_INFO(
       "Parameters:\n"
       "sample_ratio: %f\n"
       "max_samples: %d\n"
-      "max_sample_radius: %f\n"
-      "max_neighbors: %d\n"
-      "feature_threshold: %f\n"
       "num_candidates: %d\n"
       "fitness_threshold: %f\n"
       "sigma_threshold: %f\n"
       "nms_radius: %f\n"
-      "min_results: %d\n"
-      "pair_width: %f\n"
-      "scene_radius: %f\n"
-      "object_radius: %f\n"
-      "ransac_threshold: %f\n",
-      sample_ratio, max_samples, max_sample_radius, max_neighbors,
-      feature_threshold, num_candidates, fitness_threshold, sigma_threshold,
-      nms_radius, min_results, pair_width, scene_radius, object_radius,
-      ransac_threshold);
+      "min_results: %d\n",
+      sample_ratio, max_samples, num_candidates, fitness_threshold,
+      sigma_threshold, nms_radius, min_results);
 
   if (estimators_->custom->heat_mapper()->name() == "random") {
     rapid::perception::RandomHeatMapper* mapper =
@@ -351,6 +345,24 @@ void RunCommand::UpdateParams() {
   estimators_->custom->set_sigma_threshold(sigma_threshold);
   estimators_->custom->set_nms_radius(nms_radius);
   estimators_->custom->set_min_results(min_results);
+}
+
+void RunCommand::UpdateRansacParams() {
+  double pair_width;
+  double scene_radius;
+  double object_radius;
+  double ransac_threshold;
+  ros::param::param<double>("pair_width", pair_width, 0.025);
+  ros::param::param<double>("scene_radius", scene_radius, 0.025);
+  ros::param::param<double>("object_radius", object_radius, 0.01);
+  ros::param::param<double>("ransac_threshold", ransac_threshold, 0.3);
+  ROS_INFO(
+      "Parameters:\n"
+      "pair_width: %f\n"
+      "scene_radius: %f\n"
+      "object_radius: %f\n"
+      "ransac_threshold: %f\n",
+      pair_width, scene_radius, object_radius, ransac_threshold);
 
   if (estimators_->ransac->pair_width() != pair_width) {
     estimators_->ransac->set_pair_width(pair_width);
@@ -358,6 +370,61 @@ void RunCommand::UpdateParams() {
   estimators_->ransac->set_scene_normal_radius(scene_radius);
   estimators_->ransac->set_object_normal_radius(object_radius);
   estimators_->ransac->set_threshold(ransac_threshold);
+}
+
+void RunCommand::UpdateGroupingParams() {
+  int normal_k;
+  double shot_radius;
+  double object_vox;
+  double scene_vox;
+  double corr_match_threshold;
+  bool use_hough;
+  double rf_radius;
+  double cg_size;
+  double cg_threshold;
+
+  ros::param::param<int>("normal_k", normal_k,
+                         GroupingPoseEstimator::kDefaultNormalK);
+  ros::param::param<double>("shot_radius", shot_radius,
+                            GroupingPoseEstimator::kDefaultShotRadius);
+  ros::param::param<double>("object_vox", object_vox,
+                            GroupingPoseEstimator::kDefaultObjectVox);
+  ros::param::param<double>("scene_vox", scene_vox,
+                            GroupingPoseEstimator::kDefaultSceneVox);
+  ros::param::param<double>("corr_match_threshold", corr_match_threshold,
+                            GroupingPoseEstimator::kDefaultCorrMatchThreshold);
+  ros::param::param<bool>("use_hough", use_hough,
+                          GroupingPoseEstimator::kDefaultUseHough);
+  ros::param::param<double>("rf_radius", rf_radius,
+                            GroupingPoseEstimator::kDefaultRfRadius);
+  ros::param::param<double>("cg_size", cg_size,
+                            GroupingPoseEstimator::kDefaultCgSize);
+  ros::param::param<double>("cg_threshold", cg_threshold,
+                            GroupingPoseEstimator::kDefaultCgThreshold);
+
+  ROS_INFO(
+      "Parameters:\n"
+      "normal_k: %d\n"
+      "shot_radius: %f\n"
+      "object_vox: %f\n"
+      "scene_vox: %f\n"
+      "corr_match_threshold: %f\n"
+      "use_hough: %d\n"
+      "rf_radius: %f\n"
+      "cg_size: %f\n"
+      "cg_threshold: %f\n",
+      normal_k, shot_radius, object_vox, scene_vox, corr_match_threshold,
+      use_hough, rf_radius, cg_size, cg_threshold);
+
+  estimators_->grouping->normal_k_ = normal_k;
+  estimators_->grouping->shot_radius_ = shot_radius;
+  estimators_->grouping->object_vox_ = object_vox;
+  estimators_->grouping->scene_vox_ = scene_vox;
+  estimators_->grouping->corr_match_threshold_ = corr_match_threshold;
+  estimators_->grouping->use_hough_ = use_hough;
+  estimators_->grouping->rf_radius_ = rf_radius;
+  estimators_->grouping->cg_size_ = cg_size;
+  estimators_->grouping->cg_threshold_ = cg_threshold;
 }
 
 SetDebugCommand::SetDebugCommand(Estimators* estimators)

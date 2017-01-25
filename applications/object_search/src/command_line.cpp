@@ -82,7 +82,7 @@ void CommandLine::ShowCommands() {
   cout << "  delete scene <name> - Delete a scene" << endl;
   cout << "  use object <name> - Set object to search for" << endl;
   cout << "  use scene <name> - Set the scene to search in" << endl;
-  cout << "  run <custom, ransac> - Run object search" << endl;
+  cout << "  run <custom, ransac, grouping> - Run object search" << endl;
   cout << "  debug <on/off> - Turn debugging on or off" << endl;
   cout << "  exit - Exit this application" << endl;
 }

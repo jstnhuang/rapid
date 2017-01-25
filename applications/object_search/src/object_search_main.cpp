@@ -11,6 +11,7 @@
 #include "rapid_perception/pose_estimation.h"
 #include "rapid_perception/random_heat_mapper.h"
 #include "rapid_perception/ransac_pose_estimator.h"
+#include "rapid_perception/grouping_pose_estimator.h"
 #include "rapid_msgs/GetStaticCloud.h"
 #include "rapid_msgs/ListStaticClouds.h"
 #include "rapid_msgs/RemoveStaticCloud.h"
@@ -19,6 +20,7 @@
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "visualization_msgs/Marker.h"
+#include "visualization_msgs/MarkerArray.h"
 
 #include "object_search/capture_roi.h"
 #include "object_search/commands.h"
@@ -86,23 +88,30 @@ int main(int argc, char** argv) {
 
   // Build pose estimator
   rapid::perception::PoseEstimator pose_estimator(heat_mapper);
-  // pose_estimator.set_scene_publisher(scene_pub);
-  // pose_estimator.set_object_publisher(object_pub);
   pose_estimator.set_candidates_publisher(candidates_pub);
   pose_estimator.set_alignment_publisher(alignment_pub);
-  pose_estimator.set_output_publisher(output_pub);
   pose_estimator.set_marker_publisher(&marker_pub);
 
   rapid::perception::RansacPoseEstimator ransac_estimator;
-  ransac_estimator.set_scene_publisher(scene_pub);
-  ransac_estimator.set_object_publisher(object_pub);
-  ransac_estimator.set_output_publisher(output_pub);
   ros::Publisher pose_pub =
       nh.advertise<geometry_msgs::PoseArray>("/poses", 1, true);
   ransac_estimator.set_pose_publisher(pose_pub);
+
+  rapid::perception::GroupingPoseEstimator grouping_estimator;
+  ros::Publisher corr_pub = nh.advertise<visualization_msgs::MarkerArray>(
+      "/correspondences", 1, true);
+  ros::Publisher object_keypoints_pub =
+      nh.advertise<PointCloud2>("/landmark_keypoints", 1, true);
+  ros::Publisher scene_keypoints_pub =
+      nh.advertise<PointCloud2>("/scene_keypoints", 1, true);
+  grouping_estimator.set_correspondence_publisher(corr_pub);
+  grouping_estimator.set_scene_keypoints_publisher(scene_keypoints_pub);
+  grouping_estimator.set_object_keypoints_publisher(object_keypoints_pub);
+
   Estimators estimators;
   estimators.custom = &pose_estimator;
   estimators.ransac = &ransac_estimator;
+  estimators.grouping = &grouping_estimator;
 
   ListCommand list_objects(&object_db, "object");
   ListCommand list_scenes(&scene_db, "scene");
@@ -110,9 +119,9 @@ int main(int argc, char** argv) {
   RecordSceneCommand record_scene(&scene_db);
   DeleteCommand delete_object(&object_db);
   DeleteCommand delete_scene(&scene_db);
-  UseCommand use_object(&object_db, &estimators, "object");
-  UseCommand use_scene(&scene_db, &estimators, "scene");
-  RunCommand run(&estimators);
+  UseCommand use_object(&object_db, &estimators, "object", object_pub);
+  UseCommand use_scene(&scene_db, &estimators, "scene", scene_pub);
+  RunCommand run(&estimators, output_pub);
   SetDebugCommand set_debug(&estimators);
 
   CommandLine cli;

@@ -76,7 +76,8 @@ class DeleteCommand : public Command {
 
 class UseCommand : public Command {
  public:
-  UseCommand(Database* db, Estimators* estimators, const std::string& type);
+  UseCommand(Database* db, Estimators* estimators, const std::string& type,
+             const ros::Publisher& pub);
   void Execute(std::vector<std::string>& args);
 
  private:
@@ -86,18 +87,22 @@ class UseCommand : public Command {
   Database* db_;
   Estimators* estimators_;
   std::string type_;
+  ros::Publisher pub_;
 };
 
 class RunCommand : public Command {
  public:
-  RunCommand(Estimators* estimator);
+  RunCommand(Estimators* estimator, const ros::Publisher& output_pub);
   void Execute(std::vector<std::string>& args);
   void matches(std::vector<rapid::perception::PoseEstimationMatch>* matches);
 
  private:
-  void UpdateParams();
+  void UpdateCustomParams();
+  void UpdateRansacParams();
+  void UpdateGroupingParams();
   Estimators* estimators_;
   std::vector<rapid::perception::PoseEstimationMatch> matches_;
+  ros::Publisher output_pub_;
 };
 
 class SetDebugCommand : public Command {
