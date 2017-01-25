@@ -17,16 +17,16 @@ using pcl::PointXYZRGB;
 namespace rapid {
 namespace perception {
 bool FindHorizontalPlane(const pcl::PointCloud<PointXYZRGB>::ConstPtr& cloud,
-			 double distance_threshold, double eps_angle,
-			 PointIndices::Ptr inliers) {
+                         double distance_threshold, double eps_angle,
+                         PointIndices::Ptr inliers) {
   PointIndices::Ptr pi;
   return FindHorizontalPlane(cloud, pi, distance_threshold, eps_angle, inliers);
 }
 
 bool FindHorizontalPlane(const PointCloud<PointXYZRGB>::ConstPtr& cloud,
-			 const PointIndices::ConstPtr& indices,
-			 double distance_threshold, double eps_angle,
-			 PointIndices::Ptr inliers) {
+                         const PointIndices::ConstPtr& indices,
+                         double distance_threshold, double eps_angle,
+                         PointIndices::Ptr inliers) {
   pcl::ModelCoefficients::Ptr coefficients(new pcl::ModelCoefficients);
   pcl::SACSegmentation<PointXYZRGB> seg;
   seg.setOptimizeCoefficients(true);
@@ -49,7 +49,7 @@ bool FindHorizontalPlane(const PointCloud<PointXYZRGB>::ConstPtr& cloud,
 }
 
 void ClosestAxis(const Eigen::Matrix3d& mat, const Eigen::Vector3d& vec,
-		 int* index, double* cosine_sim) {
+                 int* index, double* cosine_sim) {
   double sim = 0;
   double best_sim = 0;  // Highest absolute value of cosine sim.
 
@@ -73,9 +73,9 @@ void ClosestAxis(const Eigen::Matrix3d& mat, const Eigen::Vector3d& vec,
 }
 
 void GetBoundingBox(const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud_in,
-		    const pcl::PointIndices::ConstPtr& indices,
-		    geometry_msgs::PoseStamped* midpoint,
-		    geometry_msgs::Vector3* dimensions) {
+                    const pcl::PointIndices::ConstPtr& indices,
+                    geometry_msgs::PoseStamped* midpoint,
+                    geometry_msgs::Vector3* dimensions) {
   // We reify the input cloud because PCA uses the entire cloud for projection.
   PointCloud<PointXYZRGB>::Ptr cloud = IndicesToCloud(cloud_in, indices);
   // Compute PCA basis
@@ -110,11 +110,11 @@ void GetBoundingBox(const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud_in,
   double z_cosine_sim = 0;
   int z_closest_index = 0;
   ClosestAxis(eigenvectors, Eigen::Vector3d::UnitZ(), &z_closest_index,
-	      &z_cosine_sim);
+              &z_cosine_sim);
   double x_cosine_sim = 0;
   int x_closest_index = 0;
   ClosestAxis(eigenvectors, Eigen::Vector3d::UnitX(), &x_closest_index,
-	      &x_cosine_sim);
+              &x_cosine_sim);
 
   Eigen::Matrix3d mygenvectors;
   mygenvectors.col(0) = eigenvectors.col(x_closest_index);
@@ -158,9 +158,9 @@ void GetBoundingBox(const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud_in,
 }
 
 void GetPlanarBoundingBox(const PointCloud<PointXYZRGB>::ConstPtr& cloud,
-			  const PointIndices::ConstPtr& indices,
-			  geometry_msgs::Pose* midpoint,
-			  geometry_msgs::Vector3* dimensions) {
+                          const PointIndices::ConstPtr& indices,
+                          geometry_msgs::Pose* midpoint,
+                          geometry_msgs::Vector3* dimensions) {
   // original_cloud stores the cloud subset we are using.
   PointCloud<PointXYZRGB>::Ptr original_cloud;
   if (indices) {
@@ -231,8 +231,8 @@ void GetPlanarBoundingBox(const PointCloud<PointXYZRGB>::ConstPtr& cloud,
 }
 
 void GetPlanarBoundingBox(const PointCloud<PointXYZRGB>::ConstPtr& cloud,
-			  geometry_msgs::Pose* midpoint,
-			  geometry_msgs::Vector3* dimensions) {
+                          geometry_msgs::Pose* midpoint,
+                          geometry_msgs::Vector3* dimensions) {
   PointIndices::Ptr pi;
   GetPlanarBoundingBox(cloud, pi, midpoint, dimensions);
 }
@@ -250,7 +250,7 @@ PointCloud<PointXYZRGB>::Ptr IndicesToCloud(
 }
 
 double ComputeResolution(
-    const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cloud) {
+    const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud) {
   pcl::search::KdTree<PointXYZRGB> tree;
   tree.setInputCloud(cloud);
   return ComputeResolution(cloud, tree);
