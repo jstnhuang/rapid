@@ -16,7 +16,8 @@ namespace perception {
 class TemplateMatchingHeatMapper : public PoseEstimationHeatMapper {
  public:
   TemplateMatchingHeatMapper();
-  void Compute(pcl::PointIndicesPtr indices, Eigen::VectorXd* importances);
+  void Compute(pcl::PointCloud<pcl::PointXYZRGB>::Ptr indices,
+               Eigen::VectorXd* importances);
   void set_scene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene);
   void set_object(pcl::PointCloud<pcl::PointXYZRGB>::Ptr object);
   void set_object_roi(const rapid_msgs::Roi3D& roi);

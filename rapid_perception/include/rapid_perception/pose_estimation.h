@@ -129,17 +129,17 @@ class PoseEstimator : public PoseEstimationInterface {
  private:
   // Sample the heatmap by importance to generate candidate points.
   void ComputeCandidates(Eigen::VectorXd& importances,
-                         pcl::PointIndicesPtr heatmap_indices,
-                         pcl::PointIndicesPtr candidate_indices);
+                         pcl::PointCloud<pcl::PointXYZRGB>::Ptr heatmap,
+                         pcl::PointCloud<pcl::PointXYZRGB>::Ptr candidate);
   // Pick the top candidates from the heat map.
   void ComputeTopCandidates(Eigen::VectorXd& importances,
-                            pcl::PointIndicesPtr heatmap_indices,
-                            pcl::PointIndicesPtr candidate_indices);
+                            pcl::PointCloud<pcl::PointXYZRGB>::Ptr heatmap,
+                            pcl::PointCloud<pcl::PointXYZRGB>::Ptr candidate);
   // Initialize and run ICP at each of the candidate points.
-  void RunIcpCandidates(pcl::PointIndices::Ptr candidate_indices,
+  void RunIcpCandidates(pcl::PointCloud<pcl::PointXYZRGB>::Ptr candidates,
                         std::vector<PoseEstimationMatch>* aligned_objects);
   void RunIcpCandidateInThread(
-      pcl::PointIndices::Ptr candidate_indices, size_t candidate_index,
+      pcl::PointCloud<pcl::PointXYZRGB>::Ptr candidates, size_t candidate_index,
       boost::mutex& output_mutex,
       std::vector<PoseEstimationMatch>* aligned_objects);
   // Do non-max suppression on ICP outputs.
@@ -157,6 +157,7 @@ class PoseEstimator : public PoseEstimationInterface {
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene_;
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr object_;
   Eigen::Vector3f object_center_;  // Approx center point of object.
+  Eigen::Vector3f object_dims_;    // Approx x/y/z lengths of bounding box.
   rapid_msgs::Roi3D object_roi_;
   viz::Marker object_box_;
 

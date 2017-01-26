@@ -21,7 +21,7 @@ class PoseEstimationHeatMapper {
 
   // Generates a heatmap, represented as a list of indices into the cloud
   // representing the scene and a parallel list of "importance" scores.
-  virtual void Compute(pcl::PointIndicesPtr indices,
+  virtual void Compute(pcl::PointCloud<pcl::PointXYZRGB>::Ptr heatmap,
                        Eigen::VectorXd* importances) = 0;
 
   virtual void set_scene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene) = 0;

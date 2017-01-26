@@ -18,7 +18,8 @@ class CnnHeatMapper : public PoseEstimationHeatMapper {
  public:
   CnnHeatMapper();
 
-  void Compute(pcl::PointIndicesPtr indices, Eigen::VectorXd* importances);
+  void Compute(pcl::PointCloud<pcl::PointXYZRGB>::Ptr heatmap,
+               Eigen::VectorXd* importances);
 
   void set_scene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene);
   void set_scene_camera(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene);

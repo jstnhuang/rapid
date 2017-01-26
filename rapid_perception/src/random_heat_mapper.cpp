@@ -9,6 +9,7 @@
 #include "pcl/PointIndices.h"
 #include "pcl/filters/extract_indices.h"
 #include "pcl/filters/random_sample.h"
+#include "pcl/filters/voxel_grid.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 
@@ -21,42 +22,26 @@ using std::vector;
 namespace rapid {
 namespace perception {
 RandomHeatMapper::RandomHeatMapper()
-    : scene_(), sample_ratio_(0.05), max_samples_(1000) {}
+    : scene_(),
+      sample_ratio_(0.05),
+      max_samples_(1000),
+      scale_x_(0.02),
+      scale_y_(0.02),
+      scale_z_(0.02) {}
 
-void RandomHeatMapper::Compute(pcl::PointIndicesPtr indices,
+void RandomHeatMapper::Compute(PointCloudC::Ptr heatmap,
                                Eigen::VectorXd* importances) {
-  indices->indices.clear();
+  pcl::VoxelGrid<PointC> vox;
+  vox.setInputCloud(scene_);
+  vox.setLeafSize(scale_x_ / 2, scale_y_ / 2, scale_z_ / 2);
+  vox.filter(*heatmap);
 
-  int num_samples = static_cast<int>(round(sample_ratio_ * scene_->size()));
-  num_samples = std::min(num_samples, max_samples_);
+  ROS_INFO("Randomly sampled %ld points", heatmap->size());
 
-  pcl::RandomSample<PointC> random;
-  random.setSeed(0);
-  random.setSample(num_samples);
-  random.setInputCloud(scene_);
-  random.filter(indices->indices);
-
-  ROS_INFO("Randomly sampled %ld points", indices->indices.size());
-
-  importances->resize(num_samples);
+  importances->resize(heatmap->size());
   importances->fill(1);
 
-  // Color point cloud for visualization
-  PointCloudC::Ptr working_scene(new PointCloudC);
-  *working_scene = *scene_;
-  for (size_t indices_i = 0; indices_i < indices->indices.size(); ++indices_i) {
-    int color = static_cast<int>(round(255 * (*importances)(indices_i)));
-    int index = indices->indices[indices_i];
-    working_scene->points[index].r = color;
-    working_scene->points[index].g = color;
-    working_scene->points[index].b = color;
-  }
-  PointCloudC::Ptr viz_cloud(new PointCloudC());
-  pcl::ExtractIndices<PointC> extract;
-  extract.setInputCloud(working_scene);
-  extract.setIndices(indices);
-  extract.filter(*viz_cloud);
-  viz::PublishCloud(heatmap_pub_, *viz_cloud);
+  viz::PublishCloud(heatmap_pub_, *heatmap);
 }
 
 void RandomHeatMapper::set_scene(PointCloudC::Ptr scene) { scene_ = scene; }
@@ -68,5 +53,11 @@ void RandomHeatMapper::set_object(PointCloudC::Ptr object) {
 void RandomHeatMapper::set_sample_ratio(double val) { sample_ratio_ = val; }
 
 void RandomHeatMapper::set_max_samples(int val) { max_samples_ = val; }
+
+void RandomHeatMapper::set_landmark_dimensions(double x, double y, double z) {
+  scale_x_ = x;
+  scale_y_ = y;
+  scale_z_ = z;
+}
 }  // namespace perception
 }  // namespace rapid

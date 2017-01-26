@@ -42,8 +42,9 @@ CnnHeatMapper::CnnHeatMapper()
       landmark_image_pub_(),
       scene_image_pub_() {}
 
-void CnnHeatMapper::Compute(pcl::PointIndicesPtr indices,
+void CnnHeatMapper::Compute(PointCloudC::Ptr heatmap,
                             Eigen::VectorXd* importances) {
+  pcl::PointIndicesPtr indices(new pcl::PointIndices);
   // Sample points in the scene.
   pcl::RandomSample<PointC> random;
   random.setInputCloud(scene_);
@@ -167,6 +168,7 @@ void CnnHeatMapper::Compute(pcl::PointIndicesPtr indices,
   extract.setIndices(indices);
   extract.filter(*viz_cloud);
   viz::PublishCloud(heatmap_pub_, *viz_cloud);
+  heatmap = viz_cloud;
 }
 
 void CnnHeatMapper::set_scene(PointCloudC::Ptr scene) {

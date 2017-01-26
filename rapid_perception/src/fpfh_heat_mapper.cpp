@@ -34,7 +34,8 @@ using std::vector;
 namespace rapid {
 namespace perception {
 FpfhHeatMapper::FpfhHeatMapper()
-    : scene_(new PointCloudN()),
+    : color_scene_(new PointCloudC),
+      scene_(new PointCloudN()),
       scene_tree_(new PointNTree),
       scene_features_(new PointCloudF),
       object_(new PointCloudN()),
@@ -49,8 +50,10 @@ FpfhHeatMapper::FpfhHeatMapper()
       max_neighbors_(400),
       feature_threshold_(1500) {}
 
-void FpfhHeatMapper::Compute(pcl::PointIndicesPtr indices,
+void FpfhHeatMapper::Compute(PointCloudC::Ptr heatmap,
                              Eigen::VectorXd* importances) {
+  pcl::PointIndicesPtr indices(new pcl::PointIndices);
+
   // Sample points in the scene.
   pcl::RandomSample<PointN> random;
   random.setInputCloud(scene_);
@@ -119,9 +122,15 @@ void FpfhHeatMapper::Compute(pcl::PointIndicesPtr indices,
   extract.setIndices(indices);
   extract.filter(*viz_cloud);
   viz::PublishCloud(heatmap_pub_, *viz_cloud);
+
+  pcl::ExtractIndices<PointC> extract_c;
+  extract_c.setInputCloud(color_scene_);
+  extract_c.setIndices(indices);
+  extract_c.filter(*heatmap);
 }
 
 void FpfhHeatMapper::set_scene(PointCloudC::Ptr scene) {
+  color_scene_ = scene;
   scene_.reset(new PointCloudN);
   pcl::copyPointCloud(*scene, *scene_);
   scene_tree_.reset(new PointNTree());

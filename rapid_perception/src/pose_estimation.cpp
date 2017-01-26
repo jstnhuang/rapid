@@ -31,6 +31,7 @@
 #include "rapid_msgs/Roi3D.h"
 #include "rapid_perception/icp_fitness_functions.h"
 #include "rapid_perception/pose_estimation_match.h"
+#include "rapid_perception/random_heat_mapper.h"
 #include "rapid_perception/template_matching_heat_mapper.h"
 #include "rapid_utils/eigen_conversions.h"
 #include "rapid_utils/pcl_conversions.h"
@@ -87,6 +88,9 @@ void PoseEstimator::set_object(
   object_center_.x() = (max_pt.x() + min_pt.x()) / 2;
   object_center_.y() = (max_pt.y() + min_pt.y()) / 2;
   object_center_.z() = (max_pt.z() + min_pt.z()) / 2;
+  object_dims_.x() = max_pt.x() - min_pt.x();
+  object_dims_.y() = max_pt.y() - min_pt.y();
+  object_dims_.z() = max_pt.z() - min_pt.z();
 
   heat_mapper_->set_object(object_);
   viz::PublishCloud(object_pub_, *object);
@@ -151,17 +155,22 @@ void PoseEstimator::Find(vector<PoseEstimationMatch>* matches) {
   output_boxes_.clear();  // Clear visualization.
 
   // Compute heatmap of features
-  pcl::PointIndicesPtr heatmap_indices(new pcl::PointIndices);
+  PointCloudC::Ptr heatmap(new PointCloudC);
   Eigen::VectorXd importances;
-  heat_mapper_->Compute(heatmap_indices, &importances);
+  if (heat_mapper_->name() == "random") {
+    static_cast<RandomHeatMapper*>(heat_mapper_)
+        ->set_landmark_dimensions(object_dims_.x(), object_dims_.y(),
+                                  object_dims_.z());
+  }
+  heat_mapper_->Compute(heatmap, &importances);
 
   // Sample candidate points from the heatmap
-  pcl::PointIndices::Ptr candidate_indices(new pcl::PointIndices);
-  ComputeTopCandidates(importances, heatmap_indices, candidate_indices);
+  PointCloudC::Ptr candidates(new PointCloudC);
+  ComputeTopCandidates(importances, heatmap, candidates);
 
   // For each candidate point, run ICP
   vector<PoseEstimationMatch> aligned_objects;
-  RunIcpCandidates(candidate_indices, &aligned_objects);
+  RunIcpCandidates(candidates, &aligned_objects);
 
   // Non-max suppression
   vector<int> deduped_indices;
@@ -198,16 +207,15 @@ void PoseEstimator::Find(vector<PoseEstimationMatch>* matches) {
 }
 
 void PoseEstimator::ComputeCandidates(Eigen::VectorXd& importances,
-                                      pcl::PointIndicesPtr heatmap_indices,
-                                      pcl::PointIndicesPtr candidate_indices) {
+                                      PointCloudC::Ptr heatmap,
+                                      PointCloudC::Ptr candidates) {
   // Sample points based on importance
   double sum = importances.sum();
   importances /= sum;
 
   vector<double> cdf;
   double cdf_val = 0;
-  for (size_t indices_i = 0; indices_i < heatmap_indices->indices.size();
-       ++indices_i) {
+  for (size_t indices_i = 0; indices_i < heatmap->size(); ++indices_i) {
     double prob = importances(indices_i);
     cdf_val += prob;
     cdf.push_back(cdf_val);
@@ -222,21 +230,10 @@ void PoseEstimator::ComputeCandidates(Eigen::VectorXd& importances,
                                      &sampled_important_indices);
 
   for (size_t i = 0; i < sampled_important_indices.size(); ++i) {
-    int index_into_indices = sampled_important_indices[i];
-    int point_index = heatmap_indices->indices[index_into_indices];
-    candidate_indices->indices.push_back(point_index);
+    int index = sampled_important_indices[i];
+    candidates->push_back(heatmap->at(index));
   }
-
-  // Visualize the candidate points
-  if (candidates_pub_) {
-    PointCloudC::Ptr viz_cloud(new PointCloudC());
-    viz_cloud.reset(new PointCloudC());
-    pcl::ExtractIndices<PointC> extract;
-    extract.setInputCloud(scene_);
-    extract.setIndices(candidate_indices);
-    extract.filter(*viz_cloud);
-    viz::PublishCloud(candidates_pub_, *viz_cloud);
-  }
+  // viz::PublishCloud(candidates_pub_, *candidates);
 }
 
 // This is used to sort heatmap scores, represented as (index, score).
@@ -245,39 +242,31 @@ bool CompareScores(const pair<int, double>& a, const pair<int, double>& b) {
   return a.second < b.second;
 }
 
-void PoseEstimator::ComputeTopCandidates(
-    Eigen::VectorXd& importances, pcl::PointIndicesPtr heatmap_indices,
-    pcl::PointIndicesPtr candidate_indices) {
+void PoseEstimator::ComputeTopCandidates(Eigen::VectorXd& importances,
+                                         PointCloudC::Ptr heatmap,
+                                         PointCloudC::Ptr candidates) {
+  // TODO(jstn): totally remove num_candidates_ as a parameter.
+  num_candidates_ = heatmap->size();
+
   vector<pair<int, double> > scores;
-  for (size_t i = 0; i < heatmap_indices->indices.size(); ++i) {
-    int index = heatmap_indices->indices[i];
+  for (size_t i = 0; i < heatmap->size(); ++i) {
     double score = importances[i];
-    scores.push_back(std::make_pair(index, score));
+    scores.push_back(std::make_pair(i, score));
   }
 
   size_t num = std::min(scores.size(), static_cast<size_t>(num_candidates_));
   std::partial_sort(scores.begin(), scores.begin() + num, scores.end(),
                     &CompareScores);
 
-  candidate_indices->indices.clear();
+  candidates->clear();
   for (size_t i = 0; i < num; ++i) {
-    candidate_indices->indices.push_back(scores[i].first);
+    candidates->push_back(heatmap->at(scores[i].first));
   }
-
-  // Visualize the candidate points
-  if (candidates_pub_) {
-    PointCloudC::Ptr viz_cloud(new PointCloudC());
-    viz_cloud.reset(new PointCloudC());
-    pcl::ExtractIndices<PointC> extract;
-    extract.setInputCloud(scene_);
-    extract.setIndices(candidate_indices);
-    extract.filter(*viz_cloud);
-    viz::PublishCloud(candidates_pub_, *viz_cloud);
-  }
+  // viz::PublishCloud(candidates_pub_, *candidates);
 }
 
 void PoseEstimator::RunIcpCandidateInThread(
-    pcl::PointIndices::Ptr candidate_indices, size_t candidate_index,
+    PointCloudC::Ptr candidates, size_t candidate_index,
     boost::mutex& output_mutex, vector<PoseEstimationMatch>* aligned_objects) {
   // Copy the object and its center.
   PointCloudC::Ptr working_object(new PointCloudC);
@@ -294,8 +283,7 @@ void PoseEstimator::RunIcpCandidateInThread(
   Eigen::Quaternionf roi_rotation;
   utils::GeometryMsgToEigen(object_roi_.transform.rotation, &roi_rotation);
 
-  int index = candidate_indices->indices[candidate_index];
-  const PointC& center = scene_->points[index];
+  const PointC& center = candidates->at(candidate_index);
   rapid_msgs::Roi3D roi = object_roi_;
 
   Eigen::Affine3f base_to_candidate;
@@ -357,8 +345,7 @@ void PoseEstimator::RunIcpCandidateInThread(
 }
 
 void PoseEstimator::RunIcpCandidates(
-    pcl::PointIndices::Ptr candidate_indices,
-    vector<PoseEstimationMatch>* aligned_objects) {
+    PointCloudC::Ptr candidates, vector<PoseEstimationMatch>* aligned_objects) {
   boost::asio::io_service io_service;
   boost::thread_group threadpool;
   boost::shared_ptr<boost::asio::io_service::work> work(
@@ -374,9 +361,9 @@ void PoseEstimator::RunIcpCandidates(
   }
 
   boost::mutex output_mutex;
-  for (size_t ci = 0; ci < candidate_indices->indices.size(); ++ci) {
+  for (size_t ci = 0; ci < candidates->size(); ++ci) {
     io_service.post(boost::bind(&PoseEstimator::RunIcpCandidateInThread, this,
-                                candidate_indices, ci, boost::ref(output_mutex),
+                                candidates, ci, boost::ref(output_mutex),
                                 aligned_objects));
   }
   work.reset();
@@ -390,6 +377,8 @@ void PoseEstimator::NonMaxSuppression(
   // Non-max supression of output objects
   // Index centers into a tree
   PointCloudP::Ptr output_centers(new PointCloudP);
+  PointCloudC::Ptr viz_deduped(new PointCloudC);
+  viz_deduped->header.frame_id = scene_->header.frame_id;
   for (size_t i = 0; i < aligned_objects.size(); ++i) {
     output_centers->push_back(aligned_objects[i].center());
   }
@@ -421,13 +410,20 @@ void PoseEstimator::NonMaxSuppression(
       } else if (neighbor.fitness() == match.fitness()) {
         // Keep this one, bump neighbor's fitness score up so that it won't come
         // up again.
-        neighbor.set_fitness(neighbor.fitness() * 1.01);
+        neighbor.set_fitness(neighbor.fitness() + 0.0001);
       }
     }
     if (keep_match) {
       deduped_indices->push_back(i);
+      PointC max;
+      max.x = match.center().x;
+      max.y = match.center().y;
+      max.z = match.center().z;
+      viz_deduped->push_back(max);
     }
   }
+
+  viz::PublishCloud(candidates_pub_, *viz_deduped);
 }
 
 void PoseEstimator::FilterMatches(
@@ -457,7 +453,7 @@ void PoseEstimator::FilterMatches(
     }
 
     viz::PublishCloud(alignment_pub_, *(match.cloud()));
-    if (debug_ && match.fitness() < 0.007) {
+    if (debug_ && match.fitness() < 0.01) {
       std::cout << "Score: " << match.fitness() << ", press enter to continue ";
       string user_input;
       std::getline(std::cin, user_input);

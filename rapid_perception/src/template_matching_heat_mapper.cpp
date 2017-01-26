@@ -31,8 +31,9 @@ TemplateMatchingHeatMapper::TemplateMatchingHeatMapper()
       sample_ratio_(0.05),
       max_samples_(1000) {}
 
-void TemplateMatchingHeatMapper::Compute(pcl::PointIndicesPtr indices,
+void TemplateMatchingHeatMapper::Compute(PointCloudC::Ptr heatmap,
                                          Eigen::VectorXd* importances) {
+  pcl::PointIndicesPtr indices(new pcl::PointIndices);
   indices->indices.clear();
 
   // Sample randomly
@@ -105,6 +106,7 @@ void TemplateMatchingHeatMapper::Compute(pcl::PointIndicesPtr indices,
   extract.setIndices(indices);
   extract.filter(*viz_cloud);
   viz::PublishCloud(heatmap_pub_, *viz_cloud);
+  heatmap = viz_cloud;
 }
 
 void TemplateMatchingHeatMapper::set_scene(PointCloudC::Ptr scene) {

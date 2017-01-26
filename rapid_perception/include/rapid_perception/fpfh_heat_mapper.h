@@ -17,7 +17,8 @@ class FpfhHeatMapper : public PoseEstimationHeatMapper {
  public:
   FpfhHeatMapper();
 
-  void Compute(pcl::PointIndicesPtr indices, Eigen::VectorXd* importances);
+  void Compute(pcl::PointCloud<pcl::PointXYZRGB>::Ptr heatmap,
+               Eigen::VectorXd* importances);
 
   void set_scene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene);
   void set_object(pcl::PointCloud<pcl::PointXYZRGB>::Ptr object);
@@ -33,6 +34,7 @@ class FpfhHeatMapper : public PoseEstimationHeatMapper {
   void ComputeFeatures(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr in,
                        pcl::PointCloud<pcl::FPFHSignature33>::Ptr out);
   // Source and target data structures
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr color_scene_;
   pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr scene_;
   pcl::search::KdTree<pcl::PointXYZRGBNormal>::Ptr scene_tree_;
   pcl::PointCloud<pcl::FPFHSignature33>::Ptr scene_features_;
