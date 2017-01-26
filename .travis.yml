@@ -1,6 +1,7 @@
 # General setup
 # -------------
 sudo: required
+dist: trusty
 language: python
 python:
     - "2.7"
@@ -19,7 +20,7 @@ cache: apt
 before_install: # Use this to prepare the system to install prerequisites or dependencies
     # Define some config vars
     - sudo apt-get --purge remove mongodb-10gen postgresql-9.2 postgresql-contrib-9.2 postgresql-9.3 postgresql-contrib-9.3
-    - export ROS_DISTRO=hydro
+    - export ROS_DISTRO=indigo
     # Settings to make installing script more general.
     - export ROS_CI_DESKTOP=`lsb_release -cs`  # e.g. 'precise'
     - export ROS_MASTER_URI=http://localhost:11311
