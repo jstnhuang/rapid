@@ -56,7 +56,7 @@ install:
     - catkin_init_workspace
     # Install dependencies
     - cd ~/catkin_ws/
-    - sudo apt-get install -qq -y ros-$ROS_DISTRO-moveit-*
+    - sudo apt-get install -y ros-$ROS_DISTRO-moveit-*
     - rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
     # Build
     - catkin build --cmake-args -DCAFFE_INSTALL_DIR="" -DCUDA_INSTALL_DIR=""
