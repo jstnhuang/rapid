@@ -82,6 +82,7 @@ script:
     - ./download_test_data.sh
     - cd ~/catkin_ws
     - catkin build --cmake-args -DCAFFE_INSTALL_DIR="" -DCUDA_INSTALL_DIR="" --catkin-make-args run_tests -- rapid --no-deps
+    - catkin_test_results build/rapid_db
     - catkin_test_results build/rapid_display
     - catkin_test_results build/rapid_manipulation
     - catkin_test_results build/rapid_perception
