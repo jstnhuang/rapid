@@ -1,4 +1,4 @@
-#include "rapid_db/name_db.h"
+#include "rapid_db/name_db.hpp"
 
 #include <string>
 
