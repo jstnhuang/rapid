@@ -7,16 +7,17 @@
 #include "pcl/point_types.h"
 #include "pcl_conversions/pcl_conversions.h"
 #include "pcl_ros/transforms.h"
-#include "rapid_perception/box3d_roi_server.h"
-#include "rapid_perception/pose_estimation.h"
-#include "rapid_perception/random_heat_mapper.h"
-#include "rapid_perception/ransac_pose_estimator.h"
-#include "rapid_perception/grouping_pose_estimator.h"
 #include "rapid_msgs/GetStaticCloud.h"
 #include "rapid_msgs/ListStaticClouds.h"
 #include "rapid_msgs/RemoveStaticCloud.h"
 #include "rapid_msgs/SaveStaticCloud.h"
+#include "rapid_perception/box3d_roi_server.h"
+#include "rapid_perception/grouping_pose_estimator.h"
+#include "rapid_perception/pose_estimation.h"
+#include "rapid_perception/random_heat_mapper.h"
+#include "rapid_perception/ransac_pose_estimator.h"
 #include "rapid_ros/publisher.h"
+#include "rapid_utils/command_line.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "visualization_msgs/Marker.h"
@@ -24,7 +25,6 @@
 
 #include "object_search/capture_roi.h"
 #include "object_search/commands.h"
-#include "object_search/command_line.h"
 #include "object_search/cloud_database.h"
 #include "object_search/estimators.h"
 
@@ -117,24 +117,26 @@ int main(int argc, char** argv) {
   ListCommand list_scenes(&scene_db, "scene");
   RecordObjectCommand record_object(&object_db, &capture);
   RecordSceneCommand record_scene(&scene_db);
-  DeleteCommand delete_object(&object_db);
-  DeleteCommand delete_scene(&scene_db);
+  DeleteCommand delete_object(&object_db, "delete object",
+                              "<name> - Delete an object");
+  DeleteCommand delete_scene(&scene_db, "delete scene",
+                             "<name> - Delete a scene");
   UseCommand use_object(&object_db, &estimators, "object", object_pub);
   UseCommand use_scene(&scene_db, &estimators, "scene", scene_pub);
   RunCommand run(&estimators, output_pub);
   SetDebugCommand set_debug(&estimators);
 
-  CommandLine cli;
-  cli.set_list_objects(&list_objects);
-  cli.set_list_scenes(&list_scenes);
-  cli.set_record_object(&record_object);
-  cli.set_record_scene(&record_scene);
-  cli.set_delete_object(&delete_object);
-  cli.set_delete_scene(&delete_scene);
-  cli.set_use_object(&use_object);
-  cli.set_use_scene(&use_scene);
-  cli.set_run(&run);
-  cli.set_debug(&set_debug);
+  rapid::utils::CommandLine cli;
+  cli.AddCommand(&list_objects);
+  cli.AddCommand(&list_scenes);
+  cli.AddCommand(&record_object);
+  cli.AddCommand(&record_scene);
+  cli.AddCommand(&delete_object);
+  cli.AddCommand(&delete_scene);
+  cli.AddCommand(&use_object);
+  cli.AddCommand(&use_scene);
+  cli.AddCommand(&run);
+  cli.AddCommand(&set_debug);
 
   while (cli.Next()) {
   }

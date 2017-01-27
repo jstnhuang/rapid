@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Eigen/Core"
+#include "boost/algorithm/string.hpp"
 #include "pcl/common/time.h"
 #include "pcl/filters/crop_box.h"
 #include "pcl/filters/extract_indices.h"
@@ -48,7 +49,7 @@ namespace object_search {
 ListCommand::ListCommand(Database* db, const string& type)
     : db_(db), type_(type) {}
 
-void ListCommand::Execute(vector<string>& args) {
+void ListCommand::Execute(const vector<string>& args) {
   vector<StaticCloudInfo> clouds;
   db_->List(&clouds);
   if (type_ == "object") {
@@ -64,10 +65,13 @@ void ListCommand::Execute(vector<string>& args) {
   }
 }
 
+std::string ListCommand::name() const { return type_ + "s"; }
+std::string ListCommand::description() const { return "- List " + type_ + "s"; }
+
 RecordObjectCommand::RecordObjectCommand(Database* db, CaptureRoi* capture)
     : db_(db), capture_(capture), last_id_(""), last_name_("") {}
 
-void RecordObjectCommand::Execute(std::vector<std::string>& args) {
+void RecordObjectCommand::Execute(const std::vector<std::string>& args) {
   last_id_ = "";    // Reset ID
   last_name_ = "";  // Reset ID
   rapid_msgs::Roi3D roi;
@@ -80,7 +84,7 @@ void RecordObjectCommand::Execute(std::vector<std::string>& args) {
   string name("");
   string input("");
   if (args.size() > 0 && args[0] != "") {
-    name = args[0];
+    name = boost::algorithm::join(args, " ");
     cout << "Type \"save\" to save or \"cancel\" to cancel: ";
     std::getline(std::cin, input);
   } else {
@@ -114,6 +118,10 @@ void RecordObjectCommand::Execute(std::vector<std::string>& args) {
   std::cout << "Saved " << static_cloud.name << " with ID " << last_id_
             << std::endl;
 }
+std::string RecordObjectCommand::name() const { return "record object"; }
+std::string RecordObjectCommand::description() const {
+  return "<name> - Save a new object";
+}
 
 std::string RecordObjectCommand::last_id() { return last_id_; }
 
@@ -124,7 +132,11 @@ rapid_msgs::Roi3D RecordObjectCommand::last_roi() { return last_roi_; }
 RecordSceneCommand::RecordSceneCommand(Database* db)
     : db_(db), tf_listener_() {}
 
-void RecordSceneCommand::Execute(std::vector<std::string>& args) {
+void RecordSceneCommand::Execute(const std::vector<std::string>& args) {
+  if (args.size() == 0) {
+    cout << "Error: provide a name for this scene." << endl;
+    return;
+  }
   // Read cloud and saved region
   PointCloud2::ConstPtr cloud_in =
       ros::topic::waitForMessage<PointCloud2>("cloud_in", ros::Duration(10));
@@ -144,28 +156,47 @@ void RecordSceneCommand::Execute(std::vector<std::string>& args) {
   }
 
   // Save static cloud
-  static_cloud.name = args[0];
+  static_cloud.name = boost::algorithm::join(args, " ");
   db_->Save(static_cloud);
 }
 
-DeleteCommand::DeleteCommand(Database* db) : db_(db) {}
+std::string RecordSceneCommand::name() const { return "record scene"; }
+std::string RecordSceneCommand::description() const {
+  return "<name> - Save a new scene";
+}
 
-void DeleteCommand::Execute(std::vector<std::string>& args) {
-  bool success = db_->Remove(args[0]);
+DeleteCommand::DeleteCommand(Database* db, const std::string& name,
+                             const std::string& description)
+    : db_(db), name_(name), description_(description) {}
+
+void DeleteCommand::Execute(const std::vector<std::string>& args) {
+  if (args.size() == 0) {
+    cout << "Error: specify the name to delete." << endl;
+    return;
+  }
+  std::string name = boost::algorithm::join(args, " ");
+  bool success = db_->Remove(name);
   if (!success) {
-    cout << "Invalid ID " << args[0] << ", nothing deleted." << endl;
+    cout << "Invalid name " << name << ", nothing deleted." << endl;
   }
 }
+std::string DeleteCommand::name() const { return name_; }
+std::string DeleteCommand::description() const { return description_; }
 
 UseCommand::UseCommand(Database* db, Estimators* estimators,
                        const std::string& type, const ros::Publisher& pub)
     : db_(db), estimators_(estimators), type_(type), pub_(pub) {}
 
-void UseCommand::Execute(std::vector<std::string>& args) {
+void UseCommand::Execute(const std::vector<std::string>& args) {
+  if (args.size() == 0) {
+    cout << "Error: specify the name to use." << endl;
+    return;
+  }
+  std::string name = boost::algorithm::join(args, " ");
   StaticCloud cloud;
-  bool success = db_->Get(args[0], &cloud);
+  bool success = db_->Get(name, &cloud);
   if (!success) {
-    cout << "Invalid ID " << args[0] << endl;
+    cout << "Invalid Name " << name << endl;
     return;
   }
 
@@ -243,6 +274,15 @@ void UseCommand::Execute(std::vector<std::string>& args) {
   }
 }
 
+std::string UseCommand::name() const { return "use " + type_; }
+std::string UseCommand::description() const {
+  if (type_ == "scene") {
+    return "<name> - Set the scene to search in";
+  } else {
+    return "<name> - Set the object to search for";
+  }
+}
+
 void UseCommand::CropScene(PointCloud<PointXYZRGB>::Ptr scene,
                            vector<int>* indices) {
   double min_x, min_y, min_z, max_x, max_y, max_z;
@@ -278,7 +318,11 @@ void UseCommand::CropScene(PointCloud<PointXYZRGB>::Ptr scene,
 RunCommand::RunCommand(Estimators* estimators, const ros::Publisher& output_pub)
     : estimators_(estimators), matches_(), output_pub_(output_pub) {}
 
-void RunCommand::Execute(std::vector<std::string>& args) {
+void RunCommand::Execute(const std::vector<std::string>& args) {
+  if (args.size() == 0) {
+    cout << "Error: specify the algorithm to use." << endl;
+    return;
+  }
   const std::string& algorithm = args[0];
   matches_.clear();
   if (algorithm == "custom") {
@@ -298,6 +342,11 @@ void RunCommand::Execute(std::vector<std::string>& args) {
     return;
   }
   VisualizeMatches(output_pub_, matches_);
+}
+
+std::string RunCommand::name() const { return "run"; }
+std::string RunCommand::description() const {
+  return "<custom, ransac, grouping> - Run object search";
 }
 
 void RunCommand::matches(
@@ -430,11 +479,21 @@ void RunCommand::UpdateGroupingParams() {
 SetDebugCommand::SetDebugCommand(Estimators* estimators)
     : estimators_(estimators) {}
 
-void SetDebugCommand::Execute(std::vector<std::string>& args) {
+void SetDebugCommand::Execute(const std::vector<std::string>& args) {
+  if (args.size() == 0) {
+    cout << "Error: specify on or off." << endl;
+    return;
+  }
+
   if (args[0] == "on") {
     estimators_->custom->set_debug(true);
   } else {
     estimators_->custom->set_debug(false);
   }
+}
+
+std::string SetDebugCommand::name() const { return "debug"; }
+std::string SetDebugCommand::description() const {
+  return "<on/off> - Turn debugging on or off";
 }
 }  // namespace object_search

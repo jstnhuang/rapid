@@ -32,10 +32,8 @@ bool CommandLine::Next() {
   vector<string> args;
   bool valid = ParseLine(input, &command, &args);
   if (valid) {
-    if (command->name() == "exit") {
-      return false;
-    }
     command->Execute(args);
+    cout << endl;
   } else {
     cout << "Invalid command." << endl;
     cout << endl;
@@ -47,7 +45,7 @@ void CommandLine::ShowCommands() const {
   cout << "Commands:" << endl;
   for (size_t i = 0; i < commands_.size(); ++i) {
     CommandInterface* command = commands_[i];
-    cout << "  " << command->name() << " - " << command->description() << endl;
+    cout << "  " << command->name() << " " << command->description() << endl;
   }
 }
 
