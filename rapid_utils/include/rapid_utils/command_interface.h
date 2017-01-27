@@ -11,16 +11,13 @@ class CommandInterface {
   virtual ~CommandInterface() {}
 
   // Execute the command.
-  void Execute(const std::vector<std::string>& args);
-
-  // Return true if the user input is valid for this command, false otherwise.
-  bool Parse(const std::vector<std::string>& input) const;
+  virtual void Execute(const std::vector<std::string>& args) = 0;
 
   // The name of the command (e.g., what the user types to run it.
-  std::string name() const;
+  virtual std::string name() const = 0;
 
   // A description of the command.
-  std::string description() const;
+  virtual std::string description() const = 0;
 };
 }  // namespace utils
 }  // namespace rapid
