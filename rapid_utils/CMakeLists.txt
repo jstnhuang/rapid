@@ -110,9 +110,10 @@ add_definitions(${PCL_DEFINITIONS})
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES
+    rapid_utils
+    ${PROJECT_NAME}_command_line
     rapid_utils_eigen_conversions
     rapid_utils_pcl_conversions
-    rapid_utils
   CATKIN_DEPENDS
     geometry_msgs
     roscpp
