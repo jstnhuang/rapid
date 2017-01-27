@@ -1,4 +1,4 @@
 <launch>
   <include file="$(find pr2_moveit_config)/launch/move_group.launch" />
-  <include file="$(find agile_grasp)/launch/single_camera_grasps.launch" />
+  <!--include file="$(find agile_grasp)/launch/single_camera_grasps.launch" /-->
 </launch>

@@ -148,14 +148,14 @@ include_directories(
 ## either from message generation or dynamic reconfigure
 # add_dependencies(rapid_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-add_executable(pick_place_main src/pick_place_main.cpp)
-add_dependencies(pick_place_main
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-)
-target_link_libraries(pick_place_main
-  ${catkin_LIBRARIES}
-)
+#add_executable(pick_place_main src/pick_place_main.cpp)
+#add_dependencies(pick_place_main
+#  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+#  ${catkin_EXPORTED_TARGETS}
+#)
+#target_link_libraries(pick_place_main
+#  ${catkin_LIBRARIES}
+#)
 
 add_executable(pr2_gripper_viz_main src/pr2_gripper_viz_main.cpp)
 add_dependencies(pr2_gripper_viz_main

@@ -5,8 +5,6 @@
 #include "rapid_manipulation/arm.h"
 #include "rapid_manipulation/gripper.h"
 #include "rapid_manipulation/head.h"
-#include "rapid_manipulation/pick.h"
-#include "rapid_manipulation/place.h"
 #include "rapid_manipulation/tuck_arms.h"
 #include "rapid_ros/service_client.h"
 #include "rapid_sound/sound.h"
@@ -30,11 +28,7 @@ class Pr2 {
       rapid::manipulation::GripperInterface* right_gripper,
       rapid::manipulation::HeadInterface* head,
       rapid::sound::SoundInterface* sound,
-      rapid::manipulation::TuckArmsInterface* tuck_arms,
-      rapid::manipulation::Picker* left_picker,
-      rapid::manipulation::Picker* right_picker,
-      rapid::manipulation::Placer* left_placer,
-      rapid::manipulation::Placer* right_placer);
+      rapid::manipulation::TuckArmsInterface* tuck_arms);
   ~Pr2();
 
   // Accessors
@@ -46,10 +40,6 @@ class Pr2 {
   rapid::manipulation::HeadInterface* head();
   rapid::sound::SoundInterface* sound();
   rapid::manipulation::TuckArmsInterface* tuck_arms();
-  rapid::manipulation::Picker* left_picker();
-  rapid::manipulation::Picker* right_picker();
-  rapid::manipulation::Placer* left_placer();
-  rapid::manipulation::Placer* right_placer();
 
  private:
   rapid::manipulation::ArmInterface* const left_arm_;
@@ -60,10 +50,6 @@ class Pr2 {
   rapid::manipulation::HeadInterface* const head_;
   rapid::sound::SoundInterface* const sound_;
   rapid::manipulation::TuckArmsInterface* const tuck_arms_;
-  rapid::manipulation::Picker* const left_picker_;
-  rapid::manipulation::Picker* const right_picker_;
-  rapid::manipulation::Placer* const left_placer_;
-  rapid::manipulation::Placer* const right_placer_;
 };
 
 // Factory function for building a PR2 object for a real PR2.

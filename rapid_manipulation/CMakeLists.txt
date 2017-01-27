@@ -6,7 +6,6 @@ project(rapid_manipulation)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   actionlib
-  agile_grasp
   cmake_modules
   geometry_msgs
   moveit_core
@@ -124,7 +123,6 @@ catkin_package(
   LIBRARIES rapid_manipulation
   CATKIN_DEPENDS
     actionlib
-    agile_grasp
     geometry_msgs
     moveit_core
     moveit_ros_planning_interface
@@ -161,8 +159,8 @@ add_library(rapid_manipulation
   src/arm.cpp
   src/gripper.cpp
   src/head.cpp
-  src/pick.cpp
-  src/place.cpp
+  #src/pick.cpp
+  #src/place.cpp
   src/tuck_arms.cpp
 )
 add_dependencies(rapid_manipulation
@@ -238,22 +236,22 @@ if(CATKIN_ENABLE_TESTING)
     rapid_manipulation
     ${catkin_LIBRARIES}
   )
-  add_rostest_gtest(rapid_manipulation_pick_test
-    test/pick_test.launch
-    test/pick_test.cpp
-  )
-  target_link_libraries(rapid_manipulation_pick_test
-    rapid_manipulation
-    ${catkin_LIBRARIES}
-  )
-  add_rostest_gtest(rapid_manipulation_place_test
-    test/place_test.launch
-    test/place_test.cpp
-  )
-  target_link_libraries(rapid_manipulation_place_test
-    rapid_manipulation
-    ${catkin_LIBRARIES}
-  )
+# add_rostest_gtest(rapid_manipulation_pick_test
+# test/pick_test.launch
+#   test/pick_test.cpp
+# )
+# target_link_libraries(rapid_manipulation_pick_test
+#   rapid_manipulation
+#   ${catkin_LIBRARIES}
+# )
+# add_rostest_gtest(rapid_manipulation_place_test
+#   test/place_test.launch
+#   test/place_test.cpp
+# )
+# target_link_libraries(rapid_manipulation_place_test
+#   rapid_manipulation
+#   ${catkin_LIBRARIES}
+# )
   add_rostest_gtest(rapid_manipulation_tuck_arms_test
     test/tuck_arms_test.launch
     test/tuck_arms_test.cpp

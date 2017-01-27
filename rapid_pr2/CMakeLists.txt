@@ -5,7 +5,6 @@ project(rapid_pr2)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  agile_grasp
   blinky
   pr2_controllers_msgs
   rapid_display
@@ -107,7 +106,6 @@ catkin_package(
     rapid_pr2
     rapid_pr2_joint_states
   CATKIN_DEPENDS
-    agile_grasp
     blinky
     pr2_controllers_msgs
     rapid_display
