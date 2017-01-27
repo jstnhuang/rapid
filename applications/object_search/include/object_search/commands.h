@@ -9,6 +9,7 @@
 #include "rapid_msgs/Roi3D.h"
 #include "rapid_msgs/StaticCloud.h"
 #include "tf/transform_listener.h"
+#include "rapid_utils/command_interface.h"
 
 #include "object_search/estimators.h"
 
@@ -23,26 +24,24 @@ namespace object_search {
 class CaptureRoi;
 class Database;  // Forward declaration
 
-class Command {
- public:
-  virtual ~Command() {}
-  virtual void Execute(std::vector<std::string>& args) = 0;
-};
-
-class ListCommand : public Command {
+class ListCommand : public rapid::utils::CommandInterface {
  public:
   ListCommand(Database* db, const std::string& type);
-  void Execute(std::vector<std::string>& args);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
 
  private:
   Database* db_;
   std::string type_;
 };
 
-class RecordObjectCommand : public Command {
+class RecordObjectCommand : public rapid::utils::CommandInterface {
  public:
   RecordObjectCommand(Database* db, CaptureRoi* capture);
-  void Execute(std::vector<std::string>& args);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
   std::string last_id();
   std::string last_name();
   rapid_msgs::Roi3D last_roi();
@@ -55,30 +54,39 @@ class RecordObjectCommand : public Command {
   rapid_msgs::Roi3D last_roi_;
 };
 
-class RecordSceneCommand : public Command {
+class RecordSceneCommand : public rapid::utils::CommandInterface {
  public:
   explicit RecordSceneCommand(Database* db);
-  void Execute(std::vector<std::string>& args);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
 
  private:
   Database* db_;
   tf::TransformListener tf_listener_;
 };
 
-class DeleteCommand : public Command {
+class DeleteCommand : public rapid::utils::CommandInterface {
  public:
-  DeleteCommand(Database* db);
-  void Execute(std::vector<std::string>& args);
+  DeleteCommand(Database* db, const std::string& name,
+                const std::string& description);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
 
  private:
   Database* db_;
+  std::string name_;
+  std::string description_;
 };
 
-class UseCommand : public Command {
+class UseCommand : public rapid::utils::CommandInterface {
  public:
   UseCommand(Database* db, Estimators* estimators, const std::string& type,
              const ros::Publisher& pub);
-  void Execute(std::vector<std::string>& args);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
 
  private:
   void CropScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene,
@@ -90,10 +98,12 @@ class UseCommand : public Command {
   ros::Publisher pub_;
 };
 
-class RunCommand : public Command {
+class RunCommand : public rapid::utils::CommandInterface {
  public:
   RunCommand(Estimators* estimator, const ros::Publisher& output_pub);
-  void Execute(std::vector<std::string>& args);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
   void matches(std::vector<rapid::perception::PoseEstimationMatch>* matches);
 
  private:
@@ -105,10 +115,12 @@ class RunCommand : public Command {
   ros::Publisher output_pub_;
 };
 
-class SetDebugCommand : public Command {
+class SetDebugCommand : public rapid::utils::CommandInterface {
  public:
   SetDebugCommand(Estimators* estimator);
-  void Execute(std::vector<std::string>& args);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
 
  private:
   Estimators* estimators_;

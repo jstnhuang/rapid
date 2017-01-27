@@ -12,6 +12,9 @@ find_package(catkin REQUIRED COMPONENTS
   pcl_conversions
   pcl_ros
   rapid_perception
+  rapid_ros
+  rapid_utils
+  rapid_viz
   roscpp
   rospy
   rospy_message_converter
@@ -121,7 +124,6 @@ catkin_package(
   LIBRARIES
     object_search_capture_roi
     object_search_cloud_database
-    object_search_command_line
     object_search_commands
   CATKIN_DEPENDS
     mongo_msg_db
@@ -182,15 +184,6 @@ target_link_libraries(object_search_commands
   ${catkin_LIBRARIES}
   ${pcl_LIBRARIES})
 
-add_library(object_search_command_line
-  src/command_line.cpp)
-add_dependencies(object_search_command_line
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS})
-target_link_libraries(object_search_command_line
-  ${catkin_LIBRARIES}
-  ${pcl_LIBRARIES})
-
 add_executable(object_search_main
   src/object_search_main.cpp)
 add_dependencies(object_search_main
@@ -198,14 +191,12 @@ add_dependencies(object_search_main
   ${catkin_EXPORTED_TARGETS}
   object_search_capture_roi
   object_search_cloud_database
-  object_search_command_line
   object_search_commands)
 target_link_libraries(object_search_main
   ${catkin_LIBRARIES}
   ${pcl_LIBRARIES}
   object_search_capture_roi
   object_search_cloud_database
-  object_search_command_line
   object_search_commands)
 
 add_executable(object_search_service_node
