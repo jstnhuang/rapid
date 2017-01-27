@@ -32,9 +32,6 @@ bool CommandLine::Next() {
   vector<string> args;
   bool valid = ParseLine(input, &command, &args);
   if (valid) {
-    if (command->name() == "exit") {
-      return false;
-    }
     command->Execute(args);
     cout << endl;
   } else {
