@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   interactive_markers
   pcl_conversions
+  pcl_ros
   rapid_ros
   rapid_utils
   roscpp
@@ -19,8 +20,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
-
+find_package(Boost REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -111,12 +111,14 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES
     rapid_viz
+    rapid_viz_cloud_poser
     rapid_viz_publish
   CATKIN_DEPENDS
     cv_bridge
     geometry_msgs
     interactive_markers
     pcl_conversions
+    pcl_ros
     rapid_ros
     rapid_utils
     roscpp
@@ -162,6 +164,10 @@ add_dependencies(rapid_viz_publish
 target_link_libraries(rapid_viz_publish
   ${catkin_LIBRARIES}
 )
+
+add_library(rapid_viz_cloud_poser src/cloud_poser.cpp)
+add_dependencies(rapid_viz_cloud_poser rapid_viz_publish ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_viz_cloud_poser rapid_viz_publish ${catkin_LIBRARIES})
 
 ## Declare a C++ executable
 # add_executable(rapid_viz_node src/rapid_viz_node.cpp)

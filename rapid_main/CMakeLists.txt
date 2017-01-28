@@ -17,7 +17,9 @@ find_package(catkin REQUIRED COMPONENTS
   rapid_pr2
   rapid_ros
   rapid_viz
+  rosbag
   roscpp
+  sensor_msgs
   visualization_msgs
 )
 
@@ -122,7 +124,9 @@ catkin_package(
     rapid_pr2
     rapid_ros
     rapid_viz
+    rosbag
     roscpp
+    sensor_msgs
     visualization_msgs
   # DEPENDS
 )
@@ -165,6 +169,10 @@ add_dependencies(pr2_gripper_viz_main
 target_link_libraries(pr2_gripper_viz_main
   ${catkin_LIBRARIES}
 )
+
+add_executable(cloud_poser_main src/cloud_poser_main.cpp)
+add_dependencies(cloud_poser_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(cloud_poser_main ${catkin_LIBRARIES})
 
 #############
 ## Install ##

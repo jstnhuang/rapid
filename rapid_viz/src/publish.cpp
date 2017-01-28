@@ -1,3 +1,5 @@
+#include "rapid_viz/publish.h"
+
 #include "cv_bridge/cv_bridge.h"
 #include "opencv2/core/core.hpp"
 #include "pcl/point_cloud.h"
@@ -15,6 +17,22 @@ typedef pcl::PointCloud<PointN> PointCloudN;
 
 namespace rapid {
 namespace viz {
+void PublishBlankCloud(const ros::Publisher& pub, const std::string& frame_id) {
+  PointCloudC blank;
+  PointC blank_pt;
+  blank_pt.a = 0;
+  blank.push_back(blank_pt);
+  blank.header.frame_id = frame_id;
+  PublishCloud(pub, blank);
+}
+
+void PublishCloud(const ros::Publisher& pub, sensor_msgs::PointCloud2& cloud) {
+  if (pub) {
+    cloud.header.stamp = ros::Time::now();
+    pub.publish(cloud);
+  }
+}
+
 void PublishCloud(const ros::Publisher& pub, PointCloudC& cloud) {
   if (pub) {
     sensor_msgs::PointCloud2 msg;
