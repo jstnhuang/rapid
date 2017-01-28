@@ -79,6 +79,8 @@ flags = [
 '-I',
 'rapid_viz/include',
 '-I',
+'../stf/include',
+'-I',
 'applications/object_search/include',
 '-I',
 'applications/object_search_msgs/include'

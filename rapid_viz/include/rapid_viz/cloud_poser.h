@@ -9,6 +9,7 @@
 #include "pcl/point_types.h"
 #include "ros/publisher.h"
 #include "sensor_msgs/PointCloud2.h"
+#include "stf/graph.h"
 #include "visualization_msgs/InteractiveMarker.h"
 #include "visualization_msgs/InteractiveMarkerControl.h"
 
@@ -59,7 +60,10 @@ class CloudPoser {
   interactive_markers::InteractiveMarkerServer im_server_;
 
   visualization_msgs::InteractiveMarker int_marker_;  // The interactive marker.
-  geometry_msgs::Pose pose_;  // The current pose offset.
+  geometry_msgs::Pose pose_;  // The current pose of the marker, which is
+                              // positioned at the center of the point cloud.
+  double max_dim_;  // The length of the maximum dimension of the point cloud.
+  stf::Graph graph_;
 };
 }  // namespace viz
 }  // namespace rapid
