@@ -12,7 +12,8 @@ using std::vector;
 
 namespace rapid {
 namespace utils {
-CommandLine::CommandLine() : commands_() {}
+CommandLine::CommandLine() : name_(""), commands_() {}
+CommandLine::CommandLine(const std::string& name) : name_(name), commands_() {}
 
 void CommandLine::AddCommand(CommandInterface* command) {
   commands_.push_back(command);
@@ -43,6 +44,9 @@ bool CommandLine::Next() {
 }
 
 void CommandLine::ShowCommands() const {
+  if (name_ != "") {
+    cout << name_ << " - ";
+  }
   cout << "Commands:" << endl;
   for (size_t i = 0; i < commands_.size(); ++i) {
     CommandInterface* command = commands_[i];

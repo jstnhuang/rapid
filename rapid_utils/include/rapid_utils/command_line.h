@@ -11,6 +11,7 @@ namespace utils {
 class CommandLine {
  public:
   CommandLine();
+  CommandLine(const std::string& name);
 
   // Add a command to this command line.
   void AddCommand(CommandInterface* command);
@@ -27,6 +28,7 @@ class CommandLine {
                  std::vector<std::string>* args) const;
   int ParseCommand(const std::vector<std::string>& tokens,
                    const std::string& name) const;
+  std::string name_;
   std::vector<CommandInterface*> commands_;
 };
 }  // namespace utils
