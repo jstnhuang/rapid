@@ -80,7 +80,7 @@ void NameDb::List(std::vector<std::string>* names) {
   mongo::BSONObj message_query;
   mongo::BSONObj meta_query;
   mongo::BSONObj sort_query;
-  mongo::BSONObj projection_query = BSON("_meta.name" << 1);
+  mongo::BSONObj projection_query = BSON("_meta" << 1);
   const bool kFindOne = false;
   const bool kDecodeMetas = true;
   const int kLimit = 0;
