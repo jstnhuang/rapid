@@ -45,11 +45,12 @@ using std::string;
 using std::vector;
 using rapid_msgs::StaticCloud;
 using rapid_msgs::StaticCloudInfo;
+using rapid::db::NameDb;
 using rapid::perception::PoseEstimationMatch;
 using rapid::perception::GroupingPoseEstimator;
 
 namespace object_search {
-ListCommand::ListCommand(rapid::db::NameDb* db, const string& type)
+ListCommand::ListCommand(NameDb* db, const string& type)
     : db_(db), type_(type) {}
 
 void ListCommand::Execute(const vector<string>& args) {
@@ -135,35 +136,33 @@ std::string RecordObjectCommand::last_name() { return last_name_; }
 
 rapid_msgs::Roi3D RecordObjectCommand::last_roi() { return last_roi_; }
 
-RecordSceneCommand::RecordSceneCommand(Database* db)
-    : db_(db), tf_listener_() {}
+RecordSceneCommand::RecordSceneCommand(NameDb* info_db, NameDb* cloud_db)
+    : info_db_(info_db), cloud_db_(cloud_db), tf_listener_() {}
 
 void RecordSceneCommand::Execute(const std::vector<std::string>& args) {
   if (args.size() == 0) {
     cout << "Error: provide a name for this scene." << endl;
     return;
   }
-  // Read cloud and saved region
+  // Read cloud
   PointCloud2::ConstPtr cloud_in =
       ros::topic::waitForMessage<PointCloud2>("cloud_in", ros::Duration(10));
-  StaticCloud static_cloud;
-  static_cloud.cloud = *cloud_in;
 
-  // Get transform
-  static_cloud.parent_frame_id = "base_footprint";
-  try {
-    tf::StampedTransform base_to_camera_tf;
-    tf_listener_.lookupTransform(
-        static_cloud.cloud.header.frame_id, "base_footprint",
-        static_cloud.cloud.header.stamp, base_to_camera_tf);
-    tf::transformTFToMsg(base_to_camera_tf, static_cloud.base_to_camera);
-  } catch (tf::TransformException e) {
-    ROS_WARN("%s", e.what());
+  // Transform to base link.
+  sensor_msgs::PointCloud2 cloud_out;
+  bool success = pcl_ros::transformPointCloud("base_link", *cloud_in, cloud_out,
+                                              tf_listener_);
+  if (!success) {
+    ROS_ERROR("Error: Failed to transform point cloud.");
+    return;
   }
 
-  // Save static cloud
-  static_cloud.name = boost::algorithm::join(args, " ");
-  db_->Save(static_cloud);
+  // Save to DB
+  string name = boost::algorithm::join(args, " ");
+  rapid_msgs::SceneInfo info;
+  info.name = name;
+  info_db_->Insert(name, info);
+  cloud_db_->Insert(name, cloud_out);
 }
 
 std::string RecordSceneCommand::name() const { return "record scene"; }

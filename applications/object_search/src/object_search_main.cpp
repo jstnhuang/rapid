@@ -56,7 +56,10 @@ int main(int argc, char** argv) {
   Database scene_db("object_search", "scenes", get_cloud, list_clouds,
                     remove_cloud, save_cloud);
   rapid::db::NameDb scene_ndb(nh, "custom_landmarks", "scenes");
+  rapid::db::NameDb scene_cloud_ndb(nh, "custom_landmarks", "scene_clouds");
   rapid::db::NameDb landmark_ndb(nh, "custom_landmarks", "landmarks");
+  rapid::db::NameDb landmark_cloud_ndb(nh, "custom_landmarks",
+                                       "landmark_clouds");
 
   // Visualization publishers
   ros::Publisher object_pub = nh.advertise<PointCloud2>("/landmark", 1, true);
@@ -116,10 +119,11 @@ int main(int argc, char** argv) {
   estimators.ransac = &ransac_estimator;
   estimators.grouping = &grouping_estimator;
 
+  // Build command line
   ListCommand list_landmarks(&landmark_ndb, ListCommand::kLandmarks);
   ListCommand list_scenes(&scene_ndb, ListCommand::kScenes);
   RecordObjectCommand record_object(&object_db, &capture);
-  RecordSceneCommand record_scene(&scene_db);
+  RecordSceneCommand record_scene(&scene_ndb, &scene_cloud_ndb);
   DeleteCommand delete_object(&object_db, "delete object",
                               "<name> - Delete an object");
   DeleteCommand delete_scene(&scene_db, "delete scene",
@@ -129,9 +133,12 @@ int main(int argc, char** argv) {
   RunCommand run(&estimators, output_pub);
   SetDebugCommand set_debug(&estimators);
 
-  rapid::utils::CommandLine scene_cli;
+  rapid::utils::CommandLine scene_cli("Scene manager");
+  scene_cli.AddCommand(&list_landmarks);
+  scene_cli.AddCommand(&record_scene);
+  scene_cli.AddCommand(&delete_scene);
 
-  rapid::utils::CommandLine cli;
+  rapid::utils::CommandLine cli("Custom landmarks CLI");
   cli.AddCommand(&list_landmarks);
   cli.AddCommand(&list_scenes);
   cli.AddCommand(&record_object);

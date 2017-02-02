@@ -60,13 +60,15 @@ class RecordObjectCommand : public rapid::utils::CommandInterface {
 
 class RecordSceneCommand : public rapid::utils::CommandInterface {
  public:
-  explicit RecordSceneCommand(Database* db);
+  explicit RecordSceneCommand(rapid::db::NameDb* info_db,
+                              rapid::db::NameDb* cloud_db);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
 
  private:
-  Database* db_;
+  rapid::db::NameDb* info_db_;
+  rapid::db::NameDb* cloud_db_;
   tf::TransformListener tf_listener_;
 };
 
