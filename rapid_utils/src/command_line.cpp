@@ -25,6 +25,7 @@ bool CommandLine::Next() {
   if (std::getline(std::cin, input)) {
     cout << endl;
   } else {
+    cout << endl;
     return false;
   }
 
