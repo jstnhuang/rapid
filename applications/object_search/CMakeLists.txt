@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   object_search_msgs
   pcl_conversions
   pcl_ros
+  rapid_db
   rapid_perception
   rapid_ros
   rapid_utils
@@ -131,6 +132,7 @@ catkin_package(
     object_search_msgs
     pcl_conversions
     pcl_ros
+    rapid_db
     rapid_perception
     roscpp
     rospy

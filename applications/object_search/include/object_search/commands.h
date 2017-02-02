@@ -9,6 +9,7 @@
 #include "rapid_msgs/Roi3D.h"
 #include "rapid_msgs/StaticCloud.h"
 #include "tf/transform_listener.h"
+#include "rapid_db/name_db.hpp"
 #include "rapid_utils/command_interface.h"
 
 #include "object_search/estimators.h"
@@ -26,13 +27,16 @@ class Database;  // Forward declaration
 
 class ListCommand : public rapid::utils::CommandInterface {
  public:
-  ListCommand(Database* db, const std::string& type);
+  ListCommand(rapid::db::NameDb* db, const std::string& type);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
 
+  static const char kLandmarks[];
+  static const char kScenes[];
+
  private:
-  Database* db_;
+  rapid::db::NameDb* db_;
   std::string type_;
 };
 

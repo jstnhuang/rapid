@@ -16,6 +16,9 @@
 #include "pcl/PointIndices.h"
 #include "pcl_conversions/pcl_conversions.h"
 #include "pcl_ros/transforms.h"
+#include "rapid_db/name_db.hpp"
+#include "rapid_msgs/LandmarkInfo.h"
+#include "rapid_msgs/SceneInfo.h"
 #include "rapid_msgs/StaticCloud.h"
 #include "rapid_msgs/StaticCloudInfo.h"
 #include "rapid_perception/pose_estimation.h"
@@ -46,27 +49,30 @@ using rapid::perception::PoseEstimationMatch;
 using rapid::perception::GroupingPoseEstimator;
 
 namespace object_search {
-ListCommand::ListCommand(Database* db, const string& type)
+ListCommand::ListCommand(rapid::db::NameDb* db, const string& type)
     : db_(db), type_(type) {}
 
 void ListCommand::Execute(const vector<string>& args) {
-  vector<StaticCloudInfo> clouds;
-  db_->List(&clouds);
-  if (type_ == "object") {
-    cout << "Objects:" << endl;
+  vector<string> names;
+  if (type_ == kLandmarks) {
+    db_->List<rapid_msgs::LandmarkInfo>(&names);
+    cout << "Landmarks:" << endl;
   } else {
+    db_->List<rapid_msgs::SceneInfo>(&names);
     cout << "Scenes:" << endl;
   }
-  if (clouds.size() == 0) {
+  if (names.size() == 0) {
     cout << "  None." << endl;
   }
-  for (size_t i = 0; i < clouds.size(); ++i) {
-    cout << "  " << clouds[i].id << "\t" << clouds[i].name << endl;
+  for (size_t i = 0; i < names.size(); ++i) {
+    cout << "  " << names[i] << endl;
   }
 }
 
 std::string ListCommand::name() const { return type_ + "s"; }
 std::string ListCommand::description() const { return "- List " + type_ + "s"; }
+const char ListCommand::kLandmarks[] = "landmark";
+const char ListCommand::kScenes[] = "scene";
 
 RecordObjectCommand::RecordObjectCommand(Database* db, CaptureRoi* capture)
     : db_(db), capture_(capture), last_id_(""), last_name_("") {}

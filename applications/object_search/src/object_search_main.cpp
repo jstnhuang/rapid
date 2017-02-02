@@ -7,6 +7,7 @@
 #include "pcl/point_types.h"
 #include "pcl_conversions/pcl_conversions.h"
 #include "pcl_ros/transforms.h"
+#include "rapid_db/name_db.hpp"
 #include "rapid_msgs/GetStaticCloud.h"
 #include "rapid_msgs/ListStaticClouds.h"
 #include "rapid_msgs/RemoveStaticCloud.h"
@@ -54,6 +55,8 @@ int main(int argc, char** argv) {
                      remove_cloud, save_cloud);
   Database scene_db("object_search", "scenes", get_cloud, list_clouds,
                     remove_cloud, save_cloud);
+  rapid::db::NameDb scene_ndb(nh, "custom_landmarks", "scenes");
+  rapid::db::NameDb landmark_ndb(nh, "custom_landmarks", "landmarks");
 
   // Visualization publishers
   ros::Publisher object_pub = nh.advertise<PointCloud2>("/landmark", 1, true);
@@ -113,8 +116,8 @@ int main(int argc, char** argv) {
   estimators.ransac = &ransac_estimator;
   estimators.grouping = &grouping_estimator;
 
-  ListCommand list_objects(&object_db, "object");
-  ListCommand list_scenes(&scene_db, "scene");
+  ListCommand list_landmarks(&landmark_ndb, ListCommand::kLandmarks);
+  ListCommand list_scenes(&scene_ndb, ListCommand::kScenes);
   RecordObjectCommand record_object(&object_db, &capture);
   RecordSceneCommand record_scene(&scene_db);
   DeleteCommand delete_object(&object_db, "delete object",
@@ -126,8 +129,10 @@ int main(int argc, char** argv) {
   RunCommand run(&estimators, output_pub);
   SetDebugCommand set_debug(&estimators);
 
+  rapid::utils::CommandLine scene_cli;
+
   rapid::utils::CommandLine cli;
-  cli.AddCommand(&list_objects);
+  cli.AddCommand(&list_landmarks);
   cli.AddCommand(&list_scenes);
   cli.AddCommand(&record_object);
   cli.AddCommand(&record_scene);
