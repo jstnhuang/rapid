@@ -48,6 +48,8 @@ find_package(catkin REQUIRED
 add_message_files(
   FILES
   Roi3D.msg
+  LandmarkInfo.msg
+  SceneInfo.msg
   StaticCloud.msg
   StaticCloudInfo.msg
 )
