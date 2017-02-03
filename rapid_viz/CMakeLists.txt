@@ -114,6 +114,7 @@ catkin_package(
     rapid_viz
     rapid_viz_cloud_poser
     rapid_viz_publish
+    rapid_viz_scene_viz
   CATKIN_DEPENDS
     cv_bridge
     geometry_msgs
@@ -169,6 +170,10 @@ target_link_libraries(rapid_viz_publish
 add_library(rapid_viz_cloud_poser src/cloud_poser.cpp)
 add_dependencies(rapid_viz_cloud_poser rapid_viz_publish ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_viz_cloud_poser rapid_viz_publish ${catkin_LIBRARIES})
+
+add_library(rapid_viz_scene_viz src/scene_viz.cpp)
+add_dependencies(rapid_viz_scene_viz rapid_viz_publish ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_viz_scene_viz rapid_viz_publish ${catkin_LIBRARIES})
 
 ## Declare a C++ executable
 # add_executable(rapid_viz_node src/rapid_viz_node.cpp)
