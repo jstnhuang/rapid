@@ -20,7 +20,6 @@
 #include "rapid_msgs/LandmarkInfo.h"
 #include "rapid_msgs/SceneInfo.h"
 #include "rapid_msgs/StaticCloud.h"
-#include "rapid_msgs/StaticCloudInfo.h"
 #include "rapid_perception/pose_estimation.h"
 #include "rapid_perception/pose_estimation_match.h"
 #include "rapid_perception/random_heat_mapper.h"
@@ -37,37 +36,34 @@
 #include "object_search/cloud_database.h"
 #include "object_search/estimators.h"
 
-using pcl::FPFHSignature33;
 using pcl::PointCloud;
 using pcl::PointXYZRGB;
-using pcl::PointXYZRGBNormal;
 using sensor_msgs::PointCloud2;
 using std::cout;
 using std::endl;
 using std::string;
 using std::vector;
 using rapid_msgs::StaticCloud;
-using rapid_msgs::StaticCloudInfo;
 using rapid::db::NameDb;
 using rapid::perception::PoseEstimationMatch;
 using rapid::perception::GroupingPoseEstimator;
+using rapid::viz::SceneViz;
 
 namespace object_search {
-CliCommand::CliCommand(const rapid::utils::CommandLine& cli,
-                       const std::string& name, const std::string& description)
+CliCommand::CliCommand(const rapid::utils::CommandLine& cli, const string& name,
+                       const string& description)
     : cli_(cli), name_(name), description_(description) {}
-void CliCommand::Execute(const std::vector<std::string>& args) {
+void CliCommand::Execute(const vector<string>& args) {
   while (cli_.Next()) {
   }
 }
-std::string CliCommand::name() const { return name_; }
-std::string CliCommand::description() const { return description_; }
+string CliCommand::name() const { return name_; }
+string CliCommand::description() const { return description_; }
 
-ShowSceneCommand::ShowSceneCommand(rapid::db::NameDb* db,
-                                   rapid::viz::SceneViz* viz)
+ShowSceneCommand::ShowSceneCommand(NameDb* db, SceneViz* viz)
     : db_(db), viz_(viz) {}
 
-void ShowSceneCommand::Execute(const std::vector<std::string>& args) {
+void ShowSceneCommand::Execute(const vector<string>& args) {
   if (args.size() == 0) {
     ROS_ERROR("Error: provide a name of a scene to show.");
     return;
@@ -82,8 +78,8 @@ void ShowSceneCommand::Execute(const std::vector<std::string>& args) {
 
   viz_->set_scene(cloud);
 }
-std::string ShowSceneCommand::name() const { return "show"; }
-std::string ShowSceneCommand::description() const {
+string ShowSceneCommand::name() const { return "show"; }
+string ShowSceneCommand::description() const {
   return "<name> - Show a scene in the visualization";
 }
 
@@ -108,15 +104,15 @@ void ListCommand::Execute(const vector<string>& args) {
   }
 }
 
-std::string ListCommand::name() const { return name_; }
-std::string ListCommand::description() const { return description_; }
+string ListCommand::name() const { return name_; }
+string ListCommand::description() const { return description_; }
 const char ListCommand::kLandmarks[] = "landmark";
 const char ListCommand::kScenes[] = "scene";
 
 RecordObjectCommand::RecordObjectCommand(Database* db, CaptureRoi* capture)
     : db_(db), capture_(capture), last_id_(""), last_name_("") {}
 
-void RecordObjectCommand::Execute(const std::vector<std::string>& args) {
+void RecordObjectCommand::Execute(const vector<string>& args) {
   last_id_ = "";    // Reset ID
   last_name_ = "";  // Reset ID
   rapid_msgs::Roi3D roi;
@@ -160,35 +156,34 @@ void RecordObjectCommand::Execute(const std::vector<std::string>& args) {
   static_cloud.name = name;
   last_id_ = db_->Save(static_cloud);
   last_name_ = name;
-  std::cout << "Saved " << static_cloud.name << " with ID " << last_id_
-            << std::endl;
+  cout << "Saved " << static_cloud.name << " with ID " << last_id_ << endl;
 }
-std::string RecordObjectCommand::name() const { return "record object"; }
-std::string RecordObjectCommand::description() const {
+string RecordObjectCommand::name() const { return "record object"; }
+string RecordObjectCommand::description() const {
   return "<name> - Save a new object";
 }
 
-std::string RecordObjectCommand::last_id() { return last_id_; }
+string RecordObjectCommand::last_id() { return last_id_; }
 
-std::string RecordObjectCommand::last_name() { return last_name_; }
+string RecordObjectCommand::last_name() { return last_name_; }
 
 rapid_msgs::Roi3D RecordObjectCommand::last_roi() { return last_roi_; }
 
 SetLandmarkSceneCommand::SetLandmarkSceneCommand(
-    rapid::db::NameDb* scene_cloud_db, string* scene_name,
-    sensor_msgs::PointCloud2::Ptr landmark_scene, rapid::viz::SceneViz* viz)
+    NameDb* scene_cloud_db, string* scene_name, PointCloud2::Ptr landmark_scene,
+    SceneViz* viz)
     : scene_cloud_db_(scene_cloud_db),
       scene_name_(scene_name),
       landmark_scene_(landmark_scene),
       viz_(viz) {}
 
-void SetLandmarkSceneCommand::Execute(const std::vector<std::string>& args) {
+void SetLandmarkSceneCommand::Execute(const vector<string>& args) {
   if (args.size() == 0) {
     cout << "Error: must supply scene name." << endl;
     return;
   }
   string name(boost::algorithm::join(args, " "));
-  sensor_msgs::PointCloud2 cloud;
+  PointCloud2 cloud;
   bool success = scene_cloud_db_->Get(name, &cloud);
   if (!success) {
     cout << "Error: scene " << name << " not found." << endl;
@@ -207,7 +202,7 @@ string SetLandmarkSceneCommand::description() const {
 EditBoxCommand::EditBoxCommand(rapid::perception::Box3DRoiServer* box_server,
                                rapid_msgs::Roi3D* roi)
     : box_server_(box_server), roi_(roi) {}
-void EditBoxCommand::Execute(const std::vector<std::string>& args) {
+void EditBoxCommand::Execute(const vector<string>& args) {
   box_server_->set_base_frame("base_link");
   if (roi_->dimensions.x != 0 && roi_->dimensions.y != 0 &&
       roi_->dimensions.z != 0) {
@@ -230,10 +225,12 @@ string EditBoxCommand::description() const {
   return "- Edit this landmark's box";
 }
 
-SaveLandmarkCommand::SaveLandmarkCommand(
-    rapid::db::NameDb* info_db, rapid::db::NameDb* cloud_db,
-    PointCloud2::Ptr landmark_scene, const std::string& landmark_name,
-    std::string* scene_name, rapid_msgs::Roi3D* roi, const std::string& type)
+SaveLandmarkCommand::SaveLandmarkCommand(NameDb* info_db, NameDb* cloud_db,
+                                         PointCloud2::Ptr landmark_scene,
+                                         const string& landmark_name,
+                                         string* scene_name,
+                                         rapid_msgs::Roi3D* roi,
+                                         const string& type)
     : info_db_(info_db),
       cloud_db_(cloud_db),
       landmark_scene_(landmark_scene),
@@ -242,7 +239,7 @@ SaveLandmarkCommand::SaveLandmarkCommand(
       roi_(roi),
       type_(type) {}
 
-void SaveLandmarkCommand::Execute(const std::vector<std::string>& args) {
+void SaveLandmarkCommand::Execute(const vector<string>& args) {
   // Insert the landmark info.
   rapid_msgs::LandmarkInfo info;
   info.name = landmark_name_;
@@ -260,9 +257,8 @@ void SaveLandmarkCommand::Execute(const std::vector<std::string>& args) {
   }
 
   // Crop the landmark out of the scene.
-  pcl::CropBox<pcl::PointXYZRGB> crop;
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_cloud(
-      new pcl::PointCloud<pcl::PointXYZRGB>);
+  pcl::CropBox<PointXYZRGB> crop;
+  PointCloud<PointXYZRGB>::Ptr pcl_cloud(new PointCloud<PointXYZRGB>);
   pcl::fromROSMsg(*landmark_scene_, *pcl_cloud);
   ROS_INFO("Scene %s has %ld points", landmark_name_.c_str(),
            pcl_cloud->size());
@@ -279,11 +275,10 @@ void SaveLandmarkCommand::Execute(const std::vector<std::string>& args) {
   crop.setMax(max_pt);
   cout << "min: " << min_pt << endl;
   cout << "max: " << max_pt << endl;
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr output(
-      new pcl::PointCloud<pcl::PointXYZRGB>);
+  PointCloud<PointXYZRGB>::Ptr output(new PointCloud<PointXYZRGB>);
   crop.filter(*output);
   ROS_INFO("Captured cloud with %ld points", output->size());
-  sensor_msgs::PointCloud2 cloud_out;
+  PointCloud2 cloud_out;
   pcl::toROSMsg(*output, cloud_out);
 
   // Save the landmark.
@@ -307,7 +302,7 @@ string SaveLandmarkCommand::description() const {
 EditLandmarkCommand::EditLandmarkCommand(
     NameDb* landmark_info_db, NameDb* landmark_cloud_db, NameDb* scene_info_db,
     NameDb* scene_cloud_db, rapid::perception::Box3DRoiServer* box_server,
-    rapid::viz::SceneViz* scene_viz, const std::string& type)
+    SceneViz* scene_viz, const string& type)
     : landmark_info_db_(landmark_info_db),
       landmark_cloud_db_(landmark_cloud_db),
       scene_info_db_(scene_info_db),
@@ -316,7 +311,7 @@ EditLandmarkCommand::EditLandmarkCommand(
       scene_viz_(scene_viz),
       type_(type) {}
 
-void EditLandmarkCommand::Execute(const std::vector<std::string>& args) {
+void EditLandmarkCommand::Execute(const vector<string>& args) {
   if (args.size() == 0) {
     cout << "Error: specify a name for the landmark" << endl;
     return;
@@ -337,7 +332,7 @@ void EditLandmarkCommand::Execute(const std::vector<std::string>& args) {
     }
     roi = landmark_info.roi;
 
-    sensor_msgs::PointCloud2 db_cloud;
+    PointCloud2 db_cloud;
     scene_name = landmark_info.scene_name;
     success = scene_cloud_db_->Get(scene_name, &db_cloud);
     if (!success) {
@@ -389,7 +384,7 @@ const char EditLandmarkCommand::kEdit[] = "edit";
 RecordSceneCommand::RecordSceneCommand(NameDb* info_db, NameDb* cloud_db)
     : info_db_(info_db), cloud_db_(cloud_db), tf_listener_() {}
 
-void RecordSceneCommand::Execute(const std::vector<std::string>& args) {
+void RecordSceneCommand::Execute(const vector<string>& args) {
   if (args.size() == 0) {
     cout << "Error: provide a name for this scene." << endl;
     return;
@@ -399,7 +394,7 @@ void RecordSceneCommand::Execute(const std::vector<std::string>& args) {
       ros::topic::waitForMessage<PointCloud2>("cloud_in", ros::Duration(10));
 
   // Transform to base link.
-  sensor_msgs::PointCloud2 cloud_out;
+  PointCloud2 cloud_out;
   bool success = pcl_ros::transformPointCloud("base_link", *cloud_in, cloud_out,
                                               tf_listener_);
   if (!success) {
@@ -415,8 +410,8 @@ void RecordSceneCommand::Execute(const std::vector<std::string>& args) {
   cloud_db_->Insert(name, cloud_out);
 }
 
-std::string RecordSceneCommand::name() const { return "record scene"; }
-std::string RecordSceneCommand::description() const {
+string RecordSceneCommand::name() const { return "record scene"; }
+string RecordSceneCommand::description() const {
   return "<name> - Save a new scene";
 }
 
@@ -424,20 +419,20 @@ DeleteCommand::DeleteCommand(NameDb* info_db, NameDb* cloud_db,
                              const string& type)
     : info_db_(info_db), cloud_db_(cloud_db), type_(type) {}
 
-void DeleteCommand::Execute(const std::vector<std::string>& args) {
+void DeleteCommand::Execute(const vector<string>& args) {
   if (args.size() == 0) {
     cout << "Error: specify the name to delete." << endl;
     return;
   }
-  std::string name = boost::algorithm::join(args, " ");
+  string name = boost::algorithm::join(args, " ");
   bool info_success = false;
   bool cloud_success = false;
   if (type_ == "landmark") {
     info_success = info_db_->Delete<rapid_msgs::LandmarkInfo>(name);
-    cloud_success = cloud_db_->Delete<sensor_msgs::PointCloud2>(name);
+    cloud_success = cloud_db_->Delete<PointCloud2>(name);
   } else {
     info_success = info_db_->Delete<rapid_msgs::SceneInfo>(name);
-    cloud_success = cloud_db_->Delete<sensor_msgs::PointCloud2>(name);
+    cloud_success = cloud_db_->Delete<PointCloud2>(name);
   }
   if (!info_success || !cloud_success) {
     cout << "Invalid name " << name << ", nothing deleted." << endl;
@@ -448,16 +443,16 @@ string DeleteCommand::description() const {
   return "<name> - Delete a " + type_;
 }
 
-UseCommand::UseCommand(Database* db, Estimators* estimators,
-                       const std::string& type, const ros::Publisher& pub)
+UseCommand::UseCommand(Database* db, Estimators* estimators, const string& type,
+                       const ros::Publisher& pub)
     : db_(db), estimators_(estimators), type_(type), pub_(pub) {}
 
-void UseCommand::Execute(const std::vector<std::string>& args) {
+void UseCommand::Execute(const vector<string>& args) {
   if (args.size() == 0) {
     cout << "Error: specify the name to use." << endl;
     return;
   }
-  std::string name = boost::algorithm::join(args, " ");
+  string name = boost::algorithm::join(args, " ");
   StaticCloud cloud;
   bool success = db_->Get(name, &cloud);
   if (!success) {
@@ -470,7 +465,7 @@ void UseCommand::Execute(const std::vector<std::string>& args) {
 
   if (type_ == "scene") {
     // Filter NaNs
-    std::vector<int> mapping;
+    vector<int> mapping;
     pcl_cloud_filtered->is_dense = false;  // Force check for NaNs
     pcl::removeNaNFromPointCloud(*pcl_cloud_filtered, *pcl_cloud_filtered,
                                  mapping);
@@ -495,7 +490,7 @@ void UseCommand::Execute(const std::vector<std::string>& args) {
     indices_ptr->indices = indices;
 
     // Get cropped versions of scene in both frames
-    pcl::ExtractIndices<pcl::PointXYZRGB> extract;
+    pcl::ExtractIndices<PointXYZRGB> extract;
     // extract.setInputCloud(pcl_cloud);
     // extract.setIndices(indices_ptr);
     // extract.filter(*pcl_cloud);
@@ -507,7 +502,7 @@ void UseCommand::Execute(const std::vector<std::string>& args) {
   }
 
   // Visualize the scene/object
-  sensor_msgs::PointCloud2 msg;
+  PointCloud2 msg;
   pcl::toROSMsg(*pcl_cloud_base, msg);
   if (pub_) {
     pub_.publish(msg);
@@ -539,8 +534,8 @@ void UseCommand::Execute(const std::vector<std::string>& args) {
   }
 }
 
-std::string UseCommand::name() const { return "use " + type_; }
-std::string UseCommand::description() const {
+string UseCommand::name() const { return "use " + type_; }
+string UseCommand::description() const {
   if (type_ == "scene") {
     return "<name> - Set the scene to search in";
   } else {
@@ -580,13 +575,13 @@ void UseCommand::CropScene(PointCloud<PointXYZRGB>::Ptr scene,
   ROS_INFO("Cropped to %ld points", indices->size());
 }
 
-SetInputLandmarkCommand::SetInputLandmarkCommand(rapid::db::NameDb* info_db,
-                                                 rapid::db::NameDb* cloud_db,
+SetInputLandmarkCommand::SetInputLandmarkCommand(NameDb* info_db,
+                                                 NameDb* cloud_db,
                                                  const ros::Publisher& pub,
                                                  PoseEstimatorInput* input)
     : info_db_(info_db), cloud_db_(cloud_db), pub_(pub), input_(input) {}
 
-void SetInputLandmarkCommand::Execute(const std::vector<std::string>& args) {
+void SetInputLandmarkCommand::Execute(const vector<string>& args) {
   if (args.size() == 0) {
     cout << "Error: specify the landmark to use." << endl;
     return;
@@ -613,11 +608,11 @@ string SetInputLandmarkCommand::description() const {
 }
 
 SetInputSceneCommand::SetInputSceneCommand(NameDb* info_db, NameDb* cloud_db,
-                                           const rapid::viz::SceneViz& viz,
+                                           const SceneViz& viz,
                                            PoseEstimatorInput* input)
     : info_db_(info_db), cloud_db_(cloud_db), viz_(viz), input_(input) {}
 
-void SetInputSceneCommand::Execute(const std::vector<std::string>& args) {
+void SetInputSceneCommand::Execute(const vector<string>& args) {
   if (args.size() == 0) {
     cout << "Error: specify the scene to use." << endl;
     return;
@@ -646,12 +641,12 @@ string SetInputSceneCommand::description() const {
 RunCommand::RunCommand(Estimators* estimators, const ros::Publisher& output_pub)
     : estimators_(estimators), matches_(), output_pub_(output_pub) {}
 
-void RunCommand::Execute(const std::vector<std::string>& args) {
+void RunCommand::Execute(const vector<string>& args) {
   if (args.size() == 0) {
     cout << "Error: specify the algorithm to use." << endl;
     return;
   }
-  const std::string& algorithm = args[0];
+  const string& algorithm = args[0];
   matches_.clear();
   if (algorithm == "custom") {
     UpdateCustomParams();
@@ -672,13 +667,12 @@ void RunCommand::Execute(const std::vector<std::string>& args) {
   VisualizeMatches(output_pub_, matches_);
 }
 
-std::string RunCommand::name() const { return "run"; }
-std::string RunCommand::description() const {
+string RunCommand::name() const { return "run"; }
+string RunCommand::description() const {
   return "<custom, ransac, grouping> - Run object search";
 }
 
-void RunCommand::matches(
-    std::vector<rapid::perception::PoseEstimationMatch>* matches) {
+void RunCommand::matches(vector<PoseEstimationMatch>* matches) {
   *matches = matches_;
 }
 
@@ -807,7 +801,7 @@ void RunCommand::UpdateGroupingParams() {
 SetDebugCommand::SetDebugCommand(Estimators* estimators)
     : estimators_(estimators) {}
 
-void SetDebugCommand::Execute(const std::vector<std::string>& args) {
+void SetDebugCommand::Execute(const vector<string>& args) {
   if (args.size() == 0) {
     cout << "Error: specify on or off." << endl;
     return;
@@ -820,8 +814,8 @@ void SetDebugCommand::Execute(const std::vector<std::string>& args) {
   }
 }
 
-std::string SetDebugCommand::name() const { return "debug"; }
-std::string SetDebugCommand::description() const {
+string SetDebugCommand::name() const { return "debug"; }
+string SetDebugCommand::description() const {
   return "<on/off> - Turn debugging on or off";
 }
 }  // namespace object_search
