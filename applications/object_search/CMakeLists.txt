@@ -180,9 +180,13 @@ target_link_libraries(object_search_cloud_database
 add_library(object_search_commands
   src/commands.cpp)
 add_dependencies(object_search_commands
+  object_search_cloud_database
+  object_search_capture_roi
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS})
 target_link_libraries(object_search_commands
+  object_search_cloud_database
+  object_search_capture_roi
   ${catkin_LIBRARIES}
   ${pcl_LIBRARIES})
 
