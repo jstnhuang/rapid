@@ -17,7 +17,8 @@ namespace viz {
 void PublishBlankCloud(const ros::Publisher& pub,
                        const std::string& frame_id = "base_link");
 // Publish a point cloud using the given publisher.
-void PublishCloud(const ros::Publisher& pub, sensor_msgs::PointCloud2& cloud);
+void PublishCloud(const ros::Publisher& pub,
+                  const sensor_msgs::PointCloud2& cloud);
 void PublishCloud(const ros::Publisher& pub,
                   pcl::PointCloud<pcl::PointXYZRGB>& cloud);
 void PublishCloud(const ros::Publisher& pub,

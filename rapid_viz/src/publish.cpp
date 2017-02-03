@@ -26,9 +26,11 @@ void PublishBlankCloud(const ros::Publisher& pub, const std::string& frame_id) {
   PublishCloud(pub, blank);
 }
 
-void PublishCloud(const ros::Publisher& pub, sensor_msgs::PointCloud2& cloud) {
+void PublishCloud(const ros::Publisher& pub,
+                  const sensor_msgs::PointCloud2& cloud) {
   if (pub) {
-    cloud.header.stamp = ros::Time::now();
+    sensor_msgs::PointCloud2 cloud_now = cloud;
+    cloud_now.header.stamp = ros::Time::now();
     pub.publish(cloud);
   }
 }
