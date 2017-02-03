@@ -171,6 +171,8 @@ int main(int argc, char** argv) {
   while (cli.Next()) {
   }
 
+  scene_viz.Clear();
+
   spinner.stop();
   return 0;
 }
