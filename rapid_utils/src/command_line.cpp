@@ -12,6 +12,10 @@ using std::vector;
 
 namespace rapid {
 namespace utils {
+void ExitCommand::Execute(const std::vector<std::string>& args) {}
+std::string ExitCommand::name() const { return "exit"; }
+std::string ExitCommand::description() const { return "- Exit this interface"; }
+
 CommandLine::CommandLine() : name_(""), commands_() {}
 CommandLine::CommandLine(const std::string& name) : name_(name), commands_() {}
 
@@ -34,6 +38,9 @@ bool CommandLine::Next() {
   vector<string> args;
   bool valid = ParseLine(input, &command, &args);
   if (valid) {
+    if (command->name() == "exit") {
+      return false;
+    }
     command->Execute(args);
     cout << endl;
   } else {

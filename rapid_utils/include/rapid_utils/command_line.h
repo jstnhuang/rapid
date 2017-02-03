@@ -8,6 +8,13 @@
 
 namespace rapid {
 namespace utils {
+class ExitCommand : public CommandInterface {
+ public:
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
+};
+
 class CommandLine {
  public:
   CommandLine();
