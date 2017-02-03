@@ -182,16 +182,16 @@ class RecordSceneCommand : public rapid::utils::CommandInterface {
 
 class DeleteCommand : public rapid::utils::CommandInterface {
  public:
-  DeleteCommand(Database* db, const std::string& name,
-                const std::string& description);
+  DeleteCommand(rapid::db::NameDb* info_db, rapid::db::NameDb* cloud_db,
+                const std::string& type);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
 
  private:
-  Database* db_;
-  std::string name_;
-  std::string description_;
+  rapid::db::NameDb* info_db_;
+  rapid::db::NameDb* cloud_db_;
+  std::string type_;
 };
 
 class UseCommand : public rapid::utils::CommandInterface {

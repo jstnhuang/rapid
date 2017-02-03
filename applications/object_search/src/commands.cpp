@@ -419,9 +419,9 @@ std::string RecordSceneCommand::description() const {
   return "<name> - Save a new scene";
 }
 
-DeleteCommand::DeleteCommand(Database* db, const std::string& name,
-                             const std::string& description)
-    : db_(db), name_(name), description_(description) {}
+DeleteCommand::DeleteCommand(NameDb* info_db, NameDb* cloud_db,
+                             const string& type)
+    : info_db_(info_db), cloud_db_(cloud_db), type_(type) {}
 
 void DeleteCommand::Execute(const std::vector<std::string>& args) {
   if (args.size() == 0) {
@@ -429,13 +429,23 @@ void DeleteCommand::Execute(const std::vector<std::string>& args) {
     return;
   }
   std::string name = boost::algorithm::join(args, " ");
-  bool success = db_->Remove(name);
-  if (!success) {
+  bool info_success = false;
+  bool cloud_success = false;
+  if (type_ == "landmark") {
+    info_success = info_db_->Delete<rapid_msgs::LandmarkInfo>(name);
+    cloud_success = cloud_db_->Delete<sensor_msgs::PointCloud2>(name);
+  } else {
+    info_success = info_db_->Delete<rapid_msgs::SceneInfo>(name);
+    cloud_success = cloud_db_->Delete<sensor_msgs::PointCloud2>(name);
+  }
+  if (!info_success || !cloud_success) {
     cout << "Invalid name " << name << ", nothing deleted." << endl;
   }
 }
-std::string DeleteCommand::name() const { return name_; }
-std::string DeleteCommand::description() const { return description_; }
+string DeleteCommand::name() const { return "delete"; }
+string DeleteCommand::description() const {
+  return "<name> - Delete a " + type_;
+}
 
 UseCommand::UseCommand(Database* db, Estimators* estimators,
                        const std::string& type, const ros::Publisher& pub)

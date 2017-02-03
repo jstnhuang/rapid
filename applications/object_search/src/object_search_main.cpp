@@ -139,10 +139,8 @@ int main(int argc, char** argv) {
       &landmark_ndb, &landmark_cloud_ndb, &scene_ndb, &scene_cloud_ndb,
       &roi_server, &scene_viz, std::string(EditLandmarkCommand::kEdit));
   RecordSceneCommand record_scene(&scene_ndb, &scene_cloud_ndb);
-  DeleteCommand delete_landmark(&object_db, "delete object",
-                                "<name> - Delete an object");
-  DeleteCommand delete_scene(&scene_db, "delete scene",
-                             "<name> - Delete a scene");
+  DeleteCommand delete_landmark(&landmark_ndb, &landmark_cloud_ndb, "landmark");
+  DeleteCommand delete_scene(&scene_ndb, &scene_cloud_ndb, "scene");
   UseCommand use_object(&object_db, &estimators, "object", object_pub);
   UseCommand use_scene(&scene_db, &estimators, "scene", scene_pub);
   RunCommand run(&estimators, output_pub);
