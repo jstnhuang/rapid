@@ -122,7 +122,7 @@ bool NameDb::Delete(const std::string& name) {
   mongo::BSONObj message_query;
   mongo::BSONObj meta_query = BSON("name" << name);
   mongo::BSONObj sort_query;
-  mongo::BSONObj projection_query = BSON("_id" << 1);
+  mongo::BSONObj projection_query = BSON("_id" << 1 << "_meta" << 1);
   const bool kFindOne = false;
   const bool kDecodeMetas = true;
   const int kLimit = 0;
@@ -135,7 +135,7 @@ bool NameDb::Delete(const std::string& name) {
 
   const mongo::BSONObj& meta = messages[0].second;
   const std::string& id = meta.getStringField("_id");
-  proxy_.deleteID(id);
+  return proxy_.deleteID(id);
 }
 }  // namespace db
 }  // namespace rapid
