@@ -119,6 +119,8 @@ int main(int argc, char** argv) {
   estimators.ransac = &ransac_estimator;
   estimators.grouping = &grouping_estimator;
 
+  // Build visualizers
+
   // Build command line
   ListCommand list_landmarks(&landmark_ndb, ListCommand::kLandmarks);
   ListCommand list_scenes(&scene_ndb, ListCommand::kScenes);
@@ -134,17 +136,17 @@ int main(int argc, char** argv) {
   SetDebugCommand set_debug(&estimators);
 
   rapid::utils::CommandLine scene_cli("Scene manager");
-  scene_cli.AddCommand(&list_landmarks);
+  scene_cli.AddCommand(&list_scenes);
   scene_cli.AddCommand(&record_scene);
   scene_cli.AddCommand(&delete_scene);
 
+  EditScenesCommand edit_scenes(scene_cli);
+
   rapid::utils::CommandLine cli("Custom landmarks CLI");
+  cli.AddCommand(&edit_scenes);
   cli.AddCommand(&list_landmarks);
-  cli.AddCommand(&list_scenes);
   cli.AddCommand(&record_object);
-  cli.AddCommand(&record_scene);
   cli.AddCommand(&delete_object);
-  cli.AddCommand(&delete_scene);
   cli.AddCommand(&use_object);
   cli.AddCommand(&use_scene);
   cli.AddCommand(&run);

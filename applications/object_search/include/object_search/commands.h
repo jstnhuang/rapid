@@ -10,6 +10,7 @@
 #include "rapid_msgs/StaticCloud.h"
 #include "tf/transform_listener.h"
 #include "rapid_db/name_db.hpp"
+#include "rapid_utils/command_line.h"
 #include "rapid_utils/command_interface.h"
 
 #include "object_search/estimators.h"
@@ -24,6 +25,17 @@ class PoseEstimationMatch;
 namespace object_search {
 class CaptureRoi;
 class Database;  // Forward declaration
+
+class EditScenesCommand : public rapid::utils::CommandInterface {
+ public:
+  EditScenesCommand(const rapid::utils::CommandLine& scene_cli);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
+
+ private:
+  rapid::utils::CommandLine scene_cli_;
+};
 
 class ListCommand : public rapid::utils::CommandInterface {
  public:

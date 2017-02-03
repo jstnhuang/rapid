@@ -50,6 +50,17 @@ using rapid::perception::PoseEstimationMatch;
 using rapid::perception::GroupingPoseEstimator;
 
 namespace object_search {
+EditScenesCommand::EditScenesCommand(const rapid::utils::CommandLine& scene_cli)
+    : scene_cli_(scene_cli) {}
+void EditScenesCommand::Execute(const std::vector<std::string>& args) {
+  while (scene_cli_.Next()) {
+  }
+}
+std::string EditScenesCommand::name() const { return "edit scenes"; }
+std::string EditScenesCommand::description() const {
+  return "- Record/delete scenes";
+}
+
 ListCommand::ListCommand(NameDb* db, const string& type)
     : db_(db), type_(type) {}
 
