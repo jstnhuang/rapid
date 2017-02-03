@@ -6,13 +6,14 @@
 
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
+#include "rapid_db/name_db.hpp"
 #include "rapid_msgs/Roi3D.h"
 #include "rapid_msgs/StaticCloud.h"
-#include "tf/transform_listener.h"
-#include "rapid_db/name_db.hpp"
-#include "rapid_utils/command_line.h"
+#include "rapid_perception/box3d_roi_server.h"
 #include "rapid_utils/command_interface.h"
+#include "rapid_utils/command_line.h"
 #include "rapid_viz/scene_viz.h"
+#include "tf/transform_listener.h"
 
 #include "object_search/estimators.h"
 
@@ -88,6 +89,81 @@ class RecordObjectCommand : public rapid::utils::CommandInterface {
   std::string last_id_;    // MongoDB ID of most recent object saved.
   std::string last_name_;  // Name of most recent object saved.
   rapid_msgs::Roi3D last_roi_;
+};
+
+class UseSceneCommand : public rapid::utils::CommandInterface {
+ public:
+  UseSceneCommand(rapid::db::NameDb* scene_cloud_db, std::string* scene_name,
+                  sensor_msgs::PointCloud2::Ptr landmark_scene,
+                  rapid::viz::SceneViz* viz);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
+
+ private:
+  rapid::db::NameDb* scene_cloud_db_;
+  std::string* scene_name_;
+  sensor_msgs::PointCloud2::Ptr landmark_scene_;
+  rapid::viz::SceneViz* viz_;
+};
+
+class EditBoxCommand : public rapid::utils::CommandInterface {
+ public:
+  EditBoxCommand(rapid::perception::Box3DRoiServer* box_server,
+                 rapid_msgs::Roi3D* roi);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
+
+ private:
+  rapid::perception::Box3DRoiServer* box_server_;
+  rapid_msgs::Roi3D* roi_;
+};
+
+class SaveLandmarkCommand : public rapid::utils::CommandInterface {
+ public:
+  SaveLandmarkCommand(rapid::db::NameDb* info_db, rapid::db::NameDb* cloud_db,
+                      sensor_msgs::PointCloud2::Ptr landmark_scene,
+                      const std::string& landmark_name, std::string* scene_name,
+                      rapid_msgs::Roi3D* roi, const std::string& type);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
+
+ private:
+  rapid::db::NameDb* info_db_;
+  rapid::db::NameDb* cloud_db_;
+  sensor_msgs::PointCloud2::Ptr landmark_scene_;
+  const std::string landmark_name_;
+  std::string* scene_name_;
+  rapid_msgs::Roi3D* roi_;
+  const std::string type_;
+};
+
+class EditLandmarkCommand : public rapid::utils::CommandInterface {
+ public:
+  EditLandmarkCommand(rapid::db::NameDb* landmark_info_db,
+                      rapid::db::NameDb* landmark_cloud_db,
+                      rapid::db::NameDb* scene_info_db,
+                      rapid::db::NameDb* scene_cloud_db,
+                      rapid::perception::Box3DRoiServer* box_server,
+                      rapid::viz::SceneViz* scene_viz, const std::string& type);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
+
+  static const char kCreate[];
+  static const char kEdit[];
+
+ private:
+  rapid::db::NameDb* landmark_info_db_;
+  rapid::db::NameDb* landmark_cloud_db_;
+  rapid::db::NameDb* scene_info_db_;
+  rapid::db::NameDb* scene_cloud_db_;
+  rapid::perception::Box3DRoiServer* box_server_;
+  sensor_msgs::PointCloud2::Ptr landmark_scene_;
+  rapid::viz::SceneViz* scene_viz_;
+  std::string type_;
 };
 
 class RecordSceneCommand : public rapid::utils::CommandInterface {

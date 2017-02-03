@@ -24,6 +24,7 @@
 #include "rapid_perception/pose_estimation.h"
 #include "rapid_perception/pose_estimation_match.h"
 #include "rapid_perception/random_heat_mapper.h"
+#include "rapid_utils/command_line.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "tf/transform_datatypes.h"
@@ -170,6 +171,219 @@ std::string RecordObjectCommand::last_id() { return last_id_; }
 std::string RecordObjectCommand::last_name() { return last_name_; }
 
 rapid_msgs::Roi3D RecordObjectCommand::last_roi() { return last_roi_; }
+
+UseSceneCommand::UseSceneCommand(rapid::db::NameDb* scene_cloud_db,
+                                 string* scene_name,
+                                 sensor_msgs::PointCloud2::Ptr landmark_scene,
+                                 rapid::viz::SceneViz* viz)
+    : scene_cloud_db_(scene_cloud_db),
+      scene_name_(scene_name),
+      landmark_scene_(landmark_scene),
+      viz_(viz) {}
+
+void UseSceneCommand::Execute(const std::vector<std::string>& args) {
+  if (args.size() == 0) {
+    cout << "Error: must supply scene name." << endl;
+    return;
+  }
+  string name(boost::algorithm::join(args, " "));
+  sensor_msgs::PointCloud2 cloud;
+  bool success = scene_cloud_db_->Get(name, &cloud);
+  if (!success) {
+    cout << "Error: scene " << name << " not found." << endl;
+    return;
+  }
+  *scene_name_ = name;
+  *landmark_scene_ = cloud;
+  viz_->set_scene(cloud);
+}
+
+string UseSceneCommand::name() const { return "use scene"; }
+string UseSceneCommand::description() const {
+  return "<name> - Use a scene for this landmark.";
+}
+
+EditBoxCommand::EditBoxCommand(rapid::perception::Box3DRoiServer* box_server,
+                               rapid_msgs::Roi3D* roi)
+    : box_server_(box_server), roi_(roi) {}
+void EditBoxCommand::Execute(const std::vector<std::string>& args) {
+  box_server_->set_base_frame("base_link");
+  if (roi_->dimensions.x != 0 && roi_->dimensions.y != 0 &&
+      roi_->dimensions.z != 0) {
+    box_server_->Start(roi_->transform.translation.x,
+                       roi_->transform.translation.y,
+                       roi_->transform.translation.z, roi_->dimensions.x,
+                       roi_->dimensions.y, roi_->dimensions.z);
+  } else {
+    box_server_->Start();
+  }
+  cout << "Adjust the ROI marker in rviz." << endl;
+  cout << "Press enter to save the box: ";
+  string input;
+  std::getline(std::cin, input);
+  *roi_ = box_server_->roi();
+  box_server_->Stop();
+}
+string EditBoxCommand::name() const { return "edit box"; }
+string EditBoxCommand::description() const {
+  return "- Edit this landmark's box";
+}
+
+SaveLandmarkCommand::SaveLandmarkCommand(
+    rapid::db::NameDb* info_db, rapid::db::NameDb* cloud_db,
+    PointCloud2::Ptr landmark_scene, const std::string& landmark_name,
+    std::string* scene_name, rapid_msgs::Roi3D* roi, const std::string& type)
+    : info_db_(info_db),
+      cloud_db_(cloud_db),
+      landmark_scene_(landmark_scene),
+      landmark_name_(landmark_name),
+      scene_name_(scene_name),
+      roi_(roi),
+      type_(type) {}
+
+void SaveLandmarkCommand::Execute(const std::vector<std::string>& args) {
+  // Insert the landmark info.
+  rapid_msgs::LandmarkInfo info;
+  info.name = landmark_name_;
+  info.scene_name = *scene_name_;
+  info.roi = *roi_;
+  if (type_ == EditLandmarkCommand::kCreate) {
+    info_db_->Insert(landmark_name_, info);
+  } else {
+    bool success = info_db_->Update(landmark_name_, info);
+    if (!success) {
+      cout << "Error: could not update landmark with name: " << landmark_name_
+           << endl;
+      return;
+    }
+  }
+
+  // Crop the landmark out of the scene.
+  pcl::CropBox<pcl::PointXYZRGB> crop;
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_cloud(
+      new pcl::PointCloud<pcl::PointXYZRGB>);
+  pcl::fromROSMsg(*landmark_scene_, *pcl_cloud);
+  ROS_INFO("Scene %s has %ld points", landmark_name_.c_str(),
+           pcl_cloud->size());
+  crop.setInputCloud(pcl_cloud);
+  Eigen::Vector4f min_pt(roi_->transform.translation.x - roi_->dimensions.x / 2,
+                         roi_->transform.translation.y - roi_->dimensions.y / 2,
+                         roi_->transform.translation.z - roi_->dimensions.z / 2,
+                         0);
+  crop.setMin(min_pt);
+  Eigen::Vector4f max_pt(roi_->transform.translation.z + roi_->dimensions.x / 2,
+                         roi_->transform.translation.z + roi_->dimensions.y / 2,
+                         roi_->transform.translation.z + roi_->dimensions.z / 2,
+                         0);
+  crop.setMax(max_pt);
+  cout << "min: " << min_pt << endl;
+  cout << "max: " << max_pt << endl;
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr output(
+      new pcl::PointCloud<pcl::PointXYZRGB>);
+  crop.filter(*output);
+  ROS_INFO("Captured cloud with %ld points", output->size());
+  sensor_msgs::PointCloud2 cloud_out;
+  pcl::toROSMsg(*output, cloud_out);
+
+  // Save the landmark.
+  if (type_ == EditLandmarkCommand::kCreate) {
+    cloud_db_->Insert(landmark_name_, cloud_out);
+  } else {
+    bool success = cloud_db_->Update(landmark_name_, cloud_out);
+    if (!success) {
+      cout << "Error: could not update landmark cloud with name: "
+           << landmark_name_ << endl;
+      return;
+    }
+  }
+}
+
+string SaveLandmarkCommand::name() const { return "save"; }
+string SaveLandmarkCommand::description() const {
+  return "- Save this landmark.";
+}
+
+EditLandmarkCommand::EditLandmarkCommand(
+    NameDb* landmark_info_db, NameDb* landmark_cloud_db, NameDb* scene_info_db,
+    NameDb* scene_cloud_db, rapid::perception::Box3DRoiServer* box_server,
+    rapid::viz::SceneViz* scene_viz, const std::string& type)
+    : landmark_info_db_(landmark_info_db),
+      landmark_cloud_db_(landmark_cloud_db),
+      scene_info_db_(scene_info_db),
+      scene_cloud_db_(scene_cloud_db),
+      box_server_(box_server),
+      scene_viz_(scene_viz),
+      type_(type) {}
+
+void EditLandmarkCommand::Execute(const std::vector<std::string>& args) {
+  if (args.size() == 0) {
+    cout << "Error: specify a name for the landmark" << endl;
+    return;
+  }
+  string name(boost::algorithm::join(args, " "));
+
+  // Shared state for this sub-CLI
+  PointCloud2::Ptr landmark_scene(new PointCloud2);
+  string scene_name("");
+  rapid_msgs::Roi3D roi;
+
+  if (type_ == kEdit) {
+    rapid_msgs::LandmarkInfo landmark_info;
+    bool success = landmark_info_db_->Get(name, &landmark_info);
+    if (!success) {
+      cout << "Error: landmark " << name << " not found." << endl;
+      return;
+    }
+    roi = landmark_info.roi;
+
+    sensor_msgs::PointCloud2 db_cloud;
+    scene_name = landmark_info.scene_name;
+    success = scene_cloud_db_->Get(scene_name, &db_cloud);
+    if (!success) {
+      cout << "Warning: scene \"" << scene_name << "\" for landmark " << name
+           << " not found. Please add a scene before saving the landmark."
+           << endl;
+    } else {
+      *landmark_scene = db_cloud;
+    }
+  }
+
+  // Build sub-CLI
+  ListCommand list_scenes(scene_info_db_, ListCommand::kScenes, "scenes",
+                          "- List scenes");
+  UseSceneCommand use_scene(scene_cloud_db_, &scene_name, landmark_scene,
+                            scene_viz_);
+  EditBoxCommand edit_box(box_server_, &roi);
+  SaveLandmarkCommand save(landmark_info_db_, landmark_cloud_db_,
+                           landmark_scene, name, &scene_name, &roi, type_);
+  rapid::utils::ExitCommand exit;
+
+  string title("Creating landmark " + name);
+  if (type_ == kEdit) {
+    title = "Editing landmark " + name;
+  }
+  rapid::utils::CommandLine landmark_cli("Creating landmark " + name);
+  landmark_cli.AddCommand(&list_scenes);
+  landmark_cli.AddCommand(&use_scene);
+  landmark_cli.AddCommand(&edit_box);
+  landmark_cli.AddCommand(&save);
+  landmark_cli.AddCommand(&exit);
+
+  while (landmark_cli.Next()) {
+  }
+}
+
+string EditLandmarkCommand::name() const { return type_; }
+string EditLandmarkCommand::description() const {
+  if (type_ == kCreate) {
+    return "<name> - Create a landmark";
+  } else {
+    return "<name> - Edit a landmark";
+  }
+}
+
+const char EditLandmarkCommand::kCreate[] = "create";
+const char EditLandmarkCommand::kEdit[] = "edit";
 
 RecordSceneCommand::RecordSceneCommand(NameDb* info_db, NameDb* cloud_db)
     : info_db_(info_db), cloud_db_(cloud_db), tf_listener_() {}

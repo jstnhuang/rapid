@@ -128,7 +128,16 @@ int main(int argc, char** argv) {
                              "- List landmarks");
   ListCommand list_scenes(&scene_ndb, ListCommand::kScenes, "list",
                           "- List scenes");
-  RecordObjectCommand record_landmark(&object_db, &capture);
+  ListCommand list_scenes_named(&scene_ndb, ListCommand::kScenes, "scenes",
+                                "- List scenes");
+  RecordObjectCommand record_object(&object_db, &capture);
+  sensor_msgs::PointCloud2::Ptr landmark_scene(new sensor_msgs::PointCloud2);
+  EditLandmarkCommand create_landmark(
+      &landmark_ndb, &landmark_cloud_ndb, &scene_ndb, &scene_cloud_ndb,
+      &roi_server, &scene_viz, std::string(EditLandmarkCommand::kCreate));
+  EditLandmarkCommand edit_landmark(
+      &landmark_ndb, &landmark_cloud_ndb, &scene_ndb, &scene_cloud_ndb,
+      &roi_server, &scene_viz, std::string(EditLandmarkCommand::kEdit));
   RecordSceneCommand record_scene(&scene_ndb, &scene_cloud_ndb);
   DeleteCommand delete_landmark(&object_db, "delete object",
                                 "<name> - Delete an object");
@@ -143,6 +152,7 @@ int main(int argc, char** argv) {
   ShowSceneCommand show_scene(&scene_cloud_ndb, &scene_viz);
 
   // Build CLIs
+  // Scene manager
   rapid::utils::CommandLine scene_cli("Scene manager");
   scene_cli.AddCommand(&list_scenes);
   scene_cli.AddCommand(&record_scene);
@@ -150,14 +160,25 @@ int main(int argc, char** argv) {
   scene_cli.AddCommand(&delete_scene);
   scene_cli.AddCommand(&exit);
 
-  rapid::utils::CommandLine landmark_cli("Landmark manager");
-  landmark_cli.AddCommand(&list_landmarks);
-  landmark_cli.AddCommand(&record_landmark);
-  landmark_cli.AddCommand(&delete_landmark);
+  // Landmark editor
+  rapid::utils::CommandLine landmark_cli("Landmark editor");
+  landmark_cli.AddCommand(&list_scenes_named);
+  landmark_cli.AddCommand(&use_scene);
+  landmark_cli.AddCommand(&create_landmark);
   landmark_cli.AddCommand(&exit);
 
+  // Landmark manager
+  rapid::utils::CommandLine landmarks_cli("Landmark manager");
+  landmarks_cli.AddCommand(&list_landmarks);
+  landmarks_cli.AddCommand(&create_landmark);
+  landmarks_cli.AddCommand(&edit_landmark);
+  landmarks_cli.AddCommand(&delete_landmark);
+  landmarks_cli.AddCommand(&exit);
+
+  // Main CLI
   CliCommand edit_scenes(scene_cli, "edit scenes", "- Edit scenes");
-  CliCommand edit_landmarks(landmark_cli, "edit landmarks", "- Edit landmarks");
+  CliCommand edit_landmarks(landmarks_cli, "edit landmarks",
+                            "- Edit landmarks");
 
   rapid::utils::CommandLine cli("Custom landmarks CLI");
   cli.AddCommand(&edit_scenes);
