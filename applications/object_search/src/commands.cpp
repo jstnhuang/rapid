@@ -25,6 +25,8 @@
 #include "rapid_perception/pose_estimation_match.h"
 #include "rapid_perception/random_heat_mapper.h"
 #include "rapid_utils/command_line.h"
+#include "rapid_viz/publish.h"
+#include "rapid_viz/scene_viz.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "tf/transform_datatypes.h"
@@ -172,16 +174,15 @@ std::string RecordObjectCommand::last_name() { return last_name_; }
 
 rapid_msgs::Roi3D RecordObjectCommand::last_roi() { return last_roi_; }
 
-UseSceneCommand::UseSceneCommand(rapid::db::NameDb* scene_cloud_db,
-                                 string* scene_name,
-                                 sensor_msgs::PointCloud2::Ptr landmark_scene,
-                                 rapid::viz::SceneViz* viz)
+SetLandmarkSceneCommand::SetLandmarkSceneCommand(
+    rapid::db::NameDb* scene_cloud_db, string* scene_name,
+    sensor_msgs::PointCloud2::Ptr landmark_scene, rapid::viz::SceneViz* viz)
     : scene_cloud_db_(scene_cloud_db),
       scene_name_(scene_name),
       landmark_scene_(landmark_scene),
       viz_(viz) {}
 
-void UseSceneCommand::Execute(const std::vector<std::string>& args) {
+void SetLandmarkSceneCommand::Execute(const std::vector<std::string>& args) {
   if (args.size() == 0) {
     cout << "Error: must supply scene name." << endl;
     return;
@@ -198,8 +199,8 @@ void UseSceneCommand::Execute(const std::vector<std::string>& args) {
   viz_->set_scene(cloud);
 }
 
-string UseSceneCommand::name() const { return "use scene"; }
-string UseSceneCommand::description() const {
+string SetLandmarkSceneCommand::name() const { return "use scene"; }
+string SetLandmarkSceneCommand::description() const {
   return "<name> - Use a scene for this landmark.";
 }
 
@@ -351,8 +352,8 @@ void EditLandmarkCommand::Execute(const std::vector<std::string>& args) {
   // Build sub-CLI
   ListCommand list_scenes(scene_info_db_, ListCommand::kScenes, "scenes",
                           "- List scenes");
-  UseSceneCommand use_scene(scene_cloud_db_, &scene_name, landmark_scene,
-                            scene_viz_);
+  SetLandmarkSceneCommand use_scene(scene_cloud_db_, &scene_name,
+                                    landmark_scene, scene_viz_);
   EditBoxCommand edit_box(box_server_, &roi);
   SaveLandmarkCommand save(landmark_info_db_, landmark_cloud_db_,
                            landmark_scene, name, &scene_name, &roi, type_);
@@ -577,6 +578,69 @@ void UseCommand::CropScene(PointCloud<PointXYZRGB>::Ptr scene,
   crop.filter(*indices);
   // crop.filter(*scene);
   ROS_INFO("Cropped to %ld points", indices->size());
+}
+
+SetInputLandmarkCommand::SetInputLandmarkCommand(rapid::db::NameDb* info_db,
+                                                 rapid::db::NameDb* cloud_db,
+                                                 const ros::Publisher& pub,
+                                                 PoseEstimatorInput* input)
+    : info_db_(info_db), cloud_db_(cloud_db), pub_(pub), input_(input) {}
+
+void SetInputLandmarkCommand::Execute(const std::vector<std::string>& args) {
+  if (args.size() == 0) {
+    cout << "Error: specify the landmark to use." << endl;
+    return;
+  }
+  string name(boost::algorithm::join(args, " "));
+  bool success = info_db_->Get(name, &input_->landmark);
+  if (!success) {
+    cout << "Error: could not find landmark \"" << name << "\"." << endl;
+    return;
+  }
+
+  success = cloud_db_->Get(name, &input_->landmark_cloud);
+  if (!success) {
+    cout << "Error: could not find landmark cloud \"" << name << "\"." << endl;
+    return;
+  }
+
+  rapid::viz::PublishCloud(pub_, input_->landmark_cloud);
+}
+
+string SetInputLandmarkCommand::name() const { return "use landmark"; }
+string SetInputLandmarkCommand::description() const {
+  return "<name> - Use a landmark";
+}
+
+SetInputSceneCommand::SetInputSceneCommand(NameDb* info_db, NameDb* cloud_db,
+                                           const rapid::viz::SceneViz& viz,
+                                           PoseEstimatorInput* input)
+    : info_db_(info_db), cloud_db_(cloud_db), viz_(viz), input_(input) {}
+
+void SetInputSceneCommand::Execute(const std::vector<std::string>& args) {
+  if (args.size() == 0) {
+    cout << "Error: specify the scene to use." << endl;
+    return;
+  }
+  string name(boost::algorithm::join(args, " "));
+  bool success = info_db_->Get(name, &input_->scene);
+  if (!success) {
+    cout << "Error: could not find scene \"" << name << "\"." << endl;
+    return;
+  }
+
+  success = cloud_db_->Get(name, &input_->scene_cloud);
+  if (!success) {
+    cout << "Error: could not find scene cloud \"" << name << "\"." << endl;
+    return;
+  }
+
+  viz_.set_scene(input_->scene_cloud);
+}
+
+string SetInputSceneCommand::name() const { return "use scene"; }
+string SetInputSceneCommand::description() const {
+  return "<name> - Use a scene";
 }
 
 RunCommand::RunCommand(Estimators* estimators, const ros::Publisher& output_pub)

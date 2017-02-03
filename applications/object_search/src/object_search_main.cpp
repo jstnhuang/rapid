@@ -8,6 +8,8 @@
 #include "pcl_conversions/pcl_conversions.h"
 #include "pcl_ros/transforms.h"
 #include "rapid_db/name_db.hpp"
+#include "rapid_msgs/LandmarkInfo.h"
+#include "rapid_msgs/SceneInfo.h"
 #include "rapid_msgs/GetStaticCloud.h"
 #include "rapid_msgs/ListStaticClouds.h"
 #include "rapid_msgs/RemoveStaticCloud.h"
@@ -63,7 +65,7 @@ int main(int argc, char** argv) {
                                        "landmark_clouds");
 
   // Visualization publishers
-  ros::Publisher object_pub = nh.advertise<PointCloud2>("/landmark", 1, true);
+  ros::Publisher landmark_pub = nh.advertise<PointCloud2>("/landmark", 1, true);
   ros::Publisher scene_pub = nh.advertise<PointCloud2>("/scene", 1, true);
   ros::Publisher heatmap_pub = nh.advertise<PointCloud2>("/heatmap", 1, true);
   ros::Publisher candidates_pub =
@@ -120,6 +122,9 @@ int main(int argc, char** argv) {
   estimators.ransac = &ransac_estimator;
   estimators.grouping = &grouping_estimator;
 
+  // Shared state for main CLI
+  PoseEstimatorInput estimator_input;
+
   // Build visualizers
   rapid::viz::SceneViz scene_viz(scene_pub);
 
@@ -128,8 +133,8 @@ int main(int argc, char** argv) {
                              "- List landmarks");
   ListCommand list_scenes(&scene_ndb, ListCommand::kScenes, "list",
                           "- List scenes");
-  ListCommand list_scenes_named(&scene_ndb, ListCommand::kScenes, "scenes",
-                                "- List scenes");
+  // ListCommand list_scenes_named(&scene_ndb, ListCommand::kScenes, "scenes",
+  //                              "- List scenes");
   RecordObjectCommand record_object(&object_db, &capture);
   sensor_msgs::PointCloud2::Ptr landmark_scene(new sensor_msgs::PointCloud2);
   EditLandmarkCommand create_landmark(
@@ -141,10 +146,14 @@ int main(int argc, char** argv) {
   RecordSceneCommand record_scene(&scene_ndb, &scene_cloud_ndb);
   DeleteCommand delete_landmark(&landmark_ndb, &landmark_cloud_ndb, "landmark");
   DeleteCommand delete_scene(&scene_ndb, &scene_cloud_ndb, "scene");
-  UseCommand use_object(&object_db, &estimators, "object", object_pub);
-  UseCommand use_scene(&scene_db, &estimators, "scene", scene_pub);
-  RunCommand run(&estimators, output_pub);
-  SetDebugCommand set_debug(&estimators);
+  SetInputLandmarkCommand set_input_landmark(&landmark_ndb, &landmark_cloud_ndb,
+                                             landmark_pub, &estimator_input);
+  SetInputSceneCommand set_input_scene(&scene_ndb, &scene_cloud_ndb, scene_viz,
+                                       &estimator_input);
+  // SetLandmarkSceneCommand set_landmark_scene(&scene_ndb, &estimator_input,
+  //                                           "scene");
+  // RunCommand run(&estimators, output_pub);
+  // SetDebugCommand set_debug(&estimators);
   rapid::utils::ExitCommand exit;
 
   ShowSceneCommand show_scene(&scene_cloud_ndb, &scene_viz);
@@ -159,11 +168,10 @@ int main(int argc, char** argv) {
   scene_cli.AddCommand(&exit);
 
   // Landmark editor
-  rapid::utils::CommandLine landmark_cli("Landmark editor");
-  landmark_cli.AddCommand(&list_scenes_named);
-  landmark_cli.AddCommand(&use_scene);
-  landmark_cli.AddCommand(&create_landmark);
-  landmark_cli.AddCommand(&exit);
+  // rapid::utils::CommandLine landmark_cli("Landmark editor");
+  // landmark_cli.AddCommand(&list_scenes_named);
+  // landmark_cli.AddCommand(&set_landmark_scene);
+  // landmark_cli.AddCommand(&exit);
 
   // Landmark manager
   rapid::utils::CommandLine landmarks_cli("Landmark manager");
@@ -181,10 +189,10 @@ int main(int argc, char** argv) {
   rapid::utils::CommandLine cli("Custom landmarks CLI");
   cli.AddCommand(&edit_scenes);
   cli.AddCommand(&edit_landmarks);
-  cli.AddCommand(&use_object);
-  cli.AddCommand(&use_scene);
-  cli.AddCommand(&run);
-  cli.AddCommand(&set_debug);
+  cli.AddCommand(&set_input_landmark);
+  cli.AddCommand(&set_input_scene);
+  // cli.AddCommand(&run);
+  // cli.AddCommand(&set_debug);
   cli.AddCommand(&exit);
 
   while (cli.Next()) {

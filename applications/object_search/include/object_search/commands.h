@@ -7,12 +7,15 @@
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "rapid_db/name_db.hpp"
+#include "rapid_msgs/LandmarkInfo.h"
+#include "rapid_msgs/SceneInfo.h"
 #include "rapid_msgs/Roi3D.h"
 #include "rapid_msgs/StaticCloud.h"
 #include "rapid_perception/box3d_roi_server.h"
 #include "rapid_utils/command_interface.h"
 #include "rapid_utils/command_line.h"
 #include "rapid_viz/scene_viz.h"
+#include "sensor_msgs/PointCloud2.h"
 #include "tf/transform_listener.h"
 
 #include "object_search/estimators.h"
@@ -91,11 +94,12 @@ class RecordObjectCommand : public rapid::utils::CommandInterface {
   rapid_msgs::Roi3D last_roi_;
 };
 
-class UseSceneCommand : public rapid::utils::CommandInterface {
+class SetLandmarkSceneCommand : public rapid::utils::CommandInterface {
  public:
-  UseSceneCommand(rapid::db::NameDb* scene_cloud_db, std::string* scene_name,
-                  sensor_msgs::PointCloud2::Ptr landmark_scene,
-                  rapid::viz::SceneViz* viz);
+  SetLandmarkSceneCommand(rapid::db::NameDb* scene_cloud_db,
+                          std::string* scene_name,
+                          sensor_msgs::PointCloud2::Ptr landmark_scene,
+                          rapid::viz::SceneViz* viz);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
@@ -194,6 +198,13 @@ class DeleteCommand : public rapid::utils::CommandInterface {
   std::string type_;
 };
 
+struct PoseEstimatorInput {
+  rapid_msgs::LandmarkInfo landmark;
+  sensor_msgs::PointCloud2 landmark_cloud;
+  rapid_msgs::SceneInfo scene;
+  sensor_msgs::PointCloud2 scene_cloud;
+};
+
 class UseCommand : public rapid::utils::CommandInterface {
  public:
   UseCommand(Database* db, Estimators* estimators, const std::string& type,
@@ -210,6 +221,38 @@ class UseCommand : public rapid::utils::CommandInterface {
   Estimators* estimators_;
   std::string type_;
   ros::Publisher pub_;
+};
+
+class SetInputLandmarkCommand : public rapid::utils::CommandInterface {
+ public:
+  SetInputLandmarkCommand(rapid::db::NameDb* info_db,
+                          rapid::db::NameDb* cloud_db,
+                          const ros::Publisher& pub, PoseEstimatorInput* input);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
+
+ private:
+  rapid::db::NameDb* info_db_;
+  rapid::db::NameDb* cloud_db_;
+  ros::Publisher pub_;
+  PoseEstimatorInput* input_;
+};
+
+class SetInputSceneCommand : public rapid::utils::CommandInterface {
+ public:
+  SetInputSceneCommand(rapid::db::NameDb* info_db, rapid::db::NameDb* cloud_db,
+                       const rapid::viz::SceneViz& viz,
+                       PoseEstimatorInput* input);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
+
+ private:
+  rapid::db::NameDb* info_db_;
+  rapid::db::NameDb* cloud_db_;
+  rapid::viz::SceneViz viz_;
+  PoseEstimatorInput* input_;
 };
 
 class RunCommand : public rapid::utils::CommandInterface {
