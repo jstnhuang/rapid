@@ -27,15 +27,19 @@ namespace object_search {
 class CaptureRoi;
 class Database;  // Forward declaration
 
-class EditScenesCommand : public rapid::utils::CommandInterface {
+// Command that runs an embedded command line interface.
+class CliCommand : public rapid::utils::CommandInterface {
  public:
-  EditScenesCommand(const rapid::utils::CommandLine& scene_cli);
+  CliCommand(const rapid::utils::CommandLine& scene_cli,
+             const std::string& name, const std::string& description);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
 
  private:
-  rapid::utils::CommandLine scene_cli_;
+  rapid::utils::CommandLine cli_;
+  std::string name_;
+  std::string description_;
 };
 
 class ShowSceneCommand : public rapid::utils::CommandInterface {

@@ -123,15 +123,15 @@ int main(int argc, char** argv) {
   // Build visualizers
   rapid::viz::SceneViz scene_viz(scene_pub);
 
-  // Build command line
-  ListCommand list_landmarks(&landmark_ndb, ListCommand::kLandmarks,
-                             "landmarks", "- List landmarks");
+  // Build commands
+  ListCommand list_landmarks(&landmark_ndb, ListCommand::kLandmarks, "list",
+                             "- List landmarks");
   ListCommand list_scenes(&scene_ndb, ListCommand::kScenes, "list",
                           "- List scenes");
-  RecordObjectCommand record_object(&object_db, &capture);
+  RecordObjectCommand record_landmark(&object_db, &capture);
   RecordSceneCommand record_scene(&scene_ndb, &scene_cloud_ndb);
-  DeleteCommand delete_object(&object_db, "delete object",
-                              "<name> - Delete an object");
+  DeleteCommand delete_landmark(&object_db, "delete object",
+                                "<name> - Delete an object");
   DeleteCommand delete_scene(&scene_db, "delete scene",
                              "<name> - Delete a scene");
   UseCommand use_object(&object_db, &estimators, "object", object_pub);
@@ -142,6 +142,7 @@ int main(int argc, char** argv) {
 
   ShowSceneCommand show_scene(&scene_cloud_ndb, &scene_viz);
 
+  // Build CLIs
   rapid::utils::CommandLine scene_cli("Scene manager");
   scene_cli.AddCommand(&list_scenes);
   scene_cli.AddCommand(&record_scene);
@@ -149,13 +150,18 @@ int main(int argc, char** argv) {
   scene_cli.AddCommand(&delete_scene);
   scene_cli.AddCommand(&exit);
 
-  EditScenesCommand edit_scenes(scene_cli);
+  rapid::utils::CommandLine landmark_cli("Landmark manager");
+  landmark_cli.AddCommand(&list_landmarks);
+  landmark_cli.AddCommand(&record_landmark);
+  landmark_cli.AddCommand(&delete_landmark);
+  landmark_cli.AddCommand(&exit);
+
+  CliCommand edit_scenes(scene_cli, "edit scenes", "- Edit scenes");
+  CliCommand edit_landmarks(landmark_cli, "edit landmarks", "- Edit landmarks");
 
   rapid::utils::CommandLine cli("Custom landmarks CLI");
   cli.AddCommand(&edit_scenes);
-  cli.AddCommand(&list_landmarks);
-  cli.AddCommand(&record_object);
-  cli.AddCommand(&delete_object);
+  cli.AddCommand(&edit_landmarks);
   cli.AddCommand(&use_object);
   cli.AddCommand(&use_scene);
   cli.AddCommand(&run);

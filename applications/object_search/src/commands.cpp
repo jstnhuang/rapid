@@ -50,16 +50,15 @@ using rapid::perception::PoseEstimationMatch;
 using rapid::perception::GroupingPoseEstimator;
 
 namespace object_search {
-EditScenesCommand::EditScenesCommand(const rapid::utils::CommandLine& scene_cli)
-    : scene_cli_(scene_cli) {}
-void EditScenesCommand::Execute(const std::vector<std::string>& args) {
-  while (scene_cli_.Next()) {
+CliCommand::CliCommand(const rapid::utils::CommandLine& cli,
+                       const std::string& name, const std::string& description)
+    : cli_(cli), name_(name), description_(description) {}
+void CliCommand::Execute(const std::vector<std::string>& args) {
+  while (cli_.Next()) {
   }
 }
-std::string EditScenesCommand::name() const { return "edit scenes"; }
-std::string EditScenesCommand::description() const {
-  return "- Record/delete scenes";
-}
+std::string CliCommand::name() const { return name_; }
+std::string CliCommand::description() const { return description_; }
 
 ShowSceneCommand::ShowSceneCommand(rapid::db::NameDb* db,
                                    rapid::viz::SceneViz* viz)
