@@ -52,7 +52,8 @@ class ShowSceneCommand : public rapid::utils::CommandInterface {
 
 class ListCommand : public rapid::utils::CommandInterface {
  public:
-  ListCommand(rapid::db::NameDb* db, const std::string& type);
+  ListCommand(rapid::db::NameDb* db, const std::string& type,
+              const std::string& name, const std::string& description);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
@@ -63,6 +64,8 @@ class ListCommand : public rapid::utils::CommandInterface {
  private:
   rapid::db::NameDb* db_;
   std::string type_;
+  std::string name_;
+  std::string description_;
 };
 
 class RecordObjectCommand : public rapid::utils::CommandInterface {

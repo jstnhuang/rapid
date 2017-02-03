@@ -124,8 +124,10 @@ int main(int argc, char** argv) {
   rapid::viz::SceneViz scene_viz(scene_pub);
 
   // Build command line
-  ListCommand list_landmarks(&landmark_ndb, ListCommand::kLandmarks);
-  ListCommand list_scenes(&scene_ndb, ListCommand::kScenes);
+  ListCommand list_landmarks(&landmark_ndb, ListCommand::kLandmarks,
+                             "landmarks", "- List landmarks");
+  ListCommand list_scenes(&scene_ndb, ListCommand::kScenes, "list",
+                          "- List scenes");
   RecordObjectCommand record_object(&object_db, &capture);
   RecordSceneCommand record_scene(&scene_ndb, &scene_cloud_ndb);
   DeleteCommand delete_object(&object_db, "delete object",

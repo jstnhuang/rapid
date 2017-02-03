@@ -85,8 +85,9 @@ std::string ShowSceneCommand::description() const {
   return "<name> - Show a scene in the visualization";
 }
 
-ListCommand::ListCommand(NameDb* db, const string& type)
-    : db_(db), type_(type) {}
+ListCommand::ListCommand(NameDb* db, const string& type, const string& name,
+                         const string& description)
+    : db_(db), type_(type), name_(name), description_(description) {}
 
 void ListCommand::Execute(const vector<string>& args) {
   vector<string> names;
@@ -105,8 +106,8 @@ void ListCommand::Execute(const vector<string>& args) {
   }
 }
 
-std::string ListCommand::name() const { return type_ + "s"; }
-std::string ListCommand::description() const { return "- List " + type_ + "s"; }
+std::string ListCommand::name() const { return name_; }
+std::string ListCommand::description() const { return description_; }
 const char ListCommand::kLandmarks[] = "landmark";
 const char ListCommand::kScenes[] = "scene";
 
