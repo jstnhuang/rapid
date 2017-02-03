@@ -61,6 +61,30 @@ std::string EditScenesCommand::description() const {
   return "- Record/delete scenes";
 }
 
+ShowSceneCommand::ShowSceneCommand(rapid::db::NameDb* db,
+                                   rapid::viz::SceneViz* viz)
+    : db_(db), viz_(viz) {}
+
+void ShowSceneCommand::Execute(const std::vector<std::string>& args) {
+  if (args.size() == 0) {
+    ROS_ERROR("Error: provide a name of a scene to show.");
+    return;
+  }
+  string name = boost::algorithm::join(args, " ");
+  PointCloud2 cloud;
+  bool success = db_->Get(name, &cloud);
+  if (!success) {
+    ROS_ERROR("Error: scene %s was not found.", name.c_str());
+    return;
+  }
+
+  viz_->set_scene(cloud);
+}
+std::string ShowSceneCommand::name() const { return "show"; }
+std::string ShowSceneCommand::description() const {
+  return "<name> - Show a scene in the visualization";
+}
+
 ListCommand::ListCommand(NameDb* db, const string& type)
     : db_(db), type_(type) {}
 

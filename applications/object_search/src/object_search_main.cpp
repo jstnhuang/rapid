@@ -19,6 +19,7 @@
 #include "rapid_perception/ransac_pose_estimator.h"
 #include "rapid_ros/publisher.h"
 #include "rapid_utils/command_line.h"
+#include "rapid_viz/scene_viz.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "visualization_msgs/Marker.h"
@@ -120,6 +121,7 @@ int main(int argc, char** argv) {
   estimators.grouping = &grouping_estimator;
 
   // Build visualizers
+  rapid::viz::SceneViz scene_viz(scene_pub);
 
   // Build command line
   ListCommand list_landmarks(&landmark_ndb, ListCommand::kLandmarks);
@@ -136,9 +138,12 @@ int main(int argc, char** argv) {
   SetDebugCommand set_debug(&estimators);
   rapid::utils::ExitCommand exit;
 
+  ShowSceneCommand show_scene(&scene_cloud_ndb, &scene_viz);
+
   rapid::utils::CommandLine scene_cli("Scene manager");
   scene_cli.AddCommand(&list_scenes);
   scene_cli.AddCommand(&record_scene);
+  scene_cli.AddCommand(&show_scene);
   scene_cli.AddCommand(&delete_scene);
   scene_cli.AddCommand(&exit);
 

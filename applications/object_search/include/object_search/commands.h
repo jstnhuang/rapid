@@ -12,6 +12,7 @@
 #include "rapid_db/name_db.hpp"
 #include "rapid_utils/command_line.h"
 #include "rapid_utils/command_interface.h"
+#include "rapid_viz/scene_viz.h"
 
 #include "object_search/estimators.h"
 
@@ -35,6 +36,18 @@ class EditScenesCommand : public rapid::utils::CommandInterface {
 
  private:
   rapid::utils::CommandLine scene_cli_;
+};
+
+class ShowSceneCommand : public rapid::utils::CommandInterface {
+ public:
+  ShowSceneCommand(rapid::db::NameDb* db, rapid::viz::SceneViz* viz);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
+
+ private:
+  rapid::db::NameDb* db_;
+  rapid::viz::SceneViz* viz_;
 };
 
 class ListCommand : public rapid::utils::CommandInterface {
