@@ -134,11 +134,13 @@ int main(int argc, char** argv) {
   UseCommand use_scene(&scene_db, &estimators, "scene", scene_pub);
   RunCommand run(&estimators, output_pub);
   SetDebugCommand set_debug(&estimators);
+  rapid::utils::ExitCommand exit;
 
   rapid::utils::CommandLine scene_cli("Scene manager");
   scene_cli.AddCommand(&list_scenes);
   scene_cli.AddCommand(&record_scene);
   scene_cli.AddCommand(&delete_scene);
+  scene_cli.AddCommand(&exit);
 
   EditScenesCommand edit_scenes(scene_cli);
 
@@ -151,6 +153,7 @@ int main(int argc, char** argv) {
   cli.AddCommand(&use_scene);
   cli.AddCommand(&run);
   cli.AddCommand(&set_debug);
+  cli.AddCommand(&exit);
 
   while (cli.Next()) {
   }
