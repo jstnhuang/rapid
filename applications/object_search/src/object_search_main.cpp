@@ -152,8 +152,8 @@ int main(int argc, char** argv) {
                                        &estimator_input);
   // SetLandmarkSceneCommand set_landmark_scene(&scene_ndb, &estimator_input,
   //                                           "scene");
-  // RunCommand run(&estimators, output_pub);
-  // SetDebugCommand set_debug(&estimators);
+  RunCommand run(&estimators, &estimator_input, output_pub);
+  SetDebugCommand set_debug(&estimators);
   rapid::utils::ExitCommand exit;
 
   ShowSceneCommand show_scene(&scene_cloud_ndb, &scene_viz);
@@ -191,8 +191,8 @@ int main(int argc, char** argv) {
   cli.AddCommand(&edit_landmarks);
   cli.AddCommand(&set_input_landmark);
   cli.AddCommand(&set_input_scene);
-  // cli.AddCommand(&run);
-  // cli.AddCommand(&set_debug);
+  cli.AddCommand(&run);
+  cli.AddCommand(&set_debug);
   cli.AddCommand(&exit);
 
   while (cli.Next()) {

@@ -205,24 +205,6 @@ struct PoseEstimatorInput {
   sensor_msgs::PointCloud2 scene_cloud;
 };
 
-class UseCommand : public rapid::utils::CommandInterface {
- public:
-  UseCommand(Database* db, Estimators* estimators, const std::string& type,
-             const ros::Publisher& pub);
-  void Execute(const std::vector<std::string>& args);
-  std::string name() const;
-  std::string description() const;
-
- private:
-  void CropScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene,
-                 std::vector<int>* indices);
-
-  Database* db_;
-  Estimators* estimators_;
-  std::string type_;
-  ros::Publisher pub_;
-};
-
 class SetInputLandmarkCommand : public rapid::utils::CommandInterface {
  public:
   SetInputLandmarkCommand(rapid::db::NameDb* info_db,
@@ -257,7 +239,8 @@ class SetInputSceneCommand : public rapid::utils::CommandInterface {
 
 class RunCommand : public rapid::utils::CommandInterface {
  public:
-  RunCommand(Estimators* estimator, const ros::Publisher& output_pub);
+  RunCommand(Estimators* estimator, PoseEstimatorInput* input,
+             const ros::Publisher& output_pub);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
@@ -267,9 +250,16 @@ class RunCommand : public rapid::utils::CommandInterface {
   void UpdateCustomParams();
   void UpdateRansacParams();
   void UpdateGroupingParams();
+
+  void CropScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene,
+                 pcl::PointCloud<pcl::PointXYZRGB>::Ptr cropped);
+  void Downsample(const double leaf_size,
+                  pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_in,
+                  pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_out);
   Estimators* estimators_;
-  std::vector<rapid::perception::PoseEstimationMatch> matches_;
+  PoseEstimatorInput* input_;
   ros::Publisher output_pub_;
+  std::vector<rapid::perception::PoseEstimationMatch> matches_;
 };
 
 class SetDebugCommand : public rapid::utils::CommandInterface {

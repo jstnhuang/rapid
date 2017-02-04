@@ -443,138 +443,6 @@ string DeleteCommand::description() const {
   return "<name> - Delete a " + type_;
 }
 
-UseCommand::UseCommand(Database* db, Estimators* estimators, const string& type,
-                       const ros::Publisher& pub)
-    : db_(db), estimators_(estimators), type_(type), pub_(pub) {}
-
-void UseCommand::Execute(const vector<string>& args) {
-  if (args.size() == 0) {
-    cout << "Error: specify the name to use." << endl;
-    return;
-  }
-  string name = boost::algorithm::join(args, " ");
-  StaticCloud cloud;
-  bool success = db_->Get(name, &cloud);
-  if (!success) {
-    cout << "Invalid Name " << name << endl;
-    return;
-  }
-
-  PointCloud<PointXYZRGB>::Ptr pcl_cloud_filtered(new PointCloud<PointXYZRGB>);
-  pcl::fromROSMsg(cloud.cloud, *pcl_cloud_filtered);
-
-  if (type_ == "scene") {
-    // Filter NaNs
-    vector<int> mapping;
-    pcl_cloud_filtered->is_dense = false;  // Force check for NaNs
-    pcl::removeNaNFromPointCloud(*pcl_cloud_filtered, *pcl_cloud_filtered,
-                                 mapping);
-    ROS_INFO("Filtered NaNs, there are now %ld points",
-             pcl_cloud_filtered->size());
-  }
-
-  // Transform into base_footprint
-  tf::Transform base_to_camera;
-  tf::transformMsgToTF(cloud.base_to_camera, base_to_camera);
-  PointCloud<PointXYZRGB>::Ptr pcl_cloud_base(new PointCloud<PointXYZRGB>);
-  pcl_ros::transformPointCloud(*pcl_cloud_filtered, *pcl_cloud_base,
-                               base_to_camera.inverse());
-  pcl_cloud_base->header.frame_id = cloud.parent_frame_id;
-
-  ROS_INFO("Loaded point cloud with %ld points", pcl_cloud_base->size());
-
-  if (type_ == "scene") {
-    vector<int> indices;
-    CropScene(pcl_cloud_base, &indices);
-    pcl::PointIndicesPtr indices_ptr(new pcl::PointIndices);
-    indices_ptr->indices = indices;
-
-    // Get cropped versions of scene in both frames
-    pcl::ExtractIndices<PointXYZRGB> extract;
-    // extract.setInputCloud(pcl_cloud);
-    // extract.setIndices(indices_ptr);
-    // extract.filter(*pcl_cloud);
-
-    // Get cropped version of camera frame image
-    extract.setInputCloud(pcl_cloud_base);
-    extract.setIndices(indices_ptr);
-    extract.filter(*pcl_cloud_base);
-  }
-
-  // Visualize the scene/object
-  PointCloud2 msg;
-  pcl::toROSMsg(*pcl_cloud_base, msg);
-  if (pub_) {
-    pub_.publish(msg);
-  }
-
-  // RANSAC estimator does downsampling internally.
-  PointCloud<PointXYZRGB>::Ptr pcl_cloud_downsampled(
-      new PointCloud<PointXYZRGB>);
-  double leaf_size = 0.01;
-  ros::param::param<double>("leaf_size", leaf_size, 0.01);
-  pcl::VoxelGrid<PointXYZRGB> vox;
-  vox.setInputCloud(pcl_cloud_base);
-  vox.setLeafSize(leaf_size, leaf_size, leaf_size);
-  vox.filter(*pcl_cloud_downsampled);
-  ROS_INFO("Downsampled to %ld points", pcl_cloud_downsampled->size());
-  if (estimators_->ransac->voxel_size() != leaf_size) {
-    estimators_->ransac->set_voxel_size(leaf_size);
-  }
-
-  if (type_ == "object") {
-    estimators_->custom->set_object(pcl_cloud_downsampled);
-    estimators_->custom->set_roi(cloud.roi);
-    // estimators_->ransac->set_object(pcl_cloud_base);
-    estimators_->grouping->set_object(pcl_cloud_base);
-  } else {
-    estimators_->custom->set_scene(pcl_cloud_downsampled);
-    // estimators_->ransac->set_scene(pcl_cloud_base);
-    estimators_->grouping->set_scene(pcl_cloud_base);
-  }
-}
-
-string UseCommand::name() const { return "use " + type_; }
-string UseCommand::description() const {
-  if (type_ == "scene") {
-    return "<name> - Set the scene to search in";
-  } else {
-    return "<name> - Set the object to search for";
-  }
-}
-
-void UseCommand::CropScene(PointCloud<PointXYZRGB>::Ptr scene,
-                           vector<int>* indices) {
-  double min_x, min_y, min_z, max_x, max_y, max_z;
-  ros::param::param<double>("min_x", min_x, 0.2);
-  ros::param::param<double>("min_y", min_y, -1);
-  ros::param::param<double>("min_z", min_z, 0.3);
-  ros::param::param<double>("max_x", max_x, 1.2);
-  ros::param::param<double>("max_y", max_y, 1);
-  ros::param::param<double>("max_z", max_z, 1.7);
-  ROS_INFO(
-      "Cropping:\n"
-      "  min_x: %f\n"
-      "  min_y: %f\n"
-      "  min_z: %f\n"
-      "  max_x: %f\n"
-      "  max_y: %f\n"
-      "  max_z: %f\n",
-      min_x, min_y, min_z, max_x, max_y, max_z);
-
-  pcl::CropBox<PointXYZRGB> crop;
-  crop.setInputCloud(scene);
-  Eigen::Vector4f min;
-  min << min_x, min_y, min_z, 1;
-  Eigen::Vector4f max;
-  max << max_x, max_y, max_z, 1;
-  crop.setMin(min);
-  crop.setMax(max);
-  crop.filter(*indices);
-  // crop.filter(*scene);
-  ROS_INFO("Cropped to %ld points", indices->size());
-}
-
 SetInputLandmarkCommand::SetInputLandmarkCommand(NameDb* info_db,
                                                  NameDb* cloud_db,
                                                  const ros::Publisher& pub,
@@ -638,8 +506,12 @@ string SetInputSceneCommand::description() const {
   return "<name> - Use a scene";
 }
 
-RunCommand::RunCommand(Estimators* estimators, const ros::Publisher& output_pub)
-    : estimators_(estimators), matches_(), output_pub_(output_pub) {}
+RunCommand::RunCommand(Estimators* estimators, PoseEstimatorInput* input,
+                       const ros::Publisher& output_pub)
+    : estimators_(estimators),
+      input_(input),
+      output_pub_(output_pub),
+      matches_() {}
 
 void RunCommand::Execute(const vector<string>& args) {
   if (args.size() == 0) {
@@ -648,17 +520,54 @@ void RunCommand::Execute(const vector<string>& args) {
   }
   const string& algorithm = args[0];
   matches_.clear();
+
+  // TODO(jstn): May need to filter NaNs from the scene
+  // if (type_ == "scene") {
+  //  // Filter NaNs
+  //  vector<int> mapping;
+  //  pcl_cloud_filtered->is_dense = false;  // Force check for NaNs
+  //  pcl::removeNaNFromPointCloud(*pcl_cloud_filtered, *pcl_cloud_filtered,
+  //                               mapping);
+  //  ROS_INFO("Filtered NaNs, there are now %ld points",
+  //           pcl_cloud_filtered->size());
+  //}
+  PointCloud<PointXYZRGB>::Ptr landmark_cloud(new PointCloud<PointXYZRGB>);
+  pcl::fromROSMsg(input_->landmark_cloud, *landmark_cloud);
+  PointCloud<PointXYZRGB>::Ptr scene_cloud(new PointCloud<PointXYZRGB>);
+  pcl::fromROSMsg(input_->scene_cloud, *scene_cloud);
+  PointCloud<PointXYZRGB>::Ptr scene_cropped(new PointCloud<PointXYZRGB>);
+  CropScene(scene_cloud, scene_cropped);
+
+  double leaf_size = 0.01;
+  ros::param::param<double>("leaf_size", leaf_size, 0.01);
+
   if (algorithm == "custom") {
     UpdateCustomParams();
+    // Downsample landmark and scene
+    PointCloud<PointXYZRGB>::Ptr landmark_downsampled(
+        new PointCloud<PointXYZRGB>);
+    Downsample(leaf_size, landmark_cloud, landmark_downsampled);
+    PointCloud<PointXYZRGB>::Ptr scene_downsampled(new PointCloud<PointXYZRGB>);
+    Downsample(leaf_size, scene_cropped, scene_downsampled);
+
     pcl::ScopeTime timer(("Running algorithm: " + algorithm).c_str());
+    estimators_->custom->set_scene(scene_downsampled);
+    estimators_->custom->set_object(landmark_downsampled);
     estimators_->custom->Find(&matches_);
   } else if (algorithm == "ransac") {
     UpdateRansacParams();
+    if (estimators_->ransac->voxel_size() != leaf_size) {
+      estimators_->ransac->set_voxel_size(leaf_size);
+    }
     pcl::ScopeTime timer(("Running algorithm: " + algorithm).c_str());
+    estimators_->ransac->set_object(landmark_cloud);
+    estimators_->ransac->set_scene(scene_cropped);
     estimators_->ransac->Find(&matches_);
   } else if (algorithm == "grouping") {
     UpdateGroupingParams();
     pcl::ScopeTime timer(("Running algorithm: " + algorithm).c_str());
+    estimators_->grouping->set_object(landmark_cloud);
+    estimators_->grouping->set_scene(scene_cropped);
     estimators_->grouping->Find(&matches_);
   } else {
     ROS_ERROR("Unknown algorithm: %s", algorithm.c_str());
@@ -796,6 +705,47 @@ void RunCommand::UpdateGroupingParams() {
   estimators_->grouping->rf_radius_ = rf_radius;
   estimators_->grouping->cg_size_ = cg_size;
   estimators_->grouping->cg_threshold_ = cg_threshold;
+}
+
+void RunCommand::CropScene(PointCloud<PointXYZRGB>::Ptr scene,
+                           PointCloud<PointXYZRGB>::Ptr cropped) {
+  double min_x, min_y, min_z, max_x, max_y, max_z;
+  ros::param::param<double>("min_x", min_x, 0.2);
+  ros::param::param<double>("min_y", min_y, -1);
+  ros::param::param<double>("min_z", min_z, 0.3);
+  ros::param::param<double>("max_x", max_x, 1.2);
+  ros::param::param<double>("max_y", max_y, 1);
+  ros::param::param<double>("max_z", max_z, 1.7);
+  ROS_INFO(
+      "Cropping:\n"
+      "  min_x: %f\n"
+      "  min_y: %f\n"
+      "  min_z: %f\n"
+      "  max_x: %f\n"
+      "  max_y: %f\n"
+      "  max_z: %f\n",
+      min_x, min_y, min_z, max_x, max_y, max_z);
+
+  pcl::CropBox<PointXYZRGB> crop;
+  crop.setInputCloud(scene);
+  Eigen::Vector4f min;
+  min << min_x, min_y, min_z, 1;
+  Eigen::Vector4f max;
+  max << max_x, max_y, max_z, 1;
+  crop.setMin(min);
+  crop.setMax(max);
+  crop.filter(*cropped);
+  ROS_INFO("Cropped to %ld points", cropped->size());
+}
+
+void RunCommand::Downsample(const double leaf_size,
+                            PointCloud<PointXYZRGB>::Ptr cloud_in,
+                            PointCloud<PointXYZRGB>::Ptr cloud_out) {
+  pcl::VoxelGrid<PointXYZRGB> vox;
+  vox.setInputCloud(cloud_in);
+  vox.setLeafSize(leaf_size, leaf_size, leaf_size);
+  vox.filter(*cloud_out);
+  ROS_INFO("Downsampled to %ld points", cloud_out->size());
 }
 
 SetDebugCommand::SetDebugCommand(Estimators* estimators)
