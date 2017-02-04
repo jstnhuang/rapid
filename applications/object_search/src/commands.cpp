@@ -273,8 +273,6 @@ void SaveLandmarkCommand::Execute(const vector<string>& args) {
                          roi_->transform.translation.z + roi_->dimensions.z / 2,
                          0);
   crop.setMax(max_pt);
-  cout << "min: " << min_pt << endl;
-  cout << "max: " << max_pt << endl;
   PointCloud<PointXYZRGB>::Ptr output(new PointCloud<PointXYZRGB>);
   crop.filter(*output);
   ROS_INFO("Captured cloud with %ld points", output->size());
