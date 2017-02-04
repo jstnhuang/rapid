@@ -51,7 +51,7 @@ using rapid::viz::SceneViz;
 
 namespace object_search {
 CliCommand::CliCommand(const rapid::utils::CommandLine& cli, const string& name,
-                       const string& description)
+		       const string& description)
     : cli_(cli), name_(name), description_(description) {}
 void CliCommand::Execute(const vector<string>& args) {
   while (cli_.Next()) {
@@ -84,7 +84,7 @@ string ShowSceneCommand::description() const {
 }
 
 ListCommand::ListCommand(NameDb* db, const string& type, const string& name,
-                         const string& description)
+			 const string& description)
     : db_(db), type_(type), name_(name), description_(description) {}
 
 void ListCommand::Execute(const vector<string>& args) {
@@ -148,7 +148,7 @@ void RecordObjectCommand::Execute(const vector<string>& args) {
   // Get transform
   static_cloud.parent_frame_id = capture_->base_frame();
   tf::transformTFToMsg(capture_->cloud_to_base().inverse(),
-                       static_cloud.base_to_camera);
+		       static_cloud.base_to_camera);
   static_cloud.roi = capture_->roi();
   last_roi_ = static_cloud.roi;
 
@@ -200,16 +200,16 @@ string SetLandmarkSceneCommand::description() const {
 }
 
 EditBoxCommand::EditBoxCommand(rapid::perception::Box3DRoiServer* box_server,
-                               rapid_msgs::Roi3D* roi)
+			       rapid_msgs::Roi3D* roi)
     : box_server_(box_server), roi_(roi) {}
 void EditBoxCommand::Execute(const vector<string>& args) {
   box_server_->set_base_frame("base_link");
   if (roi_->dimensions.x != 0 && roi_->dimensions.y != 0 &&
       roi_->dimensions.z != 0) {
     box_server_->Start(roi_->transform.translation.x,
-                       roi_->transform.translation.y,
-                       roi_->transform.translation.z, roi_->dimensions.x,
-                       roi_->dimensions.y, roi_->dimensions.z);
+		       roi_->transform.translation.y,
+		       roi_->transform.translation.z, roi_->dimensions.x,
+		       roi_->dimensions.y, roi_->dimensions.z);
   } else {
     box_server_->Start();
   }
@@ -226,11 +226,11 @@ string EditBoxCommand::description() const {
 }
 
 SaveLandmarkCommand::SaveLandmarkCommand(NameDb* info_db, NameDb* cloud_db,
-                                         PointCloud2::Ptr landmark_scene,
-                                         const string& landmark_name,
-                                         string* scene_name,
-                                         rapid_msgs::Roi3D* roi,
-                                         const string& type)
+					 PointCloud2::Ptr landmark_scene,
+					 const string& landmark_name,
+					 string* scene_name,
+					 rapid_msgs::Roi3D* roi,
+					 const string& type)
     : info_db_(info_db),
       cloud_db_(cloud_db),
       landmark_scene_(landmark_scene),
@@ -251,7 +251,7 @@ void SaveLandmarkCommand::Execute(const vector<string>& args) {
     bool success = info_db_->Update(landmark_name_, info);
     if (!success) {
       cout << "Error: could not update landmark with name: " << landmark_name_
-           << endl;
+	   << endl;
       return;
     }
   }
@@ -261,17 +261,17 @@ void SaveLandmarkCommand::Execute(const vector<string>& args) {
   PointCloud<PointXYZRGB>::Ptr pcl_cloud(new PointCloud<PointXYZRGB>);
   pcl::fromROSMsg(*landmark_scene_, *pcl_cloud);
   ROS_INFO("Scene %s has %ld points", landmark_name_.c_str(),
-           pcl_cloud->size());
+	   pcl_cloud->size());
   crop.setInputCloud(pcl_cloud);
   Eigen::Vector4f min_pt(roi_->transform.translation.x - roi_->dimensions.x / 2,
-                         roi_->transform.translation.y - roi_->dimensions.y / 2,
-                         roi_->transform.translation.z - roi_->dimensions.z / 2,
-                         0);
+			 roi_->transform.translation.y - roi_->dimensions.y / 2,
+			 roi_->transform.translation.z - roi_->dimensions.z / 2,
+			 0);
   crop.setMin(min_pt);
-  Eigen::Vector4f max_pt(roi_->transform.translation.z + roi_->dimensions.x / 2,
-                         roi_->transform.translation.z + roi_->dimensions.y / 2,
-                         roi_->transform.translation.z + roi_->dimensions.z / 2,
-                         0);
+  Eigen::Vector4f max_pt(roi_->transform.translation.x + roi_->dimensions.x / 2,
+			 roi_->transform.translation.y + roi_->dimensions.y / 2,
+			 roi_->transform.translation.z + roi_->dimensions.z / 2,
+			 0);
   crop.setMax(max_pt);
   PointCloud<PointXYZRGB>::Ptr output(new PointCloud<PointXYZRGB>);
   crop.filter(*output);
@@ -286,7 +286,7 @@ void SaveLandmarkCommand::Execute(const vector<string>& args) {
     bool success = cloud_db_->Update(landmark_name_, cloud_out);
     if (!success) {
       cout << "Error: could not update landmark cloud with name: "
-           << landmark_name_ << endl;
+	   << landmark_name_ << endl;
       return;
     }
   }
@@ -335,8 +335,8 @@ void EditLandmarkCommand::Execute(const vector<string>& args) {
     success = scene_cloud_db_->Get(scene_name, &db_cloud);
     if (!success) {
       cout << "Warning: scene \"" << scene_name << "\" for landmark " << name
-           << " not found. Please add a scene before saving the landmark."
-           << endl;
+	   << " not found. Please add a scene before saving the landmark."
+	   << endl;
     } else {
       *landmark_scene = db_cloud;
     }
@@ -344,12 +344,12 @@ void EditLandmarkCommand::Execute(const vector<string>& args) {
 
   // Build sub-CLI
   ListCommand list_scenes(scene_info_db_, ListCommand::kScenes, "scenes",
-                          "- List scenes");
+			  "- List scenes");
   SetLandmarkSceneCommand use_scene(scene_cloud_db_, &scene_name,
-                                    landmark_scene, scene_viz_);
+				    landmark_scene, scene_viz_);
   EditBoxCommand edit_box(box_server_, &roi);
   SaveLandmarkCommand save(landmark_info_db_, landmark_cloud_db_,
-                           landmark_scene, name, &scene_name, &roi, type_);
+			   landmark_scene, name, &scene_name, &roi, type_);
   rapid::utils::ExitCommand exit;
 
   string title("Creating landmark " + name);
@@ -394,7 +394,7 @@ void RecordSceneCommand::Execute(const vector<string>& args) {
   // Transform to base link.
   PointCloud2 cloud_out;
   bool success = pcl_ros::transformPointCloud("base_link", *cloud_in, cloud_out,
-                                              tf_listener_);
+					      tf_listener_);
   if (!success) {
     ROS_ERROR("Error: Failed to transform point cloud.");
     return;
@@ -414,7 +414,7 @@ string RecordSceneCommand::description() const {
 }
 
 DeleteCommand::DeleteCommand(NameDb* info_db, NameDb* cloud_db,
-                             const string& type)
+			     const string& type)
     : info_db_(info_db), cloud_db_(cloud_db), type_(type) {}
 
 void DeleteCommand::Execute(const vector<string>& args) {
@@ -442,9 +442,9 @@ string DeleteCommand::description() const {
 }
 
 SetInputLandmarkCommand::SetInputLandmarkCommand(NameDb* info_db,
-                                                 NameDb* cloud_db,
-                                                 const ros::Publisher& pub,
-                                                 PoseEstimatorInput* input)
+						 NameDb* cloud_db,
+						 const ros::Publisher& pub,
+						 PoseEstimatorInput* input)
     : info_db_(info_db), cloud_db_(cloud_db), pub_(pub), input_(input) {}
 
 void SetInputLandmarkCommand::Execute(const vector<string>& args) {
@@ -474,8 +474,8 @@ string SetInputLandmarkCommand::description() const {
 }
 
 SetInputSceneCommand::SetInputSceneCommand(NameDb* info_db, NameDb* cloud_db,
-                                           const SceneViz& viz,
-                                           PoseEstimatorInput* input)
+					   const SceneViz& viz,
+					   PoseEstimatorInput* input)
     : info_db_(info_db), cloud_db_(cloud_db), viz_(viz), input_(input) {}
 
 void SetInputSceneCommand::Execute(const vector<string>& args) {
@@ -505,7 +505,7 @@ string SetInputSceneCommand::description() const {
 }
 
 RunCommand::RunCommand(Estimators* estimators, PoseEstimatorInput* input,
-                       const ros::Publisher& output_pub)
+		       const ros::Publisher& output_pub)
     : estimators_(estimators),
       input_(input),
       output_pub_(output_pub),
@@ -531,6 +531,7 @@ void RunCommand::Execute(const vector<string>& args) {
   //}
   PointCloud<PointXYZRGB>::Ptr landmark_cloud(new PointCloud<PointXYZRGB>);
   pcl::fromROSMsg(input_->landmark_cloud, *landmark_cloud);
+  ROS_INFO("Loaded landmark with %ld points", landmark_cloud->size());
   PointCloud<PointXYZRGB>::Ptr scene_cloud(new PointCloud<PointXYZRGB>);
   pcl::fromROSMsg(input_->scene_cloud, *scene_cloud);
   PointCloud<PointXYZRGB>::Ptr scene_cropped(new PointCloud<PointXYZRGB>);
@@ -543,13 +544,17 @@ void RunCommand::Execute(const vector<string>& args) {
     UpdateCustomParams();
     // Downsample landmark and scene
     PointCloud<PointXYZRGB>::Ptr landmark_downsampled(
-        new PointCloud<PointXYZRGB>);
+	new PointCloud<PointXYZRGB>);
     Downsample(leaf_size, landmark_cloud, landmark_downsampled);
+    ROS_INFO("Downsampled landmark to %ld points",
+	     landmark_downsampled->size());
     PointCloud<PointXYZRGB>::Ptr scene_downsampled(new PointCloud<PointXYZRGB>);
     Downsample(leaf_size, scene_cropped, scene_downsampled);
+    ROS_INFO("Downsampled scene to %ld points", scene_downsampled->size());
 
     pcl::ScopeTime timer(("Running algorithm: " + algorithm).c_str());
     estimators_->custom->set_scene(scene_downsampled);
+    estimators_->custom->set_roi(input_->landmark.roi);
     estimators_->custom->set_object(landmark_downsampled);
     estimators_->custom->Find(&matches_);
   } else if (algorithm == "ransac") {
@@ -613,8 +618,8 @@ void RunCommand::UpdateCustomParams() {
 
   if (estimators_->custom->heat_mapper()->name() == "random") {
     rapid::perception::RandomHeatMapper* mapper =
-        static_cast<rapid::perception::RandomHeatMapper*>(
-            estimators_->custom->heat_mapper());
+	static_cast<rapid::perception::RandomHeatMapper*>(
+	    estimators_->custom->heat_mapper());
     mapper->set_sample_ratio(sample_ratio);
     mapper->set_max_samples(max_samples);
   }
@@ -662,23 +667,23 @@ void RunCommand::UpdateGroupingParams() {
   double cg_threshold;
 
   ros::param::param<int>("normal_k", normal_k,
-                         GroupingPoseEstimator::kDefaultNormalK);
+			 GroupingPoseEstimator::kDefaultNormalK);
   ros::param::param<double>("shot_radius", shot_radius,
-                            GroupingPoseEstimator::kDefaultShotRadius);
+			    GroupingPoseEstimator::kDefaultShotRadius);
   ros::param::param<double>("object_vox", object_vox,
-                            GroupingPoseEstimator::kDefaultObjectVox);
+			    GroupingPoseEstimator::kDefaultObjectVox);
   ros::param::param<double>("scene_vox", scene_vox,
-                            GroupingPoseEstimator::kDefaultSceneVox);
+			    GroupingPoseEstimator::kDefaultSceneVox);
   ros::param::param<double>("corr_match_threshold", corr_match_threshold,
-                            GroupingPoseEstimator::kDefaultCorrMatchThreshold);
+			    GroupingPoseEstimator::kDefaultCorrMatchThreshold);
   ros::param::param<bool>("use_hough", use_hough,
-                          GroupingPoseEstimator::kDefaultUseHough);
+			  GroupingPoseEstimator::kDefaultUseHough);
   ros::param::param<double>("rf_radius", rf_radius,
-                            GroupingPoseEstimator::kDefaultRfRadius);
+			    GroupingPoseEstimator::kDefaultRfRadius);
   ros::param::param<double>("cg_size", cg_size,
-                            GroupingPoseEstimator::kDefaultCgSize);
+			    GroupingPoseEstimator::kDefaultCgSize);
   ros::param::param<double>("cg_threshold", cg_threshold,
-                            GroupingPoseEstimator::kDefaultCgThreshold);
+			    GroupingPoseEstimator::kDefaultCgThreshold);
 
   ROS_INFO(
       "Parameters:\n"
@@ -706,7 +711,7 @@ void RunCommand::UpdateGroupingParams() {
 }
 
 void RunCommand::CropScene(PointCloud<PointXYZRGB>::Ptr scene,
-                           PointCloud<PointXYZRGB>::Ptr cropped) {
+			   PointCloud<PointXYZRGB>::Ptr cropped) {
   double min_x, min_y, min_z, max_x, max_y, max_z;
   ros::param::param<double>("min_x", min_x, 0.2);
   ros::param::param<double>("min_y", min_y, -1);
@@ -737,13 +742,12 @@ void RunCommand::CropScene(PointCloud<PointXYZRGB>::Ptr scene,
 }
 
 void RunCommand::Downsample(const double leaf_size,
-                            PointCloud<PointXYZRGB>::Ptr cloud_in,
-                            PointCloud<PointXYZRGB>::Ptr cloud_out) {
+			    PointCloud<PointXYZRGB>::Ptr cloud_in,
+			    PointCloud<PointXYZRGB>::Ptr cloud_out) {
   pcl::VoxelGrid<PointXYZRGB> vox;
   vox.setInputCloud(cloud_in);
   vox.setLeafSize(leaf_size, leaf_size, leaf_size);
   vox.filter(*cloud_out);
-  ROS_INFO("Downsampled to %ld points", cloud_out->size());
 }
 
 SetDebugCommand::SetDebugCommand(Estimators* estimators)

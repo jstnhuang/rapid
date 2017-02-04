@@ -135,7 +135,6 @@ int main(int argc, char** argv) {
                           "- List scenes");
   // ListCommand list_scenes_named(&scene_ndb, ListCommand::kScenes, "scenes",
   //                              "- List scenes");
-  RecordObjectCommand record_object(&object_db, &capture);
   sensor_msgs::PointCloud2::Ptr landmark_scene(new sensor_msgs::PointCloud2);
   EditLandmarkCommand create_landmark(
       &landmark_ndb, &landmark_cloud_ndb, &scene_ndb, &scene_cloud_ndb,
