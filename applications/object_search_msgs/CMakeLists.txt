@@ -50,6 +50,7 @@ add_message_files(
   FILES
   Label.msg
   Match.msg
+  Task.msg
 )
 
 ## Generate services in the 'srv' folder
