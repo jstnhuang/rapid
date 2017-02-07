@@ -127,6 +127,7 @@ catkin_package(
     roscpp
     sensor_msgs
     std_msgs
+    stf
     tf
     visualization_msgs
 #  DEPENDS system_lib
