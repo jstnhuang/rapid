@@ -221,12 +221,10 @@ add_executable(object_search_experiment_main
 add_dependencies(object_search_experiment_main
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
-  object_search_commands
   object_search_experiment_commands)
 target_link_libraries(object_search_experiment_main
   ${catkin_LIBRARIES}
   ${pcl_LIBRARIES}
-  object_search_commands
   object_search_experiment_commands)
 
 add_executable(object_search_service_node

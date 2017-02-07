@@ -6,13 +6,15 @@
 
 #include "rapid_db/name_db.hpp"
 #include "rapid_utils/command_interface.h"
+#include "rapid_utils/command_line.h"
 #include "rapid_viz/landmark_viz.h"
 #include "rapid_viz/scene_viz.h"
+
+#include "object_search_msgs/Task.h"
 
 namespace object_search {
 struct ExperimentDbs {
   rapid::db::NameDb* task_db;
-  rapid::db::NameDb* label_db;
   rapid::db::NameDb* scene_db;
   rapid::db::NameDb* scene_cloud_db;
   rapid::db::NameDb* landmark_db;
@@ -46,6 +48,9 @@ class DeleteTask : public rapid::utils::CommandInterface {
   rapid::db::NameDb* db_;
 };
 
+void VisualizeTask(const ExperimentDbs& dbs, const ExperimentVizs& vizs,
+                   const object_search_msgs::Task& task);
+
 class ShowTask : public rapid::utils::CommandInterface {
  public:
   ShowTask(const ExperimentDbs& dbs, const ExperimentVizs& vizs);
@@ -71,15 +76,107 @@ class CreateTask : public rapid::utils::CommandInterface {
 
 class EditTask : public rapid::utils::CommandInterface {
  public:
-  EditTask(const ExperimentDbs& dbs);
+  EditTask(const ExperimentDbs& dbs, const ExperimentVizs& vizs,
+           rapid::utils::CommandLine* task_cli, object_search_msgs::Task* task);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
 
  private:
   ExperimentDbs dbs_;
+  ExperimentVizs vizs_;
+  rapid::utils::CommandLine* task_cli_;
+  object_search_msgs::Task* task_;
 };
 
+class SetTaskScene : public rapid::utils::CommandInterface {
+ public:
+  SetTaskScene(const ExperimentDbs& dbs, const ExperimentVizs& vizs,
+               object_search_msgs::Task* task);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
+
+ private:
+  ExperimentDbs dbs_;
+  ExperimentVizs vizs_;
+  object_search_msgs::Task* task_;
+};
+
+class SetLabelLandmark : public rapid::utils::CommandInterface {
+ public:
+  SetLabelLandmark(const ExperimentDbs& dbs, object_search_msgs::Task* task,
+                   object_search_msgs::Label* label);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
+
+ private:
+  ExperimentDbs dbs_;
+  object_search_msgs::Task* task_;
+  object_search_msgs::Label* label_;
+};
+
+class ListLabels : public rapid::utils::CommandInterface {
+ public:
+  ListLabels(object_search_msgs::Task* task);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
+
+ private:
+  object_search_msgs::Task* task_;
+};
+
+// This is a copy of ListCommand. For some reason MongoDB dies when you link
+// with object_search_commands.
+class ListLandmarksOrScenes : public rapid::utils::CommandInterface {
+ public:
+  ListLandmarksOrScenes(rapid::db::NameDb* db, const std::string& type,
+                        const std::string& name,
+                        const std::string& description);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
+
+  static const char kLandmarks[];
+  static const char kScenes[];
+
+ private:
+  rapid::db::NameDb* db_;
+  std::string type_;
+  std::string name_;
+  std::string description_;
+};
+
+class AddLabel : public rapid::utils::CommandInterface {
+ public:
+  AddLabel(const ExperimentDbs& dbs, const ros::Publisher& landmark_pub,
+           const ros::Publisher& marker_pub, object_search_msgs::Task* task,
+           object_search_msgs::Label* label);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
+
+ private:
+  ExperimentDbs dbs_;
+  ros::Publisher landmark_pub_;
+  ros::Publisher marker_pub_;
+  object_search_msgs::Task* task_;
+  object_search_msgs::Label* label_;
+};
+
+class DeleteLabel : public rapid::utils::CommandInterface {
+ public:
+  DeleteLabel(const ExperimentDbs& dbs, object_search_msgs::Task* task);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
+
+ private:
+  ExperimentDbs dbs_;
+  object_search_msgs::Task* task_;
+};
 }  // namespace object_search
 
 #endif  // _OBJECT_SEARCH_EXPERIMENT_COMMANDS_H_
