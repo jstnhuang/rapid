@@ -50,15 +50,9 @@ class NameDb {
   template <typename MsgType>
   bool Delete(const std::string& name);
 
- private:
-  template <typename MsgType>
-  bool Query(
-      std::vector<std::pair<boost::shared_ptr<MsgType>, mongo::BSONObj> >& msgs,
-      const mongo::BSONObj& message_query = mongo::BSONObj(),
-      const mongo::BSONObj& meta_query = mongo::BSONObj(),
-      const mongo::BSONObj& sort_query = mongo::BSONObj(),
-      const mongo::BSONObj& projection_query = mongo::BSONObj());
+  mongodb_store::MessageStoreProxy* proxy();
 
+ private:
   ros::NodeHandle nh_;
   std::string database_;
   std::string collection_;
