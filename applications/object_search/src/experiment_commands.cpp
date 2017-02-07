@@ -5,11 +5,92 @@
 #include "boost/algorithm/string.hpp"
 #include "object_search_msgs/Label.h"
 #include "object_search_msgs/Task.h"
+#include "pcl/point_cloud.h"
+#include "pcl/point_types.h"
+#include "pcl_conversions/pcl_conversions.h"
+#include "pcl_ros/transforms.h"
 #include "rapid_msgs/LandmarkInfo.h"
 #include "rapid_msgs/SceneInfo.h"
 #include "rapid_viz/cloud_poser.h"
+#include "rapid_viz/publish.h"
 
 namespace object_search {
+
+TaskViz::TaskViz(const ExperimentDbs dbs, const ros::Publisher& scene_pub,
+                 const ros::Publisher& landmark_pub,
+                 const ros::Publisher& marker_pub)
+    : dbs_(dbs),
+      scene_pub_(scene_pub),
+      landmark_pub_(landmark_pub),
+      marker_pub_(marker_pub),
+      scene_viz_(scene_pub_),
+      rapid_marker_pub_(marker_pub_) {}
+
+void TaskViz::Publish(const object_search_msgs::Task& task) {
+  if (task.scene_name != "") {
+    sensor_msgs::PointCloud2 scene_cloud;
+    bool success = dbs_.scene_cloud_db->Get(task.scene_name, &scene_cloud);
+    if (!success) {
+      ROS_WARN("Scene cloud \"%s\" not found.", task.scene_name.c_str());
+    } else {
+      scene_viz_.set_scene(scene_cloud);
+    }
+  } else {
+    ROS_INFO("Task \"%s\" does not have a scene yet.", task.name.c_str());
+  }
+
+  // pcl::PointCloud<pcl::PointXYZRGB>::Ptr all_landmarks(
+  //    new pcl::PointCloud<pcl::PointXYZRGB>);
+  markers_.clear();
+  for (size_t i = 0; i < task.labels.size(); ++i) {
+    const object_search_msgs::Label& label = task.labels[i];
+    // sensor_msgs::PointCloud2 landmark_cloud;
+    // if (!dbs_.landmark_cloud_db->Get(label.landmark_name, &landmark_cloud)) {
+    //  ROS_ERROR("Landmark cloud \"%s\" not found.",
+    //            label.landmark_name.c_str());
+    //  continue;
+    //}
+
+    rapid_msgs::LandmarkInfo landmark_info;
+    if (!dbs_.landmark_db->Get(label.landmark_name, &landmark_info)) {
+      ROS_ERROR("Landmark info \"%s\" not found.", label.landmark_name.c_str());
+      continue;
+    }
+
+    // stf::Graph graph;
+    // stf::Transform
+    // original_transform(landmark_info.roi.transform.translation,
+    //                                  landmark_info.roi.transform.rotation);
+    // graph.Add("original", stf::RefFrame("base_link"), original_transform);
+    // graph.Add("current", stf::RefFrame("base_link"), label.pose);
+    // stf::Transform original_to_current;
+    // graph.ComputeMapping(stf::From("original"), stf::To("current"),
+    //                     &original_to_current);
+    // sensor_msgs::PointCloud2 out;
+    // pcl_ros::transformPointCloud(original_to_current.matrix(),
+    // landmark_cloud,
+    //                             out);
+
+    // pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_landmark(
+    //    new pcl::PointCloud<pcl::PointXYZRGB>);
+    // pcl::moveFromROSMsg(out, *pcl_landmark);
+    //*all_landmarks += *pcl_landmark;
+
+    geometry_msgs::PoseStamped ps;
+    ps.header.frame_id = "base_link";
+    ps.pose = label.pose;
+    markers_.push_back(rapid::viz::Marker::OutlineBox(
+        &rapid_marker_pub_, ps, landmark_info.roi.dimensions));
+    markers_.back().SetNamespace(label.name);
+    markers_.back().Publish();
+  }
+}
+
+void TaskViz::Clear() {
+  scene_viz_.Clear();
+  markers_.clear();
+}
+
 ListTasks::ListTasks(rapid::db::NameDb* db) : db_(db) {}
 void ListTasks::Execute(const std::vector<std::string>& args) {
   std::vector<std::string> names;
@@ -43,47 +124,6 @@ void DeleteTask::Execute(const std::vector<std::string>& args) {
 std::string DeleteTask::name() const { return "delete"; }
 std::string DeleteTask::description() const { return "<name> - Delete a task"; }
 
-void VisualizeTask(const ExperimentDbs& dbs, const ExperimentVizs& vizs,
-                   const object_search_msgs::Task& task) {
-  if (task.scene_name != "") {
-    vizs.scene_viz->Clear();
-    sensor_msgs::PointCloud2 scene_cloud;
-    bool success = dbs.scene_cloud_db->Get(task.scene_name, &scene_cloud);
-    if (!success) {
-      ROS_WARN("Scene cloud \"%s\" not found.", task.scene_name.c_str());
-    } else {
-      vizs.scene_viz->set_scene(scene_cloud);
-    }
-  } else {
-    ROS_INFO("Task \"%s\" does not have a scene yet.", task.name.c_str());
-  }
-
-  // TODO: visualize labels
-}
-
-ShowTask::ShowTask(const ExperimentDbs& dbs, const ExperimentVizs& vizs)
-    : dbs_(dbs), vizs_(vizs) {}
-void ShowTask::Execute(const std::vector<std::string>& args) {
-  if (args.size() <= 0) {
-    ROS_ERROR("No task to show.");
-    return;
-  }
-
-  std::string name(boost::algorithm::join(args, " "));
-  object_search_msgs::Task task;
-  bool success = dbs_.task_db->Get(name, &task);
-  if (!success) {
-    ROS_ERROR("Task \"%s\" not found.", name.c_str());
-    return;
-  }
-
-  VisualizeTask(dbs_, vizs_, task);
-}
-std::string ShowTask::name() const { return "show"; }
-std::string ShowTask::description() const {
-  return "<task> - Visualize a task";
-}
-
 CreateTask::CreateTask(const ExperimentDbs& dbs) : dbs_(dbs) {}
 void CreateTask::Execute(const std::vector<std::string>& args) {
   if (args.size() <= 0) {
@@ -101,10 +141,10 @@ void CreateTask::Execute(const std::vector<std::string>& args) {
 std::string CreateTask::name() const { return "create"; }
 std::string CreateTask::description() const { return "<name> - Create a task"; }
 
-EditTask::EditTask(const ExperimentDbs& dbs, const ExperimentVizs& vizs,
+EditTask::EditTask(const ExperimentDbs& dbs, const TaskViz& task_viz,
                    rapid::utils::CommandLine* task_cli,
                    object_search_msgs::Task* task)
-    : dbs_(dbs), vizs_(vizs), task_cli_(task_cli), task_(task) {}
+    : dbs_(dbs), task_viz_(task_viz), task_cli_(task_cli), task_(task) {}
 void EditTask::Execute(const std::vector<std::string>& args) {
   if (args.size() <= 0) {
     ROS_ERROR("No name specified.");
@@ -121,17 +161,19 @@ void EditTask::Execute(const std::vector<std::string>& args) {
 
   *task_ = task;
 
-  VisualizeTask(dbs_, vizs_, task);
+  task_viz_.Publish(task);
 
   while (task_cli_->Next()) {
+    task_viz_.Publish(*task_);
   }
+  task_viz_.Clear();
 }
 std::string EditTask::name() const { return "edit"; }
 std::string EditTask::description() const { return "<name> - Edit a task"; }
 
-SetTaskScene::SetTaskScene(const ExperimentDbs& dbs, const ExperimentVizs& vizs,
+SetTaskScene::SetTaskScene(const ExperimentDbs& dbs,
                            object_search_msgs::Task* task)
-    : dbs_(dbs), vizs_(vizs), task_(task) {}
+    : dbs_(dbs), task_(task) {}
 void SetTaskScene::Execute(const std::vector<std::string>& args) {
   if (args.size() <= 0) {
     ROS_ERROR("No name specified.");
@@ -152,8 +194,6 @@ void SetTaskScene::Execute(const std::vector<std::string>& args) {
     ROS_ERROR("Unable to update task \"%s\"!", task_->name.c_str());
     return;
   }
-
-  vizs_.scene_viz->set_scene(cloud);
 }
 std::string SetTaskScene::name() const { return "use scene"; }
 std::string SetTaskScene::description() const {
@@ -291,10 +331,6 @@ void AddLabel::Execute(const std::vector<std::string>& args) {
     ROS_ERROR("Failed to update task \"%s\"!", task_->name.c_str());
     return;
   }
-  // VisualizeTask(dbs_, vizs_, task_);
-
-  object_search_msgs::Label blank;
-  *label_ = blank;
 }
 std::string AddLabel::name() const { return "label"; }
 std::string AddLabel::description() const { return "<name> - Add a label"; }
@@ -313,6 +349,9 @@ void DeleteLabel::Execute(const std::vector<std::string>& args) {
     const object_search_msgs::Label& label = *it;
     if (label.name == name) {
       it = task_->labels.erase(it);
+      if (it == task_->labels.end()) {
+        break;
+      }
     }
   }
 

@@ -8,7 +8,9 @@
 #include "rapid_utils/command_interface.h"
 #include "rapid_utils/command_line.h"
 #include "rapid_viz/landmark_viz.h"
+#include "rapid_viz/markers.h"
 #include "rapid_viz/scene_viz.h"
+#include "visualization_msgs/Marker.h"
 
 #include "object_search_msgs/Task.h"
 
@@ -24,6 +26,25 @@ struct ExperimentDbs {
 struct ExperimentVizs {
   rapid::viz::SceneViz* scene_viz;
   rapid::viz::LandmarkViz* landmark_viz;
+};
+
+class TaskViz {
+ public:
+  TaskViz(const ExperimentDbs dbs, const ros::Publisher& scene_pub,
+          const ros::Publisher& landmark_pub, const ros::Publisher& marker_pub);
+  // Publish the latest visualization.
+  void Publish(const object_search_msgs::Task& task);
+  void Clear();
+
+ private:
+  ExperimentDbs dbs_;
+  ros::Publisher scene_pub_;
+  ros::Publisher landmark_pub_;
+  ros::Publisher marker_pub_;
+  std::vector<rapid::viz::Marker> markers_;
+
+  rapid::viz::SceneViz scene_viz_;
+  rapid_ros::Publisher<visualization_msgs::Marker> rapid_marker_pub_;
 };
 
 class ListTasks : public rapid::utils::CommandInterface {
@@ -48,21 +69,6 @@ class DeleteTask : public rapid::utils::CommandInterface {
   rapid::db::NameDb* db_;
 };
 
-void VisualizeTask(const ExperimentDbs& dbs, const ExperimentVizs& vizs,
-                   const object_search_msgs::Task& task);
-
-class ShowTask : public rapid::utils::CommandInterface {
- public:
-  ShowTask(const ExperimentDbs& dbs, const ExperimentVizs& vizs);
-  void Execute(const std::vector<std::string>& args);
-  std::string name() const;
-  std::string description() const;
-
- private:
-  ExperimentDbs dbs_;
-  ExperimentVizs vizs_;
-};
-
 class CreateTask : public rapid::utils::CommandInterface {
  public:
   CreateTask(const ExperimentDbs& dbs);
@@ -76,7 +82,7 @@ class CreateTask : public rapid::utils::CommandInterface {
 
 class EditTask : public rapid::utils::CommandInterface {
  public:
-  EditTask(const ExperimentDbs& dbs, const ExperimentVizs& vizs,
+  EditTask(const ExperimentDbs& dbs, const TaskViz& task_viz,
            rapid::utils::CommandLine* task_cli, object_search_msgs::Task* task);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
@@ -84,22 +90,20 @@ class EditTask : public rapid::utils::CommandInterface {
 
  private:
   ExperimentDbs dbs_;
-  ExperimentVizs vizs_;
+  TaskViz task_viz_;
   rapid::utils::CommandLine* task_cli_;
   object_search_msgs::Task* task_;
 };
 
 class SetTaskScene : public rapid::utils::CommandInterface {
  public:
-  SetTaskScene(const ExperimentDbs& dbs, const ExperimentVizs& vizs,
-               object_search_msgs::Task* task);
+  SetTaskScene(const ExperimentDbs& dbs, object_search_msgs::Task* task);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
 
  private:
   ExperimentDbs dbs_;
-  ExperimentVizs vizs_;
   object_search_msgs::Task* task_;
 };
 

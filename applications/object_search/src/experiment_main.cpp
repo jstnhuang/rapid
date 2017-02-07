@@ -39,12 +39,7 @@ int main(int argc, char** argv) {
       nh.advertise<sensor_msgs::PointCloud2>("landmark", 1, true);
   ros::Publisher marker_pub = nh.advertise<visualization_msgs::Marker>(
       "visualization_markers", 10, true);
-
-  ExperimentVizs vizs;
-  rapid::viz::LandmarkViz landmark_viz(landmark_pub, marker_pub);
-  rapid::viz::SceneViz scene_viz(scene_pub);
-  vizs.landmark_viz = &landmark_viz;
-  vizs.scene_viz = &scene_viz;
+  TaskViz task_viz(dbs, scene_pub, landmark_pub, marker_pub);
 
   // Task editor commands and CLI
   object_search_msgs::Task task;    // Temporary space for task editor.
@@ -54,7 +49,7 @@ int main(int argc, char** argv) {
   ListLandmarksOrScenes list_landmarks(&landmark_db,
                                        ListLandmarksOrScenes::kLandmarks,
                                        "landmarks", "- List landmarks");
-  SetTaskScene set_task_scene(dbs, vizs, &task);
+  SetTaskScene set_task_scene(dbs, &task);
   SetLabelLandmark set_label_landmark(dbs, &task, &label);
   AddLabel add_label(dbs, landmark_pub, marker_pub, &task, &label);
   ListLabels list_labels(&task);
@@ -74,14 +69,12 @@ int main(int argc, char** argv) {
   // Main commands and CLI
   ListTasks list_tasks(&task_db);
   CreateTask create_task(dbs);
-  ShowTask show_task(dbs, vizs);
-  EditTask edit_task(dbs, vizs, &task_cli, &task);
+  EditTask edit_task(dbs, task_viz, &task_cli, &task);
   DeleteTask delete_task(&task_db);
 
   rapid::utils::CommandLine cli("Landmarks experiment");
   cli.AddCommand(&list_tasks);
   cli.AddCommand(&create_task);
-  cli.AddCommand(&show_task);
   cli.AddCommand(&edit_task);
   cli.AddCommand(&delete_task);
   cli.AddCommand(&exit);
@@ -89,7 +82,7 @@ int main(int argc, char** argv) {
   while (cli.Next()) {
   }
 
-  scene_viz.Clear();
+  task_viz.Clear();
   spinner.stop();
   return 0;
 }
