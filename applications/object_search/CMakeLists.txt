@@ -126,6 +126,7 @@ catkin_package(
     object_search_capture_roi
     object_search_cloud_database
     object_search_commands
+    object_search_experiment_commands
   CATKIN_DEPENDS
     mongo_msg_db
     mongo_msg_db_msgs
@@ -190,6 +191,16 @@ target_link_libraries(object_search_commands
   ${catkin_LIBRARIES}
   ${pcl_LIBRARIES})
 
+add_library(object_search_experiment_commands
+  src/experiment_commands.cpp)
+add_dependencies(object_search_experiment_commands
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS})
+target_link_libraries(object_search_experiment_commands
+  ${catkin_LIBRARIES}
+  ${pcl_LIBRARIES})
+
+
 add_executable(object_search_main
   src/object_search_main.cpp)
 add_dependencies(object_search_main
@@ -204,6 +215,19 @@ target_link_libraries(object_search_main
   object_search_capture_roi
   object_search_cloud_database
   object_search_commands)
+
+add_executable(object_search_experiment_main
+  src/experiment_main.cpp)
+add_dependencies(object_search_experiment_main
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+  object_search_commands
+  object_search_experiment_commands)
+target_link_libraries(object_search_experiment_main
+  ${catkin_LIBRARIES}
+  ${pcl_LIBRARIES}
+  object_search_commands
+  object_search_experiment_commands)
 
 add_executable(object_search_service_node
   src/object_search_node.cpp)
