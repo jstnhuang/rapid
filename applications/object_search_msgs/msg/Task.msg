@@ -2,4 +2,4 @@
 # The labels are saved in a separate collection.
 string name # Usually the same as the scene name, but the same scene can be used for multiple tasks
 string scene_name
-string[] landmark_names # The names of landmarks to detect in this scene.
+object_search_msgs/Label[] labels
