@@ -197,6 +197,7 @@ add_dependencies(object_search_experiment_commands
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS})
 target_link_libraries(object_search_experiment_commands
+  readline
   ${catkin_LIBRARIES}
   ${pcl_LIBRARIES})
 
