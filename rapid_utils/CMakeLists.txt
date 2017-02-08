@@ -111,7 +111,7 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES
     rapid_utils
-    ${PROJECT_NAME}_command_line
+    rapid_utils_command_line
     rapid_utils_eigen_conversions
     rapid_utils_pcl_conversions
   CATKIN_DEPENDS
@@ -171,14 +171,15 @@ target_link_libraries(rapid_utils
   ${catkin_LIBRARIES}
 )
 
-add_library(${PROJECT_NAME}_command_line
+add_library(rapid_utils_command_line
   src/command_line.cpp
 )
 add_dependencies(${PROJECT_NAME}_command_line
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
 )
-target_link_libraries(${PROJECT_NAME}_command_line
+target_link_libraries(rapid_utils_command_line
+  readline
   ${catkin_LIBRARIES}
 )
 
