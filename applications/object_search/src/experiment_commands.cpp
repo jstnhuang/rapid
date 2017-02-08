@@ -5,14 +5,17 @@
 #include "boost/algorithm/string.hpp"
 #include "object_search_msgs/Label.h"
 #include "object_search_msgs/Task.h"
+#include "pcl/common/centroid.h"
+#include "pcl/common/common.h"
+#include "pcl/common/transforms.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "pcl_conversions/pcl_conversions.h"
-#include "pcl_ros/transforms.h"
 #include "rapid_msgs/LandmarkInfo.h"
 #include "rapid_msgs/SceneInfo.h"
 #include "rapid_viz/cloud_poser.h"
 #include "rapid_viz/publish.h"
+#include "readline/readline.h"
 
 namespace object_search {
 
@@ -39,17 +42,18 @@ void TaskViz::Publish(const object_search_msgs::Task& task) {
     ROS_INFO("Task \"%s\" does not have a scene yet.", task.name.c_str());
   }
 
-  // pcl::PointCloud<pcl::PointXYZRGB>::Ptr all_landmarks(
-  //    new pcl::PointCloud<pcl::PointXYZRGB>);
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr all_landmarks(
+      new pcl::PointCloud<pcl::PointXYZRGB>);
+  all_landmarks->header.frame_id = "base_link";
   markers_.clear();
   for (size_t i = 0; i < task.labels.size(); ++i) {
     const object_search_msgs::Label& label = task.labels[i];
-    // sensor_msgs::PointCloud2 landmark_cloud;
-    // if (!dbs_.landmark_cloud_db->Get(label.landmark_name, &landmark_cloud)) {
-    //  ROS_ERROR("Landmark cloud \"%s\" not found.",
-    //            label.landmark_name.c_str());
-    //  continue;
-    //}
+    sensor_msgs::PointCloud2 landmark_cloud;
+    if (!dbs_.landmark_cloud_db->Get(label.landmark_name, &landmark_cloud)) {
+      ROS_ERROR("Landmark cloud \"%s\" not found.",
+                label.landmark_name.c_str());
+      continue;
+    }
 
     rapid_msgs::LandmarkInfo landmark_info;
     if (!dbs_.landmark_db->Get(label.landmark_name, &landmark_info)) {
@@ -57,24 +61,22 @@ void TaskViz::Publish(const object_search_msgs::Task& task) {
       continue;
     }
 
-    // stf::Graph graph;
-    // stf::Transform
-    // original_transform(landmark_info.roi.transform.translation,
-    //                                  landmark_info.roi.transform.rotation);
-    // graph.Add("original", stf::RefFrame("base_link"), original_transform);
-    // graph.Add("current", stf::RefFrame("base_link"), label.pose);
-    // stf::Transform original_to_current;
-    // graph.ComputeMapping(stf::From("original"), stf::To("current"),
-    //                     &original_to_current);
-    // sensor_msgs::PointCloud2 out;
-    // pcl_ros::transformPointCloud(original_to_current.matrix(),
-    // landmark_cloud,
-    //                             out);
+    // Demean point cloud
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_landmark(
+        new pcl::PointCloud<pcl::PointXYZRGB>);
+    pcl::fromROSMsg(landmark_cloud, *pcl_landmark);
+    Eigen::Vector4d centroid;
+    centroid << landmark_info.roi.transform.translation.x,
+        landmark_info.roi.transform.translation.y,
+        landmark_info.roi.transform.translation.z, 1;
+    pcl::demeanPointCloud(*pcl_landmark, centroid, *pcl_landmark);
 
-    // pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_landmark(
-    //    new pcl::PointCloud<pcl::PointXYZRGB>);
-    // pcl::moveFromROSMsg(out, *pcl_landmark);
-    //*all_landmarks += *pcl_landmark;
+    stf::Transform current_transform(label.pose);
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_out(
+        new pcl::PointCloud<pcl::PointXYZRGB>);
+    pcl::transformPointCloud(*pcl_landmark, *pcl_out,
+                             current_transform.matrix());
+    *all_landmarks += *pcl_out;
 
     geometry_msgs::PoseStamped ps;
     ps.header.frame_id = "base_link";
@@ -84,10 +86,12 @@ void TaskViz::Publish(const object_search_msgs::Task& task) {
     markers_.back().SetNamespace(label.name);
     markers_.back().Publish();
   }
+  rapid::viz::PublishCloud(landmark_pub_, *all_landmarks);
 }
 
 void TaskViz::Clear() {
   scene_viz_.Clear();
+  rapid::viz::PublishBlankCloud(landmark_pub_);
   markers_.clear();
 }
 
@@ -164,9 +168,9 @@ void EditTask::Execute(const std::vector<std::string>& args) {
   task_viz_.Publish(task);
 
   while (task_cli_->Next()) {
+    task_viz_.Clear();
     task_viz_.Publish(*task_);
   }
-  task_viz_.Clear();
 }
 std::string EditTask::name() const { return "edit"; }
 std::string EditTask::description() const { return "<name> - Edit a task"; }
@@ -295,6 +299,9 @@ void AddLabel::Execute(const std::vector<std::string>& args) {
               label_->landmark_name.c_str());
     return;
   }
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_landmark(
+      new pcl::PointCloud<pcl::PointXYZRGB>);
+  pcl::fromROSMsg(cloud, *pcl_landmark);
 
   rapid_msgs::LandmarkInfo landmark_info;
   if (!dbs_.landmark_db->Get(label_->landmark_name, &landmark_info)) {
@@ -308,20 +315,56 @@ void AddLabel::Execute(const std::vector<std::string>& args) {
     return;
   }
 
+  // Compute the offset between the center of the point cloud and the center of
+  // the box.
+  Eigen::Vector4f min_pt;
+  Eigen::Vector4f max_pt;
+  pcl::getMinMax3D(*pcl_landmark, min_pt, max_pt);
+  Eigen::Vector4f center = (max_pt + min_pt) / 2;
+  Eigen::Vector3d centroid = center.head<3>().cast<double>();
+  stf::Orientation identity;
+
+  stf::Graph graph;
+  graph.Add("model_cloud", stf::RefFrame("base_link"),
+            stf::Transform(centroid, identity));
+  graph.Add("model_roi", stf::RefFrame("base_link"),
+            stf::Transform(landmark_info.roi.transform.translation,
+                           landmark_info.roi.transform.rotation));
+
   // Get the pose
   rapid::viz::CloudPoser poser(cloud, landmark_pub_, "cloud_poser");
-
-  std::cout << "Adjust the pose in rviz, then press enter to save: ";
   poser.Start();
-  std::string line("");
-  std::getline(std::cin, line);
+  char* line = readline("Press enter to save, or q to cancel: ");
+  if (std::string(line) == "q" || line == NULL) {
+    delete line;
+    return;
+  }
 
-  label_->pose = poser.pose();
+  geometry_msgs::Pose cloud_frame;
+  cloud_frame = poser.pose();
+  graph.Add("current_cloud", stf::RefFrame("base_link"), cloud_frame);
   poser.Stop();
 
-  stf::Transform t(label_->pose);
+  // CloudPoser gives the pose of the center of the point cloud, not of the
+  // landmark box. Here we find the pose of the center of the landmark box.
+  stf::Transform cloud_to_roi;
+  graph.ComputeMapping(stf::From("model_cloud"), stf::To("model_roi"),
+                       &cloud_to_roi);
+  stf::Transform label_pose;
+  graph.MapPose(cloud_to_roi, stf::From("base_link"), stf::To("current_cloud"),
+                &label_pose);
+
+  Eigen::Affine3d affine(label_pose.matrix());
+  Eigen::Quaterniond q(affine.rotation());
+  label_->pose.orientation.w = q.w();
+  label_->pose.orientation.x = q.x();
+  label_->pose.orientation.y = q.y();
+  label_->pose.orientation.z = q.z();
+  label_->pose.position.x = label_pose.matrix()(0, 3);
+  label_->pose.position.y = label_pose.matrix()(1, 3);
+  label_->pose.position.z = label_pose.matrix()(2, 3);
   std::cout << "Pose saved with transform:" << std::endl
-            << t.matrix() << std::endl;
+            << stf::Transform(label_->pose).matrix() << std::endl;
 
   label_->task_name = task_->name;
 
