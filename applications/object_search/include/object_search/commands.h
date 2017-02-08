@@ -35,7 +35,7 @@ class Database;  // Forward declaration
 class CliCommand : public rapid::utils::CommandInterface {
  public:
   CliCommand(const rapid::utils::CommandLine& scene_cli,
-	     const std::string& name, const std::string& description);
+             const std::string& name, const std::string& description);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
@@ -61,7 +61,7 @@ class ShowSceneCommand : public rapid::utils::CommandInterface {
 class ListCommand : public rapid::utils::CommandInterface {
  public:
   ListCommand(rapid::db::NameDb* db, const std::string& type,
-	      const std::string& name, const std::string& description);
+              const std::string& name, const std::string& description);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
@@ -97,9 +97,9 @@ class RecordObjectCommand : public rapid::utils::CommandInterface {
 class SetLandmarkSceneCommand : public rapid::utils::CommandInterface {
  public:
   SetLandmarkSceneCommand(rapid::db::NameDb* scene_cloud_db,
-			  std::string* scene_name,
-			  sensor_msgs::PointCloud2::Ptr landmark_scene,
-			  rapid::viz::SceneViz* viz);
+                          std::string* scene_name,
+                          sensor_msgs::PointCloud2::Ptr landmark_scene,
+                          rapid::viz::SceneViz* viz);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
@@ -114,7 +114,7 @@ class SetLandmarkSceneCommand : public rapid::utils::CommandInterface {
 class EditBoxCommand : public rapid::utils::CommandInterface {
  public:
   EditBoxCommand(rapid::perception::Box3DRoiServer* box_server,
-		 rapid_msgs::Roi3D* roi);
+                 rapid_msgs::Roi3D* roi);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
@@ -127,9 +127,9 @@ class EditBoxCommand : public rapid::utils::CommandInterface {
 class SaveLandmarkCommand : public rapid::utils::CommandInterface {
  public:
   SaveLandmarkCommand(rapid::db::NameDb* info_db, rapid::db::NameDb* cloud_db,
-		      sensor_msgs::PointCloud2::Ptr landmark_scene,
-		      const std::string& landmark_name, std::string* scene_name,
-		      rapid_msgs::Roi3D* roi, const std::string& type);
+                      sensor_msgs::PointCloud2::Ptr landmark_scene,
+                      const std::string& landmark_name, std::string* scene_name,
+                      rapid_msgs::Roi3D* roi, const std::string& type);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
@@ -147,11 +147,11 @@ class SaveLandmarkCommand : public rapid::utils::CommandInterface {
 class EditLandmarkCommand : public rapid::utils::CommandInterface {
  public:
   EditLandmarkCommand(rapid::db::NameDb* landmark_info_db,
-		      rapid::db::NameDb* landmark_cloud_db,
-		      rapid::db::NameDb* scene_info_db,
-		      rapid::db::NameDb* scene_cloud_db,
-		      rapid::perception::Box3DRoiServer* box_server,
-		      rapid::viz::SceneViz* scene_viz, const std::string& type);
+                      rapid::db::NameDb* landmark_cloud_db,
+                      rapid::db::NameDb* scene_info_db,
+                      rapid::db::NameDb* scene_cloud_db,
+                      rapid::perception::Box3DRoiServer* box_server,
+                      rapid::viz::SceneViz* scene_viz, const std::string& type);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
@@ -173,7 +173,7 @@ class EditLandmarkCommand : public rapid::utils::CommandInterface {
 class RecordSceneCommand : public rapid::utils::CommandInterface {
  public:
   explicit RecordSceneCommand(rapid::db::NameDb* info_db,
-			      rapid::db::NameDb* cloud_db);
+                              rapid::db::NameDb* cloud_db);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
@@ -187,7 +187,7 @@ class RecordSceneCommand : public rapid::utils::CommandInterface {
 class DeleteCommand : public rapid::utils::CommandInterface {
  public:
   DeleteCommand(rapid::db::NameDb* info_db, rapid::db::NameDb* cloud_db,
-		const std::string& type);
+                const std::string& type);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
@@ -208,8 +208,8 @@ struct PoseEstimatorInput {
 class SetInputLandmarkCommand : public rapid::utils::CommandInterface {
  public:
   SetInputLandmarkCommand(rapid::db::NameDb* info_db,
-			  rapid::db::NameDb* cloud_db,
-			  const ros::Publisher& pub, PoseEstimatorInput* input);
+                          rapid::db::NameDb* cloud_db,
+                          const ros::Publisher& pub, PoseEstimatorInput* input);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
@@ -224,8 +224,8 @@ class SetInputLandmarkCommand : public rapid::utils::CommandInterface {
 class SetInputSceneCommand : public rapid::utils::CommandInterface {
  public:
   SetInputSceneCommand(rapid::db::NameDb* info_db, rapid::db::NameDb* cloud_db,
-		       const rapid::viz::SceneViz& viz,
-		       PoseEstimatorInput* input);
+                       const rapid::viz::SceneViz& viz,
+                       PoseEstimatorInput* input);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
@@ -240,22 +240,18 @@ class SetInputSceneCommand : public rapid::utils::CommandInterface {
 class RunCommand : public rapid::utils::CommandInterface {
  public:
   RunCommand(Estimators* estimator, PoseEstimatorInput* input,
-	     const ros::Publisher& output_pub);
+             const ros::Publisher& output_pub);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
   void matches(std::vector<rapid::perception::PoseEstimationMatch>* matches);
 
  private:
-  void UpdateCustomParams();
-  void UpdateRansacParams();
-  void UpdateGroupingParams();
-
   void CropScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene,
-		 pcl::PointCloud<pcl::PointXYZRGB>::Ptr cropped);
+                 pcl::PointCloud<pcl::PointXYZRGB>::Ptr cropped);
   void Downsample(const double leaf_size,
-		  pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_in,
-		  pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_out);
+                  pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_in,
+                  pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_out);
   Estimators* estimators_;
   PoseEstimatorInput* input_;
   ros::Publisher output_pub_;
