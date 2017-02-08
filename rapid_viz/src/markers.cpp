@@ -41,16 +41,17 @@ Marker Marker::OutlineBox(const MarkerPub* pub, const PoseStamped& pose,
   Vector3 line_scale;
   line_scale.x = 0.01;
   m.SetFrame(pose.header.frame_id);
+  m.SetPose(pose);
   m.SetScale(line_scale);
   m.SetNamespace("marker");
   m.SetColor(0, 1, 0);
 
-  double max_x = pose.pose.position.x + scale.x / 2;
-  double max_y = pose.pose.position.y + scale.y / 2;
-  double max_z = pose.pose.position.z + scale.z / 2;
-  double min_x = pose.pose.position.x - scale.x / 2;
-  double min_y = pose.pose.position.y - scale.y / 2;
-  double min_z = pose.pose.position.z - scale.z / 2;
+  double max_x = scale.x / 2;
+  double max_y = scale.y / 2;
+  double max_z = scale.z / 2;
+  double min_x = -scale.x / 2;
+  double min_y = -scale.y / 2;
+  double min_z = -scale.z / 2;
 
   vector<Point> points;
   // Top layer
