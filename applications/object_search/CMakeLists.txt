@@ -123,9 +123,11 @@ add_definitions(${PCL_DEFINITIONS})
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES
+    object_search
     object_search_capture_roi
     object_search_cloud_database
     object_search_commands
+    object_search_experiment
     object_search_experiment_commands
   CATKIN_DEPENDS
     mongo_msg_db
@@ -160,6 +162,15 @@ include_directories(
   ${PCL_INCLUDE_DIRS}
 )
 
+add_library(object_search
+  src/object_search.cpp)
+add_dependencies(object_search
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS})
+target_link_libraries(object_search
+  ${catkin_LIBRARIES}
+  ${pcl_LIBRARIES})
+
 add_library(object_search_capture_roi
   src/capture_roi.cpp)
 add_dependencies(object_search_capture_roi
@@ -181,13 +192,24 @@ target_link_libraries(object_search_cloud_database
 add_library(object_search_commands
   src/commands.cpp)
 add_dependencies(object_search_commands
+  object_search
   object_search_cloud_database
   object_search_capture_roi
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS})
 target_link_libraries(object_search_commands
+  object_search
   object_search_cloud_database
   object_search_capture_roi
+  ${catkin_LIBRARIES}
+  ${pcl_LIBRARIES})
+
+add_library(object_search_experiment
+  src/experiment.cpp)
+add_dependencies(object_search_experiment
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS})
+target_link_libraries(object_search_experiment
   ${catkin_LIBRARIES}
   ${pcl_LIBRARIES})
 
@@ -200,7 +222,6 @@ target_link_libraries(object_search_experiment_commands
   readline
   ${catkin_LIBRARIES}
   ${pcl_LIBRARIES})
-
 
 add_executable(object_search_main
   src/object_search_main.cpp)
@@ -222,11 +243,26 @@ add_executable(object_search_experiment_cli_main
 add_dependencies(object_search_experiment_cli_main
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
+  object_search_experiment
   object_search_experiment_commands)
 target_link_libraries(object_search_experiment_cli_main
   ${catkin_LIBRARIES}
   ${pcl_LIBRARIES}
+  object_search_experiment
   object_search_experiment_commands)
+
+add_executable(object_search_experiment_main
+  src/experiment_main.cpp)
+add_dependencies(object_search_experiment_main
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+  object_search
+  object_search_experiment)
+target_link_libraries(object_search_experiment_main
+  ${catkin_LIBRARIES}
+  ${pcl_LIBRARIES}
+  object_search
+  object_search_experiment)
 
 add_executable(object_search_service_node
   src/object_search_node.cpp)
