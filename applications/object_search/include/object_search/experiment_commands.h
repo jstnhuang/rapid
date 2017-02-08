@@ -12,17 +12,10 @@
 #include "rapid_viz/scene_viz.h"
 #include "visualization_msgs/Marker.h"
 
+#include "object_search/experiment.h"
 #include "object_search_msgs/Task.h"
 
 namespace object_search {
-struct ExperimentDbs {
-  rapid::db::NameDb* task_db;
-  rapid::db::NameDb* scene_db;
-  rapid::db::NameDb* scene_cloud_db;
-  rapid::db::NameDb* landmark_db;
-  rapid::db::NameDb* landmark_cloud_db;
-};
-
 struct ExperimentVizs {
   rapid::viz::SceneViz* scene_viz;
   rapid::viz::LandmarkViz* landmark_viz;
