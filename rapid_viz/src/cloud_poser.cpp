@@ -120,6 +120,7 @@ CloudPoser::CloudPoser(const sensor_msgs::PointCloud2& cloud,
   Eigen::Vector4f max_pt;
   pcl::getMinMax3D(*pcl_cloud, min_pt, max_pt);
   geometry_msgs::Pose center;
+  center.orientation.w = 1;
   center.position.x = (max_pt.x() + min_pt.x()) / 2;
   center.position.y = (max_pt.y() + min_pt.y()) / 2;
   center.position.z = (max_pt.z() + min_pt.z()) / 2;
