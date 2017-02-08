@@ -122,6 +122,7 @@ set(CUDA_INSTALL_DIR /usr/local/cuda)
 set(MY_RAPID_PERCEPTION_EXPORTED_LIBRARIES
   rapid_perception_box3d_roi_server
   rapid_perception_cloud_projection
+  rapid_perception_conversions
   rapid_perception_icp_fitness_functions
   rapid_perception_pose_estimation
   rapid_perception_ransac_pose_estimator
@@ -200,6 +201,17 @@ add_dependencies(rapid_perception_cloud_projection
   ${catkin_EXPORTED_TARGETS}
 )
 target_link_libraries(rapid_perception_cloud_projection
+  ${PCL_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
+
+add_library(rapid_perception_conversions src/conversions.cpp)
+add_dependencies(rapid_perception_conversions
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(rapid_perception_conversions
   ${PCL_LIBRARIES}
   ${OpenCV_LIBRARIES}
   ${catkin_LIBRARIES}
