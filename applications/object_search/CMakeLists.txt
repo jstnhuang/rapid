@@ -217,13 +217,13 @@ target_link_libraries(object_search_main
   object_search_cloud_database
   object_search_commands)
 
-add_executable(object_search_experiment_main
-  src/experiment_main.cpp)
-add_dependencies(object_search_experiment_main
+add_executable(object_search_experiment_cli_main
+  src/experiment_cli_main.cpp)
+add_dependencies(object_search_experiment_cli_main
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
   object_search_experiment_commands)
-target_link_libraries(object_search_experiment_main
+target_link_libraries(object_search_experiment_cli_main
   ${catkin_LIBRARIES}
   ${pcl_LIBRARIES}
   object_search_experiment_commands)
