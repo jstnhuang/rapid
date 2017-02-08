@@ -3,6 +3,8 @@
 #include <iostream>
 
 #include "boost/algorithm/string.hpp"
+#include "readline/history.h"
+#include "readline/readline.h"
 
 using std::cout;
 using std::cerr;
@@ -25,9 +27,9 @@ void CommandLine::AddCommand(CommandInterface* command) {
 
 bool CommandLine::Next() {
   ShowCommands();
-  cout << "Enter a command: ";
-  string input;
-  if (std::getline(std::cin, input)) {
+  char* line = readline("Enter a command: ");
+  add_history(line);
+  if (line) {
     cout << endl;
   } else {
     cout << endl;
@@ -36,9 +38,10 @@ bool CommandLine::Next() {
 
   CommandInterface* command;
   vector<string> args;
-  bool valid = ParseLine(input, &command, &args);
+  bool valid = ParseLine(std::string(line), &command, &args);
   if (valid) {
     if (command->name() == "exit") {
+      delete line;
       return false;
     }
     command->Execute(args);
@@ -47,6 +50,7 @@ bool CommandLine::Next() {
     cout << "Invalid command." << endl;
     cout << endl;
   }
+  delete line;
   return true;
 }
 
