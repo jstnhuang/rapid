@@ -247,11 +247,6 @@ class RunCommand : public rapid::utils::CommandInterface {
   void matches(std::vector<rapid::perception::PoseEstimationMatch>* matches);
 
  private:
-  void CropScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene,
-                 pcl::PointCloud<pcl::PointXYZRGB>::Ptr cropped);
-  void Downsample(const double leaf_size,
-                  pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_in,
-                  pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_out);
   Estimators* estimators_;
   PoseEstimatorInput* input_;
   ros::Publisher output_pub_;

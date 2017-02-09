@@ -1,5 +1,7 @@
 #include "object_search/object_search.h"
 
+#include "pcl/filters/crop_box.h"
+#include "pcl/filters/voxel_grid.h"
 #include "rapid_perception/grouping_pose_estimator.h"
 #include "rapid_perception/pose_estimation.h"
 #include "rapid_perception/random_heat_mapper.h"
@@ -129,5 +131,45 @@ void UpdateEstimatorParams(GroupingPoseEstimator* grouping) {
   grouping->rf_radius_ = rf_radius;
   grouping->cg_size_ = cg_size;
   grouping->cg_threshold_ = cg_threshold;
+}
+
+void CropScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene,
+               pcl::PointCloud<pcl::PointXYZRGB>::Ptr cropped) {
+  double min_x, min_y, min_z, max_x, max_y, max_z;
+  ros::param::param<double>("min_x", min_x, 0.2);
+  ros::param::param<double>("min_y", min_y, -1);
+  ros::param::param<double>("min_z", min_z, 0.3);
+  ros::param::param<double>("max_x", max_x, 1.2);
+  ros::param::param<double>("max_y", max_y, 1);
+  ros::param::param<double>("max_z", max_z, 1.7);
+  ROS_INFO(
+      "Cropping:\n"
+      "  min_x: %f\n"
+      "  min_y: %f\n"
+      "  min_z: %f\n"
+      "  max_x: %f\n"
+      "  max_y: %f\n"
+      "  max_z: %f\n",
+      min_x, min_y, min_z, max_x, max_y, max_z);
+
+  pcl::CropBox<pcl::PointXYZRGB> crop;
+  crop.setInputCloud(scene);
+  Eigen::Vector4f min;
+  min << min_x, min_y, min_z, 1;
+  Eigen::Vector4f max;
+  max << max_x, max_y, max_z, 1;
+  crop.setMin(min);
+  crop.setMax(max);
+  crop.filter(*cropped);
+  ROS_INFO("Cropped to %ld points", cropped->size());
+}
+
+void Downsample(const double leaf_size,
+                pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_in,
+                pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_out) {
+  pcl::VoxelGrid<pcl::PointXYZRGB> vox;
+  vox.setInputCloud(cloud_in);
+  vox.setLeafSize(leaf_size, leaf_size, leaf_size);
+  vox.filter(*cloud_out);
 }
 }  // namespace object_search

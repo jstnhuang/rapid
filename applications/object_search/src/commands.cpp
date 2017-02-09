@@ -589,46 +589,6 @@ void RunCommand::matches(vector<PoseEstimationMatch>* matches) {
   *matches = matches_;
 }
 
-void RunCommand::CropScene(PointCloud<PointXYZRGB>::Ptr scene,
-                           PointCloud<PointXYZRGB>::Ptr cropped) {
-  double min_x, min_y, min_z, max_x, max_y, max_z;
-  ros::param::param<double>("min_x", min_x, 0.2);
-  ros::param::param<double>("min_y", min_y, -1);
-  ros::param::param<double>("min_z", min_z, 0.3);
-  ros::param::param<double>("max_x", max_x, 1.2);
-  ros::param::param<double>("max_y", max_y, 1);
-  ros::param::param<double>("max_z", max_z, 1.7);
-  ROS_INFO(
-      "Cropping:\n"
-      "  min_x: %f\n"
-      "  min_y: %f\n"
-      "  min_z: %f\n"
-      "  max_x: %f\n"
-      "  max_y: %f\n"
-      "  max_z: %f\n",
-      min_x, min_y, min_z, max_x, max_y, max_z);
-
-  pcl::CropBox<PointXYZRGB> crop;
-  crop.setInputCloud(scene);
-  Eigen::Vector4f min;
-  min << min_x, min_y, min_z, 1;
-  Eigen::Vector4f max;
-  max << max_x, max_y, max_z, 1;
-  crop.setMin(min);
-  crop.setMax(max);
-  crop.filter(*cropped);
-  ROS_INFO("Cropped to %ld points", cropped->size());
-}
-
-void RunCommand::Downsample(const double leaf_size,
-                            PointCloud<PointXYZRGB>::Ptr cloud_in,
-                            PointCloud<PointXYZRGB>::Ptr cloud_out) {
-  pcl::VoxelGrid<PointXYZRGB> vox;
-  vox.setInputCloud(cloud_in);
-  vox.setLeafSize(leaf_size, leaf_size, leaf_size);
-  vox.filter(*cloud_out);
-}
-
 SetDebugCommand::SetDebugCommand(Estimators* estimators)
     : estimators_(estimators) {}
 
