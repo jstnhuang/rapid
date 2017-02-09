@@ -1,0 +1,4 @@
+<launch>
+  <rosparam param="experiment_tasks">['test']</rosparam>
+  <node pkg="object_search" type="object_search_experiment_main" name="object_search_experiment_main" output="screen" />
+</launch>
