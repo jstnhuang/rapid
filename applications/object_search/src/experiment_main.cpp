@@ -33,6 +33,8 @@ typedef PointCloud<PointXYZRGB> PointC;
 void RunExperiment(PoseEstimator* estimator,
                    const std::vector<std::string>& task_list,
                    const ExperimentDbs& dbs);
+int MatchLabels(const std::vector<object_search_msgs::Label>& labels,
+                const PoseEstimationMatch& match);
 
 int main(int argc, char** argv) {
   ros::init(argc, argv, "object_search_experiment");
@@ -79,13 +81,13 @@ int main(int argc, char** argv) {
 
   RunExperiment(&custom, task_list, dbs);
 
-  ros::spin();
   return 0;
 }
 
 void RunExperiment(PoseEstimator* estimator,
                    const std::vector<std::string>& task_list,
                    const ExperimentDbs& dbs) {
+  object_search::ConfusionMatrix results;
   for (size_t task_i = 0; task_i < task_list.size(); ++task_i) {
     const std::string& task_name = task_list[task_i];
     object_search_msgs::Task task;
@@ -109,6 +111,7 @@ void RunExperiment(PoseEstimator* estimator,
       landmarks.insert(label.landmark_name);
     }
 
+    object_search::ConfusionMatrix task_results;
     for (std::set<std::string>::iterator landmark_name = landmarks.begin();
          landmark_name != landmarks.end(); ++landmark_name) {
       rapid_msgs::LandmarkInfo landmark_info;
@@ -129,17 +132,89 @@ void RunExperiment(PoseEstimator* estimator,
 
       object_search::UpdateEstimatorParams(estimator);
 
+      double leaf_size = 0.01;
+      ros::param::param<double>("leaf_size", leaf_size, 0.01);
       PointC::Ptr scene = rapid::perception::PclFromRos(scene_cloud);
-      estimator->set_scene(scene);
+      PointC::Ptr scene_cropped(new PointC);
+      object_search::CropScene(scene, scene_cropped);
+      PointC::Ptr scene_downsampled(new PointC);
+      object_search::Downsample(leaf_size, scene_cropped, scene_downsampled);
+      estimator->set_scene(scene_downsampled);
+
       PointC::Ptr landmark = rapid::perception::PclFromRos(landmark_cloud);
-      estimator->set_object(landmark);
+      PointC::Ptr landmark_downsampled(new PointC);
+      object_search::Downsample(leaf_size, landmark, landmark_downsampled);
+      estimator->set_object(landmark_downsampled);
       estimator->set_roi(landmark_info.roi);
 
-      std::vector<rapid::perception::PoseEstimationMatch> matches;
+      std::vector<PoseEstimationMatch> matches;
       estimator->Find(&matches);
 
       // Compute precision/recall
-      // TODO: complete this
+      object_search::ConfusionMatrix landmark_results;
+      std::vector<int> found(task.labels.size(), 0);
+      for (size_t mi = 0; mi < matches.size(); ++mi) {
+        const PoseEstimationMatch& match = matches[mi];
+        int label_i = MatchLabels(task.labels, match);
+        if (label_i != -1) {
+          found[label_i] = 1;
+        } else {
+          ++landmark_results.fp;
+        }
+      }
+
+      for (size_t fi = 0; fi < found.size(); ++fi) {
+        if (found[fi] == 1) {
+          ++landmark_results.tp;
+        } else {
+          ++landmark_results.fn;
+        }
+      }
+      task_results.Merge(landmark_results);
+      std::cout << "  Results for task \"" << task_name << "\", landmark \""
+                << *landmark_name << "\"" << std::endl;
+      std::cout << " Precision: " << landmark_results.Precision()
+                << ", Recall: " << landmark_results.Recall()
+                << ", F1: " << landmark_results.F1() << std::endl;
+    }
+    results.Merge(task_results);
+    std::cout << " Task results for \"" << task_name << "\"" << std::endl;
+    std::cout << " Precision: " << task_results.Precision()
+              << ", Recall: " << task_results.Recall()
+              << ", F1: " << task_results.F1() << std::endl;
+  }
+
+  std::cout << "Final results:" << std::endl;
+  std::cout << "Precision: " << results.Precision()
+            << ", Recall: " << results.Recall() << ", F1: " << results.F1()
+            << std::endl;
+}
+
+int MatchLabels(const std::vector<object_search_msgs::Label>& labels,
+                const PoseEstimationMatch& match) {
+  const double position_tolerance = 0.01;
+  const double orientation_tolerance = 0.04;  // Approx 2 degrees
+  for (size_t i = 0; i < labels.size(); ++i) {
+    const object_search_msgs::Label& label = labels[i];
+    double x_diff = label.pose.position.x - match.pose().position.x;
+    double y_diff = label.pose.position.y - match.pose().position.y;
+    double z_diff = label.pose.position.z - match.pose().position.z;
+    double pos_diff =
+        sqrt((x_diff * x_diff) + (y_diff * y_diff) + (z_diff * z_diff));
+    Eigen::Quaterniond label_q;
+    label_q.w() = label.pose.orientation.w;
+    label_q.x() = label.pose.orientation.x;
+    label_q.y() = label.pose.orientation.y;
+    label_q.z() = label.pose.orientation.z;
+    Eigen::Quaterniond match_q;
+    match_q.w() = match.pose().orientation.w;
+    match_q.x() = match.pose().orientation.x;
+    match_q.y() = match.pose().orientation.y;
+    match_q.z() = match.pose().orientation.z;
+    double ang_diff = label_q.angularDistance(match_q);
+    if (pos_diff < position_tolerance && ang_diff < orientation_tolerance) {
+      return i;
     }
   }
+  return -1;
 }
