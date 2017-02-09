@@ -12,6 +12,21 @@ struct ExperimentDbs {
   rapid::db::NameDb* landmark_cloud_db;
 };
 
+class ConfusionMatrix {
+ public:
+  ConfusionMatrix();
+
+  int tp;
+  int tn;
+  int fp;
+  int fn;
+
+  double Precision();
+  double Recall();
+  double F1();
+
+  void Merge(const ConfusionMatrix& other);
+};
 }  // namespace object_search
 
 #endif  // _OBJECT_SEARCH_EXPERIMENT_H_
