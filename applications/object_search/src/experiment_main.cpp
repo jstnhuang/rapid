@@ -35,6 +35,8 @@ void RunExperiment(PoseEstimator* estimator,
                    const ExperimentDbs& dbs);
 int MatchLabels(const std::vector<object_search_msgs::Label>& labels,
                 const PoseEstimationMatch& match);
+bool IsNegativeLandmark(const std::vector<object_search_msgs::Label>& labels,
+                        const std::string& landmark_name);
 
 int main(int argc, char** argv) {
   ros::init(argc, argv, "object_search_experiment");
@@ -74,6 +76,8 @@ int main(int argc, char** argv) {
   custom.set_candidates_publisher(candidates_pub);
   custom.set_alignment_publisher(alignment_pub);
   custom.set_marker_publisher(&marker_pub);
+  custom.set_output_publisher(output_pub);
+  custom.set_scene_publisher(scene_pub);
 
   // Read tasks from the parameter server
   std::vector<std::string> task_list;
@@ -152,22 +156,31 @@ void RunExperiment(PoseEstimator* estimator,
 
       // Compute precision/recall
       object_search::ConfusionMatrix landmark_results;
-      std::vector<int> found(task.labels.size(), 0);
-      for (size_t mi = 0; mi < matches.size(); ++mi) {
-        const PoseEstimationMatch& match = matches[mi];
-        int label_i = MatchLabels(task.labels, match);
-        if (label_i != -1) {
-          found[label_i] = 1;
-        } else {
-          ++landmark_results.fp;
+      if (IsNegativeLandmark(task.labels, *landmark_name)) {
+        // If this landmark is not supposed to be in the scene, penalize the
+        // false positive.
+        landmark_results.fp += matches.size();
+      } else {
+        // If the landmark is supposed to be in the scene, check the location of
+        // the matches. Based on the results, we can count false positives,
+        // false negatives, and true positives.
+        std::vector<int> found(task.labels.size(), 0);
+        for (size_t mi = 0; mi < matches.size(); ++mi) {
+          const PoseEstimationMatch& match = matches[mi];
+          int label_i = MatchLabels(task.labels, match);
+          if (label_i == -1) {
+            ++landmark_results.fp;
+          } else if (task.labels[label_i].exists) {
+            found[label_i] = 1;
+          }
         }
-      }
 
-      for (size_t fi = 0; fi < found.size(); ++fi) {
-        if (found[fi] == 1) {
-          ++landmark_results.tp;
-        } else {
-          ++landmark_results.fn;
+        for (size_t fi = 0; fi < found.size(); ++fi) {
+          if (found[fi] == 1) {
+            ++landmark_results.tp;
+          } else {
+            ++landmark_results.fn;
+          }
         }
       }
       task_results.Merge(landmark_results);
@@ -188,6 +201,8 @@ void RunExperiment(PoseEstimator* estimator,
   std::cout << "Precision: " << results.Precision()
             << ", Recall: " << results.Recall() << ", F1: " << results.F1()
             << std::endl;
+  std::cout << "tp: " << results.tp << ", fp: " << results.fp
+            << ", tn: " << results.tn << ", fn: " << results.fn << std::endl;
 }
 
 int MatchLabels(const std::vector<object_search_msgs::Label>& labels,
@@ -196,6 +211,9 @@ int MatchLabels(const std::vector<object_search_msgs::Label>& labels,
   const double orientation_tolerance = 0.04;  // Approx 2 degrees
   for (size_t i = 0; i < labels.size(); ++i) {
     const object_search_msgs::Label& label = labels[i];
+    if (!label.exists) {
+      continue;
+    }
     double x_diff = label.pose.position.x - match.pose().position.x;
     double y_diff = label.pose.position.y - match.pose().position.y;
     double z_diff = label.pose.position.z - match.pose().position.z;
@@ -217,4 +235,17 @@ int MatchLabels(const std::vector<object_search_msgs::Label>& labels,
     }
   }
   return -1;
+}
+
+bool IsNegativeLandmark(const std::vector<object_search_msgs::Label>& labels,
+                        const std::string& landmark_name) {
+  for (size_t i = 0; i < labels.size(); ++i) {
+    const object_search_msgs::Label& label = labels[i];
+    if (label.landmark_name == landmark_name && label.exists) {
+      return false;
+    } else if (label.landmark_name == landmark_name && !label.exists) {
+      return true;
+    }
+  }
+  return false;
 }
