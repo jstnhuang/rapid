@@ -22,6 +22,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED)
+find_package(PCL REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -113,6 +114,7 @@ catkin_package(
   LIBRARIES
     rapid_viz
     rapid_viz_cloud_poser
+    rapid_viz_point_cloud
     rapid_viz_publish
     rapid_viz_landmark_viz
     rapid_viz_scene_viz
@@ -158,6 +160,18 @@ target_link_libraries(rapid_viz
   ${catkin_LIBRARIES}
 )
 
+add_library(rapid_viz_point_cloud
+  src/point_cloud.cpp
+)
+add_dependencies(rapid_viz_point_cloud
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(rapid_viz_point_cloud
+  ${catkin_LIBRARIES}
+  ${pcl_LIBRARIES}
+)
+
 add_library(rapid_viz_publish
   src/publish.cpp
 )
@@ -167,6 +181,7 @@ add_dependencies(rapid_viz_publish
 )
 target_link_libraries(rapid_viz_publish
   ${catkin_LIBRARIES}
+  ${pcl_LIBRARIES}
 )
 
 add_library(rapid_viz_cloud_poser src/cloud_poser.cpp)

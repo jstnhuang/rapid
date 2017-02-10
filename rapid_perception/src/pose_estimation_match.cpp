@@ -12,6 +12,7 @@
 #include "ros/ros.h"
 
 #include "rapid_viz/markers.h"
+#include "rapid_viz/point_cloud.h"
 #include "rapid_viz/publish.h"
 
 typedef pcl::PointXYZRGB PointC;
@@ -59,10 +60,7 @@ void VisualizeMatches(ros::Publisher& pub,
     PointCloudC::Ptr output_cloud(new PointCloudC);
     for (size_t i = 0; i < matches.size(); ++i) {
       const PoseEstimationMatch& match = matches[i];
-      double r = static_cast<double>(rand()) / RAND_MAX;
-      double g = static_cast<double>(rand()) / RAND_MAX;
-      double b = static_cast<double>(rand()) / RAND_MAX;
-      Colorize(match.cloud(), r, g, b);
+      viz::ColorizeRandom(match.cloud());
       *output_cloud += *match.cloud();
       if (frame_id == "" && match.cloud()->header.frame_id != "") {
         frame_id = match.cloud()->header.frame_id;
@@ -86,15 +84,6 @@ void VisualizeMatches(ros::Publisher& pub,
     ROS_INFO("Visualizing matches in frame: %s", frame_id.c_str());
     output_cloud->header.frame_id = frame_id;
     viz::PublishCloud(pub, *output_cloud);
-  }
-}
-
-void Colorize(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, double r, double g,
-              double b) {
-  for (size_t i = 0; i < cloud->size(); ++i) {
-    cloud->points[i].r = static_cast<int>(round(r * 255));
-    cloud->points[i].g = static_cast<int>(round(g * 255));
-    cloud->points[i].b = static_cast<int>(round(b * 255));
   }
 }
 }  // namespace perception

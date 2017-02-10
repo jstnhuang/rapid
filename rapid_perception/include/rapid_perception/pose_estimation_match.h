@@ -41,10 +41,6 @@ bool ComparePoseEstimationMatch(const PoseEstimationMatch& a,
 // Visualize matches to a PointCloud2 publisher.
 void VisualizeMatches(ros::Publisher& pub,
                       const std::vector<PoseEstimationMatch>& matches);
-
-// Set the color of a point cloud for visualization.
-void Colorize(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, double r, double g,
-              double b);
 }  // namespace perception
 }  // namespace rapid
 
