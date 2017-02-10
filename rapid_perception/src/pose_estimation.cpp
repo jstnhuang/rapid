@@ -444,8 +444,10 @@ void PoseEstimator::FilterMatches(
       output_indices->push_back(index);
       threshold_marker = " -- below threshold";
     }
-    ROS_INFO("(%ld/%ld) ICP converged with score: %f%s", di + 1,
-             deduped_indices.size(), fitness, threshold_marker.c_str());
+    if (debug_) {
+      ROS_INFO("(%ld/%ld) ICP converged with score: %f%s", di + 1,
+               deduped_indices.size(), fitness, threshold_marker.c_str());
+    }
 
     if (fitness < best_fitness) {
       best_fitness = fitness;
