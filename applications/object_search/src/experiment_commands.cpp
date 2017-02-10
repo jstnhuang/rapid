@@ -10,12 +10,19 @@
 #include "pcl/common/transforms.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
+#include "pcl/registration/icp.h"
 #include "pcl_conversions/pcl_conversions.h"
 #include "rapid_msgs/LandmarkInfo.h"
 #include "rapid_msgs/SceneInfo.h"
+#include "rapid_perception/conversions.h"
 #include "rapid_viz/cloud_poser.h"
+#include "rapid_viz/point_cloud.h"
 #include "rapid_viz/publish.h"
 #include "readline/readline.h"
+
+using pcl::PointXYZRGB;
+using pcl::PointCloud;
+typedef PointCloud<PointXYZRGB> PointCloudC;
 
 namespace object_search {
 
@@ -42,8 +49,8 @@ void TaskViz::Publish(const object_search_msgs::Task& task) {
     ROS_INFO("Task \"%s\" does not have a scene yet.", task.name.c_str());
   }
 
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr all_landmarks(
-      new pcl::PointCloud<pcl::PointXYZRGB>);
+  pcl::PointCloud<PointXYZRGB>::Ptr all_landmarks(
+      new pcl::PointCloud<PointXYZRGB>);
   all_landmarks->header.frame_id = "base_link";
   markers_.clear();
   for (size_t i = 0; i < task.labels.size(); ++i) {
@@ -62,8 +69,8 @@ void TaskViz::Publish(const object_search_msgs::Task& task) {
     }
 
     // Demean point cloud
-    pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_landmark(
-        new pcl::PointCloud<pcl::PointXYZRGB>);
+    pcl::PointCloud<PointXYZRGB>::Ptr pcl_landmark(
+        new pcl::PointCloud<PointXYZRGB>);
     pcl::fromROSMsg(landmark_cloud, *pcl_landmark);
     Eigen::Vector4d centroid;
     centroid << landmark_info.roi.transform.translation.x,
@@ -72,10 +79,10 @@ void TaskViz::Publish(const object_search_msgs::Task& task) {
     pcl::demeanPointCloud(*pcl_landmark, centroid, *pcl_landmark);
 
     stf::Transform current_transform(label.pose);
-    pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_out(
-        new pcl::PointCloud<pcl::PointXYZRGB>);
+    pcl::PointCloud<PointXYZRGB>::Ptr pcl_out(new pcl::PointCloud<PointXYZRGB>);
     pcl::transformPointCloud(*pcl_landmark, *pcl_out,
                              current_transform.matrix());
+    rapid::viz::ColorizeRandom(pcl_out);
     *all_landmarks += *pcl_out;
 
     geometry_msgs::PoseStamped ps;
@@ -299,8 +306,8 @@ void AddLabel::Execute(const std::vector<std::string>& args) {
               label_->landmark_name.c_str());
     return;
   }
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_landmark(
-      new pcl::PointCloud<pcl::PointXYZRGB>);
+  pcl::PointCloud<PointXYZRGB>::Ptr pcl_landmark(
+      new pcl::PointCloud<PointXYZRGB>);
   pcl::fromROSMsg(cloud, *pcl_landmark);
 
   rapid_msgs::LandmarkInfo landmark_info;
@@ -314,6 +321,14 @@ void AddLabel::Execute(const std::vector<std::string>& args) {
     ROS_ERROR("Must specify a scene for this task.");
     return;
   }
+
+  sensor_msgs::PointCloud2 scene_cloud;
+  if (!dbs_.scene_cloud_db->Get(task_->scene_name, &scene_cloud)) {
+    ROS_ERROR("Could not get scene cloud \"%s\"", task_->scene_name.c_str());
+    return;
+  }
+  pcl::PointCloud<PointXYZRGB>::Ptr pcl_scene =
+      rapid::perception::PclFromRos(scene_cloud);
 
   // Compute the offset between the center of the point cloud and the center of
   // the box.
@@ -330,30 +345,66 @@ void AddLabel::Execute(const std::vector<std::string>& args) {
   graph.Add("model_roi", stf::RefFrame("base_link"),
             stf::Transform(landmark_info.roi.transform.translation,
                            landmark_info.roi.transform.rotation));
-
-  // Get the pose
-  rapid::viz::CloudPoser poser(cloud, landmark_pub_, "cloud_poser");
-  poser.Start();
-  char* line = readline("Press enter to save, or q to cancel: ");
-  if (std::string(line) == "q" || line == NULL) {
-    delete line;
-    return;
-  }
-
-  geometry_msgs::Pose cloud_frame;
-  cloud_frame = poser.pose();
-  graph.Add("current_cloud", stf::RefFrame("base_link"), cloud_frame);
-  poser.Stop();
-
-  // CloudPoser gives the pose of the center of the point cloud, not of the
-  // landmark box. Here we find the pose of the center of the landmark box.
   stf::Transform cloud_to_roi;
   graph.ComputeMapping(stf::From("model_cloud"), stf::To("model_roi"),
                        &cloud_to_roi);
+
+  // Get the pose
+  rapid::viz::CloudPoser poser(cloud, landmark_pub_, "cloud_poser");
+  Eigen::Matrix4d icp_transform(Eigen::Matrix4d::Identity());
+  while (true) {
+    poser.Start();
+    char* line = readline("Press enter to run ICP, or q to cancel: ");
+    if (std::string(line) == "q" || line == NULL) {
+      delete line;
+      return;
+    }
+
+    graph.Add("current_cloud", stf::RefFrame("base_link"), poser.pose());
+    poser.Stop();
+
+    // Compute the transform to move the model to the current position.
+    stf::Transform model_to_base;
+    graph.ComputeMapping(stf::From("model_cloud"), stf::To("base_link"),
+                         &model_to_base);
+    stf::Transform base_to_current;
+    graph.ComputeMapping(stf::From("base_link"), stf::To("current_cloud"),
+                         &base_to_current);
+    Eigen::Matrix4d model_to_current =
+        base_to_current.matrix() * model_to_base.matrix();
+    PointCloudC::Ptr user_aligned(new PointCloudC);
+    pcl::transformPointCloud(*pcl_landmark, *user_aligned,
+                             model_to_current.cast<float>());
+
+    // Align with ICP
+    PointCloudC::Ptr icp_aligned(new PointCloudC);
+    pcl::IterativeClosestPoint<PointXYZRGB, PointXYZRGB> icp;
+    icp.setInputSource(user_aligned);
+    icp.setInputTarget(pcl_scene);
+    icp.align(*icp_aligned);
+    icp_transform = icp.getFinalTransformation().cast<double>();
+
+    std::cout << "ICP converged: " << icp.hasConverged()
+              << ", fitness: " << icp.getFitnessScore() << std::endl;
+    rapid::viz::ColorizeRandom(icp_aligned);
+    rapid::viz::PublishCloud(landmark_pub_, *icp_aligned);
+
+    line = readline("Press enter to save, or q to try again: ");
+    if (std::string(line) == "q") {
+      delete line;
+      continue;
+    } else {
+      delete line;
+      break;
+    }
+  }
+
+  // CloudPoser gives the pose of the center of the point cloud, not of the
+  // landmark box. Here we find the pose of the center of the landmark box.
   stf::Transform label_pose;
   graph.MapPose(cloud_to_roi, stf::From("base_link"), stf::To("current_cloud"),
                 &label_pose);
-
+  label_pose = stf::Transform(icp_transform * label_pose.matrix());
   Eigen::Affine3d affine(label_pose.matrix());
   Eigen::Quaterniond q(affine.rotation());
   label_->pose.orientation.w = q.w();
