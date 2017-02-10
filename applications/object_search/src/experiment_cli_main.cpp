@@ -52,6 +52,7 @@ int main(int argc, char** argv) {
   SetTaskScene set_task_scene(dbs, &task);
   SetLabelLandmark set_label_landmark(dbs, &task, &label);
   AddLabel add_label(dbs, landmark_pub, marker_pub, &task, &label);
+  AddNegativeLabel add_negative_label(dbs, &task);
   ListLabels list_labels(&task);
   DeleteLabel delete_label(dbs, &task);
   rapid::utils::ExitCommand exit;
@@ -62,6 +63,7 @@ int main(int argc, char** argv) {
   task_cli.AddCommand(&set_task_scene);
   task_cli.AddCommand(&set_label_landmark);
   task_cli.AddCommand(&add_label);
+  task_cli.AddCommand(&add_negative_label);
   task_cli.AddCommand(&list_labels);
   task_cli.AddCommand(&delete_label);
   task_cli.AddCommand(&exit);

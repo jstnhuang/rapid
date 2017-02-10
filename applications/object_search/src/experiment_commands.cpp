@@ -55,6 +55,9 @@ void TaskViz::Publish(const object_search_msgs::Task& task) {
   markers_.clear();
   for (size_t i = 0; i < task.labels.size(); ++i) {
     const object_search_msgs::Label& label = task.labels[i];
+    if (!label.exists) {
+      continue;
+    }
     sensor_msgs::PointCloud2 landmark_cloud;
     if (!dbs_.landmark_cloud_db->Get(label.landmark_name, &landmark_cloud)) {
       ROS_ERROR("Landmark cloud \"%s\" not found.",
@@ -418,6 +421,7 @@ void AddLabel::Execute(const std::vector<std::string>& args) {
             << stf::Transform(label_->pose).matrix() << std::endl;
 
   label_->task_name = task_->name;
+  label_->exists = true;
 
   // Save to DB
   task_->labels.push_back(*label_);
@@ -457,5 +461,42 @@ void DeleteLabel::Execute(const std::vector<std::string>& args) {
 std::string DeleteLabel::name() const { return "delete"; }
 std::string DeleteLabel::description() const {
   return "<name> - Delete a label";
+}
+
+AddNegativeLabel::AddNegativeLabel(const ExperimentDbs& dbs,
+                                   object_search_msgs::Task* task)
+    : dbs_(dbs), task_(task) {}
+
+void AddNegativeLabel::Execute(const std::vector<std::string>& args) {
+  if (args.size() < 1) {
+    ROS_ERROR("No negative landmark given.");
+    return;
+  }
+  std::string name(boost::algorithm::join(args, " "));
+
+  rapid_msgs::LandmarkInfo landmark_info;
+  if (!dbs_.landmark_db->Get(name, &landmark_info)) {
+    ROS_ERROR("Landmark info \"%s\" not found.", name.c_str());
+    return;
+  }
+
+  object_search_msgs::Label label;
+  label.name = "negative " + name;
+  label.task_name = task_->name;
+  label.landmark_name = name;
+  label.exists = false;
+
+  // Save to DB
+  task_->labels.push_back(label);
+  if (!dbs_.task_db->Update(task_->name, *task_)) {
+    ROS_ERROR("Failed to update task \"%s\"!", task_->name.c_str());
+    return;
+  }
+}
+
+std::string AddNegativeLabel::name() const { return "add negative"; }
+
+std::string AddNegativeLabel::description() const {
+  return "<landmark> - Add a landmark that should not be found in the scene.";
 }
 }  // namespace object_search

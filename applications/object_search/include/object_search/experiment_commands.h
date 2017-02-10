@@ -174,6 +174,18 @@ class DeleteLabel : public rapid::utils::CommandInterface {
   ExperimentDbs dbs_;
   object_search_msgs::Task* task_;
 };
+
+class AddNegativeLabel : public rapid::utils::CommandInterface {
+ public:
+  AddNegativeLabel(const ExperimentDbs& dbs, object_search_msgs::Task* task);
+  void Execute(const std::vector<std::string>& args);
+  std::string name() const;
+  std::string description() const;
+
+ private:
+  ExperimentDbs dbs_;
+  object_search_msgs::Task* task_;
+};
 }  // namespace object_search
 
 #endif  // _OBJECT_SEARCH_EXPERIMENT_COMMANDS_H_
