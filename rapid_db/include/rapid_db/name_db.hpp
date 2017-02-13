@@ -87,7 +87,7 @@ void NameDb::List(std::vector<std::string>* names) {
 
   names->clear();
   for (size_t i = 0; i < messages.size(); ++i) {
-    const mongo::BSONObj& meta = messages[0].second;
+    const mongo::BSONObj& meta = messages[i].second;
     const std::string& name = meta.getStringField("name");
     names->push_back(name);
   }
