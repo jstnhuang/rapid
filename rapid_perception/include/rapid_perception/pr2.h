@@ -1,6 +1,8 @@
 #ifndef _RAPID_PERCEPTION_PR2_H_
 #define _RAPID_PERCEPTION_PR2_H_
 
+#include "pcl/point_cloud.h"
+#include "pcl/point_types.h"
 #include "tf/transform_listener.h"
 #include "visualization_msgs/Marker.h"
 

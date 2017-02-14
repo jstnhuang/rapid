@@ -8,11 +8,18 @@
 #include "geometry_msgs/Vector3.h"
 #include "pcl/common/common.h"
 #include "pcl/common/pca.h"
+#include "pcl/filters/voxel_grid.h"
 #include "pcl/search/kdtree.h"
+#include "sensor_msgs/PointCloud2.h"
+
+#include "rapid_perception/conversions.h"
 
 using pcl::PointCloud;
 using pcl::PointIndices;
 using pcl::PointXYZRGB;
+
+typedef PointXYZRGB PointC;
+typedef PointCloud<PointXYZRGB> PointCloudC;
 
 namespace rapid {
 namespace perception {
@@ -280,6 +287,38 @@ double ComputeResolution(
     res /= n_points;
   }
   return res;
+}
+
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr Average(
+    const std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& clouds) {
+  PointCloud<PointXYZRGB>::Ptr input(new PointCloud<PointXYZRGB>);
+  for (size_t i = 0; i < clouds.size(); ++i) {
+    *input += *clouds[i];
+  }
+
+  double resolution = ComputeResolution(clouds[0]);
+
+  PointCloud<PointXYZRGB>::Ptr output(new PointCloud<PointXYZRGB>);
+  pcl::VoxelGrid<PointXYZRGB> vox;
+  vox.setInputCloud(input);
+  vox.setLeafSize(resolution, resolution, resolution);
+  vox.filter(*output);
+  output->header.frame_id = clouds[0]->header.frame_id;
+  ROS_INFO("%ld points in average", output->size());
+  return output;
+}
+
+PointCloud<PointXYZRGB>::Ptr GetSmoothedKinectCloud(const std::string& topic,
+                                                    int num_clouds) {
+  std::vector<PointCloudC::Ptr> clouds;
+
+  for (int i = 0; i < num_clouds; ++i) {
+    sensor_msgs::PointCloud2ConstPtr msg =
+        ros::topic::waitForMessage<sensor_msgs::PointCloud2>(topic);
+    clouds.push_back(PclFromRos(*msg));
+  }
+
+  return Average(clouds);
 }
 }  // namespace perception
 }  // namespace rapid

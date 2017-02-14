@@ -3,6 +3,9 @@
 #ifndef _RAPID_PERCEPTION_RGBD_H_
 #define _RAPID_PERCEPTION_RGBD_H_
 
+#include <string>
+#include <vector>
+
 #include "Eigen/Dense"
 #include "geometry_msgs/Pose.h"
 #include "geometry_msgs/PoseStamped.h"
@@ -16,6 +19,7 @@
 #include "pcl/sample_consensus/method_types.h"
 #include "pcl/sample_consensus/model_types.h"
 #include "pcl/segmentation/sac_segmentation.h"
+#include "ros/ros.h"
 
 namespace rapid {
 namespace perception {
@@ -96,6 +100,15 @@ double ComputeResolution(
 double ComputeResolution(
     const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud,
     const pcl::search::Search<pcl::PointXYZRGB>& tree);
+
+// Combines the given point clouds into one point cloud with the same resolution
+// as the first point cloud.
+// The point clouds are "averaged" using a voxel grid filter.
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr Average(
+    const std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& clouds);
+
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetSmoothedKinectCloud(
+    const std::string& topic, int num_clouds = 15);
 }  // namespace perception
 }  // namespace rapid
 #endif  // _RAPID_PERCEPTION_RGBD_H_

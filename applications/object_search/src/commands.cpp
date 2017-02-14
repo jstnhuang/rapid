@@ -20,9 +20,11 @@
 #include "rapid_msgs/LandmarkInfo.h"
 #include "rapid_msgs/SceneInfo.h"
 #include "rapid_msgs/StaticCloud.h"
+#include "rapid_perception/conversions.h"
 #include "rapid_perception/pose_estimation.h"
 #include "rapid_perception/pose_estimation_match.h"
 #include "rapid_perception/random_heat_mapper.h"
+#include "rapid_perception/rgbd.h"
 #include "rapid_utils/command_line.h"
 #include "rapid_viz/publish.h"
 #include "rapid_viz/scene_viz.h"
@@ -140,8 +142,11 @@ void RecordObjectCommand::Execute(const vector<string>& args) {
   }
 
   // Read cloud and saved region
-  PointCloud2::ConstPtr cloud_in =
-      ros::topic::waitForMessage<PointCloud2>("cloud_in", ros::Duration(10));
+  int num_clouds = 15;
+  ros::param::param<int>("num_clouds", num_clouds, 15);
+  // Read cloud
+  PointCloud2::Ptr cloud_in = rapid::perception::RosFromPcl(
+      rapid::perception::GetSmoothedKinectCloud("cloud_in", num_clouds));
   capture_->set_cloud(cloud_in);
   StaticCloud static_cloud;
   capture_->Capture(&static_cloud.cloud);
@@ -388,9 +393,11 @@ void RecordSceneCommand::Execute(const vector<string>& args) {
     cout << "Error: provide a name for this scene." << endl;
     return;
   }
+  int num_clouds = 15;
+  ros::param::param<int>("num_clouds", num_clouds, 15);
   // Read cloud
-  PointCloud2::ConstPtr cloud_in =
-      ros::topic::waitForMessage<PointCloud2>("cloud_in", ros::Duration(10));
+  PointCloud2::Ptr cloud_in = rapid::perception::RosFromPcl(
+      rapid::perception::GetSmoothedKinectCloud("cloud_in", num_clouds));
 
   // Transform to base link.
   PointCloud2 cloud_out;
