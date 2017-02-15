@@ -171,16 +171,25 @@ void RunExperiment(PoseEstimator* estimator,
           const PoseEstimationMatch& match = matches[mi];
           int label_i = MatchLabels(task.labels, match, *landmark_name);
           if (label_i == -1) {
+            ROS_INFO("Match %ld was not found.", mi);
             ++landmark_results.fp;
           } else if (task.labels[label_i].exists) {
+            ROS_INFO("Match %ld corresponds to %d.", mi, label_i);
             found[label_i] = 1;
           }
         }
 
+        // Count true positives and false negatives (iterate over labels)
         for (size_t fi = 0; fi < found.size(); ++fi) {
-          if (task.labels[fi].exists && found[fi] == 1) {
+          if (task.labels[fi].landmark_name != *landmark_name) {
+            continue;
+          }
+          if (!task.labels[fi].exists) {
+            continue;
+          }
+          if (found[fi] == 1) {
             ++landmark_results.tp;
-          } else if (task.labels[fi].exists && found[fi] != 1) {
+          } else {
             ++landmark_results.fn;
           }
         }
