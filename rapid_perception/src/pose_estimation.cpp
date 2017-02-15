@@ -373,6 +373,11 @@ void PoseEstimator::RunIcpCandidates(
 void PoseEstimator::NonMaxSuppression(
     vector<PoseEstimationMatch>& aligned_objects,
     vector<int>* deduped_indices) {
+  // TODO(jstn): remove set_nms_radius
+  nms_radius_ =
+      std::max(std::max(object_dims_.x(), object_dims_.y()), object_dims_.z()) /
+      2.0;
+
   deduped_indices->clear();
   // Non-max supression of output objects
   // Index centers into a tree
