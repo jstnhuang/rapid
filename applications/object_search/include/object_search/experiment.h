@@ -21,9 +21,9 @@ class ConfusionMatrix {
   int fp;
   int fn;
 
-  double Precision();
-  double Recall();
-  double F1();
+  double Precision() const;
+  double Recall() const;
+  double F1() const;
 
   void Merge(const ConfusionMatrix& other);
 };
