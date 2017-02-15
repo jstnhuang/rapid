@@ -373,7 +373,10 @@ void PoseEstimator::RunIcpCandidates(
 void PoseEstimator::NonMaxSuppression(
     vector<PoseEstimationMatch>& aligned_objects,
     vector<int>* deduped_indices) {
-  // TODO(jstn): remove set_nms_radius
+  // TODO(jstn): remove nms_radius as a parameter. The radius should be
+  // dynamically sized based on the object dimensions. Instead of having just
+  // one radius, it should search for neighbors in an ellipsoid. Below, we are
+  // still using a single radius whose length is half of the longest dimension.
   nms_radius_ =
       std::max(std::max(object_dims_.x(), object_dims_.y()), object_dims_.z()) /
       2.0;
