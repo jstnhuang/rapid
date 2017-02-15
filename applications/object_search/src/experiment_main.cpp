@@ -34,7 +34,8 @@ void RunExperiment(PoseEstimator* estimator,
                    const std::vector<std::string>& task_list,
                    const ExperimentDbs& dbs);
 int MatchLabels(const std::vector<object_search_msgs::Label>& labels,
-                const PoseEstimationMatch& match);
+                const PoseEstimationMatch& match,
+                const std::string& landmark_name);
 bool IsNegativeLandmark(const std::vector<object_search_msgs::Label>& labels,
                         const std::string& landmark_name);
 
@@ -92,6 +93,7 @@ void RunExperiment(PoseEstimator* estimator,
                    const std::vector<std::string>& task_list,
                    const ExperimentDbs& dbs) {
   object_search::ConfusionMatrix results;
+  std::vector<object_search::ConfusionMatrix> task_confusions;
   for (size_t task_i = 0; task_i < task_list.size(); ++task_i) {
     const std::string& task_name = task_list[task_i];
     object_search_msgs::Task task;
@@ -167,7 +169,7 @@ void RunExperiment(PoseEstimator* estimator,
         std::vector<int> found(task.labels.size(), 0);
         for (size_t mi = 0; mi < matches.size(); ++mi) {
           const PoseEstimationMatch& match = matches[mi];
-          int label_i = MatchLabels(task.labels, match);
+          int label_i = MatchLabels(task.labels, match, *landmark_name);
           if (label_i == -1) {
             ++landmark_results.fp;
           } else if (task.labels[label_i].exists) {
@@ -176,25 +178,28 @@ void RunExperiment(PoseEstimator* estimator,
         }
 
         for (size_t fi = 0; fi < found.size(); ++fi) {
-          if (found[fi] == 1) {
+          if (task.labels[fi].exists && found[fi] == 1) {
             ++landmark_results.tp;
-          } else {
+          } else if (task.labels[fi].exists && found[fi] != 1) {
             ++landmark_results.fn;
           }
         }
       }
       task_results.Merge(landmark_results);
-      std::cout << "  Results for task \"" << task_name << "\", landmark \""
-                << *landmark_name << "\"" << std::endl;
-      std::cout << " Precision: " << landmark_results.Precision()
-                << ", Recall: " << landmark_results.Recall()
-                << ", F1: " << landmark_results.F1() << std::endl;
     }
+    task_confusions.push_back(task_results);
     results.Merge(task_results);
-    std::cout << " Task results for \"" << task_name << "\"" << std::endl;
-    std::cout << " Precision: " << task_results.Precision()
+  }
+  for (size_t i = 0; i < task_confusions.size(); ++i) {
+    const std::string& task_name = task_list[i];
+    const object_search::ConfusionMatrix& task_results = task_confusions[i];
+    std::cout << " Task \"" << task_name << "\":"
+              << " Precision: " << task_results.Precision()
               << ", Recall: " << task_results.Recall()
               << ", F1: " << task_results.F1() << std::endl;
+    std::cout << " tp: " << task_results.tp << ", fp: " << task_results.fp
+              << ", tn: " << task_results.tn << ", fn: " << task_results.fn
+              << std::endl;
   }
 
   std::cout << "Final results:" << std::endl;
@@ -206,12 +211,22 @@ void RunExperiment(PoseEstimator* estimator,
 }
 
 int MatchLabels(const std::vector<object_search_msgs::Label>& labels,
-                const PoseEstimationMatch& match) {
-  const double position_tolerance = 0.01;
-  const double orientation_tolerance = 0.04;  // Approx 2 degrees
+                const PoseEstimationMatch& match,
+                const std::string& landmark_name) {
+  bool debug = false;
+  ros::param::param<bool>("experiment_debug", debug, false);
+
+  double position_tolerance;
+  double orientation_tolerance;  // Approx 2 degrees
+  ros::param::param<double>("position_tolerance", position_tolerance, 0.0254);
+  ros::param::param<double>("orientation_tolerance", orientation_tolerance,
+                            0.04);
   for (size_t i = 0; i < labels.size(); ++i) {
     const object_search_msgs::Label& label = labels[i];
     if (!label.exists) {
+      continue;
+    }
+    if (landmark_name != label.landmark_name) {
       continue;
     }
     double x_diff = label.pose.position.x - match.pose().position.x;
@@ -232,6 +247,10 @@ int MatchLabels(const std::vector<object_search_msgs::Label>& labels,
     double ang_diff = label_q.angularDistance(match_q);
     if (pos_diff < position_tolerance && ang_diff < orientation_tolerance) {
       return i;
+    }
+
+    if (debug) {
+      ROS_INFO("pos diff: %f, ang diff: %f", pos_diff, ang_diff);
     }
   }
   return -1;
