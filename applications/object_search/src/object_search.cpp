@@ -138,7 +138,7 @@ void CropScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr scene,
   double min_x, min_y, min_z, max_x, max_y, max_z;
   ros::param::param<double>("min_x", min_x, 0.2);
   ros::param::param<double>("min_y", min_y, -1);
-  ros::param::param<double>("min_z", min_z, 0.3);
+  ros::param::param<double>("min_z", min_z, 0.2);
   ros::param::param<double>("max_x", max_x, 1.2);
   ros::param::param<double>("max_y", max_y, 1);
   ros::param::param<double>("max_z", max_z, 1.7);
