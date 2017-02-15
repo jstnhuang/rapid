@@ -1,6 +1,6 @@
 <launch>
   <arg name="all" default="true" />
   <rosparam if="$(arg all)" param="experiment_tasks">['chair', 'tool rack', 'drawer', 'bowls', 'laundry panel', 'laundry basket', 'box 1', 'box 2', 'cat treats', 'pr2 kit', 'cans']</rosparam>
-  <rosparam unless="$(arg all)" param="experiment_tasks">['laundry basket']</rosparam>
+  <rosparam unless="$(arg all)" param="experiment_tasks">['tool rack']</rosparam>
   <node pkg="object_search" type="object_search_experiment_main" name="object_search_experiment_main" output="screen" />
 </launch>
