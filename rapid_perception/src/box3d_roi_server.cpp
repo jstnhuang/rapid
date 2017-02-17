@@ -4,12 +4,16 @@
 #include <string>
 
 #include "boost/bind.hpp"
+#include "geometry_msgs/PoseStamped.h"
+#include "geometry_msgs/Vector3.h"
 #include "interactive_markers/interactive_marker_server.h"
 #include "rapid_msgs/Roi3D.h"
 #include "visualization_msgs/InteractiveMarker.h"
 #include "visualization_msgs/InteractiveMarkerControl.h"
 #include "visualization_msgs/InteractiveMarkerFeedback.h"
 #include "visualization_msgs/Marker.h"
+
+#include "rapid_viz/markers.h"
 
 using interactive_markers::InteractiveMarkerServer;
 using rapid_msgs::Roi3D;
@@ -43,8 +47,18 @@ InteractiveMarker Box3DRoiServer::Box(double x, double y, double z,
   box.color.b = 0.5;
   box.color.a = 0.5;
 
+  geometry_msgs::PoseStamped ps;
+  // ps.header.frame_id = base_frame_;
+  ps.pose.orientation.w = 1;
+  geometry_msgs::Vector3 scale;
+  scale.x = scale_x;
+  scale.y = scale_y;
+  scale.z = scale_z;
+  Marker outline_box = rapid::viz::OutlineBox(ps, scale);
+
   InteractiveMarkerControl control;
   control.markers.push_back(box);
+  control.markers.push_back(outline_box);
   control.always_visible = true;
   control.interaction_mode = InteractiveMarkerControl::NONE;
 
@@ -119,8 +133,8 @@ InteractiveMarker Box3DRoiServer::Arrow(const std::string& dim,
   Marker arrow;
   arrow.type = Marker::ARROW;
   arrow.scale.x = 0.05;
-  arrow.scale.y = 0.025;
-  arrow.scale.z = 0.025;
+  arrow.scale.y = 0.05;
+  arrow.scale.z = 0.05;
   if (dim == "x") {
     arrow.color.r = 1;
   } else if (dim == "y") {
@@ -128,7 +142,7 @@ InteractiveMarker Box3DRoiServer::Arrow(const std::string& dim,
   } else if (dim == "z") {
     arrow.color.b = 1;
   }
-  arrow.color.a = 1;
+  arrow.color.a = 0.9;
 
   double sign = 1;
   if (polarity == "neg") {
