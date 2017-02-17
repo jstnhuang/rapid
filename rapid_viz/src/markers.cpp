@@ -23,6 +23,80 @@ using geometry_msgs::Vector3;
 
 namespace rapid {
 namespace viz {
+visualization_msgs::Marker OutlineBox(const geometry_msgs::PoseStamped& pose,
+                                      const geometry_msgs::Vector3& scale) {
+  visualization_msgs::Marker marker;
+  marker.type = visualization_msgs::Marker::LINE_LIST;
+  marker.header.frame_id = pose.header.frame_id;
+  marker.pose = pose.pose;
+  marker.scale.x = 0.01;
+  marker.ns = "marker";
+  marker.color.g = 1;
+  marker.color.a = 1;
+
+  double max_x = scale.x / 2;
+  double max_y = scale.y / 2;
+  double max_z = scale.z / 2;
+  double min_x = -scale.x / 2;
+  double min_y = -scale.y / 2;
+  double min_z = -scale.z / 2;
+
+  vector<Point> points;
+  // Top layer
+  Point t1;
+  t1.x = min_x;
+  t1.y = min_y;
+  t1.z = max_z;
+  Point t2 = t1;
+  t2.x = max_x;
+  Point t3 = t2;
+  t3.y = max_y;
+  Point t4 = t3;
+  t4.x = min_x;
+  points.push_back(t1);
+  points.push_back(t2);
+  points.push_back(t2);
+  points.push_back(t3);
+  points.push_back(t3);
+  points.push_back(t4);
+  points.push_back(t4);
+  points.push_back(t1);
+
+  // Bottom layer
+  Point b1;
+  b1.x = min_x;
+  b1.y = min_y;
+  b1.z = min_z;
+  Point b2 = b1;
+  b2.x = max_x;
+  Point b3 = b2;
+  b3.y = max_y;
+  Point b4 = b3;
+  b4.x = min_x;
+  points.push_back(b1);
+  points.push_back(b2);
+  points.push_back(b2);
+  points.push_back(b3);
+  points.push_back(b3);
+  points.push_back(b4);
+  points.push_back(b4);
+  points.push_back(b1);
+
+  // Middle layer
+  points.push_back(t1);
+  points.push_back(b1);
+  points.push_back(t2);
+  points.push_back(b2);
+  points.push_back(t3);
+  points.push_back(b3);
+  points.push_back(t4);
+  points.push_back(b4);
+
+  marker.points = points;
+
+  return marker;
+}
+
 Marker Marker::Box(const MarkerPub* pub, const PoseStamped& pose,
                    const Vector3& scale) {
   Marker m(pub);

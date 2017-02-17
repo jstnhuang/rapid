@@ -15,6 +15,9 @@
 
 namespace rapid {
 namespace viz {
+visualization_msgs::Marker OutlineBox(const geometry_msgs::PoseStamped& pose,
+                                      const geometry_msgs::Vector3& scale);
+
 typedef rapid_ros::PublisherInterface<visualization_msgs::Marker> MarkerPub;
 
 // A resource-managing marker that deletes itself from rviz when the object goes
