@@ -9,6 +9,7 @@
 #include "pcl/common/common.h"
 #include "pcl/common/pca.h"
 #include "pcl/filters/voxel_grid.h"
+#include "pcl/filters/statistical_outlier_removal.h"
 #include "pcl/search/kdtree.h"
 #include "sensor_msgs/PointCloud2.h"
 
@@ -290,18 +291,24 @@ double ComputeResolution(
 }
 
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr Average(
-    const std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& clouds) {
+    const std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& clouds,
+    double leaf_size) {
   PointCloud<PointXYZRGB>::Ptr input(new PointCloud<PointXYZRGB>);
   for (size_t i = 0; i < clouds.size(); ++i) {
     *input += *clouds[i];
   }
 
-  double resolution = ComputeResolution(clouds[0]);
+  if (leaf_size == 0) {
+    leaf_size = ComputeResolution(clouds[0]);
+  }
 
+  int vox_min_pts;
+  ros::param::param("vox_min_pts", vox_min_pts, 3);
   PointCloud<PointXYZRGB>::Ptr output(new PointCloud<PointXYZRGB>);
   pcl::VoxelGrid<PointXYZRGB> vox;
   vox.setInputCloud(input);
-  vox.setLeafSize(resolution, resolution, resolution);
+  vox.setLeafSize(leaf_size, leaf_size, leaf_size);
+  vox.setMinimumPointsNumberPerVoxel(vox_min_pts);
   vox.filter(*output);
   output->header.frame_id = clouds[0]->header.frame_id;
   ROS_INFO("%ld points in average", output->size());
@@ -309,16 +316,27 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr Average(
 }
 
 PointCloud<PointXYZRGB>::Ptr GetSmoothedKinectCloud(const std::string& topic,
-                                                    int num_clouds) {
+                                                    int num_clouds,
+                                                    double leaf_size) {
+  int sor_mean_k;
+  double sor_stddev;
+  ros::param::param("sor_mean_k", sor_mean_k, 50);
+  ros::param::param("sor_stddev", sor_stddev, 1.0);
   std::vector<PointCloudC::Ptr> clouds;
-
   for (int i = 0; i < num_clouds; ++i) {
     sensor_msgs::PointCloud2ConstPtr msg =
         ros::topic::waitForMessage<sensor_msgs::PointCloud2>(topic);
-    clouds.push_back(PclFromRos(*msg));
+    PointCloudC::Ptr cloud = PclFromRos(*msg);
+    pcl::StatisticalOutlierRemoval<PointC> sor;
+    sor.setInputCloud(cloud);
+    sor.setMeanK(sor_mean_k);
+    sor.setStddevMulThresh(sor_stddev);
+    PointCloudC::Ptr filtered(new PointCloudC);
+    sor.filter(*filtered);
+    clouds.push_back(filtered);
   }
 
-  return Average(clouds);
+  return Average(clouds, leaf_size);
 }
 }  // namespace perception
 }  // namespace rapid

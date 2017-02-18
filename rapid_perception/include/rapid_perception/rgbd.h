@@ -104,11 +104,17 @@ double ComputeResolution(
 // Combines the given point clouds into one point cloud with the same resolution
 // as the first point cloud.
 // The point clouds are "averaged" using a voxel grid filter.
+// leaf_size = 0 means use the resolution of the point cloud as the leaf size.
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr Average(
-    const std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& clouds);
+    const std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& clouds,
+    double leaf_size = 0);
 
+// Get a smoothed point cloud made up of an average of multiple point clouds.
+// Each point cloud is smoothed using a filter. Then, they are concatenated with
+// each other. Finally, a voxel grid is laid over the result.
+// leaf_size = 0 means use the resolution of the point cloud as the leaf size.
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr GetSmoothedKinectCloud(
-    const std::string& topic, int num_clouds = 15);
+    const std::string& topic, int num_clouds = 15, double leaf_size = 0);
 }  // namespace perception
 }  // namespace rapid
 #endif  // _RAPID_PERCEPTION_RGBD_H_
