@@ -8,7 +8,7 @@
 #include "geometry_msgs/Vector3.h"
 #include "pcl/common/common.h"
 #include "pcl/common/pca.h"
-#include "pcl/filters/voxel_grid.h"
+#include "pcl/filters/random_sample.h"
 #include "pcl/filters/statistical_outlier_removal.h"
 #include "pcl/search/kdtree.h"
 #include "sensor_msgs/PointCloud2.h"
@@ -291,52 +291,50 @@ double ComputeResolution(
 }
 
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr Average(
-    const std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& clouds,
-    double leaf_size) {
+    const std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>& clouds) {
   PointCloud<PointXYZRGB>::Ptr input(new PointCloud<PointXYZRGB>);
   for (size_t i = 0; i < clouds.size(); ++i) {
     *input += *clouds[i];
   }
 
-  if (leaf_size == 0) {
-    leaf_size = ComputeResolution(clouds[0]);
-  }
+  double random_sample_factor;
+  ros::param::param("random_sample_factor", random_sample_factor, 1.0);
+  pcl::RandomSample<PointC> random;
+  random.setInputCloud(input);
+  int num_points =
+      static_cast<int>(random_sample_factor * input->size() / clouds.size());
+  random.setSample(num_points);
+  PointCloud<PointXYZRGB>::Ptr sampled(new PointCloud<PointXYZRGB>);
+  random.filter(*sampled);
 
-  int vox_min_pts;
-  ros::param::param("vox_min_pts", vox_min_pts, 3);
-  PointCloud<PointXYZRGB>::Ptr output(new PointCloud<PointXYZRGB>);
-  pcl::VoxelGrid<PointXYZRGB> vox;
-  vox.setInputCloud(input);
-  vox.setLeafSize(leaf_size, leaf_size, leaf_size);
-  vox.setMinimumPointsNumberPerVoxel(vox_min_pts);
-  vox.filter(*output);
-  output->header.frame_id = clouds[0]->header.frame_id;
-  ROS_INFO("%ld points in average", output->size());
-  return output;
-}
-
-PointCloud<PointXYZRGB>::Ptr GetSmoothedKinectCloud(const std::string& topic,
-                                                    int num_clouds,
-                                                    double leaf_size) {
   int sor_mean_k;
   double sor_stddev;
   ros::param::param("sor_mean_k", sor_mean_k, 50);
   ros::param::param("sor_stddev", sor_stddev, 1.0);
+  pcl::StatisticalOutlierRemoval<PointC> sor;
+  sor.setInputCloud(sampled);
+  sor.setMeanK(sor_mean_k);
+  sor.setStddevMulThresh(sor_stddev);
+  PointCloudC::Ptr filtered(new PointCloudC);
+  sor.filter(*filtered);
+
+  filtered->header.frame_id = clouds[0]->header.frame_id;
+  ROS_INFO("%ld points in average", filtered->size());
+  return filtered;
+}
+
+PointCloud<PointXYZRGB>::Ptr GetSmoothedKinectCloud(const std::string& topic,
+                                                    int num_clouds) {
   std::vector<PointCloudC::Ptr> clouds;
   for (int i = 0; i < num_clouds; ++i) {
     sensor_msgs::PointCloud2ConstPtr msg =
         ros::topic::waitForMessage<sensor_msgs::PointCloud2>(topic);
-    PointCloudC::Ptr cloud = PclFromRos(*msg);
-    pcl::StatisticalOutlierRemoval<PointC> sor;
-    sor.setInputCloud(cloud);
-    sor.setMeanK(sor_mean_k);
-    sor.setStddevMulThresh(sor_stddev);
-    PointCloudC::Ptr filtered(new PointCloudC);
-    sor.filter(*filtered);
-    clouds.push_back(filtered);
+    ROS_INFO("Read cloud %d of %d", i + 1, num_clouds);
+    // PointCloudC::Ptr cloud = PclFromRos(*msg);
+    clouds.push_back(PclFromRos(*msg));
   }
 
-  return Average(clouds, leaf_size);
+  return Average(clouds);
 }
 }  // namespace perception
 }  // namespace rapid
