@@ -65,6 +65,8 @@ flags = [
 '-I',
 'rapid_display/include',
 '-I',
+'rapid_fetch/include',
+'-I',
 'rapid_manipulation/include',
 '-I',
 'rapid_perception/include',
