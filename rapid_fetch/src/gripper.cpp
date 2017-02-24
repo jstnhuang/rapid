@@ -17,7 +17,7 @@ Gripper::Gripper() : client_(kGripperAction, true) {
 
 bool Gripper::Close(double max_effort) {
   control_msgs::GripperCommandGoal goal;
-  goal.command.position = 0;
+  goal.command.position = kClosedPosition;
   goal.command.max_effort = max_effort;
   client_.sendGoal(goal);
   return client_.waitForResult(ros::Duration(5.0));
@@ -25,7 +25,7 @@ bool Gripper::Close(double max_effort) {
 
 bool Gripper::Open(double max_effort) {
   control_msgs::GripperCommandGoal goal;
-  goal.command.position = 0;
+  goal.command.position = kOpenedPosition;
   goal.command.max_effort = max_effort;
   client_.sendGoal(goal);
   return client_.waitForResult(ros::Duration(5.0));
