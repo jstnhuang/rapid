@@ -6,11 +6,13 @@
 #include "rapid_display/display.h"
 #include "sound_play/sound_play.h"
 
+#include "rapid_fetch/gripper.h"
+
 namespace rapid {
 namespace fetch {
 class Fetch {
  public:
-  Fetch(display::DisplayInterface* display,
+  Fetch(display::DisplayInterface* display, Gripper* gripper,
         sound_play::SoundClient* sound_client);
 
   // Use text-to-speech to say something aloud.
@@ -19,6 +21,7 @@ class Fetch {
 
   // Control a touchscreen display.
   display::DisplayInterface* display;
+  Gripper* gripper;
 
  private:
   sound_play::SoundClient* sound_client_;
