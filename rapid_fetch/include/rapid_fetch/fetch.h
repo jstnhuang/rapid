@@ -17,7 +17,7 @@ class Fetch {
 
   // Use text-to-speech to say something aloud.
   void Say(const std::string& text,
-           const std::string& voice = "kal_voice_diphone");
+           const std::string& voice = "voice_kal_diphone");
 
   // Control a touchscreen display.
   display::DisplayInterface* display;
