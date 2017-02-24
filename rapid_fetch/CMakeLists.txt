@@ -107,7 +107,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES rapid_fetch_fetch
+  LIBRARIES
+    rapid_fetch_fetch
+    rapid_fetch_gripper
   CATKIN_DEPENDS actionlib roscpp rospy sound_play
 #  DEPENDS system_lib
 )
