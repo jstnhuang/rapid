@@ -140,6 +140,7 @@ class PoseEstimator : public PoseEstimationInterface {
                         std::vector<PoseEstimationMatch>* aligned_objects);
   void RunIcpCandidateInThread(
       pcl::PointCloud<pcl::PointXYZRGB>::Ptr candidates, size_t candidate_index,
+      int max_iterations,
       boost::mutex& output_mutex,
       std::vector<PoseEstimationMatch>* aligned_objects);
   // Do non-max suppression on ICP outputs.

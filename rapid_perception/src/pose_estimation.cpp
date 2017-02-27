@@ -266,13 +266,14 @@ void PoseEstimator::ComputeTopCandidates(Eigen::VectorXd& importances,
 }
 
 void PoseEstimator::RunIcpCandidateInThread(
-    PointCloudC::Ptr candidates, size_t candidate_index,
+    PointCloudC::Ptr candidates, size_t candidate_index, int max_iterations,
     boost::mutex& output_mutex, vector<PoseEstimationMatch>* aligned_objects) {
   // Copy the object and its center.
   PointCloudC::Ptr working_object(new PointCloudC);
   PointCloudC::Ptr aligned_object(new PointCloudC);
   pcl::IterativeClosestPoint<PointC, PointC> icp;
   icp.setInputTarget(scene_);
+  icp.setMaximumIterations(max_iterations);
 
   // Compute object to base transform.
   Eigen::Affine3f object_to_base;
@@ -312,35 +313,33 @@ void PoseEstimator::RunIcpCandidateInThread(
     icp.setInputSource(working_object);
     icp.align(*aligned_object);
     viz::PublishCloud(alignment_pub_, *aligned_object);
-    if (icp.hasConverged()) {
-      Eigen::Matrix4f icp_transform = icp.getFinalTransformation();
-      Eigen::Affine3f icp_affine;
-      icp_affine = icp_transform;
-      Eigen::Affine3f final_affine = icp_affine * candidate_transform;
+    Eigen::Matrix4f icp_transform = icp.getFinalTransformation();
+    Eigen::Affine3f icp_affine;
+    icp_affine = icp_transform;
+    Eigen::Affine3f final_affine = icp_affine * candidate_transform;
 
-      // Apply transform to ROI position
-      pcl::PointXYZ roi_pt = pcl::transformPoint(roi_translation, final_affine);
-      utils::PclToGeometryMsg(roi_pt, &roi.transform.translation);
+    // Apply transform to ROI position
+    pcl::PointXYZ roi_pt = pcl::transformPoint(roi_translation, final_affine);
+    utils::PclToGeometryMsg(roi_pt, &roi.transform.translation);
 
-      // Apply transform to ROI rotation
-      Eigen::Affine3f final_rotation = final_affine * roi_rotation;
-      Eigen::Quaternionf q;
-      q = final_rotation.rotation();
-      utils::EigenToGeometryMsg(q, &roi.transform.rotation);
+    // Apply transform to ROI rotation
+    Eigen::Affine3f final_rotation = final_affine * roi_rotation;
+    Eigen::Quaternionf q;
+    q = final_rotation.rotation();
+    utils::EigenToGeometryMsg(q, &roi.transform.rotation);
 
-      // The transformation of the match, in the base frame.
-      double fitness =
-          ComputeIcpFitness(scene_, aligned_object, roi, debug_, marker_pub_);
-      geometry_msgs::Pose output_pose;
-      output_pose.position.x = roi.transform.translation.x;
-      output_pose.position.y = roi.transform.translation.y;
-      output_pose.position.z = roi.transform.translation.z;
-      output_pose.orientation = roi.transform.rotation;
-      output_mutex.lock();
-      aligned_objects->push_back(
-          PoseEstimationMatch(aligned_object, output_pose, fitness));
-      output_mutex.unlock();
-    }
+    // The transformation of the match, in the base frame.
+    double fitness =
+        ComputeIcpFitness(scene_, aligned_object, roi, debug_, marker_pub_);
+    geometry_msgs::Pose output_pose;
+    output_pose.position.x = roi.transform.translation.x;
+    output_pose.position.y = roi.transform.translation.y;
+    output_pose.position.z = roi.transform.translation.z;
+    output_pose.orientation = roi.transform.rotation;
+    output_mutex.lock();
+    aligned_objects->push_back(
+        PoseEstimationMatch(aligned_object, output_pose, fitness));
+    output_mutex.unlock();
   }
 }
 
@@ -360,10 +359,13 @@ void PoseEstimator::RunIcpCandidates(
         boost::bind(&boost::asio::io_service::run, &io_service));
   }
 
+  int max_iterations;
+  ros::param::param("icp_max_iterations", max_iterations, 50);
+
   boost::mutex output_mutex;
   for (size_t ci = 0; ci < candidates->size(); ++ci) {
     io_service.post(boost::bind(&PoseEstimator::RunIcpCandidateInThread, this,
-                                candidates, ci, boost::ref(output_mutex),
+                                candidates, ci, max_iterations, boost::ref(output_mutex),
                                 aligned_objects));
   }
   work.reset();
