@@ -14,5 +14,9 @@
   <arg name="all" default="true" />
   <rosparam if="$(arg all)" param="experiment_tasks">['chair', 'tool rack', 'drawer', 'bowls', 'laundry panel', 'laundry basket', 'box 1', 'box 2', 'cat treats', 'pr2 kit', 'cans']</rosparam>
   <rosparam unless="$(arg all)" param="experiment_tasks">['cans']</rosparam>
+  <include file="$(find mongodb_store)/launch/mongodb_store.launch">
+    <arg name="use_daemon" value="true" />
+    <arg name="port" value="27017" />
+  </include>
   <node pkg="object_search" type="object_search_experiment_main" name="object_search_experiment_main" output="screen" />
 </launch>
