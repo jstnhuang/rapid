@@ -1,6 +1,18 @@
 <launch>
+  <param name="fitness_threshold" value="0.0075" />
+  <param name="leaf_size" value="0.01" />
+  <param name="sigma_threshold" value="8" />
+  <param name="nms_radius" value="0.02" />
+  <param name="num_threads" value="8" />
+  <param name="max_samples" value="1000" />
+  <param name="num_candidates" value="1000" />
+  <param name="is_tabletop" value="false" />
+  <param name="orientation_tolerance" value="0.0254" />
+  <param name="orientation_tolerance" value="0.15" />
+  <arg name="debug" default="false" />
+  <param name="experiment_debug" value="$(arg debug)" />
   <arg name="all" default="true" />
   <rosparam if="$(arg all)" param="experiment_tasks">['chair', 'tool rack', 'drawer', 'bowls', 'laundry panel', 'laundry basket', 'box 1', 'box 2', 'cat treats', 'pr2 kit', 'cans']</rosparam>
-  <rosparam unless="$(arg all)" param="experiment_tasks">['tool rack']</rosparam>
+  <rosparam unless="$(arg all)" param="experiment_tasks">['cans']</rosparam>
   <node pkg="object_search" type="object_search_experiment_main" name="object_search_experiment_main" output="screen" />
 </launch>
