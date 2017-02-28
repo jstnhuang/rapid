@@ -82,6 +82,7 @@ class GroupingPoseEstimator : public PoseEstimationInterface {
   ros::Publisher correspondence_pub_;
   ros::Publisher scene_keypoints_pub_;
   ros::Publisher object_keypoints_pub_;
+  geometry_msgs::Vector3 object_dimensions_;
 };
 }  // namespace perception
 }  // namespace rapid

@@ -504,7 +504,12 @@ void SetInputSceneCommand::Execute(const vector<string>& args) {
     return;
   }
 
-  viz_.set_scene(input_->scene_cloud);
+  // Visualize the cropped scene.
+  PointCloud<PointXYZRGB>::Ptr scene_cropped(new PointCloud<PointXYZRGB>);
+  PointCloud<PointXYZRGB>::Ptr scene_cloud(new PointCloud<PointXYZRGB>);
+  pcl::fromROSMsg(input_->scene_cloud, *scene_cloud);
+  CropScene(scene_cloud, scene_cropped);
+  viz_.set_scene(*rapid::perception::RosFromPcl(scene_cropped));
 }
 
 string SetInputSceneCommand::name() const { return "use scene"; }
@@ -513,10 +518,12 @@ string SetInputSceneCommand::description() const {
 }
 
 RunCommand::RunCommand(Estimators* estimators, PoseEstimatorInput* input,
-                       const ros::Publisher& output_pub)
+                       const ros::Publisher& output_pub,
+                       const ros::Publisher& marker_pub)
     : estimators_(estimators),
       input_(input),
       output_pub_(output_pub),
+      marker_pub_(marker_pub),
       matches_() {}
 
 void RunCommand::Execute(const vector<string>& args) {
@@ -584,7 +591,7 @@ void RunCommand::Execute(const vector<string>& args) {
     ROS_ERROR("Unknown algorithm: %s", algorithm.c_str());
     return;
   }
-  VisualizeMatches(output_pub_, matches_);
+  VisualizeMatches(output_pub_, marker_pub_, matches_);
 }
 
 string RunCommand::name() const { return "run"; }

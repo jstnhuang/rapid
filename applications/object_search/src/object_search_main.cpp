@@ -19,7 +19,6 @@
 #include "rapid_perception/pose_estimation.h"
 #include "rapid_perception/random_heat_mapper.h"
 #include "rapid_perception/ransac_pose_estimator.h"
-#include "rapid_ros/publisher.h"
 #include "rapid_utils/command_line.h"
 #include "rapid_viz/scene_viz.h"
 #include "ros/ros.h"
@@ -73,9 +72,8 @@ int main(int argc, char** argv) {
   ros::Publisher alignment_pub =
       nh.advertise<PointCloud2>("/alignment", 1, true);
   ros::Publisher output_pub = nh.advertise<PointCloud2>("/output", 1, true);
-  rapid_ros::Publisher<visualization_msgs::Marker> marker_pub(
-      nh.advertise<visualization_msgs::Marker>("/visualization_markers", 1,
-                                               true));
+  ros::Publisher marker_pub = nh.advertise<visualization_msgs::Marker>(
+      "/visualization_markers", 1, true);
 
   // Build ROI server
   rapid::perception::Box3DRoiServer roi_server("roi");
@@ -97,9 +95,10 @@ int main(int argc, char** argv) {
 
   // Build pose estimator
   rapid::perception::PoseEstimator pose_estimator(heat_mapper);
+  // pose_estimator.set_scene_publisher(scene_pub);
   pose_estimator.set_candidates_publisher(candidates_pub);
   pose_estimator.set_alignment_publisher(alignment_pub);
-  pose_estimator.set_marker_publisher(&marker_pub);
+  // pose_estimator.set_marker_publisher(&marker_pub);
 
   rapid::perception::RansacPoseEstimator ransac_estimator;
   ros::Publisher pose_pub =
@@ -131,8 +130,12 @@ int main(int argc, char** argv) {
   // Build commands
   ListCommand list_landmarks(&landmark_ndb, ListCommand::kLandmarks, "list",
                              "- List landmarks");
+  ListCommand list_landmarks2(&landmark_ndb, ListCommand::kLandmarks,
+                              "list landmarks", "- List landmarks");
   ListCommand list_scenes(&scene_ndb, ListCommand::kScenes, "list",
                           "- List scenes");
+  ListCommand list_scenes2(&scene_ndb, ListCommand::kScenes, "list scenes",
+                           "- List scenes");
   // ListCommand list_scenes_named(&scene_ndb, ListCommand::kScenes, "scenes",
   //                              "- List scenes");
   sensor_msgs::PointCloud2::Ptr landmark_scene(new sensor_msgs::PointCloud2);
@@ -151,7 +154,7 @@ int main(int argc, char** argv) {
                                        &estimator_input);
   // SetLandmarkSceneCommand set_landmark_scene(&scene_ndb, &estimator_input,
   //                                           "scene");
-  RunCommand run(&estimators, &estimator_input, output_pub);
+  RunCommand run(&estimators, &estimator_input, output_pub, marker_pub);
   SetDebugCommand set_debug(&estimators);
   rapid::utils::ExitCommand exit;
 
@@ -186,6 +189,8 @@ int main(int argc, char** argv) {
                             "- Edit landmarks");
 
   rapid::utils::CommandLine cli("Custom landmarks CLI");
+  cli.AddCommand(&list_scenes2);
+  cli.AddCommand(&list_landmarks2);
   cli.AddCommand(&edit_scenes);
   cli.AddCommand(&edit_landmarks);
   cli.AddCommand(&set_input_landmark);

@@ -16,8 +16,6 @@
 #include "rapid_perception/pose_estimation_heat_mapper.h"
 #include "rapid_perception/pose_estimation_interface.h"
 #include "rapid_perception/pose_estimation_match.h"
-#include "rapid_ros/publisher.h"
-#include "rapid_viz/markers.h"
 
 namespace rapid {
 namespace perception {
@@ -117,8 +115,7 @@ class PoseEstimator : public PoseEstimationInterface {
   void set_candidates_publisher(const ros::Publisher& pub);
   void set_alignment_publisher(const ros::Publisher& pub);
   void set_output_publisher(const ros::Publisher& pub);
-  void set_marker_publisher(
-      rapid_ros::Publisher<visualization_msgs::Marker>* pub);
+  void set_marker_publisher(const ros::Publisher& pub);
 
   // Runs the pose estimation algorithm. It will return all matches whose
   // fitness are below the fitness threshold (lower fitness means a better
@@ -140,8 +137,7 @@ class PoseEstimator : public PoseEstimationInterface {
                         std::vector<PoseEstimationMatch>* aligned_objects);
   void RunIcpCandidateInThread(
       pcl::PointCloud<pcl::PointXYZRGB>::Ptr candidates, size_t candidate_index,
-      int max_iterations,
-      boost::mutex& output_mutex,
+      int max_iterations, boost::mutex& output_mutex,
       std::vector<PoseEstimationMatch>* aligned_objects);
   // Do non-max suppression on ICP outputs.
   void NonMaxSuppression(std::vector<PoseEstimationMatch>& aligned_objects,
@@ -160,9 +156,6 @@ class PoseEstimator : public PoseEstimationInterface {
   Eigen::Vector3f object_center_;  // Approx center point of object.
   Eigen::Vector3f object_dims_;    // Approx x/y/z lengths of bounding box.
   rapid_msgs::Roi3D object_roi_;
-  viz::Marker object_box_;
-
-  std::vector<viz::Marker> output_boxes_;
 
   // Parameters
   // Number of candidate samples to consider for ICP.
@@ -187,7 +180,7 @@ class PoseEstimator : public PoseEstimationInterface {
   ros::Publisher candidates_pub_;
   ros::Publisher alignment_pub_;
   ros::Publisher output_pub_;
-  rapid_ros::Publisher<visualization_msgs::Marker>* marker_pub_;
+  ros::Publisher marker_pub_;
 };
 }  // namespace perception
 }  // namespace rapid

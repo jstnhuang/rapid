@@ -13,7 +13,6 @@ find_package(catkin REQUIRED COMPONENTS
   pcl_ros
   rapid_db
   rapid_perception
-  rapid_ros
   rapid_utils
   rapid_viz
   roscpp

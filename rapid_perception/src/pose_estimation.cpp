@@ -59,8 +59,6 @@ PoseEstimator::PoseEstimator(PoseEstimationHeatMapper* heat_mapper)
       scene_(new PointCloudC()),
       object_(new PointCloudC()),
       object_center_(),
-      object_box_(viz::Marker::Null()),
-      output_boxes_(),
       num_candidates_(100),
       fitness_threshold_(0.0045),
       sigma_threshold_(8),
@@ -70,7 +68,7 @@ PoseEstimator::PoseEstimator(PoseEstimationHeatMapper* heat_mapper)
       candidates_pub_(),
       alignment_pub_(),
       output_pub_(),
-      marker_pub_(NULL) {}
+      marker_pub_() {}
 
 void PoseEstimator::set_scene(PointCloudC::Ptr scene) {
   scene_ = scene;
@@ -109,12 +107,13 @@ void PoseEstimator::set_roi(const rapid_msgs::Roi3D& roi) {
   pose.pose.position.y = roi.transform.translation.y;
   pose.pose.position.z = roi.transform.translation.z;
   pose.pose.orientation = roi.transform.rotation;
-  object_box_ = viz::Marker::OutlineBox(marker_pub_, pose, roi.dimensions);
-  geometry_msgs::Vector3 scale;
-  scale.x = 0.0025;
-  object_box_.SetScale(scale);
-  object_box_.SetNamespace("object");
-  object_box_.Publish();
+
+  if (marker_pub_) {
+    visualization_msgs::Marker box = viz::OutlineBox(pose, roi.dimensions);
+    box.ns = "landmark";
+    box.scale.x = 0.0025;
+    marker_pub_.publish(box);
+  }
 }
 
 PoseEstimationHeatMapper* PoseEstimator::heat_mapper() { return heat_mapper_; }
@@ -146,14 +145,11 @@ void PoseEstimator::set_alignment_publisher(const ros::Publisher& pub) {
 void PoseEstimator::set_output_publisher(const ros::Publisher& pub) {
   output_pub_ = pub;
 }
-void PoseEstimator::set_marker_publisher(
-    rapid_ros::Publisher<visualization_msgs::Marker>* pub) {
+void PoseEstimator::set_marker_publisher(const ros::Publisher& pub) {
   marker_pub_ = pub;
 }
 
 void PoseEstimator::Find(vector<PoseEstimationMatch>* matches) {
-  output_boxes_.clear();  // Clear visualization.
-
   // Compute heatmap of features
   PointCloudC::Ptr heatmap(new PointCloudC);
   Eigen::VectorXd importances;
@@ -194,7 +190,7 @@ void PoseEstimator::Find(vector<PoseEstimationMatch>* matches) {
     matches->push_back(aligned_objects[index]);
   }
 
-  VisualizeMatches(output_pub_, *matches);
+  VisualizeMatches(output_pub_, marker_pub_, *matches);
 
   // Sort matches by score.
   std::sort(matches->begin(), matches->end(), &ComparePoseEstimationMatch);
@@ -329,16 +325,15 @@ void PoseEstimator::RunIcpCandidateInThread(
     utils::EigenToGeometryMsg(q, &roi.transform.rotation);
 
     // The transformation of the match, in the base frame.
-    double fitness =
-        ComputeIcpFitness(scene_, aligned_object, roi, debug_, marker_pub_);
+    double fitness = ComputeIcpFitness(scene_, aligned_object, roi);
     geometry_msgs::Pose output_pose;
     output_pose.position.x = roi.transform.translation.x;
     output_pose.position.y = roi.transform.translation.y;
     output_pose.position.z = roi.transform.translation.z;
     output_pose.orientation = roi.transform.rotation;
     output_mutex.lock();
-    aligned_objects->push_back(
-        PoseEstimationMatch(aligned_object, output_pose, fitness));
+    aligned_objects->push_back(PoseEstimationMatch(
+        aligned_object, output_pose, object_roi_.dimensions, fitness));
     output_mutex.unlock();
   }
 }
@@ -365,8 +360,8 @@ void PoseEstimator::RunIcpCandidates(
   boost::mutex output_mutex;
   for (size_t ci = 0; ci < candidates->size(); ++ci) {
     io_service.post(boost::bind(&PoseEstimator::RunIcpCandidateInThread, this,
-                                candidates, ci, max_iterations, boost::ref(output_mutex),
-                                aligned_objects));
+                                candidates, ci, max_iterations,
+                                boost::ref(output_mutex), aligned_objects));
   }
   work.reset();
   threadpool.join_all();
@@ -381,7 +376,8 @@ void PoseEstimator::NonMaxSuppression(
   // still using a single radius whose length is half of the longest dimension.
   nms_radius_ =
       std::max(std::max(object_dims_.x(), object_dims_.y()), object_dims_.z()) /
-      2.0;
+      2.1;
+  ROS_INFO("Non-max suppression radius is %f", nms_radius_);
 
   deduped_indices->clear();
   // Non-max supression of output objects
@@ -420,7 +416,8 @@ void PoseEstimator::NonMaxSuppression(
       } else if (neighbor.fitness() == match.fitness()) {
         // Keep this one, bump neighbor's fitness score up so that it won't come
         // up again.
-        neighbor.set_fitness(neighbor.fitness() + 0.0001);
+        // neighbor.set_fitness(neighbor.fitness() + 0.0001);
+        keep_match = false;
       }
     }
     if (keep_match) {

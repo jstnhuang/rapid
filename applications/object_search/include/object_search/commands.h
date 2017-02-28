@@ -240,7 +240,8 @@ class SetInputSceneCommand : public rapid::utils::CommandInterface {
 class RunCommand : public rapid::utils::CommandInterface {
  public:
   RunCommand(Estimators* estimator, PoseEstimatorInput* input,
-             const ros::Publisher& output_pub);
+             const ros::Publisher& output_pub,
+             const ros::Publisher& marker_pub);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
@@ -250,6 +251,7 @@ class RunCommand : public rapid::utils::CommandInterface {
   Estimators* estimators_;
   PoseEstimatorInput* input_;
   ros::Publisher output_pub_;
+  ros::Publisher marker_pub_;
   std::vector<rapid::perception::PoseEstimationMatch> matches_;
 };
 

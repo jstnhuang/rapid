@@ -25,8 +25,9 @@ PoseEstimationMatch::PoseEstimationMatch()
 
 PoseEstimationMatch::PoseEstimationMatch(PointCloudC::Ptr cloud,
                                          const geometry_msgs::Pose& pose,
+                                         const geometry_msgs::Vector3& scale,
                                          double fitness)
-    : cloud_(new PointCloudC), pose_(pose), fitness_(fitness) {
+    : cloud_(new PointCloudC), pose_(pose), scale_(scale), fitness_(fitness) {
   *cloud_ = *cloud;
   Eigen::Vector4f min_pt;
   Eigen::Vector4f max_pt;
@@ -42,6 +43,8 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr PoseEstimationMatch::cloud() const {
 
 geometry_msgs::Pose PoseEstimationMatch::pose() const { return pose_; }
 
+geometry_msgs::Vector3 PoseEstimationMatch::scale() const { return scale_; }
+
 pcl::PointXYZ PoseEstimationMatch::center() const { return center_; }
 
 double PoseEstimationMatch::fitness() const { return fitness_; }
@@ -53,9 +56,15 @@ bool ComparePoseEstimationMatch(const PoseEstimationMatch& a,
   return a.fitness() < b.fitness();
 }
 
-void VisualizeMatches(ros::Publisher& pub,
+void VisualizeMatches(ros::Publisher& pub, ros::Publisher& marker_pub,
                       const std::vector<PoseEstimationMatch>& matches) {
   std::string frame_id = "";
+  visualization_msgs::Marker clear;
+  clear.ns = "output";
+  clear.action = 3;
+  if (marker_pub) {
+    marker_pub.publish(clear);
+  }
   if (pub) {
     PointCloudC::Ptr output_cloud(new PointCloudC);
     for (size_t i = 0; i < matches.size(); ++i) {
@@ -64,6 +73,17 @@ void VisualizeMatches(ros::Publisher& pub,
       *output_cloud += *match.cloud();
       if (frame_id == "" && match.cloud()->header.frame_id != "") {
         frame_id = match.cloud()->header.frame_id;
+      }
+
+      if (marker_pub) {
+        geometry_msgs::PoseStamped ps;
+        ps.header.frame_id = match.cloud()->header.frame_id;
+        ps.pose = match.pose();
+        visualization_msgs::Marker box = viz::OutlineBox(ps, match.scale());
+        box.ns = "output";
+        box.id = i;
+        box.scale.x = 0.0025;
+        marker_pub.publish(box);
       }
 
       // geometry_msgs::PoseStamped ps;

@@ -132,7 +132,8 @@ void RansacPoseEstimator::Find(std::vector<PoseEstimationMatch>* matches) {
     pose.position.y = rt[10];
     pose.position.z = rt[11];
     p_arr.poses.push_back(pose);
-    PoseEstimationMatch match(working_transformed, pose, it->match_confidence_);
+    PoseEstimationMatch match(working_transformed, pose, object_roi_.dimensions,
+                              it->match_confidence_);
     matches->push_back(match);
     ROS_INFO("Match at %f %f %f: %f", pose.position.x, pose.position.y,
              pose.position.z, it->match_confidence_);
@@ -140,7 +141,7 @@ void RansacPoseEstimator::Find(std::vector<PoseEstimationMatch>* matches) {
 
   ROS_INFO("RANSAC found %ld matches", matches->size());
 
-  VisualizeMatches(output_pub_, *matches);
+  VisualizeMatches(output_pub_, marker_pub_, *matches);
   if (pose_pub_) {
     pose_pub_.publish(p_arr);
   }
@@ -161,6 +162,9 @@ void RansacPoseEstimator::set_output_publisher(const ros::Publisher& pub) {
 }
 void RansacPoseEstimator::set_pose_publisher(const ros::Publisher& pub) {
   pose_pub_ = pub;
+}
+void RansacPoseEstimator::set_marker_publisher(const ros::Publisher& pub) {
+  marker_pub_ = pub;
 }
 
 void RansacPoseEstimator::set_pair_width(double val) {

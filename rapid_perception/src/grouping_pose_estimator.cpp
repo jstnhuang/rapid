@@ -4,6 +4,7 @@
 
 #include "Eigen/Dense"
 #include "geometry_msgs/Pose.h"
+#include "pcl/common/common.h"
 #include "pcl/common/transforms.h"
 #include "pcl/correspondence.h"
 #include "pcl/features/board.h"
@@ -78,6 +79,11 @@ void GroupingPoseEstimator::set_scene(PointCloudC::Ptr scene) {
 void GroupingPoseEstimator::set_object(
     const PointCloud<pcl::PointXYZRGB>::Ptr& object) {
   object_ = object;
+  Eigen::Vector4f min_pt, max_pt;
+  pcl::getMinMax3D(*object, min_pt, max_pt);
+  object_dimensions_.x = max_pt.x() - min_pt.x();
+  object_dimensions_.y = max_pt.y() - min_pt.y();
+  object_dimensions_.z = max_pt.z() - min_pt.z();
   ComputeNormals(object_, object_normals_);
   ComputeKeypoints(object_, object_vox_, object_keypoints_);
   ComputeDescriptors(object_keypoints_, object_normals_, object_,
@@ -114,7 +120,8 @@ void GroupingPoseEstimator::Find(std::vector<PoseEstimationMatch>* matches) {
     PointCloudC::Ptr working(new PointCloudC);
     pcl::transformPointCloud(*object_, *working, transform);
 
-    PoseEstimationMatch match(working, pose, 1);  // TODO(jstn): no score yet
+    PoseEstimationMatch match(working, pose, object_dimensions_,
+                              1);  // TODO(jstn): no score yet
     matches->push_back(match);
   }
 }

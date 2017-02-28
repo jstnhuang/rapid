@@ -27,6 +27,7 @@ class RansacPoseEstimator : public PoseEstimationInterface {
   void set_object_publisher(const ros::Publisher& pub);
   void set_output_publisher(const ros::Publisher& pub);
   void set_pose_publisher(const ros::Publisher& pub);
+  void set_marker_publisher(const ros::Publisher& pub);
 
   void set_pair_width(double val);
   void set_voxel_size(double val);
@@ -61,6 +62,7 @@ class RansacPoseEstimator : public PoseEstimationInterface {
   ros::Publisher object_pub_;
   ros::Publisher output_pub_;
   ros::Publisher pose_pub_;
+  ros::Publisher marker_pub_;
 };
 }  // namespace perception
 }  // namespace rapid

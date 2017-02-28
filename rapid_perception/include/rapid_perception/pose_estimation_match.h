@@ -17,10 +17,12 @@ class PoseEstimationMatch {
   // Do not use default constructor except to initialize empty objects.
   PoseEstimationMatch();
   PoseEstimationMatch(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud,
-                      const geometry_msgs::Pose& pose, double fitness);
+                      const geometry_msgs::Pose& pose,
+                      const geometry_msgs::Vector3& scale, double fitness);
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud() const;
   // Returns the pose of the match.
   geometry_msgs::Pose pose() const;
+  geometry_msgs::Vector3 scale() const;
   // Returns the center point of the point cloud
   pcl::PointXYZ center() const;
   // Returns the ICP fitness score (lower score is a better match).
@@ -30,6 +32,7 @@ class PoseEstimationMatch {
  private:
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_;
   geometry_msgs::Pose pose_;
+  geometry_msgs::Vector3 scale_;
   pcl::PointXYZ center_;
   double fitness_;
 };
@@ -39,7 +42,7 @@ bool ComparePoseEstimationMatch(const PoseEstimationMatch& a,
                                 const PoseEstimationMatch& b);
 
 // Visualize matches to a PointCloud2 publisher.
-void VisualizeMatches(ros::Publisher& pub,
+void VisualizeMatches(ros::Publisher& pub, ros::Publisher& marker_pub,
                       const std::vector<PoseEstimationMatch>& matches);
 }  // namespace perception
 }  // namespace rapid

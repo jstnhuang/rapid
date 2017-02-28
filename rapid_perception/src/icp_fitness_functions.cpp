@@ -1,23 +1,19 @@
 #include "rapid_perception/icp_fitness_functions.h"
 
 #include <cmath>
-#include <iostream>
-#include <string>
 #include <vector>
 
 #include "Eigen/Core"
 #include "Eigen/Geometry"
+#include "geometry_msgs/PoseStamped.h"
+#include "geometry_msgs/Vector3.h"
 #include "pcl/filters/crop_box.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "pcl/search/kdtree.h"
+#include "ros/ros.h"
 
 #include "rapid_msgs/Roi3D.h"
-#include "rapid_viz/publish.h"
-
-#include "geometry_msgs/PoseStamped.h"
-#include "geometry_msgs/Vector3.h"
-#include "rapid_viz/markers.h"
 
 typedef pcl::PointXYZRGB PointC;
 typedef pcl::PointCloud<PointC> PointCloudC;
@@ -26,10 +22,8 @@ using std::vector;
 
 namespace rapid {
 namespace perception {
-double ComputeIcpFitness(
-    PointCloudC::Ptr& scene, PointCloudC::Ptr& object,
-    const rapid_msgs::Roi3D& roi, bool debug,
-    rapid_ros::Publisher<visualization_msgs::Marker>* pub) {
+double ComputeIcpFitness(PointCloudC::Ptr& scene, PointCloudC::Ptr& object,
+                         const rapid_msgs::Roi3D& roi) {
   Eigen::Vector4f min;
   min.x() = -roi.dimensions.x / 2;
   min.y() = -roi.dimensions.y / 2;
@@ -74,10 +68,8 @@ double ComputeIcpFitness(
     const PointC& scene_pt = scene->at(index);
     object_tree.nearestKSearch(scene_pt, 1, nn_indices, nn_dists);
     double distance = sqrt(nn_dists[0]);
-    // if (distance < 0.05) {
     fitness += distance;
     ++denominator;
-    //}
     visited[nn_indices[0]] = true;
   }
 
@@ -101,30 +93,6 @@ double ComputeIcpFitness(
   }
 
   fitness /= denominator;
-
-  // if (debug && pub != NULL) {
-  //  geometry_msgs::PoseStamped ps;
-  //  ps.header.frame_id = object->header.frame_id;
-  //  ps.pose.position.x = translation.x();
-  //  ps.pose.position.y = translation.y();
-  //  ps.pose.position.z = translation.z();
-  //  ps.pose.orientation.w = rotation.w();
-  //  ps.pose.orientation.x = rotation.x();
-  //  ps.pose.orientation.y = rotation.y();
-  //  ps.pose.orientation.z = rotation.z();
-  //  geometry_msgs::Vector3 scale;
-  //  scale.x = roi.dimensions.x;
-  //  scale.y = roi.dimensions.y;
-  //  scale.z = roi.dimensions.z;
-  //  viz::Marker box = viz::Marker::Box(pub, ps, scale);
-  //  box.SetColor(1, 0, 0, 0.25);
-  //  box.Publish();
-  //  std::string input;
-  //  std::cout << "Fitness: " << fitness
-  //            << ". Press enter to continue: " << std::endl;
-  //  std::getline(std::cin, input);
-  //}
-
   return fitness;
 }
 }  // namespace perception

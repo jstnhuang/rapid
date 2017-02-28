@@ -19,7 +19,6 @@
 #include "rapid_perception/random_heat_mapper.h"
 #include "rapid_perception/scene.h"
 #include "rapid_perception/scene_parsing.h"
-#include "rapid_ros/publisher.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "tf/tf.h"
@@ -298,9 +297,8 @@ int main(int argc, char** argv) {
       nh.advertise<sensor_msgs::PointCloud2>("/alignment", 1, true);
   ros::Publisher output_pub =
       nh.advertise<sensor_msgs::PointCloud2>("/output", 1, true);
-  rapid_ros::Publisher<visualization_msgs::Marker> marker_pub(
-      nh.advertise<visualization_msgs::Marker>("/find_object_markers", 1,
-                                               true));
+  ros::Publisher marker_pub =
+      nh.advertise<visualization_msgs::Marker>("/find_object_markers", 1, true);
 
   // Build heat mapper
   rapid::perception::RandomHeatMapper* heat_mapper =
@@ -315,7 +313,7 @@ int main(int argc, char** argv) {
   pose_estimator.set_candidates_publisher(candidates_pub);
   pose_estimator.set_alignment_publisher(alignment_pub);
   pose_estimator.set_output_publisher(output_pub);
-  pose_estimator.set_marker_publisher(&marker_pub);
+  pose_estimator.set_marker_publisher(marker_pub);
 
   // Build databases
   ros::ServiceClient get_cloud =

@@ -12,7 +12,6 @@
 #include "rapid_perception/conversions.h"
 #include "rapid_perception/pose_estimation.h"
 #include "rapid_perception/random_heat_mapper.h"
-#include "rapid_ros/publisher.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "visualization_msgs/Marker.h"
@@ -67,8 +66,8 @@ int main(int argc, char** argv) {
   ros::Publisher alignment_pub =
       nh.advertise<PointCloud2>("/alignment", 1, true);
   ros::Publisher output_pub = nh.advertise<PointCloud2>("/output", 1, true);
-  rapid_ros::Publisher<Marker> marker_pub(
-      nh.advertise<Marker>("/visualization_markers", 1, true));
+  ros::Publisher marker_pub =
+      nh.advertise<Marker>("/visualization_markers", 1, true);
 
   rapid::perception::RandomHeatMapper heat_mapper;
   heat_mapper.set_name("random");
@@ -76,7 +75,7 @@ int main(int argc, char** argv) {
   rapid::perception::PoseEstimator custom(&heat_mapper);
   custom.set_candidates_publisher(candidates_pub);
   custom.set_alignment_publisher(alignment_pub);
-  custom.set_marker_publisher(&marker_pub);
+  custom.set_marker_publisher(marker_pub);
   custom.set_output_publisher(output_pub);
   custom.set_scene_publisher(scene_pub);
 
