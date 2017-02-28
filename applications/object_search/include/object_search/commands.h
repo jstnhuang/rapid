@@ -209,7 +209,7 @@ class SetInputLandmarkCommand : public rapid::utils::CommandInterface {
  public:
   SetInputLandmarkCommand(rapid::db::NameDb* info_db,
                           rapid::db::NameDb* cloud_db,
-                          const ros::Publisher& pub, PoseEstimatorInput* input);
+                          const ros::Publisher& pub, const ros::Publisher& marker_pub, PoseEstimatorInput* input);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
@@ -218,6 +218,7 @@ class SetInputLandmarkCommand : public rapid::utils::CommandInterface {
   rapid::db::NameDb* info_db_;
   rapid::db::NameDb* cloud_db_;
   ros::Publisher pub_;
+  ros::Publisher marker_pub_;
   PoseEstimatorInput* input_;
 };
 

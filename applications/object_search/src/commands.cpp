@@ -26,6 +26,7 @@
 #include "rapid_perception/random_heat_mapper.h"
 #include "rapid_perception/rgbd.h"
 #include "rapid_utils/command_line.h"
+#include "rapid_viz/markers.h"
 #include "rapid_viz/publish.h"
 #include "rapid_viz/scene_viz.h"
 #include "ros/ros.h"
@@ -452,8 +453,9 @@ string DeleteCommand::description() const {
 SetInputLandmarkCommand::SetInputLandmarkCommand(NameDb* info_db,
                                                  NameDb* cloud_db,
                                                  const ros::Publisher& pub,
+                                                 const ros::Publisher& marker_pub,
                                                  PoseEstimatorInput* input)
-    : info_db_(info_db), cloud_db_(cloud_db), pub_(pub), input_(input) {}
+    : info_db_(info_db), cloud_db_(cloud_db), pub_(pub), marker_pub_(marker_pub), input_(input) {}
 
 void SetInputLandmarkCommand::Execute(const vector<string>& args) {
   if (args.size() == 0) {
@@ -473,6 +475,16 @@ void SetInputLandmarkCommand::Execute(const vector<string>& args) {
     return;
   }
 
+  geometry_msgs::PoseStamped ps;
+  ps.header.frame_id = "base_link";
+  ps.pose.position.x = input_->landmark.roi.transform.translation.x;
+  ps.pose.position.y = input_->landmark.roi.transform.translation.y;
+  ps.pose.position.z = input_->landmark.roi.transform.translation.z;
+  ps.pose.orientation.w = 1;
+  visualization_msgs::Marker box = rapid::viz::OutlineBox(ps, input_->landmark.roi.dimensions);
+  box.ns = "landmark_box";
+  box.scale.x = 0.005;
+  marker_pub_.publish(box);
   rapid::viz::PublishCloud(pub_, input_->landmark_cloud);
 }
 

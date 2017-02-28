@@ -149,7 +149,7 @@ int main(int argc, char** argv) {
   DeleteCommand delete_landmark(&landmark_ndb, &landmark_cloud_ndb, "landmark");
   DeleteCommand delete_scene(&scene_ndb, &scene_cloud_ndb, "scene");
   SetInputLandmarkCommand set_input_landmark(&landmark_ndb, &landmark_cloud_ndb,
-                                             landmark_pub, &estimator_input);
+                                             landmark_pub, marker_pub, &estimator_input);
   SetInputSceneCommand set_input_scene(&scene_ndb, &scene_cloud_ndb, scene_viz,
                                        &estimator_input);
   // SetLandmarkSceneCommand set_landmark_scene(&scene_ndb, &estimator_input,
