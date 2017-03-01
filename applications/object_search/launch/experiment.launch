@@ -7,14 +7,15 @@
   <param name="max_samples" value="1000" />
   <param name="num_candidates" value="1000" />
   <param name="is_tabletop" value="false" />
-  <param name="orientation_tolerance" value="0.0254" />
-  <param name="orientation_tolerance" value="0.15" />
+  <param name="position_tolerance" value="0.0254" />
+  <param name="orientation_tolerance" value="0.2618" />
   <arg name="debug" default="false" />
   <param name="experiment_debug" value="$(arg debug)" />
   <arg name="all" default="true" />
-  <rosparam if="$(arg all)" param="experiment_tasks">['chair', 'tool rack', 'drawer', 'bowls', 'laundry panel', 'laundry basket', 'box 1', 'box 2', 'cat treats', 'pr2 kit', 'cans']</rosparam>
-  <rosparam unless="$(arg all)" param="experiment_tasks">['cans']</rosparam>
-  <include file="$(find mongodb_store)/launch/mongodb_store.launch">
+  <rosparam if="$(arg all)" param="experiment_tasks">['bowls', 'box 1', 'box 2', 'cans', 'cat treats', 'chair', 'check gripper', 'check gripper 2', 'drawer', 'laundry basket', 'laundry panel', 'marker holder', 'marker holder 2', 'pr2 kit', 'tool rack', 'waste bins']</rosparam>
+  <rosparam unless="$(arg all)" param="experiment_tasks">['tool rack']</rosparam>
+  <arg name="launch_db" default="false" />
+  <include if="$(arg launch_db)" file="$(find mongodb_store)/launch/mongodb_store.launch">
     <arg name="use_daemon" value="true" />
     <arg name="port" value="27017" />
   </include>
