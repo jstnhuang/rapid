@@ -5,6 +5,7 @@
 
 #include "object_search_msgs/Label.h"
 #include "object_search_msgs/Task.h"
+#include "pcl/common/time.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
 #include "rapid_db/name_db.hpp"
@@ -153,7 +154,12 @@ void RunExperiment(PoseEstimator* estimator,
       estimator->set_roi(landmark_info.roi);
 
       std::vector<PoseEstimationMatch> matches;
+      pcl::StopWatch watch;
+      watch.reset();
       estimator->Find(&matches);
+      ROS_INFO("Scene points: %ld, landmark points: %ld, seconds: %f",
+               scene_downsampled->size(), landmark_downsampled->size(),
+               watch.getTimeSeconds());
 
       // Compute precision/recall
       object_search::ConfusionMatrix landmark_results;
