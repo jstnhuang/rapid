@@ -12,6 +12,7 @@
 #include "pcl/filters/voxel_grid.h"
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
+#include "ros/ros.h"
 
 #include "rapid_viz/publish.h"
 
@@ -31,9 +32,11 @@ RandomHeatMapper::RandomHeatMapper()
 
 void RandomHeatMapper::Compute(PointCloudC::Ptr heatmap,
                                Eigen::VectorXd* importances) {
+  double scale;
+  ros::param::param("random_scale", scale, 2.0);
   pcl::VoxelGrid<PointC> vox;
   vox.setInputCloud(scene_);
-  vox.setLeafSize(scale_x_ / 3, scale_y_ / 3, scale_z_ / 3);
+  vox.setLeafSize(scale_x_ / scale, scale_y_ / scale, scale_z_ / scale);
   vox.filter(*heatmap);
 
   ROS_INFO("Randomly sampled %ld points", heatmap->size());
