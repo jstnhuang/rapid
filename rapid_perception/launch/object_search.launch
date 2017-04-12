@@ -1,5 +1,5 @@
 <launch>
-  <param name="leaf_size" value="0.005" />
+  <param name="leaf_size" value="0.01" />
   <param name="min_x" value="0.3" />
   <param name="min_y" value="-0.75" />
   <param name="min_z" value="0.3" />
@@ -8,13 +8,13 @@
   <param name="max_z" value="1.7" />
   <param name="sample_ratio" value="0.04" />
   <!--param name="fitness_threshold" value="0.0065" /-->
-  <param name="fitness_threshold" value="0.0045" />
+  <param name="fitness_threshold" value="0.007" />
   <param name="sigma_threshold" value="8" />
   <param name="nms_radius" value="0.02" />
   <param name="max_samples" value="1000" />
   <param name="num_candidates" value="1000" />
   <param name="num_threads" value="8" />
-  <param name="is_tabletop" value="true" /> <!-- PbD uses this when calling the service. Only for HRI study. -->
+  <param name="is_tabletop" value="false" /> <!-- PbD uses this when calling the service. Only for HRI study. -->
   <!--node pkg="object_search" type="object_search_main" name="object_search_cli" /-->
   <node pkg="object_search" type="object_search_service_node" name="object_search_service_node">
     <remap from="cloud_in" to="/head_mount_kinect/depth_registered/points" />
