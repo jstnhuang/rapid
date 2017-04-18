@@ -40,6 +40,7 @@
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
+  <depend>rapid_pr2</depend>
   <depend>roscpp</depend>
   <depend>rospy</depend>
 
