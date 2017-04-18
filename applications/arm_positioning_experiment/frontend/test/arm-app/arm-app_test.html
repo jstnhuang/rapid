@@ -1,0 +1,32 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>arm-app test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../../src/arm-app/arm-app.html">
+  </head>
+  <body>
+
+    <test-fixture id="basic">
+      <template>
+        <arm-app></arm-app>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite('arm-app', function() {
+
+        test('instantiating the element works', function() {
+          var element = fixture('basic');
+          assert.equal(element.is, 'arm-app');
+        });
+
+      });
+    </script>
+  </body>
+</html>

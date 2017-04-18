@@ -1,0 +1,27 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/ros-websocket/ros-websocket.html">
+<link rel="import" href="../arm-state-listener/arm-state-listener.html">
+
+<dom-module id="arm-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <ros-websocket auto id="ros" ros="{{ros}}"></ros-websocket>
+    <arm-state-listener ros="{{ros}}"></arm-state-listener>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'arm-app',
+
+      properties: {
+      },
+
+    });
+  </script>
+</dom-module>
