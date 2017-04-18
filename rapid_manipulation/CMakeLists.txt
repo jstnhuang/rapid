@@ -120,7 +120,9 @@ set(gmock_LIB_DIR /usr/lib)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES rapid_manipulation
+  LIBRARIES
+    rapid_manipulation
+    rapid_manipulation_joint_state_reader
   CATKIN_DEPENDS
     actionlib
     geometry_msgs
@@ -171,6 +173,18 @@ target_link_libraries(rapid_manipulation
   gmock
   ${catkin_LIBRARIES}
 )
+
+add_library(rapid_manipulation_joint_state_reader
+  src/joint_state_reader.cpp
+)
+add_dependencies(rapid_manipulation_joint_state_reader
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(rapid_manipulation_joint_state_reader
+  ${catkin_LIBRARIES}
+)
+
 
 ## Declare a C++ executable
 # add_executable(rapid_manipulation_node src/rapid_manipulation_node.cpp)
