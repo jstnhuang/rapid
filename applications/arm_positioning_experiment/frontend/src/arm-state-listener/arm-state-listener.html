@@ -8,7 +8,18 @@
       :host {
         display: block;
       }
+      .left {
+        float: left;
+      }
     </style>
+    <ros-joint-state auto ros="{{ros}}" position="{{lShoulderPan}}" joint-name="l_shoulder_pan_joint" ></ros-joint-state>
+    <ros-joint-state auto ros="{{ros}}" position="{{lShoulderLift}}" joint-name="l_shoulder_lift_joint" ></ros-joint-state>
+    <ros-joint-state auto ros="{{ros}}" position="{{lUpperArmRoll}}" joint-name="l_upper_arm_roll_joint" ></ros-joint-state>
+    <ros-joint-state auto ros="{{ros}}" position="{{lElbowFlex}}" joint-name="l_elbow_flex_joint" ></ros-joint-state>
+    <ros-joint-state auto ros="{{ros}}" position="{{lForearmRoll}}" joint-name="l_forearm_roll_joint" ></ros-joint-state>
+    <ros-joint-state auto ros="{{ros}}" position="{{lWristFlex}}" joint-name="l_wrist_flex_joint" ></ros-joint-state>
+    <ros-joint-state auto ros="{{ros}}" position="{{lWristRoll}}" joint-name="l_wrist_roll_joint" ></ros-joint-state>
+
     <ros-joint-state auto ros="{{ros}}" position="{{rShoulderPan}}" joint-name="r_shoulder_pan_joint" ></ros-joint-state>
     <ros-joint-state auto ros="{{ros}}" position="{{rShoulderLift}}" joint-name="r_shoulder_lift_joint" ></ros-joint-state>
     <ros-joint-state auto ros="{{ros}}" position="{{rUpperArmRoll}}" joint-name="r_upper_arm_roll_joint" ></ros-joint-state>
@@ -16,6 +27,16 @@
     <ros-joint-state auto ros="{{ros}}" position="{{rForearmRoll}}" joint-name="r_forearm_roll_joint" ></ros-joint-state>
     <ros-joint-state auto ros="{{ros}}" position="{{rWristFlex}}" joint-name="r_wrist_flex_joint" ></ros-joint-state>
     <ros-joint-state auto ros="{{ros}}" position="{{rWristRoll}}" joint-name="r_wrist_roll_joint" ></ros-joint-state>
+
+    <div class="left">
+      l_shoulder_pan_joint: {{lShoulderPan}}<br />
+      l_shoulder_lift_joint: {{lShoulderLift}}<br />
+      l_upper_arm_roll_joint: {{lUpperArmRoll}}<br />
+      l_elbow_flex_joint: {{lElbowFlex}}<br />
+      l_forearm_roll_joint: {{lForearmRoll}}<br />
+      l_wrist_flex_joint: {{lWristFlex}}<br />
+      l_wrist_roll_joint: {{lWristRoll}}<br />
+    </div>
 
     <div>
       r_shoulder_pan_joint: {{rShoulderPan}}<br />
@@ -26,7 +47,10 @@
       r_wrist_flex_joint: {{rWristFlex}}<br />
       r_wrist_roll_joint: {{rWristRoll}}<br />
     </div>
-    <paper-button id="toggleButton" on-tap="_toggleListen" raised toggles>Pause</paper-button>
+
+    <div>
+      <paper-button id="toggleButton" on-tap="_toggleListen" raised toggles>Pause</paper-button>
+    </div>
   </template>
 
   <script>
