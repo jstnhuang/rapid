@@ -5,6 +5,8 @@ project(arm_positioning_experiment)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  moveit_core
+  rapid_manipulation
   rapid_pr2
   roscpp
   rospy
@@ -102,7 +104,12 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES arm_positioning_experiment
-#  CATKIN_DEPENDS roscpp rospy
+  CATKIN_DEPENDS
+    moveit_core
+    rapid_manipulation
+    rapid_pr2
+    roscpp
+    rospy
 #  DEPENDS system_lib
 )
 
@@ -128,16 +135,16 @@ include_directories(
 # add_dependencies(arm_positioning_experiment ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(arm_positioning_experiment_node src/arm_positioning_experiment_node.cpp)
+add_executable(arm_positioning_experiment_main src/positioning_main.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(arm_positioning_experiment_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(arm_positioning_experiment_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(arm_positioning_experiment_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(arm_positioning_experiment_main
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
