@@ -104,6 +104,7 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES
     rapid_pr2
+    rapid_pr2_arm_joints
     rapid_pr2_joint_states
   CATKIN_DEPENDS
     blinky
@@ -137,6 +138,17 @@ add_dependencies(rapid_pr2
   ${catkin_EXPORTED_TARGETS}
 )
 target_link_libraries(rapid_pr2
+  ${catkin_LIBRARIES}
+)
+
+add_library(rapid_pr2_arm_joints
+  src/arm_joints.cpp
+)
+add_dependencies(rapid_pr2_arm_joints
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(rapid_pr2_arm_joints
   ${catkin_LIBRARIES}
 )
 
