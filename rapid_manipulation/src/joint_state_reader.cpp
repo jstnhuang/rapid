@@ -18,15 +18,15 @@ void JointStateReader::Start() {
   sub_ = nh_.subscribe(topic_, 5, &JointStateReader::callback, this);
 }
 
-double JointStateReader::get_position(const std::string& name) {
+double JointStateReader::get_position(const std::string& name) const {
   if (positions_.find(name) == positions_.end()) {
     return kNoJointValue;
   }
-  return positions_[name];
+  return positions_.at(name);
 }
 
 void JointStateReader::get_positions(const std::vector<std::string>& names,
-                                     std::vector<double>* positions) {
+                                     std::vector<double>* positions) const {
   positions->clear();
   for (size_t i = 0; i < names.size(); ++i) {
     positions->push_back(get_position(names[i]));

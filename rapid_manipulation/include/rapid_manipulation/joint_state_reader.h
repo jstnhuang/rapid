@@ -27,12 +27,12 @@ class JointStateReader {
 
   // Returns the position of the given joint.
   // If the joint name is valid, returns rapid::manipulation::kNoJointValue.
-  double get_position(const std::string& name);
+  double get_position(const std::string& name) const;
 
   // Returns the positions of the given vector of joints. If a joint name is
   // invalid, then its value will be kNoJointValue.
   void get_positions(const std::vector<std::string>& names,
-                     std::vector<double>* positions);
+                     std::vector<double>* positions) const;
 
  private:
   void callback(const sensor_msgs::JointState& msg);
