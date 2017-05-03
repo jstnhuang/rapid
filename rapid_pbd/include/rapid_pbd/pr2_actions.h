@@ -21,6 +21,8 @@ using pr2_controllers_msgs::Pr2GripperCommandResultConstPtr;
 namespace rapid {
 namespace pbd {
 namespace pr2 {
+// Constants for the names of our actions and the names of the actions in the
+// PR2 API.
 static const char kLeftGripperActionName[] = "rapid_pbd/l_gripper_action";
 static const char kRightGripperActionName[] = "rapid_pbd/r_gripper_action";
 static const char kPr2LeftGripperActionName[] =
@@ -28,14 +30,15 @@ static const char kPr2LeftGripperActionName[] =
 static const char kPr2RightGripperActionName[] =
     "r_gripper_controller/gripper_action";
 
+static const char kLeftArmJointActionName[] = "rapid_pbd/l_arm_joint_action";
+static const char kRightArmJointActionName[] = "rapid_pbd/r_arm_joint_action";
+
 class GripperAction {
  public:
   GripperAction(const std::string& name, const std::string& pr2_action_name);
 
   void Start();
   void Execute(const control_msgs::GripperCommandGoalConstPtr& goal);
-  void HandleDone(const actionlib::SimpleClientGoalState& state,
-                  const Pr2GripperCommandResultConstPtr& pr2_result);
   void HandleFeedback(const Pr2GripperCommandFeedback::ConstPtr& pr2_feedback);
 
  private:
