@@ -86,6 +86,7 @@ script:
     - catkin_test_results build/rapid_display
     - catkin_test_results build/rapid_fetch
     - catkin_test_results build/rapid_manipulation
+    - catkin_test_results build/rapid_pbd
     - catkin_test_results build/rapid_perception
     - catkin_test_results build/rapid_pr2
     - catkin_test_results build/rapid_ros

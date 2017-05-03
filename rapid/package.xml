@@ -44,6 +44,8 @@
   <run_depend>rapid_main</run_depend>
   <run_depend>rapid_manipulation</run_depend>
   <run_depend>rapid_msgs</run_depend>
+  <run_depend>rapid_pbd</run_depend>
+  <run_depend>rapid_pbd_msgs</run_depend>
   <run_depend>rapid_perception</run_depend>
   <run_depend>rapid_pr2</run_depend>
   <run_depend>rapid_ros</run_depend>
