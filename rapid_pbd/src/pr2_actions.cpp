@@ -16,10 +16,9 @@ namespace pbd {
 namespace pr2 {
 GripperAction::GripperAction(const std::string& action_name,
                              const std::string& pr2_action_name)
-    : nh_(),
-      server_(nh_, action_name, boost::bind(&GripperAction::Execute, this, _1),
+    : server_(action_name, boost::bind(&GripperAction::Execute, this, _1),
               false),
-      pr2_client_(nh_, pr2_action_name, true) {}
+      pr2_client_(pr2_action_name, true) {}
 
 void GripperAction::Start() {
   while (!pr2_client_.waitForServer(ros::Duration(5))) {

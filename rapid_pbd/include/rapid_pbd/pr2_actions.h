@@ -42,7 +42,6 @@ class GripperAction {
   void HandleFeedback(const Pr2GripperCommandFeedback::ConstPtr& pr2_feedback);
 
  private:
-  ros::NodeHandle nh_;
   actionlib::SimpleActionServer<control_msgs::GripperCommandAction> server_;
   Pr2GripperClient pr2_client_;
 };
