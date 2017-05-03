@@ -5,6 +5,9 @@ project(rapid_pbd)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  actionlib
+  control_msgs
+  pr2_controllers_msgs
   rapid_pbd_msgs
   roscpp
   rospy
@@ -100,9 +103,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES rapid_pbd
-#  CATKIN_DEPENDS rapid_pbd_msgs roscpp rospy
+  INCLUDE_DIRS include
+  LIBRARIES rapid_pbd_pr2
+  CATKIN_DEPENDS rapid_pbd_msgs roscpp rospy
 #  DEPENDS system_lib
 )
 
@@ -114,30 +117,34 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
-# add_library(rapid_pbd
-#   src/${PROJECT_NAME}/rapid_pbd.cpp
-# )
+add_library(rapid_pbd_pr2
+  src/pr2.cpp
+)
+add_dependencies(rapid_pbd_pr2 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_pr2
+  ${catkin_LIBRARIES}
+)
 
-## Add cmake target dependencies of the library
-## as an example, code may need to be generated before libraries
-## either from message generation or dynamic reconfigure
-# add_dependencies(rapid_pbd ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_executable(rapid_pbd_pr2_node src/pr2_node.cpp)
+set_target_properties(rapid_pbd_pr2_node PROPERTIES OUTPUT_NAME pr2_node PREFIX "")
+add_dependencies(rapid_pbd_pr2_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_pr2_node
+  rapid_pbd_pr2
+  ${catkin_LIBRARIES}
+)
 
-## Declare a C++ executable
-# add_executable(rapid_pbd_node src/rapid_pbd_node.cpp)
-
-## Add cmake target dependencies of the executable
-## same as for the library above
-# add_dependencies(rapid_pbd_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Specify libraries to link a library or executable target against
-# target_link_libraries(rapid_pbd_node
-#   ${catkin_LIBRARIES}
-# )
+add_executable(rapid_pbd_pr2_gripper_demo src/pr2_gripper_demo.cpp)
+set_target_properties(rapid_pbd_pr2_gripper_demo PROPERTIES OUTPUT_NAME pr2_gripper_demo PREFIX "")
+add_dependencies(rapid_pbd_pr2_gripper_demo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_pr2_gripper_demo
+  rapid_pbd_pr2
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
