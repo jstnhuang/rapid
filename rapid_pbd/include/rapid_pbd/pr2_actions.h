@@ -21,17 +21,6 @@ using pr2_controllers_msgs::Pr2GripperCommandResultConstPtr;
 namespace rapid {
 namespace pbd {
 namespace pr2 {
-// Constants for the names of our actions and the names of the actions in the
-// PR2 API.
-static const char kLeftGripperActionName[] = "rapid_pbd/l_gripper_action";
-static const char kRightGripperActionName[] = "rapid_pbd/r_gripper_action";
-static const char kPr2LeftGripperActionName[] =
-    "l_gripper_controller/gripper_action";
-static const char kPr2RightGripperActionName[] =
-    "r_gripper_controller/gripper_action";
-
-static const char kLeftArmJointActionName[] = "rapid_pbd/l_arm_joint_action";
-static const char kRightArmJointActionName[] = "rapid_pbd/r_arm_joint_action";
 
 class GripperAction {
  public:

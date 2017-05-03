@@ -1,5 +1,6 @@
 #include "actionlib/client/action_client.h"
 #include "control_msgs/FollowJointTrajectoryAction.h"
+#include "rapid_pbd/action_names.h"
 #include "rapid_pbd/pr2_actions.h"
 #include "ros/ros.h"
 
@@ -16,9 +17,9 @@ int main(int argc, char** argv) {
   ros::init(argc, argv, "pr2_arm_demo");
 
   actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>
-      left_arm(rapid::pbd::pr2::kLeftArmJointActionName, true);
+      left_arm(rapid::pbd::kLeftArmJointActionName, true);
   actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>
-      right_arm(rapid::pbd::pr2::kRightArmJointActionName, true);
+      right_arm(rapid::pbd::kRightArmJointActionName, true);
   if (!wait_for_server(left_arm)) {
     left_arm.cancelAllGoals();
     return 1;

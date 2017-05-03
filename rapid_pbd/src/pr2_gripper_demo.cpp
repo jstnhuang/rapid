@@ -1,5 +1,6 @@
 #include "actionlib/client/simple_action_client.h"
 #include "control_msgs/GripperCommandAction.h"
+#include "rapid_pbd/action_names.h"
 #include "rapid_pbd/pr2_actions.h"
 #include "ros/ros.h"
 
@@ -9,9 +10,9 @@ int main(int argc, char** argv) {
   ros::init(argc, argv, "pr2_gripper_demo");
 
   actionlib::SimpleActionClient<control_msgs::GripperCommandAction>
-      left_gripper(rapid::pbd::pr2::kLeftGripperActionName, true);
+      left_gripper(rapid::pbd::kLeftGripperActionName, true);
   actionlib::SimpleActionClient<control_msgs::GripperCommandAction>
-      right_gripper(rapid::pbd::pr2::kRightGripperActionName, true);
+      right_gripper(rapid::pbd::kRightGripperActionName, true);
   bool success = left_gripper.waitForServer(ros::Duration(10));
   success &= right_gripper.waitForServer(ros::Duration(10));
   if (!success) {
