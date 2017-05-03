@@ -104,7 +104,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES rapid_pbd_pr2
+  LIBRARIES rapid_pbd_pr2_actions
   CATKIN_DEPENDS rapid_pbd_msgs roscpp rospy
 #  DEPENDS system_lib
 )
@@ -122,19 +122,19 @@ include_directories(
 )
 
 ## Declare a C++ library
-add_library(rapid_pbd_pr2
-  src/pr2.cpp
+add_library(rapid_pbd_pr2_actions
+  src/pr2_actions.cpp
 )
-add_dependencies(rapid_pbd_pr2 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rapid_pbd_pr2
+add_dependencies(rapid_pbd_pr2_actions ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_pr2_actions
   ${catkin_LIBRARIES}
 )
 
-add_executable(rapid_pbd_pr2_node src/pr2_node.cpp)
-set_target_properties(rapid_pbd_pr2_node PROPERTIES OUTPUT_NAME pr2_node PREFIX "")
-add_dependencies(rapid_pbd_pr2_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rapid_pbd_pr2_node
-  rapid_pbd_pr2
+add_executable(rapid_pbd_pr2_action_node src/pr2_action_node.cpp)
+set_target_properties(rapid_pbd_pr2_action_node PROPERTIES OUTPUT_NAME pr2_action_node PREFIX "")
+add_dependencies(rapid_pbd_pr2_action_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_pr2_action_node
+  rapid_pbd_pr2_actions
   ${catkin_LIBRARIES}
 )
 
@@ -142,7 +142,7 @@ add_executable(rapid_pbd_pr2_gripper_demo src/pr2_gripper_demo.cpp)
 set_target_properties(rapid_pbd_pr2_gripper_demo PROPERTIES OUTPUT_NAME pr2_gripper_demo PREFIX "")
 add_dependencies(rapid_pbd_pr2_gripper_demo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_pr2_gripper_demo
-  rapid_pbd_pr2
+  rapid_pbd_pr2_actions
   ${catkin_LIBRARIES}
 )
 

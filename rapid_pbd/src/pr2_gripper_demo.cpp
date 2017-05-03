@@ -1,6 +1,6 @@
 #include "actionlib/client/simple_action_client.h"
 #include "control_msgs/GripperCommandAction.h"
-#include "rapid_pbd/pr2.h"
+#include "rapid_pbd/pr2_actions.h"
 #include "ros/ros.h"
 
 #include <signal.h>

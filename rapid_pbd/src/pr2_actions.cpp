@@ -1,4 +1,4 @@
-#include "rapid_pbd/pr2.h"
+#include "rapid_pbd/pr2_actions.h"
 
 #include <string>
 
@@ -14,21 +14,22 @@ using pr2_controllers_msgs::Pr2GripperCommandResult;
 namespace rapid {
 namespace pbd {
 namespace pr2 {
-Gripper::Gripper(const std::string& action_name,
-                 const std::string& pr2_action_name)
+GripperAction::GripperAction(const std::string& action_name,
+                             const std::string& pr2_action_name)
     : nh_(),
-      server_(nh_, action_name, boost::bind(&Gripper::Execute, this, _1),
+      server_(nh_, action_name, boost::bind(&GripperAction::Execute, this, _1),
               false),
       pr2_client_(nh_, pr2_action_name, true) {}
 
-void Gripper::Start() {
+void GripperAction::Start() {
   while (!pr2_client_.waitForServer(ros::Duration(5))) {
     ROS_WARN("Waiting for PR2 gripper server to come up.");
   }
   server_.start();
 }
 
-void Gripper::Execute(const control_msgs::GripperCommandGoalConstPtr& goal) {
+void GripperAction::Execute(
+    const control_msgs::GripperCommandGoalConstPtr& goal) {
   pr2_controllers_msgs::Pr2GripperCommandGoal pr2_goal;
   pr2_goal.command.position = goal->command.position;
   pr2_goal.command.max_effort = goal->command.max_effort;
@@ -37,7 +38,7 @@ void Gripper::Execute(const control_msgs::GripperCommandGoalConstPtr& goal) {
       boost::function<void(const SimpleClientGoalState&,
                            const Pr2GripperCommandResult::ConstPtr&)>(),
       boost::function<void()>(),
-      boost::bind(&Gripper::HandleFeedback, this, _1));
+      boost::bind(&GripperAction::HandleFeedback, this, _1));
   while (!pr2_client_.getState().isDone()) {
     if (server_.isPreemptRequested()) {
       pr2_client_.cancelAllGoals();
@@ -63,7 +64,7 @@ void Gripper::Execute(const control_msgs::GripperCommandGoalConstPtr& goal) {
   server_.setSucceeded(result);
 }
 
-void Gripper::HandleFeedback(
+void GripperAction::HandleFeedback(
     const Pr2GripperCommandFeedback::ConstPtr& pr2_feedback) {
   control_msgs::GripperCommandFeedback feedback;
   feedback.effort = pr2_feedback->effort;

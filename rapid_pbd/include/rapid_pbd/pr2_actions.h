@@ -28,9 +28,9 @@ static const char kPr2LeftGripperActionName[] =
 static const char kPr2RightGripperActionName[] =
     "r_gripper_controller/gripper_action";
 
-class Gripper {
+class GripperAction {
  public:
-  Gripper(const std::string& name, const std::string& pr2_action_name);
+  GripperAction(const std::string& name, const std::string& pr2_action_name);
 
   void Start();
   void Execute(const control_msgs::GripperCommandGoalConstPtr& goal);
