@@ -146,6 +146,14 @@ target_link_libraries(rapid_pbd_pr2_gripper_demo
   ${catkin_LIBRARIES}
 )
 
+add_executable(rapid_pbd_pr2_arm_joint_demo src/pr2_arm_joint_demo.cpp)
+set_target_properties(rapid_pbd_pr2_arm_joint_demo PROPERTIES OUTPUT_NAME pr2_arm_joint_demo PREFIX "")
+add_dependencies(rapid_pbd_pr2_arm_joint_demo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_pr2_arm_joint_demo
+  rapid_pbd_pr2_actions
+  ${catkin_LIBRARIES}
+)
+
 #############
 ## Install ##
 #############
