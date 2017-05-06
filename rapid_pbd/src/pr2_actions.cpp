@@ -49,9 +49,11 @@ void GripperAction::Execute(
   if (pr2_client_.getState() == SimpleClientGoalState::PREEMPTED) {
     pr2_client_.cancelAllGoals();
     server_.setPreempted();
+    return;
   } else if (pr2_client_.getState() == SimpleClientGoalState::ABORTED) {
     pr2_client_.cancelAllGoals();
     server_.setAborted();
+    return;
   }
 
   Pr2GripperCommandResult::ConstPtr pr2_result = pr2_client_.getResult();
