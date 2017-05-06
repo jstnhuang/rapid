@@ -104,7 +104,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES rapid_pbd_pr2_actions
+  LIBRARIES
+    rapid_pbd_action_executor
+    rapid_pbd_pr2_actions
+    rapid_pbd_step_executor
   CATKIN_DEPENDS rapid_pbd_msgs roscpp rospy
 #  DEPENDS system_lib
 )
@@ -121,14 +124,24 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-## Declare a C++ library
-add_library(rapid_pbd_pr2_actions
-  src/pr2_actions.cpp
-)
+## Libraries
+add_library(rapid_pbd_pr2_actions src/pr2_actions.cpp)
 add_dependencies(rapid_pbd_pr2_actions ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rapid_pbd_pr2_actions
+target_link_libraries(rapid_pbd_pr2_actions ${catkin_LIBRARIES})
+
+add_library(rapid_pbd_action_executor src/action_executor.cpp)
+add_dependencies(rapid_pbd_action_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_action_executor ${catkin_LIBRARIES})
+
+add_library(rapid_pbd_step_executor src/step_executor.cpp)
+add_dependencies(rapid_pbd_step_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_step_executor
+  rapid_pbd_action_executor
   ${catkin_LIBRARIES}
 )
+
+
+## Executables
 
 add_executable(rapid_pbd_pr2_action_node src/pr2_action_node.cpp)
 set_target_properties(rapid_pbd_pr2_action_node PROPERTIES OUTPUT_NAME pr2_action_node PREFIX "")
@@ -138,11 +151,18 @@ target_link_libraries(rapid_pbd_pr2_action_node
   ${catkin_LIBRARIES}
 )
 
+add_executable(rapid_pbd_program_execution_demo src/program_execution_demo.cpp)
+set_target_properties(rapid_pbd_program_execution_demo PROPERTIES OUTPUT_NAME program_execution_demo PREFIX "")
+add_dependencies(rapid_pbd_program_execution_demo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_program_execution_demo
+  rapid_pbd_step_executor
+  ${catkin_LIBRARIES}
+)
+
 add_executable(rapid_pbd_pr2_gripper_demo src/pr2_gripper_demo.cpp)
 set_target_properties(rapid_pbd_pr2_gripper_demo PROPERTIES OUTPUT_NAME pr2_gripper_demo PREFIX "")
 add_dependencies(rapid_pbd_pr2_gripper_demo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_pr2_gripper_demo
-  rapid_pbd_pr2_actions
   ${catkin_LIBRARIES}
 )
 
@@ -150,7 +170,6 @@ add_executable(rapid_pbd_pr2_arm_joint_demo src/pr2_arm_joint_demo.cpp)
 set_target_properties(rapid_pbd_pr2_arm_joint_demo PROPERTIES OUTPUT_NAME pr2_arm_joint_demo PREFIX "")
 add_dependencies(rapid_pbd_pr2_arm_joint_demo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_pr2_arm_joint_demo
-  rapid_pbd_pr2_actions
   ${catkin_LIBRARIES}
 )
 
