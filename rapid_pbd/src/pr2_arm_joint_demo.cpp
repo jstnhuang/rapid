@@ -1,7 +1,6 @@
-#include "actionlib/client/action_client.h"
+#include "actionlib/client/simple_action_client.h"
 #include "control_msgs/FollowJointTrajectoryAction.h"
 #include "rapid_pbd/action_names.h"
-#include "rapid_pbd/pr2_actions.h"
 #include "ros/ros.h"
 
 bool wait_for_server(const actionlib::SimpleActionClient<
