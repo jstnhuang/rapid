@@ -9,13 +9,11 @@
 #include "ros/ros.h"
 
 #include "rapid_pbd/action_names.h"
-#include "rapid_pbd_msgs/ExecuteActionAction.h"
 
 using actionlib::SimpleActionClient;
 using actionlib::SimpleClientGoalState;
 using control_msgs::FollowJointTrajectoryAction;
 using rapid_pbd_msgs::Action;
-using rapid_pbd_msgs::ExecuteActionGoalConstPtr;
 
 namespace rapid {
 namespace pbd {
