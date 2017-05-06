@@ -1,3 +1,5 @@
 rapid_pbd_msgs/Program program
 ---
+string error
 ---
+int32 step_number
