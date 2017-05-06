@@ -1,10 +1,7 @@
 #include "actionlib/client/simple_action_client.h"
 #include "control_msgs/GripperCommandAction.h"
 #include "rapid_pbd/action_names.h"
-#include "rapid_pbd/pr2_actions.h"
 #include "ros/ros.h"
-
-#include <signal.h>
 
 int main(int argc, char** argv) {
   ros::init(argc, argv, "pr2_gripper_demo");
