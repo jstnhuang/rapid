@@ -39,7 +39,7 @@ void GripperAction::Execute(
       boost::function<void()>(),
       boost::bind(&GripperAction::HandleFeedback, this, _1));
   while (!pr2_client_.getState().isDone()) {
-    if (server_.isPreemptRequested()) {
+    if (server_.isPreemptRequested() || !ros::ok()) {
       pr2_client_.cancelAllGoals();
       server_.setPreempted();
       return;
