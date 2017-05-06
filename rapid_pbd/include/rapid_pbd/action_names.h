@@ -6,9 +6,11 @@
 
 namespace rapid {
 namespace pbd {
+static const char kGripperActionName[] = "rapid_pbd/gripper_action";
 static const char kLeftGripperActionName[] = "rapid_pbd/l_gripper_action";
 static const char kRightGripperActionName[] = "rapid_pbd/r_gripper_action";
 
+static const char kArmJointActionName[] = "rapid_pbd/arm_joint_action";
 static const char kLeftArmJointActionName[] = "rapid_pbd/l_arm_joint_action";
 static const char kRightArmJointActionName[] = "rapid_pbd/r_arm_joint_action";
 
