@@ -14,12 +14,12 @@ namespace rapid {
 namespace pbd {
 StepExecutor::StepExecutor(const rapid_pbd_msgs::Step& step)
     : step_(step), executors_() {
-  IsValid();
+  IsValid(step_);
 }
 
-bool StepExecutor::IsValid() const {
-  for (size_t i = 0; i < step_.actions.size(); ++i) {
-    const Action& action = step_.actions[i];
+bool StepExecutor::IsValid(const rapid_pbd_msgs::Step& step) {
+  for (size_t i = 0; i < step.actions.size(); ++i) {
+    const Action& action = step.actions[i];
     if (!ActionExecutor::IsValid(action)) {
       ROS_ERROR("Action type %s invalid in step %ld", action.type.c_str(), i);
       return false;
@@ -29,7 +29,7 @@ bool StepExecutor::IsValid() const {
 }
 
 void StepExecutor::Start() {
-  if (!IsValid()) {
+  if (!IsValid(step_)) {
     return;
   }
 

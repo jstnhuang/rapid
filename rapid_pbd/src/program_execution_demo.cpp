@@ -9,6 +9,7 @@
 #include "ros/ros.h"
 #include "trajectory_msgs/JointTrajectory.h"
 
+using rapid::pbd::StepExecutor;
 using rapid_pbd_msgs::Action;
 using rapid_pbd_msgs::Step;
 
@@ -102,8 +103,8 @@ int main(int argc, char** argv) {
   step2.actions.push_back(move_l_arm);
   step2.actions.push_back(move_r_arm);
 
-  rapid::pbd::StepExecutor executor(step1);
-  if (!executor.IsValid()) {
+  StepExecutor executor(step1);
+  if (!StepExecutor::IsValid(step1)) {
     return 1;
   }
   executor.Start();
@@ -115,8 +116,8 @@ int main(int argc, char** argv) {
     ros::spinOnce();
   }
 
-  rapid::pbd::StepExecutor executor2(step2);
-  if (!executor2.IsValid()) {
+  StepExecutor executor2(step2);
+  if (!StepExecutor::IsValid(step2)) {
     return 1;
   }
   executor2.Start();

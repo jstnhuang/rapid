@@ -14,7 +14,7 @@ class StepExecutor {
 
   // Returns true if the Step message is valid, false otherwise.
   // You should call this method to verify the step message before executing it.
-  bool IsValid() const;
+  static bool IsValid(const rapid_pbd_msgs::Step& step);
 
   // Starts the step execution.
   void Start();
