@@ -140,22 +140,33 @@ target_link_libraries(rapid_pbd_step_executor
   ${catkin_LIBRARIES}
 )
 
+add_library(rapid_pbd_program_executor src/program_executor.cpp)
+add_dependencies(rapid_pbd_program_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_program_executor
+  rapid_pbd_step_executor
+  ${catkin_LIBRARIES}
+)
 
 ## Executables
+
+add_executable(rapid_pbd_program_execution_demo src/program_execution_demo.cpp)
+set_target_properties(rapid_pbd_program_execution_demo PROPERTIES OUTPUT_NAME program_execution_demo PREFIX "")
+add_dependencies(rapid_pbd_program_execution_demo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_program_execution_demo ${catkin_LIBRARIES})
+
+add_executable(rapid_pbd_program_execution_node src/program_execution_node.cpp)
+set_target_properties(rapid_pbd_program_execution_node PROPERTIES OUTPUT_NAME program_execution_node PREFIX "")
+add_dependencies(rapid_pbd_program_execution_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_program_execution_node
+  rapid_pbd_program_executor
+  ${catkin_LIBRARIES}
+)
 
 add_executable(rapid_pbd_pr2_action_node src/pr2_action_node.cpp)
 set_target_properties(rapid_pbd_pr2_action_node PROPERTIES OUTPUT_NAME pr2_action_node PREFIX "")
 add_dependencies(rapid_pbd_pr2_action_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_pr2_action_node
   rapid_pbd_pr2_actions
-  ${catkin_LIBRARIES}
-)
-
-add_executable(rapid_pbd_program_execution_demo src/program_execution_demo.cpp)
-set_target_properties(rapid_pbd_program_execution_demo PROPERTIES OUTPUT_NAME program_execution_demo PREFIX "")
-add_dependencies(rapid_pbd_program_execution_demo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rapid_pbd_program_execution_demo
-  rapid_pbd_step_executor
   ${catkin_LIBRARIES}
 )
 
