@@ -1,15 +1,16 @@
-#include <iostream>
 #include <string>
-#include <vector>
 
-#include "rapid_pbd/step_executor.h"
+#include "actionlib/client/simple_action_client.h"
 #include "rapid_pbd/action_names.h"
 #include "rapid_pbd_msgs/Action.h"
+#include "rapid_pbd_msgs/ExecuteProgramAction.h"
 #include "rapid_pbd_msgs/Step.h"
 #include "ros/ros.h"
 #include "trajectory_msgs/JointTrajectory.h"
 
-using rapid::pbd::StepExecutor;
+using rapid_pbd_msgs::ExecuteProgramAction;
+using rapid_pbd_msgs::ExecuteProgramGoal;
+using rapid_pbd_msgs::Program;
 using rapid_pbd_msgs::Action;
 using rapid_pbd_msgs::Step;
 
@@ -103,31 +104,19 @@ int main(int argc, char** argv) {
   step2.actions.push_back(move_l_arm);
   step2.actions.push_back(move_r_arm);
 
-  StepExecutor executor(step1);
-  if (!StepExecutor::IsValid(step1)) {
-    return 1;
-  }
-  executor.Start();
-  while (!executor.IsDone()) {
-    if (!ros::ok()) {
-      executor.Cancel();
-      return 0;
-    }
-    ros::spinOnce();
-  }
+  Program program;
+  program.name = "Test program";
+  program.steps.push_back(step1);
+  program.steps.push_back(step2);
 
-  StepExecutor executor2(step2);
-  if (!StepExecutor::IsValid(step2)) {
-    return 1;
-  }
-  executor2.Start();
-  while (ros::ok() && !executor2.IsDone()) {
-    if (!ros::ok()) {
-      executor2.Cancel();
-      return 0;
-    }
-    ros::spinOnce();
-  }
+  actionlib::SimpleActionClient<ExecuteProgramAction> client(
+      rapid::pbd::kProgramActionName, true);
+  client.waitForServer();
+  ExecuteProgramGoal goal;
+  goal.program = program;
+  client.sendGoal(goal);
+  client.waitForResult(ros::Duration(8));
+  client.cancelAllGoals();
 
   return 0;
 }
