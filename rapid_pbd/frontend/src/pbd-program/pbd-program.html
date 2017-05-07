@@ -1,6 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
@@ -8,6 +10,7 @@
 <dom-module id="pbd-program">
   <template>
     <style include="shared-styles"></style>
+    <style is="custom-style" include="iron-flex iron-flex-alignment">
     <style>
       :host {
         display: block;
@@ -35,9 +38,10 @@
       topic="rapid_pbd/editor_events"
       ros="[[ros]]"
     ></ros-topic>
-
-    <a href="#/"><paper-button>&larr; Back to program list</paper-button></a>
-    <paper-input label="Program name" value="{{program.name}}" on-blur="save"></paper-input>
+    <div class="layout horizontal">
+      <a href="#/" class="self-end"><paper-button><iron-icon icon="arrow-back"></iron-icon> Back</paper-button></a>
+      <paper-input class="flex" label="Program name" value="{{program.name}}" on-blur="save"></paper-input>
+    </div>
   </template>
 
   <script>
