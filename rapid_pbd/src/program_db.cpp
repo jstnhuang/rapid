@@ -24,6 +24,29 @@ ProgramDb::ProgramDb(mongodb_store::MessageStoreProxy db,
 
 void ProgramDb::Start() { PublishList(); }
 
+void ProgramDb::Insert(const rapid_pbd_msgs::Program& program) {
+  std::string id = db_.insert(program);
+  ROS_INFO("Inserted program \"%s\" with ID %s", program.name.c_str(),
+           id.c_str());
+  PublishList();
+}
+
+void ProgramDb::Update(const std::string& db_id,
+                       const rapid_pbd_msgs::Program& program) {}
+
+void ProgramDb::GetProgramById(const std::string& db_id) {}
+
+void ProgramDb::Delete(const std::string& db_id) {
+  bool success = db_.deleteID(db_id);
+
+  if (success) {
+    ROS_INFO("Deleted program with ID %s", db_id.c_str());
+    PublishList();
+  } else {
+    ROS_ERROR("Could not delete program with ID \"%s\"", db_id.c_str());
+  }
+}
+
 void ProgramDb::PublishList() {
   vector<pair<shared_ptr<Program>, mongo::BSONObj> > results;
   db_.query<Program>(results);
@@ -31,7 +54,7 @@ void ProgramDb::PublishList() {
   for (size_t i = 0; i < results.size(); ++i) {
     ProgramInfo info;
     info.name = results[i].first->name;
-    info.db_id = results[i].second.getField("_id").String();
+    info.db_id = results[i].second.getField("_id").OID().str();
     msg.programs.push_back(info);
   }
   list_pub_.publish(msg);
