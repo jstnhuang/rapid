@@ -7,6 +7,7 @@ project(rapid_pbd)
 find_package(catkin REQUIRED COMPONENTS
   actionlib
   control_msgs
+  mongodb_store
   pr2_controllers_msgs
   rapid_pbd_msgs
   roscpp
@@ -106,6 +107,7 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES
     rapid_pbd_action_executor
+    rapid_pbd_program_db
     rapid_pbd_pr2_actions
     rapid_pbd_step_executor
   CATKIN_DEPENDS rapid_pbd_msgs roscpp rospy
@@ -125,6 +127,10 @@ include_directories(
 )
 
 ## Libraries
+add_library(rapid_pbd_program_db src/program_db.cpp)
+add_dependencies(rapid_pbd_program_db ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_program_db ${catkin_LIBRARIES})
+
 add_library(rapid_pbd_pr2_actions src/pr2_actions.cpp)
 add_dependencies(rapid_pbd_pr2_actions ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_pr2_actions ${catkin_LIBRARIES})
@@ -148,6 +154,12 @@ target_link_libraries(rapid_pbd_program_executor
 )
 
 ## Executables
+add_executable(rapid_pbd_editor_node src/editor_node.cpp)
+set_target_properties(rapid_pbd_editor_node PROPERTIES OUTPUT_NAME editor_node PREFIX "")
+add_dependencies(rapid_pbd_editor_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_editor_node
+  rapid_pbd_program_db
+  ${catkin_LIBRARIES})
 
 add_executable(rapid_pbd_program_execution_demo src/program_execution_demo.cpp)
 set_target_properties(rapid_pbd_program_execution_demo PROPERTIES OUTPUT_NAME program_execution_demo PREFIX "")

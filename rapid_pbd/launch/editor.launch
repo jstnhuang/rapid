@@ -1,0 +1,7 @@
+<launch>
+  <param name="mongodb_use_daemon" value="true" />
+  <param name="mongodb_host" value="localhost" />
+  <param name="mongodb_port" value="27017" />
+  <node name="message_store" pkg="mongodb_store" type="message_store_node.py" output="screen" /> 
+  <node name="rapid_pbd_editor_node" pkg="rapid_pbd" type="editor_node" output="screen" />
+</launch>
