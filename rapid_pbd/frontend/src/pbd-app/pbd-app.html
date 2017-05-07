@@ -2,12 +2,31 @@
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-styles/color.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/ros-websocket/ros-websocket.html">
+<link rel="import" href="../pbd-program-list/pbd-program-list.html">
 
 <dom-module id="pbd-app">
   <template>
     <style>
       :host {
         display: block;
+        @apply(--paper-font-common-base);
+      }
+      paper-button {
+        @apply(--paper-font-button);
+      }
+      paper-dialog paper-button {
+      }
+      paper-dialog paper-button:hover {
+        background-color: var(--paper-grey-300);
+      }
+      #buttons {
+        text-align: right;
       }
     </style>
     <app-location route="{{route}}" use-hash-as-path></app-location>
@@ -17,13 +36,26 @@
       data="{{routeData}}"
       tail="{{routeTail}}"
     ></app-route>
+    <ros-websocket auto url$="{{url}}" id="websocket"
+      on-connection="_handleConnection"
+      on-error="_handleClose"
+      on-close="_handleClose"
+      ros="{{ros}}"
+    ></ros-websocket>
+    <paper-dialog modal id="dialog">
+      <h2>Disconnected from server</h2>
+      <p>Please check that the robot's websocket server is running and try again.</p>
+      <paper-input id="websocketUrl" label="Websocket URL" value="{{url}}"></paper-input>
+      <div id="buttons">
+        <paper-button dialog-confirm on-tap="reconnect">Reconnect</paper-button> 
+      </div>
+    </paper-dialog>
     <a href="#/">Home</a>
     <a href="#/program">Program</a>
     <iron-pages attr-for-selected="data-page" selected="{{routeData.page}}">
-      <section data-page="">Home page </section>
+      <pbd-program-list data-page="" ros="[[ros]]"></pbd-program-list>
       <section data-page="program">Program page</section>
     </iron-pages>
-
   </template>
 
   <script>
@@ -39,9 +71,32 @@
               page: ''
             };
           }
+        },
+        url: {
+          type: String,
+          value: function() {
+            var hostname = window.location.hostname;
+            var protocol = 'ws:';
+            if (window.location.protocol === 'https:') {
+              protocol = 'wss:';
+            }
+            return protocol + '//' + hostname + ':9090';
+          },
         }
       },
 
+      reconnect: function() {
+        var url = this.$.websocketUrl.value;
+        this.$.websocket.connect(url);
+      },
+
+      _handleConnection: function() {
+        this.$.dialog.close();
+      },
+
+      _handleClose: function() {
+        this.$.dialog.open();
+      },
     });
   </script>
 </dom-module>

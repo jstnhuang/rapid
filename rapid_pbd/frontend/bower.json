@@ -5,7 +5,11 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
     "app-route": "PolymerElements/app-route#^1.0.1",
-    "iron-pages": "PolymerElements/iron-pages#^1.0.9"
+    "iron-pages": "PolymerElements/iron-pages#^1.0.9",
+    "ros-websocket": "jstnhuang/ros-websocket#^2.0.0",
+    "paper-dialog": "PolymerElements/paper-dialog#^1.1.0",
+    "paper-button": "PolymerElements/paper-button#^1.0.15",
+    "paper-input": "PolymerElements/paper-input#^1.1.24"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
