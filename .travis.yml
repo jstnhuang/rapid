@@ -55,6 +55,7 @@ install:
     - git clone https://github.com/jstnhuang/stf.git
     - git clone https://github.com/jstnhuang/mongo_msg_db_msgs.git
     - git clone https://github.com/jstnhuang/mongo_msg_db.git
+    - git clone https://github.com/jstnhuang/mongodb_store.git -b patch-1
     - catkin_init_workspace
     # Install dependencies
     - cd ~/catkin_ws/
