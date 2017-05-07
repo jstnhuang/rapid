@@ -1,13 +1,45 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/ros-websocket/ros-websocket.html">
+<link rel="import" href="../shared-styles/shared-styles.html">
 
 <dom-module id="pbd-program-list">
   <template>
+    <style include="shared-styles"></style>
     <style>
       :host {
         display: block;
       }
+      paper-button {
+        @apply(--paper-font-button);
+      }
+      #createButton {
+        background-color: var(--paper-amber-500);
+        color: #000;
+        margin-left: 0;
+      }
+      paper-material {
+        margin-top: 10px;
+        padding: 10px;
+      }
     </style>
-    Program list
+    <ros-topic auto 
+      id="topic"
+      last-message="[[programList]]"
+      msg-type="rapid_pbd_msgs/ProgramList"
+      topic="rapid_pbd/program_list"
+      ros="[[ros]]"
+    ></ros-topic>
+    <paper-button id="createButton" raised>+ Create new program</paper-button>
+    <paper-material>
+      <template is="dom-if" if="{{!programList.programs.length}}">
+        No programs yet.
+      </template>
+      <template is="dom-repeat" items="[[programList.programs]]" as="program">
+        {{program.name}}<br />
+      </template>
+    </paper-material>
   </template>
 
   <script>
@@ -17,6 +49,12 @@
 
       properties: {
         ros: Object,
+        programList: {
+          type: Object,
+          value: function() {
+            return { programs: [] };
+          }
+        }
       },
 
     });

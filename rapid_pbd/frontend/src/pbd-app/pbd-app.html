@@ -9,18 +9,15 @@
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 <link rel="import" href="../../bower_components/ros-websocket/ros-websocket.html">
 <link rel="import" href="../pbd-program-list/pbd-program-list.html">
+<link rel="import" href="../shared-styles/shared-styles.html">
 
 <dom-module id="pbd-app">
   <template>
+    <style include="shared-styles"></style>
     <style>
       :host {
         display: block;
         @apply(--paper-font-common-base);
-      }
-      paper-button {
-        @apply(--paper-font-button);
-      }
-      paper-dialog paper-button {
       }
       paper-dialog paper-button:hover {
         background-color: var(--paper-grey-300);
@@ -50,8 +47,6 @@
         <paper-button dialog-confirm on-tap="reconnect">Reconnect</paper-button> 
       </div>
     </paper-dialog>
-    <a href="#/">Home</a>
-    <a href="#/program">Program</a>
     <iron-pages attr-for-selected="data-page" selected="{{routeData.page}}">
       <pbd-program-list data-page="" ros="[[ros]]"></pbd-program-list>
       <section data-page="program">Program page</section>
