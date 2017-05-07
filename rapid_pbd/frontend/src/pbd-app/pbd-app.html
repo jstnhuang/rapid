@@ -9,6 +9,7 @@
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 <link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
 <link rel="import" href="../../bower_components/ros-websocket/ros-websocket.html">
+<link rel="import" href="../pbd-program/pbd-program.html">
 <link rel="import" href="../pbd-program-list/pbd-program-list.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
 
@@ -56,10 +57,7 @@
     </paper-dialog>
     <iron-pages attr-for-selected="data-page" selected="{{routeData.page}}">
       <pbd-program-list data-page="" ros="[[ros]]"></pbd-program-list>
-      <section data-page="program">
-        <a href="#/">Home</a><br />
-        Program page
-      </section>
+      <pbd-program data-page="program" ros="[[ros]]" route="{{routeTail}}"></pbd-program>
     </iron-pages>
   </template>
 

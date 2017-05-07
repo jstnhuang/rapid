@@ -1,0 +1,97 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
+<link rel="import" href="../shared-styles/shared-styles.html">
+
+<dom-module id="pbd-program">
+  <template>
+    <style include="shared-styles"></style>
+    <style>
+      :host {
+        display: block;
+      }
+      a {
+        color: #000;
+        text-decoration: none;
+      }
+    </style>
+    <app-route
+      route="{{route}}"
+      pattern="/:id"
+      data="{{routeData}}"
+    ></app-route>
+    <ros-topic
+      id="programSub"
+      last-message="{{program}}"
+      msg-type="rapid_pbd_msgs/Program"
+      topic="rapid_pbd/program/{{routeData.id}}"
+      ros="[[ros]]"
+    ></ros-topic>
+    <ros-topic auto
+      id="eventPub"
+      msg-type="rapid_pbd_msgs/EditorEvent"
+      topic="rapid_pbd/editor_events"
+      ros="[[ros]]"
+    ></ros-topic>
+
+    <a href="#/"><paper-button>&larr; Back to program list</paper-button></a>
+    <paper-input label="Program name" value="{{program.name}}" on-blur="save"></paper-input>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'pbd-program',
+
+      properties: {
+        program: {
+          type: Object,
+          observer: '_programChanged',
+        },
+        ros: Object,
+        route: Object,
+      },
+
+      observers: [
+        'load(ros, routeData.id)',
+      ],
+
+      load: function(ros, db_id) {
+        if (!db_id || !ros) {
+          return;
+        }
+        var that = this;
+        this.debounce('load program', function() {
+          var msg = {
+            action: 'open program',
+            program_info: {
+              db_id: db_id
+            },
+          };
+          that.$.eventPub.publish(msg);
+          that.$.programSub.subscribe();
+        }, 100);
+      },
+
+      save: function() {
+        var msg = {
+          action: 'update program',
+          program_info: {
+            db_id: this.routeData.id,
+            name: this.program.name,
+          },
+          program: this.program
+        };
+        this.$.eventPub.publish(msg);
+      },
+
+      _programChanged: function(program, oldProgram) {
+        if (!program) {
+          return;
+        }
+        console.log('program changed');
+      },
+    });
+  </script>
+</dom-module>
