@@ -54,6 +54,7 @@ add_message_files(
   FILES
   Action.msg
   ControlStrategy.msg
+  EditorEvent.msg
   Landmark.msg
   Program.msg
   ProgramInfo.msg
