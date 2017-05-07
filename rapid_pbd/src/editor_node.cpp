@@ -1,6 +1,6 @@
 #include "mongodb_store/message_store.h"
 #include "rapid_pbd/program_db.h"
-#include "rapid_pbd_msgs/ProgramList.h"
+#include "rapid_pbd_msgs/ProgramInfoList.h"
 #include "ros/ros.h"
 
 namespace pbd = rapid::pbd;
@@ -12,8 +12,9 @@ int main(int argc, char** argv) {
   // Construct program DB.
   mongodb_store::MessageStoreProxy proxy(nh, pbd::kMongoCollectionName,
                                          pbd::kMongoDbName);
-  ros::Publisher program_list_pub = nh.advertise<rapid_pbd_msgs::ProgramList>(
-      pbd::kProgramListTopic, 1, true);
+  ros::Publisher program_list_pub =
+      nh.advertise<rapid_pbd_msgs::ProgramInfoList>(pbd::kProgramListTopic, 1,
+                                                    true);
   pbd::ProgramDb db(proxy, program_list_pub);
   db.Start();
 

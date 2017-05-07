@@ -6,11 +6,15 @@
 #include "ros/ros.h"
 
 #include "rapid_pbd_msgs/Program.h"
-#include "rapid_pbd_msgs/ProgramList.h"
+#include "rapid_pbd_msgs/ProgramInfo.h"
+#include "rapid_pbd_msgs/ProgramInfoList.h"
 
 using boost::shared_ptr;
 using rapid_pbd_msgs::Program;
-using rapid_pbd_msgs::ProgramList;
+using rapid_pbd_msgs::ProgramInfo;
+using rapid_pbd_msgs::ProgramInfoList;
+using std::pair;
+using std::vector;
 
 namespace rapid {
 namespace pbd {
@@ -21,11 +25,14 @@ ProgramDb::ProgramDb(mongodb_store::MessageStoreProxy db,
 void ProgramDb::Start() { PublishList(); }
 
 void ProgramDb::PublishList() {
-  std::vector<shared_ptr<Program> > results;
+  vector<pair<shared_ptr<Program>, mongo::BSONObj> > results;
   db_.query<Program>(results);
-  ProgramList msg;
+  ProgramInfoList msg;
   for (size_t i = 0; i < results.size(); ++i) {
-    msg.programs.push_back(*(results[i]));
+    ProgramInfo info;
+    info.name = results[i].first->name;
+    info.db_id = results[i].second.getField("_id").String();
+    msg.programs.push_back(info);
   }
   list_pub_.publish(msg);
 }

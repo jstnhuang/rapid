@@ -56,6 +56,7 @@ add_message_files(
   ControlStrategy.msg
   Landmark.msg
   Program.msg
+  ProgramInfo.msg
   ProgramInfoList.msg
   Step.msg
 )
