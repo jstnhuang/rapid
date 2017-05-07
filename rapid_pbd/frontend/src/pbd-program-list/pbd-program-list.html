@@ -50,13 +50,18 @@
       }
     </style>
     <ros-topic auto
-      id="topic"
       last-message="{{programList}}"
       msg-type="rapid_pbd_msgs/ProgramInfoList"
       topic="/rapid_pbd/program_list"
       ros="[[ros]]"
     ></ros-topic>
-    <paper-button id="createButton" raised>+ Create new program</paper-button>
+    <ros-topic auto
+      id="eventPub"
+      msg-type="rapid_pbd_msgs/EditorEvent"
+      topic="/rapid_pbd/editor_events"
+      ros="[[ros]]"
+    ></ros-topic>
+    <paper-button id="createButton" raised on-tap="_handleCreate">+ Create new program</paper-button>
     <paper-material>
       <table>
         <tr><th>Name</th><th>Actions</th></tr>
@@ -106,7 +111,25 @@
 
       _handleDelete: function(evt) {
         this.$.deleteDialog.close();
-        console.log(this._idToDelete);
+        var msg = {
+          action: 'delete program',
+          program_info: {
+            db_id: this._idToDelete
+          },
+        };
+        this.$.eventPub.publish(msg);
+      },
+
+      _handleCreate: function(evt) {
+        var now = new Date();
+        var name = 'Untitled program ' + now.toLocaleString();
+        var msg = {
+          action: 'create program',
+          program_info: {
+            name: name
+          },
+        };
+        this.$.eventPub.publish(msg);
       },
     });
   </script>
