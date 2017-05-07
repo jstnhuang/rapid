@@ -19,20 +19,20 @@ using std::vector;
 namespace rapid {
 namespace pbd {
 ProgramDb::ProgramDb(const ros::NodeHandle& nh,
-                     mongodb_store::MessageStoreProxy db,
+                     mongodb_store::MessageStoreProxy* db,
                      const ros::Publisher& list_pub)
     : nh_(nh), db_(db), list_pub_(list_pub), program_pubs_() {}
 
 void ProgramDb::Start() { PublishList(); }
 
 void ProgramDb::Insert(const rapid_pbd_msgs::Program& program) {
-  std::string id = db_.insert(program);
+  std::string id = db_->insert(program);
   PublishList();
 }
 
 void ProgramDb::Update(const std::string& db_id,
                        const rapid_pbd_msgs::Program& program) {
-  bool success = db_.updateID(db_id, program);
+  bool success = db_->updateID(db_id, program);
   if (!success) {
     ROS_ERROR("Failed to update program with ID: \"%s\"", db_id.c_str());
     return;
@@ -46,7 +46,7 @@ void ProgramDb::StartPublishingProgramById(const std::string& db_id) {
     return;
   }
   vector<shared_ptr<Program> > results;
-  bool success = db_.queryID(db_id, results);
+  bool success = db_->queryID(db_id, results);
   if (!success || results.size() < 1) {
     ROS_ERROR("Can't start publishing program with ID: \"%s\"", db_id.c_str());
     return;
@@ -58,7 +58,7 @@ void ProgramDb::StartPublishingProgramById(const std::string& db_id) {
 }
 
 void ProgramDb::Delete(const std::string& db_id) {
-  bool success = db_.deleteID(db_id);
+  bool success = db_->deleteID(db_id);
 
   if (success) {
     PublishList();
@@ -73,7 +73,7 @@ void ProgramDb::Delete(const std::string& db_id) {
 
 void ProgramDb::PublishList() {
   vector<pair<shared_ptr<Program>, mongo::BSONObj> > results;
-  db_.query<Program>(results);
+  db_->query<Program>(results);
   ProgramInfoList msg;
   for (size_t i = 0; i < results.size(); ++i) {
     ProgramInfo info;
@@ -90,7 +90,7 @@ void ProgramDb::PublishProgram(const std::string& db_id) {
     return;
   }
   vector<shared_ptr<Program> > results;
-  bool success = db_.queryID(db_id, results);
+  bool success = db_->queryID(db_id, results);
   if (!success || results.size() < 1) {
     ROS_ERROR("Could not republish program with ID: \"%s\"", db_id.c_str());
     return;

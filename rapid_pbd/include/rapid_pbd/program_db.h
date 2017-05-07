@@ -17,7 +17,7 @@ static const char kProgramListTopic[] = "rapid_pbd/program_list";
 
 class ProgramDb {
  public:
-  ProgramDb(const ros::NodeHandle& nh, mongodb_store::MessageStoreProxy db,
+  ProgramDb(const ros::NodeHandle& nh, mongodb_store::MessageStoreProxy* db,
             const ros::Publisher& list_pub);
 
   // Publishes the first message.
@@ -30,7 +30,7 @@ class ProgramDb {
 
  private:
   ros::NodeHandle nh_;
-  mongodb_store::MessageStoreProxy db_;
+  mongodb_store::MessageStoreProxy* db_;
   ros::Publisher list_pub_;
   std::map<std::string, ros::Publisher> program_pubs_;
 
