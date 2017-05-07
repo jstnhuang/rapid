@@ -38,6 +38,9 @@
       .delete {
         color: var(--paper-red-500);
       }
+      .deleteButtons {
+        text-align: right;
+      }
       a {
         color: #000;
         text-decoration: none;
@@ -82,8 +85,10 @@
       </table>
       <paper-dialog id="deleteDialog" modal>
         <h2>Delete program?</h2>
-        <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button dialog-confirm on-tap="_handleDelete" class="delete">Delete</paper-button>
+        <div class="deleteButtons">
+          <paper-button dialog-dismiss>Cancel</paper-button>
+          <paper-button dialog-confirm on-tap="_handleDelete" class="delete">Delete</paper-button>
+        </div>
       </paper-dialog>
     </paper-material>
   </template>
