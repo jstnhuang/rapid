@@ -1,7 +1,9 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
-<link rel="import" href="../../bower_components/ros-websocket/ros-websocket.html">
+<link rel="import" href="../../bower_components/paper-styles/color.html">
+<link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
 
 <dom-module id="pbd-program-list">
@@ -21,24 +23,63 @@
       }
       paper-material {
         margin-top: 10px;
+      }
+      table {
+        border-spacing: 0;
+        width: 100%;
+      }
+      td, th {
         padding: 10px;
+        text-align: left;
+      }
+      td {
+        border-top: 1px solid rgba(0, 0, 0, var(--light-divider-opacity));
+      }
+      .delete {
+        color: var(--paper-red-500);
+      }
+      a {
+        color: #000;
+        text-decoration: none;
+      }
+      paper-button:hover {
+        background-color: var(--paper-grey-300);
+      }
+      paper-button.delete:hover {
+        background-color: var(--paper-red-100);
       }
     </style>
-    <ros-topic auto 
+    <ros-topic auto
       id="topic"
-      last-message="[[programList]]"
-      msg-type="rapid_pbd_msgs/ProgramList"
-      topic="rapid_pbd/program_list"
+      last-message="{{programList}}"
+      msg-type="rapid_pbd_msgs/ProgramInfoList"
+      topic="/rapid_pbd/program_list"
       ros="[[ros]]"
     ></ros-topic>
     <paper-button id="createButton" raised>+ Create new program</paper-button>
     <paper-material>
-      <template is="dom-if" if="{{!programList.programs.length}}">
-        No programs yet.
-      </template>
-      <template is="dom-repeat" items="[[programList.programs]]" as="program">
-        {{program.name}}<br />
-      </template>
+      <table>
+        <tr><th>Name</th><th>Actions</th></tr>
+        <template is="dom-if" if="[[!programList.programs.length]]">
+          <tr>
+            <td colspan="2">No programs have been created yet.</td>
+          </tr>
+        </template>
+        <template is="dom-repeat" items="[[programList.programs]]" as="program">
+          <tr>
+            <td>{{program.name}}</td>
+            <td>
+              <a href="#/program/{{program.db_id}}"><paper-button>Open</paper-button></a>
+              <paper-button class="delete" data-db-id="{{program.db_id}}" on-tap="_maybeDelete">Delete</paper-button>
+            </td>
+          </tr>
+        </template>
+      </table>
+      <paper-dialog id="deleteDialog" modal>
+        <h2>Delete program?</h2>
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm on-tap="_handleDelete" class="delete">Delete</paper-button>
+      </paper-dialog>
     </paper-material>
   </template>
 
@@ -57,6 +98,16 @@
         }
       },
 
+      _maybeDelete: function(evt) {
+        var db_id = evt.model.get('program.db_id');
+        this._idToDelete = db_id;
+        this.$.deleteDialog.open();
+      },
+
+      _handleDelete: function(evt) {
+        this.$.deleteDialog.close();
+        console.log(this._idToDelete);
+      },
     });
   </script>
 </dom-module>
