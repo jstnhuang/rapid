@@ -52,13 +52,13 @@
     <ros-topic auto
       last-message="{{programList}}"
       msg-type="rapid_pbd_msgs/ProgramInfoList"
-      topic="/rapid_pbd/program_list"
+      topic="rapid_pbd/program_list"
       ros="[[ros]]"
     ></ros-topic>
     <ros-topic auto
       id="eventPub"
       msg-type="rapid_pbd_msgs/EditorEvent"
-      topic="/rapid_pbd/editor_events"
+      topic="rapid_pbd/editor_events"
       ros="[[ros]]"
     ></ros-topic>
     <paper-button id="createButton" raised on-tap="_handleCreate">+ Create new program</paper-button>
