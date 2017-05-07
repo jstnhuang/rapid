@@ -1,6 +1,7 @@
 #ifndef _RAPID_PBD_PROGRAM_DB_H_
 #define _RAPID_PBD_PROGRAM_DB_H_
 
+#include <map>
 #include <string>
 
 #include "mongodb_store/message_store.h"
@@ -16,7 +17,7 @@ static const char kProgramListTopic[] = "rapid_pbd/program_list";
 
 class ProgramDb {
  public:
-  ProgramDb(mongodb_store::MessageStoreProxy db,
+  ProgramDb(const ros::NodeHandle& nh, mongodb_store::MessageStoreProxy db,
             const ros::Publisher& list_pub);
 
   // Publishes the first message.
@@ -24,14 +25,17 @@ class ProgramDb {
 
   void Insert(const rapid_pbd_msgs::Program& program);
   void Update(const std::string& db_id, const rapid_pbd_msgs::Program& program);
-  void GetProgramById(const std::string& db_id);
+  void StartPublishingProgramById(const std::string& db_id);
   void Delete(const std::string& db_id);
 
  private:
+  ros::NodeHandle nh_;
   mongodb_store::MessageStoreProxy db_;
   ros::Publisher list_pub_;
+  std::map<std::string, ros::Publisher> program_pubs_;
 
   void PublishList();
+  void PublishProgram(const std::string& db_id);
 };
 }  // namespace pbd
 }  // namespace rapid

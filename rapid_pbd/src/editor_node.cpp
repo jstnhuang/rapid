@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
   ros::Publisher program_list_pub =
       nh.advertise<rapid_pbd_msgs::ProgramInfoList>(pbd::kProgramListTopic, 1,
                                                     true);
-  pbd::ProgramDb db(proxy, program_list_pub);
+  pbd::ProgramDb db(nh, proxy, program_list_pub);
 
   // Build editor.
   pbd::Editor editor(db);

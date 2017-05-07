@@ -22,6 +22,7 @@ void Editor::HandleEvent(const EditorEvent& event) {
   } else if (event.action == EditorEvent::DELETE) {
     db_.Delete(event.program_info.db_id);
   } else if (event.action == EditorEvent::OPEN) {
+    db_.StartPublishingProgramById(event.program_info.db_id);
   } else {
     ROS_ERROR("Unknown event type \"%s\"", event.action.c_str());
   }
