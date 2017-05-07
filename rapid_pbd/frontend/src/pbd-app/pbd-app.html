@@ -7,6 +7,7 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
 <link rel="import" href="../../bower_components/ros-websocket/ros-websocket.html">
 <link rel="import" href="../pbd-program-list/pbd-program-list.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
@@ -33,12 +34,18 @@
       data="{{routeData}}"
       tail="{{routeTail}}"
     ></app-route>
-    <ros-websocket auto url$="{{url}}" id="websocket"
+    <ros-websocket auto url="{{url}}" id="websocket"
       on-connection="_handleConnection"
       on-error="_handleClose"
       on-close="_handleClose"
       ros="{{ros}}"
     ></ros-websocket>
+    <ros-topic auto
+      on-message="_handleRosout"
+      msg-type="rosgraph_msgs/Log"
+      topic="rosout"
+      ros="[[ros]]"
+    ></ros-topic>
     <paper-dialog modal id="dialog">
       <h2>Disconnected from server</h2>
       <p>Please check that the robot's websocket server is running and try again.</p>
@@ -94,6 +101,20 @@
 
       _handleClose: function() {
         this.$.dialog.open();
+      },
+
+      _handleRosout: function(evt) {
+        var msg = evt.detail;
+        if (msg.name !== '/rapid_pbd_editor_node') {
+          return;
+        }
+        if (msg.level == 1 || msg.level == 2)  {
+          console.info(msg.msg);
+        } else if (msg.level == 4) {
+          console.warn(msg.msg);
+        } else if (msg.level == 8 || msg.level == 16) {
+          console.error(msg.msg);
+        }
       },
     });
   </script>
