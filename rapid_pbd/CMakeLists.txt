@@ -131,6 +131,12 @@ add_library(rapid_pbd_program_db src/program_db.cpp)
 add_dependencies(rapid_pbd_program_db ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_program_db ${catkin_LIBRARIES})
 
+add_library(rapid_pbd_editor src/editor.cpp)
+add_dependencies(rapid_pbd_editor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_editor
+  rapid_pbd_program_db
+  ${catkin_LIBRARIES})
+
 add_library(rapid_pbd_pr2_actions src/pr2_actions.cpp)
 add_dependencies(rapid_pbd_pr2_actions ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_pr2_actions ${catkin_LIBRARIES})
@@ -159,6 +165,7 @@ set_target_properties(rapid_pbd_editor_node PROPERTIES OUTPUT_NAME editor_node P
 add_dependencies(rapid_pbd_editor_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_editor_node
   rapid_pbd_program_db
+  rapid_pbd_editor
   ${catkin_LIBRARIES})
 
 add_executable(rapid_pbd_program_execution_demo src/program_execution_demo.cpp)
