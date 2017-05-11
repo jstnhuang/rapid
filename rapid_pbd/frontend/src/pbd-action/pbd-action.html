@@ -1,0 +1,29 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../shared-styles/shared-styles.html">
+
+<dom-module id="pbd-action">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    Action {{index}}
+  </template>
+  <script>
+    Polymer({
+      is: 'pbd-action',
+
+      properties: {
+        action: {
+          notify: true,
+          type: Object,
+        },
+        index: Number,
+        ros: Object,
+      },
+    });
+  </script>
+</dom-module>
