@@ -197,7 +197,6 @@
 
       selectStep: function(e) {
         var step = this.$.stepList.itemForElement(e.target);
-        console.log('current step changed', e.target.name);
         this.currentStepNum = parseInt(e.target.name);
       },
     });
