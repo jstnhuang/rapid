@@ -15,12 +15,12 @@
         background-color: var(--paper-grey-300);
       }
     </style>
-    <template is="dom-if" if="[[hasActions()]]">
-      No actions
-    </template>
     <paper-button class="add" on-tap="addLeft">Left arm</paper-button>
     <paper-button class="add" on-tap="addRight">Right arm</paper-button>
     <paper-button class="add">Head &amp; torso</paper-button>
+    <div hidden$="[[hasActions(step.actions)]]">
+      No actions
+    </div>
     <template is="dom-repeat" items="{{step.actions}}">
       Action {{index}}
     </template>
@@ -37,8 +37,8 @@
         ros: Object,
       },
 
-      hasActions: function() {
-        return this.step && this.step.actions && this.step.actions.length;
+      hasActions: function(actions) {
+        return actions && actions.length > 0;
       },
 
       addLeft: function() {
