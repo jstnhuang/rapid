@@ -1,0 +1,61 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-styles/color.html">
+<link rel="import" href="../shared-styles/shared-styles.html">
+
+<dom-module id="pbd-program-step">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style" include="iron-flex iron-flex-alignment">
+    <style>
+      :host {
+        display: block;
+      }
+      .add {
+        background-color: var(--paper-grey-300);
+      }
+    </style>
+    <template is="dom-if" if="[[hasActions()]]">
+      No actions
+    </template>
+    <paper-button class="add" on-tap="addLeft">Left arm</paper-button>
+    <paper-button class="add" on-tap="addRight">Right arm</paper-button>
+    <paper-button class="add">Head &amp; torso</paper-button>
+    <template is="dom-repeat" items="{{step.actions}}">
+      Action {{index}}
+    </template>
+  </template>
+  <script>
+    Polymer({
+      is: 'pbd-program-step',
+
+      properties: {
+        step: {
+          notify: true,
+          type: Object,
+        },
+        ros: Object,
+      },
+
+      hasActions: function() {
+        return this.step && this.step.actions && this.step.actions.length;
+      },
+
+      addLeft: function() {
+        this._addAction('left arm');
+      },
+
+      addRight: function() {
+        this._addAction('right arm');
+      },
+
+      _addAction: function(actuatorGroup) {
+        var action = {
+          type: 'move to joint goal',
+          actuator_group: actuatorGroup,
+        };
+        this.push('step.actions', action);
+      },
+    });
+  </script>
+</dom-module>

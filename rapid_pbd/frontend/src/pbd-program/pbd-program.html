@@ -3,8 +3,13 @@
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
+<link rel="import" href="../pbd-program-step/pbd-program-step.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
 
 <dom-module id="pbd-program">
@@ -18,6 +23,41 @@
       a {
         color: #000;
         text-decoration: none;
+      }
+      .add.step {
+        background-color: var(--paper-amber-500);
+      }
+      .steps {
+        margin-bottom: 5px;
+      }
+      .step {
+        background-color: var(--paper-grey-300);
+        padding: 5px 5px;
+        line-height: 14px;
+        min-width: 25px;
+      }
+      .steps > span {
+        margin-right: 5px;
+      }
+      .step.iron-selected {
+        background-color: var(--paper-grey-400);
+      }
+      .step:hover {
+        background-color: var(--paper-grey-400);
+      }
+      .delete {
+        color: var(--paper-red-500);
+      }
+      paper-material {
+        padding: 5px;
+      }
+      paper-material h3 {
+        margin: auto 0px;
+        display: inline-block;
+      }
+      paper-material .title {
+        border-bottom: 1px solid var(--paper-grey-300);
+        margin-bottom: 10px;
       }
     </style>
     <app-route
@@ -42,6 +82,27 @@
       <a href="#/" class="self-end"><paper-button><iron-icon icon="arrow-back"></iron-icon> Back</paper-button></a>
       <paper-input class="flex" label="Program name" value="{{program.name}}" on-blur="save"></paper-input>
     </div>
+    <div class="steps layout horizontal">
+      <span>Steps: </span>
+      <span hidden$="[[_hasSteps(program.steps)]]">None</span>
+      <iron-selector selected="0">
+        <template is="dom-repeat" id="stepList" items="[[program.steps]]" attr-for-selected="name" selected="{{currentStepNum}}">
+          <paper-button class="step" name="[[index]]" on-tap="selectStep">{{_stepNum(index)}}</paper-button>
+        </template>
+      </iron-selector>
+      <paper-button class="add step" on-tap="addStep">+</paper-button>
+    </div>
+    <div>
+      <array-selector id="selector" items="{{program.steps}}" selected="{{currentStep}}"></array-selector>
+      <paper-material>
+        <div class="horizontal layout title">
+          <h3>Step [[_stepNum(currentStepNum)]]</h3>
+          <span class="flex"></span>
+          <paper-button class="delete">Delete</paper-button>
+        </div>
+        <pbd-program-step step="{{currentStep}}"></pbd-program-step>
+      </paper-material>
+    </div>
   </template>
 
   <script>
@@ -49,6 +110,10 @@
       is: 'pbd-program',
 
       properties: {
+        currentStepNum: {
+          type: Number,
+          value: 0,
+        },
         program: {
           type: Object,
           observer: '_programChanged',
@@ -59,6 +124,8 @@
 
       observers: [
         'load(ros, routeData.id)',
+        '_programUpdated(program.*)',
+        '_currentStepNumChanged(program, currentStepNum)',
       ],
 
       load: function(ros, db_id) {
@@ -90,11 +157,48 @@
         this.$.eventPub.publish(msg);
       },
 
+      addStep: function() {
+        var step = { actions: [] };
+        this.push('program.steps', step);
+        this.$.selector.select(step);
+      },
+
       _programChanged: function(program, oldProgram) {
         if (!program) {
           return;
         }
-        console.log('program changed');
+        if (program.steps.length === 0) {
+        } else {
+          this.$.selector.select(program.steps[0]);
+        }
+      },
+
+      _programUpdated: function(changeRecord) {
+        if (changeRecord.base) {
+          if (changeRecord.path !== 'program') {
+            this.save();
+          }
+        }
+      },
+
+      _hasSteps: function(steps) {
+        return steps && steps.length > 0;
+      },
+
+      _stepNum: function(index) {
+        return parseInt(index) + 1;
+      },
+
+      _currentStepNumChanged: function(program, currentStepNum) {
+        if (program && program.steps) {
+          this.$.selector.select(program.steps[currentStepNum]);
+        }
+      },
+
+      selectStep: function(e) {
+        var step = this.$.stepList.itemForElement(e.target);
+        console.log('current step changed', e.target.name);
+        this.currentStepNum = parseInt(e.target.name);
       },
     });
   </script>
