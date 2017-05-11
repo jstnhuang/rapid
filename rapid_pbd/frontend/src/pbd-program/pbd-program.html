@@ -9,7 +9,7 @@
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
-<link rel="import" href="../pbd-program-step/pbd-program-step.html">
+<link rel="import" href="../pbd-step/pbd-step.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
 
 <dom-module id="pbd-program">
@@ -100,7 +100,7 @@
           <span class="flex"></span>
           <paper-button class="delete">Delete</paper-button>
         </div>
-        <pbd-program-step step="{{currentStep}}"></pbd-program-step>
+        <pbd-step step="{{currentStep}}"></pbd-step>
       </paper-material>
     </div>
   </template>
@@ -163,6 +163,11 @@
         this.$.selector.select(step);
       },
 
+      selectStep: function(e) {
+        var step = this.$.stepList.itemForElement(e.target);
+        this.currentStepNum = parseInt(e.target.name);
+      },
+
       _programChanged: function(program, oldProgram) {
         if (!program) {
           return;
@@ -193,11 +198,6 @@
         if (program && program.steps) {
           this.$.selector.select(program.steps[currentStepNum]);
         }
-      },
-
-      selectStep: function(e) {
-        var step = this.$.stepList.itemForElement(e.target);
-        this.currentStepNum = parseInt(e.target.name);
       },
     });
   </script>
