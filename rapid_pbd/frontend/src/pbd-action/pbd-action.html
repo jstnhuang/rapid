@@ -1,4 +1,10 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
 
 <dom-module id="pbd-action">
@@ -9,8 +15,64 @@
       :host {
         display: block;
       }
+      paper-material {
+        background-color: #fff;
+        padding: 10px;
+        margin-top: 10px;
+      }
+      h4 {
+        margin: 0px 0px;
+      }
     </style>
-    Action {{index}}
+    <paper-material>
+      <h4>[[_actionDescription]]</h4>
+      <paper-dropdown-menu label="Action type">
+        <paper-listbox class="dropdown-content" attr-for-selected="data-type" selected="{{action.type}}">
+          <paper-item data-type="actuate gripper">Open/close gripper</paper-item>
+          <paper-item data-type="move to cartesian goal">Move to gripper pose</paper-item>
+          <paper-item data-type="move to joint goal">Move to joint angles</paper-item>
+          <paper-item data-type="detect tabletop objects">Detect tabletop objects</paper-item>
+          <paper-item data-type="find custom landmark">Find custom landmark</paper-item>
+        </paper-listbox>
+      </paper-dropdown-menu>
+      <iron-pages attr-for-selected="data-type" selected="[[action.type]]">
+        <section data-type="actuate gripper">
+          Gripper options
+        </section>
+        <section data-type="move to cartesian goal">
+          <paper-dropdown-menu label="Arm to move">
+            <paper-listbox class="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
+              <paper-item data-actuator-group="left arm">Left arm</paper-item>
+              <paper-item data-actuator-group="right arm">Right arm</paper-item>
+            </paper-listbox>
+          </paper-dropdown-menu>
+        </section>
+        <section data-type="move to joint goal">
+          <paper-dropdown-menu label="Arm to move">
+            <paper-listbox class="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
+              <paper-item data-actuator-group="left arm">Left arm</paper-item>
+              <paper-item data-actuator-group="right arm">Right arm</paper-item>
+            </paper-listbox>
+          </paper-dropdown-menu>
+          <ul>
+            <li>Right shoulder pan: [[_round(jointStates.r_shoulder_pan_joint.position, 0.001)]]</li>
+            <li>Right shoulder lift: [[_round(jointStates.r_shoulder_lift_joint.position, 0.001)]]</li>
+            <li>Right upper arm roll: [[_round(jointStates.r_upper_arm_roll_joint.position, 0.001)]]</li>
+            <li>Right elbow flex: [[_round(jointStates.r_elbow_flex_joint.position, 0.001)]]</li>
+            <li>Right forearm roll: [[_round(jointStates.r_forearm_roll_joint.position, 0.001)]]</li>
+            <li>Right wrist flex: [[_round(jointStates.r_wrist_flex_joint.position, 0.001)]]</li>
+            <li>Right wrist roll: [[_round(jointStates.r_wrist_roll_joint.position, 0.001)]]</li>
+          </ul>
+        </section>
+        <section data-type="detect tabletop objects">
+          Tabletop detection options
+        </section>
+        <section data-type="find custom landmark">
+          CustomLandmarks options
+        </section>
+      </iron-pages>
+
+    </paper-material>
   </template>
   <script>
     Polymer({
@@ -22,7 +84,28 @@
           type: Object,
         },
         index: Number,
+        jointStates: Object,
         ros: Object,
+      },
+
+      observers: [
+        '_computeActionDescription(action.*, index)',
+      ],
+
+      _computeActionDescription(changeRecord, index) {
+        this._actionDescription = 'Action ' + (index+1);
+        if (this.action.type === 'move to cartesian goal' || this.action.type === 'move to joint goal') {
+          if (this.action.actuator_group === 'arm' || this.action.actuator_group === 'left arm' || this.action.actuator_group === 'right arm') {
+            this._actionDescription = 'Move ' + this.action.actuator_group;
+          }
+        } else if (this.action.type === 'actuate gripper') {
+          this._actionDescription = 'Actuate gripper';
+        }
+      },
+
+      // E.g., _round(0.0008, 0.001) = 0.001
+      _round(val, resolution) {
+        return val.toFixed(3);
       },
     });
   </script>

@@ -7,7 +7,6 @@
 <link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
 <link rel="import" href="../pbd-step/pbd-step.html">
@@ -49,15 +48,11 @@
       .delete {
         color: var(--paper-red-500);
       }
-      paper-material {
-        background-color: #fff;
-        padding: 5px;
-      }
-      paper-material h3 {
+      .stepDiv h3 {
         margin: auto 0px;
         display: inline-block;
       }
-      paper-material .title {
+      .stepDiv .title {
         border-bottom: 1px solid var(--paper-grey-300);
         margin-bottom: 10px;
       }
@@ -96,14 +91,14 @@
     </div>
     <div>
       <array-selector id="selector" items="{{program.steps}}" selected="{{currentStep}}"></array-selector>
-      <paper-material hidden$="[[!_hasSteps(program.steps)]]">
+      <div class="stepDiv" hidden$="[[!_hasSteps(program.steps)]]">
         <div class="horizontal layout title">
           <h3>Step [[_stepNum(currentStepNum)]]</h3>
           <span class="flex"></span>
           <paper-button class="delete" on-tap="_maybeDeleteCurrentStep">Delete</paper-button>
         </div>
-        <pbd-step step="{{currentStep}}"></pbd-step>
-      </paper-material>
+        <pbd-step step="{{currentStep}}" joint-states="{{jointStates}}"></pbd-step>
+      </div>
     </div>
     <paper-dialog id="deleteDialog" modal>
       <h2>Delete step [[_stepNum(currentStepNum)]]?</h2>
@@ -127,6 +122,7 @@
           type: Object,
           observer: '_programChanged',
         },
+        jointStates: Object,
         ros: Object,
         route: Object,
       },
