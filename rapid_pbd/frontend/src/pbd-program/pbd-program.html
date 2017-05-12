@@ -6,6 +6,7 @@
 <link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
@@ -86,8 +87,8 @@
     <div class="steps layout horizontal">
       <span>Steps: </span>
       <span hidden$="[[_hasSteps(program.steps)]]">None</span>
-      <iron-selector selected="0">
-        <template is="dom-repeat" id="stepList" items="[[program.steps]]" attr-for-selected="name" selected="{{currentStepNum}}">
+      <iron-selector attr-for-selected="name" selected="{{currentStepNum}}">
+        <template is="dom-repeat" id="stepList" items="[[program.steps]]" >
           <paper-button class="step" name="[[index]]" on-tap="selectStep">{{_stepNum(index)}}</paper-button>
         </template>
       </iron-selector>
@@ -95,15 +96,22 @@
     </div>
     <div>
       <array-selector id="selector" items="{{program.steps}}" selected="{{currentStep}}"></array-selector>
-      <paper-material>
+      <paper-material hidden$="[[!_hasSteps(program.steps)]]">
         <div class="horizontal layout title">
           <h3>Step [[_stepNum(currentStepNum)]]</h3>
           <span class="flex"></span>
-          <paper-button class="delete">Delete</paper-button>
+          <paper-button class="delete" on-tap="_maybeDeleteCurrentStep">Delete</paper-button>
         </div>
         <pbd-step step="{{currentStep}}"></pbd-step>
       </paper-material>
     </div>
+    <paper-dialog id="deleteDialog" modal>
+      <h2>Delete step [[_stepNum(currentStepNum)]]?</h2>
+      <div class="deleteButtons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm on-tap="deleteCurrentStep" class="delete">Delete</paper-button>
+      </div>
+    </paper-dialog>
   </template>
 
   <script>
@@ -161,12 +169,21 @@
       addStep: function() {
         var step = { actions: [] };
         this.push('program.steps', step);
-        this.$.selector.select(step);
+        this.currentStepNum = this.program.steps.length-1;
       },
 
       selectStep: function(e) {
         var step = this.$.stepList.itemForElement(e.target);
         this.currentStepNum = parseInt(e.target.name);
+      },
+
+      deleteCurrentStep: function() {
+        this.splice('program.steps', this.currentStepNum, 1);
+        this.currentStepNum = Math.max(this.currentStepNum-1, 0);
+      },
+
+      _maybeDeleteCurrentStep: function() {
+        this.$.deleteDialog.open();
       },
 
       _programChanged: function(program, oldProgram) {
