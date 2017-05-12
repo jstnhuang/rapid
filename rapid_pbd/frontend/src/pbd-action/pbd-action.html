@@ -95,6 +95,7 @@
       _computeActionDescription(changeRecord, index) {
         this._actionDescription = 'Action ' + (index+1);
         if (this.action.type === 'move to cartesian goal' || this.action.type === 'move to joint goal') {
+          this._actionDescription = 'Move arm';
           if (this.action.actuator_group === 'arm' || this.action.actuator_group === 'left arm' || this.action.actuator_group === 'right arm') {
             this._actionDescription = 'Move ' + this.action.actuator_group;
           }
