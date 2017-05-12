@@ -3,5 +3,8 @@
   <param name="mongodb_host" value="localhost" />
   <param name="mongodb_port" value="27017" />
   <node name="message_store" pkg="mongodb_store" type="message_store_node.py" output="screen" /> 
+
+  <arg name="num_arms" default="2" />
+  <param name="rapid_pbd/num_arms" value="$(arg num_arms)" />
   <node name="rapid_pbd_editor_node" pkg="rapid_pbd" type="editor_node" output="screen" />
 </launch>
