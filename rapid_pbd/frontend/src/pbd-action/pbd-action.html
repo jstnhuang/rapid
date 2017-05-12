@@ -71,7 +71,6 @@
           CustomLandmarks options
         </section>
       </iron-pages>
-
     </paper-material>
   </template>
   <script>
@@ -101,6 +100,10 @@
           }
         } else if (this.action.type === 'actuate gripper') {
           this._actionDescription = 'Actuate gripper';
+        } else if (this.action.type === 'detect tabletop objects') {
+          this._actionDescription = 'Detect tabletop objects';
+        } else if (this.action.type === 'find custom landmark') {
+          this._actionDescription = 'Find custom landmark';
         }
       },
 
