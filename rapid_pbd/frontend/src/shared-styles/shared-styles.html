@@ -1,3 +1,4 @@
+<link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 
 <dom-module id="shared-styles">
@@ -5,7 +6,32 @@
     <style>
       paper-button {
         @apply(--paper-font-button);
+        background-color: var(--paper-grey-300);
         margin-left: 0;
+      }
+      paper-button:hover {
+        background-color: var(--paper-grey-500);
+      }
+      paper-button.clear {
+        color: #000;
+        background-color: transparent;
+      }
+      paper-button.clear:hover {
+        background-color: var(--paper-grey-300);
+      }
+      paper-button.important {
+        color: #000;
+        background-color: var(--paper-amber-500);
+      }
+      paper-button.important:hover {
+        background-color: var(--paper-amber-300);
+      }
+      paper-button.delete {
+        background-color: transparent;
+        color: var(--paper-red-500);
+      }
+      paper-button.delete:hover {
+        background-color: var(--paper-red-100);
       }
     </style>
   </template>
