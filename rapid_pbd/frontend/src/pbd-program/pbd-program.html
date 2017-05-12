@@ -45,18 +45,7 @@
       .step:hover {
         background-color: var(--paper-grey-400);
       }
-      .delete {
-        color: var(--paper-red-500);
-      }
-      .stepDiv h3 {
-        margin: auto 0px;
-        display: inline-block;
-      }
-      .stepDiv .title {
-        border-bottom: 1px solid var(--paper-grey-300);
-        margin-bottom: 10px;
-      }
-    </style>
+     </style>
     <app-route
       route="{{route}}"
       pattern="/:id"
@@ -92,21 +81,9 @@
     <div>
       <array-selector id="selector" items="{{program.steps}}" selected="{{currentStep}}"></array-selector>
       <div class="stepDiv" hidden$="[[!_hasSteps(program.steps)]]">
-        <div class="horizontal layout title">
-          <h3>Step [[_stepNum(currentStepNum)]]</h3>
-          <span class="flex"></span>
-          <paper-button class="delete" on-tap="_maybeDeleteCurrentStep">Delete</paper-button>
-        </div>
-        <pbd-step step="{{currentStep}}" joint-states="{{jointStates}}"></pbd-step>
+        <pbd-step index="[[currentStepNum]]" step="{{currentStep}}" joint-states="[[jointStates]]" on-delete="_deleteStep"></pbd-step>
       </div>
     </div>
-    <paper-dialog id="deleteDialog" modal>
-      <h2>Delete step [[_stepNum(currentStepNum)]]?</h2>
-      <div class="deleteButtons">
-        <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button dialog-confirm on-tap="deleteCurrentStep" class="delete">Delete</paper-button>
-      </div>
-    </paper-dialog>
   </template>
 
   <script>
@@ -173,13 +150,9 @@
         this.currentStepNum = parseInt(e.target.name);
       },
 
-      deleteCurrentStep: function() {
+      _deleteStep: function() {
         this.splice('program.steps', this.currentStepNum, 1);
         this.currentStepNum = Math.max(this.currentStepNum-1, 0);
-      },
-
-      _maybeDeleteCurrentStep: function() {
-        this.$.deleteDialog.open();
       },
 
       _programChanged: function(program, oldProgram) {
@@ -204,14 +177,14 @@
         return steps && steps.length > 0;
       },
 
-      _stepNum: function(index) {
-        return parseInt(index) + 1;
-      },
-
       _currentStepNumChanged: function(program, currentStepNum) {
         if (program && program.steps) {
           this.$.selector.select(program.steps[currentStepNum]);
         }
+      },
+
+      _stepNum: function(index) {
+        return parseInt(index) + 1;
       },
     });
   </script>

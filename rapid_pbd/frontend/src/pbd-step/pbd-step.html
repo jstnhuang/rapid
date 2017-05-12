@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../pbd-action/pbd-action.html">
@@ -7,27 +8,52 @@
 <dom-module id="pbd-step">
   <template>
     <style include="shared-styles"></style>
+    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
     <style>
       :host {
         display: block;
       }
+      .title {
+        border-bottom: 1px solid var(--paper-grey-300);
+        margin-bottom: 10px;
+      }
+     h3 {
+        margin: auto 0px;
+        display: inline-block;
+      }
       .add {
         background-color: var(--paper-amber-500);
       }
+      .delete {
+        color: var(--paper-red-500);
+      }
     </style>
+    <div class="horizontal layout title">
+      <h3>Step [[_stepNum(index)]]</h3>
+      <span class="flex"></span>
+      <paper-button class="delete" on-tap="_maybeDeleteStep">Delete</paper-button>
+    </div>
     <paper-button class="add" on-tap="addAction">+ Add action</paper-button>
     <div hidden$="[[hasActions(step.actions)]]">
       No actions
     </div>
     <template is="dom-repeat" items="{{step.actions}}" as="action">
-      <pbd-action action="{{action}}" index="[[index]]" joint-states="{{jointStates}}" on-delete="_handleDelete"></pbd-action>
+      <pbd-action action="{{action}}" index="[[index]]" joint-states="[[jointStates]]" on-delete="_handleDelete"></pbd-action>
     </template>
+    <paper-dialog id="deleteDialog" modal>
+      <h2>Delete step [[_stepNum(currentStepNum)]]?</h2>
+      <div class="deleteButtons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm on-tap="deleteStep" class="delete">Delete</paper-button>
+      </div>
+    </paper-dialog>
   </template>
   <script>
     Polymer({
       is: 'pbd-step',
 
       properties: {
+        index: Number,
         step: {
           notify: true,
           type: Object,
@@ -45,8 +71,21 @@
         this.push('step.actions', action);
       },
 
+      deleteStep: function() {
+        this.fire('delete', {index: this.index});
+        this.currentStepNum = Math.max(this.currentStepNum-1, 0);
+      },
+
+      _maybeDeleteStep: function() {
+        this.$.deleteDialog.open();
+      },
+
       _handleDelete: function(evt) {
 
+      },
+
+      _stepNum: function(index) {
+        return parseInt(index) + 1;
       },
     });
   </script>
