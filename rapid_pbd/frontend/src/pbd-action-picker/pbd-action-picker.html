@@ -1,0 +1,153 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-styles/color.html">
+<link rel="import" href="../shared-styles/shared-styles.html">
+
+<dom-module id="pbd-action-picker">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
+    <style>
+      :host {
+        display: block;
+        width: 100%;
+        position: relative;
+      }
+      paper-material {
+        padding: 5px;
+      }
+      h3 {
+        margin: 0px;
+      }
+      paper-button {
+        background-color: var(--paper-grey-300);
+        margin-top: 5px;
+      }
+      .group + .group {
+        margin-top: 10px;
+      }
+      .half {
+        width: 50%;
+      }
+      #cancel {
+        height: 22px;
+      }
+    </style>
+    <paper-material>
+      <div class="group">
+        <div class="layout horizontal center">
+          <h3>Perception</h3>
+          <div class="flex"></div>
+          <paper-button id="cancel" on-tap="cancel" class="clear">Cancel</paper-button>
+        </div>
+        <paper-button on-tap="selectDetectTabletopObjects">Detect tabletop objects</paper-button>
+        <paper-button on-tap="selectFindCustomLandmark">Find custom landmark</paper-button>
+      </div>
+      <div class="group layout horizontal">
+        <div class="half">
+          <h3>Left arm</h3>
+          <paper-button on-tap="selectLeftGripperPose">Save gripper pose</paper-button><br />
+          <paper-button on-tap="selectLeftJointAngles">Save joint angles</paper-button><br />
+          <paper-button on-tap="selectLeftOpenGripper">Open gripper</paper-button><br />
+          <paper-button on-tap="selectLeftCloseGripper">Close gripper</paper-button>
+        </div>
+        <div class="half">
+          <h3>Right arm</h3>
+          <paper-button on-tap="selectRightGripperPose">Save gripper pose</paper-button><br />
+          <paper-button on-tap="selectRightJointAngles">Save joint angles</paper-button><br />
+          <paper-button on-tap="selectRightOpenGripper">Open gripper</paper-button><br />
+          <paper-button on-tap="selectRightCloseGripper">Close gripper</paper-button>
+        </div>
+      </div>
+    </paper-material>
+  </template>
+  <script>
+    Polymer({
+      is: 'pbd-action-picker',
+
+      properties: {
+        ros: Object,
+      },
+
+      cancel: function() {
+        this.fire('iron-deselect');
+      },
+
+      selectDetectTabletopObjects: function() {
+        var action = {
+          type: 'detect tabletop objects'
+        };
+        this.fire('iron-select', action);
+      },
+
+      selectFindCustomLandmark: function() {
+        var action = {
+          type: 'find custom landmark'
+        };
+        this.fire('iron-select', action);
+      },
+
+      selectLeftGripperPose: function() {
+        this._selectGripperPose('left arm');
+      },
+      selectLeftJointAngles: function() {
+        this._selectJointAngles('left arm');
+      },
+      selectLeftOpenGripper: function() {
+        this._selectActuateGripper('left gripper', 'open');
+      },
+      selectLeftCloseGripper: function() {
+        this._selectActuateGripper('left gripper', 'close');
+      },
+
+      selectRightGripperPose: function() {
+        this._selectGripperPose('right arm');
+      },
+      selectRightJointAngles: function() {
+        this._selectJointAngles('right arm');
+      },
+      selectRightOpenGripper: function() {
+        this._selectActuateGripper('right gripper', 'open');
+      },
+      selectRightCloseGripper: function() {
+        this._selectActuateGripper('right gripper', 'close');
+      },
+
+      _selectGripperPose: function(actuatorGroup) {
+        var action = {
+          type: 'move to cartesian goal',
+          actuator_group: actuatorGroup
+        };
+        this.fire('iron-select', action);
+      },
+
+      _selectJointAngles: function(actuatorGroup) {
+        var action = {
+          type: 'move to joint goal',
+          actuator_group: actuatorGroup
+        };
+        this.fire('iron-select', action);
+      },
+
+      _selectActuateGripper: function(actuatorGroup, command) {
+        var position = 0.1;
+        var effort = -1.0;
+        if (command === 'close') {
+          position = 0.1;
+          effort = 100.0;
+        }
+        var action = {
+          type: 'actuate gripper',
+          actuator_group: actuatorGroup,
+          gripper_command: {
+            position: position,
+            effort: effort
+          }
+        };
+        this.fire('iron-select', action);
+      },
+    });
+  </script>
+</dom-module>

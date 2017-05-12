@@ -3,6 +3,7 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../pbd-action/pbd-action.html">
+<link rel="import" href="../pbd-action-picker/pbd-action-picker.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
 
 <dom-module id="pbd-step">
@@ -12,6 +13,7 @@
     <style>
       :host {
         display: block;
+
       }
       .title {
         border-bottom: 1px solid var(--paper-grey-300);
@@ -25,19 +27,16 @@
         margin: auto 0px;
         display: inline-block;
       }
-      .add {
-        background-color: var(--paper-amber-500);
-      }
-      .delete {
-        color: var(--paper-red-500);
-      }
     </style>
     <div class="center horizontal layout title">
       <h3>Step [[_stepNum(index)]]</h3>
       <span class="flex"></span>
-      <paper-button class="add" on-tap="addAction">+ Add action</paper-button>
+      <paper-button class="add important" on-tap="_togglePicker">+ Add action</paper-button>
       <paper-button class="delete" on-tap="_maybeDeleteStep">Delete</paper-button>
     </div>
+    <iron-collapse id="picker">
+      <pbd-action-picker class="dropdown-content" on-iron-select="_addAction" on-iron-deselect="_closePicker"></pbd-action-picker>
+    </iron-collapse>
     <div hidden$="[[hasActions(step.actions)]]">
       No actions
     </div>
@@ -47,7 +46,7 @@
     <paper-dialog id="deleteDialog" modal>
       <h2>Delete step [[_stepNum(index)]]?</h2>
       <div class="deleteButtons">
-        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-dismiss class="clear">Cancel</paper-button>
         <paper-button dialog-confirm on-tap="deleteStep" class="delete">Delete</paper-button>
       </div>
     </paper-dialog>
@@ -70,14 +69,15 @@
         return actions && actions.length > 0;
       },
 
-      addAction: function() {
-        var action = {};
-        this.unshift('step.actions', action);
-      },
-
       deleteStep: function() {
         this.fire('delete', {index: this.index});
         this.currentStepNum = Math.max(this.currentStepNum-1, 0);
+      },
+
+      _addAction: function(evt) {
+        var action = evt.detail;
+        this.unshift('step.actions', action);
+        this.$.picker.opened = false;
       },
 
       _maybeDeleteStep: function() {
@@ -91,6 +91,14 @@
       _stepNum: function(index) {
         return parseInt(index) + 1;
       },
+
+      _togglePicker: function() {
+        this.$.picker.toggle();
+      },
+
+      _closePicker: function() {
+        this.$.picker.opened = false;
+      }
     });
   </script>
 </dom-module>
