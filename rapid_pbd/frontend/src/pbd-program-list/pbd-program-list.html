@@ -13,14 +13,6 @@
       :host {
         display: block;
       }
-      paper-button {
-        @apply(--paper-font-button);
-      }
-      #createButton {
-        background-color: var(--paper-amber-500);
-        color: #000;
-        margin-left: 0;
-      }
       paper-material {
         margin-top: 10px;
       }
@@ -35,21 +27,12 @@
       td {
         border-top: 1px solid rgba(0, 0, 0, var(--light-divider-opacity));
       }
-      .delete {
-        color: var(--paper-red-500);
-      }
       .deleteButtons {
         text-align: right;
       }
       a {
         color: #000;
         text-decoration: none;
-      }
-      paper-button:hover {
-        background-color: var(--paper-grey-300);
-      }
-      paper-button.delete:hover {
-        background-color: var(--paper-red-100);
       }
     </style>
     <ros-topic auto
@@ -64,7 +47,7 @@
       topic="rapid_pbd/editor_events"
       ros="[[ros]]"
     ></ros-topic>
-    <paper-button id="createButton" raised on-tap="_handleCreate">+ Create new program</paper-button>
+    <paper-button id="createButton" class="important" raised on-tap="_handleCreate">+ Create new program</paper-button>
     <paper-material>
       <table>
         <tr><th>Name</th><th>Actions</th></tr>
@@ -77,7 +60,7 @@
           <tr>
             <td>{{program.name}}</td>
             <td>
-              <a href="#/program/{{program.db_id}}"><paper-button>Open</paper-button></a>
+              <a href="#/program/{{program.db_id}}"><paper-button class="clear">Open</paper-button></a>
               <paper-button class="delete" data-db-id="{{program.db_id}}" on-tap="_maybeDelete">Delete</paper-button>
             </td>
           </tr>
@@ -86,7 +69,7 @@
       <paper-dialog id="deleteDialog" modal>
         <h2>Delete program?</h2>
         <div class="deleteButtons">
-          <paper-button dialog-dismiss>Cancel</paper-button>
+          <paper-button class="clear" dialog-dismiss>Cancel</paper-button>
           <paper-button dialog-confirm on-tap="_handleDelete" class="delete">Delete</paper-button>
         </div>
       </paper-dialog>

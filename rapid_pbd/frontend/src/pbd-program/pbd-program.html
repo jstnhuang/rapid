@@ -25,11 +25,10 @@
         text-decoration: none;
       }
       .add {
-        background-color: var(--paper-amber-500);
         height: 25px;
       }
-      .steps {
-        margin-bottom: 5px;
+      paper-button.back:hover {
+        background-color: transparent;
       }
       .step {
         background-color: var(--paper-grey-300);
@@ -66,7 +65,7 @@
       ros="[[ros]]"
     ></ros-topic>
     <div class="layout horizontal">
-      <a href="#/" class="self-end"><paper-button><iron-icon icon="arrow-back"></iron-icon> Back</paper-button></a>
+      <a href="#/" class="self-end"><paper-button class="back clear"><iron-icon icon="arrow-back"></iron-icon> Back</paper-button></a>
       <paper-input class="flex" label="Program name" value="{{program.name}}" on-blur="save"></paper-input>
     </div>
     <div class="steps layout horizontal">
@@ -77,7 +76,7 @@
           <paper-button class="step" name="[[index]]" on-tap="selectStep">{{_stepNum(index)}}</paper-button>
         </template>
       </iron-selector>
-      <paper-button class="add" on-tap="addStep">+ Add Step</paper-button>
+      <paper-button class="add important" on-tap="addStep">+ Add Step</paper-button>
     </div>
     <div>
       <array-selector id="selector" items="{{program.steps}}" selected="{{currentStep}}"></array-selector>
