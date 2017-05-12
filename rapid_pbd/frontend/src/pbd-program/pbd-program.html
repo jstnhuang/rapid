@@ -150,9 +150,10 @@
         this.currentStepNum = parseInt(e.target.name);
       },
 
-      _deleteStep: function() {
+      _deleteStep: function(evt) {
         this.splice('program.steps', this.currentStepNum, 1);
         this.currentStepNum = Math.max(this.currentStepNum-1, 0);
+        evt.stopPropagation(); 
       },
 
       _programChanged: function(program, oldProgram) {
