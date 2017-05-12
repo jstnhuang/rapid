@@ -15,9 +15,13 @@
       }
       .title {
         border-bottom: 1px solid var(--paper-grey-300);
-        margin-bottom: 10px;
+        margin: 10px 0px;
+        padding-bottom: 5px;
       }
-     h3 {
+      .title paper-button {
+        height: 30px;
+      }
+      h3 {
         margin: auto 0px;
         display: inline-block;
       }
@@ -28,12 +32,12 @@
         color: var(--paper-red-500);
       }
     </style>
-    <div class="horizontal layout title">
+    <div class="center horizontal layout title">
       <h3>Step [[_stepNum(index)]]</h3>
       <span class="flex"></span>
+      <paper-button class="add" on-tap="addAction">+ Add action</paper-button>
       <paper-button class="delete" on-tap="_maybeDeleteStep">Delete</paper-button>
     </div>
-    <paper-button class="add" on-tap="addAction">+ Add action</paper-button>
     <div hidden$="[[hasActions(step.actions)]]">
       No actions
     </div>
@@ -41,7 +45,7 @@
       <pbd-action action="{{action}}" index="[[index]]" joint-states="[[jointStates]]" on-delete="_handleDelete"></pbd-action>
     </template>
     <paper-dialog id="deleteDialog" modal>
-      <h2>Delete step [[_stepNum(currentStepNum)]]?</h2>
+      <h2>Delete step [[_stepNum(index)]]?</h2>
       <div class="deleteButtons">
         <paper-button dialog-dismiss>Cancel</paper-button>
         <paper-button dialog-confirm on-tap="deleteStep" class="delete">Delete</paper-button>
@@ -68,7 +72,7 @@
 
       addAction: function() {
         var action = {};
-        this.push('step.actions', action);
+        this.unshift('step.actions', action);
       },
 
       deleteStep: function() {
