@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
@@ -23,9 +24,16 @@
       h4 {
         margin: 0px 0px;
       }
+      paper-icon-button {
+        color: var(--paper-grey-500);
+      }
     </style>
     <paper-material>
-      <h4>[[_actionDescription]]</h4>
+      <div class="layout horizontal center">
+        <h4>[[_actionDescription]]</h4>
+        <div class="flex"></div>
+        <paper-icon-button icon="delete" on-tap="_delete"></paper-icon-button>
+      </div>
       <paper-dropdown-menu label="Action type">
         <paper-listbox class="dropdown-content" attr-for-selected="data-type" selected="{{action.type}}">
           <paper-item data-type="actuate gripper">Open/close gripper</paper-item>
@@ -107,9 +115,12 @@
         }
       },
 
-      // E.g., _round(0.0008, 0.001) = 0.001
       _round(val, resolution) {
         return val.toFixed(3);
+      },
+
+      _delete() {
+        this.fire('delete', {index: this.index});
       },
     });
   </script>

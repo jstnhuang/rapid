@@ -41,7 +41,7 @@
       No actions
     </div>
     <template is="dom-repeat" items="{{step.actions}}" as="action">
-      <pbd-action action="{{action}}" index="[[index]]" joint-states="[[jointStates]]" on-delete="_handleDelete"></pbd-action>
+      <pbd-action action="{{action}}" index="[[index]]" joint-states="[[jointStates]]" on-delete="_handleDeleteAction"></pbd-action>
     </template>
     <paper-dialog id="deleteDialog" modal>
       <h2>Delete step [[_stepNum(index)]]?</h2>
@@ -84,8 +84,10 @@
         this.$.deleteDialog.open();
       },
 
-      _handleDelete: function(evt) {
-
+      _handleDeleteAction: function(evt) {
+        var index = evt.detail.index;
+        this.splice('step.actions', index, 1);
+        evt.stopPropagation();
       },
 
       _stepNum: function(index) {
