@@ -13,18 +13,18 @@ Editor::Editor(const ProgramDb& db) : db_(db) {}
 void Editor::Start() { db_.Start(); }
 
 void Editor::HandleEvent(const EditorEvent& event) {
-  if (event.action == EditorEvent::CREATE) {
+  if (event.type == EditorEvent::CREATE) {
     Program program;
     program.name = event.program_info.name;
     db_.Insert(program);
-  } else if (event.action == EditorEvent::UPDATE) {
+  } else if (event.type == EditorEvent::UPDATE) {
     db_.Update(event.program_info.db_id, event.program);
-  } else if (event.action == EditorEvent::DELETE) {
+  } else if (event.type == EditorEvent::DELETE) {
     db_.Delete(event.program_info.db_id);
-  } else if (event.action == EditorEvent::OPEN) {
+  } else if (event.type == EditorEvent::OPEN) {
     db_.StartPublishingProgramById(event.program_info.db_id);
   } else {
-    ROS_ERROR("Unknown event type \"%s\"", event.action.c_str());
+    ROS_ERROR("Unknown event type \"%s\"", event.type.c_str());
   }
 }
 }  // namespace pbd

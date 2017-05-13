@@ -100,7 +100,7 @@
       _handleDelete: function(evt) {
         this.$.deleteDialog.close();
         var msg = {
-          action: 'delete program',
+          type: 'delete program',
           program_info: {
             db_id: this._idToDelete
           },
@@ -112,7 +112,7 @@
         var now = new Date();
         var name = 'Untitled program ' + now.toLocaleString();
         var msg = {
-          action: 'create program',
+          type: 'create program',
           program_info: {
             name: name
           },

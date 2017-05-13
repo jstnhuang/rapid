@@ -117,7 +117,7 @@
         var that = this;
         this.debounce('load program', function() {
           var msg = {
-            action: 'open program',
+            type: 'open program',
             program_info: {
               db_id: db_id
             },
@@ -129,7 +129,7 @@
 
       save: function() {
         var msg = {
-          action: 'update program',
+          type: 'update program',
           program_info: {
             db_id: this.routeData.id,
             name: this.program.name,
