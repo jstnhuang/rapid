@@ -24,7 +24,6 @@ int main(int argc, char** argv) {
 
   ros::Subscriber editor_sub = nh.subscribe(pbd::kEditorEventsTopic, 10,
                                             &pbd::Editor::HandleEvent, &editor);
-
   ros::spin();
   return 0;
 }
