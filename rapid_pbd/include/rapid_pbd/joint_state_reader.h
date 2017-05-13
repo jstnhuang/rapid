@@ -1,5 +1,5 @@
-#ifndef _RAPID_MANIPULATION_JOINT_STATE_READER_H_
-#define _RAPID_MANIPULATION_JOINT_STATE_READER_H_
+#ifndef _RAPID_PBD_JOINT_STATE_READER_H_
+#define _RAPID_PBD_JOINT_STATE_READER_H_
 
 #include <limits.h>
 #include <map>
@@ -10,7 +10,7 @@
 #include "sensor_msgs/JointState.h"
 
 namespace rapid {
-namespace manipulation {
+namespace pbd {
 
 // The joint value when a joint name is invalid.
 // This assumes that a joint value will never reach this number, although that
@@ -26,7 +26,7 @@ class JointStateReader {
   void Start();
 
   // Returns the position of the given joint.
-  // If the joint name is valid, returns rapid::manipulation::kNoJointValue.
+  // If the joint name is invalid, returns rapid::manipulation::kNoJointValue.
   double get_position(const std::string& name) const;
 
   // Returns the positions of the given vector of joints. If a joint name is
@@ -42,7 +42,7 @@ class JointStateReader {
   std::string topic_;
   std::map<std::string, double> positions_;
 };
-}  // namespace manipulation
+}  // namespace pbd
 }  // namespace rapid
 
-#endif  // _RAPID_MANIPULATION_JOINT_STATE_READER_H_
+#endif  // _RAPID_PBD_JOINT_STATE_READER_H_

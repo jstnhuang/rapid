@@ -8,7 +8,7 @@
 #include "sensor_msgs/JointState.h"
 
 namespace rapid {
-namespace manipulation {
+namespace pbd {
 JointStateReader::JointStateReader()
     : nh_(), topic_("joint_states"), positions_() {}
 JointStateReader::JointStateReader(const std::string& joint_states_topic)
@@ -42,5 +42,5 @@ void JointStateReader::callback(const sensor_msgs::JointState& js) {
     positions_[js.name[i]] = js.position[i];
   }
 }
-}  // namespace manipulation
+}  // namespace pbd
 }  // namespace rapid
