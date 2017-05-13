@@ -130,8 +130,12 @@
         }
       },
 
-      _round(val, resolution) {
-        return val.toFixed(3);
+      _round(val) {
+        if (val) {
+          return val.toFixed(3);
+        } else {
+          return val;
+        }
       },
 
       _delete: function() {
