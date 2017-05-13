@@ -10,12 +10,12 @@
 namespace rapid {
 namespace pbd {
 JointStateReader::JointStateReader()
-    : nh_(), topic_("joint_states"), positions_() {}
+    : nh_(), topic_("/joint_states"), positions_() {}
 JointStateReader::JointStateReader(const std::string& joint_states_topic)
     : nh_(), topic_(joint_states_topic), positions_() {}
 
 void JointStateReader::Start() {
-  sub_ = nh_.subscribe(topic_, 5, &JointStateReader::callback, this);
+  sub_ = nh_.subscribe(topic_, 5, &JointStateReader::Callback, this);
 }
 
 double JointStateReader::get_position(const std::string& name) const {
@@ -33,12 +33,12 @@ void JointStateReader::get_positions(const std::vector<std::string>& names,
   }
 }
 
-void JointStateReader::callback(const sensor_msgs::JointState& js) {
-  if (js.name.size() < js.position.size()) {
+void JointStateReader::Callback(const sensor_msgs::JointState& js) {
+  if (js.name.size() != js.position.size()) {
     ROS_WARN("JointState msg had different sized name and position field.");
     return;
   }
-  for (size_t i = 0; i < js.position.size(); ++i) {
+  for (size_t i = 0; i < js.name.size(); ++i) {
     positions_[js.name[i]] = js.position[i];
   }
 }

@@ -21,8 +21,9 @@ const static double kNoJointValue = std::numeric_limits<double>::min();
 class JointStateReader {
  public:
   JointStateReader();
-  JointStateReader(const std::string& joint_states_topic);
+  JointStateReader(const std::string& topic);
 
+  void Callback(const sensor_msgs::JointState& msg);
   void Start();
 
   // Returns the position of the given joint.
@@ -35,8 +36,6 @@ class JointStateReader {
                      std::vector<double>* positions) const;
 
  private:
-  void callback(const sensor_msgs::JointState& msg);
-
   ros::NodeHandle nh_;
   ros::Subscriber sub_;
   std::string topic_;
