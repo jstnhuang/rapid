@@ -1,0 +1,6 @@
+# Gets the joint angles for a particular actuator group.
+# For a list of actuator groups, see Action.msg
+string actuator_group
+---
+string[] joint_names
+float64[] joint_positions
