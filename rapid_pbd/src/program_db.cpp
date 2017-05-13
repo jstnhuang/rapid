@@ -51,8 +51,7 @@ void ProgramDb::StartPublishingProgramById(const std::string& db_id) {
     ROS_ERROR("Can't start publishing program with ID: \"%s\"", db_id.c_str());
     return;
   }
-  ros::Publisher pub =
-      nh_.advertise<Program>("rapid_pbd/program/" + db_id, 1, true);
+  ros::Publisher pub = nh_.advertise<Program>("program/" + db_id, 1, true);
   program_pubs_[db_id] = pub;
   program_pubs_[db_id].publish(results[0]);
 }

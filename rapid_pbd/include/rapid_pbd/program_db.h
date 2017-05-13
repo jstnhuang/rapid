@@ -13,7 +13,7 @@ namespace rapid {
 namespace pbd {
 static const char kMongoDbName[] = "rapid_pbd";
 static const char kMongoCollectionName[] = "programs";
-static const char kProgramListTopic[] = "rapid_pbd/program_list";
+static const char kProgramListTopic[] = "program_list";
 
 class ProgramDb {
  public:
