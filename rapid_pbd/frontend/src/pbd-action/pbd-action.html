@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
@@ -7,6 +8,7 @@
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
+<link rel="import" href="../pbd-joint-angle-action/pbd-joint-angle-action.html">
 
 <dom-module id="pbd-action">
   <template>
@@ -62,21 +64,7 @@
           </paper-dropdown-menu>
         </section>
         <section data-type="move to joint goal">
-          <paper-dropdown-menu label="Arm to move">
-            <paper-listbox class="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
-              <paper-item data-actuator-group="left arm">Left arm</paper-item>
-              <paper-item data-actuator-group="right arm">Right arm</paper-item>
-            </paper-listbox>
-          </paper-dropdown-menu>
-          <ul>
-            <li>Right shoulder pan: [[_round(jointStates.r_shoulder_pan_joint.position)]]</li>
-            <li>Right shoulder lift: [[_round(jointStates.r_shoulder_lift_joint.position)]]</li>
-            <li>Right upper arm roll: [[_round(jointStates.r_upper_arm_roll_joint.position)]]</li>
-            <li>Right elbow flex: [[_round(jointStates.r_elbow_flex_joint.position)]]</li>
-            <li>Right forearm roll: [[_round(jointStates.r_forearm_roll_joint.position)]]</li>
-            <li>Right wrist flex: [[_round(jointStates.r_wrist_flex_joint.position)]]</li>
-            <li>Right wrist roll: [[_round(jointStates.r_wrist_roll_joint.position)]]</li>
-          </ul>
+          <pbd-joint-angle-action action="{{action}}" ros="[[ros]]"></pbd-joint-angle-action>
         </section>
         <section data-type="detect tabletop objects">
           Tabletop detection options
@@ -97,7 +85,6 @@
           type: Object,
         },
         index: Number,
-        jointStates: Object,
         ros: Object,
       },
 

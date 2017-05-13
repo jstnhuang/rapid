@@ -81,7 +81,7 @@
     <div>
       <array-selector id="selector" items="{{program.steps}}" selected="{{currentStep}}"></array-selector>
       <div class="stepDiv" hidden$="[[!_hasSteps(program.steps)]]">
-        <pbd-step index="[[currentStepNum]]" step="{{currentStep}}" joint-states="[[jointStates]]" on-delete="_deleteStep"></pbd-step>
+        <pbd-step index="[[currentStepNum]]" step="{{currentStep}}" ros="[[ros]]" on-delete="_deleteStep"></pbd-step>
       </div>
     </div>
   </template>
@@ -99,7 +99,6 @@
           type: Object,
           observer: '_programChanged',
         },
-        jointStates: Object,
         ros: Object,
         route: Object,
       },

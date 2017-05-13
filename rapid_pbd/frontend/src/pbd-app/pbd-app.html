@@ -7,7 +7,6 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
-<link rel="import" href="../../bower_components/ros-joint-states/ros-joint-states.html">
 <link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
 <link rel="import" href="../../bower_components/ros-websocket/ros-websocket.html">
 <link rel="import" href="../pbd-program/pbd-program.html">
@@ -48,11 +47,6 @@
       topic="rosout"
       ros="[[ros]]"
     ></ros-topic>
-    <ros-joint-states auto
-      topic="/joint_states"
-      ros="[[ros]]"
-      joint-states="{{jointStates}}"
-    ></ros-joint-states>
     <paper-dialog modal id="dialog">
       <h2>Disconnected from server</h2>
       <p>Please check that the robot's websocket server is running and try again.</p>
@@ -65,7 +59,7 @@
       <pbd-program-list data-page="" ros="[[ros]]"></pbd-program-list>
     </template>
     <template is="dom-if" if="[[_shouldShowProgram(routeData.page)]]">
-      <pbd-program data-page="program" joint-states="[[jointStates]]" ros="[[ros]]" route="{{routeTail}}"></pbd-program>
+      <pbd-program data-page="program" ros="[[ros]]" route="{{routeTail}}"></pbd-program>
     </template>
   </template>
 

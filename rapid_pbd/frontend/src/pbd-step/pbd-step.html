@@ -41,7 +41,7 @@
       No actions
     </div>
     <template is="dom-repeat" items="{{step.actions}}" as="action">
-      <pbd-action action="{{action}}" index="[[index]]" joint-states="[[jointStates]]" on-delete="_handleDeleteAction"></pbd-action>
+      <pbd-action action="{{action}}" index="[[index]]" on-delete="_handleDeleteAction" ros="[[ros]]"></pbd-action>
     </template>
     <paper-dialog id="deleteDialog" modal>
       <h2>Delete step [[_stepNum(index)]]?</h2>
@@ -61,7 +61,6 @@
           notify: true,
           type: Object,
         },
-        jointStates: Object,
         ros: Object,
       },
 

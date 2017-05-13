@@ -1,0 +1,99 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/ros-service/ros-service.html">
+<link rel="import" href="../shared-styles/shared-styles.html">
+
+<dom-module id="pbd-joint-angle-action">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <ros-service auto
+      id="service"
+      on-response="_handleValues"
+      name="rapid_pbd/get_joint_angles"
+      ros="[[ros]]"
+      service-type="rapid_pbd_msgs/GetJointAngles"
+    ></ros-service>
+    <paper-dropdown-menu label="Arm to move">
+      <paper-listbox class="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
+        <paper-item data-actuator-group="left arm">Left arm</paper-item>
+        <paper-item data-actuator-group="right arm">Right arm</paper-item>
+      </paper-listbox>
+    </paper-dropdown-menu>
+    <template is="dom-repeat" items="{{action.joint_trajectory.points.0.positions}}" as="position">
+      [[_getName(index)]]: [[_round(position)]]<br />
+    </template>
+  </template>
+  <script>
+    Polymer({
+      is: 'pbd-joint-angle-action',
+
+      properties: {
+        action: {
+          notify: true,
+          type: Object,
+        },
+        ros: Object,
+      },
+
+      observers: [
+        '_groupChanged(action.type, action.actuator_group)',
+      ],
+
+      _groupChanged: function(actionType, actuatorGroup) {
+        if (actionType !== 'move to joint goal') {
+          return;
+        }
+        if (actuatorGroup !== 'arm' && actuatorGroup !== 'left arm' && actuatorGroup !== 'right arm') {
+          return;
+        }
+        var that = this;
+        if (this.action.joint_trajectory.points.length == 0) {
+          this.debounce('get_joint_angles', function() {
+            that._updateJointValues();
+          }, 100);
+        }
+      },
+
+      _updateJointValues: function() {
+        this.$.service.call({actuator_group: this.action.actuator_group});
+      },
+
+      _handleValues: function(evt) {
+        var names = evt.detail.joint_names;
+        var positions = evt.detail.joint_positions;
+        this.set('action.joint_trajectory.joint_names', names);
+        
+        var point = {
+          positions: [],
+          velocities: [],
+          accelerations: [],
+          effort: [],
+          time_from_start: 10
+        };
+        for (var i=0; i<names.length; ++i) {
+          point.positions.push(positions[i]);
+          point.velocities.push(0);
+        }
+        this.set('action.joint_trajectory.points', [point]);
+      },
+
+      _getName: function(index) {
+        return this.action.joint_trajectory.joint_names[index];
+      },
+
+      _round(val) {
+        if (val) {
+          return val.toFixed(3);
+        } else {
+          return val;
+        }
+      },
+    });
+  </script>
+</dom-module>
