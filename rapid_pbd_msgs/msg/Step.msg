@@ -11,4 +11,4 @@ string scene_id # An ID that can be used to look up a point cloud of the scene a
 #
 # When a step is executed, the perception actions are re-run. The program executor
 # maintains the world state (aka list of landmarks) in memory.
-Landmark[] landmarks # All of the landmarks known at this step.
+rapid_pbd_msgs/Landmark[] landmarks # All of the landmarks known at this step.
