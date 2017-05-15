@@ -117,13 +117,6 @@
         }
       },
 
-      _round(val) {
-        if (val) {
-          return val.toFixed(3);
-        } else {
-          return val;
-        }
-      },
 
       _delete: function() {
         this.fire('delete', {index: this.index});
