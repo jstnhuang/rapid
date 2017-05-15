@@ -168,7 +168,10 @@
       _programUpdated: function(changeRecord) {
         if (changeRecord.base) {
           if (changeRecord.path !== 'program') {
-            this.save();
+            var that = this;
+            this.debounce('save program', function() {
+              that.save();
+            }, 100);
           }
         }
       },
