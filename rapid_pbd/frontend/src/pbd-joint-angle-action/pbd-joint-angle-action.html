@@ -1,5 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/ros-service/ros-service.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
 
@@ -11,6 +13,15 @@
       :host {
         display: block;
       }
+      paper-dropdown-menu {
+        max-width: 150px;
+      }
+      .read {
+        margin-left: 10px;
+      }
+      paper-input {
+        max-width: 250px;
+      }
     </style>
     <ros-service auto
       id="service"
@@ -19,15 +30,21 @@
       ros="[[ros]]"
       service-type="rapid_pbd_msgs/GetJointAngles"
     ></ros-service>
+    <div class="layout horizontal center">
     <paper-dropdown-menu label="Arm to move">
       <paper-listbox class="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
         <paper-item data-actuator-group="left arm">Left arm</paper-item>
         <paper-item data-actuator-group="right arm">Right arm</paper-item>
       </paper-listbox>
     </paper-dropdown-menu>
-    <template is="dom-repeat" items="{{action.joint_trajectory.points.0.positions}}" as="position">
-      [[_getName(index)]]: [[_round(position)]]<br />
-    </template>
+    <paper-button class="read" on-tap="_updateJointValues">Read joint values</paper-button>
+    <div class="flex"></div>
+    </div>
+    <div>
+      <template id="positionList" is="dom-repeat" items="{{action.joint_trajectory.points.0.positions}}" as="position">
+        <paper-input type="number" step="0.01" label="[[_getName(index)]]" value="[[position]]" on-blur="_update"></paper-input>
+      </template>
+    </div>
   </template>
   <script>
     Polymer({
@@ -42,10 +59,12 @@
       },
 
       observers: [
-        '_groupChanged(action.type, action.actuator_group)',
+        '_actionChanged(action)',
       ],
 
-      _groupChanged: function(actionType, actuatorGroup) {
+      _actionChanged: function(action) {
+        var actionType = action.type;
+        var actuatorGroup = action.actuator_group;
         if (actionType !== 'move to joint goal') {
           return;
         }
@@ -53,7 +72,10 @@
           return;
         }
         var that = this;
-        if (this.action.joint_trajectory.points.length == 0) {
+        if (!this.action.joint_trajectory) {
+          this.set('action.joint_trajectory', {points: []});
+        }
+        if (this.action.joint_trajectory.points.length === 0) {
           this.debounce('get_joint_angles', function() {
             that._updateJointValues();
           }, 100);
@@ -87,11 +109,11 @@
         return this.action.joint_trajectory.joint_names[index];
       },
 
-      _round(val) {
-        if (val) {
-          return val.toFixed(3);
-        } else {
-          return val;
+      _update: function(evt) {
+        var index = this.$.positionList.indexForElement(evt.target);
+        var val = parseFloat(evt.target.value);
+        if (!isNaN(val)) {
+          this.set('action.joint_trajectory.points.0.positions.' + index, val);
         }
       },
     });
