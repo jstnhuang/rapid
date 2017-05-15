@@ -116,11 +116,16 @@
           }
         } else if (this.action.type === 'actuate gripper') {
           var action = 'Actuate';
-          var actuator = this.action.actuator_group;
+          var actuator = 'gripper';
           if (this.action.gripper_command.position > 0) {
             action = 'Open';
           } else {
             action = 'Close';
+          }
+          if (this.action.actuator_group === 'gripper'
+              || this.action.actuator_group === 'left gripper'
+              || this.action.actuator_group === 'right gripper') {
+            actuator = this.action.actuator_group;
           }
           this._actionDescription = action + ' ' + actuator;
         } else if (this.action.type === 'detect tabletop objects') {
