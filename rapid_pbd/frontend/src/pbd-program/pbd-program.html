@@ -9,6 +9,7 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
+<link rel="import" href="../../bower_components/ros-action-client/ros-action-client.html">
 <link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
 <link rel="import" href="../pbd-step/pbd-step.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
@@ -81,6 +82,14 @@
       topic="rapid_pbd/editor_events"
       ros="[[ros]]"
     ></ros-topic>
+    <ros-action-client
+      id="programAction"
+      ros="[[ros]]"
+      server="/rapid_pbd/execute_program_action"
+      action-type="rapid_pbd_msgs/ExecuteProgramAction"
+      on-feedback="_handleFeedback"
+      on-result="_handleResult"
+    ></ros-action-client>
     <div class="layout horizontal center">
       <a href="#/" class="self-end"><paper-button class="back clear"><iron-icon icon="arrow-back"></iron-icon> Back</paper-button></a>
       <paper-input class="flex" label="Program name" value="{{program.name}}" on-blur="save"></paper-input>
@@ -169,10 +178,16 @@
       },
 
       run: function() {
+        var cleanProgram = this._cleanProgram();
         this.isRunning = true;
+        var goal = {
+          program: cleanProgram
+        }
+        this.$.programAction.send(goal);
       },
 
       stop: function() {
+        this.$.programAction.cancel();
         this.isRunning = false;
       },
 
@@ -281,6 +296,14 @@
 
       _stepNum: function(index) {
         return parseInt(index) + 1;
+      },
+
+      _handleFeedback: function(evt) {
+        this.currentStepNum = evt.detail.step_number;
+      },
+
+      _handleResult: function(evt) {
+        this.isRunning = false;
       },
     });
   </script>
