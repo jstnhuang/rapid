@@ -3,6 +3,7 @@
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/av-icons.html">
 <link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
@@ -27,6 +28,9 @@
       .add {
         height: 25px;
       }
+      paper-button.back {
+        height: 40px;
+      }
       paper-button.back:hover {
         background-color: transparent;
       }
@@ -44,6 +48,19 @@
       }
       .step:hover {
         background-color: var(--paper-grey-400);
+      }
+      .runstop {
+        color: #fff;
+        margin-left: 10px;
+        height: 40px;
+      }
+      .runstop:hover {
+      }
+      .run {
+        background-color: var(--paper-green-500);
+      }
+      .stop {
+        background-color: var(--paper-red-500);
       }
      </style>
     <app-route
@@ -64,9 +81,17 @@
       topic="rapid_pbd/editor_events"
       ros="[[ros]]"
     ></ros-topic>
-    <div class="layout horizontal">
+    <div class="layout horizontal center">
       <a href="#/" class="self-end"><paper-button class="back clear"><iron-icon icon="arrow-back"></iron-icon> Back</paper-button></a>
       <paper-input class="flex" label="Program name" value="{{program.name}}" on-blur="save"></paper-input>
+      <paper-button class="runstop run" hidden$="[[isRunning]]" raised on-tap="run">
+        <iron-icon icon="av:play-arrow"></iron-icon>
+        Run
+      </paper-button>
+      <paper-button class="runstop stop" hidden$="[[!isRunning]]" raised on-tap="stop">
+        <iron-icon icon="av:stop"></iron-icon>
+        Stop
+      </paper-button>
     </div>
     <div class="steps layout horizontal">
       <span>Steps: </span>
@@ -101,6 +126,10 @@
         },
         ros: Object,
         route: Object,
+        isRunning: {
+          type: Boolean,
+          value: false,
+        },
       },
 
       observers: [
@@ -137,6 +166,14 @@
           program: cleanProgram
         };
         this.$.eventPub.publish(msg);
+      },
+
+      run: function() {
+        this.isRunning = true;
+      },
+
+      stop: function() {
+        this.isRunning = false;
       },
 
       // Removes unused parameters from the message.
