@@ -151,17 +151,14 @@
         if (!db_id || !ros) {
           return;
         }
-        var that = this;
-        this.debounce('load program', function() {
-          var msg = {
-            type: 'open program',
-            program_info: {
-              db_id: db_id
-            },
-          };
-          that.$.eventPub.publish(msg);
-          that.$.programSub.subscribe();
-        }, 100);
+        var msg = {
+          type: 'open program',
+          program_info: {
+            db_id: db_id
+          },
+        };
+        this.$.eventPub.publish(msg);
+        this.$.programSub.subscribe();
       },
 
       save: function() {
