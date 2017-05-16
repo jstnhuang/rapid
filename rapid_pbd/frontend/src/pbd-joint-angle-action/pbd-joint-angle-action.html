@@ -37,7 +37,7 @@
         <paper-item data-actuator-group="right arm">Right arm</paper-item>
       </paper-listbox>
     </paper-dropdown-menu>
-    <paper-button class="read" on-tap="_updateJointValues">Read joint values</paper-button>
+    <paper-button class="read normal" on-tap="_updateJointValues">Read joint values</paper-button>
     <div class="flex"></div>
     </div>
     <div>
@@ -68,7 +68,8 @@
         if (actionType !== 'move to joint goal') {
           return;
         }
-        if (actuatorGroup !== 'arm' && actuatorGroup !== 'left arm' && actuatorGroup !== 'right arm') {
+        if (actuatorGroup !== 'arm' && actuatorGroup !== 'left arm'
+            && actuatorGroup !== 'right arm') {
           return;
         }
         var that = this;
