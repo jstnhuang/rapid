@@ -1,16 +1,23 @@
 # Type of the Action
 ## The first set of actions are actuations that move some part of the robot.
-string ACTUATE_GRIPPER = actuate gripper # Open or close one of the grippers
-string MOVE_TO_JOINT_GOAL = move to joint goal # Move the head, torso, or arm
-string MOVE_TO_CARTESIAN_GOAL = move to cartesian goal # Move the arm
+# Open or close one of the grippers
+string ACTUATE_GRIPPER = actuate gripper
+# Move the head, torso, or arm
+string MOVE_TO_JOINT_GOAL = move to joint goal
+# Move the arm
+string MOVE_TO_CARTESIAN_GOAL = move to cartesian goal
+
 ## The second set of actions are perception actions that update the world representation.
-string DETECT_TABLETOP_OBJECTS = detect tabletop objects # Find tabletop objects
-string FIND_CUSTOM_LANDMARK = find custom landmark # Find a custom landmark
+# Find tabletop objects
+string DETECT_TABLETOP_OBJECTS = detect tabletop objects
+# Find a custom landmark
+string FIND_CUSTOM_LANDMARK = find custom landmark
 
 string type
 
 # If this is an actuation, this specifies what is being moved.
-string GRIPPER = gripper # Used for robots that only have one gripper
+# Used for robots that only have one gripper
+string GRIPPER = gripper
 string LEFT_GRIPPER = left gripper
 string RIGHT_GRIPPER = right gripper
 string HEAD = head
@@ -18,7 +25,6 @@ string TORSO = torso
 string ARM = arm
 string LEFT_ARM = left arm
 string RIGHT_ARM = right arm
-string JOINT_SET = joint set # A custom set of joints
 string actuator_group
 
 # Acutation specifications
