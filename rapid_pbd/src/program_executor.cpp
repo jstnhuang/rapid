@@ -28,6 +28,10 @@ void ProgramExecutionServer::Execute(
     return;
   }
   for (size_t i = 0; i < goal->program.steps.size(); ++i) {
+    ExecuteProgramFeedback feedback;
+    feedback.step_number = i;
+    server_.publishFeedback(feedback);
+
     Step step = goal->program.steps[i];
     StepExecutor executor(step);
     executor.Start();
@@ -42,9 +46,6 @@ void ProgramExecutionServer::Execute(
         server_.setPreempted(result, error);
         return;
       }
-      ExecuteProgramFeedback feedback;
-      feedback.step_number = i;
-      server_.publishFeedback(feedback);
       ros::spinOnce();
     }
   }
