@@ -71,7 +71,6 @@
             <pbd-joint-angle-action action="{{action}}" ros="[[ros]]"></pbd-joint-angle-action>
           </section>
           <section data-type="detect tabletop objects">
-            Tabletop detection options
           </section>
           <section data-type="find custom landmark">
             CustomLandmarks options
@@ -142,13 +141,13 @@
 
       _displayActionTypeChanged: function(actionType) {
         if (actionType === 'open gripper') {
-          this.set('action.type', 'actuate gripper');
           this.set('action.gripper_command.position', 0.1);
           this.set('action.gripper_command.max_effort', -1);
-        } else if (actionType === 'close gripper') {
           this.set('action.type', 'actuate gripper');
+        } else if (actionType === 'close gripper') {
           this.set('action.gripper_command.position', 0);
           this.set('action.gripper_command.max_effort', 100);
+          this.set('action.type', 'actuate gripper');
         } else {
           this.set('action.type', actionType);
         }
