@@ -225,8 +225,9 @@
       _programUpdated: function(changeRecord) {
         if (changeRecord.base) {
           if (changeRecord.path !== 'program') {
-            console.log('saving', changeRecord);
-            this.save();
+            this.debounce('save program', function() {
+              this.save();
+            }, 50);
           }
         }
       },
