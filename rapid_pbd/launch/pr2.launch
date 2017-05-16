@@ -9,8 +9,8 @@
     <param name="r_gripper_max_force" value="100" />
     <param name="l_gripper_min_force" value="100" />
     <param name="l_gripper_max_force" value="100" />
-    <node pkg="rapid_pbd" type="pr2_action_node" name="pr2_action_node" />
-    <node pkg="rapid_pbd" type="program_execution_node" name="pbd_program_executor_node">
+    <node pkg="rapid_pbd" type="pr2_action_node" name="pr2_actuator_server" />
+    <node pkg="rapid_pbd" type="program_execution_node" name="program_executor">
       <remap from="l_arm_joint_action" to="/l_arm_controller/follow_joint_trajectory" />
       <remap from="r_arm_joint_action" to="/r_arm_controller/follow_joint_trajectory" />
     </node>

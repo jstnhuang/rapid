@@ -105,7 +105,8 @@
 
       _handleRosout: function(evt) {
         var msg = evt.detail;
-        if (msg.name !== '/rapid_pbd_editor_node') {
+        if (msg.name !== '/rapid_pbd/editor_node'
+            && msg.name !== '/rapid_pbd/program_executor') {
           return;
         }
         if (msg.level == 1 || msg.level == 2)  {
