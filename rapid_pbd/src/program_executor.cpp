@@ -1,5 +1,7 @@
 #include "rapid_pbd/program_executor.h"
 
+#include "std_msgs/Bool.h"
+
 #include "rapid_pbd/step_executor.h"
 #include "rapid_pbd_msgs/Action.h"
 #include "rapid_pbd_msgs/ExecuteProgramAction.h"
@@ -15,13 +17,18 @@ using rapid_pbd_msgs::Step;
 
 namespace rapid {
 namespace pbd {
-ProgramExecutionServer::ProgramExecutionServer(const std::string& action_name)
+ProgramExecutionServer::ProgramExecutionServer(
+    const std::string& action_name, const ros::Publisher& is_running_pub)
     : nh_(),
       server_(action_name,
               boost::bind(&ProgramExecutionServer::Execute, this, _1), false),
-      freeze_arm_client_(nh_.serviceClient<FreezeArm>(kFreezeArmService)) {}
+      freeze_arm_client_(nh_.serviceClient<FreezeArm>(kFreezeArmService)),
+      is_running_pub_(is_running_pub) {}
 
-void ProgramExecutionServer::Start() { server_.start(); }
+void ProgramExecutionServer::Start() {
+  server_.start();
+  PublishIsRunning(false);
+}
 
 void ProgramExecutionServer::Execute(
     const rapid_pbd_msgs::ExecuteProgramGoalConstPtr& goal) {
@@ -33,6 +40,8 @@ void ProgramExecutionServer::Execute(
     server_.setAborted(result, error);
     return;
   }
+
+  PublishIsRunning(true);
 
   // Enable controllers.
   while (!freeze_arm_client_.waitForExistence(ros::Duration(5))) {
@@ -62,11 +71,13 @@ void ProgramExecutionServer::Execute(
         ExecuteProgramResult result;
         result.error = error;
         server_.setPreempted(result, error);
+        PublishIsRunning(false);
         return;
       }
       ros::spinOnce();
     }
   }
+  PublishIsRunning(false);
   server_.setSucceeded();
 }
 
@@ -78,6 +89,12 @@ bool ProgramExecutionServer::IsValid(const rapid_pbd_msgs::Program& program) {
     }
   }
   return true;
+}
+
+void ProgramExecutionServer::PublishIsRunning(bool is_running) {
+  std_msgs::Bool msg;
+  msg.data = is_running;
+  is_running_pub_.publish(msg);
 }
 }  // namespace pbd
 }  // namespace rapid
