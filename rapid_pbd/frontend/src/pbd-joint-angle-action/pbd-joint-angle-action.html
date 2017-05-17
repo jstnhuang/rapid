@@ -97,7 +97,10 @@
           velocities: [],
           accelerations: [],
           effort: [],
-          time_from_start: 10
+          time_from_start: {
+            secs: 5,
+            nsecs: 0
+          },
         };
         for (var i=0; i<names.length; ++i) {
           point.positions.push(positions[i]);
