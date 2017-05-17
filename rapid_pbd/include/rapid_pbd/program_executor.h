@@ -16,7 +16,9 @@ class ProgramExecutionServer {
   void Start();
 
  private:
+  ros::NodeHandle nh_;
   actionlib::SimpleActionServer<rapid_pbd_msgs::ExecuteProgramAction> server_;
+  ros::ServiceClient freeze_arm_client_;
 
   void Execute(const rapid_pbd_msgs::ExecuteProgramGoalConstPtr& goal);
   static bool IsValid(const rapid_pbd_msgs::Program& program);
