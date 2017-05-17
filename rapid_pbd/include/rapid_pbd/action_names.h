@@ -16,11 +16,19 @@ static const char kArmJointActionName[] = "arm_joint_action";
 static const char kLeftArmJointActionName[] = "l_arm_joint_action";
 static const char kRightArmJointActionName[] = "r_arm_joint_action";
 
+static const char kArmControllerStateTopic[] = "arm_controller_state";
+static const char kFreezeArmService[] = "freeze_arm";
+static const char kRelaxArmService[] = "relax_arm";
+
 namespace pr2 {
 static const char kLeftGripperActionName[] =
     "/l_gripper_controller/gripper_action";
 static const char kRightGripperActionName[] =
     "/r_gripper_controller/gripper_action";
+static const char kListControllersService[] =
+    "/pr2_controller_manager/list_controllers";
+static const char kSwitchControllerService[] =
+    "/pr2_controller_manager/switch_controller";
 }  // namespace pr2
 }  // namespace pbd
 }  // namespace rapid
