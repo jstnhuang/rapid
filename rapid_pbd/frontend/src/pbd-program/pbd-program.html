@@ -166,6 +166,7 @@
         };
         this.$.eventPub.publish(msg);
         this.$.programSub.subscribe();
+        this.currentStepNum = 0;
       },
 
       save: function() {
