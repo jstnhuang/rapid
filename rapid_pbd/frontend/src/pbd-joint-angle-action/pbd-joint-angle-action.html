@@ -31,18 +31,21 @@
       service-type="rapid_pbd_msgs/GetJointAngles"
     ></ros-service>
     <div class="layout horizontal center">
-    <paper-dropdown-menu label="Arm to move">
-      <paper-listbox class="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
-        <paper-item data-actuator-group="left arm">Left arm</paper-item>
-        <paper-item data-actuator-group="right arm">Right arm</paper-item>
-      </paper-listbox>
-    </paper-dropdown-menu>
-    <paper-button class="read normal" on-tap="_updateJointValues">Read joint values</paper-button>
-    <div class="flex"></div>
+      <paper-dropdown-menu label="Arm to move">
+        <paper-listbox class="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
+          <paper-item data-actuator-group="left arm">Left arm</paper-item>
+          <paper-item data-actuator-group="right arm">Right arm</paper-item>
+        </paper-listbox>
+      </paper-dropdown-menu>
+      <paper-button class="read normal" on-tap="_updateJointValues">Read joint values</paper-button>
     </div>
     <div>
+      <paper-input type="number" step="0.5" label="Movement duration (seconds)"
+        value="{{_timeFromStart}}"
+        on-blur="_updateTimeFromStart"
+      ></paper-input>
       <template id="positionList" is="dom-repeat" items="{{action.joint_trajectory.points.0.positions}}" as="position">
-        <paper-input type="number" step="0.01" label="[[_getName(index)]]" value="[[position]]" on-blur="_update"></paper-input>
+        <paper-input type="number" step="0.01" label="[[_getName(index)]]" value="[[position]]" on-blur="_updateJoint"></paper-input>
       </template>
     </div>
   </template>
@@ -60,6 +63,7 @@
 
       observers: [
         '_actionChanged(action)',
+        '_renderTimeFromStart(action.joint_trajectory.points.0.time_from_start)',
       ],
 
       _actionChanged: function(action) {
@@ -114,13 +118,31 @@
         return this.action.joint_trajectory.joint_names[index];
       },
 
-      _update: function(evt) {
+      _updateJoint: function(evt) {
         var index = this.$.positionList.indexForElement(evt.target);
         var val = parseFloat(evt.target.value);
         if (!isNaN(val)) {
           this.set('action.joint_trajectory.points.0.positions.' + index, val);
           this.fire('save'); 
         }
+      },
+
+      _renderTimeFromStart: function(timeFromStart) {
+        if (timeFromStart) {
+          var val = timeFromStart.secs + timeFromStart.nsecs / 1000000000.0;
+          this._timeFromStart = val;
+        }
+      },
+
+      _updateTimeFromStart: function() {
+        if (this._timeFromStart < 0) {
+          this._timeFromStart = 1;
+        }
+        var secs = parseInt(this._timeFromStart);
+        var nsecs = parseInt(Math.round(1000000000 * (this._timeFromStart - secs)));
+        this.action.joint_trajectory.points[0].time_from_start.secs = secs;
+        this.action.joint_trajectory.points[0].time_from_start.nsecs = nsecs;
+        this.fire('save');
       },
     });
   </script>
