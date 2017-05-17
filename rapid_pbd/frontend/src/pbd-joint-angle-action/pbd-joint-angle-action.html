@@ -107,6 +107,7 @@
           point.velocities.push(0);
         }
         this.set('action.joint_trajectory.points', [point]);
+        this.fire('save');
       },
 
       _getName: function(index) {
@@ -118,6 +119,7 @@
         var val = parseFloat(evt.target.value);
         if (!isNaN(val)) {
           this.set('action.joint_trajectory.points.0.positions.' + index, val);
+          this.fire('save'); 
         }
       },
     });

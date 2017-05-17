@@ -120,7 +120,13 @@
     <div>
       <array-selector id="selector" items="{{program.steps}}" selected="{{currentStep}}"></array-selector>
       <div class="stepDiv" hidden$="[[!_hasSteps(program.steps)]]">
-        <pbd-step index="[[currentStepNum]]" step="{{currentStep}}" ros="[[ros]]" on-delete="_deleteStep"></pbd-step>
+        <pbd-step
+          index="[[currentStepNum]]"
+          step="{{currentStep}}"
+          ros="[[ros]]"
+          on-save="save"
+          on-delete="_deleteStep"
+        ></pbd-step>
       </div>
     </div>
   </template>
@@ -150,7 +156,6 @@
 
       observers: [
         'load(ros, routeData.id)',
-        '_programUpdated(program.*)',
         '_currentStepNumChanged(program, currentStepNum)',
       ],
 
@@ -254,6 +259,7 @@
         var step = { actions: [] };
         this.push('program.steps', step);
         this.currentStepNum = this.program.steps.length-1;
+        this.save();
       },
 
       selectStep: function(e) {
@@ -264,26 +270,17 @@
       _deleteStep: function(evt) {
         this.splice('program.steps', this.currentStepNum, 1);
         this.currentStepNum = Math.max(this.currentStepNum-1, 0);
+        this.save();
         evt.stopPropagation(); 
       },
 
+      // If a new program is loaded, select step 0.
       _programChanged: function(program, oldProgram) {
         if (!program) {
           return;
         }
-        if (program.steps.length === 0) {
-        } else {
+        if (program.steps.length > 0) {
           this.$.selector.select(program.steps[0]);
-        }
-      },
-
-      _programUpdated: function(changeRecord) {
-        if (changeRecord.base) {
-          if (changeRecord.path !== 'program') {
-            this.debounce('save program', function() {
-              this.save();
-            }, 50);
-          }
         }
       },
 

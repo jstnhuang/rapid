@@ -134,7 +134,6 @@
         }
       },
 
-
       _delete: function() {
         this.fire('delete', {index: this.index});
       },
@@ -152,6 +151,7 @@
         } else {
           this.set('action.type', actionType);
         }
+        this.fire('save');
       },
 
       _actionTypeChanged: function(actionType) {
