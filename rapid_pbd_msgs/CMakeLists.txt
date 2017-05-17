@@ -53,6 +53,7 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES
   Action.msg
+  ArmControllerState.msg
   ControlStrategy.msg
   EditorEvent.msg
   Landmark.msg
@@ -65,8 +66,10 @@ add_message_files(
 ## Generate services in the 'srv' folder
 add_service_files(
   FILES
+  FreezeArm.srv
   GetEEPose.srv
   GetJointAngles.srv
+  RelaxArm.srv
 )
 
 ## Generate actions in the 'action' folder

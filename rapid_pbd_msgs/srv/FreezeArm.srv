@@ -1,0 +1,6 @@
+# Freezes the robot's arm.
+# actuator_group is one of the actuator groups listed in Action.msg (i.e., arm, left arm, or right arm).
+string actuator_group
+---
+# An error string if the arm is already frozen.
+string error
