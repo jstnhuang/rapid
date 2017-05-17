@@ -3,6 +3,8 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
+<link rel="import" href="../../bower_components/ros-service/ros-service.html">
+<link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
 
 <dom-module id="pbd-action-picker">
@@ -34,13 +36,57 @@
         height: 22px;
       }
     </style>
+    <ros-topic auto
+      id="topic"
+      last-message="{{_armState}}"
+      topic="rapid_pbd/arm_controller_state"
+      ros="[[ros]]"
+      msg-type="rapid_pbd_msgs/ArmControllerState"
+    ></ros-topic>
+    <ros-service
+      id="freeze"
+      last-message="{{_armState}}"
+      name="rapid_pbd/freeze_arm"
+      ros="[[ros]]"
+      service-type="rapid_pbd_msgs/FreezeArm"
+    ></ros-service>
+    <ros-service
+      id="relax"
+      last-message="{{_armState}}"
+      name="rapid_pbd/relax_arm"
+      ros="[[ros]]"
+      service-type="rapid_pbd_msgs/RelaxArm"
+    ></ros-service>
     <paper-material>
-      <div class="group">
-        <div class="layout horizontal center">
-          <h3>Perception</h3>
-          <div class="flex"></div>
-          <paper-button id="cancel" on-tap="cancel" class="clear">Cancel</paper-button>
+      <div class="layout horizontal center">
+        <h3>Temporary actions</h3>
+        <div class="flex"></div>
+        <paper-button id="cancel" on-tap="cancel" class="clear">Cancel</paper-button>
+      </div>
+      <div class="group layout horizontal">
+        <div class="half">
+          <paper-button hidden$="[[!_isLeftArmFrozen]]" class="normal"
+            on-tap="_relaxArm"
+            data-actuator-group="left arm"
+          >Relax left arm</paper-button>
+          <paper-button hidden$="[[_isLeftArmFrozen]]" class="normal"
+            on-tap="_freezeArm"
+            data-actuator-group="left arm"
+          >Freeze left arm</paper-button>
         </div>
+        <div class="half">
+          <paper-button hidden$="[[!_isRightArmFrozen]]" class="normal"
+            on-tap="_relaxArm"
+            data-actuator-group="right arm"
+          >Relax right arm</paper-button>
+          <paper-button hidden$="[[_isRightArmFrozen]]" class="normal"
+            on-tap="_freezeArm"
+            data-actuator-group="right arm"
+          >Freeze right arm</paper-button>
+        </div>
+      </div>
+      <div class="group">
+        <h3>Perception</h3>
         <paper-button class="normal" on-tap="selectDetectTabletopObjects">Detect tabletop objects</paper-button>
         <paper-button class="normal" on-tap="selectFindCustomLandmark">Find custom landmark</paper-button>
       </div>
@@ -68,6 +114,15 @@
 
       properties: {
         ros: Object,
+        _armState: Object,
+        _isLeftArmFrozen: {
+          type: Boolean,
+          computed: '_computeIsLeftArmFrozen(_armState)'
+        },
+        _isRightArmFrozen: {
+          type: Boolean,
+          computed: '_computeIsRightArmFrozen(_armState)'
+        },
       },
 
       cancel: function() {
@@ -146,6 +201,31 @@
           }
         };
         this.fire('iron-select', action);
+      },
+
+      _computeIsLeftArmFrozen: function(armState) {
+        if (armState) {
+          return armState.l_arm_controller === 'frozen';
+        } else {
+          return true;
+        }
+      },
+      _computeIsRightArmFrozen: function(armState) {
+        if (armState) {
+          return armState.r_arm_controller === 'frozen';
+        } else {
+          return true;
+        }
+      },
+
+      _freezeArm: function(evt) {
+        var actuatorGroup = evt.target.dataset.actuatorGroup;
+        this.$.freeze.call({actuator_group: actuatorGroup});
+      },
+
+      _relaxArm: function(evt) {
+        var actuatorGroup = evt.target.dataset.actuatorGroup;
+        this.$.relax.call({actuator_group: actuatorGroup});
       },
     });
   </script>

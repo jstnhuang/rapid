@@ -35,7 +35,7 @@
       <paper-button class="delete" on-tap="_maybeDeleteStep">Delete</paper-button>
     </div>
     <iron-collapse id="picker">
-      <pbd-action-picker class="dropdown-content" on-iron-select="_addAction" on-iron-deselect="_closePicker"></pbd-action-picker>
+      <pbd-action-picker class="dropdown-content" ros="[[ros]]" on-iron-select="_addAction" on-iron-deselect="_closePicker"></pbd-action-picker>
     </iron-collapse>
     <div hidden$="[[hasActions(step.actions)]]">
       No actions
