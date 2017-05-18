@@ -57,6 +57,18 @@
       ros="[[ros]]"
       service-type="rapid_pbd_msgs/RelaxArm"
     ></ros-service>
+    <ros-action-client
+      id="leftGripperAction"
+      server="/rapid_pbd/l_gripper_action"
+      action-type="control_msgs/GripperCommandAction"
+      ros="[[ros]]"
+    ></ros-action-client>
+    <ros-action-client
+      id="rightGripperAction"
+      server="/rapid_pbd/r_gripper_action"
+      action-type="control_msgs/GripperCommandAction"
+      ros="[[ros]]"
+    ></ros-action-client>
     <paper-material>
       <div class="layout horizontal center">
         <h3>Temporary actions</h3>
@@ -186,19 +198,29 @@
       },
 
       _selectActuateGripper: function(actuatorGroup, command) {
-        var position = 0.1;
-        var effort = -1.0;
+        var gripperCommand = {
+          position: 0.1,
+          max_effort: -1.0
+        };
         if (command === 'close') {
-          position = 0;
-          effort = 100.0;
+          gripperCommand.position = 0;
+          gripperCommand.max_effort = 100.0;
         }
+
+        var goal = { command: gripperCommand };
+        var gripperAction = null;
+        if (actuatorGroup === 'gripper') {
+        } else if (actuatorGroup === 'left gripper') {
+          gripperAction = this.$.leftGripperAction;
+        } else if (actuatorGroup === 'right gripper') {
+          gripperAction = this.$.rightGripperAction;
+        }
+        gripperAction.send(goal);
+
         var action = {
           type: 'actuate gripper',
           actuator_group: actuatorGroup,
-          gripper_command: {
-            position: position,
-            max_effort: effort
-          }
+          gripper_command: gripperCommand
         };
         this.fire('iron-select', action);
       },
