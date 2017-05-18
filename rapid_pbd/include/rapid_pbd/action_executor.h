@@ -1,15 +1,7 @@
-#ifndef _RAPID_PBD_ACTION_SERVER_H_
-#define _RAPID_PBD_ACTION_SERVER_H_
+#ifndef _RAPID_PBD_ACTION_EXECUTOR_H_
+#define _RAPID_PBD_ACTION_EXECUTOR_H_
 
-#include <string>
-
-#include "actionlib/client/simple_action_client.h"
-#include "actionlib/server/simple_action_server.h"
-#include "control_msgs/GripperCommandAction.h"
-#include "control_msgs/FollowJointTrajectoryAction.h"
-#include "ros/ros.h"
-
-#include "rapid_pbd/action_names.h"
+#include "rapid_pbd/action_clients.h"
 #include "rapid_pbd_msgs/Action.h"
 
 namespace rapid {
@@ -17,7 +9,8 @@ namespace pbd {
 // An ActionExecutor takes an Action specification and runs it on the robot.
 class ActionExecutor {
  public:
-  explicit ActionExecutor(const rapid_pbd_msgs::Action& action);
+  ActionExecutor(const rapid_pbd_msgs::Action& action,
+                 ActionClients* action_clients);
 
   // Returns true if the given action message is valid, false otherwise.
   // Public methods of ActionExecutor will use this at the start and return
@@ -36,19 +29,7 @@ class ActionExecutor {
 
  private:
   rapid_pbd_msgs::Action action_;
-
-  actionlib::SimpleActionClient<control_msgs::GripperCommandAction>
-      gripper_client_;
-  actionlib::SimpleActionClient<control_msgs::GripperCommandAction>
-      l_gripper_client_;
-  actionlib::SimpleActionClient<control_msgs::GripperCommandAction>
-      r_gripper_client_;
-  actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>
-      arm_joint_client_;
-  actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>
-      l_arm_joint_client_;
-  actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>
-      r_arm_joint_client_;
+  ActionClients* clients_;
 
   void ActuateGripper();
   void MoveToJointGoal();
@@ -58,4 +39,4 @@ class ActionExecutor {
 }  // namespace pbd
 }  // namespace rapid
 
-#endif  // _RAPID_PBD_ACTION_SERVER_H_
+#endif  // _RAPID_PBD_ACTION_EXECUTOR_H_

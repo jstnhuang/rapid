@@ -2,6 +2,7 @@
 
 #include "std_msgs/Bool.h"
 
+#include "rapid_pbd/action_names.h"
 #include "rapid_pbd/step_executor.h"
 #include "rapid_pbd_msgs/Action.h"
 #include "rapid_pbd_msgs/ExecuteProgramAction.h"
@@ -18,12 +19,14 @@ using rapid_pbd_msgs::Step;
 namespace rapid {
 namespace pbd {
 ProgramExecutionServer::ProgramExecutionServer(
-    const std::string& action_name, const ros::Publisher& is_running_pub)
+    const std::string& action_name, const ros::Publisher& is_running_pub,
+    ActionClients* action_clients)
     : nh_(),
       server_(action_name,
               boost::bind(&ProgramExecutionServer::Execute, this, _1), false),
       freeze_arm_client_(nh_.serviceClient<FreezeArm>(kFreezeArmService)),
-      is_running_pub_(is_running_pub) {}
+      is_running_pub_(is_running_pub),
+      action_clients_(action_clients) {}
 
 void ProgramExecutionServer::Start() {
   server_.start();
@@ -54,17 +57,23 @@ void ProgramExecutionServer::Execute(
   req.actuator_group = Action::RIGHT_ARM;
   freeze_arm_client_.call(req, res);
 
+  std::vector<boost::shared_ptr<StepExecutor> > executors;
+  for (size_t i = 0; i < goal->program.steps.size(); ++i) {
+    const Step& step = goal->program.steps[i];
+    boost::shared_ptr<StepExecutor> executor(
+        new StepExecutor(step, action_clients_));
+    executors.push_back(executor);
+    executors.back()->Init();
+  }
   for (size_t i = 0; i < goal->program.steps.size(); ++i) {
     ExecuteProgramFeedback feedback;
     feedback.step_number = i;
     server_.publishFeedback(feedback);
 
-    Step step = goal->program.steps[i];
-    StepExecutor executor(step);
-    executor.Start();
-    while (!executor.IsDone()) {
+    executors[i]->Start();
+    while (!executors[i]->IsDone()) {
       if (server_.isPreemptRequested() || !ros::ok()) {
-        executor.Cancel();
+        executors[i]->Cancel();
         ros::spinOnce();
         std::string error("Program \"" + goal->program.name +
                           "\" was preempted.");

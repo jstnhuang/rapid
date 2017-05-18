@@ -106,6 +106,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES
+    rapid_pbd_action_clients
     rapid_pbd_action_executor
     rapid_pbd_joint_state_reader
     rapid_pbd_program_db
@@ -143,17 +144,22 @@ add_library(rapid_pbd_joint_state_reader src/joint_state_reader.cpp)
 add_dependencies(rapid_pbd_joint_state_reader ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_joint_state_reader ${catkin_LIBRARIES})
 
+add_library(rapid_pbd_action_clients src/action_clients.cpp)
+add_dependencies(rapid_pbd_action_clients ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_action_clients ${catkin_LIBRARIES})
+
 add_library(rapid_pbd_pr2_actions src/pr2_actions.cpp)
 add_dependencies(rapid_pbd_pr2_actions ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_pr2_actions ${catkin_LIBRARIES})
 
 add_library(rapid_pbd_action_executor src/action_executor.cpp)
 add_dependencies(rapid_pbd_action_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rapid_pbd_action_executor ${catkin_LIBRARIES})
+target_link_libraries(rapid_pbd_action_executor rapid_pbd_action_clients ${catkin_LIBRARIES})
 
 add_library(rapid_pbd_step_executor src/step_executor.cpp)
 add_dependencies(rapid_pbd_step_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_step_executor
+  rapid_pbd_action_clients
   rapid_pbd_action_executor
   ${catkin_LIBRARIES}
 )
@@ -161,6 +167,7 @@ target_link_libraries(rapid_pbd_step_executor
 add_library(rapid_pbd_program_executor src/program_executor.cpp)
 add_dependencies(rapid_pbd_program_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_program_executor
+  rapid_pbd_action_clients
   rapid_pbd_step_executor
   ${catkin_LIBRARIES}
 )

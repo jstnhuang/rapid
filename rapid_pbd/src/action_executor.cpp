@@ -17,16 +17,9 @@ using rapid_pbd_msgs::Action;
 
 namespace rapid {
 namespace pbd {
-ActionExecutor::ActionExecutor(const Action& action)
-    : action_(action),
-      gripper_client_(kGripperActionName, true),
-      l_gripper_client_(kLeftGripperActionName, true),
-      r_gripper_client_(kRightGripperActionName, true),
-      arm_joint_client_(kArmJointActionName, true),
-      l_arm_joint_client_(kLeftArmJointActionName, true),
-      r_arm_joint_client_(kRightArmJointActionName, true) {
-  IsValid(action_);
-}
+ActionExecutor::ActionExecutor(const Action& action,
+                               ActionClients* action_clients)
+    : action_(action), clients_(action_clients) {}
 
 bool ActionExecutor::IsValid(const Action& action) {
   if (action.type == Action::ACTUATE_GRIPPER) {
@@ -56,9 +49,6 @@ bool ActionExecutor::IsValid(const Action& action) {
 }
 
 void ActionExecutor::Start() {
-  if (!IsValid(action_)) {
-    return;
-  }
   if (action_.type == Action::ACTUATE_GRIPPER) {
     ActuateGripper();
   } else if (action_.type == Action::MOVE_TO_JOINT_GOAL) {
@@ -67,48 +57,42 @@ void ActionExecutor::Start() {
 }
 
 bool ActionExecutor::IsDone() const {
-  if (!IsValid(action_)) {
-    return true;
-  }
   if (action_.type == Action::ACTUATE_GRIPPER) {
     if (action_.actuator_group == Action::GRIPPER) {
-      return gripper_client_.getState().isDone();
+      return clients_->gripper_client.getState().isDone();
     } else if (action_.actuator_group == Action::LEFT_GRIPPER) {
-      return l_gripper_client_.getState().isDone();
+      return clients_->l_gripper_client.getState().isDone();
     } else if (action_.actuator_group == Action::RIGHT_GRIPPER) {
-      return r_gripper_client_.getState().isDone();
+      return clients_->r_gripper_client.getState().isDone();
     }
   } else if (action_.type == Action::MOVE_TO_JOINT_GOAL) {
     if (action_.actuator_group == Action::ARM) {
-      return arm_joint_client_.getState().isDone();
+      return clients_->arm_joint_client.getState().isDone();
     } else if (action_.actuator_group == Action::LEFT_ARM) {
-      return l_arm_joint_client_.getState().isDone();
+      return clients_->l_arm_joint_client.getState().isDone();
     } else if (action_.actuator_group == Action::RIGHT_ARM) {
-      return r_arm_joint_client_.getState().isDone();
+      return clients_->r_arm_joint_client.getState().isDone();
     }
   }
   return true;
 }
 
 void ActionExecutor::Cancel() {
-  if (!IsValid(action_)) {
-    return;
-  }
   if (action_.type == Action::ACTUATE_GRIPPER) {
     if (action_.actuator_group == Action::GRIPPER) {
-      gripper_client_.cancelAllGoals();
+      clients_->gripper_client.cancelAllGoals();
     } else if (action_.actuator_group == Action::LEFT_GRIPPER) {
-      l_gripper_client_.cancelAllGoals();
+      clients_->l_gripper_client.cancelAllGoals();
     } else if (action_.actuator_group == Action::RIGHT_GRIPPER) {
-      r_gripper_client_.cancelAllGoals();
+      clients_->r_gripper_client.cancelAllGoals();
     }
   } else if (action_.type == Action::MOVE_TO_JOINT_GOAL) {
     if (action_.actuator_group == Action::ARM) {
-      arm_joint_client_.cancelAllGoals();
+      clients_->arm_joint_client.cancelAllGoals();
     } else if (action_.actuator_group == Action::LEFT_ARM) {
-      l_arm_joint_client_.cancelAllGoals();
+      clients_->l_arm_joint_client.cancelAllGoals();
     } else if (action_.actuator_group == Action::RIGHT_ARM) {
-      r_arm_joint_client_.cancelAllGoals();
+      clients_->r_arm_joint_client.cancelAllGoals();
     }
   }
 }
@@ -116,20 +100,16 @@ void ActionExecutor::Cancel() {
 void ActionExecutor::ActuateGripper() {
   control_msgs::GripperCommandGoal gripper_goal;
   gripper_goal.command = action_.gripper_command;
+
   SimpleActionClient<control_msgs::GripperCommandAction>* client;
   if (action_.actuator_group == Action::GRIPPER) {
-    client = &gripper_client_;
+    client = &clients_->gripper_client;
   } else if (action_.actuator_group == Action::LEFT_GRIPPER) {
-    client = &l_gripper_client_;
+    client = &clients_->l_gripper_client;
   } else if (action_.actuator_group == Action::RIGHT_GRIPPER) {
-    client = &r_gripper_client_;
+    client = &clients_->r_gripper_client;
   } else {
     return;
-  }
-  while (!client->waitForServer(ros::Duration(5.0))) {
-    ROS_WARN("%s server not running! Trying again in 5 seconds.",
-             action_.actuator_group.c_str());
-    ros::spinOnce();
   }
   client->sendGoal(gripper_goal);
 }
@@ -138,20 +118,16 @@ void ActionExecutor::MoveToJointGoal() {
   control_msgs::FollowJointTrajectoryGoal joint_goal;
   joint_goal.trajectory = action_.joint_trajectory;
   joint_goal.trajectory.header.stamp = ros::Time::now() + ros::Duration(0.1);
+
   SimpleActionClient<FollowJointTrajectoryAction>* client;
   if (action_.actuator_group == Action::ARM) {
-    client = &arm_joint_client_;
+    client = &clients_->arm_joint_client;
   } else if (action_.actuator_group == Action::LEFT_ARM) {
-    client = &l_arm_joint_client_;
+    client = &clients_->l_arm_joint_client;
   } else if (action_.actuator_group == Action::RIGHT_ARM) {
-    client = &r_arm_joint_client_;
+    client = &clients_->r_arm_joint_client;
   } else {
     return;
-  }
-  while (!client->waitForServer(ros::Duration(5.0))) {
-    ROS_WARN("%s server not running! Trying again in 5 seconds.",
-             action_.actuator_group.c_str());
-    ros::spinOnce();
   }
   client->sendGoal(joint_goal);
 }

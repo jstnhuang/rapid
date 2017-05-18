@@ -12,10 +12,9 @@ using rapid_pbd_msgs::Step;
 
 namespace rapid {
 namespace pbd {
-StepExecutor::StepExecutor(const rapid_pbd_msgs::Step& step)
-    : step_(step), executors_() {
-  IsValid(step_);
-}
+StepExecutor::StepExecutor(const rapid_pbd_msgs::Step& step,
+                           ActionClients* action_clients)
+    : step_(step), action_clients_(action_clients), executors_() {}
 
 bool StepExecutor::IsValid(const rapid_pbd_msgs::Step& step) {
   for (size_t i = 0; i < step.actions.size(); ++i) {
@@ -28,21 +27,16 @@ bool StepExecutor::IsValid(const rapid_pbd_msgs::Step& step) {
   return true;
 }
 
-void StepExecutor::Start() {
-  if (!IsValid(step_)) {
-    return;
-  }
-
-  // Stop any previous executions.
-  for (size_t i = 0; i < executors_.size(); ++i) {
-    executors_[i]->Cancel();
-  }
-  executors_.clear();
-
+void StepExecutor::Init() {
   for (size_t i = 0; i < step_.actions.size(); ++i) {
     Action action = step_.actions[i];
-    shared_ptr<ActionExecutor> ae(new ActionExecutor(action));
+    shared_ptr<ActionExecutor> ae(new ActionExecutor(action, action_clients_));
     executors_.push_back(ae);
+  }
+}
+
+void StepExecutor::Start() {
+  for (size_t i = 0; i < step_.actions.size(); ++i) {
     executors_[i]->Start();
   }
 }

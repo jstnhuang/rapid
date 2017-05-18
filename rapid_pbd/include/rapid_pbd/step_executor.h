@@ -3,6 +3,7 @@
 
 #include "boost/shared_ptr.hpp"
 
+#include "rapid_pbd/action_clients.h"
 #include "rapid_pbd/action_executor.h"
 #include "rapid_pbd_msgs/Step.h"
 
@@ -10,11 +11,14 @@ namespace rapid {
 namespace pbd {
 class StepExecutor {
  public:
-  explicit StepExecutor(const rapid_pbd_msgs::Step& step);
+  StepExecutor(const rapid_pbd_msgs::Step& step, ActionClients* action_clients);
 
   // Returns true if the Step message is valid, false otherwise.
   // You should call this method to verify the step message before executing it.
   static bool IsValid(const rapid_pbd_msgs::Step& step);
+
+  // Initializes the step. This should be called before calling Start().
+  void Init();
 
   // Starts the step execution.
   void Start();
@@ -27,6 +31,7 @@ class StepExecutor {
 
  private:
   rapid_pbd_msgs::Step step_;
+  ActionClients* action_clients_;
   std::vector<boost::shared_ptr<ActionExecutor> > executors_;
 };
 }  // namespace pbd
