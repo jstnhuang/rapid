@@ -138,8 +138,9 @@
         if (this._timeFromStart < 0) {
           this._timeFromStart = 1;
         }
-        var secs = parseInt(this._timeFromStart);
-        var nsecs = parseInt(Math.round(1000000000 * (this._timeFromStart - secs)));
+        var floatSecs = parseFloat(this._timeFromStart);
+        var secs = Math.floor(floatSecs);
+        var nsecs = parseInt(Math.round(1000000000 * (floatSecs - secs)));
         this.action.joint_trajectory.points[0].time_from_start.secs = secs;
         this.action.joint_trajectory.points[0].time_from_start.nsecs = nsecs;
         this.fire('save');
