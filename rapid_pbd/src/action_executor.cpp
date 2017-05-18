@@ -117,7 +117,9 @@ void ActionExecutor::ActuateGripper() {
 void ActionExecutor::MoveToJointGoal() {
   control_msgs::FollowJointTrajectoryGoal joint_goal;
   joint_goal.trajectory = action_.joint_trajectory;
-  joint_goal.trajectory.header.stamp = ros::Time::now() + ros::Duration(0.1);
+  double delay;
+  ros::param::param("arm_delay", delay, 1.5);
+  joint_goal.trajectory.header.stamp = ros::Time::now() + ros::Duration(delay);
 
   SimpleActionClient<FollowJointTrajectoryAction>* client;
   if (action_.actuator_group == Action::ARM) {
