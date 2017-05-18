@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/ros-action-client/ros-action-client.html">
 <link rel="import" href="../../bower_components/ros-service/ros-service.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
 
@@ -17,6 +18,18 @@
         margin-left: 10px;
       }
     </style>
+    <ros-action-client
+      id="leftAction"
+      server="/rapid_pbd/l_gripper_action"
+      action-type="control_msgs/GripperCommandAction"
+      ros="[[ros]]"
+    ></ros-action-client>
+    <ros-action-client
+      id="rightAction"
+      server="/rapid_pbd/r_gripper_action"
+      action-type="control_msgs/GripperCommandAction"
+      ros="[[ros]]"
+    ></ros-action-client>
     <ros-service auto
       id="service"
       on-response="_handleValues"
@@ -80,10 +93,23 @@
       },
 
       _openGripper: function() {
-        console.log('opening gripper');
+        var goal = { command: this.action.gripper_command };
+        if (this.action.actuator_group === 'gripper') {
+        } else if (this.action.actuator_group === 'left gripper') {
+          this.$.leftAction.send(goal);
+        } else if (this.action.actuator_group === 'right gripper') {
+          this.$.rightAction.send(goal);
+        }
       },
+
       _closeGripper: function() {
-        console.log('closing gripper');
+        var goal = { command: this.action.gripper_command };
+        if (this.action.actuator_group === 'gripper') {
+        } else if (this.action.actuator_group === 'left gripper') {
+          this.$.leftAction.send(goal);
+        } else if (this.action.actuator_group === 'right gripper') {
+          this.$.rightAction.send(goal);
+        }
       }
     });
   </script>
