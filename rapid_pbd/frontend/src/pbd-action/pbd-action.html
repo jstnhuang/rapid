@@ -9,6 +9,7 @@
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
+<link rel="import" href="../pbd-gripper-action/pbd-gripper-action.html">
 <link rel="import" href="../pbd-joint-angle-action/pbd-joint-angle-action.html">
 
 <dom-module id="pbd-action">
@@ -41,24 +42,18 @@
       </div>
       <iron-collapse id="collapse" opened="[[_isCollapseOpen]]">
         <paper-dropdown-menu label="Action type">
-          <paper-listbox class="dropdown-content" attr-for-selected="data-type" selected="{{_displayActionType}}"
-              on-iron-select="_handleActionTypeSelected">
-            <paper-item data-type="open gripper">Open gripper</paper-item>
-            <paper-item data-type="close gripper">Close gripper</paper-item>
+          <paper-listbox class="dropdown-content" attr-for-selected="data-type" selected="{{_displayActionType}}">
+            <paper-item data-type="open gripper" on-tap="_openGripper">Open gripper</paper-item>
+            <paper-item data-type="close gripper" on-tap="_closeGripper">Close gripper</paper-item>
             <paper-item data-type="move to cartesian goal">Move to gripper pose</paper-item>
-            <paper-item data-type="move to joint goal">Move to joint angles</paper-item>
+            <paper-item data-type="move to joint goal" on-tap="_save">Move to joint angles</paper-item>
             <paper-item data-type="detect tabletop objects">Detect tabletop objects</paper-item>
             <paper-item data-type="find custom landmark">Find custom landmark</paper-item>
           </paper-listbox>
         </paper-dropdown-menu>
         <iron-pages attr-for-selected="data-type" selected="[[action.type]]">
           <section data-type="actuate gripper">
-            <paper-dropdown-menu label="Gripper">
-              <paper-listbox class="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
-                <paper-item data-actuator-group="left gripper">Left gripper</paper-item>
-                <paper-item data-actuator-group="right gripper">Right gripper</paper-item>
-              </paper-listbox>
-            </paper-dropdown-menu>
+            <pbd-gripper-action id="gripperAction" action="{{action}}" ros="[[ros]]"></pbd-gripper-action>
           </section>
           <section data-type="move to cartesian goal">
             <paper-dropdown-menu label="Arm to move">
@@ -108,9 +103,12 @@
 
       _computeActionDescription(changeRecord, index) {
         this._actionDescription = 'Action ' + (index+1);
-        if (this.action.type === 'move to cartesian goal' || this.action.type === 'move to joint goal') {
+        if (this.action.type === 'move to cartesian goal'
+            || this.action.type === 'move to joint goal') {
           this._actionDescription = 'Move arm';
-          if (this.action.actuator_group === 'arm' || this.action.actuator_group === 'left arm' || this.action.actuator_group === 'right arm') {
+          if (this.action.actuator_group === 'arm'
+              || this.action.actuator_group === 'left arm'
+              || this.action.actuator_group === 'right arm') {
             this._actionDescription = 'Move ' + this.action.actuator_group;
           }
         } else if (this.action.type === 'actuate gripper') {
@@ -138,22 +136,6 @@
         this.fire('delete', {index: this.index});
       },
 
-      _handleActionTypeSelected: function(evt) {
-        var actionType = evt.detail.item.dataset.type;
-        if (actionType === 'open gripper') {
-          this.set('action.type', 'actuate gripper');
-          this.set('action.gripper_command.position', 0.1);
-          this.set('action.gripper_command.max_effort', -1);
-        } else if (actionType === 'close gripper') {
-          this.set('action.type', 'actuate gripper');
-          this.set('action.gripper_command.position', 0);
-          this.set('action.gripper_command.max_effort', 100);
-        } else {
-          this.set('action.type', actionType);
-        }
-        this.fire('save');
-      },
-
       _actionTypeChanged: function(actionType) {
         if (actionType === 'actuate gripper') {
           if (this.action.gripper_command.position > 0) {
@@ -164,6 +146,29 @@
         } else {
           this._displayActionType = actionType;
         }
+      },
+
+      // Action type selection handlers
+      _openGripper: function() {
+        this.set('action.type', 'actuate gripper');
+        this.set('action.gripper_command.position', 0.1);
+        this.set('action.gripper_command.max_effort', -1);
+        this.$.gripperAction._openGripper();
+        this.fire('save');
+      },
+
+      _closeGripper: function() {
+        this.set('action.type', 'actuate gripper');
+        this.set('action.gripper_command.position', 0);
+        this.set('action.gripper_command.max_effort', 100);
+        this.$.gripperAction._closeGripper();
+        this.fire('save');
+      },
+
+      _save: function(evt) {
+        var actionType = evt.target.dataset.type;
+        this.set('action.type', actionType);
+        this.fire('save');
       },
     });
   </script>

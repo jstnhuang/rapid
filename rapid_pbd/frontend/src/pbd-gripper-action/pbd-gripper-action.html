@@ -1,0 +1,90 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/ros-service/ros-service.html">
+<link rel="import" href="../shared-styles/shared-styles.html">
+
+<dom-module id="pbd-gripper-action">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
+    <style>
+      :host {
+        display: block;
+      }
+      paper-button {
+        margin-left: 10px;
+      }
+    </style>
+    <ros-service auto
+      id="service"
+      on-response="_handleValues"
+      name="rapid_pbd/get_joint_angles"
+      ros="[[ros]]"
+      service-type="rapid_pbd_msgs/GetJointAngles"
+    ></ros-service>
+    <div class="layout horizontal center">
+      <paper-dropdown-menu label="Gripper">
+        <paper-listbox class="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
+          <paper-item data-actuator-group="left gripper">Left gripper</paper-item>
+          <paper-item data-actuator-group="right gripper">Right gripper</paper-item>
+        </paper-listbox>
+      </paper-dropdown-menu>
+      <paper-button class="normal" hidden$="[[!_isOpen]]" on-tap="_openGripper">Open now</paper-button>
+      <paper-button class="normal" hidden$="[[_isOpen]]" on-tap="_closeGripper">Close now</paper-button>
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: 'pbd-gripper-action',
+
+      properties: {
+        action: {
+          notify: true,
+          type: Object,
+        },
+        ros: Object,
+        _isOpen: {
+          type: Boolean,
+          computed: '_computeIsOpen(action.gripper_command)'
+        }
+      },
+
+      observers: [
+        '_actionChanged(action)',
+      ],
+
+      _actionChanged: function(action) {
+        var actionType = action.type;
+        var actuatorGroup = action.actuator_group;
+        if (actionType !== 'actuate gripper') {
+          return;
+        }
+        if (actuatorGroup !== 'gripper' && actuatorGroup !== 'left gripper'
+            && actuatorGroup !== 'right gripper') {
+          return;
+        }
+        if (!action.gripper_command) {
+          this.set('action.gripper_command', {});
+        }
+      },
+
+      _computeIsOpen: function(gripperCommand) {
+        if (gripperCommand) {
+          return gripperCommand.position > 0;
+        }
+        else {
+          return false;
+        }
+      },
+
+      _openGripper: function() {
+        console.log('opening gripper');
+      },
+      _closeGripper: function() {
+        console.log('closing gripper');
+      }
+    });
+  </script>
+</dom-module>
