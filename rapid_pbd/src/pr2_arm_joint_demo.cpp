@@ -3,7 +3,7 @@
 #include "rapid_pbd/action_names.h"
 #include "ros/ros.h"
 
-bool wait_for_server(const actionlib::SimpleActionClient<
+bool wait_for_server(actionlib::SimpleActionClient<
     control_msgs::FollowJointTrajectoryAction>& arm) {
   bool success = arm.waitForServer(ros::Duration(5));
   if (!success) {
