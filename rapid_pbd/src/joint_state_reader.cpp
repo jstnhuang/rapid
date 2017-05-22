@@ -33,6 +33,14 @@ void JointStateReader::get_positions(const std::vector<std::string>& names,
   }
 }
 
+void JointStateReader::GetMsg(sensor_msgs::JointState* msg) {
+  for (std::map<std::string, double>::const_iterator it = positions_.begin();
+       it != positions_.end(); ++it) {
+    msg->name.push_back(it->first);
+    msg->position.push_back(it->second);
+  }
+}
+
 void JointStateReader::Callback(const sensor_msgs::JointState& js) {
   if (js.name.size() != js.position.size()) {
     ROS_WARN("JointState msg had different sized name and position field.");

@@ -35,6 +35,9 @@ class JointStateReader {
   void get_positions(const std::vector<std::string>& names,
                      std::vector<double>* positions) const;
 
+  // Puts the latest joint states into a sensor_msgs::JointState msg.
+  void GetMsg(sensor_msgs::JointState* msg);
+
  private:
   ros::NodeHandle nh_;
   ros::Subscriber sub_;
