@@ -1,7 +1,6 @@
 #ifndef _RAPID_PBD_JOINT_STATE_READER_H_
 #define _RAPID_PBD_JOINT_STATE_READER_H_
 
-#include <limits.h>
 #include <map>
 #include <string>
 #include <vector>
@@ -9,14 +8,10 @@
 #include "ros/ros.h"
 #include "sensor_msgs/JointState.h"
 
+#include "rapid_pbd/joint_state.h"
+
 namespace rapid {
 namespace pbd {
-
-// The joint value when a joint name is invalid.
-// This assumes that a joint value will never reach this number, although that
-// is not necessarily true for continuous joints.
-const static double kNoJointValue = std::numeric_limits<double>::min();
-
 // JointStateReader tracks the latest joint states.
 class JointStateReader {
  public:
@@ -36,13 +31,13 @@ class JointStateReader {
                      std::vector<double>* positions) const;
 
   // Puts the latest joint states into a sensor_msgs::JointState msg.
-  void GetMsg(sensor_msgs::JointState* msg);
+  void ToMsg(sensor_msgs::JointState* msg);
 
  private:
   ros::NodeHandle nh_;
   ros::Subscriber sub_;
   std::string topic_;
-  std::map<std::string, double> positions_;
+  JointState joint_state_;
 };
 }  // namespace pbd
 }  // namespace rapid

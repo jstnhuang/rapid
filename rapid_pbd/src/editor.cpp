@@ -25,7 +25,7 @@ void Editor::HandleEvent(const msgs::EditorEvent& event) {
   if (event.type == msgs::EditorEvent::CREATE) {
     msgs::Program program;
     program.name = event.program_info.name;
-    joint_state_reader_.GetMsg(&program.start_joint_state);
+    joint_state_reader_.ToMsg(&program.start_joint_state);
     db_.Insert(program);
   } else if (event.type == msgs::EditorEvent::UPDATE) {
     HandleUpdate(event);

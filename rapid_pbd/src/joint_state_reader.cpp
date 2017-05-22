@@ -7,22 +7,21 @@
 #include "ros/ros.h"
 #include "sensor_msgs/JointState.h"
 
+#include "rapid_pbd/joint_state.h"
+
 namespace rapid {
 namespace pbd {
 JointStateReader::JointStateReader()
-    : nh_(), topic_("/joint_states"), positions_() {}
+    : nh_(), topic_("/joint_states"), joint_state_() {}
 JointStateReader::JointStateReader(const std::string& joint_states_topic)
-    : nh_(), topic_(joint_states_topic), positions_() {}
+    : nh_(), topic_(joint_states_topic), joint_state_() {}
 
 void JointStateReader::Start() {
   sub_ = nh_.subscribe(topic_, 5, &JointStateReader::Callback, this);
 }
 
 double JointStateReader::get_position(const std::string& name) const {
-  if (positions_.find(name) == positions_.end()) {
-    return kNoJointValue;
-  }
-  return positions_.at(name);
+  return joint_state_.position(name);
 }
 
 void JointStateReader::get_positions(const std::vector<std::string>& names,
@@ -33,12 +32,8 @@ void JointStateReader::get_positions(const std::vector<std::string>& names,
   }
 }
 
-void JointStateReader::GetMsg(sensor_msgs::JointState* msg) {
-  for (std::map<std::string, double>::const_iterator it = positions_.begin();
-       it != positions_.end(); ++it) {
-    msg->name.push_back(it->first);
-    msg->position.push_back(it->second);
-  }
+void JointStateReader::ToMsg(sensor_msgs::JointState* msg) {
+  joint_state_.ToMsg(msg);
 }
 
 void JointStateReader::Callback(const sensor_msgs::JointState& js) {
@@ -47,7 +42,7 @@ void JointStateReader::Callback(const sensor_msgs::JointState& js) {
     return;
   }
   for (size_t i = 0; i < js.name.size(); ++i) {
-    positions_[js.name[i]] = js.position[i];
+    joint_state_.SetPosition(js.name[i], js.position[i]);
   }
 }
 }  // namespace pbd
