@@ -12,8 +12,3 @@ string scene_id # An ID that can be used to look up a point cloud of the scene a
 # When a step is executed, the perception actions are re-run. The program executor
 # maintains the world state (aka list of landmarks) in memory.
 rapid_pbd_msgs/Landmark[] landmarks # All of the landmarks known at this step.
-
-# The joint state that results once this step executes.
-# This is used only for visualization purposes, not for specifying the program.
-# It allows the interface to render a preview of the robot state for each step.
-sensor_msgs/JointState end_joint_state
