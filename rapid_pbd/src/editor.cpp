@@ -28,7 +28,7 @@ void Editor::HandleEvent(const msgs::EditorEvent& event) {
     joint_state_reader_.GetMsg(&program.start_joint_state);
     db_.Insert(program);
   } else if (event.type == msgs::EditorEvent::UPDATE) {
-    db_.Update(event.program_info.db_id, event.program);
+    HandleUpdate(event);
   } else if (event.type == msgs::EditorEvent::DELETE) {
     db_.Delete(event.program_info.db_id);
   } else if (event.type == msgs::EditorEvent::OPEN) {
@@ -70,6 +70,10 @@ bool Editor::HandleGetJointAngles(
   }
 
   return true;
+}
+
+void Editor::HandleUpdate(const rapid_pbd_msgs::EditorEvent& event) {
+  db_.Update(event.program_info.db_id, event.program);
 }
 
 void ArmJointNames(std::vector<std::string>* names) {

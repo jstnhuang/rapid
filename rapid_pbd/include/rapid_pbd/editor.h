@@ -35,6 +35,8 @@ class Editor {
                             rapid_pbd_msgs::GetJointAnglesResponse& response);
 
  private:
+  void HandleUpdate(const rapid_pbd_msgs::EditorEvent& event);
+
   ProgramDb db_;
   JointStateReader joint_state_reader_;
 };
