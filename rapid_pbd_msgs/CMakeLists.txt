@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   message_generation
   moveit_msgs
+  sensor_msgs
   trajectory_msgs
 )
 
@@ -85,6 +86,7 @@ generate_messages(
   control_msgs
   geometry_msgs
   moveit_msgs
+  sensor_msgs
   trajectory_msgs
 )
 
@@ -120,7 +122,14 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES rapid_pbd_msgs
-  CATKIN_DEPENDS actionlib_msgs message_runtime
+  CATKIN_DEPENDS
+    actionlib_msgs
+    control_msgs
+    geometry_msgs
+    moveit_msgs
+    sensor_msgs
+    trajectory_msgs
+    message_runtime
 #  DEPENDS system_lib
 )
 
