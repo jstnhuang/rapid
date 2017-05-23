@@ -31,6 +31,7 @@
 #include "rapid_viz/scene_viz.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
+#include "std_msgs/String.h"
 #include "tf/transform_datatypes.h"
 #include "tf/transform_listener.h"
 #include "tf_conversions/tf_eigen.h"
@@ -54,6 +55,7 @@ using rapid::perception::GroupingPoseEstimator;
 using rapid::viz::SceneViz;
 
 namespace object_search {
+
 CliCommand::CliCommand(const rapid::utils::CommandLine& cli, const string& name,
                        const string& description)
     : cli_(cli), name_(name), description_(description) {}
@@ -113,8 +115,8 @@ string ListCommand::description() const { return description_; }
 const char ListCommand::kLandmarks[] = "landmark";
 const char ListCommand::kScenes[] = "scene";
 
-RecordObjectCommand::RecordObjectCommand(Database* db, CaptureRoi* capture)
-    : db_(db), capture_(capture), last_id_(""), last_name_("") {}
+  RecordObjectCommand::RecordObjectCommand(Database* db, CaptureRoi* capture, const ros::Publisher& name_request)
+    : db_(db), capture_(capture), last_id_(""), last_name_(""), name_request_(name_request) {}
 
 void RecordObjectCommand::Execute(const vector<string>& args) {
   last_id_ = "";    // Reset ID
@@ -128,18 +130,24 @@ void RecordObjectCommand::Execute(const vector<string>& args) {
 
   string name("");
   string input("");
-  if (args.size() > 0 && args[0] != "") {
-    name = boost::algorithm::join(args, " ");
-    cout << "Type \"save\" to save or \"cancel\" to cancel: ";
-    std::getline(std::cin, input);
-  } else {
+  /*
     cout << "Give this landmark a name, or type \"cancel\" to cancel: ";
     std::getline(std::cin, input);
     name = input;
-  }
+  */
+  
+  std_msgs::String msg;
+  name_request_.publish(msg);
+  ROS_INFO("Waiting for the message. Please publish name to /landmarkAnswer");
+  std_msgs::String::ConstPtr ptr = ros::topic::waitForMessage<std_msgs::String>("/landmarkAnswer");
+  input = ptr->data;
+  ROS_INFO("Obtain %s from /landmarkAnswer", input.c_str());
+
   capture_->HideMarker();
   if (input == "cancel") {
     return;
+  } else {
+    name = input;
   }
 
   // Read cloud and saved region
