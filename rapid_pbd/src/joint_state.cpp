@@ -35,5 +35,9 @@ void JointState::ToMsg(sensor_msgs::JointState* msg) const {
     msg->position.push_back(it->second);
   }
 }
+
+void JointState::ToMap(std::map<std::string, double>* joint_positions) const {
+  *joint_positions = positions_;
+}
 }  // namespace pbd
 }  // namespace rapid

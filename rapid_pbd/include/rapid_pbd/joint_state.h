@@ -28,6 +28,7 @@ class JointState {
   double position(const std::string& name) const;
 
   void ToMsg(sensor_msgs::JointState* msg) const;
+  void ToMap(std::map<std::string, double>* joint_positions) const;
 
  private:
   std::map<std::string, double> positions_;
