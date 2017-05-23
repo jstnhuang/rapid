@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   mongodb_store
   pr2_controllers_msgs
   rapid_pbd_msgs
+  robot_state_publisher_latched
   roscpp
   rospy
 )
@@ -113,6 +114,7 @@ catkin_package(
     rapid_pbd_program_db
     rapid_pbd_pr2_actions
     rapid_pbd_step_executor
+    rapid_pbd_visualizer
   CATKIN_DEPENDS rapid_pbd_msgs roscpp rospy
 #  DEPENDS system_lib
 )
@@ -134,11 +136,16 @@ add_library(rapid_pbd_program_db src/program_db.cpp)
 add_dependencies(rapid_pbd_program_db ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_program_db ${catkin_LIBRARIES})
 
+add_library(rapid_pbd_visualizer src/visualizer.cpp)
+add_dependencies(rapid_pbd_visualizer ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_visualizer ${catkin_LIBRARIES})
+
 add_library(rapid_pbd_editor src/editor.cpp)
 add_dependencies(rapid_pbd_editor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_editor
   rapid_pbd_program_db
   rapid_pbd_joint_state_reader
+  rapid_pbd_visualizer
   ${catkin_LIBRARIES})
 
 add_library(rapid_pbd_joint_state src/joint_state.cpp)

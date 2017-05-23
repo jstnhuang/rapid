@@ -5,6 +5,7 @@
 
 #include "rapid_pbd/program_db.h"
 #include "rapid_pbd/joint_state_reader.h"
+#include "rapid_pbd/visualizer.h"
 #include "rapid_pbd_msgs/Action.h"
 #include "rapid_pbd_msgs/EditorEvent.h"
 #include "rapid_pbd_msgs/Program.h"
@@ -13,8 +14,9 @@
 namespace msgs = rapid_pbd_msgs;
 namespace rapid {
 namespace pbd {
-Editor::Editor(const ProgramDb& db, const JointStateReader& joint_state_reader)
-    : db_(db), joint_state_reader_(joint_state_reader) {}
+Editor::Editor(const ProgramDb& db, const JointStateReader& joint_state_reader,
+               const Visualizer& visualizer)
+    : db_(db), joint_state_reader_(joint_state_reader), viz_(visualizer) {}
 
 void Editor::Start() {
   db_.Start();
@@ -26,6 +28,7 @@ void Editor::HandleEvent(const msgs::EditorEvent& event) {
     msgs::Program program;
     program.name = event.program_info.name;
     joint_state_reader_.ToMsg(&program.start_joint_state);
+    ROS_INFO("num joints: %ld", program.start_joint_state.name.size());
     db_.Insert(program);
   } else if (event.type == msgs::EditorEvent::UPDATE) {
     HandleUpdate(event);
@@ -74,6 +77,7 @@ bool Editor::HandleGetJointAngles(
 
 void Editor::HandleUpdate(const rapid_pbd_msgs::EditorEvent& event) {
   db_.Update(event.program_info.db_id, event.program);
+  viz_.HandleUpdate(event);
 }
 
 void ArmJointNames(std::vector<std::string>* names) {

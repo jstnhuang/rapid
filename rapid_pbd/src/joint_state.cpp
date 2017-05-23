@@ -10,7 +10,11 @@ namespace pbd {
 JointState::JointState() : positions_() {}
 
 JointState::JointState(const sensor_msgs::JointState& joint_state)
-    : positions_() {}
+    : positions_() {
+  for (size_t i = 0; i < joint_state.name.size(); ++i) {
+    positions_[joint_state.name[i]] = joint_state.position[i];
+  }
+}
 
 bool JointState::HasJoint(const std::string& name) const {
   return positions_.find(name) != positions_.end();

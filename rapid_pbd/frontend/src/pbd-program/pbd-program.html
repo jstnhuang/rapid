@@ -208,7 +208,11 @@
         if (!this.program.steps) {
           return;
         }
-        var cleanProgram = {name: this.program.name, steps: []};
+        var cleanProgram = {
+          name: this.program.name,
+          steps: [],
+          start_joint_state: this.program.start_joint_state
+        };
         for (var stepi=0; stepi<this.program.steps.length; ++stepi) {
           var step = this.program.steps[stepi];
           var cleanStep = {

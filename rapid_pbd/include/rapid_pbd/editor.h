@@ -6,6 +6,7 @@
 
 #include "rapid_pbd/program_db.h"
 #include "rapid_pbd/joint_state_reader.h"
+#include "rapid_pbd/visualizer.h"
 #include "rapid_pbd_msgs/EditorEvent.h"
 #include "rapid_pbd_msgs/GetEEPose.h"
 #include "rapid_pbd_msgs/GetJointAngles.h"
@@ -26,7 +27,8 @@ void RightArmJointNames(std::vector<std::string>* names);
 
 class Editor {
  public:
-  Editor(const ProgramDb& db, const JointStateReader& joint_state_reader);
+  Editor(const ProgramDb& db, const JointStateReader& joint_state_reader,
+         const Visualizer& visualizer);
   void Start();
   void HandleEvent(const rapid_pbd_msgs::EditorEvent& event);
   bool HandleGetEEPose(rapid_pbd_msgs::GetEEPoseRequest& request,
@@ -39,6 +41,7 @@ class Editor {
 
   ProgramDb db_;
   JointStateReader joint_state_reader_;
+  Visualizer viz_;
 };
 }  // namespace pbd
 }  // namespace rapid
