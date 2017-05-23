@@ -21,6 +21,7 @@
 #include "rapid_perception/scene_parsing.h"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud2.h"
+#include "std_msgs/String.h"
 #include "tf/tf.h"
 #include "visualization_msgs/Marker.h"
 
@@ -331,7 +332,10 @@ int main(int argc, char** argv) {
   roi_server.set_base_frame("base_link");
   object_search::CaptureRoi capture(&roi_server);
   capture.set_base_frame("base_link");
-  object_search::RecordObjectCommand record_object(&object_db, &capture);
+
+  ros::Publisher name_request = nh.advertise<std_msgs::String>("landmarkRequest", 1);
+    
+  object_search::RecordObjectCommand record_object(&object_db, &capture, name_request);
 
   object_search::ObjectSearchNode node(pose_estimator, record_object,
                                        object_db);

@@ -78,7 +78,7 @@ class ListCommand : public rapid::utils::CommandInterface {
 
 class RecordObjectCommand : public rapid::utils::CommandInterface {
  public:
-  RecordObjectCommand(Database* db, CaptureRoi* capture);
+  RecordObjectCommand(Database* db, CaptureRoi* capture, const ros::Publisher& name_request);
   void Execute(const std::vector<std::string>& args);
   std::string name() const;
   std::string description() const;
@@ -92,6 +92,7 @@ class RecordObjectCommand : public rapid::utils::CommandInterface {
   std::string last_id_;    // MongoDB ID of most recent object saved.
   std::string last_name_;  // Name of most recent object saved.
   rapid_msgs::Roi3D last_roi_;
+  ros::Publisher name_request_;
 };
 
 class SetLandmarkSceneCommand : public rapid::utils::CommandInterface {
