@@ -56,9 +56,9 @@ void Visualizer::HandleUpdate(const msgs::EditorEvent& event) {
     robot_state_pub_.getTransforms(joint_positions, ros::Time::now(), tf_prefix,
                                    &tf_transforms);
     geometry_msgs::TransformStamped identity;
-    identity.header.frame_id = "base_link";
+    identity.header.frame_id = "base_footprint";
     identity.header.stamp = ros::Time::now();
-    identity.child_frame_id = tf_prefix + "/base_link";
+    identity.child_frame_id = tf_prefix + "/base_footprint";
     identity.transform.rotation.w = 1;
     tf_transforms.push_back(identity);
     robot_state_pub_.publishTransforms(tf_transforms);
