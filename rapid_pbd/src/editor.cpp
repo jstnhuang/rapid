@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 
-#include "rapid_pbd/program_db.h"
 #include "rapid_pbd/joint_state_reader.h"
+#include "rapid_pbd/program_db.h"
 #include "rapid_pbd/visualizer.h"
 #include "rapid_pbd_msgs/Action.h"
 #include "rapid_pbd_msgs/EditorEvent.h"
@@ -36,6 +36,12 @@ void Editor::HandleEvent(const msgs::EditorEvent& event) {
     db_.Delete(event.program_info.db_id);
   } else if (event.type == msgs::EditorEvent::OPEN) {
     db_.StartPublishingProgramById(event.program_info.db_id);
+    // TODO: change this logic so that there is a VIEW event.
+    msgs::EditorEvent update;
+    update.program_info = event.program_info;
+    db_.Get(event.program_info.db_id, &update.program);
+    viz_.HandleUpdate(update);
+    viz_.Publish(event.program_info.db_id, 0);
   } else {
     ROS_ERROR("Unknown event type \"%s\"", event.type.c_str());
   }
@@ -78,6 +84,8 @@ bool Editor::HandleGetJointAngles(
 void Editor::HandleUpdate(const rapid_pbd_msgs::EditorEvent& event) {
   db_.Update(event.program_info.db_id, event.program);
   viz_.HandleUpdate(event);
+  // TODO: fix this
+  viz_.Publish(event.program_info.db_id, 0);
 }
 
 void ArmJointNames(std::vector<std::string>* names) {

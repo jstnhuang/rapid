@@ -6,7 +6,8 @@
 #include <utility>
 #include <vector>
 
-#include "robot_state_publisher_latched/robot_state_publisher_latched.h"
+#include "robot_markers/builder.h"
+#include "ros/ros.h"
 
 #include "rapid_pbd/joint_state.h"
 #include "rapid_pbd_msgs/EditorEvent.h"
@@ -14,21 +15,32 @@
 
 namespace rapid {
 namespace pbd {
+
+typedef std::pair<std::string, int> ProgramStep;
+
+struct StepVisualization {
+ public:
+  visualization_msgs::MarkerArray robot_arr;
+};
+
 // Visualization server for PbD programs.
-// The server publishes the robot state for each step, where each step has its
-// own TF prefix.
 class Visualizer {
  public:
-  Visualizer(const robot_state_publisher_latched::RobotStatePublisher&
-                 robot_state_pub);
+  Visualizer(const robot_markers::Builder& marker_builder);
+  void Init();
 
   // Updates the state of the visualization.
   void HandleUpdate(const rapid_pbd_msgs::EditorEvent& event);
 
- private:
-  std::string TfPrefix(const std::string& db_id, const int step_id);
+  // Publish the visualization for a particular step.
+  void Publish(const std::string& program_id, int step_num);
 
-  robot_state_publisher_latched::RobotStatePublisher robot_state_pub_;
+ private:
+  robot_markers::Builder marker_builder_;
+  std::map<ProgramStep, StepVisualization> step_vizs_;
+  std::map<std::string, ros::Publisher> program_pubs_;
+
+  ros::NodeHandle nh_;
 };
 }  // namespace pbd
 }  // namespace rapid

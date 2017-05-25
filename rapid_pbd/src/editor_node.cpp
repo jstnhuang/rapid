@@ -1,5 +1,3 @@
-#include "kdl/tree.hpp"
-#include "kdl_parser/kdl_parser.hpp"
 #include "mongodb_store/message_store.h"
 #include "rapid_pbd/editor.h"
 #include "rapid_pbd/joint_state_reader.h"
@@ -8,9 +6,10 @@
 #include "rapid_pbd_msgs/GetEEPose.h"
 #include "rapid_pbd_msgs/GetJointAngles.h"
 #include "rapid_pbd_msgs/ProgramInfoList.h"
-#include "robot_state_publisher_latched/robot_state_publisher_latched.h"
+#include "robot_markers/builder.h"
 #include "ros/ros.h"
 #include "urdf/model.h"
+#include "visualization_msgs/MarkerArray.h"
 
 namespace pbd = rapid::pbd;
 
@@ -32,10 +31,9 @@ int main(int argc, char** argv) {
   // Build VizServer
   urdf::Model model;
   model.initParam("robot_description");
-  KDL::Tree tree;
-  kdl_parser::treeFromUrdfModel(model, tree);
-  robot_state_publisher_latched::RobotStatePublisher robot_state_pub(tree);
-  pbd::Visualizer visualizer(robot_state_pub);
+  robot_markers::Builder marker_builder(model);
+  pbd::Visualizer visualizer(marker_builder);
+  visualizer.Init();
 
   // Build editor.
   pbd::Editor editor(db, joint_state_reader, visualizer);

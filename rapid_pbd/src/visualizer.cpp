@@ -1,13 +1,14 @@
 #include "rapid_pbd/visualizer.h"
 
 #include <map>
-#include <string>
 #include <sstream>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "geometry_msgs/TransformStamped.h"
-#include "robot_state_publisher_latched/robot_state_publisher_latched.h"
+#include "robot_markers/builder.h"
+#include "visualization_msgs/MarkerArray.h"
 
 #include "rapid_pbd/joint_state.h"
 #include "rapid_pbd_msgs/EditorEvent.h"
@@ -17,15 +18,15 @@ namespace msgs = rapid_pbd_msgs;
 
 namespace rapid {
 namespace pbd {
-Visualizer::Visualizer(
-    const robot_state_publisher_latched::RobotStatePublisher& robot_state_pub)
-    : robot_state_pub_(robot_state_pub) {}
+
+Visualizer::Visualizer(const robot_markers::Builder& marker_builder)
+    : marker_builder_(marker_builder), step_vizs_(), nh_() {}
+
+void Visualizer::Init() { marker_builder_.Init(); }
 
 // Updates the state of the visualization.
 void Visualizer::HandleUpdate(const msgs::EditorEvent& event) {
   // Update the joint state for each step.
-  const std::string& db_id = event.program_info.db_id;
-
   JointState current(event.program.start_joint_state);
   for (size_t step_i = 0; step_i < event.program.steps.size(); ++step_i) {
     const msgs::Step& step = event.program.steps[step_i];
@@ -48,28 +49,31 @@ void Visualizer::HandleUpdate(const msgs::EditorEvent& event) {
         // TODO: fill this in.
       }
     }
-    const std::string& tf_prefix = TfPrefix(db_id, step_i);
     std::map<std::string, double> joint_positions;
     current.ToMap(&joint_positions);
 
-    std::vector<geometry_msgs::TransformStamped> tf_transforms;
-    robot_state_pub_.getTransforms(joint_positions, ros::Time::now(), tf_prefix,
-                                   &tf_transforms);
-    geometry_msgs::TransformStamped identity;
-    identity.header.frame_id = "base_footprint";
-    identity.header.stamp = ros::Time::now();
-    identity.child_frame_id = tf_prefix + "/base_footprint";
-    identity.transform.rotation.w = 1;
-    tf_transforms.push_back(identity);
-    robot_state_pub_.publishTransforms(tf_transforms);
+    ProgramStep step_key(event.program_info.db_id, step_i);
+    StepVisualization& step_viz = step_vizs_[step_key];
+
+    marker_builder_.SetNamespace("robot");
+    marker_builder_.SetFrameId("base_link");
+    marker_builder_.SetJointPositions(joint_positions);
+    marker_builder_.Build(&step_viz.robot_arr);
   }
 }
 
-std::string Visualizer::TfPrefix(const std::string& db_id, const int step_id) {
-  std::stringstream ss;
-  ss << "rapid_pbd/" << db_id << "/" << step_id;
-  return ss.str();
+void Visualizer::Publish(const std::string& program_id, int step_num) {
+  ProgramStep step(program_id, step_num);
+  if (program_pubs_.find(program_id) == program_pubs_.end()) {
+    program_pubs_[program_id] = nh_.advertise<visualization_msgs::MarkerArray>(
+        "robot/" + program_id, 10, true);
+  }
+  if (step_vizs_.find(step) != step_vizs_.end()) {
+    program_pubs_[program_id].publish(step_vizs_[step].robot_arr);
+  } else {
+    ROS_ERROR("Could not publish visualization for program %s, step %d",
+              program_id.c_str(), step_num);
+  }
 }
-
 }  // namespace pbd
 }  // namespace rapid

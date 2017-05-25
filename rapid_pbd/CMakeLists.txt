@@ -11,9 +11,10 @@ find_package(catkin REQUIRED COMPONENTS
   pr2_controllers_msgs
   pr2_mechanism_msgs
   rapid_pbd_msgs
-  robot_state_publisher_latched
+  robot_markers
   roscpp
   rospy
+  transform_graph
 )
 
 ## System dependencies are found with CMake's conventions

@@ -177,7 +177,6 @@
       observers: [
         'load(ros, routeData.id)',
         '_currentStepNumChanged(program, currentStepNum)',
-        '_updateRviz(routeData.id, currentStepNum)'
       ],
 
       load: function(ros, db_id) {
@@ -193,6 +192,37 @@
         this.$.eventPub.publish(msg);
         this.$.programSub.subscribe();
         this.currentStepNum = 0;
+
+				var config = {
+          globalOptions: {
+            fixedFrame: '/base_link',
+          },
+          displays: [
+            {
+              isShown: true,
+              name: 'Grid',
+              type: 'grid',
+              options: {
+                cellSize: 1,
+                color: '#cccccc',
+                numCells: 20,
+              },
+            }, {
+              isShown: true,
+              name: 'Robot model',
+              type: 'markerArray',
+              options: {
+                topic: '/rapid_pbd/robot/' + db_id,
+              },
+            },
+          ],
+          sidebarOpened: false,
+        };
+        if (this.$.rviz) {
+          this.$.rviz.loadConfig(config);
+        } else {
+          console.log('rviz not ready');
+        }
       },
 
       save: function() {
@@ -326,46 +356,6 @@
 
       _handleFeedback: function(evt) {
         this.currentStepNum = evt.detail.step_number;
-      },
-
-      _updateRviz(id, currentStepNum) {
-        if (!id) {
-          return;
-        }
-        if (!currentStepNum && currentStepNum !== 0) {
-          return;
-        }
-				var config = {
-          globalOptions: {
-            fixedFrame: '/base_link',
-          },
-          displays: [
-            {
-              isShown: true,
-              name: 'Grid',
-              type: 'grid',
-              options: {
-                cellSize: 1,
-                color: '#cccccc',
-                numCells: 20,
-              },
-            }, {
-              isShown: true,
-              name: 'Robot model',
-              type: 'urdf',
-              options: {
-                param: 'robot_description',
-                tfPrefix: 'rapid_pbd/' + id + '/' + currentStepNum
-              },
-            },
-          ],
-          sidebarOpened: false,
-        };
-        if (this.$.rviz) {
-          this.$.rviz.loadConfig(config);
-        } else {
-          console.log('rviz not ready');
-        }
       },
     });
   </script>
