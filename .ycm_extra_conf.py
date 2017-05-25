@@ -85,11 +85,13 @@ flags = [
 '-I',
 'rapid_viz/include',
 '-I',
-'../stf/include',
-'-I',
 'applications/object_search/include',
 '-I',
-'applications/object_search_msgs/include'
+'applications/object_search_msgs/include',
+'-I',
+'../transform_graph/include',
+'-I',
+'../robot_markers/include',
 ]
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
