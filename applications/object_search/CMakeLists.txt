@@ -21,6 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   tf
   tf_conversions
+  transform_graph
 )
 
 find_package(Boost REQUIRED)

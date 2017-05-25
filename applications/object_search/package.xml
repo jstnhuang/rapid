@@ -23,6 +23,7 @@
   <depend>sensor_msgs</depend>
   <depend>tf</depend>
   <depend>tf_conversions</depend>
+  <depend>transform_graph</depend>
   <export>
   </export>
 </package>

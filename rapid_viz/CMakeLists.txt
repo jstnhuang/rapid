@@ -15,8 +15,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs
   std_msgs
-  stf
   tf
+  transform_graph
   visualization_msgs
 )
 
@@ -129,8 +129,8 @@ catkin_package(
     roscpp
     sensor_msgs
     std_msgs
-    stf
     tf
+    transform_graph
     visualization_msgs
 #  DEPENDS system_lib
 )

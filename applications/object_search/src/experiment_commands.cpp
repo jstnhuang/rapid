@@ -81,7 +81,7 @@ void TaskViz::Publish(const object_search_msgs::Task& task) {
         landmark_info.roi.transform.translation.z, 1;
     pcl::demeanPointCloud(*pcl_landmark, centroid, *pcl_landmark);
 
-    stf::Transform current_transform(label.pose);
+    transform_graph::Transform current_transform(label.pose);
     pcl::PointCloud<PointXYZRGB>::Ptr pcl_out(new pcl::PointCloud<PointXYZRGB>);
     pcl::transformPointCloud(*pcl_landmark, *pcl_out,
                              current_transform.matrix());
@@ -340,17 +340,17 @@ void AddLabel::Execute(const std::vector<std::string>& args) {
   pcl::getMinMax3D(*pcl_landmark, min_pt, max_pt);
   Eigen::Vector4f center = (max_pt + min_pt) / 2;
   Eigen::Vector3d centroid = center.head<3>().cast<double>();
-  stf::Orientation identity;
+  transform_graph::Orientation identity;
 
-  stf::Graph graph;
-  graph.Add("model_cloud", stf::RefFrame("base_link"),
-            stf::Transform(centroid, identity));
-  graph.Add("model_roi", stf::RefFrame("base_link"),
-            stf::Transform(landmark_info.roi.transform.translation,
-                           landmark_info.roi.transform.rotation));
-  stf::Transform cloud_to_roi;
-  graph.ComputeMapping(stf::From("model_cloud"), stf::To("model_roi"),
-                       &cloud_to_roi);
+  transform_graph::Graph graph;
+  graph.Add("model_cloud", transform_graph::RefFrame("base_link"),
+            transform_graph::Transform(centroid, identity));
+  graph.Add("model_roi", transform_graph::RefFrame("base_link"),
+            transform_graph::Transform(landmark_info.roi.transform.translation,
+                                       landmark_info.roi.transform.rotation));
+  transform_graph::Transform cloud_to_roi;
+  graph.ComputeMapping(transform_graph::From("model_cloud"),
+                       transform_graph::To("model_roi"), &cloud_to_roi);
 
   // Get the pose
   rapid::viz::CloudPoser poser(cloud, landmark_pub_, "cloud_poser");
@@ -363,15 +363,17 @@ void AddLabel::Execute(const std::vector<std::string>& args) {
       return;
     }
 
-    graph.Add("current_cloud", stf::RefFrame("base_link"), poser.pose());
+    graph.Add("current_cloud", transform_graph::RefFrame("base_link"),
+              poser.pose());
     poser.Stop();
 
     // Compute the transform to move the model to the current position.
-    stf::Transform model_to_base;
-    graph.ComputeMapping(stf::From("model_cloud"), stf::To("base_link"),
-                         &model_to_base);
-    stf::Transform base_to_current;
-    graph.ComputeMapping(stf::From("base_link"), stf::To("current_cloud"),
+    transform_graph::Transform model_to_base;
+    graph.ComputeMapping(transform_graph::From("model_cloud"),
+                         transform_graph::To("base_link"), &model_to_base);
+    transform_graph::Transform base_to_current;
+    graph.ComputeMapping(transform_graph::From("base_link"),
+                         transform_graph::To("current_cloud"),
                          &base_to_current);
     Eigen::Matrix4d model_to_current =
         base_to_current.matrix() * model_to_base.matrix();
@@ -404,10 +406,10 @@ void AddLabel::Execute(const std::vector<std::string>& args) {
 
   // CloudPoser gives the pose of the center of the point cloud, not of the
   // landmark box. Here we find the pose of the center of the landmark box.
-  stf::Transform label_pose;
-  graph.MapPose(cloud_to_roi, stf::From("base_link"), stf::To("current_cloud"),
-                &label_pose);
-  label_pose = stf::Transform(icp_transform * label_pose.matrix());
+  transform_graph::Transform label_pose;
+  graph.MapPose(cloud_to_roi, transform_graph::From("base_link"),
+                transform_graph::To("current_cloud"), &label_pose);
+  label_pose = transform_graph::Transform(icp_transform * label_pose.matrix());
   Eigen::Affine3d affine(label_pose.matrix());
   Eigen::Quaterniond q(affine.rotation());
   label_->pose.orientation.w = q.w();
@@ -418,7 +420,7 @@ void AddLabel::Execute(const std::vector<std::string>& args) {
   label_->pose.position.y = label_pose.matrix()(1, 3);
   label_->pose.position.z = label_pose.matrix()(2, 3);
   std::cout << "Pose saved with transform:" << std::endl
-            << stf::Transform(label_->pose).matrix() << std::endl;
+            << transform_graph::Transform(label_->pose).matrix() << std::endl;
 
   label_->task_name = task_->name;
   label_->exists = true;

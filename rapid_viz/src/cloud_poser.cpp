@@ -16,7 +16,7 @@
 #include "pcl_ros/transforms.h"
 #include "ros/publisher.h"
 #include "sensor_msgs/PointCloud2.h"
-#include "stf/stf.h"
+#include "transform_graph/transform_graph.h"
 #include "visualization_msgs/InteractiveMarker.h"
 #include "visualization_msgs/InteractiveMarkerControl.h"
 
@@ -128,7 +128,8 @@ CloudPoser::CloudPoser(const sensor_msgs::PointCloud2& cloud,
   double y_length = (max_pt.y() - min_pt.y());
   double z_length = (max_pt.z() - min_pt.z());
   max_dim_ = std::max(x_length, std::max(y_length, z_length));
-  graph_.Add("original", stf::RefFrame(cloud.header.frame_id), center);
+  graph_.Add("original", transform_graph::RefFrame(cloud.header.frame_id),
+             center);
   pose_ = center;
 
   // Shift the cloud so that the center of its bounding box is at the origin.
@@ -180,10 +181,11 @@ void CloudPoser::Update() {
   im_server_.setPose(int_marker_name(), pose_);
   im_server_.applyChanges();
 
-  graph_.Add("current", stf::RefFrame(cloud_.header.frame_id), pose_);
-  stf::Transform transform;
-  graph_.ComputeMapping(stf::From(cloud_.header.frame_id), stf::To("current"),
-                        &transform);
+  graph_.Add("current", transform_graph::RefFrame(cloud_.header.frame_id),
+             pose_);
+  transform_graph::Transform transform;
+  graph_.ComputeMapping(transform_graph::From(cloud_.header.frame_id),
+                        transform_graph::To("current"), &transform);
 
   sensor_msgs::PointCloud2 cloud_out;
   pcl_ros::transformPointCloud(transform.matrix().cast<float>(), cloud_,

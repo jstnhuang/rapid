@@ -2,7 +2,7 @@
 
 #include "geometry_msgs/PoseStamped.h"
 #include "pcl_ros/transforms.h"
-#include "stf/stf.h"
+#include "transform_graph/transform_graph.h"
 
 #include "rapid_viz/publish.h"
 
@@ -51,11 +51,12 @@ void LandmarkViz::UpdatePose(const geometry_msgs::Pose& pose) {
   roi_.transform.rotation = pose.orientation;
 
   // Transform point cloud
-  stf::Graph graph;
-  graph.Add("previous", stf::RefFrame("base_link"), pose_);
-  graph.Add("current", stf::RefFrame("base_link"), pose);
-  stf::Transform prev_to_new;
-  graph.ComputeMapping(stf::From("previous"), stf::To("current"), &prev_to_new);
+  transform_graph::Graph graph;
+  graph.Add("previous", transform_graph::RefFrame("base_link"), pose_);
+  graph.Add("current", transform_graph::RefFrame("base_link"), pose);
+  transform_graph::Transform prev_to_new;
+  graph.ComputeMapping(transform_graph::From("previous"),
+                       transform_graph::To("current"), &prev_to_new);
   sensor_msgs::PointCloud2 out;
   pcl_ros::transformPointCloud(prev_to_new.matrix().cast<float>(), cloud_, out);
   cloud_ = out;
