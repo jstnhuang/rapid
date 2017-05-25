@@ -11,10 +11,10 @@ It is still in active development.
 ```
 cd ~/catkin_ws/src
 git clone https://github.com/hcrlab/blinky.git
-git clone https://github.com/jstnhuang/stf.git
 git clone https://github.com/jstnhuang/mongo_msg_db_msgs.git
 git clone https://github.com/jstnhuang/mongo_msg_db.git
 git clone https://github.com/jstnhuang/robot_markers.git
+git clone https://github.com/jstnhuang/transform_graph.git
 git clone https://github.com/jstnhuang/rapid.git
 cd ~/catkin_ws
 rosdep install --from-paths src --ignore-src --rosdistro=indigo -y
