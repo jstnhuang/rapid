@@ -20,7 +20,6 @@ find_package(catkin REQUIRED COMPONENTS
   rosbag
   roscpp
   sensor_msgs
-  stf
   visualization_msgs
 )
 
