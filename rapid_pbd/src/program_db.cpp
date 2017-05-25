@@ -56,6 +56,18 @@ void ProgramDb::StartPublishingProgramById(const std::string& db_id) {
   program_pubs_[db_id].publish(results[0]);
 }
 
+bool ProgramDb::Get(const std::string& db_id,
+                    rapid_pbd_msgs::Program* program) {
+  vector<shared_ptr<Program> > results;
+  bool success = db_->queryID(db_id, results);
+  if (!success || results.size() < 1) {
+    ROS_ERROR("Can't get program with ID: \"%s\"", db_id.c_str());
+    return false;
+  }
+  *program = *results[0];
+  return true;
+}
+
 void ProgramDb::Delete(const std::string& db_id) {
   bool success = db_->deleteID(db_id);
 

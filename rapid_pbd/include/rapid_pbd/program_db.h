@@ -26,6 +26,7 @@ class ProgramDb {
   void Insert(const rapid_pbd_msgs::Program& program);
   void Update(const std::string& db_id, const rapid_pbd_msgs::Program& program);
   void StartPublishingProgramById(const std::string& db_id);
+  bool Get(const std::string& db_id, rapid_pbd_msgs::Program* program);
   void Delete(const std::string& db_id);
 
  private:
