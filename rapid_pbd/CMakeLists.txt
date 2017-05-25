@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   control_msgs
   mongodb_store
   pr2_controllers_msgs
+  pr2_mechanism_msgs
   rapid_pbd_msgs
   robot_state_publisher_latched
   roscpp
