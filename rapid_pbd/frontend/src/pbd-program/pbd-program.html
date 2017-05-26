@@ -1,10 +1,10 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/av-icons.html">
-<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
@@ -22,6 +22,10 @@
     <style>
       :host {
         display: block;
+        height: 100%;
+      }
+      #layout {
+        height: 100%;
       }
       a {
         color: #000;
@@ -57,8 +61,6 @@
         margin-left: 10px;
         height: 40px;
       }
-      .runstop:hover {
-      }
       .run {
         background-color: var(--paper-green-500);
       }
@@ -66,21 +68,35 @@
         background-color: var(--paper-red-500);
       }
       .stepDiv {
-        min-width: 300px;
-        max-width: 500px;
-      }
-      #viz {
-        position: relative;
+        min-width: 350px;
+        margin-bottom: 10px;
+        overflow-y: auto;
+        padding-left: 2px;
+        padding-right: 2px;
       }
       #rviz {
-        width: 100%;
-        height: 100%;
-        position: absolute;
+        height: 500px;
       }
-      .content {
-        height: 100%;
+      @media (min-width: 768px) {
+        #layout {
+          @apply(--layout-vertical);
+        }
+        .content {
+          @apply(--layout-horizontal);
+        }
+        .stepDiv {
+          width: 350px;
+          max-height: 100%;
+          margin-bottom: 0px;
+          margin-right: 10px;
+        }
+        #rviz {
+          height: 100%;
+          width: 350px;
+          @apply(--layout-flex);
+        }
       }
-     </style>
+    </style>
     <app-route
       route="{{route}}"
       pattern="/:id"
@@ -112,40 +128,40 @@
       topic="rapid_pbd/is_running"
       ros="[[ros]]"
     ></ros-topic>
-    <div class="layout horizontal center">
-      <a href="#/" class="self-end"><paper-button class="back clear"><iron-icon icon="arrow-back"></iron-icon> Back</paper-button></a>
-      <paper-input class="flex" label="Program name" value="{{program.name}}" on-blur="save"></paper-input>
-      <paper-button class="runstop run" hidden$="[[isRunning.data]]" raised on-tap="run">
-        <iron-icon icon="av:play-arrow"></iron-icon>
-        Run
-      </paper-button>
-      <paper-button class="runstop stop" hidden$="[[!isRunning.data]]" raised on-tap="stop">
-        <iron-icon icon="av:stop"></iron-icon>
-        Stop
-      </paper-button>
-    </div>
-    <div class="steps layout horizontal center">
-      <span>Steps: </span>
-      <span hidden$="[[_hasSteps(program.steps)]]">None</span>
-      <iron-selector attr-for-selected="name" selected="{{currentStepNum}}">
-        <template is="dom-repeat" id="stepList" items="[[program.steps]]" >
-          <paper-button class="step" name="[[index]]" on-tap="selectStep">{{_stepNum(index)}}</paper-button>
-        </template>
-      </iron-selector>
-      <paper-button class="add important" on-tap="addStep">+ Add Step</paper-button>
-    </div>
-    <div class="content layout horizontal wrap">
-      <array-selector id="selector" items="{{program.steps}}" selected="{{currentStep}}"></array-selector>
-      <div class="stepDiv" hidden$="[[!_hasSteps(program.steps)]]">
-        <pbd-step
-          index="[[currentStepNum]]"
-          step="{{currentStep}}"
-          ros="[[ros]]"
-          on-save="save"
-          on-delete="_deleteStep"
-        ></pbd-step>
+    <div id="layout">
+      <div class="layout horizontal center">
+        <a href="#/" class="self-end"><paper-button class="back clear"><iron-icon icon="arrow-back"></iron-icon> Back</paper-button></a>
+        <paper-input class="flex" label="Program name" value="{{program.name}}" on-blur="save"></paper-input>
+        <paper-button class="runstop run" hidden$="[[isRunning.data]]" raised on-tap="run">
+          <iron-icon icon="av:play-arrow"></iron-icon>
+          Run
+        </paper-button>
+        <paper-button class="runstop stop" hidden$="[[!isRunning.data]]" raised on-tap="stop">
+          <iron-icon icon="av:stop"></iron-icon>
+          Stop
+        </paper-button>
       </div>
-      <div id="viz" class="flex">
+      <div class="steps layout horizontal center">
+        <span>Steps: </span>
+        <span hidden$="[[_hasSteps(program.steps)]]">None</span>
+        <iron-selector attr-for-selected="name" selected="{{currentStepNum}}">
+          <template is="dom-repeat" id="stepList" items="[[program.steps]]" >
+            <paper-button class="step" name="[[index]]" on-tap="selectStep">{{_stepNum(index)}}</paper-button>
+          </template>
+        </iron-selector>
+        <paper-button class="add important" on-tap="addStep">+ Add Step</paper-button>
+      </div>
+      <div class="content flex">
+        <array-selector id="selector" items="{{program.steps}}" selected="{{currentStep}}"></array-selector>
+        <div class="stepDiv" hidden$="[[!_hasSteps(program.steps)]]"><div class="stepDivInner">
+          <pbd-step
+            index="[[currentStepNum]]"
+            step="{{currentStep}}"
+            ros="[[ros]]"
+            on-save="save"
+            on-delete="_deleteStep"
+          ></pbd-step>
+          </div></div>
         <ros-rviz id="rviz" global-options="{{globalOptions}}" ros="[[ros]]"></ros-rviz>
       </div>
     </div>
