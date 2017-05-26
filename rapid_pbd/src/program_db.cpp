@@ -57,7 +57,7 @@ void ProgramDb::StartPublishingProgramById(const std::string& db_id) {
 }
 
 bool ProgramDb::Get(const std::string& db_id,
-                    rapid_pbd_msgs::Program* program) {
+                    rapid_pbd_msgs::Program* program) const {
   vector<shared_ptr<Program> > results;
   bool success = db_->queryID(db_id, results);
   if (!success || results.size() < 1) {
