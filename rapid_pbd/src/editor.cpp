@@ -21,6 +21,7 @@ Editor::Editor(const ProgramDb& db, const JointStateReader& joint_state_reader,
 void Editor::Start() {
   db_.Start();
   joint_state_reader_.Start();
+  viz_.Init();
 }
 
 void Editor::HandleEvent(const msgs::EditorEvent& event) {
@@ -29,18 +30,16 @@ void Editor::HandleEvent(const msgs::EditorEvent& event) {
     program.name = event.program_info.name;
     joint_state_reader_.ToMsg(&program.start_joint_state);
     db_.Insert(program);
+    viz_.Publish(event.program_info.db_id, 0);
   } else if (event.type == msgs::EditorEvent::UPDATE) {
-    HandleUpdate(event);
+    db_.Update(event.program_info.db_id, event.program);
+    viz_.Update(event.program_info.db_id, event.program);
   } else if (event.type == msgs::EditorEvent::DELETE) {
     db_.Delete(event.program_info.db_id);
-  } else if (event.type == msgs::EditorEvent::OPEN) {
+    viz_.StopPublishing(event.program_info.db_id);
+  } else if (event.type == msgs::EditorEvent::VIEW) {
     db_.StartPublishingProgramById(event.program_info.db_id);
-    // TODO: change this logic so that there is a VIEW event.
-    msgs::EditorEvent update;
-    update.program_info = event.program_info;
-    db_.Get(event.program_info.db_id, &update.program);
-    viz_.HandleUpdate(update);
-    viz_.Publish(event.program_info.db_id, 0);
+    viz_.Publish(event.program_info.db_id, event.step_num);
   } else {
     ROS_ERROR("Unknown event type \"%s\"", event.type.c_str());
   }
@@ -78,13 +77,6 @@ bool Editor::HandleGetJointAngles(
   }
 
   return true;
-}
-
-void Editor::HandleUpdate(const rapid_pbd_msgs::EditorEvent& event) {
-  db_.Update(event.program_info.db_id, event.program);
-  viz_.HandleUpdate(event);
-  // TODO: fix this
-  viz_.Publish(event.program_info.db_id, 0);
 }
 
 void ArmJointNames(std::vector<std::string>* names) {

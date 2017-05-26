@@ -23,19 +23,18 @@ int main(int argc, char** argv) {
   ros::Publisher program_list_pub =
       nh.advertise<rapid_pbd_msgs::ProgramInfoList>(pbd::kProgramListTopic, 1,
                                                     true);
+  // Build DB.
   pbd::ProgramDb db(nh, &proxy, program_list_pub);
 
-  // Build JointStates
-  pbd::JointStateReader joint_state_reader;
-
-  // Build VizServer
+  // Build visualizer
   urdf::Model model;
   model.initParam("robot_description");
   robot_markers::Builder marker_builder(model);
-  pbd::Visualizer visualizer(marker_builder);
+  pbd::Visualizer visualizer(db, marker_builder);
   visualizer.Init();
 
   // Build editor.
+  pbd::JointStateReader joint_state_reader;
   pbd::Editor editor(db, joint_state_reader, visualizer);
   editor.Start();
 

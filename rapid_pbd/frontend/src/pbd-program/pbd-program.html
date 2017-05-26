@@ -176,6 +176,7 @@
 
       observers: [
         'load(ros, routeData.id)',
+        '_stepChanged(ros, routeData.id, currentStepNum)',
         '_currentStepNumChanged(program, currentStepNum)',
       ],
 
@@ -183,13 +184,6 @@
         if (!db_id || !ros) {
           return;
         }
-        var msg = {
-          type: 'open program',
-          program_info: {
-            db_id: db_id
-          },
-        };
-        this.$.eventPub.publish(msg);
         this.$.programSub.subscribe();
         this.currentStepNum = 0;
 
@@ -348,6 +342,21 @@
         if (program && program.steps) {
           this.$.selector.select(program.steps[currentStepNum]);
         }
+      },
+
+      _stepChanged(ros, db_id, currentStepNum) {
+        if (!ros || !db_id || (!currentStepNum && currentStepNum !== 0)) {
+          return;
+        }
+        console.log('publishing view ', currentStepNum);
+        var msg = {
+          type: 'view step',
+          program_info: {
+            db_id: db_id
+          },
+          step_num: currentStepNum
+        };
+        this.$.eventPub.publish(msg);
       },
 
       _stepNum: function(index) {

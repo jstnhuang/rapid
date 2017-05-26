@@ -10,6 +10,7 @@
 #include "ros/ros.h"
 
 #include "rapid_pbd/joint_state.h"
+#include "rapid_pbd/program_db.h"
 #include "rapid_pbd_msgs/EditorEvent.h"
 #include "rapid_pbd_msgs/Program.h"
 
@@ -20,25 +21,32 @@ typedef std::pair<std::string, int> ProgramStep;
 
 struct StepVisualization {
  public:
-  visualization_msgs::MarkerArray robot_arr;
+  size_t step_id;
+  ros::Publisher robot_pub;
 };
 
 // Visualization server for PbD programs.
 class Visualizer {
  public:
-  Visualizer(const robot_markers::Builder& marker_builder);
+  Visualizer(const ProgramDb& db, const robot_markers::Builder& marker_builder);
   void Init();
-
-  // Updates the state of the visualization.
-  void HandleUpdate(const rapid_pbd_msgs::EditorEvent& event);
 
   // Publish the visualization for a particular step.
   void Publish(const std::string& program_id, int step_num);
 
+  void Update(const std::string& program_id,
+              const rapid_pbd_msgs::Program& program);
+
+  void StopPublishing(const std::string& program_id);
+
  private:
+  // Gets a marker of the robot at a certain step of a program.
+  bool GetRobotMarker(const rapid_pbd_msgs::Program& program, size_t step_num,
+                      visualization_msgs::MarkerArray* robot_markers);
+
+  const ProgramDb db_;
   robot_markers::Builder marker_builder_;
-  std::map<ProgramStep, StepVisualization> step_vizs_;
-  std::map<std::string, ros::Publisher> program_pubs_;
+  std::map<std::string, StepVisualization> step_vizs_;
 
   ros::NodeHandle nh_;
 };
