@@ -28,7 +28,6 @@ void Editor::HandleEvent(const msgs::EditorEvent& event) {
     msgs::Program program;
     program.name = event.program_info.name;
     joint_state_reader_.ToMsg(&program.start_joint_state);
-    ROS_INFO("num joints: %ld", program.start_joint_state.name.size());
     db_.Insert(program);
   } else if (event.type == msgs::EditorEvent::UPDATE) {
     HandleUpdate(event);
