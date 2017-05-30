@@ -24,9 +24,6 @@
         display: block;
         height: 100%;
       }
-      #layout {
-        height: 100%;
-      }
       a {
         color: #000;
         text-decoration: none;
@@ -79,14 +76,16 @@
         padding-bottom: 2px;
       }
       #rviz {
+        display: block;
         height: 500px;
       }
       @media (min-width: 768px) {
         #layout {
-          @apply(--layout-vertical);
+          height: 100%;
         }
         .content {
           @apply(--layout-horizontal);
+          @apply(--layout-flex);
         }
         .stepDiv {
           width: 350px;
@@ -132,7 +131,7 @@
       topic="rapid_pbd/is_running"
       ros="[[ros]]"
     ></ros-topic>
-    <div id="layout">
+    <div id="layout" class="layout vertical">
       <div class="layout horizontal center">
         <a href="#/" class="self-end"><paper-button class="back clear"><iron-icon icon="arrow-back"></iron-icon> Back</paper-button></a>
         <paper-input class="flex" label="Program name" value="{{program.name}}" on-blur="save"></paper-input>
@@ -145,7 +144,7 @@
           Stop
         </paper-button>
       </div>
-      <div class="steps layout horizontal center">
+      <div class="layout horizontal center">
         <span>Steps: </span>
         <span hidden$="[[_hasSteps(program.steps)]]">None</span>
         <iron-selector attr-for-selected="name" selected="{{currentStepNum}}">
@@ -155,7 +154,7 @@
         </iron-selector>
         <paper-button class="add important" on-tap="addStep">+ Add Step</paper-button>
       </div>
-      <div class="content flex">
+      <div class="content">
         <array-selector id="selector" items="{{program.steps}}" selected="{{currentStep}}"></array-selector>
         <div class="stepDiv" hidden$="[[!_hasSteps(program.steps)]]"><div class="stepDivInner">
           <pbd-step
