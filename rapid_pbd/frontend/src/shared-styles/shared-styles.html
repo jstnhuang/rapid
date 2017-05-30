@@ -1,8 +1,10 @@
 <link rel="import" href="../../bower_components/paper-styles/color.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 
 <dom-module id="shared-styles">
   <template>
+    <style include="paper-material-styles"></style>
     <style>
       paper-button {
         @apply(--paper-font-button);
@@ -34,6 +36,9 @@
       }
       paper-button.delete:hover {
         background-color: var(--paper-red-100);
+      }
+      .paper-material {
+        @apply --paper-material-elevation-1;
       }
     </style>
   </template>

@@ -1,7 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
@@ -13,7 +12,7 @@
       :host {
         display: block;
       }
-      paper-material {
+      .paper-material {
         margin-top: 10px;
       }
       table {
@@ -48,7 +47,7 @@
       ros="[[ros]]"
     ></ros-topic>
     <paper-button id="createButton" class="important" raised on-tap="_handleCreate">+ Create new program</paper-button>
-    <paper-material>
+    <div class="paper-material">
       <table>
         <tr><th>Name</th><th>Actions</th></tr>
         <template is="dom-if" if="[[!programList.programs.length]]">
@@ -73,7 +72,7 @@
           <paper-button dialog-confirm on-tap="_handleDelete" class="delete">Delete</paper-button>
         </div>
       </paper-dialog>
-    </paper-material>
+    </div>
   </template>
 
   <script>

@@ -1,7 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../../bower_components/ros-service/ros-service.html">
 <link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
@@ -17,7 +16,7 @@
         width: 100%;
         position: relative;
       }
-      paper-material {
+      .paper-material {
         padding: 5px;
       }
       h3 {
@@ -69,7 +68,7 @@
       action-type="control_msgs/GripperCommandAction"
       ros="[[ros]]"
     ></ros-action-client>
-    <paper-material>
+    <div class="paper-material">
       <div class="layout horizontal center">
         <h3>Temporary actions</h3>
         <div class="flex"></div>
@@ -118,7 +117,7 @@
           <paper-button class="normal" on-tap="selectRightCloseGripper">Close gripper</paper-button>
         </div>
       </div>
-    </paper-material>
+    </div>
   </template>
   <script>
     Polymer({
