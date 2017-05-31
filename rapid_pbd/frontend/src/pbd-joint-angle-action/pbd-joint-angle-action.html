@@ -32,9 +32,9 @@
     ></ros-service>
     <div class="layout horizontal center">
       <paper-dropdown-menu label="Arm to move">
-        <paper-listbox class="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
-          <paper-item data-actuator-group="left arm">Left arm</paper-item>
-          <paper-item data-actuator-group="right arm">Right arm</paper-item>
+        <paper-listbox slot="dropdown-content" attr-for-selected="name" selected="{{action.actuator_group}}">
+          <paper-item name="left arm">Left arm</paper-item>
+          <paper-item name="right arm">Right arm</paper-item>
         </paper-listbox>
       </paper-dropdown-menu>
       <paper-button class="read normal" on-tap="_updateJointValues">Read joint values</paper-button>

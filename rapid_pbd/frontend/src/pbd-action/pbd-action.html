@@ -41,7 +41,7 @@
       </div>
       <iron-collapse id="collapse" opened="[[_isCollapseOpen]]">
         <paper-dropdown-menu label="Action type">
-          <paper-listbox class="dropdown-content" attr-for-selected="data-type" selected="{{_displayActionType}}">
+          <paper-listbox slot="dropdown-content" attr-for-selected="data-type" selected="{{_displayActionType}}">
             <paper-item data-type="open gripper" on-tap="_openGripper">Open gripper</paper-item>
             <paper-item data-type="close gripper" on-tap="_closeGripper">Close gripper</paper-item>
             <paper-item data-type="move to cartesian goal">Move to gripper pose</paper-item>
