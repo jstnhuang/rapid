@@ -11,7 +11,6 @@
     "paper-button": "PolymerElements/paper-button#^2.0.0",
     "paper-input": "PolymerElements/paper-input#^2.0.0",
     "ros-topic": "jstnhuang/ros-topic#^1.0.0",
-    "paper-material": "PolymerElements/paper-material#^2.0.0",
     "iron-icons": "PolymerElements/iron-icons#^2.0.0",
     "iron-icon": "PolymerElements/iron-icon#^2.0.0",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#^2.0.0",
