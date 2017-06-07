@@ -54,8 +54,6 @@ install:
     - git clone https://github.com/hcrlab/blinky.git
     - git clone https://github.com/jstnhuang/mongo_msg_db_msgs.git
     - git clone https://github.com/jstnhuang/mongo_msg_db.git
-    - git clone https://github.com/jstnhuang/robot_markers.git
-    - git clone https://github.com/jstnhuang/transform_graph.git
     - catkin_init_workspace
     # Install dependencies
     - cd ~/catkin_ws/
