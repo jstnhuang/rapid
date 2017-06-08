@@ -98,6 +98,7 @@
       </div>
       <div class="group">
         <h3>Perception</h3>
+        <paper-button class="normal" on-tap="selectMoveHead">Move head</paper-button>
         <paper-button class="normal" on-tap="selectDetectTabletopObjects">Detect tabletop objects</paper-button>
         <paper-button class="normal" on-tap="selectFindCustomLandmark">Find custom landmark</paper-button>
       </div>
@@ -138,6 +139,14 @@
 
       cancel: function() {
         this.fire('iron-deselect');
+      },
+
+      selectMoveHead: function() {
+        var action = {
+          type: 'move to joint goal',
+          actuator_group: 'head'
+        };
+        this.fire('iron-select', action);
       },
 
       selectDetectTabletopObjects: function() {
