@@ -18,17 +18,17 @@
       }
     </style>
     <ros-action-client
-      id="leftAction"
-      server="/rapid_pbd/l_gripper_action"
-      action-type="control_msgs/GripperCommandAction"
+      id="headAction"
+      server="/rapid_pbd/head_action"
+      action-type="control_msgs/FollowJointTrajectory"
       ros="[[ros]]"
     ></ros-action-client>
     <div class="layout vertical">
       <paper-input type="number" step="1" min="-160" max="160"
-        label="Pan angle (degrees, positive value looks down)" on-blur="_save"
+        label="Pan angle (degrees, positive value looks left)" on-blur="_save"
         value="{{panDegrees}}"></paper-input>
       <paper-input type="number" step="1" min="-30" max="60"
-        label="Tilt angle (degrees, positive value looks left)" on-blur="_save"
+        label="Tilt angle (degrees, positive value looks down)" on-blur="_save"
         value="{{tiltDegrees}}"></paper-input>
       <paper-button class="normal" on-tap="_moveHead">Move now</paper-button>
     </div>
@@ -55,6 +55,8 @@
 
       observers: [
         '_actionChanged(action)',
+        '_panChanged(action.joint_trajectory.points.0.positions.0)',
+        '_tiltChanged(action.joint_trajectory.points.0.positions.1)',
       ],
 
       _actionChanged: function(action) {
@@ -73,6 +75,10 @@
 
       _degToRad(degrees) {
         return degrees * Math.PI / 180;
+      },
+
+      _radToDeg(radians) {
+        return radians * 180 / Math.PI;
       },
 
       _clamp(val, min, max) {
@@ -99,14 +105,17 @@
       },
 
       _moveHead: function() {
-        //var goal = { command: this.action.gripper_command };
-        //if (this.action.actuator_group === 'gripper') {
-        //} else if (this.action.actuator_group === 'left gripper') {
-        //  this.$.leftAction.send(goal);
-        //} else if (this.action.actuator_group === 'right gripper') {
-        //  this.$.rightAction.send(goal);
-        //}
-      }
+        var goal = { trajectory: this.action.joint_trajectory };
+        this.$.headAction.send(goal);
+      },
+
+      _panChanged: function(panRadians) {
+        this.panDegrees = this._radToDeg(panRadians);
+      },
+
+      _tiltChanged(tiltRadians) {
+        this.tiltDegrees = this._radToDeg(tiltRadians);
+      },
     });
   </script>
 </dom-module>
