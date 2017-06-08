@@ -24,10 +24,12 @@
       ros="[[ros]]"
     ></ros-action-client>
     <div class="layout vertical">
-      <paper-input type="number" label="Pan angle (degrees)"
-        on-blur="_save" value="{{panDegrees}}"></paper-input>
-      <paper-input type="number" label="Tilt angle (degrees)"
-        on-blur="_save" value="{{tiltDegrees}}"></paper-input>
+      <paper-input type="number" step="1" min="-160" max="160"
+        label="Pan angle (degrees, positive value looks down)" on-blur="_save"
+        value="{{panDegrees}}"></paper-input>
+      <paper-input type="number" step="1" min="-30" max="60"
+        label="Tilt angle (degrees, positive value looks left)" on-blur="_save"
+        value="{{tiltDegrees}}"></paper-input>
       <paper-button class="normal" on-tap="_moveHead">Move now</paper-button>
     </div>
   </template>
@@ -42,11 +44,11 @@
         },
         panDegrees: {
           type: Number,
-          value: 0
+          value: 0,
         },
         tiltDegrees: {
           type: Number,
-          value: 0
+          value: 0,
         },
         ros: Object,
       },
@@ -69,7 +71,30 @@
         }
       },
 
+      _degToRad(degrees) {
+        return degrees * Math.PI / 180;
+      },
+
+      _clamp(val, min, max) {
+        return Math.min(Math.max(val, min), max);
+      },
+
       _save: function(evt) {
+        var panRadians = this._clamp(this._degToRad(this.panDegrees), -2.8, 2.8);
+        var tiltRadians = this._clamp(this._degToRad(this.tiltDegrees), -0.44, 0.96);
+        if (!this.action.joint_trajectory) {
+          this.set('action.joint_trajectory', {points: []});
+        }
+        var joint_names = ['head_pan_joint', 'head_tilt_joint'];
+        var point = {
+          positions: [panRadians, tiltRadians],
+          time_from_start: {
+            secs: 2,
+            nsecs: 0,
+          },
+        };
+        this.set('action.joint_trajectory.joint_names', joint_names);
+        this.set('action.joint_trajectory.points.0', point);
         this.fire('save');
       },
 
