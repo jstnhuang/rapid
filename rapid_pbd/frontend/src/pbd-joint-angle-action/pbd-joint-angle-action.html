@@ -32,9 +32,9 @@
     ></ros-service>
     <div class="layout horizontal center">
       <paper-dropdown-menu label="Arm to move">
-        <paper-listbox slot="dropdown-content" attr-for-selected="name" selected="{{action.actuator_group}}">
-          <paper-item name="left arm">Left arm</paper-item>
-          <paper-item name="right arm">Right arm</paper-item>
+        <paper-listbox slot="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
+          <paper-item data-actuator-group="left arm" on-tap="_updateActuatorGroup">Left arm</paper-item>
+          <paper-item data-actuator-group="right arm" on-tap="_updateActuatorGroup">Right arm</paper-item>
         </paper-listbox>
       </paper-dropdown-menu>
       <paper-button class="read normal" on-tap="_updateJointValues">Read joint values</paper-button>
@@ -44,8 +44,8 @@
         value="{{_timeFromStart}}"
         on-blur="_updateTimeFromStart"
       ></paper-input>
-      <template id="positionList" is="dom-repeat" items="{{action.joint_trajectory.points.0.positions}}" as="position">
-        <paper-input type="number" step="0.01" label="[[_getName(index)]]" value="[[position]]" on-blur="_updateJoint"></paper-input>
+      <template id="positionList" is="dom-repeat" items="[[jointValues]]" as="kv">
+        <paper-input type="number" step="0.01" label="[[kv.name]]" value="[[kv.value]]" on-blur="_updateJoint"></paper-input>
       </template>
     </div>
   </template>
@@ -58,13 +58,29 @@
           notify: true,
           type: Object,
         },
+        jointValues: {
+          type: Array,
+          value: function() {
+            return [];
+          }
+        },
         ros: Object,
       },
 
       observers: [
         '_actionChanged(action)',
         '_renderTimeFromStart(action.joint_trajectory.points.0.time_from_start)',
+        '_computeJointValues(action.joint_trajectory.joint_names, action.joint_trajectory.points.0.positions)',
       ],
+
+      _computeJointValues: function(names, values) {
+        this.splice('jointValues', 0, this.jointValues.length);
+        if (names && values) {
+          for (var i=0; i<names.length; ++i) {
+            this.push('jointValues', {name: names[i], value: values[i]});
+          }
+        }
+      },
 
       _actionChanged: function(action) {
         var actionType = action.type;
@@ -87,6 +103,63 @@
         }
       },
 
+      _updateActuatorGroup: function(evt) {
+        var actuatorGroup = evt.target.dataset.actuatorGroup;
+        this.set('action.actuator_group', actuatorGroup);
+        var jointValues = [0, 0, 0, 0, 0, 0, 0];
+        var jointNames = [];
+        if (actuatorGroup === 'arm') {
+          jointNames = [
+            'shoulder_pan_joint',
+            'shoulder_lift_joint',
+            'upperarm_roll_joint',
+            'elbow_flex_joint',
+            'forearm_roll_joint',
+            'wrist_flex_joint',
+            'wrist_roll_joint'
+          ];
+        } else if (actuatorGroup === 'left arm') {
+          jointNames = [
+            'l_shoulder_pan_joint',
+            'l_shoulder_lift_joint',
+            'l_upper_arm_roll_joint',
+            'l_elbow_flex_joint',
+            'l_forearm_roll_joint',
+            'l_wrist_flex_joint',
+            'l_wrist_roll_joint'
+          ];
+        } else if (actuatorGroup === 'right arm') {
+          jointNames = [
+            'r_shoulder_pan_joint',
+            'r_shoulder_lift_joint',
+            'r_upper_arm_roll_joint',
+            'r_elbow_flex_joint',
+            'r_forearm_roll_joint',
+            'r_wrist_flex_joint',
+            'r_wrist_roll_joint'
+          ];
+        } else { return; }
+        this.set('action.joint_trajectory.joint_names', jointNames);
+        var point = {
+          positions: jointValues,
+          time_from_start: this._getTimeFromStartObject()
+        }
+        this.set('action.joint_trajectory.points', [point]);
+        this.fire('save');
+      },
+
+      _getTimeFromStartObject: function() {
+        var timeFromStart = this.action.joint_trajectory.points[0].time_from_start;
+        if (timeFromStart.secs || timeFromStart.nsecs) {
+          return timeFromStart;
+        } else {
+          return {
+            secs: 5,
+            nsecs: 0
+          };
+        }
+      },
+
       _updateJointValues: function() {
         this.$.service.call({actuator_group: this.action.actuator_group});
       },
@@ -101,10 +174,7 @@
           velocities: [],
           accelerations: [],
           effort: [],
-          time_from_start: {
-            secs: 5,
-            nsecs: 0
-          },
+          time_from_start: this._getTimeFromStartObject(),
         };
         for (var i=0; i<names.length; ++i) {
           point.positions.push(positions[i]);
@@ -112,10 +182,6 @@
         }
         this.set('action.joint_trajectory.points', [point]);
         this.fire('save');
-      },
-
-      _getName: function(index) {
-        return this.action.joint_trajectory.joint_names[index];
       },
 
       _updateJoint: function(evt) {
