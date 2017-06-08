@@ -39,7 +39,7 @@
     ></ros-service>
     <div class="layout horizontal center">
       <paper-dropdown-menu label="Gripper">
-        <paper-listbox class="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
+        <paper-listbox slot="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
           <paper-item data-actuator-group="left gripper">Left gripper</paper-item>
           <paper-item data-actuator-group="right gripper">Right gripper</paper-item>
         </paper-listbox>
