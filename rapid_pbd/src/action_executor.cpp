@@ -4,8 +4,8 @@
 
 #include "actionlib/client/simple_action_client.h"
 #include "actionlib/server/simple_action_server.h"
-#include "control_msgs/GripperCommandAction.h"
 #include "control_msgs/FollowJointTrajectoryAction.h"
+#include "control_msgs/GripperCommandAction.h"
 #include "ros/ros.h"
 
 #include "rapid_pbd/action_names.h"
