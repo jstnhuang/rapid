@@ -2,8 +2,8 @@
 #define _RAPID_PBD_ACTION_CLIENTS_H_
 
 #include "actionlib/client/simple_action_client.h"
-#include "control_msgs/GripperCommandAction.h"
 #include "control_msgs/FollowJointTrajectoryAction.h"
+#include "control_msgs/GripperCommandAction.h"
 
 namespace rapid {
 namespace pbd {
@@ -22,6 +22,8 @@ struct ActionClients {
       l_arm_joint_client;
   actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>
       r_arm_joint_client;
+  actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>
+      head_client;
 };
 }  // namespace pbd
 }  // namespace rapid

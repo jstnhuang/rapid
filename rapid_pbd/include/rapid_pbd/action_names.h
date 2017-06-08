@@ -20,6 +20,8 @@ static const char kArmControllerStateTopic[] = "arm_controller_state";
 static const char kFreezeArmService[] = "freeze_arm";
 static const char kRelaxArmService[] = "relax_arm";
 
+static const char kHeadActionName[] = "head_action";
+
 namespace pr2 {
 static const char kLeftGripperActionName[] =
     "/l_gripper_controller/gripper_action";
@@ -29,6 +31,8 @@ static const char kListControllersService[] =
     "/pr2_controller_manager/list_controllers";
 static const char kSwitchControllerService[] =
     "/pr2_controller_manager/switch_controller";
+static const char kHeadActionName[] =
+    "/head_traj_controller/follow_joint_trajectory";
 }  // namespace pr2
 }  // namespace pbd
 }  // namespace rapid

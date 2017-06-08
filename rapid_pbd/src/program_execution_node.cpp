@@ -1,12 +1,11 @@
 #include "actionlib/client/simple_action_client.h"
-#include "control_msgs/GripperCommandAction.h"
 #include "control_msgs/FollowJointTrajectoryAction.h"
-#include "rapid_pbd/action_names.h"
+#include "control_msgs/GripperCommandAction.h"
 #include "rapid_pbd/action_executor.h"
-#include "rapid_pbd/program_executor.h"
-#include "std_msgs/Bool.h"
 #include "rapid_pbd/action_names.h"
+#include "rapid_pbd/program_executor.h"
 #include "ros/ros.h"
+#include "std_msgs/Bool.h"
 
 namespace pbd = rapid::pbd;
 
@@ -22,6 +21,9 @@ int main(int argc, char** argv) {
   if (!success) {
     ROS_ERROR("num_arms param must be set.");
     return 1;
+  }
+  while (!action_clients.head_client.waitForServer(ros::Duration(5))) {
+    ROS_WARN("Waiting for head server.");
   }
   if (num_arms == 1) {
     while (!action_clients.gripper_client.waitForServer(ros::Duration(5))) {
