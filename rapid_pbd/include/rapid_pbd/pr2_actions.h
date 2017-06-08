@@ -17,7 +17,8 @@
 
 namespace {
 typedef actionlib::SimpleActionClient<
-    pr2_controllers_msgs::Pr2GripperCommandAction> Pr2GripperClient;
+    pr2_controllers_msgs::Pr2GripperCommandAction>
+    Pr2GripperClient;
 using pr2_controllers_msgs::Pr2GripperCommandFeedback;
 using pr2_controllers_msgs::Pr2GripperCommandResultConstPtr;
 }  // namespace
@@ -25,7 +26,6 @@ using pr2_controllers_msgs::Pr2GripperCommandResultConstPtr;
 namespace rapid {
 namespace pbd {
 namespace pr2 {
-
 class GripperAction {
  public:
   GripperAction(const std::string& name, const std::string& pr2_action_name);
