@@ -1,0 +1,87 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/ros-action-client/ros-action-client.html">
+<link rel="import" href="../shared-styles/shared-styles.html">
+
+<dom-module id="pbd-head-action">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
+    <style>
+      :host {
+        display: block;
+      }
+      paper-button {
+        margin-left: 10px;
+      }
+    </style>
+    <ros-action-client
+      id="leftAction"
+      server="/rapid_pbd/l_gripper_action"
+      action-type="control_msgs/GripperCommandAction"
+      ros="[[ros]]"
+    ></ros-action-client>
+    <div class="layout vertical">
+      <paper-input type="number" label="Pan angle (degrees)"
+        on-blur="_save" value="{{panDegrees}}"></paper-input>
+      <paper-input type="number" label="Tilt angle (degrees)"
+        on-blur="_save" value="{{tiltDegrees}}"></paper-input>
+      <paper-button class="normal" on-tap="_moveHead">Move now</paper-button>
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: 'pbd-head-action',
+
+      properties: {
+        action: {
+          notify: true,
+          type: Object,
+        },
+        panDegrees: {
+          type: Number,
+          value: 0
+        },
+        tiltDegrees: {
+          type: Number,
+          value: 0
+        },
+        ros: Object,
+      },
+
+      observers: [
+        '_actionChanged(action)',
+      ],
+
+      _actionChanged: function(action) {
+        var actionType = action.type;
+        var actuatorGroup = action.actuator_group;
+        if (actionType !== 'move to joint goal') {
+          return;
+        }
+        if (actuatorGroup !== 'head') {
+          return;
+        }
+        if (!action.joint_trajectory) {
+          this.set('action.joint_trajectory', {});
+        }
+      },
+
+      _save: function(evt) {
+        this.fire('save');
+      },
+
+      _moveHead: function() {
+        //var goal = { command: this.action.gripper_command };
+        //if (this.action.actuator_group === 'gripper') {
+        //} else if (this.action.actuator_group === 'left gripper') {
+        //  this.$.leftAction.send(goal);
+        //} else if (this.action.actuator_group === 'right gripper') {
+        //  this.$.rightAction.send(goal);
+        //}
+      }
+    });
+  </script>
+</dom-module>
