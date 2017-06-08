@@ -40,8 +40,8 @@
     <div class="layout horizontal center">
       <paper-dropdown-menu label="Gripper">
         <paper-listbox slot="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
-          <paper-item data-actuator-group="left gripper">Left gripper</paper-item>
-          <paper-item data-actuator-group="right gripper">Right gripper</paper-item>
+          <paper-item data-actuator-group="left gripper" on-tap="_save">Left gripper</paper-item>
+          <paper-item data-actuator-group="right gripper" on-tap="_save">Right gripper</paper-item>
         </paper-listbox>
       </paper-dropdown-menu>
       <paper-button class="normal" hidden$="[[!_isOpen]]" on-tap="_openGripper">Open now</paper-button>
@@ -81,6 +81,12 @@
         if (!action.gripper_command) {
           this.set('action.gripper_command', {});
         }
+      },
+
+      _save: function(evt) {
+        var group = evt.target.dataset.actuatorGroup;
+        this.set('action.actuator_group', group);
+        this.fire('save');
       },
 
       _computeIsOpen: function(gripperCommand) {
