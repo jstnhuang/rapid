@@ -46,12 +46,16 @@
             <paper-item data-type="close gripper" on-tap="_closeGripper">Close gripper</paper-item>
             <paper-item data-type="move to cartesian goal">Move to gripper pose</paper-item>
             <paper-item data-type="move to joint goal" on-tap="_save">Move to joint angles</paper-item>
+            <paper-item data-type="move head" on-tap="_save">Move head</paper-item>
             <paper-item data-type="detect tabletop objects">Detect tabletop objects</paper-item>
             <paper-item data-type="find custom landmark">Find custom landmark</paper-item>
           </paper-listbox>
         </paper-dropdown-menu>
-        <iron-pages attr-for-selected="data-type" selected="[[action.type]]">
-          <section data-type="actuate gripper">
+        <iron-pages attr-for-selected="data-type" selected="[[_displayActionType]]">
+          <section data-type="open gripper">
+            <pbd-gripper-action id="gripperAction" action="{{action}}" ros="[[ros]]"></pbd-gripper-action>
+          </section>
+          <section data-type="close gripper">
             <pbd-gripper-action id="gripperAction" action="{{action}}" ros="[[ros]]"></pbd-gripper-action>
           </section>
           <section data-type="move to cartesian goal">
@@ -64,6 +68,9 @@
           </section>
           <section data-type="move to joint goal">
             <pbd-joint-angle-action action="{{action}}" ros="[[ros]]"></pbd-joint-angle-action>
+          </section>
+          <section data-type="move head">
+            Move head
           </section>
           <section data-type="detect tabletop objects">
           </section>
@@ -94,6 +101,7 @@
       observers: [
         '_computeActionDescription(action.*, index)',
         '_actionTypeChanged(action.type)',
+        '_displayActionTypeChanged(_displayActionType)',
       ],
 
       toggleCollapse: function() {
@@ -102,13 +110,21 @@
 
       _computeActionDescription(changeRecord, index) {
         this._actionDescription = 'Action ' + (index+1);
-        if (this.action.type === 'move to cartesian goal'
-            || this.action.type === 'move to joint goal') {
+        if (this.action.type === 'move to cartesian goal') {
           this._actionDescription = 'Move arm';
           if (this.action.actuator_group === 'arm'
               || this.action.actuator_group === 'left arm'
               || this.action.actuator_group === 'right arm') {
             this._actionDescription = 'Move ' + this.action.actuator_group;
+          }
+        } else if (this.action.type === 'move to joint goal') {
+          this._actionDescription = 'Move joints';
+          if (this.action.actuator_group === 'arm'
+              || this.action.actuator_group === 'left arm'
+              || this.action.actuator_group === 'right arm') {
+            this._actionDescription = 'Move ' + this.action.actuator_group;
+          } else if (this.action.actuator_group === 'head') {
+            this._actionDescription = 'Move head';
           }
         } else if (this.action.type === 'actuate gripper') {
           var action = 'Actuate';
@@ -142,8 +158,31 @@
           } else {
             this._displayActionType = 'close gripper';
           }
+        } else if (actionType === 'move to joint goal') {
+          if (this.action.actuator_group === 'head') {
+            this._displayActionType = 'move head';
+          } else {
+            this._displayActionType = 'move to joint goal';
+          }
         } else {
-          this._displayActionType = actionType;
+          if (this._displayActionType !== actionType) {
+            this._displayActionType = actionType;
+          }
+        }
+      },
+
+      _displayActionTypeChanged: function(displayActionType) {
+        if (displayActionType === 'open gripper') {
+          this.set('action.type', 'actuate gripper');
+        } else if (displayActionType === 'close gripper') {
+          this.set('action.type', 'actuate gripper');
+        } else if (displayActionType === 'move head') {
+          this.set('action.type', 'move to joint goal');
+          this.set('action.actuator_group', 'head');
+        } else {
+          if (this.action.type !== displayActionType) {
+            this.set('action.type', displayActionType);
+          }
         }
       },
 
@@ -152,7 +191,6 @@
         this.set('action.type', 'actuate gripper');
         this.set('action.gripper_command.position', 0.1);
         this.set('action.gripper_command.max_effort', -1);
-        this.$.gripperAction._openGripper();
         this.fire('save');
       },
 
@@ -160,7 +198,6 @@
         this.set('action.type', 'actuate gripper');
         this.set('action.gripper_command.position', 0);
         this.set('action.gripper_command.max_effort', 100);
-        this.$.gripperAction._closeGripper();
         this.fire('save');
       },
 
