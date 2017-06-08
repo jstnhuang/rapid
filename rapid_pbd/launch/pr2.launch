@@ -17,6 +17,7 @@
     <node pkg="rapid_pbd" type="program_execution_node" name="program_executor">
       <remap from="l_arm_joint_action" to="/l_arm_controller/follow_joint_trajectory" />
       <remap from="r_arm_joint_action" to="/r_arm_controller/follow_joint_trajectory" />
+      <remap from="head_action" to="/head_traj_controller/follow_joint_trajectory" />
     </node>
   </group>
 </launch>

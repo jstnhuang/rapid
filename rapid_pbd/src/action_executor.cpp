@@ -33,7 +33,8 @@ bool ActionExecutor::IsValid(const Action& action) {
   } else if (action.type == Action::MOVE_TO_JOINT_GOAL) {
     if (action.actuator_group == Action::ARM ||
         action.actuator_group == Action::LEFT_ARM ||
-        action.actuator_group == Action::RIGHT_ARM) {
+        action.actuator_group == Action::RIGHT_ARM ||
+        action.actuator_group == Action::HEAD) {
     } else {
       PublishInvalidGroupError(action);
       return false;
@@ -72,6 +73,8 @@ bool ActionExecutor::IsDone() const {
       return clients_->l_arm_joint_client.getState().isDone();
     } else if (action_.actuator_group == Action::RIGHT_ARM) {
       return clients_->r_arm_joint_client.getState().isDone();
+    } else if (action_.actuator_group == Action::HEAD) {
+      return clients_->head_client.getState().isDone();
     }
   }
   return true;
@@ -93,6 +96,8 @@ void ActionExecutor::Cancel() {
       clients_->l_arm_joint_client.cancelAllGoals();
     } else if (action_.actuator_group == Action::RIGHT_ARM) {
       clients_->r_arm_joint_client.cancelAllGoals();
+    } else if (action_.actuator_group == Action::HEAD) {
+      clients_->head_client.cancelAllGoals();
     }
   }
 }
@@ -117,9 +122,17 @@ void ActionExecutor::ActuateGripper() {
 void ActionExecutor::MoveToJointGoal() {
   control_msgs::FollowJointTrajectoryGoal joint_goal;
   joint_goal.trajectory = action_.joint_trajectory;
-  double delay;
-  ros::param::param("arm_delay", delay, 1.5);
-  joint_goal.trajectory.header.stamp = ros::Time::now() + ros::Duration(delay);
+  joint_goal.trajectory.header.stamp = ros::Time::now();
+
+  // Delay the action if moving the arm
+  if (action_.actuator_group == Action::ARM ||
+      action_.actuator_group == Action::LEFT_ARM ||
+      action_.actuator_group == Action::RIGHT_ARM) {
+    double delay;
+    ros::param::param("arm_delay", delay, 1.5);
+    joint_goal.trajectory.header.stamp =
+        ros::Time::now() + ros::Duration(delay);
+  }
 
   SimpleActionClient<FollowJointTrajectoryAction>* client;
   if (action_.actuator_group == Action::ARM) {
@@ -128,6 +141,8 @@ void ActionExecutor::MoveToJointGoal() {
     client = &clients_->l_arm_joint_client;
   } else if (action_.actuator_group == Action::RIGHT_ARM) {
     client = &clients_->r_arm_joint_client;
+  } else if (action_.actuator_group == Action::HEAD) {
+    client = &clients_->head_client;
   } else {
     return;
   }
