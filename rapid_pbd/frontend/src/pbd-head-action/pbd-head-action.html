@@ -17,9 +17,11 @@
         margin-left: 10px;
       }
     </style>
+    <!-- TODO: to support Fetch, will need to create a wrapper to account for
+      the fact that PR2 and Fetch use different names. -->
     <ros-action-client
       id="headAction"
-      server="/rapid_pbd/head_action"
+      server="/head_traj_controller/follow_joint_trajectory"
       action-type="control_msgs/FollowJointTrajectory"
       ros="[[ros]]"
     ></ros-action-client>
@@ -69,7 +71,21 @@
           return;
         }
         if (!action.joint_trajectory) {
-          this.set('action.joint_trajectory', {});
+          this.set('action.joint_trajectory', {points: [{positions: []}]});
+        }
+        if (!action.joint_trajectory.points) {
+          this.set('action.joint_trajectory.points', [{positions: []}]);
+        }
+        if (!action.joint_trajectory.points[0]) {
+          this.set('action.joint_trajectory.points.0', {positions: []});
+        }
+        var joint_names = ['head_pan_joint', 'head_tilt_joint'];
+        this.set('action.joint_trajectory.joint_names', joint_names);
+        if (!this.action.joint_trajectory.points[0].positions[0]) {
+          this.set('action.joint_trajectory.points.0.positions.0', 0);
+        }
+        if (!this.action.joint_trajectory.points[0].positions[1]) {
+          this.set('action.joint_trajectory.points.0.positions.1', 0);
         }
       },
 
@@ -110,10 +126,19 @@
       },
 
       _panChanged: function(panRadians) {
+        if (panRadians === undefined) {
+          this.set('action.joint_trajectory.points.0.positions.0', 0);
+          return;
+        }
         this.panDegrees = this._radToDeg(panRadians);
+        
       },
 
       _tiltChanged(tiltRadians) {
+        if (tiltRadians === undefined) {
+          this.set('action.joint_trajectory.points.0.positions.1', 0);
+          return;
+        }
         this.tiltDegrees = this._radToDeg(tiltRadians);
       },
     });
