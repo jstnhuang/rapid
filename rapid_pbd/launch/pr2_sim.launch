@@ -1,5 +1,8 @@
 <launch>
-  <include file="$(find pr2_gazebo)/launch/pr2_empty_world.launch" />
-  <include file="$(find pr2_moveit_config)/launch/move_group.launch" />
+  <!--include file="$(find pr2_gazebo)/launch/pr2_empty_world.launch" /-->
+  <include file="$(find pr2_moveit_config)/launch/move_group.launch">
+    <arg name="moveit_octomap_sensor_params_file" value="$(find rapid_pbd)/config/sensors_dummy.yaml" />
+  </include>
+  <include file="$(find rapid_pbd)/launch/web_prereqs.launch" />
   <node pkg="rviz" type="rviz" name="$(anon rviz)" args="-d $(find rapid_pbd)/config/pr2_sim.rviz" />
 </launch>
