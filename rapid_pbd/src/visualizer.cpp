@@ -80,25 +80,27 @@ bool Visualizer::GetRobotMarker(const msgs::Program& program, size_t step_id,
                                 MarkerArray* robot_markers) {
   // Update the joint state for each step.
   JointState current(program.start_joint_state);
-  for (size_t step_i = 0; step_i <= step_id; ++step_i) {
-    const msgs::Step& step = program.steps[step_i];
-    for (size_t action_i = 0; action_i < step.actions.size(); ++action_i) {
-      const msgs::Action& action = step.actions[action_i];
-      if (action.type == msgs::Action::ACTUATE_GRIPPER) {
-        // TODO: fill this in.
-      } else if (action.type == msgs::Action::MOVE_TO_JOINT_GOAL) {
-        const trajectory_msgs::JointTrajectory& trajectory =
-            action.joint_trajectory;
-        if (trajectory.points.size() == 0) {
-          continue;
+  if (program.steps.size() > 0) {
+    for (size_t step_i = 0; step_i <= step_id; ++step_i) {
+      const msgs::Step& step = program.steps[step_i];
+      for (size_t action_i = 0; action_i < step.actions.size(); ++action_i) {
+        const msgs::Action& action = step.actions[action_i];
+        if (action.type == msgs::Action::ACTUATE_GRIPPER) {
+          // TODO: fill this in.
+        } else if (action.type == msgs::Action::MOVE_TO_JOINT_GOAL) {
+          const trajectory_msgs::JointTrajectory& trajectory =
+              action.joint_trajectory;
+          if (trajectory.points.size() == 0) {
+            continue;
+          }
+          for (size_t i = 0; i < trajectory.joint_names.size(); ++i) {
+            const std::string& name = trajectory.joint_names[i];
+            double position = trajectory.points[0].positions[i];
+            current.SetPosition(name, position);
+          }
+        } else if (action.type == msgs::Action::MOVE_TO_CARTESIAN_GOAL) {
+          // TODO: fill this in.
         }
-        for (size_t i = 0; i < trajectory.joint_names.size(); ++i) {
-          const std::string& name = trajectory.joint_names[i];
-          double position = trajectory.points[0].positions[i];
-          current.SetPosition(name, position);
-        }
-      } else if (action.type == msgs::Action::MOVE_TO_CARTESIAN_GOAL) {
-        // TODO: fill this in.
       }
     }
     std::map<std::string, double> joint_positions;
