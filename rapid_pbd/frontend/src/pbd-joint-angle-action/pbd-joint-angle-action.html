@@ -149,14 +149,19 @@
       },
 
       _getTimeFromStartObject: function() {
-        var timeFromStart = this.action.joint_trajectory.points[0].time_from_start;
-        if (timeFromStart.secs || timeFromStart.nsecs) {
-          return timeFromStart;
+        var defaultVal = {
+          secs: 5,
+          nsecs: 0
+        };
+        if (this.action.joint_trajectory && this.action.joint_trajectory.points && this.action.joint_trajectory.points[0] && this.action.joint_trajectory.points[0].time_from_start) {
+          var timeFromStart = this.action.joint_trajectory.points[0].time_from_start;
+          if (timeFromStart.secs || timeFromStart.nsecs) {
+            return timeFromStart;
+          } else {
+            return defaultVal;
+          }
         } else {
-          return {
-            secs: 5,
-            nsecs: 0
-          };
+          return defaultVal;
         }
       },
 
