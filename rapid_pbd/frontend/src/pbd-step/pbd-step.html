@@ -77,7 +77,6 @@
       _addAction: function(evt) {
         var action = evt.detail;
         this.unshift('step.actions', action);
-        this.fire('save');
         this.$.picker.opened = false;
       },
 
@@ -88,7 +87,6 @@
       _handleDeleteAction: function(evt) {
         var index = evt.detail.index;
         this.splice('step.actions', index, 1);
-        this.fire('save');
         evt.stopPropagation();
       },
 

@@ -42,10 +42,10 @@
     <div>
       <paper-input type="number" step="0.5" label="Movement duration (seconds)"
         value="{{_timeFromStart}}"
-        on-blur="_updateTimeFromStart"
+        on-change="_updateTimeFromStart"
       ></paper-input>
       <template id="positionList" is="dom-repeat" items="[[jointValues]]" as="kv">
-        <paper-input type="number" step="0.01" label="[[kv.name]]" value="[[kv.value]]" on-blur="_updateJoint"></paper-input>
+        <paper-input type="number" step="0.01" label="[[kv.name]]" value="[[kv.value]]" on-change="_updateJoint"></paper-input>
       </template>
     </div>
   </template>
@@ -145,7 +145,6 @@
           time_from_start: this._getTimeFromStartObject()
         }
         this.set('action.joint_trajectory.points', [point]);
-        this.fire('save');
       },
 
       _getTimeFromStartObject: function() {
@@ -186,7 +185,6 @@
           point.velocities.push(0);
         }
         this.set('action.joint_trajectory.points', [point]);
-        this.fire('save');
       },
 
       _updateJoint: function(evt) {
@@ -194,7 +192,6 @@
         var val = parseFloat(evt.target.value);
         if (!isNaN(val)) {
           this.set('action.joint_trajectory.points.0.positions.' + index, val);
-          this.fire('save'); 
         }
       },
 
@@ -212,9 +209,8 @@
         var floatSecs = parseFloat(this._timeFromStart);
         var secs = Math.floor(floatSecs);
         var nsecs = parseInt(Math.round(1000000000 * (floatSecs - secs)));
-        this.action.joint_trajectory.points[0].time_from_start.secs = secs;
-        this.action.joint_trajectory.points[0].time_from_start.nsecs = nsecs;
-        this.fire('save');
+        this.set('action.joint_trajectory.points.0.time_from_start.secs', secs);
+        this.set('action.joint_trajectory.points.0.time_from_start.nsecs', nsecs);
       },
     });
   </script>

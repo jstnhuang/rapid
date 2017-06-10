@@ -43,11 +43,11 @@
       <iron-collapse id="collapse" opened="[[_isCollapseOpen]]">
         <paper-dropdown-menu label="Action type">
           <paper-listbox slot="dropdown-content" attr-for-selected="data-type" selected="{{_displayActionType}}">
-            <paper-item data-type="open gripper" on-tap="_openGripper">Open gripper</paper-item>
-            <paper-item data-type="close gripper" on-tap="_closeGripper">Close gripper</paper-item>
+            <paper-item data-type="open gripper">Open gripper</paper-item>
+            <paper-item data-type="close gripper">Close gripper</paper-item>
             <paper-item data-type="move to cartesian goal">Move to gripper pose</paper-item>
-            <paper-item data-type="move to joint goal" on-tap="_save">Move to joint angles</paper-item>
-            <paper-item data-type="move head" on-tap="_save">Move head</paper-item>
+            <paper-item data-type="move to joint goal">Move to joint angles</paper-item>
+            <paper-item data-type="move head">Move head</paper-item>
             <paper-item data-type="detect tabletop objects">Detect tabletop objects</paper-item>
             <paper-item data-type="find custom landmark">Find custom landmark</paper-item>
           </paper-listbox>
@@ -175,8 +175,12 @@
       _displayActionTypeChanged: function(displayActionType) {
         if (displayActionType === 'open gripper') {
           this.set('action.type', 'actuate gripper');
+          this.set('action.gripper_command.position', 0.1);
+          this.set('action.gripper_command.max_effort', -1);
         } else if (displayActionType === 'close gripper') {
           this.set('action.type', 'actuate gripper');
+          this.set('action.gripper_command.position', 0);
+          this.set('action.gripper_command.max_effort', 100);
         } else if (displayActionType === 'move head') {
           this.set('action.type', 'move to joint goal');
           this.set('action.actuator_group', 'head');
@@ -185,27 +189,6 @@
             this.set('action.type', displayActionType);
           }
         }
-      },
-
-      // Action type selection handlers
-      _openGripper: function() {
-        this.set('action.type', 'actuate gripper');
-        this.set('action.gripper_command.position', 0.1);
-        this.set('action.gripper_command.max_effort', -1);
-        this.fire('save');
-      },
-
-      _closeGripper: function() {
-        this.set('action.type', 'actuate gripper');
-        this.set('action.gripper_command.position', 0);
-        this.set('action.gripper_command.max_effort', 100);
-        this.fire('save');
-      },
-
-      _save: function(evt) {
-        var actionType = evt.target.dataset.type;
-        this.set('action.type', actionType);
-        this.fire('save');
       },
     });
   </script>
