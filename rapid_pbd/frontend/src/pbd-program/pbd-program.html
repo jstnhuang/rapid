@@ -14,6 +14,7 @@
 <link rel="import" href="../../bower_components/ros-rviz/ros-rviz.html">
 <link rel="import" href="../pbd-step/pbd-step.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
+<link rel="import" href="../third-party/underscore.html">
 
 <dom-module id="pbd-program">
   <template>
@@ -107,7 +108,7 @@
     ></app-route>
     <ros-topic
       id="programSub"
-      last-message="{{program}}"
+      on-message="_handleProgram"
       msg-type="rapid_pbd_msgs/Program"
       topic="rapid_pbd/program/{{routeData.id}}"
       ros="[[ros]]"
@@ -161,7 +162,6 @@
             index="[[currentStepNum]]"
             step="{{currentStep}}"
             ros="[[ros]]"
-            on-save="save"
             on-delete="_deleteStep"
           ></pbd-step>
           </div></div>
@@ -195,6 +195,7 @@
 
       observers: [
         'load(routeData.id)',
+        '_programUpdated(program.*)',
         '_stepChanged(ros, routeData.id, currentStepNum)',
         '_currentStepNumChanged(program, currentStepNum)',
       ],
@@ -262,6 +263,17 @@
 
       stop: function() {
         this.$.programAction.cancel();
+      },
+
+      _programUpdated: function(changeRecord) {
+        if (changeRecord.base) {
+          if (changeRecord.path !== 'program') {
+            if (changeRecord.path.endsWith('.length')) {
+              return;
+            }
+            this.save();
+          }
+        }
       },
 
       // Removes unused parameters from the message.
@@ -383,6 +395,17 @@
 
       _handleFeedback: function(evt) {
         this.currentStepNum = evt.detail.step_number;
+      },
+
+      _handleProgram: function(evt) {
+        var program = evt.detail;
+        if (!this.program) {
+          this.set('program', program);
+          return;
+        }
+        if (!_.isEqual(this.program, program)) {
+          this.set('program', program);
+        }
       },
     });
   </script>
