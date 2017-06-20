@@ -52,33 +52,31 @@
             <paper-item data-type="find custom landmark">Find custom landmark</paper-item>
           </paper-listbox>
         </paper-dropdown-menu>
-        <iron-pages attr-for-selected="data-type" selected="[[_displayActionType]]">
-          <section data-type="open gripper">
-            <pbd-gripper-action id="gripperAction" action="{{action}}" ros="[[ros]]"></pbd-gripper-action>
-          </section>
-          <section data-type="close gripper">
-            <pbd-gripper-action id="gripperAction" action="{{action}}" ros="[[ros]]"></pbd-gripper-action>
-          </section>
-          <section data-type="move to cartesian goal">
-            <paper-dropdown-menu label="Arm to move">
-              <paper-listbox class="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
-                <paper-item data-actuator-group="left arm">Left arm</paper-item>
-                <paper-item data-actuator-group="right arm">Right arm</paper-item>
-              </paper-listbox>
-            </paper-dropdown-menu>
-          </section>
-          <section data-type="move to joint goal">
-            <pbd-joint-angle-action action="{{action}}" ros="[[ros]]"></pbd-joint-angle-action>
-          </section>
-          <section data-type="move head">
-            <pbd-head-action action="{{action}}" ros="[[ros]]"></pbd-head-action>
-          </section>
-          <section data-type="detect tabletop objects">
-          </section>
-          <section data-type="find custom landmark">
-            CustomLandmarks options
-          </section>
-        </iron-pages>
+        <template is="dom-if" restamp if="[[_displayActionTypeIs(_displayActionType, 'open gripper')]]">
+          <pbd-gripper-action id="gripperAction" action="{{action}}" ros="[[ros]]"></pbd-gripper-action>
+        </template>
+        <template is="dom-if" restamp if="[[_displayActionTypeIs(_displayActionType, 'close gripper')]]">
+          <pbd-gripper-action id="gripperAction" action="{{action}}" ros="[[ros]]"></pbd-gripper-action>
+        </template>
+        <template is="dom-if" restamp if="[[_displayActionTypeIs(_displayActionType, 'move to cartesian goal')]]">
+          <paper-dropdown-menu label="Arm to move">
+            <paper-listbox class="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
+              <paper-item data-actuator-group="left arm">Left arm</paper-item>
+              <paper-item data-actuator-group="right arm">Right arm</paper-item>
+            </paper-listbox>
+          </paper-dropdown-menu>
+        </template>
+        <template is="dom-if" restamp if="[[_displayActionTypeIs(_displayActionType, 'move to joint goal')]]">
+          <pbd-joint-angle-action action="{{action}}" ros="[[ros]]"></pbd-joint-angle-action>
+        </template>
+        <template is="dom-if" restamp if="[[_displayActionTypeIs(_displayActionType, 'move head')]]">
+          <pbd-head-action action="{{action}}" ros="[[ros]]"></pbd-head-action>
+        </template>
+        <template is="dom-if" restamp if="[[_displayActionTypeIs(_displayActionType, 'detect tabletop objects')]]">
+        </template>
+        <template is="dom-if" restamp if="[[_displayActionTypeIs(_displayActionType, 'find custom landmark')]]">
+          CustomLandmarks options
+        </template>
       </iron-collapse>
     </div>
   </template>
@@ -189,6 +187,10 @@
             this.set('action.type', displayActionType);
           }
         }
+      },
+
+      _displayActionTypeIs: function(current, displayActionType) {
+        return current === displayActionType;
       },
     });
   </script>
