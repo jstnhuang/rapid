@@ -22,6 +22,8 @@ static const char kRelaxArmService[] = "relax_arm";
 
 static const char kHeadActionName[] = "head_action";
 
+static const char kSurfaceSegmentationActionName[] = "segment_surfaces_action";
+
 namespace pr2 {
 static const char kLeftGripperActionName[] =
     "/l_gripper_controller/gripper_action";
