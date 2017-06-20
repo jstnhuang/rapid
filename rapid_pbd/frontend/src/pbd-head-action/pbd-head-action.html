@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/ros-action-client/ros-action-client.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
+<link rel="import" href="../third-party/underscore.html">
 
 <dom-module id="pbd-head-action">
   <template>
@@ -27,11 +28,11 @@
     ></ros-action-client>
     <div class="layout vertical">
       <paper-input type="number" step="1" min="-160" max="160"
-        label="Pan angle (degrees, positive value looks left)" on-blur="_save"
-        value="{{panDegrees}}"></paper-input>
+        label="Pan angle (degrees, positive value looks left)"
+        value="{{panDegrees}}" on-change="_save"></paper-input>
       <paper-input type="number" step="1" min="-30" max="60"
-        label="Tilt angle (degrees, positive value looks down)" on-blur="_save"
-        value="{{tiltDegrees}}"></paper-input>
+        label="Tilt angle (degrees, positive value looks down)"
+        value="{{tiltDegrees}}" on-change="_save"></paper-input>
       <paper-button class="normal" on-tap="_moveHead">Move now</paper-button>
     </div>
   </template>
@@ -43,6 +44,7 @@
         action: {
           notify: true,
           type: Object,
+          observer: '_actionChanged',
         },
         panDegrees: {
           type: Number,
@@ -56,12 +58,11 @@
       },
 
       observers: [
-        '_actionChanged(action)',
         '_panChanged(action.joint_trajectory.points.0.positions.0)',
         '_tiltChanged(action.joint_trajectory.points.0.positions.1)',
       ],
 
-      _actionChanged: function(action) {
+      _actionChanged: function(action, old) {
         var actionType = action.type;
         var actuatorGroup = action.actuator_group;
         if (actionType !== 'move to joint goal') {
@@ -71,21 +72,31 @@
           return;
         }
         if (!action.joint_trajectory) {
-          this.set('action.joint_trajectory', {points: [{positions: []}]});
+          this.set('action.joint_trajectory', {points: [{positions: [0, 0]}]});
         }
         if (!action.joint_trajectory.points) {
-          this.set('action.joint_trajectory.points', [{positions: []}]);
+          this.set('action.joint_trajectory.points', [{positions: [0, 0]}]);
         }
         if (!action.joint_trajectory.points[0]) {
-          this.set('action.joint_trajectory.points.0', {positions: []});
+          this.set('action.joint_trajectory.points.0', {positions: [0, 0]});
         }
-        var joint_names = ['head_pan_joint', 'head_tilt_joint'];
-        this.set('action.joint_trajectory.joint_names', joint_names);
-        if (!this.action.joint_trajectory.points[0].positions[0]) {
+
+        var panRadians = this.action.joint_trajectory.points[0].positions[0];
+        if (!panRadians && panRadians !== 0) {
           this.set('action.joint_trajectory.points.0.positions.0', 0);
         }
-        if (!this.action.joint_trajectory.points[0].positions[1]) {
-          this.set('action.joint_trajectory.points.0.positions.1', 0);
+        var tiltRadians = this.action.joint_trajectory.points[0].positions[1];
+        if (!tiltRadians && tiltRadians !== 0) {
+          if (this.action.joint_trajectory.points[0].positions.length >= 2) {
+            this.set('action.joint_trajectory.points.0.positions.1', 0);
+          } else {
+            this.push('action.joint_trajectory.points.0.positions', 0);
+          }
+        }
+
+        var joint_names = ['head_pan_joint', 'head_tilt_joint'];
+        if (!_.isEqual(this.action.joint_trajectory.joint_names, joint_names)) {
+          this.set('action.joint_trajectory.joint_names', joint_names);
         }
       },
 
@@ -115,9 +126,13 @@
             nsecs: 0,
           },
         };
-        this.set('action.joint_trajectory.joint_names', joint_names);
-        this.set('action.joint_trajectory.points.0', point);
-        this.fire('save');
+        if (!_.isEqual(this.action.joint_trajectory.joint_names, joint_names)) {
+          this.set('action.joint_trajectory.joint_names', joint_names);
+        }
+        if (this.action.joint_trajectory.points.length === 0
+            || !_.isEqual(this.action.joint_trajectory.points[0], point)) {
+          this.set('action.joint_trajectory.points.0', point);
+        }
       },
 
       _moveHead: function() {
@@ -126,20 +141,32 @@
       },
 
       _panChanged: function(panRadians) {
+        if (this.action.actuator_group !== 'head') {
+          return;
+        }
         if (panRadians === undefined) {
           this.set('action.joint_trajectory.points.0.positions.0', 0);
           return;
         }
-        this.panDegrees = this._radToDeg(panRadians);
-        
+        var panDegrees = this._radToDeg(panRadians);
+        if (this.panDegrees !== panDegrees) {
+          this.panDegrees = panDegrees;
+        }
       },
 
       _tiltChanged(tiltRadians) {
-        if (tiltRadians === undefined) {
-          this.set('action.joint_trajectory.points.0.positions.1', 0);
+        if (this.action.actuator_group !== 'head') {
           return;
         }
-        this.tiltDegrees = this._radToDeg(tiltRadians);
+        if (tiltRadians === undefined) {
+          this.set('action.joint_trajectory.points.0.positions.1', 0);
+          this.tiltDegrees = 0;
+          return;
+        }
+        var tiltDegrees = this._radToDeg(tiltRadians);
+        if (this.tiltDegrees !== tiltDegrees) {
+          this.tiltDegrees = tiltDegrees;
+        }
       },
     });
   </script>
