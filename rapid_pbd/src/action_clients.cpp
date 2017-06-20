@@ -11,6 +11,7 @@ ActionClients::ActionClients()
       arm_joint_client(kArmJointActionName, true),
       l_arm_joint_client(kLeftArmJointActionName, true),
       r_arm_joint_client(kRightArmJointActionName, true),
-      head_client(kHeadActionName, true) {}
+      head_client(kHeadActionName, true),
+      surface_segmentation_client(kSurfaceSegmentationActionName, true) {}
 }  // namespace pbd
 }  // namespace rapid
