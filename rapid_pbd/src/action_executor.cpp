@@ -54,6 +54,8 @@ void ActionExecutor::Start() {
     ActuateGripper();
   } else if (action_.type == Action::MOVE_TO_JOINT_GOAL) {
     MoveToJointGoal();
+  } else if (action_.type == Action::DETECT_TABLETOP_OBJECTS) {
+    DetectTabletopObjects();
   }
 }
 
@@ -76,6 +78,8 @@ bool ActionExecutor::IsDone() const {
     } else if (action_.actuator_group == Action::HEAD) {
       return clients_->head_client.getState().isDone();
     }
+  } else if (action_.type == Action::DETECT_TABLETOP_OBJECTS) {
+    return clients_->surface_segmentation_client.getState().isDone();
   }
   return true;
 }
@@ -99,6 +103,8 @@ void ActionExecutor::Cancel() {
     } else if (action_.actuator_group == Action::HEAD) {
       clients_->head_client.cancelAllGoals();
     }
+  } else if (action_.type == Action::DETECT_TABLETOP_OBJECTS) {
+    clients_->surface_segmentation_client.cancelAllGoals();
   }
 }
 
@@ -147,6 +153,11 @@ void ActionExecutor::MoveToJointGoal() {
     return;
   }
   client->sendGoal(joint_goal);
+}
+
+void ActionExecutor::DetectTabletopObjects() {
+  rapid_pbd_msgs::SegmentSurfacesGoal goal;
+  clients_->surface_segmentation_client.sendGoal(goal);
 }
 
 void ActionExecutor::PublishInvalidGroupError(const Action& action) {

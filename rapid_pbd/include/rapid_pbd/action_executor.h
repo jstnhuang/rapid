@@ -33,6 +33,7 @@ class ActionExecutor {
 
   void ActuateGripper();
   void MoveToJointGoal();
+  void DetectTabletopObjects();
 
   static void PublishInvalidGroupError(const rapid_pbd_msgs::Action& action);
 };
