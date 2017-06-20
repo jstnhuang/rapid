@@ -271,7 +271,10 @@
             if (changeRecord.path.endsWith('.length')) {
               return;
             }
-            this.save();
+            var that = this;
+            this.debounce('save', function() {
+              that.save();
+            }, 100);
           }
         }
       },
