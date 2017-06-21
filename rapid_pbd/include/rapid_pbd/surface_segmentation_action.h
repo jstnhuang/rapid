@@ -5,7 +5,9 @@
 
 #include "actionlib/server/simple_action_server.h"
 #include "rapid_pbd_msgs/SegmentSurfacesAction.h"
+#include "ros/ros.h"
 #include "surface_perception/segmentation.h"
+#include "surface_perception/visualization.h"
 
 namespace rapid {
 namespace pbd {
@@ -19,6 +21,10 @@ class SurfaceSegmentationAction {
   std::string topic_;
   actionlib::SimpleActionServer<rapid_pbd_msgs::SegmentSurfacesAction> as_;
   surface_perception::Segmentation seg_;
+  ros::NodeHandle nh_;
+  ros::Publisher cropped_pub_;
+  ros::Publisher marker_pub_;
+  surface_perception::SurfaceViz viz_;
 };
 }  // namespace pbd
 }  // namespace rapid
