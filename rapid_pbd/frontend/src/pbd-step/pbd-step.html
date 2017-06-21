@@ -70,8 +70,6 @@
 
       deleteStep: function() {
         this.fire('delete', {index: this.index});
-        this.currentStepNum = Math.max(this.currentStepNum-1, 0);
-        // Firing the delete event triggers a save as well.
       },
 
       _addAction: function(evt) {
