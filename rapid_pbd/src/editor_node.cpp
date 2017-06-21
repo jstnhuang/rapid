@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
   ros::NodeHandle nh;
 
   // Build program DB.
-  mongodb_store::MessageStoreProxy proxy(nh, pbd::kMongoCollectionName,
+  mongodb_store::MessageStoreProxy proxy(nh, pbd::kMongoProgramCollectionName,
                                          pbd::kMongoDbName);
   ros::Publisher program_list_pub =
       nh.advertise<rapid_pbd_msgs::ProgramInfoList>(pbd::kProgramListTopic, 1,
