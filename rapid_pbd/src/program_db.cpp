@@ -54,9 +54,10 @@ ProgramDb::ProgramDb(const ros::NodeHandle& nh,
 
 void ProgramDb::Start() { PublishList(); }
 
-void ProgramDb::Insert(const rapid_pbd_msgs::Program& program) {
+std::string ProgramDb::Insert(const rapid_pbd_msgs::Program& program) {
   std::string id = db_->insert(program);
   PublishList();
+  return id;
 }
 
 void ProgramDb::Update(const std::string& db_id,

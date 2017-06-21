@@ -35,7 +35,7 @@ class ProgramDb {
   // Publishes the first message.
   void Start();
 
-  void Insert(const rapid_pbd_msgs::Program& program);
+  std::string Insert(const rapid_pbd_msgs::Program& program);
   void Update(const std::string& db_id, const rapid_pbd_msgs::Program& program);
   void StartPublishingProgramById(const std::string& db_id);
   bool Get(const std::string& db_id, rapid_pbd_msgs::Program* program) const;

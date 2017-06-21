@@ -37,8 +37,8 @@ void Editor::HandleEvent(const msgs::EditorEvent& event) {
     msgs::Program program;
     program.name = event.program_info.name;
     joint_state_reader_.ToMsg(&program.start_joint_state);
-    db_.Insert(program);
-    viz_.Publish(event.program_info.db_id, 0);
+    std::string id = db_.Insert(program);
+    viz_.Publish(id, 0);
   } else if (event.type == msgs::EditorEvent::UPDATE) {
     Update(event.program_info.db_id, event.program);
   } else if (event.type == msgs::EditorEvent::DELETE) {

@@ -31,21 +31,10 @@ void Visualizer::Init() {
 
 void Visualizer::Publish(const std::string& program_id, int step_num) {
   msgs::Program program;
-  if (!db_.Get(program_id, &program)) {
+  if (program_id == "" || !db_.Get(program_id, &program)) {
     return;
   }
   size_t step_id = static_cast<size_t>(step_num);
-  if (step_id > program.steps.size()) {
-    ROS_ERROR(
-        "Cannot visualize step %ld of program %s, which has only %ld steps.",
-        step_id, program_id.c_str(), program.steps.size());
-    return;
-  }
-
-  // If user just added a step, then visualize the robot in its previous state.
-  if (step_id == program.steps.size() && program.steps.size() > 0) {
-    step_id = program.steps.size() - 1;
-  }
 
   // Create the publisher if it doesn't exist.
   if (step_vizs_.find(program_id) == step_vizs_.end()) {
@@ -80,35 +69,36 @@ bool Visualizer::GetRobotMarker(const msgs::Program& program, size_t step_id,
                                 MarkerArray* robot_markers) {
   // Update the joint state for each step.
   JointState current(program.start_joint_state);
-  if (program.steps.size() > 0) {
-    for (size_t step_i = 0; step_i <= step_id; ++step_i) {
-      const msgs::Step& step = program.steps[step_i];
-      for (size_t action_i = 0; action_i < step.actions.size(); ++action_i) {
-        const msgs::Action& action = step.actions[action_i];
-        if (action.type == msgs::Action::ACTUATE_GRIPPER) {
-          // TODO: fill this in.
-        } else if (action.type == msgs::Action::MOVE_TO_JOINT_GOAL) {
-          const trajectory_msgs::JointTrajectory& trajectory =
-              action.joint_trajectory;
-          if (trajectory.points.size() == 0) {
-            continue;
-          }
-          for (size_t i = 0; i < trajectory.joint_names.size(); ++i) {
-            const std::string& name = trajectory.joint_names[i];
-            double position = trajectory.points[0].positions[i];
-            current.SetPosition(name, position);
-          }
-        } else if (action.type == msgs::Action::MOVE_TO_CARTESIAN_GOAL) {
-          // TODO: fill this in.
+  for (size_t step_i = 0; step_i <= step_id; ++step_i) {
+    if (step_i >= program.steps.size()) {
+      break;
+    }
+    const msgs::Step& step = program.steps[step_i];
+    for (size_t action_i = 0; action_i < step.actions.size(); ++action_i) {
+      const msgs::Action& action = step.actions[action_i];
+      if (action.type == msgs::Action::ACTUATE_GRIPPER) {
+        // TODO: fill this in.
+      } else if (action.type == msgs::Action::MOVE_TO_JOINT_GOAL) {
+        const trajectory_msgs::JointTrajectory& trajectory =
+            action.joint_trajectory;
+        if (trajectory.points.size() == 0) {
+          continue;
         }
+        for (size_t i = 0; i < trajectory.joint_names.size(); ++i) {
+          const std::string& name = trajectory.joint_names[i];
+          double position = trajectory.points[0].positions[i];
+          current.SetPosition(name, position);
+        }
+      } else if (action.type == msgs::Action::MOVE_TO_CARTESIAN_GOAL) {
+        // TODO: fill this in.
       }
     }
-    std::map<std::string, double> joint_positions;
-    current.ToMap(&joint_positions);
-
-    marker_builder_.SetJointPositions(joint_positions);
-    marker_builder_.Build(robot_markers);
   }
+  std::map<std::string, double> joint_positions;
+  current.ToMap(&joint_positions);
+
+  marker_builder_.SetJointPositions(joint_positions);
+  marker_builder_.Build(robot_markers);
   return true;
 }
 }  // namespace pbd
