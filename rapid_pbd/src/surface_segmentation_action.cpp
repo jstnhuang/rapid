@@ -17,13 +17,17 @@
 #include "surface_perception/visualization.h"
 #include "visualization_msgs/Marker.h"
 
+#include "rapid_pbd/scene_db.h"
+
 using surface_perception::SurfaceObjects;
 using surface_perception::Object;
 
 namespace rapid {
 namespace pbd {
-SurfaceSegmentationAction::SurfaceSegmentationAction(const std::string& topic)
+SurfaceSegmentationAction::SurfaceSegmentationAction(const std::string& topic,
+                                                     const SceneDb& scene_db)
     : topic_(topic),
+      scene_db_(scene_db),
       as_(kSurfaceSegmentationActionName,
           boost::bind(&SurfaceSegmentationAction::Execute, this, _1), false),
       seg_(),
@@ -41,11 +45,15 @@ void SurfaceSegmentationAction::Execute(
   boost::shared_ptr<const sensor_msgs::PointCloud2> cloud_msg =
       ros::topic::waitForMessage<sensor_msgs::PointCloud2>(topic_,
                                                            ros::Duration(10.0));
+  // TODO: transform into base_link if it's not already in it.
+  rapid_pbd_msgs::SegmentSurfacesResult result;
   if (!cloud_msg) {
     ROS_ERROR("Failed to get point cloud on topic: %s.", topic_.c_str());
-    rapid_pbd_msgs::SegmentSurfacesResult result;
     as_.setSucceeded(result);
     return;
+  }
+  if (goal->save_cloud) {
+    result.cloud_db_id = scene_db_.Insert(*cloud_msg);
   }
   PointCloudC::Ptr cloud(new PointCloudC);
   pcl::fromROSMsg(*cloud_msg, *cloud);
@@ -107,7 +115,6 @@ void SurfaceSegmentationAction::Execute(
   std::vector<surface_perception::SurfaceObjects> surface_objects;
   bool success = seg.Segment(&surface_objects);
 
-  rapid_pbd_msgs::SegmentSurfacesResult result;
   if (!success) {
     ROS_ERROR("Failed to perceive surface objects.");
     as_.setSucceeded(result);

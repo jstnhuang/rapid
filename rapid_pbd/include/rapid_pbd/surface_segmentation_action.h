@@ -9,16 +9,19 @@
 #include "surface_perception/segmentation.h"
 #include "surface_perception/visualization.h"
 
+#include "rapid_pbd/scene_db.h"
+
 namespace rapid {
 namespace pbd {
 class SurfaceSegmentationAction {
  public:
-  explicit SurfaceSegmentationAction(const std::string& topic);
+  SurfaceSegmentationAction(const std::string& topic, const SceneDb& scene_db);
   void Start();
   void Execute(const rapid_pbd_msgs::SegmentSurfacesGoalConstPtr& goal);
 
  private:
   std::string topic_;
+  SceneDb scene_db_;
   actionlib::SimpleActionServer<rapid_pbd_msgs::SegmentSurfacesAction> as_;
   surface_perception::Segmentation seg_;
   ros::NodeHandle nh_;
