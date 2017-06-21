@@ -54,6 +54,9 @@ void Editor::HandleEvent(const msgs::EditorEvent& event) {
           step_id, event.program_info.db_id.c_str(), program.steps.size());
       return;
     }
+    if (program.steps[step_id].scene_id != "") {
+      // TODO: delete the cloud if one exists.
+    }
     program.steps.erase(program.steps.begin() + step_id);
     Update(event.program_info.db_id, program);
   } else if (event.type == msgs::EditorEvent::DETECT_SURFACE_OBJECTS) {
