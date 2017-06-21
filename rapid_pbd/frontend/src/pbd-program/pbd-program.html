@@ -241,23 +241,21 @@
       },
 
       save: function() {
-        var cleanProgram = this._cleanProgram();
         var msg = {
           type: 'update program',
           program_info: {
             db_id: this.routeData.id,
             name: this.program.name,
           },
-          program: cleanProgram
+          program: this.program
         };
-        console.debug('Saving', cleanProgram);
+        console.debug('Saving', this.program);
         this.$.eventPub.publish(msg);
       },
 
       run: function() {
-        var cleanProgram = this._cleanProgram();
         var goal = {
-          program: cleanProgram
+          program: this.program
         }
         this.$.programAction.send(goal);
       },
@@ -278,66 +276,6 @@
             }, 100);
           }
         }
-      },
-
-      // Removes unused parameters from the message.
-      // Ideally, we would do this within pbd-action, but that leads to
-      // infinite looping.
-      _cleanProgram: function() {
-        if (!this.program.steps) {
-          return;
-        }
-        var cleanProgram = {
-          name: this.program.name,
-          steps: [],
-          start_joint_state: this.program.start_joint_state
-        };
-        for (var stepi=0; stepi<this.program.steps.length; ++stepi) {
-          var step = this.program.steps[stepi];
-          var cleanStep = {
-            actions: [],
-            scene_id: step.scene_id,
-            landmarks: step.landmarks
-          };
-          for (var ai=0; ai<step.actions.length; ++ai) {
-            var action = step.actions[ai];
-            var cleanAction = {};
-            if (action.type === 'actuate gripper') {
-              cleanAction = {
-                type: action.type,
-                actuator_group: action.actuator_group,
-                gripper_command: action.gripper_command
-              };
-            } else if (action.type === 'move to cartesian goal') {
-              cleanAction = {
-                type: action.type,
-                actuator_group: action.actuator_group,
-                pose: action.pose,
-                landmark: action.landmark,
-                control_strategy: action.control_strategy
-              };
-            } else if (action.type === 'move to joint goal') {
-              cleanAction = {
-                type: action.type,
-                actuator_group: action.actuator_group,
-                joint_trajectory: action.joint_trajectory,
-                control_strategy: action.control_strategy
-              };
-            } else if (action.type === 'detect tabletop objects') {
-              cleanAction = {
-                type: action.type
-              }
-            } else if (action.type === 'detect tabletop objects') {
-              cleanAction = {
-                type: action.type
-              }
-            } else {
-            }
-            cleanStep.actions.push(cleanAction);
-          }
-          cleanProgram.steps.push(cleanStep);
-        }
-        return cleanProgram;
       },
 
       addStep: function() {
