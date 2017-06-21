@@ -157,6 +157,7 @@ void ActionExecutor::MoveToJointGoal() {
 
 void ActionExecutor::DetectTabletopObjects() {
   rapid_pbd_msgs::SegmentSurfacesGoal goal;
+  goal.save_cloud = false;
   clients_->surface_segmentation_client.sendGoal(goal);
 }
 
