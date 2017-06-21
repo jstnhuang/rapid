@@ -22,32 +22,44 @@ int main(int argc, char** argv) {
     ROS_ERROR("num_arms param must be set.");
     return 1;
   }
-  while (!action_clients.head_client.waitForServer(ros::Duration(5))) {
+  while (!action_clients.head_client.waitForServer(ros::Duration(5)) &&
+         ros::ok()) {
     ROS_WARN("Waiting for head server.");
   }
   if (num_arms == 1) {
-    while (!action_clients.gripper_client.waitForServer(ros::Duration(5))) {
+    while (!action_clients.gripper_client.waitForServer(ros::Duration(5)) &&
+           ros::ok()) {
       ROS_WARN("Waiting for gripper server.");
     }
-    while (!action_clients.arm_joint_client.waitForServer(ros::Duration(5))) {
+    while (!action_clients.arm_joint_client.waitForServer(ros::Duration(5)) &&
+           ros::ok()) {
       ROS_WARN("Waiting for arm joint server.");
     }
   } else if (num_arms == 2) {
-    while (!action_clients.l_gripper_client.waitForServer(ros::Duration(5))) {
+    while (!action_clients.l_gripper_client.waitForServer(ros::Duration(5)) &&
+           ros::ok()) {
       ROS_WARN("Waiting for left gripper server.");
     }
-    while (!action_clients.r_gripper_client.waitForServer(ros::Duration(5))) {
+    while (!action_clients.r_gripper_client.waitForServer(ros::Duration(5)) &&
+           ros::ok()) {
       ROS_WARN("Waiting for right gripper server.");
     }
-    while (!action_clients.l_arm_joint_client.waitForServer(ros::Duration(5))) {
+    while (!action_clients.l_arm_joint_client.waitForServer(ros::Duration(5)) &&
+           ros::ok()) {
       ROS_WARN("Waiting for left arm joint server.");
     }
-    while (!action_clients.r_arm_joint_client.waitForServer(ros::Duration(5))) {
+    while (!action_clients.r_arm_joint_client.waitForServer(ros::Duration(5)) &&
+           ros::ok()) {
       ROS_WARN("Waiting for right arm joint server.");
     }
   } else {
     ROS_ERROR("num_arms can only be 1 or 2.");
     return 1;
+  }
+  while (!action_clients.surface_segmentation_client.waitForServer(
+             ros::Duration(5)) &&
+         ros::ok()) {
+    ROS_WARN("Waiting for surface segmentation server.");
   }
 
   rapid::pbd::ProgramExecutionServer server(rapid::pbd::kProgramActionName,
