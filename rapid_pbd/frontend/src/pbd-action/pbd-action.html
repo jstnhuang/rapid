@@ -8,6 +8,7 @@
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
+<link rel="import" href="../pbd-detect-surface-objects-action/pbd-detect-surface-objects-action.html">
 <link rel="import" href="../pbd-gripper-action/pbd-gripper-action.html">
 <link rel="import" href="../pbd-head-action/pbd-head-action.html">
 <link rel="import" href="../pbd-joint-angle-action/pbd-joint-angle-action.html">
@@ -73,6 +74,7 @@
           <pbd-head-action action="{{action}}" ros="[[ros]]"></pbd-head-action>
         </template>
         <template is="dom-if" restamp if="[[_displayActionTypeIs(_displayActionType, 'detect tabletop objects')]]">
+          <pbd-detect-surface-objects-action action="{{action}}" program-id="[[programId]]" step-num="[[stepNum]]" ros="[[ros]]"></pbd-detect-surface-objects-action>
         </template>
         <template is="dom-if" restamp if="[[_displayActionTypeIs(_displayActionType, 'find custom landmark')]]">
           CustomLandmarks options
@@ -89,7 +91,9 @@
           notify: true,
           type: Object,
         },
+        stepNum: Number,
         index: Number,
+        programId: String,
         ros: Object,
         _isCollapseOpen: {
           type: Boolean,

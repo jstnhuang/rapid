@@ -160,6 +160,7 @@
         <div class="stepDiv" hidden$="[[!_hasSteps(program.steps)]]"><div class="stepDivInner">
           <pbd-step
             index="[[currentStepNum]]"
+            program-id="[[routeData.id]]"
             step="{{currentStep}}"
             ros="[[ros]]"
             on-delete="_deleteStep"

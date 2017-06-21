@@ -1,0 +1,55 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
+<link rel="import" href="../shared-styles/shared-styles.html">
+
+<dom-module id="pbd-detect-surface-objects-action">
+  <template>
+    <style include="shared-styles"></style>
+    <style>
+      :host {
+        display: block;
+      }
+      paper-button {
+        margin-left: 10px;
+      }
+    </style>
+    <ros-topic auto
+      id="eventPub"
+      msg-type="rapid_pbd_msgs/EditorEvent"
+      topic="rapid_pbd/editor_events"
+      ros="[[ros]]"
+    ></ros-topic>
+    <paper-button class="normal" on-tap="_detect">Detect now</paper-button>
+  </template>
+  <script>
+    Polymer({
+      is: 'pbd-detect-surface-objects-action',
+
+      properties: {
+        action: {
+          notify: true,
+          type: Object,
+        },
+        programId: String,
+        stepNum: Number,
+        ros: Object,
+      },
+
+      _detect: function() {
+        if (!this.ros || !this.programId || (!this.stepNum && this.stepNum !== 0)) {
+          console.error('Unable to call detection right now.');
+          return;
+        }
+        var msg = {
+          type: 'detect surface objects',
+          program_info: {
+            db_id: this.programId
+          },
+          step_num: this.stepNum
+        };
+        this.$.eventPub.publish(msg);
+      }
+    });
+  </script>
+</dom-module>

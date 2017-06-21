@@ -40,8 +40,8 @@
     <div hidden$="[[hasActions(step.actions)]]">
       No actions
     </div>
-    <template is="dom-repeat" items="{{step.actions}}" as="action">
-      <pbd-action action="{{action}}" index="[[index]]" on-delete="_handleDeleteAction" ros="[[ros]]"></pbd-action>
+    <template is="dom-repeat" items="{{step.actions}}" as="action" index-as="stepIndex">
+      <pbd-action action="{{action}}" program-id="[[programId]]" step-num="[[index]]" index="[[stepIndex]]" on-delete="_handleDeleteAction" ros="[[ros]]"></pbd-action>
     </template>
     <paper-dialog id="deleteDialog" modal>
       <h2>Delete step [[_stepNum(index)]]?</h2>
@@ -57,6 +57,7 @@
 
       properties: {
         index: Number,
+        programId: String,
         step: {
           notify: true,
           type: Object,
