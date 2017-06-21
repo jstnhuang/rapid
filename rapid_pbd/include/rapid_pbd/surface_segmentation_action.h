@@ -12,6 +12,7 @@ namespace pbd {
 class SurfaceSegmentationAction {
  public:
   explicit SurfaceSegmentationAction(const std::string& topic);
+  void Start();
   void Execute(const rapid_pbd_msgs::SegmentSurfacesGoalConstPtr& goal);
 
  private:

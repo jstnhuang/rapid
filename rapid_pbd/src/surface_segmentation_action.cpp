@@ -25,10 +25,21 @@ SurfaceSegmentationAction::SurfaceSegmentationAction(const std::string& topic)
           boost::bind(&SurfaceSegmentationAction::Execute, this, _1), false),
       seg_() {}
 
+void SurfaceSegmentationAction::Start() { as_.start(); }
+
 void SurfaceSegmentationAction::Execute(
     const rapid_pbd_msgs::SegmentSurfacesGoalConstPtr& goal) {
+  ROS_INFO("Getting point cloud...");
   boost::shared_ptr<const sensor_msgs::PointCloud2> cloud_msg =
-      ros::topic::waitForMessage<sensor_msgs::PointCloud2>(topic_);
+      ros::topic::waitForMessage<sensor_msgs::PointCloud2>(topic_,
+                                                           ros::Duration(10.0));
+  if (!cloud_msg) {
+    ROS_ERROR("Failed to get point cloud on topic: %s.", topic_.c_str());
+    rapid_pbd_msgs::SegmentSurfacesResult result;
+    as_.setSucceeded(result);
+    return;
+  }
+  ROS_INFO("Got point cloud.");
   PointCloudC::Ptr cloud(new PointCloudC);
   pcl::fromROSMsg(*cloud_msg, *cloud);
 
