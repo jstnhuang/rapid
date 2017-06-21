@@ -31,12 +31,14 @@ class Editor {
          const Visualizer& visualizer);
   void Start();
   void HandleEvent(const rapid_pbd_msgs::EditorEvent& event);
+
+ private:
+  void Update(const std::string& db_id, const rapid_pbd_msgs::Program& program);
   bool HandleGetEEPose(rapid_pbd_msgs::GetEEPoseRequest& request,
                        rapid_pbd_msgs::GetEEPoseResponse& response);
   bool HandleGetJointAngles(rapid_pbd_msgs::GetJointAnglesRequest& request,
                             rapid_pbd_msgs::GetJointAnglesResponse& response);
 
- private:
   ProgramDb db_;
   JointStateReader joint_state_reader_;
   Visualizer viz_;

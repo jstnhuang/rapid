@@ -32,17 +32,39 @@ void Editor::HandleEvent(const msgs::EditorEvent& event) {
     db_.Insert(program);
     viz_.Publish(event.program_info.db_id, 0);
   } else if (event.type == msgs::EditorEvent::UPDATE) {
-    db_.Update(event.program_info.db_id, event.program);
-    viz_.Update(event.program_info.db_id, event.program);
+    Update(event.program_info.db_id, event.program);
   } else if (event.type == msgs::EditorEvent::DELETE) {
     db_.Delete(event.program_info.db_id);
     viz_.StopPublishing(event.program_info.db_id);
   } else if (event.type == msgs::EditorEvent::VIEW) {
     db_.StartPublishingProgramById(event.program_info.db_id);
     viz_.Publish(event.program_info.db_id, event.step_num);
+  } else if (event.type == msgs::EditorEvent::DELETE_STEP) {
+    msgs::Program program;
+    bool success = db_.Get(event.program_info.db_id, &program);
+    if (!success) {
+      ROS_ERROR("Unable to delete step from program ID \"%s\"",
+                event.program_info.db_id.c_str());
+      return;
+    }
+    size_t step_id = static_cast<size_t>(event.step_num);
+    if (step_id >= program.steps.size()) {
+      ROS_ERROR(
+          "Unable to delete step %ld from program \"%s\", which has %ld steps",
+          step_id, event.program_info.db_id.c_str(), program.steps.size());
+      return;
+    }
+    program.steps.erase(program.steps.begin() + step_id);
+    Update(event.program_info.db_id, program);
+  } else if (event.type == msgs::EditorEvent::DETECT_SURFACE_OBJECTS) {
   } else {
     ROS_ERROR("Unknown event type \"%s\"", event.type.c_str());
   }
+}
+
+void Editor::Update(const std::string& db_id, const msgs::Program& program) {
+  db_.Update(db_id, program);
+  viz_.Update(db_id, program);
 }
 
 bool Editor::HandleGetEEPose(rapid_pbd_msgs::GetEEPoseRequest& request,
