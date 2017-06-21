@@ -1,4 +1,5 @@
 #include "mongodb_store/message_store.h"
+#include "rapid_pbd/action_clients.h"
 #include "rapid_pbd/editor.h"
 #include "rapid_pbd/joint_state_reader.h"
 #include "rapid_pbd/program_db.h"
@@ -26,6 +27,14 @@ int main(int argc, char** argv) {
   // Build DB.
   pbd::ProgramDb db(nh, &proxy, program_list_pub);
 
+  // Build action clients.
+  pbd::ActionClients action_clients;
+  while (!action_clients.surface_segmentation_client.waitForServer(
+             ros::Duration(5)) &&
+         ros::ok()) {
+    ROS_WARN("Waiting for surface segmentation server.");
+  }
+
   // Build visualizer
   urdf::Model model;
   model.initParam("robot_description");
@@ -35,7 +44,7 @@ int main(int argc, char** argv) {
 
   // Build editor.
   pbd::JointStateReader joint_state_reader;
-  pbd::Editor editor(db, joint_state_reader, visualizer);
+  pbd::Editor editor(db, joint_state_reader, visualizer, &action_clients);
   editor.Start();
 
   ros::Subscriber editor_sub = nh.subscribe(pbd::kEditorEventsTopic, 10,

@@ -4,12 +4,14 @@
 #include <string>
 #include <vector>
 
-#include "rapid_pbd/joint_state_reader.h"
-#include "rapid_pbd/program_db.h"
-#include "rapid_pbd/visualizer.h"
 #include "rapid_pbd_msgs/EditorEvent.h"
 #include "rapid_pbd_msgs/GetEEPose.h"
 #include "rapid_pbd_msgs/GetJointAngles.h"
+
+#include "rapid_pbd/action_clients.h"
+#include "rapid_pbd/joint_state_reader.h"
+#include "rapid_pbd/program_db.h"
+#include "rapid_pbd/visualizer.h"
 
 namespace rapid {
 namespace pbd {
@@ -28,20 +30,23 @@ void RightArmJointNames(std::vector<std::string>* names);
 class Editor {
  public:
   Editor(const ProgramDb& db, const JointStateReader& joint_state_reader,
-         const Visualizer& visualizer);
+         const Visualizer& visualizer, ActionClients* action_clients);
   void Start();
   void HandleEvent(const rapid_pbd_msgs::EditorEvent& event);
-
- private:
-  void Update(const std::string& db_id, const rapid_pbd_msgs::Program& program);
   bool HandleGetEEPose(rapid_pbd_msgs::GetEEPoseRequest& request,
                        rapid_pbd_msgs::GetEEPoseResponse& response);
   bool HandleGetJointAngles(rapid_pbd_msgs::GetJointAnglesRequest& request,
                             rapid_pbd_msgs::GetJointAnglesResponse& response);
 
+ private:
+  void Update(const std::string& db_id, const rapid_pbd_msgs::Program& program);
+  void DeleteStep(const std::string& db_id, size_t step_id);
+  void DetectSurfaceObjects(const std::string& db_id, size_t step_id);
+
   ProgramDb db_;
   JointStateReader joint_state_reader_;
   Visualizer viz_;
+  ActionClients* action_clients_;
 };
 }  // namespace pbd
 }  // namespace rapid

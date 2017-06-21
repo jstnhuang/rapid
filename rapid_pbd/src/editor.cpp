@@ -3,20 +3,26 @@
 #include <string>
 #include <vector>
 
-#include "rapid_pbd/joint_state_reader.h"
-#include "rapid_pbd/program_db.h"
-#include "rapid_pbd/visualizer.h"
 #include "rapid_pbd_msgs/Action.h"
 #include "rapid_pbd_msgs/EditorEvent.h"
 #include "rapid_pbd_msgs/Program.h"
+#include "rapid_pbd_msgs/SegmentSurfacesGoal.h"
 #include "rapid_pbd_msgs/Step.h"
+
+#include "rapid_pbd/action_clients.h"
+#include "rapid_pbd/joint_state_reader.h"
+#include "rapid_pbd/program_db.h"
+#include "rapid_pbd/visualizer.h"
 
 namespace msgs = rapid_pbd_msgs;
 namespace rapid {
 namespace pbd {
 Editor::Editor(const ProgramDb& db, const JointStateReader& joint_state_reader,
-               const Visualizer& visualizer)
-    : db_(db), joint_state_reader_(joint_state_reader), viz_(visualizer) {}
+               const Visualizer& visualizer, ActionClients* action_clients)
+    : db_(db),
+      joint_state_reader_(joint_state_reader),
+      viz_(visualizer),
+      action_clients_(action_clients) {}
 
 void Editor::Start() {
   db_.Start();
@@ -40,26 +46,9 @@ void Editor::HandleEvent(const msgs::EditorEvent& event) {
     db_.StartPublishingProgramById(event.program_info.db_id);
     viz_.Publish(event.program_info.db_id, event.step_num);
   } else if (event.type == msgs::EditorEvent::DELETE_STEP) {
-    msgs::Program program;
-    bool success = db_.Get(event.program_info.db_id, &program);
-    if (!success) {
-      ROS_ERROR("Unable to delete step from program ID \"%s\"",
-                event.program_info.db_id.c_str());
-      return;
-    }
-    size_t step_id = static_cast<size_t>(event.step_num);
-    if (step_id >= program.steps.size()) {
-      ROS_ERROR(
-          "Unable to delete step %ld from program \"%s\", which has %ld steps",
-          step_id, event.program_info.db_id.c_str(), program.steps.size());
-      return;
-    }
-    if (program.steps[step_id].scene_id != "") {
-      // TODO: delete the cloud if one exists.
-    }
-    program.steps.erase(program.steps.begin() + step_id);
-    Update(event.program_info.db_id, program);
+    DeleteStep(event.program_info.db_id, event.step_num);
   } else if (event.type == msgs::EditorEvent::DETECT_SURFACE_OBJECTS) {
+    DetectSurfaceObjects(event.program_info.db_id, event.step_num);
   } else {
     ROS_ERROR("Unknown event type \"%s\"", event.type.c_str());
   }
@@ -68,6 +57,61 @@ void Editor::HandleEvent(const msgs::EditorEvent& event) {
 void Editor::Update(const std::string& db_id, const msgs::Program& program) {
   db_.Update(db_id, program);
   viz_.Update(db_id, program);
+}
+
+void Editor::DeleteStep(const std::string& db_id, size_t step_id) {
+  msgs::Program program;
+  bool success = db_.Get(db_id, &program);
+  if (!success) {
+    ROS_ERROR("Unable to delete step from program ID \"%s\"", db_id.c_str());
+    return;
+  }
+  if (step_id >= program.steps.size()) {
+    ROS_ERROR(
+        "Unable to delete step %ld from program \"%s\", which has %ld steps",
+        step_id, db_id.c_str(), program.steps.size());
+    return;
+  }
+  if (program.steps[step_id].scene_id != "") {
+    // TODO: delete the cloud if one exists.
+  }
+  program.steps.erase(program.steps.begin() + step_id);
+  Update(db_id, program);
+}
+
+void Editor::DetectSurfaceObjects(const std::string& db_id, size_t step_id) {
+  msgs::SegmentSurfacesGoal goal;
+  goal.save_cloud = true;
+  action_clients_->surface_segmentation_client.sendGoal(goal);
+  bool success = action_clients_->surface_segmentation_client.waitForResult(
+      ros::Duration(10));
+  if (!success) {
+    ROS_ERROR("Failed to segment surface.");
+    return;
+  }
+  msgs::SegmentSurfacesResult::ConstPtr result =
+      action_clients_->surface_segmentation_client.getResult();
+
+  msgs::Program program;
+  success = db_.Get(db_id, &program);
+  if (!success) {
+    ROS_ERROR("Unable to update scene for program ID \"%s\"", db_id.c_str());
+    return;
+  }
+  if (step_id >= program.steps.size()) {
+    ROS_ERROR(
+        "Unable to update scene for step %ld, program \"%s\", which has %ld "
+        "steps",
+        step_id, db_id.c_str(), program.steps.size());
+    return;
+  }
+  if (program.steps[step_id].scene_id != "") {
+    // TODO: delete the cloud if one exists.
+  }
+  program.steps[step_id].scene_id = result->cloud_db_id;
+  program.steps[step_id].landmarks.insert(
+      program.steps[step_id].landmarks.end(), result->landmarks.begin(),
+      result->landmarks.end());
 }
 
 bool Editor::HandleGetEEPose(rapid_pbd_msgs::GetEEPoseRequest& request,
