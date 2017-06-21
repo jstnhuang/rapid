@@ -42,8 +42,7 @@ void Editor::HandleEvent(const msgs::EditorEvent& event) {
   } else if (event.type == msgs::EditorEvent::UPDATE) {
     Update(event.program_info.db_id, event.program);
   } else if (event.type == msgs::EditorEvent::DELETE) {
-    db_.Delete(event.program_info.db_id);
-    viz_.StopPublishing(event.program_info.db_id);
+    Delete(event.program_info.db_id);
   } else if (event.type == msgs::EditorEvent::VIEW) {
     db_.StartPublishingProgramById(event.program_info.db_id);
     viz_.Publish(event.program_info.db_id, event.step_num);
@@ -61,6 +60,24 @@ void Editor::Update(const std::string& db_id, const msgs::Program& program) {
   viz_.Update(db_id, program);
 }
 
+void Editor::Delete(const std::string& db_id) {
+  msgs::Program program;
+  bool success = db_.Get(db_id, &program);
+  if (!success) {
+    ROS_ERROR("Unable to delete program ID \"%s\"", db_id.c_str());
+    return;
+  }
+  for (size_t i = 0; i < program.steps.size(); ++i) {
+    const msgs::Step& step = program.steps[i];
+    if (step.scene_id != "") {
+      scene_db_.Delete(step.scene_id);
+    }
+  }
+
+  db_.Delete(db_id);
+  viz_.StopPublishing(db_id);
+}
+
 void Editor::DeleteStep(const std::string& db_id, size_t step_id) {
   msgs::Program program;
   bool success = db_.Get(db_id, &program);
@@ -75,7 +92,9 @@ void Editor::DeleteStep(const std::string& db_id, size_t step_id) {
     return;
   }
   if (program.steps[step_id].scene_id != "") {
-    scene_db_.Delete(program.steps[step_id].scene_id);
+    success = scene_db_.Delete(program.steps[step_id].scene_id);
+    ROS_ERROR("Failed to delete scene ID: \"%s\"",
+              program.steps[step_id].scene_id.c_str());
   }
   program.steps.erase(program.steps.begin() + step_id);
   Update(db_id, program);
@@ -108,12 +127,17 @@ void Editor::DetectSurfaceObjects(const std::string& db_id, size_t step_id) {
     return;
   }
   if (program.steps[step_id].scene_id != "") {
-    scene_db_.Delete(program.steps[step_id].scene_id);
+    success = scene_db_.Delete(program.steps[step_id].scene_id);
+    if (!success) {
+      ROS_ERROR("Failed to delete scene ID: \"%s\"",
+                program.steps[step_id].scene_id.c_str());
+    }
   }
   program.steps[step_id].scene_id = result->cloud_db_id;
   program.steps[step_id].landmarks.insert(
       program.steps[step_id].landmarks.end(), result->landmarks.begin(),
       result->landmarks.end());
+  Update(db_id, program);
 }
 
 bool Editor::HandleGetEEPose(rapid_pbd_msgs::GetEEPoseRequest& request,

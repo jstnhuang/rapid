@@ -41,6 +41,7 @@ class Editor {
 
  private:
   void Update(const std::string& db_id, const rapid_pbd_msgs::Program& program);
+  void Delete(const std::string& db_id);
   void DeleteStep(const std::string& db_id, size_t step_id);
   void DetectSurfaceObjects(const std::string& db_id, size_t step_id);
 
