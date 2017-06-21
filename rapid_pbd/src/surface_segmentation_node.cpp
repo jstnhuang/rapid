@@ -11,6 +11,7 @@ int main(int argc, char** argv) {
   }
   std::string topic(argv[1]);
   rapid::pbd::SurfaceSegmentationAction action(topic);
+  action.Start();
   ros::spin();
   return 0;
 }
