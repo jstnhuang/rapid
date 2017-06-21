@@ -7,12 +7,25 @@
 #include "mongodb_store/message_store.h"
 #include "rapid_pbd_msgs/Program.h"
 #include "ros/ros.h"
+#include "sensor_msgs/PointCloud2.h"
 
 #include "rapid_pbd/db_names.h"
 
 namespace rapid {
 namespace pbd {
 static const char kProgramListTopic[] = "program_list";
+
+class SceneDb {
+ public:
+  explicit SceneDb(mongodb_store::MessageStoreProxy* db);
+
+  std::string Insert(const sensor_msgs::PointCloud2& cloud);
+  bool Get(const std::string& db_id, sensor_msgs::PointCloud2* cloud) const;
+  bool Delete(const std::string& db_id);
+
+ private:
+  mongodb_store::MessageStoreProxy* db_;
+};
 
 class ProgramDb {
  public:

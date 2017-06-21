@@ -4,7 +4,6 @@
 #include "rapid_pbd/editor.h"
 #include "rapid_pbd/joint_state_reader.h"
 #include "rapid_pbd/program_db.h"
-#include "rapid_pbd/scene_db.h"
 #include "rapid_pbd/visualizer.h"
 #include "rapid_pbd_msgs/GetEEPose.h"
 #include "rapid_pbd_msgs/GetJointAngles.h"
@@ -23,14 +22,15 @@ int main(int argc, char** argv) {
   // Build program DB.
   mongodb_store::MessageStoreProxy proxy(nh, pbd::kMongoProgramCollectionName,
                                          pbd::kMongoDbName);
-  mongodb_store::MessageStoreProxy scene_proxy(
-      nh, pbd::kMongoSceneCollectionName, pbd::kMongoDbName);
+  mongodb_store::MessageStoreProxy* scene_proxy =
+      new mongodb_store::MessageStoreProxy(nh, pbd::kMongoSceneCollectionName,
+                                           pbd::kMongoDbName);
   ros::Publisher program_list_pub =
       nh.advertise<rapid_pbd_msgs::ProgramInfoList>(pbd::kProgramListTopic, 1,
                                                     true);
   // Build DBs.
   pbd::ProgramDb db(nh, &proxy, program_list_pub);
-  pbd::SceneDb scene_db(&scene_proxy);
+  pbd::SceneDb scene_db(scene_proxy);
 
   // Build action clients.
   pbd::ActionClients action_clients;

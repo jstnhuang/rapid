@@ -1,7 +1,7 @@
 #include <string>
 
 #include "mongodb_store/message_store.h"
-#include "rapid_pbd/scene_db.h"
+#include "rapid_pbd/program_db.h"
 #include "rapid_pbd/surface_segmentation_action.h"
 #include "ros/ros.h"
 

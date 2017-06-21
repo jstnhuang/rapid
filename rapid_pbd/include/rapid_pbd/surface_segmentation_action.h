@@ -9,7 +9,7 @@
 #include "surface_perception/segmentation.h"
 #include "surface_perception/visualization.h"
 
-#include "rapid_pbd/scene_db.h"
+#include "rapid_pbd/program_db.h"
 
 namespace rapid {
 namespace pbd {

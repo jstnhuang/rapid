@@ -11,7 +11,6 @@
 #include "rapid_pbd/action_clients.h"
 #include "rapid_pbd/joint_state_reader.h"
 #include "rapid_pbd/program_db.h"
-#include "rapid_pbd/scene_db.h"
 #include "rapid_pbd/visualizer.h"
 
 namespace rapid {

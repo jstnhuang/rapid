@@ -118,7 +118,6 @@ catkin_package(
     rapid_pbd_pr2_actions
     rapid_pbd_program_db
     rapid_pbd_program_executor
-    rapid_pbd_scene_db
     rapid_pbd_step_executor
     rapid_pbd_surface_segmentation_action
     rapid_pbd_visualizer
@@ -153,7 +152,6 @@ target_link_libraries(rapid_pbd_editor
   rapid_pbd_action_clients
   rapid_pbd_program_db
   rapid_pbd_joint_state_reader
-  rapid_pbd_scene_db
   rapid_pbd_visualizer
   ${catkin_LIBRARIES})
 
@@ -180,10 +178,6 @@ target_link_libraries(rapid_pbd_program_executor
   rapid_pbd_step_executor
   ${catkin_LIBRARIES})
 
-add_library(rapid_pbd_scene_db src/scene_db.cpp)
-add_dependencies(rapid_pbd_scene_db ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rapid_pbd_scene_db ${catkin_LIBRARIES})
-
 add_library(rapid_pbd_step_executor src/step_executor.cpp)
 add_dependencies(rapid_pbd_step_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_step_executor
@@ -194,7 +188,7 @@ target_link_libraries(rapid_pbd_step_executor
 add_library(rapid_pbd_surface_segmentation_action src/surface_segmentation_action.cpp)
 add_dependencies(rapid_pbd_surface_segmentation_action ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_surface_segmentation_action
-  rapid_pbd_scene_db
+  rapid_pbd_program_db
   ${catkin_LIBRARIES})
 
 add_library(rapid_pbd_visualizer src/visualizer.cpp)
@@ -235,6 +229,7 @@ add_executable(rapid_pbd_surface_segmentation_node src/surface_segmentation_node
 set_target_properties(rapid_pbd_surface_segmentation_node PROPERTIES OUTPUT_NAME surface_segmentation_node PREFIX "")
 add_dependencies(rapid_pbd_surface_segmentation_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_surface_segmentation_node
+  rapid_pbd_program_db
   rapid_pbd_surface_segmentation_action
   ${catkin_LIBRARIES}
 )

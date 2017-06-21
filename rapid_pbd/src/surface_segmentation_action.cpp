@@ -17,7 +17,7 @@
 #include "surface_perception/visualization.h"
 #include "visualization_msgs/Marker.h"
 
-#include "rapid_pbd/scene_db.h"
+#include "rapid_pbd/program_db.h"
 
 using surface_perception::SurfaceObjects;
 using surface_perception::Object;
