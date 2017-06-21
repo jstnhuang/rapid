@@ -352,9 +352,15 @@
       },
 
       _deleteStep: function(evt) {
-        this.splice('program.steps', this.currentStepNum, 1);
+        var msg = {
+          type: 'delete step',
+          program_info: {
+            db_id: this.routeData.id
+          },
+          step_num: this.currentStepNum
+        };
+        this.$.eventPub.publish(msg);
         this.currentStepNum = Math.max(this.currentStepNum-1, 0);
-        this.save();
         evt.stopPropagation(); 
       },
 
