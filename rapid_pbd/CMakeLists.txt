@@ -112,12 +112,14 @@ catkin_package(
   LIBRARIES
     rapid_pbd_action_clients
     rapid_pbd_action_executor
+    rapid_pbd_editor
     rapid_pbd_joint_state
     rapid_pbd_joint_state_reader
-    rapid_pbd_program_db
     rapid_pbd_pr2_actions
-    rapid_pbd_surface_segmentation_action
+    rapid_pbd_program_db
+    rapid_pbd_program_executor
     rapid_pbd_step_executor
+    rapid_pbd_surface_segmentation_action
     rapid_pbd_visualizer
   CATKIN_DEPENDS rapid_pbd_msgs roscpp rospy
 #  DEPENDS system_lib
@@ -136,13 +138,13 @@ include_directories(
 )
 
 ## Libraries
-add_library(rapid_pbd_program_db src/program_db.cpp)
-add_dependencies(rapid_pbd_program_db ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rapid_pbd_program_db ${catkin_LIBRARIES})
+add_library(rapid_pbd_action_clients src/action_clients.cpp)
+add_dependencies(rapid_pbd_action_clients ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_action_clients ${catkin_LIBRARIES})
 
-add_library(rapid_pbd_visualizer src/visualizer.cpp)
-add_dependencies(rapid_pbd_visualizer ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rapid_pbd_visualizer ${catkin_LIBRARIES})
+add_library(rapid_pbd_action_executor src/action_executor.cpp)
+add_dependencies(rapid_pbd_action_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_action_executor rapid_pbd_action_clients ${catkin_LIBRARIES})
 
 add_library(rapid_pbd_editor src/editor.cpp)
 add_dependencies(rapid_pbd_editor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -160,29 +162,13 @@ add_library(rapid_pbd_joint_state_reader src/joint_state_reader.cpp)
 add_dependencies(rapid_pbd_joint_state_reader ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_joint_state_reader rapid_pbd_joint_state ${catkin_LIBRARIES})
 
-add_library(rapid_pbd_action_clients src/action_clients.cpp)
-add_dependencies(rapid_pbd_action_clients ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rapid_pbd_action_clients ${catkin_LIBRARIES})
-
 add_library(rapid_pbd_pr2_actions src/pr2_actions.cpp)
 add_dependencies(rapid_pbd_pr2_actions ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_pr2_actions ${catkin_LIBRARIES})
 
-add_library(rapid_pbd_surface_segmentation_action src/surface_segmentation_action.cpp)
-add_dependencies(rapid_pbd_surface_segmentation_action ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rapid_pbd_surface_segmentation_action ${catkin_LIBRARIES})
-
-add_library(rapid_pbd_action_executor src/action_executor.cpp)
-add_dependencies(rapid_pbd_action_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rapid_pbd_action_executor rapid_pbd_action_clients ${catkin_LIBRARIES})
-
-add_library(rapid_pbd_step_executor src/step_executor.cpp)
-add_dependencies(rapid_pbd_step_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rapid_pbd_step_executor
-  rapid_pbd_action_clients
-  rapid_pbd_action_executor
-  ${catkin_LIBRARIES}
-)
+add_library(rapid_pbd_program_db src/program_db.cpp)
+add_dependencies(rapid_pbd_program_db ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_program_db ${catkin_LIBRARIES})
 
 add_library(rapid_pbd_program_executor src/program_executor.cpp)
 add_dependencies(rapid_pbd_program_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -191,6 +177,21 @@ target_link_libraries(rapid_pbd_program_executor
   rapid_pbd_step_executor
   ${catkin_LIBRARIES}
 )
+
+add_library(rapid_pbd_step_executor src/step_executor.cpp)
+add_dependencies(rapid_pbd_step_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_step_executor
+  rapid_pbd_action_clients
+  rapid_pbd_action_executor
+  ${catkin_LIBRARIES})
+
+add_library(rapid_pbd_surface_segmentation_action src/surface_segmentation_action.cpp)
+add_dependencies(rapid_pbd_surface_segmentation_action ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_surface_segmentation_action ${catkin_LIBRARIES})
+
+add_library(rapid_pbd_visualizer src/visualizer.cpp)
+add_dependencies(rapid_pbd_visualizer ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_visualizer ${catkin_LIBRARIES})
 
 ## Executables
 add_executable(rapid_pbd_editor_node src/editor_node.cpp)
