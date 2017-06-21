@@ -12,14 +12,17 @@
 #include "rapid_pbd/action_clients.h"
 #include "rapid_pbd/joint_state_reader.h"
 #include "rapid_pbd/program_db.h"
+#include "rapid_pbd/scene_db.h"
 #include "rapid_pbd/visualizer.h"
 
 namespace msgs = rapid_pbd_msgs;
 namespace rapid {
 namespace pbd {
-Editor::Editor(const ProgramDb& db, const JointStateReader& joint_state_reader,
+Editor::Editor(const ProgramDb& db, const SceneDb& scene_db,
+               const JointStateReader& joint_state_reader,
                const Visualizer& visualizer, ActionClients* action_clients)
     : db_(db),
+      scene_db_(scene_db),
       joint_state_reader_(joint_state_reader),
       viz_(visualizer),
       action_clients_(action_clients) {}
@@ -73,7 +76,7 @@ void Editor::DeleteStep(const std::string& db_id, size_t step_id) {
     return;
   }
   if (program.steps[step_id].scene_id != "") {
-    // TODO: delete the cloud if one exists.
+    scene_db_.Delete(program.steps[step_id].scene_id);
   }
   program.steps.erase(program.steps.begin() + step_id);
   Update(db_id, program);
@@ -106,7 +109,7 @@ void Editor::DetectSurfaceObjects(const std::string& db_id, size_t step_id) {
     return;
   }
   if (program.steps[step_id].scene_id != "") {
-    // TODO: delete the cloud if one exists.
+    scene_db_.Delete(program.steps[step_id].scene_id);
   }
   program.steps[step_id].scene_id = result->cloud_db_id;
   program.steps[step_id].landmarks.insert(

@@ -1,8 +1,10 @@
 #include "mongodb_store/message_store.h"
 #include "rapid_pbd/action_clients.h"
+#include "rapid_pbd/db_names.h"
 #include "rapid_pbd/editor.h"
 #include "rapid_pbd/joint_state_reader.h"
 #include "rapid_pbd/program_db.h"
+#include "rapid_pbd/scene_db.h"
 #include "rapid_pbd/visualizer.h"
 #include "rapid_pbd_msgs/GetEEPose.h"
 #include "rapid_pbd_msgs/GetJointAngles.h"
@@ -21,11 +23,14 @@ int main(int argc, char** argv) {
   // Build program DB.
   mongodb_store::MessageStoreProxy proxy(nh, pbd::kMongoProgramCollectionName,
                                          pbd::kMongoDbName);
+  mongodb_store::MessageStoreProxy scene_proxy(
+      nh, pbd::kMongoSceneCollectionName, pbd::kMongoDbName);
   ros::Publisher program_list_pub =
       nh.advertise<rapid_pbd_msgs::ProgramInfoList>(pbd::kProgramListTopic, 1,
                                                     true);
-  // Build DB.
+  // Build DBs.
   pbd::ProgramDb db(nh, &proxy, program_list_pub);
+  pbd::SceneDb scene_db(&scene_proxy);
 
   // Build action clients.
   pbd::ActionClients action_clients;
@@ -44,7 +49,8 @@ int main(int argc, char** argv) {
 
   // Build editor.
   pbd::JointStateReader joint_state_reader;
-  pbd::Editor editor(db, joint_state_reader, visualizer, &action_clients);
+  pbd::Editor editor(db, scene_db, joint_state_reader, visualizer,
+                     &action_clients);
   editor.Start();
 
   ros::Subscriber editor_sub = nh.subscribe(pbd::kEditorEventsTopic, 10,

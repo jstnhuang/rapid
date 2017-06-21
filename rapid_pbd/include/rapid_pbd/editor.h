@@ -11,6 +11,7 @@
 #include "rapid_pbd/action_clients.h"
 #include "rapid_pbd/joint_state_reader.h"
 #include "rapid_pbd/program_db.h"
+#include "rapid_pbd/scene_db.h"
 #include "rapid_pbd/visualizer.h"
 
 namespace rapid {
@@ -29,7 +30,8 @@ void RightArmJointNames(std::vector<std::string>* names);
 
 class Editor {
  public:
-  Editor(const ProgramDb& db, const JointStateReader& joint_state_reader,
+  Editor(const ProgramDb& db, const SceneDb& scene_db,
+         const JointStateReader& joint_state_reader,
          const Visualizer& visualizer, ActionClients* action_clients);
   void Start();
   void HandleEvent(const rapid_pbd_msgs::EditorEvent& event);
@@ -44,6 +46,7 @@ class Editor {
   void DetectSurfaceObjects(const std::string& db_id, size_t step_id);
 
   ProgramDb db_;
+  SceneDb scene_db_;
   JointStateReader joint_state_reader_;
   Visualizer viz_;
   ActionClients* action_clients_;
