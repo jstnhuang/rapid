@@ -1,4 +1,7 @@
 <launch>
+  <arg name="sim" />
+  <arg if="$(arg sim)" name="point_cloud_topic" default="/mock_point_cloud" />
+  <arg unless="$(arg sim)" name="point_cloud_topic" default="/head_mount_kinect/depth_registered/points" />
   <group ns="rapid_pbd"> 
     <param name="num_arms" value="2" />
     <param name="l_gripper_open_position" value="0.08" />
@@ -19,5 +22,6 @@
       <remap from="r_arm_joint_action" to="/r_arm_controller/follow_joint_trajectory" />
       <remap from="head_action" to="/head_traj_controller/follow_joint_trajectory" />
     </node>
+    <node pkg="rapid_pbd" type="surface_segmentation_node" name="surface_segmentation_node" args="$(arg point_cloud_topic)" />
   </group>
 </launch>
