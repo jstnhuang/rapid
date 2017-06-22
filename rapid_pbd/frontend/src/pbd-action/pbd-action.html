@@ -8,6 +8,7 @@
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
+<link rel="import" href="../pbd-arm-cart-action/pbd-arm-cart-action.html">
 <link rel="import" href="../pbd-detect-surface-objects-action/pbd-detect-surface-objects-action.html">
 <link rel="import" href="../pbd-gripper-action/pbd-gripper-action.html">
 <link rel="import" href="../pbd-head-action/pbd-head-action.html">
@@ -60,12 +61,7 @@
           <pbd-gripper-action id="gripperAction" action="{{action}}" ros="[[ros]]"></pbd-gripper-action>
         </template>
         <template is="dom-if" restamp if="[[_displayActionTypeIs(_displayActionType, 'move to cartesian goal')]]">
-          <paper-dropdown-menu label="Arm to move">
-            <paper-listbox class="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
-              <paper-item data-actuator-group="left arm">Left arm</paper-item>
-              <paper-item data-actuator-group="right arm">Right arm</paper-item>
-            </paper-listbox>
-          </paper-dropdown-menu>
+          <pbd-arm-cart-action action="{{action}}" ros="[[ros]]"></pbd-arm-cart-action>
         </template>
         <template is="dom-if" restamp if="[[_displayActionTypeIs(_displayActionType, 'move to joint goal')]]">
           <pbd-joint-angle-action action="{{action}}" ros="[[ros]]"></pbd-joint-angle-action>

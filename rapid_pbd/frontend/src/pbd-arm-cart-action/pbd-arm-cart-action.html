@@ -1,0 +1,159 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/ros-service/ros-service.html">
+<link rel="import" href="../shared-styles/shared-styles.html">
+
+<dom-module id="pbd-arm-cart-action">
+  <template>
+    <style include="shared-styles"></style>
+    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
+    <style>
+      :host {
+        display: block;
+      }
+      paper-dropdown-menu {
+        max-width: 150px;
+      }
+      .read {
+        margin-left: 10px;
+      }
+      paper-input {
+        max-width: 250px;
+      }
+    </style>
+    <!--ros-service auto
+      id="service"
+      on-response="_handleValues"
+      name="rapid_pbd/get_joint_angles"
+      ros="[[ros]]"
+      service-type="rapid_pbd_msgs/GetJointAngles"
+    ></ros-service-->
+    <div class="layout horizontal center">
+      <paper-dropdown-menu label="Arm to move">
+        <paper-listbox slot="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
+          <paper-item data-actuator-group="left arm">Left arm</paper-item>
+          <paper-item data-actuator-group="right arm">Right arm</paper-item>
+        </paper-listbox>
+      </paper-dropdown-menu>
+      <paper-button class="read normal" on-tap="_updatePose">Read position</paper-button>
+    </div>
+    <div>
+      <paper-dropdown-menu label="Relative to">
+        <paper-listbox slot="dropdown-content" attr-for-selected="data-landmark" selected="{{landmark}}">
+          <paper-item data-landmark="robot base">Robot base</paper-item>
+          <paper-item data-landmark="torso lift link">Torso</paper-item>
+        </paper-listbox>
+      </paper-dropdown-menu>
+    </div>
+    <div>
+      <paper-input type="number" step="0.01" label="Max speed (m/s)"
+        value="{{action.control_strategy.max_speed}}"
+      ></paper-input>
+      <!--template id="positionList" is="dom-repeat" items="[[jointValues]]" as="kv">
+        <paper-input type="number" step="0.01" label="[[kv.name]]" value="[[kv.value]]" on-change="_updateJoint"></paper-input>
+      </template-->
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: 'pbd-arm-cart-action',
+
+      properties: {
+        action: {
+          notify: true,
+          type: Object,
+        },
+        landmark: {
+          type: String,
+          value: '',
+        },
+        landmarks: {
+          type: Array,
+          value: function() { return []; }
+        },
+        ros: Object,
+      },
+
+      observers: [
+        '_actionChanged(action)',
+        '_landmarkChanged(landmark)',
+      ],
+
+      ready: function() {
+        // Read position if actuator group is set
+        // TODO: frontend should just send an "add action" event and let backend initialize actions
+        // E.g., for picking a default landmark.
+      },
+
+      _actionChanged: function(action) {
+        var actionType = action.type;
+        var actuatorGroup = action.actuator_group;
+        if (actionType !== 'move to joint goal') {
+          return;
+        }
+        if (actuatorGroup !== 'arm' && actuatorGroup !== 'left arm'
+            && actuatorGroup !== 'right arm') {
+          return;
+        }
+        var that = this;
+        if (!this.action.joint_trajectory) {
+          this.set('action.joint_trajectory', {points: []});
+        }
+        if (this.action.joint_trajectory.points.length === 0) {
+          this.debounce('get_joint_angles', function() {
+            that._updateJointValues();
+          }, 100);
+        }
+      },
+
+      _landmarkChanged: function(landmark) {
+        if (landmark === 'robot base') {
+          var landmark = {
+            type: 'tf frame',
+            frame_id: 'base_link'
+          };
+          this.set('action.landmark', landmark);
+        } else if (landmark === 'torso lift link') {
+          var landmark = {
+            type: 'tf frame',
+            frame_id: 'torso_lift_link'
+          };
+          this.set('action.landmark', landmark);
+        }
+      },
+
+      _updatePose: function() {
+        this.$.service.call({actuator_group: this.action.actuator_group});
+      },
+
+      _handleValues: function(evt) {
+        var names = evt.detail.joint_names;
+        var positions = evt.detail.joint_positions;
+        this.set('action.joint_trajectory.joint_names', names);
+        
+        var point = {
+          positions: [],
+          velocities: [],
+          accelerations: [],
+          effort: [],
+          time_from_start: this._getTimeFromStartObject(),
+        };
+        for (var i=0; i<names.length; ++i) {
+          point.positions.push(positions[i]);
+          point.velocities.push(0);
+        }
+        this.set('action.joint_trajectory.points', [point]);
+      },
+
+      _updateJoint: function(evt) {
+        var index = this.$.positionList.indexForElement(evt.target);
+        var val = parseFloat(evt.target.value);
+        if (!isNaN(val)) {
+          this.set('action.joint_trajectory.points.0.positions.' + index, val);
+        }
+      },
+    });
+  </script>
+</dom-module>
