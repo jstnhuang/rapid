@@ -237,6 +237,13 @@
                 size: 0.01,
                 topic: '/rapid_pbd/scene/' + db_id,
               },
+            }, {
+              isShown: true,
+              name: 'Surface segmentation',
+              type: 'markerArray',
+              options: {
+                topic: '/rapid_pbd/surface_segmentation/' + db_id,
+              },
             },
           ],
           sidebarOpened: false,

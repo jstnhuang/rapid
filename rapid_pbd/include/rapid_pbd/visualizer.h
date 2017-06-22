@@ -24,6 +24,7 @@ struct StepVisualization {
   size_t step_id;
   ros::Publisher robot_pub;
   ros::Publisher scene_pub;
+  ros::Publisher surface_seg_pub;
 };
 
 // Visualization server for PbD programs.
@@ -47,6 +48,9 @@ class Visualizer {
                       visualization_msgs::MarkerArray* robot_markers);
   bool GetScene(const rapid_pbd_msgs::Program& program, size_t step_num,
                 sensor_msgs::PointCloud2* scene);
+  void GetSegmentationMarker(const rapid_pbd_msgs::Program& program,
+                             size_t step_num,
+                             visualization_msgs::MarkerArray* scene_markers);
 
   const ProgramDb db_;
   const SceneDb scene_db_;

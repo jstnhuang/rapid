@@ -12,6 +12,8 @@
 #include "pcl_conversions/pcl_conversions.h"
 #include "robot_markers/builder.h"
 #include "sensor_msgs/PointCloud2.h"
+#include "surface_perception/visualization.h"
+#include "visualization_msgs/Marker.h"
 #include "visualization_msgs/MarkerArray.h"
 
 #include "rapid_pbd/joint_state.h"
@@ -20,6 +22,7 @@
 
 namespace msgs = rapid_pbd_msgs;
 using sensor_msgs::PointCloud2;
+using visualization_msgs::Marker;
 using visualization_msgs::MarkerArray;
 
 namespace rapid {
@@ -51,6 +54,8 @@ void Visualizer::Publish(const std::string& program_id, int step_num) {
         nh_.advertise<MarkerArray>("robot/" + program_id, 10, true);
     step_vizs_[program_id].scene_pub =
         nh_.advertise<PointCloud2>("scene/" + program_id, 10, true);
+    step_vizs_[program_id].surface_seg_pub = nh_.advertise<MarkerArray>(
+        "surface_segmentation/" + program_id, 10, true);
   }
 
   // Publish the robot visualization
@@ -72,6 +77,26 @@ void Visualizer::Publish(const std::string& program_id, int step_num) {
     scene.header.frame_id = "base_link";
     step_vizs_[program_id].scene_pub.publish(scene);
   }
+
+  MarkerArray scene_markers;
+  GetSegmentationMarker(program, step_id, &scene_markers);
+  if (scene_markers.markers.size() > 0) {
+    step_vizs_[program_id].surface_seg_pub.publish(scene_markers);
+  } else {
+    for (size_t i = 0; i < 100; ++i) {
+      Marker blank;
+      blank.ns = "segmentation";
+      blank.id = i;
+      blank.header.frame_id = "base_link";
+      blank.type = Marker::CUBE;
+      blank.pose.orientation.w = 1;
+      blank.scale.x = 0.05;
+      blank.scale.y = 0.05;
+      blank.scale.z = 0.05;
+      scene_markers.markers.push_back(blank);
+    }
+    step_vizs_[program_id].surface_seg_pub.publish(scene_markers);
+  }
 }
 
 void Visualizer::Update(const std::string& program_id,
@@ -80,10 +105,6 @@ void Visualizer::Update(const std::string& program_id,
     return;
   }
   Publish(program_id, step_vizs_[program_id].step_id);
-
-  // MarkerArray robot_markers;
-  // GetRobotMarker(program, step_vizs_[program_id].step_id, &robot_markers);
-  // step_vizs_[program_id].robot_pub.publish(robot_markers);
 }
 
 void Visualizer::StopPublishing(const std::string& program_id) {
@@ -150,6 +171,51 @@ bool Visualizer::GetScene(const rapid_pbd_msgs::Program& program,
     }
   }
   return false;
+}
+
+void Visualizer::GetSegmentationMarker(
+    const rapid_pbd_msgs::Program& program, size_t step_num,
+    visualization_msgs::MarkerArray* scene_markers) {
+  if (step_num >= program.steps.size()) {
+    ROS_ERROR(
+        "Cannot get scene markers for step %ld of program %s, which has %ld "
+        "steps.",
+        step_num, program.name.c_str(), program.steps.size());
+    return;
+  }
+  for (size_t i = 0; i <= step_num; ++i) {
+    const msgs::Step& step = program.steps[i];
+    if (step.landmarks.size() > 0) {
+      std::vector<surface_perception::Object> objects;
+      for (size_t li = 0; li < step.landmarks.size(); ++li) {
+        const msgs::Landmark& landmark = step.landmarks[li];
+        surface_perception::Object object;
+        object.pose_stamped = landmark.pose_stamped;
+        object.dimensions = landmark.surface_box_dims;
+        objects.push_back(object);
+      }
+      surface_perception::ObjectMarkers(objects, &scene_markers->markers);
+      break;
+    }
+  }
+
+  for (size_t i = 0; i < scene_markers->markers.size(); ++i) {
+    scene_markers->markers[i].ns = "segmentation";
+    scene_markers->markers[i].id = i;
+  }
+  int num_objects = scene_markers->markers.size();
+  for (size_t i = num_objects; i < 100; ++i) {
+    Marker blank;
+    blank.ns = "segmentation";
+    blank.id = i;
+    blank.header.frame_id = "base_link";
+    blank.type = Marker::CUBE;
+    blank.pose.orientation.w = 1;
+    blank.scale.x = 0.05;
+    blank.scale.y = 0.05;
+    blank.scale.z = 0.05;
+    scene_markers->markers.push_back(blank);
+  }
 }
 }  // namespace pbd
 }  // namespace rapid

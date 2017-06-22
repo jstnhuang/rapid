@@ -99,7 +99,7 @@ void SurfaceSegmentationAction::Execute(
   double cluster_distance;
   ros::param::param("cluster_distance", cluster_distance, 0.01);
   int min_cluster_size;
-  ros::param::param("min_cluster_size", min_cluster_size, 10);
+  ros::param::param("min_cluster_size", min_cluster_size, 50);
   int max_cluster_size;
   ros::param::param("max_cluster_size", max_cluster_size, 10000);
 

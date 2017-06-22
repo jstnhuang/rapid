@@ -134,9 +134,8 @@ void Editor::DetectSurfaceObjects(const std::string& db_id, size_t step_id) {
     }
   }
   program.steps[step_id].scene_id = result->cloud_db_id;
-  program.steps[step_id].landmarks.insert(
-      program.steps[step_id].landmarks.end(), result->landmarks.begin(),
-      result->landmarks.end());
+  // TODO: this means you can only run one perception action per step.
+  program.steps[step_id].landmarks = result->landmarks;
   Update(db_id, program);
 }
 
