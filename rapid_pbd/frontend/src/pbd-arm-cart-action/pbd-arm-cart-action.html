@@ -42,8 +42,8 @@
     <div>
       <paper-dropdown-menu label="Relative to">
         <paper-listbox slot="dropdown-content" attr-for-selected="data-landmark" selected="{{landmark}}">
-          <paper-item data-landmark="robot base">Robot base</paper-item>
-          <paper-item data-landmark="torso lift link">Torso</paper-item>
+          <paper-item data-landmark="base_link">Robot base</paper-item>
+          <paper-item data-landmark="torso_lift_link">Torso</paper-item>
         </paper-listbox>
       </paper-dropdown-menu>
     </div>
@@ -79,33 +79,42 @@
       observers: [
         '_actionChanged(action)',
         '_landmarkChanged(landmark)',
+        '_landmarkModelChanged(action.landmark)',
+        '_maxSpeedChanged(action.control_strategy.max_speed)',
       ],
 
-      ready: function() {
-        // Read position if actuator group is set
-        // TODO: frontend should just send an "add action" event and let backend initialize actions
-        // E.g., for picking a default landmark.
-      },
-
       _actionChanged: function(action) {
-        var actionType = action.type;
-        var actuatorGroup = action.actuator_group;
-        if (actionType !== 'move to joint goal') {
+        if (action.type !== 'move to cartesian goal') {
           return;
         }
-        if (actuatorGroup !== 'arm' && actuatorGroup !== 'left arm'
-            && actuatorGroup !== 'right arm') {
+        if (action.actuator_group !== 'arm' && action.actuator_group !== 'left arm'
+            && action.actuator_group !== 'right arm') {
           return;
         }
-        var that = this;
-        if (!this.action.joint_trajectory) {
-          this.set('action.joint_trajectory', {points: []});
+        if (!action.control_strategy) {
+          var control_strategy = {
+            type: 'default position',
+            max_speed: 0.2
+          };
+          this.set('action.control_strategy', control_strategy);
         }
-        if (this.action.joint_trajectory.points.length === 0) {
-          this.debounce('get_joint_angles', function() {
-            that._updateJointValues();
-          }, 100);
+        if (!action.control_strategy.max_speed
+              || action.control_strategy.max_speed === 0) {
+          this.set('action.control_strategy.max_speed', 0.2);
         }
+        if (!action.landmark) {
+          var landmark = {
+            type: 'tf frame',
+            frame_id: 'torso_lift_link'
+          }
+          this.set('action.landmark', landmark);
+        }
+
+        //if (this.action.joint_trajectory.points.length === 0) {
+        //  this.debounce('get_joint_angles', function() {
+        //    that._updateJointValues();
+        //  }, 100);
+        //}
       },
 
       _landmarkChanged: function(landmark) {
@@ -121,6 +130,13 @@
             frame_id: 'torso_lift_link'
           };
           this.set('action.landmark', landmark);
+        }
+      },
+      
+      _landmarkModelChanged: function(landmark) {
+        console.log(landmark);
+        if (landmark.type === 'tf frame') {
+          this.landmark = landmark.frame_id;
         }
       },
 
@@ -152,6 +168,15 @@
         var val = parseFloat(evt.target.value);
         if (!isNaN(val)) {
           this.set('action.joint_trajectory.points.0.positions.' + index, val);
+        }
+      },
+
+      _maxSpeedChanged: function(maxSpeed) {
+        if (typeof maxSpeed === 'string') {
+          var f = parseFloat(maxSpeed);
+          if (!isNaN(f) && f !== 0) {
+            this.set('action.control_strategy.max_speed', f);
+          }
         }
       },
     });
