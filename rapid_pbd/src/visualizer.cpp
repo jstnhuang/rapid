@@ -7,7 +7,11 @@
 #include <vector>
 
 #include "geometry_msgs/TransformStamped.h"
+#include "pcl/point_cloud.h"
+#include "pcl/point_types.h"
+#include "pcl_conversions/pcl_conversions.h"
 #include "robot_markers/builder.h"
+#include "sensor_msgs/PointCloud2.h"
 #include "visualization_msgs/MarkerArray.h"
 
 #include "rapid_pbd/joint_state.h"
@@ -15,13 +19,18 @@
 #include "rapid_pbd_msgs/Program.h"
 
 namespace msgs = rapid_pbd_msgs;
+using sensor_msgs::PointCloud2;
 using visualization_msgs::MarkerArray;
 
 namespace rapid {
 namespace pbd {
-Visualizer::Visualizer(const ProgramDb& db,
+Visualizer::Visualizer(const ProgramDb& db, const SceneDb& scene_db,
                        const robot_markers::Builder& marker_builder)
-    : db_(db), marker_builder_(marker_builder), step_vizs_(), nh_() {}
+    : db_(db),
+      scene_db_(scene_db),
+      marker_builder_(marker_builder),
+      step_vizs_(),
+      nh_() {}
 
 void Visualizer::Init() {
   marker_builder_.Init();
@@ -40,13 +49,29 @@ void Visualizer::Publish(const std::string& program_id, int step_num) {
   if (step_vizs_.find(program_id) == step_vizs_.end()) {
     step_vizs_[program_id].robot_pub =
         nh_.advertise<MarkerArray>("robot/" + program_id, 10, true);
+    step_vizs_[program_id].scene_pub =
+        nh_.advertise<PointCloud2>("scene/" + program_id, 10, true);
   }
 
   // Publish the robot visualization
+  step_vizs_[program_id].step_id = step_id;
+
   MarkerArray robot_markers;
   GetRobotMarker(program, step_id, &robot_markers);
   step_vizs_[program_id].robot_pub.publish(robot_markers);
-  step_vizs_[program_id].step_id = step_id;
+
+  PointCloud2 scene;
+  bool got_scene = GetScene(program, step_id, &scene);
+  if (got_scene) {
+    step_vizs_[program_id].scene_pub.publish(scene);
+  } else {
+    pcl::PointCloud<pcl::PointXYZRGB> blank;
+    pcl::PointXYZRGB pt;
+    blank.points.push_back(pt);
+    pcl::toROSMsg(blank, scene);
+    scene.header.frame_id = "base_link";
+    step_vizs_[program_id].scene_pub.publish(scene);
+  }
 }
 
 void Visualizer::Update(const std::string& program_id,
@@ -54,9 +79,11 @@ void Visualizer::Update(const std::string& program_id,
   if (step_vizs_.find(program_id) == step_vizs_.end()) {
     return;
   }
-  MarkerArray robot_markers;
-  GetRobotMarker(program, step_vizs_[program_id].step_id, &robot_markers);
-  step_vizs_[program_id].robot_pub.publish(robot_markers);
+  Publish(program_id, step_vizs_[program_id].step_id);
+
+  // MarkerArray robot_markers;
+  // GetRobotMarker(program, step_vizs_[program_id].step_id, &robot_markers);
+  // step_vizs_[program_id].robot_pub.publish(robot_markers);
 }
 
 void Visualizer::StopPublishing(const std::string& program_id) {
@@ -100,6 +127,29 @@ bool Visualizer::GetRobotMarker(const msgs::Program& program, size_t step_id,
   marker_builder_.SetJointPositions(joint_positions);
   marker_builder_.Build(robot_markers);
   return true;
+}
+
+bool Visualizer::GetScene(const rapid_pbd_msgs::Program& program,
+                          size_t step_num, sensor_msgs::PointCloud2* scene) {
+  if (step_num >= program.steps.size()) {
+    ROS_ERROR(
+        "Cannot get scene for step %ld of program %s, which has %ld steps.",
+        step_num, program.name.c_str(), program.steps.size());
+    return false;
+  }
+  // size_t will wrap around
+  for (size_t i = step_num; i < program.steps.size(); --i) {
+    const msgs::Step& step = program.steps[i];
+    if (step.scene_id != "") {
+      bool success = scene_db_.Get(step.scene_id, scene);
+      if (!success) {
+        ROS_ERROR("Failed to get scene ID: \"%s\"", step.scene_id.c_str());
+        return false;
+      }
+      return true;
+    }
+  }
+  return false;
 }
 }  // namespace pbd
 }  // namespace rapid

@@ -23,12 +23,14 @@ struct StepVisualization {
  public:
   size_t step_id;
   ros::Publisher robot_pub;
+  ros::Publisher scene_pub;
 };
 
 // Visualization server for PbD programs.
 class Visualizer {
  public:
-  Visualizer(const ProgramDb& db, const robot_markers::Builder& marker_builder);
+  Visualizer(const ProgramDb& db, const SceneDb& scene_db,
+             const robot_markers::Builder& marker_builder);
   void Init();
 
   // Publish the visualization for a particular step.
@@ -43,8 +45,11 @@ class Visualizer {
   // Gets a marker of the robot at a certain step of a program.
   bool GetRobotMarker(const rapid_pbd_msgs::Program& program, size_t step_num,
                       visualization_msgs::MarkerArray* robot_markers);
+  bool GetScene(const rapid_pbd_msgs::Program& program, size_t step_num,
+                sensor_msgs::PointCloud2* scene);
 
   const ProgramDb db_;
+  const SceneDb scene_db_;
   robot_markers::Builder marker_builder_;
   std::map<std::string, StepVisualization> step_vizs_;
 
