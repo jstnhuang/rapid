@@ -229,6 +229,14 @@
               options: {
                 topic: '/rapid_pbd/robot/' + db_id,
               },
+            }, {
+              isShown: true,
+              name: 'Scene',
+              type: 'pointCloud2',
+              options: {
+                size: 0.01,
+                topic: '/rapid_pbd/scene/' + db_id,
+              },
             },
           ],
           sidebarOpened: false,
