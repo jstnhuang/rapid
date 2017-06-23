@@ -7,6 +7,7 @@
 #include "rapid_pbd_msgs/EditorEvent.h"
 #include "rapid_pbd_msgs/GetEEPose.h"
 #include "rapid_pbd_msgs/GetJointAngles.h"
+#include "tf/transform_listener.h"
 
 #include "rapid_pbd/action_clients.h"
 #include "rapid_pbd/joint_state_reader.h"
@@ -50,6 +51,7 @@ class Editor {
   JointStateReader joint_state_reader_;
   Visualizer viz_;
   ActionClients* action_clients_;
+  tf::TransformListener tf_listener_;
 };
 }  // namespace pbd
 }  // namespace rapid

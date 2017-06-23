@@ -8,6 +8,7 @@
 #include "rapid_pbd_msgs/Program.h"
 #include "rapid_pbd_msgs/SegmentSurfacesGoal.h"
 #include "rapid_pbd_msgs/Step.h"
+#include "tf/transform_listener.h"
 
 #include "rapid_pbd/action_clients.h"
 #include "rapid_pbd/joint_state_reader.h"
@@ -24,7 +25,8 @@ Editor::Editor(const ProgramDb& db, const SceneDb& scene_db,
       scene_db_(scene_db),
       joint_state_reader_(joint_state_reader),
       viz_(visualizer),
-      action_clients_(action_clients) {}
+      action_clients_(action_clients),
+      tf_listener_() {}
 
 void Editor::Start() {
   db_.Start();
@@ -141,8 +143,35 @@ void Editor::DetectSurfaceObjects(const std::string& db_id, size_t step_id) {
 
 bool Editor::HandleGetEEPose(rapid_pbd_msgs::GetEEPoseRequest& request,
                              rapid_pbd_msgs::GetEEPoseResponse& response) {
-  ROS_ERROR("Not implemented");
-  return false;
+  try {
+    tf::StampedTransform transform;
+    if (request.actuator_group == msgs::Action::ARM) {
+      tf_listener_.lookupTransform("wrist_roll_link", "base_link", ros::Time(0),
+                                   transform);
+    } else if (request.actuator_group == msgs::Action::LEFT_ARM) {
+      tf_listener_.lookupTransform("l_wrist_roll_link", "base_link",
+                                   ros::Time(0), transform);
+    } else if (request.actuator_group == msgs::Action::RIGHT_ARM) {
+      tf_listener_.lookupTransform("r_wrist_roll_link", "base_link",
+                                   ros::Time(0), transform);
+    } else {
+      ROS_ERROR("Can't get pose for actuator group \"%s\"",
+                request.actuator_group.c_str());
+      return false;
+    }
+    response.pose_stamped.header.frame_id = "base_link";
+    response.pose_stamped.pose.position.x = transform.getOrigin().x();
+    response.pose_stamped.pose.position.y = transform.getOrigin().y();
+    response.pose_stamped.pose.position.z = transform.getOrigin().z();
+    response.pose_stamped.pose.orientation.w = transform.getRotation().w();
+    response.pose_stamped.pose.orientation.x = transform.getRotation().x();
+    response.pose_stamped.pose.orientation.y = transform.getRotation().y();
+    response.pose_stamped.pose.orientation.z = transform.getRotation().z();
+    return true;
+  } catch (tf::TransformException ex) {
+    ROS_ERROR("%s", ex.what());
+    return false;
+  }
 }
 
 bool Editor::HandleGetJointAngles(
