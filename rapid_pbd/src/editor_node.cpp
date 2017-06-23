@@ -5,8 +5,6 @@
 #include "rapid_pbd/joint_state_reader.h"
 #include "rapid_pbd/program_db.h"
 #include "rapid_pbd/visualizer.h"
-#include "rapid_pbd_msgs/GetEEPose.h"
-#include "rapid_pbd_msgs/GetJointAngles.h"
 #include "rapid_pbd_msgs/ProgramInfoList.h"
 #include "robot_markers/builder.h"
 #include "ros/ros.h"
@@ -57,6 +55,8 @@ int main(int argc, char** argv) {
                                             &pbd::Editor::HandleEvent, &editor);
   ros::ServiceServer ee_pose_srv = nh.advertiseService(
       "get_ee_pose", &pbd::Editor::HandleGetEEPose, &editor);
+  ros::ServiceServer torso_pose_srv = nh.advertiseService(
+      "get_torso_pose", &pbd::Editor::HandleGetTorsoPose, &editor);
   ros::ServiceServer joint_angles_srv = nh.advertiseService(
       "get_joint_angles", &pbd::Editor::HandleGetJointAngles, &editor);
 

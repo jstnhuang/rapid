@@ -5,6 +5,9 @@
 
 #include "rapid_pbd_msgs/Action.h"
 #include "rapid_pbd_msgs/EditorEvent.h"
+#include "rapid_pbd_msgs/GetEEPose.h"
+#include "rapid_pbd_msgs/GetJointAngles.h"
+#include "rapid_pbd_msgs/GetTorsoPose.h"
 #include "rapid_pbd_msgs/Program.h"
 #include "rapid_pbd_msgs/SegmentSurfacesGoal.h"
 #include "rapid_pbd_msgs/Step.h"
@@ -159,6 +162,28 @@ bool Editor::HandleGetEEPose(rapid_pbd_msgs::GetEEPoseRequest& request,
                 request.actuator_group.c_str());
       return false;
     }
+    response.pose_stamped.header.frame_id = "base_link";
+    response.pose_stamped.pose.position.x = transform.getOrigin().x();
+    response.pose_stamped.pose.position.y = transform.getOrigin().y();
+    response.pose_stamped.pose.position.z = transform.getOrigin().z();
+    response.pose_stamped.pose.orientation.w = transform.getRotation().w();
+    response.pose_stamped.pose.orientation.x = transform.getRotation().x();
+    response.pose_stamped.pose.orientation.y = transform.getRotation().y();
+    response.pose_stamped.pose.orientation.z = transform.getRotation().z();
+    return true;
+  } catch (tf::TransformException ex) {
+    ROS_ERROR("%s", ex.what());
+    return false;
+  }
+}
+
+bool Editor::HandleGetTorsoPose(
+    rapid_pbd_msgs::GetTorsoPoseRequest& request,
+    rapid_pbd_msgs::GetTorsoPoseResponse& response) {
+  try {
+    tf::StampedTransform transform;
+    tf_listener_.lookupTransform("torso_lift_link", "base_link", ros::Time(0),
+                                 transform);
     response.pose_stamped.header.frame_id = "base_link";
     response.pose_stamped.pose.position.x = transform.getOrigin().x();
     response.pose_stamped.pose.position.y = transform.getOrigin().y();
