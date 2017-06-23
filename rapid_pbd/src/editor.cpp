@@ -149,13 +149,13 @@ bool Editor::HandleGetEEPose(rapid_pbd_msgs::GetEEPoseRequest& request,
   try {
     tf::StampedTransform transform;
     if (request.actuator_group == msgs::Action::ARM) {
-      tf_listener_.lookupTransform("wrist_roll_link", "base_link", ros::Time(0),
+      tf_listener_.lookupTransform("base_link", "wrist_roll_link", ros::Time(0),
                                    transform);
     } else if (request.actuator_group == msgs::Action::LEFT_ARM) {
-      tf_listener_.lookupTransform("l_wrist_roll_link", "base_link",
+      tf_listener_.lookupTransform("base_link", "l_wrist_roll_link",
                                    ros::Time(0), transform);
     } else if (request.actuator_group == msgs::Action::RIGHT_ARM) {
-      tf_listener_.lookupTransform("r_wrist_roll_link", "base_link",
+      tf_listener_.lookupTransform("base_link", "r_wrist_roll_link",
                                    ros::Time(0), transform);
     } else {
       ROS_ERROR("Can't get pose for actuator group \"%s\"",
@@ -182,7 +182,7 @@ bool Editor::HandleGetTorsoPose(
     rapid_pbd_msgs::GetTorsoPoseResponse& response) {
   try {
     tf::StampedTransform transform;
-    tf_listener_.lookupTransform("torso_lift_link", "base_link", ros::Time(0),
+    tf_listener_.lookupTransform("base_link", "torso_lift_link", ros::Time(0),
                                  transform);
     response.pose_stamped.header.frame_id = "base_link";
     response.pose_stamped.pose.position.x = transform.getOrigin().x();
