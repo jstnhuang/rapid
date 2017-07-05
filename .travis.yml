@@ -39,7 +39,7 @@ install:
     - sudo apt-get update -qq
     - sudo apt-get install -qq -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin ros-$ROS_DISTRO-ros lcov
     - sudo apt-get install -qq -y mongodb ros-$ROS_DISTRO-warehouse-ros
-    - sudo apt-get install -qq -y ros-$ROS_DISTRO-moveit-*
+    - sudo apt-get install -q -y ros-$ROS_DISTRO-moveit-*
     - sudo pip install -U setuptools
     - sudo pip install -U catkin_tools
     - gem install coveralls-lcov
