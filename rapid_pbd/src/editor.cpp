@@ -1,5 +1,6 @@
 #include "rapid_pbd/editor.h"
 
+#include <exception>
 #include <string>
 #include <vector>
 
@@ -38,25 +39,30 @@ void Editor::Start() {
 }
 
 void Editor::HandleEvent(const msgs::EditorEvent& event) {
-  if (event.type == msgs::EditorEvent::CREATE) {
-    msgs::Program program;
-    program.name = event.program_info.name;
-    joint_state_reader_.ToMsg(&program.start_joint_state);
-    std::string id = db_.Insert(program);
-    viz_.Publish(id, 0);
-  } else if (event.type == msgs::EditorEvent::UPDATE) {
-    Update(event.program_info.db_id, event.program);
-  } else if (event.type == msgs::EditorEvent::DELETE) {
-    Delete(event.program_info.db_id);
-  } else if (event.type == msgs::EditorEvent::VIEW) {
-    db_.StartPublishingProgramById(event.program_info.db_id);
-    viz_.Publish(event.program_info.db_id, event.step_num);
-  } else if (event.type == msgs::EditorEvent::DELETE_STEP) {
-    DeleteStep(event.program_info.db_id, event.step_num);
-  } else if (event.type == msgs::EditorEvent::DETECT_SURFACE_OBJECTS) {
-    DetectSurfaceObjects(event.program_info.db_id, event.step_num);
-  } else {
-    ROS_ERROR("Unknown event type \"%s\"", event.type.c_str());
+  try {
+    if (event.type == msgs::EditorEvent::CREATE) {
+      msgs::Program program;
+      program.name = event.program_info.name;
+      joint_state_reader_.ToMsg(&program.start_joint_state);
+      std::string id = db_.Insert(program);
+      viz_.Publish(id, 0);
+    } else if (event.type == msgs::EditorEvent::UPDATE) {
+      Update(event.program_info.db_id, event.program);
+    } else if (event.type == msgs::EditorEvent::DELETE) {
+      Delete(event.program_info.db_id);
+    } else if (event.type == msgs::EditorEvent::VIEW) {
+      db_.StartPublishingProgramById(event.program_info.db_id);
+      viz_.Publish(event.program_info.db_id, event.step_num);
+    } else if (event.type == msgs::EditorEvent::DELETE_STEP) {
+      DeleteStep(event.program_info.db_id, event.step_num);
+    } else if (event.type == msgs::EditorEvent::DETECT_SURFACE_OBJECTS) {
+      DetectSurfaceObjects(event.program_info.db_id, event.step_num);
+    } else {
+      ROS_ERROR("Unknown event type \"%s\"", event.type.c_str());
+    }
+  } catch (const std::exception& ex) {
+    ROS_ERROR("Unhandled exception for event %s: %s", event.type.c_str(),
+              ex.what());
   }
 }
 
