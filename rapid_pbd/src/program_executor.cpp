@@ -47,7 +47,7 @@ void ProgramExecutionServer::Execute(
   PublishIsRunning(true);
 
   // Enable controllers.
-  while (!freeze_arm_client_.waitForExistence(ros::Duration(5))) {
+  while (ros::ok() && !freeze_arm_client_.waitForExistence(ros::Duration(5))) {
     ROS_WARN("Waiting for freeze arm service.");
   }
   FreezeArm::Request req;
