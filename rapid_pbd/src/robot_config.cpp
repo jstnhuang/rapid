@@ -6,12 +6,12 @@ using rapid_pbd_msgs::Action;
 
 namespace rapid {
 namespace pbd {
-std::string Pr2RobotConfig::planning_frame() { return "base_link"; }
-std::string Pr2RobotConfig::planning_group() { return "base_link"; }
-std::string Pr2RobotConfig::base_link() { return "base_link"; }
-std::string Pr2RobotConfig::torso_link() { return "torso_lift_link"; }
+std::string Pr2RobotConfig::planning_frame() const { return "base_link"; }
+std::string Pr2RobotConfig::planning_group() const { return "arms"; }
+std::string Pr2RobotConfig::base_link() const { return "base_link"; }
+std::string Pr2RobotConfig::torso_link() const { return "torso_lift_link"; }
 std::string Pr2RobotConfig::ee_frame_for_group(
-    const std::string& actuator_group) {
+    const std::string& actuator_group) const {
   if (actuator_group == Action::LEFT_ARM) {
     return "l_wrist_roll_link";
   } else if (actuator_group == Action::RIGHT_ARM) {
@@ -20,8 +20,9 @@ std::string Pr2RobotConfig::ee_frame_for_group(
     return "";
   }
 }
-void Pr2RobotConfig::joints_for_group(const std::string& actuator_group,
-                                      std::vector<std::string>* joint_names) {
+void Pr2RobotConfig::joints_for_group(
+    const std::string& actuator_group,
+    std::vector<std::string>* joint_names) const {
   if (actuator_group == Action::LEFT_ARM) {
     joint_names->clear();
     joint_names->push_back("l_shoulder_pan_joint");
@@ -42,8 +43,8 @@ void Pr2RobotConfig::joints_for_group(const std::string& actuator_group,
     joint_names->push_back("r_wrist_roll_joint");
   }
 }
-int Pr2RobotConfig::num_arms() { return 2; }
-double Pr2RobotConfig::gripper_open_position() { return 0.08; }
+int Pr2RobotConfig::num_arms() const { return 2; }
+double Pr2RobotConfig::gripper_open_position() const { return 0.08; }
 }  // namespace pbd
 }  // namespace rapid
 
