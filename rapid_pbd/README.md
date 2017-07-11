@@ -18,11 +18,16 @@ For example, in one step, you can point the head down and move the robot's arms 
 - Clone `moveit_goal_builder`: `git clone git@github.com:jstnhuang/moveit_goal_builder.git`
 - Get other dependencies through rosdep: `cd ~/catkin_ws; rosdep install --from-paths src --ignore-src --rosdistro=indigo -y`
 
-## Running the system (PR2)
-- Start up the robot (for simulation, run `roslaunch rapid_pbd pr2_sim.launch`)
-  - [Kinect](https://github.com/hcrlab/wiki/blob/master/kinect/launch.md)
-  - Websocket server: `roslaunch rosbridge_server rosbridge_websocket.launch`
-  - TF republisher: `rosrun tf2_web_republisher tf2_web_republisher`
-- Start the program executor: `roslaunch rapid_pbd pr2.launch sim:=false`
-- Start the editor server: `roslaunch rapid_pbd editor.launch`
-- Run the frontend: `cd rapid_pbd/frontend; polymer serve`
+## Running the system (PR2 simulation)
+**Simulation**
+- [ ] `roscore`
+- [ ] Gazebo: `roslaunch pr2_gazebo pr2_empty_world.launch`
+- [ ] Websocket and TF republisher: `roslaunch rapid_pbd web_prereqs.launch`
+- [ ] MoveIt: `roslaunch pr2_moveit_config move_group.launch`
+- [ ] Serve `pr2_description` to `localhost:8001`: `cd pr2_description; caddy`
+- [ ] Publish a point cloud to `/mock_point_cloud`: `rosrun applications publish_saved_cloud ~/data/objects.bag`
+
+**Rapid PbD**
+- [ ] Start the program executor: `roslaunch rapid_pbd pr2.launch sim:=false`
+- [ ] Start the editor server: `roslaunch rapid_pbd editor.launch`
+- [ ] Run the frontend: `cd rapid_pbd/frontend; polymer serve`
