@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   control_msgs
   mongodb_store
+  moveit_goal_builder
   pr2_controllers_msgs
   pr2_mechanism_msgs
   rapid_pbd_msgs
@@ -123,7 +124,19 @@ catkin_package(
     rapid_pbd_step_executor
     rapid_pbd_surface_segmentation_action
     rapid_pbd_visualizer
-  CATKIN_DEPENDS rapid_pbd_msgs roscpp rospy
+  CATKIN_DEPENDS
+    actionlib
+    control_msgs
+    mongodb_store
+    moveit_goal_builder
+    pr2_controllers_msgs
+    pr2_mechanism_msgs
+    rapid_pbd_msgs
+    robot_markers
+    roscpp
+    rospy
+    surface_perception
+    transform_graph
 #  DEPENDS system_lib
 )
 
