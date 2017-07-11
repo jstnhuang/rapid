@@ -115,6 +115,7 @@ catkin_package(
     rapid_pbd_editor
     rapid_pbd_joint_state
     rapid_pbd_joint_state_reader
+    rapid_pbd_motion_planning
     rapid_pbd_pr2_actions
     rapid_pbd_program_db
     rapid_pbd_program_executor
@@ -163,6 +164,10 @@ target_link_libraries(rapid_pbd_joint_state ${catkin_LIBRARIES})
 add_library(rapid_pbd_joint_state_reader src/joint_state_reader.cpp)
 add_dependencies(rapid_pbd_joint_state_reader ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_joint_state_reader rapid_pbd_joint_state ${catkin_LIBRARIES})
+
+add_library(rapid_pbd_motion_planning src/motion_planning.cpp)
+add_dependencies(rapid_pbd_motion_planning ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_motion_planning ${catkin_LIBRARIES})
 
 add_library(rapid_pbd_pr2_actions src/pr2_actions.cpp)
 add_dependencies(rapid_pbd_pr2_actions ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
