@@ -83,7 +83,8 @@ int main(int argc, char** argv) {
   }
 
   rapid::pbd::ProgramExecutionServer server(rapid::pbd::kProgramActionName,
-                                            is_running_pub, &action_clients);
+                                            is_running_pub, &action_clients,
+                                            *robot_config);
   server.Start();
   ROS_INFO("RapidPbD program executor ready.");
   ros::spin();

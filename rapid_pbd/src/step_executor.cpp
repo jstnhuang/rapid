@@ -15,10 +15,10 @@ namespace rapid {
 namespace pbd {
 StepExecutor::StepExecutor(const rapid_pbd_msgs::Step& step,
                            ActionClients* action_clients,
-                           const MotionPlanning& motion_planning)
+                           const RobotConfig& robot_config)
     : step_(step),
       action_clients_(action_clients),
-      motion_planning_(motion_planning),
+      motion_planning_(robot_config),
       executors_() {}
 
 bool StepExecutor::IsValid(const rapid_pbd_msgs::Step& step) {

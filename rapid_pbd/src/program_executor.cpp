@@ -3,6 +3,7 @@
 #include "std_msgs/Bool.h"
 
 #include "rapid_pbd/action_names.h"
+#include "rapid_pbd/robot_config.h"
 #include "rapid_pbd/step_executor.h"
 #include "rapid_pbd_msgs/Action.h"
 #include "rapid_pbd_msgs/ExecuteProgramAction.h"
@@ -20,13 +21,14 @@ namespace rapid {
 namespace pbd {
 ProgramExecutionServer::ProgramExecutionServer(
     const std::string& action_name, const ros::Publisher& is_running_pub,
-    ActionClients* action_clients)
+    ActionClients* action_clients, const RobotConfig& robot_config)
     : nh_(),
       server_(action_name,
               boost::bind(&ProgramExecutionServer::Execute, this, _1), false),
       freeze_arm_client_(nh_.serviceClient<FreezeArm>(kFreezeArmService)),
       is_running_pub_(is_running_pub),
-      action_clients_(action_clients) {}
+      action_clients_(action_clients),
+      robot_config_(robot_config) {}
 
 void ProgramExecutionServer::Start() {
   server_.start();
@@ -61,7 +63,7 @@ void ProgramExecutionServer::Execute(
   for (size_t i = 0; i < goal->program.steps.size(); ++i) {
     const Step& step = goal->program.steps[i];
     boost::shared_ptr<StepExecutor> executor(
-        new StepExecutor(step, action_clients_));
+        new StepExecutor(step, action_clients_, robot_config_));
     executors.push_back(executor);
     executors.back()->Init();
   }
