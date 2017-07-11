@@ -16,7 +16,8 @@ namespace rapid {
 namespace pbd {
 MotionPlanning::MotionPlanning(const RobotConfig& robot_config)
     : robot_config_(robot_config),
-      builder_(robot_config.planning_frame(), robot_config.planning_group()) {}
+      builder_(robot_config.planning_frame(), robot_config.planning_group()),
+      num_goals_(0) {}
 
 void MotionPlanning::AddPoseGoal(const string& actuator_group,
                                  const geometry_msgs::Pose& pose,
@@ -28,9 +29,8 @@ void MotionPlanning::AddPoseGoal(const string& actuator_group,
     return;
   }
 
-  // TODO: Transform pose into planning frame.
-
   builder_.AddPoseGoal(ee_link, pose);
+  ++num_goals_;
 }
 
 void MotionPlanning::AddJointGoal(const string& actuator_group,
@@ -42,6 +42,13 @@ void MotionPlanning::ClearGoals() {
   std::map<string, geometry_msgs::Pose> goals;
   // Overrides joint goals if any and deletes pose goals.
   builder_.SetPoseGoals(goals);
+  num_goals_ = 0;
 }
+
+void MotionPlanning::BuildGoal(moveit_msgs::MoveGroupGoal* goal) const {
+  builder_.Build(goal);
+}
+
+int MotionPlanning::num_goals() const { return num_goals_; }
 }  // namespace pbd
 }  // namespace rapid

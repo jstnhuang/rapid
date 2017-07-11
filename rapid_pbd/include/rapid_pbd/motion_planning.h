@@ -21,11 +21,13 @@ class MotionPlanning {
   void AddJointGoal(const std::string& actuator_group,
                     const geometry_msgs::Pose& pose);
   void ClearGoals();
-  void BuildGoal(moveit_msgs::MoveGroupGoal* goal);
+  void BuildGoal(moveit_msgs::MoveGroupGoal* goal) const;
+  int num_goals() const;
 
  private:
   const RobotConfig& robot_config_;
   moveit_goal_builder::Builder builder_;
+  int num_goals_;
 };
 }  // namespace pbd
 }  // namespace rapid
