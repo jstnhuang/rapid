@@ -220,6 +220,7 @@ set_target_properties(rapid_pbd_program_execution_node PROPERTIES OUTPUT_NAME pr
 add_dependencies(rapid_pbd_program_execution_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_program_execution_node
   rapid_pbd_program_executor
+  rapid_pbd_robot_config
   ${catkin_LIBRARIES}
 )
 
