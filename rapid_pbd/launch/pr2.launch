@@ -9,6 +9,7 @@
       <remap from="l_arm_joint_action" to="/l_arm_controller/follow_joint_trajectory" />
       <remap from="r_arm_joint_action" to="/r_arm_controller/follow_joint_trajectory" />
       <remap from="head_action" to="/head_traj_controller/follow_joint_trajectory" />
+      <remap from="move_group" to="/move_group" />
     </node>
     <node pkg="rapid_pbd" type="surface_segmentation_node" name="surface_segmentation_node" args="$(arg point_cloud_topic)" />
   </group>
