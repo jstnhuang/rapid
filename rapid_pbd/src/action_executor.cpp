@@ -67,7 +67,8 @@ void ActionExecutor::Start() {
   } else if (action_.type == Action::MOVE_TO_JOINT_GOAL) {
     MoveToJointGoal();
   } else if (action_.type == Action::MOVE_TO_CARTESIAN_GOAL) {
-    // TODO: Add goal to MotionPlanning
+    motion_planning_.AddPoseGoal(action_.actuator_group, action_.pose,
+                                 action_.landmark);
   } else if (action_.type == Action::DETECT_TABLETOP_OBJECTS) {
     DetectTabletopObjects();
   }
