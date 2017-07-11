@@ -9,6 +9,7 @@
 #include "ros/ros.h"
 
 #include "rapid_pbd/action_names.h"
+#include "rapid_pbd/motion_planning.h"
 
 using actionlib::SimpleActionClient;
 using actionlib::SimpleClientGoalState;
@@ -18,8 +19,11 @@ using rapid_pbd_msgs::Action;
 namespace rapid {
 namespace pbd {
 ActionExecutor::ActionExecutor(const Action& action,
-                               ActionClients* action_clients)
-    : action_(action), clients_(action_clients) {}
+                               ActionClients* action_clients,
+                               const MotionPlanning& motion_planning)
+    : action_(action),
+      clients_(action_clients),
+      motion_planning_(motion_planning) {}
 
 bool ActionExecutor::IsValid(const Action& action) {
   if (action.type == Action::ACTUATE_GRIPPER) {
@@ -40,6 +44,14 @@ bool ActionExecutor::IsValid(const Action& action) {
       return false;
     }
   } else if (action.type == Action::MOVE_TO_CARTESIAN_GOAL) {
+    if (action.actuator_group == Action::ARM ||
+        action.actuator_group == Action::LEFT_ARM ||
+        action.actuator_group == Action::RIGHT_ARM ||
+        action.actuator_group == Action::HEAD) {
+    } else {
+      PublishInvalidGroupError(action);
+      return false;
+    }
   } else if (action.type == Action::DETECT_TABLETOP_OBJECTS) {
   } else if (action.type == Action::FIND_CUSTOM_LANDMARK) {
   } else {
@@ -54,6 +66,8 @@ void ActionExecutor::Start() {
     ActuateGripper();
   } else if (action_.type == Action::MOVE_TO_JOINT_GOAL) {
     MoveToJointGoal();
+  } else if (action_.type == Action::MOVE_TO_CARTESIAN_GOAL) {
+    // TODO: Add goal to MotionPlanning
   } else if (action_.type == Action::DETECT_TABLETOP_OBJECTS) {
     DetectTabletopObjects();
   }

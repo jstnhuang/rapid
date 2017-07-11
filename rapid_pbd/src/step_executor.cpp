@@ -35,7 +35,8 @@ bool StepExecutor::IsValid(const rapid_pbd_msgs::Step& step) {
 void StepExecutor::Init() {
   for (size_t i = 0; i < step_.actions.size(); ++i) {
     Action action = step_.actions[i];
-    shared_ptr<ActionExecutor> ae(new ActionExecutor(action, action_clients_));
+    shared_ptr<ActionExecutor> ae(
+        new ActionExecutor(action, action_clients_, motion_planning_));
     executors_.push_back(ae);
   }
 }

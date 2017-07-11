@@ -159,7 +159,10 @@ target_link_libraries(rapid_pbd_action_clients ${catkin_LIBRARIES})
 
 add_library(rapid_pbd_action_executor src/action_executor.cpp)
 add_dependencies(rapid_pbd_action_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rapid_pbd_action_executor rapid_pbd_action_clients ${catkin_LIBRARIES})
+target_link_libraries(rapid_pbd_action_executor
+  rapid_pbd_action_clients
+  rapid_pbd_motion_planning
+  ${catkin_LIBRARIES})
 
 add_library(rapid_pbd_editor src/editor.cpp)
 add_dependencies(rapid_pbd_editor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
