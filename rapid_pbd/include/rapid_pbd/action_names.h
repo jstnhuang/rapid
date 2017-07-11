@@ -22,6 +22,8 @@ static const char kRelaxArmService[] = "relax_arm";
 
 static const char kHeadActionName[] = "head_action";
 
+static const char kMoveGroupActionName[] = "move_group";
+
 static const char kSurfaceSegmentationActionName[] = "segment_surfaces_action";
 
 namespace pr2 {

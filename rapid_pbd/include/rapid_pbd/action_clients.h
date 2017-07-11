@@ -4,6 +4,7 @@
 #include "actionlib/client/simple_action_client.h"
 #include "control_msgs/FollowJointTrajectoryAction.h"
 #include "control_msgs/GripperCommandAction.h"
+#include "moveit_msgs/MoveGroupAction.h"
 #include "rapid_pbd_msgs/SegmentSurfacesAction.h"
 
 namespace rapid {
@@ -27,6 +28,7 @@ struct ActionClients {
       head_client;
   actionlib::SimpleActionClient<rapid_pbd_msgs::SegmentSurfacesAction>
       surface_segmentation_client;
+  actionlib::SimpleActionClient<moveit_msgs::MoveGroupAction> moveit_client;
 };
 }  // namespace pbd
 }  // namespace rapid
