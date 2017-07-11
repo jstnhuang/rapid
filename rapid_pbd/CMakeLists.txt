@@ -118,6 +118,7 @@ catkin_package(
     rapid_pbd_pr2_actions
     rapid_pbd_program_db
     rapid_pbd_program_executor
+    rapid_pbd_robot_config
     rapid_pbd_step_executor
     rapid_pbd_surface_segmentation_action
     rapid_pbd_visualizer
@@ -176,6 +177,11 @@ add_dependencies(rapid_pbd_program_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} 
 target_link_libraries(rapid_pbd_program_executor
   rapid_pbd_action_clients
   rapid_pbd_step_executor
+  ${catkin_LIBRARIES})
+
+add_library(rapid_pbd_robot_config src/robot_config.cpp)
+add_dependencies(rapid_pbd_robot_config ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_robot_config
   ${catkin_LIBRARIES})
 
 add_library(rapid_pbd_step_executor src/step_executor.cpp)
