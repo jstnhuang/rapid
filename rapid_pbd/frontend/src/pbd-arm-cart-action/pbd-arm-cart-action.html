@@ -163,7 +163,7 @@
       },
       
       _landmarkModelChanged: function(landmark) {
-        if (landmark.type === 'tf frame') {
+        if (landmark && landmark.type === 'tf frame') {
           this.landmark = landmark.frame_id;
         }
       },
