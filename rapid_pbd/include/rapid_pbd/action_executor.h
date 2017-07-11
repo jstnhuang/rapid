@@ -1,8 +1,9 @@
 #ifndef _RAPID_PBD_ACTION_EXECUTOR_H_
 #define _RAPID_PBD_ACTION_EXECUTOR_H_
 
-#include "rapid_pbd/action_clients.h"
 #include "rapid_pbd_msgs/Action.h"
+
+#include "rapid_pbd/action_clients.h"
 
 namespace rapid {
 namespace pbd {
