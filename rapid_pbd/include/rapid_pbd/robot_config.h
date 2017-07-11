@@ -9,11 +9,11 @@ namespace pbd {
 class RobotConfig {
  public:
   virtual ~RobotConfig() {}
-  virtual void planning_frame(std::string* planning_frame) = 0;
-  virtual void base_link(std::string* torso_link) = 0;
-  virtual void torso_link(std::string* torso_link) = 0;
-  virtual void ee_frame_for_group(const std::string& actuator_group,
-                                  std::string* ee_frame) = 0;
+  virtual std::string planning_frame() = 0;
+  virtual std::string planning_group() = 0;
+  virtual std::string base_link() = 0;
+  virtual std::string torso_link() = 0;
+  virtual std::string ee_frame_for_group(const std::string& actuator_group) = 0;
   virtual void joints_for_group(const std::string& actuator_group,
                                 std::vector<std::string>* joint_names) = 0;
   virtual int num_arms() = 0;
@@ -22,11 +22,11 @@ class RobotConfig {
 
 class Pr2RobotConfig : public RobotConfig {
  public:
-  void planning_frame(std::string* planning_frame);
-  void base_link(std::string* torso_link);
-  void torso_link(std::string* torso_link);
-  void ee_frame_for_group(const std::string& actuator_group,
-                          std::string* ee_frame);
+  std::string planning_frame();
+  std::string planning_group();
+  std::string base_link();
+  std::string torso_link();
+  std::string ee_frame_for_group(const std::string& actuator_group);
   void joints_for_group(const std::string& actuator_group,
                         std::vector<std::string>* joint_names);
   int num_arms();

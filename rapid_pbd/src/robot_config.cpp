@@ -6,21 +6,18 @@ using rapid_pbd_msgs::Action;
 
 namespace rapid {
 namespace pbd {
-void Pr2RobotConfig::planning_frame(std::string* planning_frame) {
-  *planning_frame = "base_link";
-}
-void Pr2RobotConfig::base_link(std::string* torso_link) {
-  *torso_link = "base_link";
-}
-void Pr2RobotConfig::torso_link(std::string* torso_link) {
-  *torso_link = "torso_lift_link";
-}
-void Pr2RobotConfig::ee_frame_for_group(const std::string& actuator_group,
-                                        std::string* ee_frame) {
+std::string Pr2RobotConfig::planning_frame() { return "base_link"; }
+std::string Pr2RobotConfig::planning_group() { return "base_link"; }
+std::string Pr2RobotConfig::base_link() { return "base_link"; }
+std::string Pr2RobotConfig::torso_link() { return "torso_lift_link"; }
+std::string Pr2RobotConfig::ee_frame_for_group(
+    const std::string& actuator_group) {
   if (actuator_group == Action::LEFT_ARM) {
-    *ee_frame = "l_wrist_roll_link";
+    return "l_wrist_roll_link";
   } else if (actuator_group == Action::RIGHT_ARM) {
-    *ee_frame = "r_wrist_roll_link";
+    return "r_wrist_roll_link";
+  } else {
+    return "";
   }
 }
 void Pr2RobotConfig::joints_for_group(const std::string& actuator_group,
