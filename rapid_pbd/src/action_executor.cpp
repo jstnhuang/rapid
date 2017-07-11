@@ -20,7 +20,7 @@ namespace rapid {
 namespace pbd {
 ActionExecutor::ActionExecutor(const Action& action,
                                ActionClients* action_clients,
-                               const MotionPlanning& motion_planning)
+                               MotionPlanning* motion_planning)
     : action_(action),
       clients_(action_clients),
       motion_planning_(motion_planning) {}
@@ -67,8 +67,8 @@ void ActionExecutor::Start() {
   } else if (action_.type == Action::MOVE_TO_JOINT_GOAL) {
     MoveToJointGoal();
   } else if (action_.type == Action::MOVE_TO_CARTESIAN_GOAL) {
-    motion_planning_.AddPoseGoal(action_.actuator_group, action_.pose,
-                                 action_.landmark);
+    motion_planning_->AddPoseGoal(action_.actuator_group, action_.pose,
+                                  action_.landmark);
   } else if (action_.type == Action::DETECT_TABLETOP_OBJECTS) {
     DetectTabletopObjects();
   }
