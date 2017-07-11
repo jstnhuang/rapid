@@ -94,6 +94,8 @@ flags = [
 '../robot_markers/include',
 '-I',
 '../surface_perception/include',
+'-I',
+'../moveit_goal_builder/include',
 ]
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
