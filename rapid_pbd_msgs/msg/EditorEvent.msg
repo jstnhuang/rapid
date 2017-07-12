@@ -13,7 +13,7 @@ string ADD_ACTION = add action
 string DELETE_ACTION = delete action
 
 # Updating the visualization for a program
-string VIEW = view step
+string VIEW_STEP = view step
 
 # Robot actions to execute
 string DETECT_SURFACE_OBJECTS = detect surface objects
