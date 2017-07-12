@@ -44,9 +44,15 @@ class Editor {
                             rapid_pbd_msgs::GetJointAnglesResponse& response);
 
  private:
+  void Create(const std::string& name);
   void Update(const std::string& db_id, const rapid_pbd_msgs::Program& program);
   void Delete(const std::string& db_id);
+  void AddStep(const std::string& db_id);
   void DeleteStep(const std::string& db_id, size_t step_id);
+  void AddAction(const std::string& db_id, size_t step_id,
+                 const rapid_pbd_msgs::Action& action);
+  void DeleteAction(const std::string& db_id, size_t step_id, size_t action_id);
+  void ViewStep(const std::string& db_id, size_t step_id);
   void DetectSurfaceObjects(const std::string& db_id, size_t step_id);
 
   ProgramDb db_;

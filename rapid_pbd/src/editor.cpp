@@ -41,20 +41,21 @@ void Editor::Start() {
 void Editor::HandleEvent(const msgs::EditorEvent& event) {
   try {
     if (event.type == msgs::EditorEvent::CREATE) {
-      msgs::Program program;
-      program.name = event.program_info.name;
-      joint_state_reader_.ToMsg(&program.start_joint_state);
-      std::string id = db_.Insert(program);
-      viz_.Publish(id, 0);
+      Create(event.program_info.name);
     } else if (event.type == msgs::EditorEvent::UPDATE) {
       Update(event.program_info.db_id, event.program);
     } else if (event.type == msgs::EditorEvent::DELETE) {
       Delete(event.program_info.db_id);
-    } else if (event.type == msgs::EditorEvent::VIEW) {
-      db_.StartPublishingProgramById(event.program_info.db_id);
-      viz_.Publish(event.program_info.db_id, event.step_num);
+    } else if (event.type == msgs::EditorEvent::ADD_STEP) {
+      AddStep(event.program_info.db_id);
     } else if (event.type == msgs::EditorEvent::DELETE_STEP) {
       DeleteStep(event.program_info.db_id, event.step_num);
+    } else if (event.type == msgs::EditorEvent::ADD_ACTION) {
+      AddAction(event.program_info.db_id, event.step_num, event.action);
+    } else if (event.type == msgs::EditorEvent::DELETE_ACTION) {
+      DeleteAction(event.program_info.db_id, event.step_num, event.action_num);
+    } else if (event.type == msgs::EditorEvent::VIEW_STEP) {
+      ViewStep(event.program_info.db_id, event.step_num);
     } else if (event.type == msgs::EditorEvent::DETECT_SURFACE_OBJECTS) {
       DetectSurfaceObjects(event.program_info.db_id, event.step_num);
     } else {
@@ -64,6 +65,14 @@ void Editor::HandleEvent(const msgs::EditorEvent& event) {
     ROS_ERROR("Unhandled exception for event %s: %s", event.type.c_str(),
               ex.what());
   }
+}
+
+void Editor::Create(const std::string& name) {
+  msgs::Program program;
+  program.name = name;
+  joint_state_reader_.ToMsg(&program.start_joint_state);
+  std::string id = db_.Insert(program);
+  viz_.Publish(id, 0);
 }
 
 void Editor::Update(const std::string& db_id, const msgs::Program& program) {
@@ -89,6 +98,18 @@ void Editor::Delete(const std::string& db_id) {
   viz_.StopPublishing(db_id);
 }
 
+void Editor::AddStep(const std::string& db_id) {
+  msgs::Program program;
+  bool success = db_.Get(db_id, &program);
+  if (!success) {
+    ROS_ERROR("Unable to add step to program ID \"%s\"", db_id.c_str());
+    return;
+  }
+  msgs::Step step;
+  program.steps.insert(program.steps.begin(), step);
+  Update(db_id, program);
+}
+
 void Editor::DeleteStep(const std::string& db_id, size_t step_id) {
   msgs::Program program;
   bool success = db_.Get(db_id, &program);
@@ -109,6 +130,60 @@ void Editor::DeleteStep(const std::string& db_id, size_t step_id) {
   }
   program.steps.erase(program.steps.begin() + step_id);
   Update(db_id, program);
+}
+
+void Editor::AddAction(const std::string& db_id, size_t step_id,
+                       const rapid_pbd_msgs::Action& action) {
+  msgs::Program program;
+  bool success = db_.Get(db_id, &program);
+  if (!success) {
+    ROS_ERROR("Unable to add action to program ID \"%s\"", db_id.c_str());
+    return;
+  }
+  if (step_id >= program.steps.size()) {
+    ROS_ERROR(
+        "Unable to delete action from step %ld from program \"%s\", which has "
+        "%ld steps",
+        step_id, db_id.c_str(), program.steps.size());
+    return;
+  }
+  msgs::Step* step = &program.steps[step_id];
+
+  // TODO: fill in action depending on type here
+  step->actions.insert(step->actions.begin(), action);
+  Update(db_id, program);
+}
+
+void Editor::DeleteAction(const std::string& db_id, size_t step_id,
+                          size_t action_id) {
+  msgs::Program program;
+  bool success = db_.Get(db_id, &program);
+  if (!success) {
+    ROS_ERROR("Unable to delete action from program ID \"%s\"", db_id.c_str());
+    return;
+  }
+  if (step_id >= program.steps.size()) {
+    ROS_ERROR(
+        "Unable to delete action from step %ld from program \"%s\", which has "
+        "%ld steps",
+        step_id, db_id.c_str(), program.steps.size());
+    return;
+  }
+  msgs::Step* step = &program.steps[step_id];
+  if (action_id >= step->actions.size()) {
+    ROS_ERROR(
+        "Unable to delete action %ld from step %ld of program \"%s\", which "
+        "has %ld actions",
+        action_id, step_id, db_id.c_str(), step->actions.size());
+    return;
+  }
+  step->actions.erase(step->actions.begin() + action_id);
+  Update(db_id, program);
+}
+
+void Editor::ViewStep(const std::string& db_id, size_t step_id) {
+  db_.StartPublishingProgramById(db_id);
+  viz_.Publish(db_id, step_id);
 }
 
 void Editor::DetectSurfaceObjects(const std::string& db_id, size_t step_id) {
