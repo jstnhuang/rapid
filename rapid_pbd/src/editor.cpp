@@ -9,6 +9,7 @@
 #include "rapid_pbd_msgs/GetEEPose.h"
 #include "rapid_pbd_msgs/GetJointAngles.h"
 #include "rapid_pbd_msgs/GetTorsoPose.h"
+#include "rapid_pbd_msgs/Landmark.h"
 #include "rapid_pbd_msgs/Program.h"
 #include "rapid_pbd_msgs/SegmentSurfacesGoal.h"
 #include "rapid_pbd_msgs/Step.h"
@@ -89,9 +90,7 @@ void Editor::Delete(const std::string& db_id) {
   }
   for (size_t i = 0; i < program.steps.size(); ++i) {
     const msgs::Step& step = program.steps[i];
-    if (step.scene_id != "") {
-      scene_db_.Delete(step.scene_id);
-    }
+    DeleteScene(step.scene_id);
   }
 
   db_.Delete(db_id);
@@ -123,11 +122,7 @@ void Editor::DeleteStep(const std::string& db_id, size_t step_id) {
         step_id, db_id.c_str(), program.steps.size());
     return;
   }
-  if (program.steps[step_id].scene_id != "") {
-    success = scene_db_.Delete(program.steps[step_id].scene_id);
-    ROS_ERROR("Failed to delete scene ID: \"%s\"",
-              program.steps[step_id].scene_id.c_str());
-  }
+  DeleteScene(program.steps[step_id].scene_id);
   program.steps.erase(program.steps.begin() + step_id);
   Update(db_id, program);
 }
@@ -177,6 +172,19 @@ void Editor::DeleteAction(const std::string& db_id, size_t step_id,
         action_id, step_id, db_id.c_str(), step->actions.size());
     return;
   }
+
+  // Clean up the scene and landmarks
+  const msgs::Action& action = step->actions[action_id];
+  if (action.type == msgs::Action::DETECT_TABLETOP_OBJECTS) {
+    DeleteScene(step->scene_id);
+    step->scene_id = "";
+    DeleteLandmarks(msgs::Landmark::SURFACE_BOX, step);
+  } else if (action.type == msgs::Action::FIND_CUSTOM_LANDMARK) {
+    DeleteScene(step->scene_id);
+    step->scene_id = "";
+    DeleteLandmarks(msgs::Landmark::CUSTOM_LANDMARK, step);
+  }
+
   step->actions.erase(step->actions.begin() + action_id);
   Update(db_id, program);
 }
@@ -212,13 +220,7 @@ void Editor::DetectSurfaceObjects(const std::string& db_id, size_t step_id) {
         step_id, db_id.c_str(), program.steps.size());
     return;
   }
-  if (program.steps[step_id].scene_id != "") {
-    success = scene_db_.Delete(program.steps[step_id].scene_id);
-    if (!success) {
-      ROS_ERROR("Failed to delete scene ID: \"%s\"",
-                program.steps[step_id].scene_id.c_str());
-    }
-  }
+  DeleteScene(program.steps[step_id].scene_id);
   program.steps[step_id].scene_id = result->cloud_db_id;
   // TODO: this means you can only run one perception action per step.
   program.steps[step_id].landmarks = result->landmarks;
@@ -306,6 +308,28 @@ bool Editor::HandleGetJointAngles(
   }
 
   return true;
+}
+
+void Editor::DeleteScene(const std::string& scene_id) {
+  if (scene_id == "") {
+    return;
+  }
+  bool success = scene_db_.Delete(scene_id);
+  if (!success) {
+    ROS_ERROR("Failed to delete scene ID: \"%s\"", scene_id.c_str());
+  }
+}
+
+void Editor::DeleteLandmarks(const std::string& landmark_type,
+                             rapid_pbd_msgs::Step* step) {
+  std::vector<msgs::Landmark> cleaned;
+  for (size_t i = 0; i < step->landmarks.size(); ++i) {
+    const msgs::Landmark& landmark = step->landmarks[i];
+    if (landmark.type != landmark_type) {
+      cleaned.push_back(landmark);
+    }
+  }
+  step->landmarks = cleaned;
 }
 
 void ArmJointNames(std::vector<std::string>* names) {

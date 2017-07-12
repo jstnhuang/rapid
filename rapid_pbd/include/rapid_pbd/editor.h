@@ -55,6 +55,15 @@ class Editor {
   void ViewStep(const std::string& db_id, size_t step_id);
   void DetectSurfaceObjects(const std::string& db_id, size_t step_id);
 
+  // Delete a scene from the scene_db by ID if it exists.
+  // Logs an error message if the ID is non-empty and does not exist in the DB.
+  void DeleteScene(const std::string& scene_id);
+
+  // Removes all landmarks of the given type from the given step.
+  // The types are defined in Landmark.msg.
+  void DeleteLandmarks(const std::string& landmark_type,
+                       rapid_pbd_msgs::Step* step);
+
   ProgramDb db_;
   SceneDb scene_db_;
   JointStateReader joint_state_reader_;
