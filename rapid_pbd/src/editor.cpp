@@ -106,7 +106,7 @@ void Editor::AddStep(const std::string& db_id) {
     return;
   }
   msgs::Step step;
-  program.steps.insert(program.steps.begin(), step);
+  program.steps.push_back(step);
   Update(db_id, program);
 }
 
