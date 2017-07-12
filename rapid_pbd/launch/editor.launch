@@ -5,6 +5,7 @@
   <node name="message_store" pkg="mongodb_store" type="message_store_node.py" output="screen" required="true" /> 
 
   <group ns="rapid_pbd">
+    <param name="robot" value="pr2" />
     <node name="editor_node" pkg="rapid_pbd" type="editor_node" output="screen" required="true" />
   </group>
 </launch>

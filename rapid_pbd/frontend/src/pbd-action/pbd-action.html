@@ -64,7 +64,7 @@
           <pbd-arm-cart-action action="{{action}}" ros="[[ros]]"></pbd-arm-cart-action>
         </template>
         <template is="dom-if" restamp if="[[_displayActionTypeIs(_displayActionType, 'move to joint goal')]]">
-          <pbd-joint-angle-action action="{{action}}" ros="[[ros]]"></pbd-joint-angle-action>
+          <pbd-joint-angle-action action="{{action}}" program-id="[[programId]]" step-index="[[stepNum]]" index="[[index]]" ros="[[ros]]"></pbd-joint-angle-action>
         </template>
         <template is="dom-if" restamp if="[[_displayActionTypeIs(_displayActionType, 'move head')]]">
           <pbd-head-action action="{{action}}" ros="[[ros]]"></pbd-head-action>

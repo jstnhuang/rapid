@@ -69,7 +69,6 @@ add_service_files(
   FILES
   FreezeArm.srv
   GetEEPose.srv
-  GetJointAngles.srv
   GetTorsoPose.srv
   RelaxArm.srv
 )

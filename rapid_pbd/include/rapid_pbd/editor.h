@@ -13,6 +13,7 @@
 #include "rapid_pbd/action_clients.h"
 #include "rapid_pbd/joint_state_reader.h"
 #include "rapid_pbd/program_db.h"
+#include "rapid_pbd/robot_config.h"
 #include "rapid_pbd/visualizer.h"
 
 namespace rapid {
@@ -20,28 +21,18 @@ namespace pbd {
 
 static const char kEditorEventsTopic[] = "editor_events";
 
-// Assumed names of joints for a single-arm robot (based on Fetch).
-void ArmJointNames(std::vector<std::string>* names);
-
-// Assumed names of joints for the left arm (based on PR2).
-void LeftArmJointNames(std::vector<std::string>* names);
-
-// Assumed names of joints for the right arm (based on PR2).
-void RightArmJointNames(std::vector<std::string>* names);
-
 class Editor {
  public:
   Editor(const ProgramDb& db, const SceneDb& scene_db,
          const JointStateReader& joint_state_reader,
-         const Visualizer& visualizer, ActionClients* action_clients);
+         const Visualizer& visualizer, ActionClients* action_clients,
+         const RobotConfig& robot_config);
   void Start();
   void HandleEvent(const rapid_pbd_msgs::EditorEvent& event);
   bool HandleGetEEPose(rapid_pbd_msgs::GetEEPoseRequest& request,
                        rapid_pbd_msgs::GetEEPoseResponse& response);
   bool HandleGetTorsoPose(rapid_pbd_msgs::GetTorsoPoseRequest& request,
                           rapid_pbd_msgs::GetTorsoPoseResponse& response);
-  bool HandleGetJointAngles(rapid_pbd_msgs::GetJointAnglesRequest& request,
-                            rapid_pbd_msgs::GetJointAnglesResponse& response);
 
  private:
   void Create(const std::string& name);
@@ -50,10 +41,15 @@ class Editor {
   void AddStep(const std::string& db_id);
   void DeleteStep(const std::string& db_id, size_t step_id);
   void AddAction(const std::string& db_id, size_t step_id,
-                 const rapid_pbd_msgs::Action& action);
+                 rapid_pbd_msgs::Action action);
   void DeleteAction(const std::string& db_id, size_t step_id, size_t action_id);
   void ViewStep(const std::string& db_id, size_t step_id);
   void DetectSurfaceObjects(const std::string& db_id, size_t step_id);
+  void GetJointValues(const std::string& db_id, size_t step_id,
+                      size_t action_id, const std::string& actuator_group);
+  void GetPose(const std::string& db_id, size_t step_id, size_t action_id,
+               const std::string& actuator_group,
+               const rapid_pbd_msgs::Landmark& landmark);
 
   // Delete a scene from the scene_db by ID if it exists.
   // Logs an error message if the ID is non-empty and does not exist in the DB.
@@ -69,6 +65,7 @@ class Editor {
   JointStateReader joint_state_reader_;
   Visualizer viz_;
   ActionClients* action_clients_;
+  const RobotConfig& robot_config_;
   tf::TransformListener tf_listener_;
 };
 }  // namespace pbd

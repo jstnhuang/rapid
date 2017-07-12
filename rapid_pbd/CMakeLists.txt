@@ -170,6 +170,7 @@ target_link_libraries(rapid_pbd_editor
   rapid_pbd_action_clients
   rapid_pbd_program_db
   rapid_pbd_joint_state_reader
+  rapid_pbd_robot_config
   rapid_pbd_visualizer
   ${catkin_LIBRARIES})
 
@@ -231,8 +232,9 @@ add_executable(rapid_pbd_editor_node src/editor_node.cpp)
 set_target_properties(rapid_pbd_editor_node PROPERTIES OUTPUT_NAME editor_node PREFIX "")
 add_dependencies(rapid_pbd_editor_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_editor_node
-  rapid_pbd_program_db
   rapid_pbd_editor
+  rapid_pbd_program_db
+  rapid_pbd_robot_config
   ${catkin_LIBRARIES})
 
 add_executable(rapid_pbd_program_execution_demo src/program_execution_demo.cpp)

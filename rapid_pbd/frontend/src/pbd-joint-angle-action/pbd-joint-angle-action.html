@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../bower_components/ros-service/ros-service.html">
+<link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
 
 <dom-module id="pbd-joint-angle-action">
@@ -23,13 +23,12 @@
         max-width: 250px;
       }
     </style>
-    <ros-service auto
-      id="service"
-      on-response="_handleValues"
-      name="rapid_pbd/get_joint_angles"
+    <ros-topic auto
+      id="eventPub"
+      msg-type="rapid_pbd_msgs/EditorEvent"
+      topic="rapid_pbd/editor_events"
       ros="[[ros]]"
-      service-type="rapid_pbd_msgs/GetJointAngles"
-    ></ros-service>
+    ></ros-topic>
     <div class="layout horizontal center">
       <paper-dropdown-menu label="Arm to move">
         <paper-listbox slot="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
@@ -58,6 +57,7 @@
           notify: true,
           type: Object,
         },
+        index: Number,
         jointValues: {
           type: Array,
           value: function() {
@@ -106,45 +106,7 @@
       _updateActuatorGroup: function(evt) {
         var actuatorGroup = evt.target.dataset.actuatorGroup;
         this.set('action.actuator_group', actuatorGroup);
-        var jointValues = [0, 0, 0, 0, 0, 0, 0];
-        var jointNames = [];
-        if (actuatorGroup === 'arm') {
-          jointNames = [
-            'shoulder_pan_joint',
-            'shoulder_lift_joint',
-            'upperarm_roll_joint',
-            'elbow_flex_joint',
-            'forearm_roll_joint',
-            'wrist_flex_joint',
-            'wrist_roll_joint'
-          ];
-        } else if (actuatorGroup === 'left arm') {
-          jointNames = [
-            'l_shoulder_pan_joint',
-            'l_shoulder_lift_joint',
-            'l_upper_arm_roll_joint',
-            'l_elbow_flex_joint',
-            'l_forearm_roll_joint',
-            'l_wrist_flex_joint',
-            'l_wrist_roll_joint'
-          ];
-        } else if (actuatorGroup === 'right arm') {
-          jointNames = [
-            'r_shoulder_pan_joint',
-            'r_shoulder_lift_joint',
-            'r_upper_arm_roll_joint',
-            'r_elbow_flex_joint',
-            'r_forearm_roll_joint',
-            'r_wrist_flex_joint',
-            'r_wrist_roll_joint'
-          ];
-        } else { return; }
-        this.set('action.joint_trajectory.joint_names', jointNames);
-        var point = {
-          positions: jointValues,
-          time_from_start: this._getTimeFromStartObject()
-        }
-        this.set('action.joint_trajectory.points', [point]);
+        this._updateJointValues();
       },
 
       _getTimeFromStartObject: function() {
@@ -165,26 +127,16 @@
       },
 
       _updateJointValues: function() {
-        this.$.service.call({actuator_group: this.action.actuator_group});
-      },
-
-      _handleValues: function(evt) {
-        var names = evt.detail.joint_names;
-        var positions = evt.detail.joint_positions;
-        this.set('action.joint_trajectory.joint_names', names);
-        
-        var point = {
-          positions: [],
-          velocities: [],
-          accelerations: [],
-          effort: [],
-          time_from_start: this._getTimeFromStartObject(),
+        var msg = {
+          type: 'get joint values',
+          program_info: {
+            db_id: this.programId
+          },
+          step_num: this.stepId,
+          action_num: this.stepId,
+          action: this.action
         };
-        for (var i=0; i<names.length; ++i) {
-          point.positions.push(positions[i]);
-          point.velocities.push(0);
-        }
-        this.set('action.joint_trajectory.points', [point]);
+        this.$.eventPub.publish(msg);
       },
 
       _updateJoint: function(evt) {

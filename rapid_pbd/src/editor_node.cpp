@@ -4,6 +4,7 @@
 #include "rapid_pbd/editor.h"
 #include "rapid_pbd/joint_state_reader.h"
 #include "rapid_pbd/program_db.h"
+#include "rapid_pbd/robot_config.h"
 #include "rapid_pbd/visualizer.h"
 #include "rapid_pbd_msgs/ProgramInfoList.h"
 #include "robot_markers/builder.h"
@@ -16,6 +17,25 @@ namespace pbd = rapid::pbd;
 int main(int argc, char** argv) {
   ros::init(argc, argv, "rapid_pbd_editor_node");
   ros::NodeHandle nh;
+
+  // Build robot config.
+  std::string robot("");
+  bool is_robot_specified = ros::param::get("robot", robot);
+  if (!is_robot_specified) {
+    ROS_ERROR("robot param must be specified.");
+    return 1;
+  }
+
+  pbd::RobotConfig* robot_config;
+  if (robot == "pr2") {
+    robot_config = new pbd::Pr2RobotConfig();
+  } else if (robot == "fetch") {
+    ROS_ERROR("Unsupported robot \"%s\"", robot.c_str());
+    return 1;
+  } else {
+    ROS_ERROR("Unsupported robot \"%s\"", robot.c_str());
+    return 1;
+  }
 
   // Build program DB.
   mongodb_store::MessageStoreProxy proxy(nh, pbd::kMongoProgramCollectionName,
@@ -48,7 +68,7 @@ int main(int argc, char** argv) {
   // Build editor.
   pbd::JointStateReader joint_state_reader;
   pbd::Editor editor(db, scene_db, joint_state_reader, visualizer,
-                     &action_clients);
+                     &action_clients, *robot_config);
   editor.Start();
 
   ros::Subscriber editor_sub = nh.subscribe(pbd::kEditorEventsTopic, 10,
@@ -57,10 +77,11 @@ int main(int argc, char** argv) {
       "get_ee_pose", &pbd::Editor::HandleGetEEPose, &editor);
   ros::ServiceServer torso_pose_srv = nh.advertiseService(
       "get_torso_pose", &pbd::Editor::HandleGetTorsoPose, &editor);
-  ros::ServiceServer joint_angles_srv = nh.advertiseService(
-      "get_joint_angles", &pbd::Editor::HandleGetJointAngles, &editor);
 
   ROS_INFO("RapidPBD editor ready.");
   ros::spin();
+  if (robot_config) {
+    delete robot_config;
+  }
   return 0;
 }
