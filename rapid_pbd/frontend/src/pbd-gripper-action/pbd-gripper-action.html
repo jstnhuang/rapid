@@ -3,7 +3,6 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/ros-action-client/ros-action-client.html">
-<link rel="import" href="../../bower_components/ros-service/ros-service.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
 
 <dom-module id="pbd-gripper-action">
@@ -30,13 +29,6 @@
       action-type="control_msgs/GripperCommandAction"
       ros="[[ros]]"
     ></ros-action-client>
-    <ros-service auto
-      id="service"
-      on-response="_handleValues"
-      name="rapid_pbd/get_joint_angles"
-      ros="[[ros]]"
-      service-type="rapid_pbd_msgs/GetJointAngles"
-    ></ros-service>
     <div class="layout horizontal center">
       <paper-dropdown-menu label="Gripper">
         <paper-listbox slot="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
