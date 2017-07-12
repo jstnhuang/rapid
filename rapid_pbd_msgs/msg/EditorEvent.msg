@@ -25,7 +25,7 @@ string type
 # If type is DELETE, only program_info.db_id is needed.
 # If type is ADD_STEP, only program_info.db_id is needed.
 # If type is DELETE_STEP, program_info.db_id and step_num are needed
-# If type is ADD_ACTION, program_info.db_id and action are needed
+# If type is ADD_ACTION, program_info.db_id, step_num, and action are needed
 # If type is DELETE_ACTION, program_info.db_id and action_num are needed.
 # If type is VIEW, then program_info.db_id and step_num are needed.
 # If type is DETECT_SURFACE_OBJECTS, program_info.db_id, step_num, and action_num are needed.
