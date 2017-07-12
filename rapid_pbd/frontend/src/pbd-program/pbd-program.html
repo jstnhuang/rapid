@@ -295,7 +295,6 @@
       },
 
       addStep: function() {
-        this.currentStepNum = this.program.steps.length;
         var msg = {
           type: 'add step',
           program_info: {
@@ -303,6 +302,7 @@
           },
         };
         this.$.eventPub.publish(msg);
+        this.currentStepNum = this.program.steps.length;
       },
 
       selectStep: function(e) {
