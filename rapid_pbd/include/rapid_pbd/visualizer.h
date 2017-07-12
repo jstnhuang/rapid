@@ -51,6 +51,7 @@ class Visualizer {
   void GetSegmentationMarker(const rapid_pbd_msgs::Program& program,
                              size_t step_num,
                              visualization_msgs::MarkerArray* scene_markers);
+  void CreateStepVizIfNotExists(const std::string& program_id);
 
   const ProgramDb db_;
   const SceneDb scene_db_;

@@ -48,15 +48,7 @@ void Visualizer::Publish(const std::string& program_id, int step_num) {
   }
   size_t step_id = static_cast<size_t>(step_num);
 
-  // Create the publisher if it doesn't exist.
-  if (step_vizs_.find(program_id) == step_vizs_.end()) {
-    step_vizs_[program_id].robot_pub =
-        nh_.advertise<MarkerArray>("robot/" + program_id, 10, true);
-    step_vizs_[program_id].scene_pub =
-        nh_.advertise<PointCloud2>("scene/" + program_id, 10, true);
-    step_vizs_[program_id].surface_seg_pub = nh_.advertise<MarkerArray>(
-        "surface_segmentation/" + program_id, 10, true);
-  }
+  CreateStepVizIfNotExists(program_id);
 
   // Publish the robot visualization
   step_vizs_[program_id].step_id = step_id;
@@ -101,8 +93,9 @@ void Visualizer::Publish(const std::string& program_id, int step_num) {
 
 void Visualizer::Update(const std::string& program_id,
                         const rapid_pbd_msgs::Program& program) {
-  if (step_vizs_.find(program_id) == step_vizs_.end()) {
-    return;
+  CreateStepVizIfNotExists(program_id);
+  if (step_vizs_[program_id].step_id >= program.steps.size()) {
+    step_vizs_[program_id].step_id = program.steps.size() - 1;
   }
   Publish(program_id, step_vizs_[program_id].step_id);
 }
@@ -215,6 +208,19 @@ void Visualizer::GetSegmentationMarker(
     blank.scale.y = 0.05;
     blank.scale.z = 0.05;
     scene_markers->markers.push_back(blank);
+  }
+}
+
+void Visualizer::CreateStepVizIfNotExists(const std::string& program_id) {
+  // Create the publisher if it doesn't exist.
+  if (step_vizs_.find(program_id) == step_vizs_.end()) {
+    step_vizs_[program_id].robot_pub =
+        nh_.advertise<MarkerArray>("robot/" + program_id, 10, true);
+    step_vizs_[program_id].scene_pub =
+        nh_.advertise<PointCloud2>("scene/" + program_id, 10, true);
+    step_vizs_[program_id].surface_seg_pub = nh_.advertise<MarkerArray>(
+        "surface_segmentation/" + program_id, 10, true);
+    step_vizs_[program_id].step_id = 0;
   }
 }
 }  // namespace pbd
