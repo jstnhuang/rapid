@@ -222,8 +222,10 @@ void Editor::DetectSurfaceObjects(const std::string& db_id, size_t step_id) {
   }
   DeleteScene(program.steps[step_id].scene_id);
   program.steps[step_id].scene_id = result->cloud_db_id;
-  // TODO: this means you can only run one perception action per step.
-  program.steps[step_id].landmarks = result->landmarks;
+  DeleteLandmarks(msgs::Landmark::SURFACE_BOX, &program.steps[step_id]);
+  program.steps[step_id].landmarks.insert(
+      program.steps[step_id].landmarks.end(), result->landmarks.begin(),
+      result->landmarks.end());
   Update(db_id, program);
 }
 
