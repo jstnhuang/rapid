@@ -295,10 +295,14 @@
       },
 
       addStep: function() {
-        var step = { actions: [] };
-        this.push('program.steps', step);
-        this.currentStepNum = this.program.steps.length-1;
-        this.save();
+        this.currentStepNum = this.program.steps.length;
+        var msg = {
+          type: 'add step',
+          program_info: {
+            db_id: this.routeData.id
+          },
+        };
+        this.$.eventPub.publish(msg);
       },
 
       selectStep: function(e) {

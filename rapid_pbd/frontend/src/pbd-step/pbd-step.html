@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
+<link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
 <link rel="import" href="../pbd-action/pbd-action.html">
 <link rel="import" href="../pbd-action-picker/pbd-action-picker.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
@@ -28,6 +29,12 @@
         display: inline-block;
       }
     </style>
+    <ros-topic auto
+      id="eventPub"
+      msg-type="rapid_pbd_msgs/EditorEvent"
+      topic="rapid_pbd/editor_events"
+      ros="[[ros]]"
+    ></ros-topic>
     <div class="center horizontal layout title">
       <h3>Step [[_stepNum(index)]]</h3>
       <span class="flex"></span>
@@ -75,7 +82,16 @@
 
       _addAction: function(evt) {
         var action = evt.detail;
-        this.unshift('step.actions', action);
+        var msg = {
+          type: 'add action',
+          program_info: {
+            db_id: this.programId
+          },
+          step_num: this.index,
+          action: action
+        };
+        this.$.eventPub.publish(msg);
+
         this.$.picker.opened = false;
       },
 
@@ -84,8 +100,16 @@
       },
 
       _handleDeleteAction: function(evt) {
-        var index = evt.detail.index;
-        this.splice('step.actions', index, 1);
+        var actionIndex = evt.detail.index;
+        var msg = {
+          type: 'delete action',
+          program_info: {
+            db_id: this.programId
+          },
+          step_num: this.index,
+          action_num: actionIndex
+        };
+        this.$.eventPub.publish(msg);
         evt.stopPropagation();
       },
 
