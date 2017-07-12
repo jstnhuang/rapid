@@ -58,6 +58,8 @@
           type: Object,
         },
         index: Number,
+        stepIndex: Number,
+        programId: String,
         jointValues: {
           type: Array,
           value: function() {
@@ -132,8 +134,8 @@
           program_info: {
             db_id: this.programId
           },
-          step_num: this.stepId,
-          action_num: this.stepId,
+          step_num: this.stepIndex,
+          action_num: this.index,
           action: this.action
         };
         this.$.eventPub.publish(msg);
