@@ -7,17 +7,21 @@
 #include "moveit_goal_builder/builder.h"
 #include "moveit_msgs/MoveGroupAction.h"
 #include "rapid_pbd_msgs/Landmark.h"
+#include "tf/transform_listener.h"
 
 #include "rapid_pbd/robot_config.h"
+#include "rapid_pbd/world.h"
 
 namespace rapid {
 namespace pbd {
 class MotionPlanning {
  public:
-  MotionPlanning(const RobotConfig& robot_config);
-  void AddPoseGoal(const std::string& actuator_group,
-                   const geometry_msgs::Pose& pose,
-                   const rapid_pbd_msgs::Landmark& landmark);
+  MotionPlanning(const RobotConfig& robot_config, World* world,
+                 const tf::TransformListener& tf_listener);
+  // Returns an error message, or empty string if no error.
+  std::string AddPoseGoal(const std::string& actuator_group,
+                          const geometry_msgs::Pose& pose,
+                          const rapid_pbd_msgs::Landmark& landmark);
   void AddJointGoal(const std::string& actuator_group,
                     const geometry_msgs::Pose& pose);
   void ClearGoals();
@@ -26,6 +30,8 @@ class MotionPlanning {
 
  private:
   const RobotConfig& robot_config_;
+  World* world_;
+  const tf::TransformListener& tf_listener_;
   moveit_goal_builder::Builder builder_;
   int num_goals_;
 };
