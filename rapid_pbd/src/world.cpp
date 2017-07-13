@@ -25,6 +25,12 @@ void GetWorld(const RobotConfig& robot_config, const msgs::Program& program,
   world->joint_state = js;
   world->surface_box_landmarks.clear();
 
+  // TODO: If this gets noticeably slow, change it so that it searches backward
+  // instead of simulating forward. The channels to search are:
+  // - Gripper action / actuator group
+  // - Joint/Cartesian arm action / actuator group
+  // - Scene ID
+  // - Landmarks
   for (size_t step_i = 0; step_i <= step_id; ++step_i) {
     if (program.steps.size() == 0) {
       break;
