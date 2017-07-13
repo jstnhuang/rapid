@@ -16,6 +16,7 @@ For example, in one step, you can point the head down and move the robot's arms 
 ## Installing
 - Copy the `rapid_pbd` and `rapid_pbd_msgs` folder to your catkin workspace.
 - Clone `moveit_goal_builder`: `git clone git@github.com:jstnhuang/moveit_goal_builder.git`
+- You should use a MoveIt config that does not use `/odom_combined` as its planning frame, such as [pr2_moveit_config_no_virtual](https://github.com/jstnhuang/pr2_moveit_config_no_virtual)
 - Get other dependencies through rosdep: `cd ~/catkin_ws; rosdep install --from-paths src --ignore-src --rosdistro=indigo -y`
 
 ## Running the system (PR2 simulation)
