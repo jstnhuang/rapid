@@ -20,7 +20,7 @@ StepExecutor::StepExecutor(const rapid_pbd_msgs::Step& step,
     : step_(step),
       action_clients_(action_clients),
       world_(world),
-      motion_planning_(robot_config),
+      motion_planning_(robot_config, world),
       executors_() {}
 
 bool StepExecutor::IsValid(const rapid_pbd_msgs::Step& step) {
@@ -43,23 +43,31 @@ void StepExecutor::Init() {
   }
 }
 
-void StepExecutor::Start() {
+std::string StepExecutor::Start() {
   motion_planning_.ClearGoals();
+  std::string error("");
   for (size_t i = 0; i < step_.actions.size(); ++i) {
-    executors_[i]->Start();
+    error = executors_[i]->Start();
+    if (error != "") {
+      return error;
+    }
   }
   if (motion_planning_.num_goals() > 0) {
     moveit_msgs::MoveGroupGoal goal;
     motion_planning_.BuildGoal(&goal);
     action_clients_->moveit_client.sendGoal(goal);
   }
+  return "";
 }
 
-bool StepExecutor::IsDone() const {
+bool StepExecutor::IsDone(std::string* error) const {
   for (size_t i = 0; i < executors_.size(); ++i) {
     const shared_ptr<ActionExecutor>& executor = executors_[i];
-    if (!executor->IsDone()) {
+    if (!executor->IsDone(error)) {
       return false;
+    }
+    if (*error != "") {
+      return true;
     }
   }
   if (motion_planning_.num_goals() > 0) {

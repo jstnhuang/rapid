@@ -76,17 +76,27 @@ void ProgramExecutionServer::Execute(
     feedback.step_number = i;
     server_.publishFeedback(feedback);
 
-    executors[i]->Start();
-    while (!executors[i]->IsDone()) {
+    std::string error("");
+    error = executors[i]->Start();
+    if (error != "") {
+      executors[i]->Cancel();
+      Cancel(error);
+      ros::spinOnce();
+      return;
+    }
+    while (!executors[i]->IsDone(&error)) {
       if (server_.isPreemptRequested() || !ros::ok()) {
         executors[i]->Cancel();
+        std::string msg("Program \"" + goal->program.name +
+                        "\" was preempted.");
+        Cancel(msg);
         ros::spinOnce();
-        std::string error("Program \"" + goal->program.name +
-                          "\" was preempted.");
-        ExecuteProgramResult result;
-        result.error = error;
-        server_.setPreempted(result, error);
-        PublishIsRunning(false);
+        return;
+      }
+      if (error != "") {
+        executors[i]->Cancel();
+        Cancel(error);
+        ros::spinOnce();
         return;
       }
       ros::spinOnce();
@@ -110,6 +120,13 @@ void ProgramExecutionServer::PublishIsRunning(bool is_running) {
   std_msgs::Bool msg;
   msg.data = is_running;
   is_running_pub_.publish(msg);
+}
+
+void ProgramExecutionServer::Cancel(const std::string& error) {
+  ExecuteProgramResult result;
+  result.error = error;
+  server_.setPreempted(result, error);
+  PublishIsRunning(false);
 }
 }  // namespace pbd
 }  // namespace rapid

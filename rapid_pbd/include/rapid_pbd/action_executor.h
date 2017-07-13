@@ -23,10 +23,10 @@ class ActionExecutor {
   static bool IsValid(const rapid_pbd_msgs::Action& action);
 
   // Start the execution of the action.
-  void Start();
+  std::string Start();
 
   // Returns true if the action is done (or if the action is invalid).
-  bool IsDone() const;
+  bool IsDone(std::string* error) const;
 
   // Cancels the execution of the action.
   void Cancel();

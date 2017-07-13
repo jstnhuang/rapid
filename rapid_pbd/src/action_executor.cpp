@@ -10,6 +10,7 @@
 #include "ros/ros.h"
 
 #include "rapid_pbd/action_names.h"
+#include "rapid_pbd/errors.h"
 #include "rapid_pbd/motion_planning.h"
 #include "rapid_pbd/world.h"
 
@@ -66,20 +67,21 @@ bool ActionExecutor::IsValid(const Action& action) {
   return true;
 }
 
-void ActionExecutor::Start() {
+std::string ActionExecutor::Start() {
   if (action_.type == Action::ACTUATE_GRIPPER) {
     ActuateGripper();
   } else if (action_.type == Action::MOVE_TO_JOINT_GOAL) {
     MoveToJointGoal();
   } else if (action_.type == Action::MOVE_TO_CARTESIAN_GOAL) {
-    motion_planning_->AddPoseGoal(action_.actuator_group, action_.pose,
-                                  action_.landmark);
+    return motion_planning_->AddPoseGoal(action_.actuator_group, action_.pose,
+                                         action_.landmark);
   } else if (action_.type == Action::DETECT_TABLETOP_OBJECTS) {
     DetectTabletopObjects();
   }
+  return "";
 }
 
-bool ActionExecutor::IsDone() const {
+bool ActionExecutor::IsDone(std::string* error) const {
   if (action_.type == Action::ACTUATE_GRIPPER) {
     if (action_.actuator_group == Action::GRIPPER) {
       return clients_->gripper_client.getState().isDone();
@@ -104,9 +106,14 @@ bool ActionExecutor::IsDone() const {
       msgs::SegmentSurfacesResultConstPtr result =
           clients_->surface_segmentation_client.getResult();
       if (result) {
+        if (result->landmarks.size() == 0) {
+          *error = errors::kNoLandmarksDetected;
+        }
         world_->surface_box_landmarks = result->landmarks;
       } else {
         ROS_ERROR("Surface segmentation result pointer was null!");
+        *error = "Surface segmentation result pointer was null!";
+        return false;
       }
     }
     return done;

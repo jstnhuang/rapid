@@ -1,8 +1,9 @@
 #ifndef _RAPID_PBD_STEP_EXECUTOR_H_
 #define _RAPID_PBD_STEP_EXECUTOR_H_
 
-#include "boost/shared_ptr.hpp"
+#include <string>
 
+#include "boost/shared_ptr.hpp"
 #include "rapid_pbd_msgs/Step.h"
 
 #include "rapid_pbd/action_clients.h"
@@ -25,11 +26,12 @@ class StepExecutor {
   // Initializes the step. This should be called before calling Start().
   void Init();
 
-  // Starts the step execution.
-  void Start();
+  // Starts the step execution. Returns error message or empty string.
+  std::string Start();
 
   // Returns true if the step execution is complete or if the step is invalid.
-  bool IsDone() const;
+  // Leaves error string unchanged if no error, otherwise saves an error string.
+  bool IsDone(std::string* error) const;
 
   // Cancels the execution of the step.
   void Cancel();

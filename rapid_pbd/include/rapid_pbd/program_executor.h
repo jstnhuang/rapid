@@ -31,6 +31,7 @@ class ProgramExecutionServer {
   void Execute(const rapid_pbd_msgs::ExecuteProgramGoalConstPtr& goal);
   static bool IsValid(const rapid_pbd_msgs::Program& program);
   void PublishIsRunning(bool is_running);
+  void Cancel(const std::string& error);
 };
 }  // namespace pbd
 }  // namespace rapid
