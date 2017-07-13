@@ -389,6 +389,13 @@ void Editor::GetPose(const std::string& db_id, size_t step_id, size_t action_id,
     }
     graph.Add("landmark", transform_graph::RefFrame(robot_config_.base_link()),
               landmark_transform);
+  } else if (action->landmark.type == msgs::Landmark::SURFACE_BOX) {
+    std::string landmark_frame(action->landmark.pose_stamped.header.frame_id);
+    if (landmark_frame != "base_link") {
+      ROS_WARN("Landmark not in base_link frame.");
+    }
+    graph.Add("landmark", transform_graph::RefFrame(landmark_frame),
+              action->landmark.pose_stamped.pose);
   } else {
     ROS_ERROR("Unsupported landmark type \"%s\"",
               action->landmark.type.c_str());
