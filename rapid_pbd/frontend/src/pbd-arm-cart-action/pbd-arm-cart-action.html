@@ -74,18 +74,7 @@
         index: Number,
         stepIndex: Number,
         programId: String,
-        landmarks: {
-          type: Array,
-          value: function() { return [
-            {
-              type: 'tf frame',
-              name: 'torso_lift_link'
-            }, {
-              type: 'tf frame',
-              name: 'base_link'
-            },
-          ]; }
-        },
+        landmarks: Array,
         ros: Object,
       },
 
@@ -151,7 +140,7 @@
         if (!landmark || !landmark.type) {
           return 'Unknown landmark';
         }
-        if (landmark.type == 'tf frame') {
+        if (landmark.type === 'tf frame') {
           if (landmark.name === 'base_link') {
             return 'Robot base';
           } else if (landmark.name === 'torso_lift_link') {
@@ -159,6 +148,8 @@
           } else {
             return landmark.name;
           }
+        } else if (landmark.type === 'surface box') {
+          return landmark.name;
         }
         return 'Unknown landmark';
       },

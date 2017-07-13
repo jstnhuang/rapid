@@ -48,7 +48,9 @@
       No actions
     </div>
     <template is="dom-repeat" items="{{step.actions}}" as="action" index-as="stepIndex">
-      <pbd-action action="{{action}}" program-id="[[programId]]" step-num="[[index]]" index="[[stepIndex]]" on-delete="_handleDeleteAction" ros="[[ros]]"></pbd-action>
+      <pbd-action action="{{action}}" program-id="[[programId]]"
+        step-num="[[index]]" index="[[stepIndex]]" landmarks="[[landmarks]]"
+        on-delete="_handleDeleteAction" ros="[[ros]]"></pbd-action>
     </template>
     <paper-dialog id="deleteDialog" modal>
       <h2>Delete step [[_stepNum(index)]]?</h2>
@@ -64,12 +66,54 @@
 
       properties: {
         index: Number,
+        landmarks: {
+          type: Array,
+          value: function() { return []; }
+        },
+        program: Object,
         programId: String,
         step: {
           notify: true,
           type: Object,
         },
         ros: Object,
+      },
+
+      observers: [
+        '_computeLandmarks(program, index)'
+      ],
+
+      _computeLandmarks(program, index) {
+        var surfaceLandmarks = [];
+        if (program && (index || index === 0)) {
+          // Search backward for surface landmarks
+          for (var i=index-1; i>=0; ++i) {
+            var stepLandmarks = program.steps[i].landmarks;
+            var stepSurfaceLandmarks = [];
+            for (var li=0; li<stepLandmarks.length; ++li) {
+              var landmark = stepLandmarks[li];
+              if (landmark.type === 'surface box') {
+                stepSurfaceLandmarks.push(landmark);
+              }
+            }
+            if (stepSurfaceLandmarks.length > 0) {
+              surfaceLandmarks = stepSurfaceLandmarks;
+              break;
+            }
+          }
+        }
+
+        var landmarks = [
+          {
+            type: 'tf frame',
+            name: 'base_link'
+          }, {
+            type: 'tf frame',
+            name: 'torso_lift_link'
+          }
+        ];
+        landmarks = landmarks.concat(surfaceLandmarks);
+        this.set('landmarks', landmarks);
       },
 
       hasActions: function(actions) {
