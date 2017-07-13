@@ -139,7 +139,7 @@ void SurfaceSegmentationAction::Execute(
       }
       rapid_pbd_msgs::Landmark landmark;
       landmark.type = rapid_pbd_msgs::Landmark::SURFACE_BOX;
-      landmark.frame_id = cloud->header.frame_id;
+      landmark.name = cloud->header.frame_id;
       landmark.pose_stamped = object.pose_stamped;
       landmark.surface_box_dims = object.dimensions;
       result.landmarks.push_back(landmark);

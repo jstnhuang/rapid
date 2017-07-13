@@ -351,7 +351,7 @@ void Editor::GetPose(const std::string& db_id, size_t step_id, size_t action_id,
 
   if (landmark.type == "") {
     action->landmark.type = msgs::Landmark::TF_FRAME;
-    action->landmark.frame_id = robot_config_.torso_link();
+    action->landmark.name = robot_config_.torso_link();
   } else {
     action->landmark = landmark;
   }
@@ -381,7 +381,7 @@ void Editor::GetPose(const std::string& db_id, size_t step_id, size_t action_id,
     tf::StampedTransform landmark_transform;
     try {
       tf_listener_.lookupTransform(robot_config_.base_link(),
-                                   action->landmark.frame_id, ros::Time(0),
+                                   action->landmark.name, ros::Time(0),
                                    landmark_transform);
     } catch (tf::TransformException ex) {
       ROS_ERROR("%s", ex.what());

@@ -79,10 +79,10 @@
           value: function() { return [
             {
               type: 'tf frame',
-              frame_id: 'torso_lift_link'
+              name: 'torso_lift_link'
             }, {
               type: 'tf frame',
-              frame_id: 'base_link'
+              name: 'base_link'
             },
           ]; }
         },
@@ -119,7 +119,7 @@
         if (!action.landmark || !action.landmark.type) {
           var landmark = {
             type: 'tf frame',
-            frame_id: 'torso_lift_link'
+            name: 'torso_lift_link'
           }
           this.set('action.landmark', landmark);
         }
@@ -129,7 +129,6 @@
             && this.action.pose.position.z === 0) {
           var that = this;
           this.debounce('get_ee_pose', function() {
-            console.log('action changed');
             that._updatePose();
           }, 100);
         }
@@ -153,12 +152,12 @@
           return 'Unknown landmark';
         }
         if (landmark.type == 'tf frame') {
-          if (landmark.frame_id === 'base_link') {
+          if (landmark.name === 'base_link') {
             return 'Robot base';
-          } else if (landmark.frame_id === 'torso_lift_link') {
+          } else if (landmark.name === 'torso_lift_link') {
             return 'Robot torso';
           } else {
-            return landmark.frame_id;
+            return landmark.name;
           }
         }
         return 'Unknown landmark';

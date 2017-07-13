@@ -15,7 +15,9 @@ string type
 # This field can be blank if the landmark's pose is unknown at the time.
 geometry_msgs/PoseStamped pose_stamped
 
-string frame_id # If type == TF_FRAME
+# If type == TF_FRAME, name is the frame ID
+# If type == SURFACE_BOX, name is an arbitrary name like "Object 1"
+# If type == CUSTOM_LANDMARK, name is the name of the custom landmark
+string name
 geometry_msgs/Vector3 surface_box_dims # Dimensions of a tabletop box
-string custom_landmark_name # The name of the custom landmark
 uint32 ar_tag_id # The AR tag ID or master tag ID
