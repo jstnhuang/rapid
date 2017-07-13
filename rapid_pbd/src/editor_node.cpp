@@ -73,10 +73,6 @@ int main(int argc, char** argv) {
 
   ros::Subscriber editor_sub = nh.subscribe(pbd::kEditorEventsTopic, 10,
                                             &pbd::Editor::HandleEvent, &editor);
-  ros::ServiceServer ee_pose_srv = nh.advertiseService(
-      "get_ee_pose", &pbd::Editor::HandleGetEEPose, &editor);
-  ros::ServiceServer torso_pose_srv = nh.advertiseService(
-      "get_torso_pose", &pbd::Editor::HandleGetTorsoPose, &editor);
 
   ROS_INFO("RapidPBD editor ready.");
   ros::spin();

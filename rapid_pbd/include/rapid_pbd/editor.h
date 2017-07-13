@@ -6,8 +6,6 @@
 
 #include "rapid_pbd_msgs/Action.h"
 #include "rapid_pbd_msgs/EditorEvent.h"
-#include "rapid_pbd_msgs/GetEEPose.h"
-#include "rapid_pbd_msgs/GetTorsoPose.h"
 #include "rapid_pbd_msgs/Program.h"
 #include "rapid_pbd_msgs/Step.h"
 #include "tf/transform_listener.h"
@@ -31,10 +29,6 @@ class Editor {
          const RobotConfig& robot_config);
   void Start();
   void HandleEvent(const rapid_pbd_msgs::EditorEvent& event);
-  bool HandleGetEEPose(rapid_pbd_msgs::GetEEPoseRequest& request,
-                       rapid_pbd_msgs::GetEEPoseResponse& response);
-  bool HandleGetTorsoPose(rapid_pbd_msgs::GetTorsoPoseRequest& request,
-                          rapid_pbd_msgs::GetTorsoPoseResponse& response);
 
  private:
   void Create(const std::string& name);

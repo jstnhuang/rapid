@@ -378,31 +378,6 @@ void Editor::GetPose(const std::string& db_id, size_t step_id, size_t action_id,
   Update(db_id, program);
 }
 
-bool Editor::HandleGetEEPose(rapid_pbd_msgs::GetEEPoseRequest& request,
-                             rapid_pbd_msgs::GetEEPoseResponse& response) {}
-
-bool Editor::HandleGetTorsoPose(
-    rapid_pbd_msgs::GetTorsoPoseRequest& request,
-    rapid_pbd_msgs::GetTorsoPoseResponse& response) {
-  try {
-    tf::StampedTransform transform;
-    tf_listener_.lookupTransform("base_link", "torso_lift_link", ros::Time(0),
-                                 transform);
-    response.pose_stamped.header.frame_id = "base_link";
-    response.pose_stamped.pose.position.x = transform.getOrigin().x();
-    response.pose_stamped.pose.position.y = transform.getOrigin().y();
-    response.pose_stamped.pose.position.z = transform.getOrigin().z();
-    response.pose_stamped.pose.orientation.w = transform.getRotation().w();
-    response.pose_stamped.pose.orientation.x = transform.getRotation().x();
-    response.pose_stamped.pose.orientation.y = transform.getRotation().y();
-    response.pose_stamped.pose.orientation.z = transform.getRotation().z();
-    return true;
-  } catch (tf::TransformException ex) {
-    ROS_ERROR("%s", ex.what());
-    return false;
-  }
-}
-
 void Editor::DeleteScene(const std::string& scene_id) {
   if (scene_id == "") {
     return;

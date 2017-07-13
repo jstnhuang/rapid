@@ -68,8 +68,6 @@ add_message_files(
 add_service_files(
   FILES
   FreezeArm.srv
-  GetEEPose.srv
-  GetTorsoPose.srv
   RelaxArm.srv
 )
 

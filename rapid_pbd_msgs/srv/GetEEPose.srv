@@ -1,6 +1,0 @@
-# Gets the end-effector pose, in the base_link frame, of the given actuator group.
-# The actuator group should represent an arm, not a gripper, e.g., "left arm" or "arm".
-# For a list of actuator group names, see Action.msg.
-string actuator_group
----
-geometry_msgs/PoseStamped pose_stamped
