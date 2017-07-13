@@ -20,7 +20,10 @@ void GetWorld(const msgs::Program& program, size_t step_id, World* world) {
   world->joint_state = js;
   world->surface_box_landmarks.clear();
 
-  for (size_t i = 0; i <= std::min(step_id, program.steps.size() - 1); ++i) {
+  for (size_t i = 0; i <= step_id; ++i) {
+    if (program.steps.size() == 0) {
+      break;
+    }
     const msgs::Step& step = program.steps[i];
     if (step.scene_id != "") {
       world->scene_id = step.scene_id;
