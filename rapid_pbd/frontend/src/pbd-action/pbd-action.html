@@ -61,7 +61,7 @@
           <pbd-gripper-action id="gripperAction" action="{{action}}" ros="[[ros]]"></pbd-gripper-action>
         </template>
         <template is="dom-if" restamp if="[[_displayActionTypeIs(_displayActionType, 'move to cartesian goal')]]">
-          <pbd-arm-cart-action action="{{action}}" ros="[[ros]]"></pbd-arm-cart-action>
+          <pbd-arm-cart-action action="{{action}}" program-id="[[programId]]" step-index="[[stepNum]]" index="[[index]]" ros="[[ros]]"></pbd-arm-cart-action>
         </template>
         <template is="dom-if" restamp if="[[_displayActionTypeIs(_displayActionType, 'move to joint goal')]]">
           <pbd-joint-angle-action action="{{action}}" program-id="[[programId]]" step-index="[[stepNum]]" index="[[index]]" ros="[[ros]]"></pbd-joint-angle-action>
