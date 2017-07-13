@@ -20,11 +20,47 @@ std::string Pr2RobotConfig::ee_frame_for_group(
     return "";
   }
 }
+void Pr2RobotConfig::gripper_joints_for_group(
+    const std::string& actuator_group,
+    std::vector<std::string>* joint_names) const {
+  joint_names->clear();
+  if (actuator_group == Action::LEFT_GRIPPER) {
+    joint_names->push_back("l_gripper_joint");
+    joint_names->push_back("l_gripper_l_finger_joint");
+    joint_names->push_back("l_gripper_r_finger_joint");
+    joint_names->push_back("l_gripper_l_finger_tip_joint");
+    joint_names->push_back("l_gripper_r_finger_tip_joint");
+  } else if (actuator_group == Action::RIGHT_GRIPPER) {
+    joint_names->push_back("r_gripper_joint");
+    joint_names->push_back("r_gripper_l_finger_joint");
+    joint_names->push_back("r_gripper_r_finger_joint");
+    joint_names->push_back("r_gripper_l_finger_tip_joint");
+    joint_names->push_back("r_gripper_r_finger_tip_joint");
+  }
+}
+void Pr2RobotConfig::gripper_open_positions(
+    std::vector<double>* positions) const {
+  positions->clear();
+  positions->push_back(0.088);
+  positions->push_back(0.514);
+  positions->push_back(0.514);
+  positions->push_back(0.514);
+  positions->push_back(0.514);
+}
+void Pr2RobotConfig::gripper_close_positions(
+    std::vector<double>* positions) const {
+  positions->clear();
+  positions->push_back(0.0);
+  positions->push_back(0.0069);
+  positions->push_back(0.0069);
+  positions->push_back(0.0069);
+  positions->push_back(0.0069);
+}
 void Pr2RobotConfig::joints_for_group(
     const std::string& actuator_group,
     std::vector<std::string>* joint_names) const {
+  joint_names->clear();
   if (actuator_group == Action::LEFT_ARM) {
-    joint_names->clear();
     joint_names->push_back("l_shoulder_pan_joint");
     joint_names->push_back("l_shoulder_lift_joint");
     joint_names->push_back("l_upper_arm_roll_joint");
@@ -33,7 +69,6 @@ void Pr2RobotConfig::joints_for_group(
     joint_names->push_back("l_wrist_flex_joint");
     joint_names->push_back("l_wrist_roll_joint");
   } else if (actuator_group == Action::RIGHT_ARM) {
-    joint_names->clear();
     joint_names->push_back("r_shoulder_pan_joint");
     joint_names->push_back("r_shoulder_lift_joint");
     joint_names->push_back("r_upper_arm_roll_joint");
@@ -44,7 +79,6 @@ void Pr2RobotConfig::joints_for_group(
   }
 }
 int Pr2RobotConfig::num_arms() const { return 2; }
-double Pr2RobotConfig::gripper_open_position() const { return 0.08; }
 }  // namespace pbd
 }  // namespace rapid
 

@@ -87,7 +87,7 @@ void Editor::Create(const std::string& name) {
   std::string id = db_.Insert(program);
 
   World world;
-  GetWorld(program, 0, &world);
+  GetWorld(robot_config_, program, 0, &world);
   viz_.Publish(id, world);
 }
 
@@ -95,7 +95,7 @@ void Editor::Update(const std::string& db_id, const msgs::Program& program) {
   db_.Update(db_id, program);
   if (last_viewed_.find(db_id) != last_viewed_.end()) {
     World world;
-    GetWorld(program, last_viewed_[db_id], &world);
+    GetWorld(robot_config_, program, last_viewed_[db_id], &world);
     viz_.Publish(db_id, world);
   } else {
     ROS_ERROR("Unable to publish visualization: unknown step");
@@ -225,7 +225,7 @@ void Editor::ViewStep(const std::string& db_id, size_t step_id) {
     return;
   }
   World world;
-  GetWorld(program, last_viewed_[db_id], &world);
+  GetWorld(robot_config_, program, last_viewed_[db_id], &world);
   viz_.Publish(db_id, world);
 }
 

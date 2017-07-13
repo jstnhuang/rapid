@@ -231,7 +231,9 @@ target_link_libraries(rapid_pbd_visualizer rapid_pbd_world ${catkin_LIBRARIES})
 
 add_library(rapid_pbd_world src/world.cpp)
 add_dependencies(rapid_pbd_world ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rapid_pbd_world ${catkin_LIBRARIES})
+target_link_libraries(rapid_pbd_world
+  rapid_pbd_robot_config
+  ${catkin_LIBRARIES})
 
 ## Executables
 add_executable(rapid_pbd_editor_node src/editor_node.cpp)

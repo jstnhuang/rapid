@@ -9,12 +9,14 @@
 #include "rapid_pbd_msgs/Step.h"
 
 #include "rapid_pbd/joint_state.h"
+#include "rapid_pbd/robot_config.h"
 
 namespace msgs = rapid_pbd_msgs;
 
 namespace rapid {
 namespace pbd {
-void GetWorld(const msgs::Program& program, size_t step_id, World* world) {
+void GetWorld(const RobotConfig& robot_config, const msgs::Program& program,
+              size_t step_id, World* world) {
   world->scene_id = "";
   JointState js(program.start_joint_state);
   world->joint_state = js;
@@ -32,7 +34,18 @@ void GetWorld(const msgs::Program& program, size_t step_id, World* world) {
     for (size_t action_i = 0; action_i < step.actions.size(); ++action_i) {
       const msgs::Action& action = step.actions[action_i];
       if (action.type == msgs::Action::ACTUATE_GRIPPER) {
-        // TODO: fill this in.
+        std::vector<std::string> joint_names;
+        robot_config.gripper_joints_for_group(action.actuator_group,
+                                              &joint_names);
+        std::vector<double> positions;
+        if (action.gripper_command.position > 0.0001) {
+          robot_config.gripper_open_positions(&positions);
+        } else {
+          robot_config.gripper_close_positions(&positions);
+        }
+        for (size_t i = 0; i < joint_names.size(); ++i) {
+          world->joint_state.SetPosition(joint_names[i], positions[i]);
+        }
       } else if (action.type == msgs::Action::MOVE_TO_JOINT_GOAL) {
         const trajectory_msgs::JointTrajectory& trajectory =
             action.joint_trajectory;

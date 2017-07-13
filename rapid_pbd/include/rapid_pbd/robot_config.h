@@ -15,11 +15,17 @@ class RobotConfig {
   virtual std::string torso_link() const = 0;
   virtual std::string ee_frame_for_group(
       const std::string& actuator_group) const = 0;
+  virtual void gripper_joints_for_group(
+      const std::string& actuator_group,
+      std::vector<std::string>* joint_names) const = 0;
+  // In the same order as given by gripper_joints_for_group
+  virtual void gripper_open_positions(std::vector<double>* positions) const = 0;
+  virtual void gripper_close_positions(
+      std::vector<double>* positions) const = 0;
   virtual void joints_for_group(
       const std::string& actuator_group,
       std::vector<std::string>* joint_names) const = 0;
   virtual int num_arms() const = 0;
-  virtual double gripper_open_position() const = 0;
 };
 
 class Pr2RobotConfig : public RobotConfig {
@@ -29,10 +35,14 @@ class Pr2RobotConfig : public RobotConfig {
   std::string base_link() const;
   std::string torso_link() const;
   std::string ee_frame_for_group(const std::string& actuator_group) const;
+  virtual void gripper_joints_for_group(
+      const std::string& actuator_group,
+      std::vector<std::string>* joint_names) const;
+  virtual void gripper_open_positions(std::vector<double>* positions) const;
+  virtual void gripper_close_positions(std::vector<double>* positions) const;
   void joints_for_group(const std::string& actuator_group,
                         std::vector<std::string>* joint_names) const;
   int num_arms() const;
-  double gripper_open_position() const;
 };
 }  // namespace pbd
 }  // namespace rapid
