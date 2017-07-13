@@ -105,11 +105,26 @@ void Visualizer::GetSegmentationMarker(
   }
   surface_perception::ObjectMarkers(objects, &scene_markers->markers);
 
-  for (size_t i = 0; i < scene_markers->markers.size(); ++i) {
+  for (size_t i = 0; i < objects.size(); ++i) {
     scene_markers->markers[i].ns = "segmentation";
     scene_markers->markers[i].id = i;
   }
-  int num_objects = scene_markers->markers.size();
+  for (size_t i = 0; i < objects.size(); ++i) {
+    Marker marker = scene_markers->markers[i];
+    marker.type = Marker::TEXT_VIEW_FACING;
+    marker.ns = "segmentation_names";
+    marker.text = world.surface_box_landmarks[i].name;
+    marker.pose.position.z += 0.15;
+    marker.scale.x = 0.1;
+    marker.scale.y = 0.1;
+    marker.scale.z = 0.1;
+    marker.color.r = 1;
+    marker.color.g = 0;
+    marker.color.b = 0;
+    marker.color.a = 1;
+    scene_markers->markers.push_back(marker);
+  }
+  int num_objects = objects.size();
   for (size_t i = num_objects; i < 100; ++i) {
     Marker blank;
     blank.ns = "segmentation";
@@ -120,6 +135,9 @@ void Visualizer::GetSegmentationMarker(
     blank.scale.x = 0.05;
     blank.scale.y = 0.05;
     blank.scale.z = 0.05;
+    scene_markers->markers.push_back(blank);
+
+    blank.ns = "segmentation_names";
     scene_markers->markers.push_back(blank);
   }
 }

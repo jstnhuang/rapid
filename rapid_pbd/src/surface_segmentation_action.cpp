@@ -1,5 +1,6 @@
 #include "rapid_pbd/surface_segmentation_action.h"
 
+#include <sstream>
 #include <string>
 
 #include "actionlib/server/simple_action_server.h"
@@ -125,6 +126,7 @@ void SurfaceSegmentationAction::Execute(
   size_t max_size = std::numeric_limits<size_t>::min();
   size_t num_objects = 0;
 
+  int obj_count = 0;
   for (size_t i = 0; i < surface_objects.size(); ++i) {
     const SurfaceObjects& surface_scene = surface_objects[i];
     num_objects += surface_scene.objects.size();
@@ -137,9 +139,12 @@ void SurfaceSegmentationAction::Execute(
       if (cloud_size > max_size) {
         max_size = cloud_size;
       }
+      ++obj_count;
       rapid_pbd_msgs::Landmark landmark;
       landmark.type = rapid_pbd_msgs::Landmark::SURFACE_BOX;
-      landmark.name = cloud->header.frame_id;
+      std::stringstream ss;
+      ss << "Object " << obj_count;
+      landmark.name = ss.str();
       landmark.pose_stamped = object.pose_stamped;
       landmark.surface_box_dims = object.dimensions;
       result.landmarks.push_back(landmark);
