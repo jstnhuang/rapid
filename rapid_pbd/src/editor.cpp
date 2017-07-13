@@ -21,6 +21,7 @@
 #include "rapid_pbd/program_db.h"
 #include "rapid_pbd/robot_config.h"
 #include "rapid_pbd/visualizer.h"
+#include "rapid_pbd/world.h"
 
 namespace msgs = rapid_pbd_msgs;
 namespace rapid {
@@ -35,7 +36,8 @@ Editor::Editor(const ProgramDb& db, const SceneDb& scene_db,
       viz_(visualizer),
       action_clients_(action_clients),
       robot_config_(robot_config),
-      tf_listener_() {}
+      tf_listener_(),
+      last_viewed_() {}
 
 void Editor::Start() {
   db_.Start();
@@ -83,12 +85,21 @@ void Editor::Create(const std::string& name) {
   program.name = name;
   joint_state_reader_.ToMsg(&program.start_joint_state);
   std::string id = db_.Insert(program);
-  viz_.Publish(id, 0);
+
+  World world;
+  GetWorld(program, 0, &world);
+  viz_.Publish(id, world);
 }
 
 void Editor::Update(const std::string& db_id, const msgs::Program& program) {
   db_.Update(db_id, program);
-  viz_.Update(db_id, program);
+  if (last_viewed_.find(db_id) != last_viewed_.end()) {
+    World world;
+    GetWorld(program, last_viewed_[db_id], &world);
+    viz_.Publish(db_id, world);
+  } else {
+    ROS_ERROR("Unable to publish visualization: unknown step");
+  }
 }
 
 void Editor::Delete(const std::string& db_id) {
@@ -134,6 +145,11 @@ void Editor::DeleteStep(const std::string& db_id, size_t step_id) {
   }
   DeleteScene(program.steps[step_id].scene_id);
   program.steps.erase(program.steps.begin() + step_id);
+  if (last_viewed_.find(db_id) != last_viewed_.end()) {
+    if (last_viewed_[db_id] >= program.steps.size()) {
+      last_viewed_[db_id] = program.steps.size() - 1;
+    }
+  }
   Update(db_id, program);
 }
 
@@ -200,7 +216,17 @@ void Editor::DeleteAction(const std::string& db_id, size_t step_id,
 
 void Editor::ViewStep(const std::string& db_id, size_t step_id) {
   db_.StartPublishingProgramById(db_id);
-  viz_.Publish(db_id, step_id);
+  last_viewed_[db_id] = step_id;
+
+  msgs::Program program;
+  bool success = db_.Get(db_id, &program);
+  if (!success) {
+    ROS_ERROR("Unable to view program \"%s\"", db_id.c_str());
+    return;
+  }
+  World world;
+  GetWorld(program, last_viewed_[db_id], &world);
+  viz_.Publish(db_id, world);
 }
 
 void Editor::DetectSurfaceObjects(const std::string& db_id, size_t step_id) {

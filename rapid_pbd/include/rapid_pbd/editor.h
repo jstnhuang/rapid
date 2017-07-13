@@ -63,6 +63,7 @@ class Editor {
   ActionClients* action_clients_;
   const RobotConfig& robot_config_;
   tf::TransformListener tf_listener_;
+  std::map<std::string, size_t> last_viewed_;
 };
 }  // namespace pbd
 }  // namespace rapid
