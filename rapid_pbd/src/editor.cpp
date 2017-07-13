@@ -14,6 +14,7 @@
 #include "rapid_pbd_msgs/SegmentSurfacesGoal.h"
 #include "rapid_pbd_msgs/Step.h"
 #include "tf/transform_listener.h"
+#include "transform_graph/graph.h"
 
 #include "rapid_pbd/action_clients.h"
 #include "rapid_pbd/joint_state_reader.h"
@@ -295,40 +296,90 @@ void Editor::GetJointValues(const std::string& db_id, size_t step_id,
 }
 void Editor::GetPose(const std::string& db_id, size_t step_id, size_t action_id,
                      const std::string& actuator_group,
-                     const rapid_pbd_msgs::Landmark& landmark) {}
+                     const rapid_pbd_msgs::Landmark& landmark) {
+  msgs::Program program;
+  bool success = db_.Get(db_id, &program);
+  if (!success) {
+    ROS_ERROR("Unable to get action from program ID \"%s\"", db_id.c_str());
+    return;
+  }
+  if (step_id >= program.steps.size()) {
+    ROS_ERROR(
+        "Unable to get action from step %ld from program \"%s\", which has "
+        "%ld steps",
+        step_id, db_id.c_str(), program.steps.size());
+    return;
+  }
+  msgs::Step* step = &program.steps[step_id];
+  if (action_id >= step->actions.size()) {
+    ROS_ERROR(
+        "Unable to get action %ld from step %ld of program \"%s\", which "
+        "has %ld actions",
+        action_id, step_id, db_id.c_str(), step->actions.size());
+    return;
+  }
 
-bool Editor::HandleGetEEPose(rapid_pbd_msgs::GetEEPoseRequest& request,
-                             rapid_pbd_msgs::GetEEPoseResponse& response) {
+  msgs::Action* action = &step->actions[action_id];
+
+  action->actuator_group = actuator_group;
+
+  if (landmark.type == "") {
+    action->landmark.type = msgs::Landmark::TF_FRAME;
+    action->landmark.frame_id = robot_config_.torso_link();
+  } else {
+    action->landmark = landmark;
+  }
+
+  // Get transform from landmark to end-effector.
+  transform_graph::Graph graph;
+
+  // Get transform of end-effector relative to base.
+  tf::StampedTransform transform;
   try {
-    tf::StampedTransform transform;
-    if (request.actuator_group == msgs::Action::ARM) {
-      tf_listener_.lookupTransform("base_link", "wrist_roll_link", ros::Time(0),
-                                   transform);
-    } else if (request.actuator_group == msgs::Action::LEFT_ARM) {
-      tf_listener_.lookupTransform("base_link", "l_wrist_roll_link",
-                                   ros::Time(0), transform);
-    } else if (request.actuator_group == msgs::Action::RIGHT_ARM) {
-      tf_listener_.lookupTransform("base_link", "r_wrist_roll_link",
-                                   ros::Time(0), transform);
-    } else {
-      ROS_ERROR("Can't get pose for actuator group \"%s\"",
-                request.actuator_group.c_str());
-      return false;
+    std::string ee_frame = robot_config_.ee_frame_for_group(actuator_group);
+    if (ee_frame == "") {
+      ROS_ERROR("Unable to get pose for actuator group: \"%s\"",
+                actuator_group.c_str());
     }
-    response.pose_stamped.header.frame_id = "base_link";
-    response.pose_stamped.pose.position.x = transform.getOrigin().x();
-    response.pose_stamped.pose.position.y = transform.getOrigin().y();
-    response.pose_stamped.pose.position.z = transform.getOrigin().z();
-    response.pose_stamped.pose.orientation.w = transform.getRotation().w();
-    response.pose_stamped.pose.orientation.x = transform.getRotation().x();
-    response.pose_stamped.pose.orientation.y = transform.getRotation().y();
-    response.pose_stamped.pose.orientation.z = transform.getRotation().z();
-    return true;
+    tf_listener_.lookupTransform(robot_config_.base_link(), ee_frame,
+                                 ros::Time(0), transform);
   } catch (tf::TransformException ex) {
     ROS_ERROR("%s", ex.what());
-    return false;
+    return;
   }
+  graph.Add("end effector",
+            transform_graph::RefFrame(robot_config_.base_link()), transform);
+
+  // Get transform of landmark relative to base.
+  if (action->landmark.type == msgs::Landmark::TF_FRAME) {
+    tf::StampedTransform landmark_transform;
+    try {
+      tf_listener_.lookupTransform(robot_config_.base_link(),
+                                   action->landmark.frame_id, ros::Time(0),
+                                   landmark_transform);
+    } catch (tf::TransformException ex) {
+      ROS_ERROR("%s", ex.what());
+      return;
+    }
+    graph.Add("landmark", transform_graph::RefFrame(robot_config_.base_link()),
+              landmark_transform);
+  } else {
+    ROS_ERROR("Unsupported landmark type \"%s\"",
+              action->landmark.type.c_str());
+    return;
+  }
+
+  transform_graph::Transform ee_in_landmark;
+  graph.ComputeDescription(transform_graph::LocalFrame("end effector"),
+                           transform_graph::RefFrame("landmark"),
+                           &ee_in_landmark);
+  ee_in_landmark.ToPose(&action->pose);
+
+  Update(db_id, program);
 }
+
+bool Editor::HandleGetEEPose(rapid_pbd_msgs::GetEEPoseRequest& request,
+                             rapid_pbd_msgs::GetEEPoseResponse& response) {}
 
 bool Editor::HandleGetTorsoPose(
     rapid_pbd_msgs::GetTorsoPoseRequest& request,

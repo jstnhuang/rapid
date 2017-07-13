@@ -4,10 +4,12 @@
 #include <string>
 #include <vector>
 
+#include "rapid_pbd_msgs/Action.h"
 #include "rapid_pbd_msgs/EditorEvent.h"
 #include "rapid_pbd_msgs/GetEEPose.h"
-#include "rapid_pbd_msgs/GetJointAngles.h"
 #include "rapid_pbd_msgs/GetTorsoPose.h"
+#include "rapid_pbd_msgs/Program.h"
+#include "rapid_pbd_msgs/Step.h"
 #include "tf/transform_listener.h"
 
 #include "rapid_pbd/action_clients.h"

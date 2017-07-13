@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../bower_components/ros-service/ros-service.html">
+<link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
 
 <dom-module id="pbd-arm-cart-action">
@@ -23,34 +23,27 @@
         max-width: 250px;
       }
     </style>
-    <ros-service auto
-      id="eeService"
-      on-response="_handleEEValues"
-      name="rapid_pbd/get_ee_pose"
+    <ros-topic auto
+      id="eventPub"
+      msg-type="rapid_pbd_msgs/EditorEvent"
+      topic="rapid_pbd/editor_events"
       ros="[[ros]]"
-      service-type="rapid_pbd_msgs/GetEEPose"
-    ></ros-service>
-    <ros-service auto
-      id="torsoService"
-      on-response="_handleTorsoValues"
-      name="rapid_pbd/get_torso_pose"
-      ros="[[ros]]"
-      service-type="rapid_pbd_msgs/GetTorsoPose"
-    ></ros-service>
+    ></ros-topic>
     <div class="layout horizontal center">
       <paper-dropdown-menu label="Arm to move">
         <paper-listbox slot="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
-          <paper-item data-actuator-group="left arm">Left arm</paper-item>
-          <paper-item data-actuator-group="right arm">Right arm</paper-item>
+          <paper-item data-actuator-group="left arm" on-tap="_updateActuatorGroup">Left arm</paper-item>
+          <paper-item data-actuator-group="right arm" on-tap="_updateActuatorGroup">Right arm</paper-item>
         </paper-listbox>
       </paper-dropdown-menu>
       <paper-button class="read normal" on-tap="_updatePose">Read position</paper-button>
     </div>
     <div>
       <paper-dropdown-menu label="Relative to">
-        <paper-listbox slot="dropdown-content" attr-for-selected="data-landmark" selected="{{landmark}}">
-          <paper-item data-landmark="base_link">Robot base</paper-item>
-          <paper-item data-landmark="torso_lift_link">Torso</paper-item>
+        <paper-listbox slot="dropdown-content" selected="[[_landmarkName(action.landmark)]]" attr-for-selected="name">
+          <template is="dom-repeat" items="[[landmarks]]">
+            <paper-item name="[[_landmarkName(item)]]" on-tap="_updateLandmark">[[_landmarkName(item)]]</paper-item>
+          </template>
         </paper-listbox>
       </paper-dropdown-menu>
     </div>
@@ -67,9 +60,6 @@
       <paper-input label="z"
         value="{{action.pose.position.z}}"
       ></paper-input>
-      <!--template id="positionList" is="dom-repeat" items="[[jointValues]]" as="kv">
-        <paper-input type="number" step="0.01" label="[[kv.name]]" value="[[kv.value]]" on-change="_updateJoint"></paper-input>
-      </template-->
     </div>
   </template>
   <script>
@@ -81,21 +71,26 @@
           notify: true,
           type: Object,
         },
-        landmark: {
-          type: String,
-          value: '',
-        },
+        index: Number,
+        stepIndex: Number,
+        programId: String,
         landmarks: {
           type: Array,
-          value: function() { return []; }
+          value: function() { return [
+            {
+              type: 'tf frame',
+              frame_id: 'torso_lift_link'
+            }, {
+              type: 'tf frame',
+              frame_id: 'base_link'
+            },
+          ]; }
         },
         ros: Object,
       },
 
       observers: [
         '_actionChanged(action)',
-        '_landmarkChanged(landmark)',
-        '_landmarkModelChanged(action.landmark)',
         '_maxSpeedChanged(action.control_strategy.max_speed)',
         '_xChanged(action.pose.position.x)',
         '_yChanged(action.pose.position.y)',
@@ -121,7 +116,7 @@
               || action.control_strategy.max_speed === 0) {
           this.set('action.control_strategy.max_speed', 0.2);
         }
-        if (!action.landmark) {
+        if (!action.landmark || !action.landmark.type) {
           var landmark = {
             type: 'tf frame',
             frame_id: 'torso_lift_link'
@@ -134,48 +129,52 @@
             && this.action.pose.position.z === 0) {
           var that = this;
           this.debounce('get_ee_pose', function() {
+            console.log('action changed');
             that._updatePose();
           }, 100);
         }
       },
 
-      _landmarkChanged: function(landmark) {
-        if (landmark === 'robot base') {
-          var landmark = {
-            type: 'tf frame',
-            frame_id: 'base_link'
-          };
-          this.set('action.landmark', landmark);
-        } else if (landmark === 'torso lift link') {
-          var landmark = {
-            type: 'tf frame',
-            frame_id: 'torso_lift_link'
-          };
-          this.set('action.landmark', landmark);
-          this.$.torsoService.call({});
+      _updateActuatorGroup: function(evt) {
+        var actuatorGroup = evt.target.dataset.actuatorGroup;
+        if (actuatorGroup) {
+          this.set('action.actuator_group', actuatorGroup);
+          this._updatePose();
         }
       },
 
-      _handleTorsoValues: function(evt) {
-        var response = evt.detail;
-        console.log('torso', response);
-        this.set('action.landmark.pose_stamped', response.pose_stamped);
+      _updateLandmark: function(evt) {
+        this.set('action.landmark', evt.model.item);
+        this._updatePose();
       },
-      
-      _landmarkModelChanged: function(landmark) {
-        if (landmark && landmark.type === 'tf frame') {
-          this.landmark = landmark.frame_id;
+
+      _landmarkName: function(landmark) {
+        if (!landmark || !landmark.type) {
+          return 'Unknown landmark';
         }
+        if (landmark.type == 'tf frame') {
+          if (landmark.frame_id === 'base_link') {
+            return 'Robot base';
+          } else if (landmark.frame_id === 'torso_lift_link') {
+            return 'Robot torso';
+          } else {
+            return landmark.frame_id;
+          }
+        }
+        return 'Unknown landmark';
       },
 
       _updatePose: function() {
-        this.$.eeService.call({actuator_group: this.action.actuator_group});
-      },
-
-      _handleEEValues: function(evt) {
-        var poseStamped = evt.detail.pose_stamped;
-        console.log('pose', poseStamped);
-        this.set('action.pose', poseStamped.pose)
+        var msg = {
+          type: 'get pose',
+          program_info: {
+            db_id: this.programId
+          },
+          step_num: this.stepIndex,
+          action_num: this.index,
+          action: this.action
+        };
+        this.$.eventPub.publish(msg);
       },
 
       _maxSpeedChanged: function(maxSpeed) {
