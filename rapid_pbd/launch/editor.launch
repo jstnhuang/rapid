@@ -1,4 +1,5 @@
 <launch>
+  <arg name="debug" default="false" />
   <param name="mongodb_use_daemon" value="true" />
   <param name="mongodb_host" value="localhost" />
   <param name="mongodb_port" value="27017" />
@@ -6,6 +7,7 @@
 
   <group ns="rapid_pbd">
     <param name="robot" value="pr2" />
-    <node name="editor_node" pkg="rapid_pbd" type="editor_node" output="screen" required="true" />
+    <node if="$(arg debug)" name="editor_node" pkg="rapid_pbd" type="editor_node" output="screen" required="true" launch-prefix="xterm -e gdb --args" />
+    <node unless="$(arg debug)" name="editor_node" pkg="rapid_pbd" type="editor_node" output="screen" required="true" />
   </group>
 </launch>
