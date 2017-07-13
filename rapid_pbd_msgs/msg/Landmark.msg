@@ -1,8 +1,12 @@
 # Type of the landmark
-string TF_FRAME = tf frame # A TF frame ID
-string SURFACE_BOX = surface box # A box from the tabletop object detector
-string CUSTOM_LANDMARK = custom landmark # A custom landmark
-string AR_TAG = AR tag # An AR tag or tag bundle
+# A TF frame ID
+string TF_FRAME = tf frame
+# A box from the tabletop object detector
+string SURFACE_BOX = surface box
+# A custom landmark
+string CUSTOM_LANDMARK = custom landmark
+# An AR tag or tag bundle
+string AR_TAG = AR tag
 string type
 
 # Specifies the pose of the landmark.
