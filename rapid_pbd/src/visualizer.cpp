@@ -12,6 +12,7 @@
 #include "pcl_conversions/pcl_conversions.h"
 #include "rapid_pbd/joint_state.h"
 #include "rapid_pbd_msgs/EditorEvent.h"
+#include "rapid_pbd_msgs/LandmarkArray.h"
 #include "rapid_pbd_msgs/Program.h"
 #include "robot_markers/builder.h"
 #include "sensor_msgs/PointCloud2.h"
@@ -55,7 +56,10 @@ void Visualizer::Publish(const std::string& program_id, const World& world) {
   // Publish the scene
   PointCloud2 scene;
   if (world.scene_id != "" && scene_db_.Get(world.scene_id, &scene)) {
-    step_vizs_[program_id].scene_pub.publish(scene);
+    if (world.scene_id != step_vizs_[program_id].last_scene_id) {
+      step_vizs_[program_id].scene_pub.publish(scene);
+      step_vizs_[program_id].last_scene_id = world.scene_id;
+    }
   } else {
     pcl::PointCloud<pcl::PointXYZRGB> blank;
     pcl::PointXYZRGB pt;
@@ -65,7 +69,7 @@ void Visualizer::Publish(const std::string& program_id, const World& world) {
     step_vizs_[program_id].scene_pub.publish(scene);
   }
 
-  // Publish landmarks
+  // Publish landmark markers
   MarkerArray scene_markers;
   GetSegmentationMarker(world, &scene_markers);
   if (scene_markers.markers.size() > 0) {
@@ -151,7 +155,7 @@ void Visualizer::CreateStepVizIfNotExists(const std::string& program_id) {
         nh_.advertise<PointCloud2>("scene/" + program_id, 10, true);
     step_vizs_[program_id].surface_seg_pub = nh_.advertise<MarkerArray>(
         "surface_segmentation/" + program_id, 10, true);
-    step_vizs_[program_id].step_id = 0;
+    step_vizs_[program_id].last_scene_id = "";
   }
 }
 }  // namespace pbd

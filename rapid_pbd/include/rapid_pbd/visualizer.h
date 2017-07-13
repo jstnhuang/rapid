@@ -22,10 +22,10 @@ typedef std::pair<std::string, int> ProgramStep;
 
 struct StepVisualization {
  public:
-  size_t step_id;
   ros::Publisher robot_pub;
   ros::Publisher scene_pub;
   ros::Publisher surface_seg_pub;
+  std::string last_scene_id;
 };
 
 // Visualization server for PbD programs.
