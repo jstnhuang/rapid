@@ -9,13 +9,14 @@
 #include "rapid_pbd/action_executor.h"
 #include "rapid_pbd/motion_planning.h"
 #include "rapid_pbd/robot_config.h"
+#include "rapid_pbd/world.h"
 
 namespace rapid {
 namespace pbd {
 class StepExecutor {
  public:
   StepExecutor(const rapid_pbd_msgs::Step& step, ActionClients* action_clients,
-               const RobotConfig& robot_config);
+               const RobotConfig& robot_config, World* world);
 
   // Returns true if the Step message is valid, false otherwise.
   // You should call this method to verify the step message before executing it.
@@ -36,6 +37,7 @@ class StepExecutor {
  private:
   rapid_pbd_msgs::Step step_;
   ActionClients* action_clients_;
+  World* world_;
   MotionPlanning motion_planning_;
   std::vector<boost::shared_ptr<ActionExecutor> > executors_;
 };

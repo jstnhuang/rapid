@@ -2,13 +2,15 @@
 
 #include "std_msgs/Bool.h"
 
-#include "rapid_pbd/action_names.h"
-#include "rapid_pbd/robot_config.h"
-#include "rapid_pbd/step_executor.h"
 #include "rapid_pbd_msgs/Action.h"
 #include "rapid_pbd_msgs/ExecuteProgramAction.h"
 #include "rapid_pbd_msgs/FreezeArm.h"
 #include "rapid_pbd_msgs/Program.h"
+
+#include "rapid_pbd/action_names.h"
+#include "rapid_pbd/robot_config.h"
+#include "rapid_pbd/step_executor.h"
+#include "rapid_pbd/world.h"
 
 using rapid_pbd_msgs::Action;
 using rapid_pbd_msgs::ExecuteProgramFeedback;
@@ -59,14 +61,16 @@ void ProgramExecutionServer::Execute(
   req.actuator_group = Action::RIGHT_ARM;
   freeze_arm_client_.call(req, res);
 
+  World world;
   std::vector<boost::shared_ptr<StepExecutor> > executors;
   for (size_t i = 0; i < goal->program.steps.size(); ++i) {
     const Step& step = goal->program.steps[i];
     boost::shared_ptr<StepExecutor> executor(
-        new StepExecutor(step, action_clients_, robot_config_));
+        new StepExecutor(step, action_clients_, robot_config_, &world));
     executors.push_back(executor);
     executors.back()->Init();
   }
+
   for (size_t i = 0; i < goal->program.steps.size(); ++i) {
     ExecuteProgramFeedback feedback;
     feedback.step_number = i;

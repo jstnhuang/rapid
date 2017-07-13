@@ -6,24 +6,29 @@
 #include "actionlib/server/simple_action_server.h"
 #include "control_msgs/FollowJointTrajectoryAction.h"
 #include "control_msgs/GripperCommandAction.h"
+#include "rapid_pbd_msgs/SegmentSurfacesAction.h"
 #include "ros/ros.h"
 
 #include "rapid_pbd/action_names.h"
 #include "rapid_pbd/motion_planning.h"
+#include "rapid_pbd/world.h"
 
 using actionlib::SimpleActionClient;
 using actionlib::SimpleClientGoalState;
 using control_msgs::FollowJointTrajectoryAction;
 using rapid_pbd_msgs::Action;
 
+namespace msgs = rapid_pbd_msgs;
+
 namespace rapid {
 namespace pbd {
 ActionExecutor::ActionExecutor(const Action& action,
                                ActionClients* action_clients,
-                               MotionPlanning* motion_planning)
+                               MotionPlanning* motion_planning, World* world)
     : action_(action),
       clients_(action_clients),
-      motion_planning_(motion_planning) {}
+      motion_planning_(motion_planning),
+      world_(world) {}
 
 bool ActionExecutor::IsValid(const Action& action) {
   if (action.type == Action::ACTUATE_GRIPPER) {
@@ -94,7 +99,17 @@ bool ActionExecutor::IsDone() const {
       return clients_->head_client.getState().isDone();
     }
   } else if (action_.type == Action::DETECT_TABLETOP_OBJECTS) {
-    return clients_->surface_segmentation_client.getState().isDone();
+    bool done = clients_->surface_segmentation_client.getState().isDone();
+    if (done) {
+      msgs::SegmentSurfacesResultConstPtr result =
+          clients_->surface_segmentation_client.getResult();
+      if (result) {
+        world_->surface_box_landmarks = result->landmarks;
+      } else {
+        ROS_ERROR("Surface segmentation result pointer was null!");
+      }
+    }
+    return done;
   }
   return true;
 }
