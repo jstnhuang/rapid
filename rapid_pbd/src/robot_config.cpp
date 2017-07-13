@@ -1,14 +1,22 @@
 #include "rapid_pbd/robot_config.h"
 
+#include "moveit/robot_model/robot_model.h"
+#include "moveit/robot_state/robot_state.h"
 #include "rapid_pbd_msgs/Action.h"
 
 using rapid_pbd_msgs::Action;
 
 namespace rapid {
 namespace pbd {
-std::string Pr2RobotConfig::planning_frame() const { return "base_link"; }
+Pr2RobotConfig::Pr2RobotConfig(robot_model::RobotModelPtr kinematic_model) {
+  kinematic_model_ = kinematic_model;
+  l_model_group_ = kinematic_model_->getJointModelGroup("left_arm");
+  r_model_group_ = kinematic_model_->getJointModelGroup("right_arm");
+}
+
+std::string Pr2RobotConfig::planning_frame() const { return "base_footprint"; }
 std::string Pr2RobotConfig::planning_group() const { return "arms"; }
-std::string Pr2RobotConfig::base_link() const { return "base_link"; }
+std::string Pr2RobotConfig::base_link() const { return "base_footprint"; }
 std::string Pr2RobotConfig::torso_link() const { return "torso_lift_link"; }
 std::string Pr2RobotConfig::ee_frame_for_group(
     const std::string& actuator_group) const {
@@ -79,6 +87,31 @@ void Pr2RobotConfig::joints_for_group(
   }
 }
 int Pr2RobotConfig::num_arms() const { return 2; }
+
+bool Pr2RobotConfig::ComputeIk(const std::string& actuator_group,
+                               const geometry_msgs::Pose& pose,
+                               std::vector<std::string>* joint_names,
+                               std::vector<double>* joint_values) const {
+  robot_state::RobotStatePtr kinematic_state(
+      new robot_state::RobotState(kinematic_model_));
+
+  const robot_state::JointModelGroup* model_group;
+  if (actuator_group == Action::LEFT_ARM) {
+    model_group = l_model_group_;
+  } else if (actuator_group == Action::RIGHT_ARM) {
+    model_group = r_model_group_;
+  } else {
+    return false;
+  }
+
+  bool found_ik = kinematic_state->setFromIK(model_group, pose, 100, 5);
+  if (!found_ik) {
+    return false;
+  }
+  *joint_names = model_group->getVariableNames();
+  kinematic_state->copyJointGroupPositions(model_group, *joint_values);
+  return true;
+}
 }  // namespace pbd
 }  // namespace rapid
 

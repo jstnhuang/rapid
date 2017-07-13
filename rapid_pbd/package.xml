@@ -10,6 +10,9 @@
   <build_depend>actionlib</build_depend>
   <build_depend>control_msgs</build_depend>
   <build_depend>mongodb_store</build_depend>
+  <build_depend>moveit_core</build_depend>
+  <build_depend>moveit_ros_planning</build_depend>
+  <build_depend>moveit_ros_planning_interface</build_depend>
   <build_depend>moveit_goal_builder</build_depend>
   <build_depend>pr2_controllers_msgs</build_depend>
   <build_depend>pr2_mechanism_msgs</build_depend>
@@ -22,6 +25,9 @@
   <run_depend>actionlib</run_depend>
   <run_depend>control_msgs</run_depend>
   <run_depend>mongodb_store</run_depend>
+  <run_depend>moveit_core</run_depend>
+  <run_depend>moveit_ros_planning</run_depend>
+  <run_depend>moveit_ros_planning_interface</run_depend>
   <run_depend>moveit_goal_builder</run_depend>
   <run_depend>pr2_controllers_msgs</run_depend>
   <run_depend>pr2_mechanism_msgs</run_depend>

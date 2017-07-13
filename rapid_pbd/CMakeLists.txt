@@ -8,6 +8,9 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   control_msgs
   mongodb_store
+  moveit_core
+  moveit_ros_planning
+  moveit_ros_planning_interface
   moveit_goal_builder
   pr2_controllers_msgs
   pr2_mechanism_msgs

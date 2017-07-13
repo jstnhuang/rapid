@@ -26,9 +26,10 @@ int main(int argc, char** argv) {
     return 1;
   }
 
+  robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
   pbd::RobotConfig* robot_config;
   if (robot == "pr2") {
-    robot_config = new pbd::Pr2RobotConfig();
+    robot_config = new pbd::Pr2RobotConfig(robot_model_loader.getModel());
   } else if (robot == "fetch") {
     ROS_ERROR("Unsupported robot \"%s\"", robot.c_str());
     return 1;
