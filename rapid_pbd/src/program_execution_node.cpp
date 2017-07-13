@@ -10,12 +10,15 @@
 #include "rapid_pbd/robot_config.h"
 #include "ros/ros.h"
 #include "std_msgs/Bool.h"
+#include "tf/transform_listener.h"
 
 namespace pbd = rapid::pbd;
 
 int main(int argc, char** argv) {
   ros::init(argc, argv, "program_executor");
   ros::NodeHandle nh;
+
+  tf::TransformListener tf_listener;
   ros::Publisher is_running_pub =
       nh.advertise<std_msgs::Bool>("is_running", 5, true);
 
@@ -85,7 +88,7 @@ int main(int argc, char** argv) {
 
   rapid::pbd::ProgramExecutionServer server(rapid::pbd::kProgramActionName,
                                             is_running_pub, &action_clients,
-                                            *robot_config);
+                                            *robot_config, tf_listener);
   server.Start();
   ROS_INFO("RapidPbD program executor ready.");
   ros::spin();

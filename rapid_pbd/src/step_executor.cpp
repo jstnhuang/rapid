@@ -4,6 +4,7 @@
 #include "moveit_msgs/MoveGroupGoal.h"
 #include "rapid_pbd_msgs/Action.h"
 #include "rapid_pbd_msgs/Step.h"
+#include "tf/transform_listener.h"
 
 #include "rapid_pbd/action_executor.h"
 #include "rapid_pbd/world.h"
@@ -16,11 +17,12 @@ namespace rapid {
 namespace pbd {
 StepExecutor::StepExecutor(const rapid_pbd_msgs::Step& step,
                            ActionClients* action_clients,
-                           const RobotConfig& robot_config, World* world)
+                           const RobotConfig& robot_config, World* world,
+                           const tf::TransformListener& tf_listener)
     : step_(step),
       action_clients_(action_clients),
       world_(world),
-      motion_planning_(robot_config, world),
+      motion_planning_(robot_config, world, tf_listener),
       executors_() {}
 
 bool StepExecutor::IsValid(const rapid_pbd_msgs::Step& step) {

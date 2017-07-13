@@ -5,6 +5,7 @@
 
 #include "boost/shared_ptr.hpp"
 #include "rapid_pbd_msgs/Step.h"
+#include "tf/transform_listener.h"
 
 #include "rapid_pbd/action_clients.h"
 #include "rapid_pbd/action_executor.h"
@@ -17,7 +18,8 @@ namespace pbd {
 class StepExecutor {
  public:
   StepExecutor(const rapid_pbd_msgs::Step& step, ActionClients* action_clients,
-               const RobotConfig& robot_config, World* world);
+               const RobotConfig& robot_config, World* world,
+               const tf::TransformListener& tf_listener);
 
   // Returns true if the Step message is valid, false otherwise.
   // You should call this method to verify the step message before executing it.
