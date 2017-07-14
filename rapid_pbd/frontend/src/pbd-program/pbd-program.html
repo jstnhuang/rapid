@@ -378,6 +378,7 @@
         var error = evt.detail.error;
         if (error) {
           this.error = evt.detail.error;
+          this.$.errorDialog.open();
         }
       },
 
