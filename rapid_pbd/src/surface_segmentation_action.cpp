@@ -8,6 +8,7 @@
 #include "pcl/filters/crop_box.h"
 #include "pcl/filters/extract_indices.h"
 #include "pcl_conversions/pcl_conversions.h"
+#include "pcl_ros/transforms.h"
 #include "rapid_pbd/action_names.h"
 #include "rapid_pbd_msgs/SegmentSurfacesAction.h"
 #include "ros/ros.h"
@@ -16,19 +17,23 @@
 #include "surface_perception/surface_objects.h"
 #include "surface_perception/typedefs.h"
 #include "surface_perception/visualization.h"
+#include "tf/transform_listener.h"
 #include "visualization_msgs/Marker.h"
 
 #include "rapid_pbd/program_db.h"
+#include "rapid_pbd/robot_config.h"
 
 using surface_perception::SurfaceObjects;
 using surface_perception::Object;
 
 namespace rapid {
 namespace pbd {
-SurfaceSegmentationAction::SurfaceSegmentationAction(const std::string& topic,
-                                                     const SceneDb& scene_db)
+SurfaceSegmentationAction::SurfaceSegmentationAction(
+    const std::string& topic, const SceneDb& scene_db,
+    const RobotConfig& robot_config)
     : topic_(topic),
       scene_db_(scene_db),
+      robot_config_(robot_config),
       as_(kSurfaceSegmentationActionName,
           boost::bind(&SurfaceSegmentationAction::Execute, this, _1), false),
       seg_(),
@@ -37,27 +42,48 @@ SurfaceSegmentationAction::SurfaceSegmentationAction(const std::string& topic,
           "surface_seg/cropped_scene", 1, true)),
       marker_pub_(nh_.advertise<visualization_msgs::Marker>(
           "surface_seg/visualization", 100)),
-      viz_(marker_pub_) {}
+      viz_(marker_pub_),
+      tf_listener_() {}
 
 void SurfaceSegmentationAction::Start() { as_.start(); }
 
 void SurfaceSegmentationAction::Execute(
     const rapid_pbd_msgs::SegmentSurfacesGoalConstPtr& goal) {
-  boost::shared_ptr<const sensor_msgs::PointCloud2> cloud_msg =
+  boost::shared_ptr<const sensor_msgs::PointCloud2> cloud_in =
       ros::topic::waitForMessage<sensor_msgs::PointCloud2>(topic_,
                                                            ros::Duration(10.0));
-  // TODO: transform into base_link if it's not already in it.
-  rapid_pbd_msgs::SegmentSurfacesResult result;
-  if (!cloud_msg) {
+  if (!cloud_in) {
+    rapid_pbd_msgs::SegmentSurfacesResult result;
     ROS_ERROR("Failed to get point cloud on topic: %s.", topic_.c_str());
-    as_.setSucceeded(result);
+    as_.setAborted(result);
     return;
   }
+
+  // Transform into base frame.
+  tf::TransformListener tf_listener;
+  std::string base_link(robot_config_.base_link());
+  tf_listener.waitForTransform(base_link, cloud_in->header.frame_id,
+                               ros::Time(0), ros::Duration(5.0));
+  tf::StampedTransform transform;
+  try {
+    tf_listener.lookupTransform(base_link, cloud_in->header.frame_id,
+                                ros::Time(0), transform);
+  } catch (tf::TransformException& e) {
+    ROS_ERROR("%s", e.what());
+    rapid_pbd_msgs::SegmentSurfacesResult result;
+    as_.setAborted(result, std::string(e.what()));
+    return;
+  }
+
+  sensor_msgs::PointCloud2 cloud_msg;
+  pcl_ros::transformPointCloud("base_link", transform, *cloud_in, cloud_msg);
+
+  rapid_pbd_msgs::SegmentSurfacesResult result;
   if (goal->save_cloud) {
-    result.cloud_db_id = scene_db_.Insert(*cloud_msg);
+    result.cloud_db_id = scene_db_.Insert(cloud_msg);
   }
   PointCloudC::Ptr cloud(new PointCloudC);
-  pcl::fromROSMsg(*cloud_msg, *cloud);
+  pcl::fromROSMsg(cloud_msg, *cloud);
 
   std::vector<int> indices;
   pcl::removeNaNFromPointCloud(*cloud, *cloud, indices);
