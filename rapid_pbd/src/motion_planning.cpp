@@ -41,17 +41,45 @@ string MotionPlanning::AddPoseGoal(const string& actuator_group,
   tg::Graph graph;
   graph.Add("ee", tg::RefFrame("landmark"), pose);
   if (landmark.type == msgs::Landmark::TF_FRAME) {
-    // TODO: get the latest tf
+    tf::StampedTransform st;
+    try {
+      tf_listener_.lookupTransform(robot_config_.base_link(), landmark.name,
+                                   ros::Time(0), st);
+    } catch (const tf::TransformException& ex) {
+      ROS_ERROR(
+          "Unable to get TF transform from \"%s\" to landmark frame \"%s\"",
+          robot_config_.base_link().c_str(), landmark.name.c_str());
+      return "Unable to get TF transform";
+    }
+    graph.Add("landmark", tg::RefFrame(robot_config_.base_link()), st);
   } else if (landmark.type == msgs::Landmark::SURFACE_BOX) {
     // TODO: Register the landmark
+    msgs::Landmark match;
+    bool success = MatchLandmark(*world_, landmark, &match);
+    if (!success) {
+      return errors::kNoLandmarksMatch;
+    }
+    if (landmark.pose_stamped.header.frame_id != robot_config_.base_link()) {
+      ROS_ERROR("Landmark not in base frame: \"%s\"",
+                landmark.pose_stamped.header.frame_id.c_str());
+      return "Landmark not in base frame.";
+    }
+    graph.Add("landmark", tg::RefFrame(landmark.pose_stamped.header.frame_id),
+              landmark.pose_stamped.pose);
   } else {
     ROS_ERROR("Unsupported landmark type \"%s\"", landmark.type.c_str());
     return "Unsupported landmark type.";
   }
 
   // Transform pose into base frame
+  tg::Transform landmark_transform;
+  graph.ComputeDescription(tg::LocalFrame("ee"),
+                           tg::RefFrame(robot_config_.base_link()),
+                           &landmark_transform);
+  geometry_msgs::Pose pose_in_base;
+  landmark_transform.ToPose(&pose_in_base);
 
-  builder_.AddPoseGoal(ee_link, pose);
+  builder_.AddPoseGoal(ee_link, pose_in_base);
   ++num_goals_;
 
   return "";
