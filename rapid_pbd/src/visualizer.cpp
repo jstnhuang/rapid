@@ -55,6 +55,8 @@ void Visualizer::Publish(const std::string& program_id, const World& world) {
   marker_builder_.Build(&robot_markers);
   step_vizs_[program_id].robot_pub.publish(robot_markers);
 
+  std::string base_link(robot_config_.base_link());
+
   // Publish the scene
   PointCloud2 scene;
   if (world.scene_id != "" && scene_db_.Get(world.scene_id, &scene)) {
@@ -67,7 +69,7 @@ void Visualizer::Publish(const std::string& program_id, const World& world) {
     pcl::PointXYZRGB pt;
     blank.points.push_back(pt);
     pcl::toROSMsg(blank, scene);
-    scene.header.frame_id = "base_link";
+    scene.header.frame_id = base_link;
     step_vizs_[program_id].scene_pub.publish(scene);
   }
 
@@ -81,7 +83,7 @@ void Visualizer::Publish(const std::string& program_id, const World& world) {
       Marker blank;
       blank.ns = "segmentation";
       blank.id = i;
-      blank.header.frame_id = "base_link";
+      blank.header.frame_id = base_link;
       blank.type = Marker::CUBE;
       blank.pose.orientation.w = 1;
       blank.scale.x = 0.05;
@@ -111,6 +113,8 @@ void Visualizer::GetSegmentationMarker(
   }
   surface_perception::ObjectMarkers(objects, &scene_markers->markers);
 
+  std::string base_link(robot_config_.base_link());
+
   for (size_t i = 0; i < objects.size(); ++i) {
     scene_markers->markers[i].ns = "segmentation";
     scene_markers->markers[i].id = i;
@@ -135,7 +139,7 @@ void Visualizer::GetSegmentationMarker(
     Marker blank;
     blank.ns = "segmentation";
     blank.id = i;
-    blank.header.frame_id = "base_link";
+    blank.header.frame_id = base_link;
     blank.type = Marker::CUBE;
     blank.pose.orientation.w = 1;
     blank.scale.x = 0.05;
