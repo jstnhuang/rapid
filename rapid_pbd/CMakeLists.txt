@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   moveit_ros_planning
   moveit_ros_planning_interface
   moveit_goal_builder
+  pcl_ros
   pr2_controllers_msgs
   pr2_mechanism_msgs
   rapid_pbd_msgs
@@ -133,6 +134,7 @@ catkin_package(
     control_msgs
     mongodb_store
     moveit_goal_builder
+    pcl_ros
     pr2_controllers_msgs
     pr2_mechanism_msgs
     rapid_pbd_msgs
