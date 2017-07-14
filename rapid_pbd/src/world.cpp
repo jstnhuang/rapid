@@ -106,7 +106,7 @@ void GetWorld(const RobotConfig& robot_config, const msgs::Program& program,
 
         if (!success) {
           ROS_ERROR_STREAM("Failed to compute IK for actuator "
-                           << action.actuator_group << " on step" << step_i
+                           << action.actuator_group << " on step " << step_i
                            << ", action " << action_i << ", pose: " << pose);
           continue;
         }
