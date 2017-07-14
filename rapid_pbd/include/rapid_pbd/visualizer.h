@@ -13,6 +13,7 @@
 
 #include "rapid_pbd/joint_state.h"
 #include "rapid_pbd/program_db.h"
+#include "rapid_pbd/robot_config.h"
 #include "rapid_pbd/world.h"
 
 namespace rapid {
@@ -32,7 +33,8 @@ struct StepVisualization {
 class Visualizer {
  public:
   Visualizer(const SceneDb& scene_db,
-             const robot_markers::Builder& marker_builder);
+             const robot_markers::Builder& marker_builder,
+             const RobotConfig& robot_config);
   void Init();
 
   // Publish the visualization for a particular step.
@@ -47,6 +49,7 @@ class Visualizer {
 
   const SceneDb scene_db_;
   robot_markers::Builder marker_builder_;
+  const RobotConfig& robot_config_;
   std::map<std::string, StepVisualization> step_vizs_;
 
   ros::NodeHandle nh_;

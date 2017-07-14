@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
   urdf::Model model;
   model.initParam("robot_description");
   robot_markers::Builder marker_builder(model);
-  pbd::Visualizer visualizer(scene_db, marker_builder);
+  pbd::Visualizer visualizer(scene_db, marker_builder, *robot_config);
   visualizer.Init();
 
   // Build editor.

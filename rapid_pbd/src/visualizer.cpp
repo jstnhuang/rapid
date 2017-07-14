@@ -12,7 +12,6 @@
 #include "pcl_conversions/pcl_conversions.h"
 #include "rapid_pbd/joint_state.h"
 #include "rapid_pbd_msgs/EditorEvent.h"
-#include "rapid_pbd_msgs/LandmarkArray.h"
 #include "rapid_pbd_msgs/Program.h"
 #include "robot_markers/builder.h"
 #include "sensor_msgs/PointCloud2.h"
@@ -20,6 +19,7 @@
 #include "visualization_msgs/Marker.h"
 #include "visualization_msgs/MarkerArray.h"
 
+#include "rapid_pbd/robot_config.h"
 #include "rapid_pbd/world.h"
 
 namespace msgs = rapid_pbd_msgs;
@@ -30,16 +30,18 @@ using visualization_msgs::MarkerArray;
 namespace rapid {
 namespace pbd {
 Visualizer::Visualizer(const SceneDb& scene_db,
-                       const robot_markers::Builder& marker_builder)
+                       const robot_markers::Builder& marker_builder,
+                       const RobotConfig& robot_config)
     : scene_db_(scene_db),
       marker_builder_(marker_builder),
+      robot_config_(robot_config),
       step_vizs_(),
       nh_() {}
 
 void Visualizer::Init() {
   marker_builder_.Init();
   marker_builder_.SetNamespace("robot");
-  marker_builder_.SetFrameId("base_link");
+  marker_builder_.SetFrameId(robot_config_.base_link());
 }
 
 void Visualizer::Publish(const std::string& program_id, const World& world) {
