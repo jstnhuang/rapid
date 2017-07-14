@@ -85,9 +85,9 @@ void GetWorld(const RobotConfig& robot_config, const msgs::Program& program,
         bool success = robot_config.ComputeIk(action.actuator_group, pose,
                                               &joint_names, &joint_values);
         if (!success) {
-          ROS_ERROR(
-              "Failed to compute IK for actuator %s on step %ld, action %ld",
-              action.actuator_group.c_str(), step_i, action_i);
+          ROS_ERROR_STREAM("Failed to compute IK for actuator "
+                           << action.actuator_group << "on step" << step_i
+                           << ", action " << action_i << ", pose: " << pose);
           continue;
         }
         for (size_t j = 0; j < joint_names.size(); ++j) {
