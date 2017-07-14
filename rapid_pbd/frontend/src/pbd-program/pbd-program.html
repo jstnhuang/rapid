@@ -125,6 +125,7 @@
       server="/rapid_pbd/execute_program_action"
       action-type="rapid_pbd_msgs/ExecuteProgramAction"
       on-feedback="_handleFeedback"
+      on-result="_handleResult"
     ></ros-action-client>
     <ros-topic auto
       last-message="{{isRunning}}"
@@ -170,6 +171,13 @@
         <ros-rviz id="rviz" global-options="{{globalOptions}}" ros="[[ros]]"></ros-rviz>
       </div>
     </div>
+    <paper-dialog id="errorDialog" modal>
+      <h2>Error running the program</h2>
+      <p>[[error]]</p>
+      <div class="buttons">
+        <paper-button dialog-confirm class="clear">OK</paper-button>
+      </div>
+    </paper-dialog>
   </template>
 
   <script>
@@ -365,6 +373,13 @@
       _handleFeedback: function(evt) {
         this.currentStepNum = evt.detail.step_number;
       },
+
+      _handleResult: function(evt) {
+        var error = evt.detail.error;
+        if (error) {
+          this.error = evt.detail.error;
+        }
+      }
 
       _handleProgram: function(evt) {
         var program = evt.detail;
