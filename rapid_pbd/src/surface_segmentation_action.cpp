@@ -76,7 +76,8 @@ void SurfaceSegmentationAction::Execute(
   }
 
   sensor_msgs::PointCloud2 cloud_msg;
-  pcl_ros::transformPointCloud("base_link", transform, *cloud_in, cloud_msg);
+  pcl_ros::transformPointCloud(robot_config_.base_link(), transform, *cloud_in,
+                               cloud_msg);
 
   rapid_pbd_msgs::SegmentSurfacesResult result;
   if (goal->save_cloud) {
