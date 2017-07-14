@@ -1,5 +1,6 @@
 #include "rapid_pbd/world.h"
 
+#include <math.h>
 #include <string>
 #include <vector>
 
@@ -110,6 +111,50 @@ void GetWorld(const RobotConfig& robot_config, const msgs::Program& program,
     if (surface_boxes.size() > 0) {
       world->surface_box_landmarks = surface_boxes;
     }
+  }
+}
+
+namespace {
+// Returns dimensions as a vector, with x always <= y.
+void GetDims(const msgs::Landmark& landmark, std::vector<double>* dims) {
+  dims->resize(3);
+  dims->at(0) =
+      std::min(landmark.surface_box_dims.x, landmark.surface_box_dims.y);
+  dims->at(1) =
+      std::max(landmark.surface_box_dims.x, landmark.surface_box_dims.y);
+  dims->at(2) = landmark.surface_box_dims.z;
+}
+
+// Returns squared norm of vectors a and b.
+double BoxDissimilarity(const std::vector<double>& a,
+                        const std::vector<double>& b) {
+  double dx = (a[0] - b[0]);
+  double dy = (a[1] - b[1]);
+  double dz = (a[2] - b[2]);
+  return dx * dx + dy * dy + dz * dz;
+}
+}
+
+bool MatchLandmark(const World& world, const rapid_pbd_msgs::Landmark& landmark,
+                   rapid_pbd_msgs::Landmark* match) {
+  const double kMaxDistance = 0.075 * 0.075;
+  std::vector<double> landmark_dims;
+  GetDims(landmark, &landmark_dims);
+  if (landmark.type == msgs::Landmark::SURFACE_BOX) {
+    double best = std::numeric_limits<double>::max();
+    for (size_t i = 0; i < world.surface_box_landmarks.size(); ++i) {
+      const msgs::Landmark& world_landmark = world.surface_box_landmarks[i];
+      std::vector<double> world_landmark_dims;
+      GetDims(world_landmark, &world_landmark_dims);
+      double distance = BoxDissimilarity(landmark_dims, world_landmark_dims);
+      if (distance < best) {
+        best = distance;
+        *match = world_landmark;
+      }
+    }
+    return best <= kMaxDistance;
+  } else {
+    return false;
   }
 }
 }  // namespace pbd

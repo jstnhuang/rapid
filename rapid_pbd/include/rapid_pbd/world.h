@@ -1,6 +1,5 @@
 #ifndef _RAPID_PBD_WORLD_H_
 #define _RAPID_PBD_WORLD_H_
-
 #include <string>
 #include <vector>
 
@@ -22,6 +21,9 @@ struct World {
 void GetWorld(const RobotConfig& robot_config,
               const rapid_pbd_msgs::Program& program, size_t step_id,
               World* world);
+
+bool MatchLandmark(const World& world, const rapid_pbd_msgs::Landmark& landmark,
+                   rapid_pbd_msgs::Landmark* match);
 }  // namespace pbd
 }  // namespace rapid
 
