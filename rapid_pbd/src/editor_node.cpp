@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
     return 1;
   }
 
-  robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
+  robot_model_loader::RobotModelLoader robot_model_loader("/robot_description");
 
   pbd::RobotConfig* robot_config;
   if (robot == "pr2") {
