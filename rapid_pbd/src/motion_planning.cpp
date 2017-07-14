@@ -53,19 +53,18 @@ string MotionPlanning::AddPoseGoal(const string& actuator_group,
     }
     graph.Add("landmark", tg::RefFrame(robot_config_.base_link()), st);
   } else if (landmark.type == msgs::Landmark::SURFACE_BOX) {
-    // TODO: Register the landmark
     msgs::Landmark match;
     bool success = MatchLandmark(*world_, landmark, &match);
     if (!success) {
       return errors::kNoLandmarksMatch;
     }
-    if (landmark.pose_stamped.header.frame_id != robot_config_.base_link()) {
+    if (match.pose_stamped.header.frame_id != robot_config_.base_link()) {
       ROS_ERROR("Landmark not in base frame: \"%s\"",
-                landmark.pose_stamped.header.frame_id.c_str());
+                match.pose_stamped.header.frame_id.c_str());
       return "Landmark not in base frame.";
     }
-    graph.Add("landmark", tg::RefFrame(landmark.pose_stamped.header.frame_id),
-              landmark.pose_stamped.pose);
+    graph.Add("landmark", tg::RefFrame(match.pose_stamped.header.frame_id),
+              match.pose_stamped.pose);
   } else {
     ROS_ERROR("Unsupported landmark type \"%s\"", landmark.type.c_str());
     return "Unsupported landmark type.";
