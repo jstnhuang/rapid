@@ -407,7 +407,8 @@
           if (!this._depthCloud) {
             this._depthCloud = new ROS3D.DepthCloud({
               url: 'http://' + window.location.hostname + ':9998/streams/depthcloud_encoded.webm',
-              f: 525.0
+              f: 525.0,
+              pointSize: 1
             });
           }
           this._depthCloud.startStream();
