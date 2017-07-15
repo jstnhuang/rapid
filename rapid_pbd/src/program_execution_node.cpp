@@ -8,9 +8,11 @@
 #include "rapid_pbd/action_names.h"
 #include "rapid_pbd/program_executor.h"
 #include "rapid_pbd/robot_config.h"
+#include "rapid_pbd/visualizer.h"
 #include "ros/ros.h"
 #include "std_msgs/Bool.h"
 #include "tf/transform_listener.h"
+#include "visualization_msgs/MarkerArray.h"
 
 namespace pbd = rapid::pbd;
 
@@ -86,9 +88,13 @@ int main(int argc, char** argv) {
     ROS_WARN("Waiting for MoveIt action server.");
   }
 
-  rapid::pbd::ProgramExecutionServer server(rapid::pbd::kProgramActionName,
-                                            is_running_pub, &action_clients,
-                                            *robot_config, tf_listener);
+  ros::Publisher box_pub =
+      nh.advertise<visualization_msgs::MarkerArray>("runtime_segmentation", 10);
+  pbd::RuntimeVisualizer runtime_viz(*robot_config, box_pub);
+
+  rapid::pbd::ProgramExecutionServer server(
+      rapid::pbd::kProgramActionName, is_running_pub, &action_clients,
+      *robot_config, tf_listener, runtime_viz);
   server.Start();
   ROS_INFO("RapidPbD program executor ready.");
   ros::spin();

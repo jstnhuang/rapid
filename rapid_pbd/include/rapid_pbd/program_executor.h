@@ -10,6 +10,7 @@
 
 #include "rapid_pbd/action_clients.h"
 #include "rapid_pbd/robot_config.h"
+#include "rapid_pbd/visualizer.h"
 
 namespace rapid {
 namespace pbd {
@@ -19,7 +20,8 @@ class ProgramExecutionServer {
                          const ros::Publisher& is_running_pub,
                          ActionClients* action_clients,
                          const RobotConfig& robot_config,
-                         const tf::TransformListener& tf_listener);
+                         const tf::TransformListener& tf_listener,
+                         const RuntimeVisualizer& runtime_viz_);
   void Start();
 
  private:
@@ -30,6 +32,7 @@ class ProgramExecutionServer {
   ActionClients* action_clients_;
   const RobotConfig& robot_config_;
   const tf::TransformListener& tf_listener_;
+  RuntimeVisualizer runtime_viz_;
 
   void Execute(const rapid_pbd_msgs::ExecuteProgramGoalConstPtr& goal);
   static bool IsValid(const rapid_pbd_msgs::Program& program);

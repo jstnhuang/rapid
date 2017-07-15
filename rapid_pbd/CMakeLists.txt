@@ -168,6 +168,7 @@ add_dependencies(rapid_pbd_action_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} $
 target_link_libraries(rapid_pbd_action_executor
   rapid_pbd_action_clients
   rapid_pbd_motion_planning
+  rapid_pbd_visualizer
   rapid_pbd_world
   ${catkin_LIBRARIES})
 
@@ -211,6 +212,7 @@ target_link_libraries(rapid_pbd_program_executor
   rapid_pbd_action_clients
   rapid_pbd_robot_config
   rapid_pbd_step_executor
+  rapid_pbd_visualizer
   rapid_pbd_world
   ${catkin_LIBRARIES})
 
@@ -225,6 +227,7 @@ target_link_libraries(rapid_pbd_step_executor
   rapid_pbd_action_executor
   rapid_pbd_motion_planning
   rapid_pbd_robot_config
+  rapid_pbd_visualizer
   rapid_pbd_world
   ${catkin_LIBRARIES})
 
@@ -237,7 +240,11 @@ target_link_libraries(rapid_pbd_surface_segmentation_action
 
 add_library(rapid_pbd_visualizer src/visualizer.cpp)
 add_dependencies(rapid_pbd_visualizer ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rapid_pbd_visualizer rapid_pbd_robot_config rapid_pbd_world ${catkin_LIBRARIES})
+target_link_libraries(rapid_pbd_visualizer
+  rapid_pbd_program_db
+  rapid_pbd_robot_config
+  rapid_pbd_world
+  ${catkin_LIBRARIES})
 
 add_library(rapid_pbd_world src/world.cpp)
 add_dependencies(rapid_pbd_world ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -267,6 +274,7 @@ add_dependencies(rapid_pbd_program_execution_node ${${PROJECT_NAME}_EXPORTED_TAR
 target_link_libraries(rapid_pbd_program_execution_node
   rapid_pbd_program_executor
   rapid_pbd_robot_config
+  rapid_pbd_visualizer
   ${catkin_LIBRARIES}
 )
 

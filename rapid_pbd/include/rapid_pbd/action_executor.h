@@ -5,6 +5,7 @@
 
 #include "rapid_pbd/action_clients.h"
 #include "rapid_pbd/motion_planning.h"
+#include "rapid_pbd/visualizer.h"
 #include "rapid_pbd/world.h"
 
 namespace rapid {
@@ -14,7 +15,8 @@ class ActionExecutor {
  public:
   ActionExecutor(const rapid_pbd_msgs::Action& action,
                  ActionClients* action_clients, MotionPlanning* motion_planning,
-                 World* world);
+                 World* world, const RobotConfig& robot_config,
+                 const RuntimeVisualizer& runtime_viz);
 
   // Returns true if the given action message is valid, false otherwise.
   // Public methods of ActionExecutor will use this at the start and return
@@ -36,6 +38,8 @@ class ActionExecutor {
   ActionClients* clients_;
   MotionPlanning* motion_planning_;
   World* world_;
+  const RobotConfig& robot_config_;
+  RuntimeVisualizer runtime_viz_;
 
   void ActuateGripper();
   void MoveToJointGoal();

@@ -8,10 +8,12 @@
 #include "control_msgs/GripperCommandAction.h"
 #include "rapid_pbd_msgs/SegmentSurfacesAction.h"
 #include "ros/ros.h"
+#include "visualization_msgs/MarkerArray.h"
 
 #include "rapid_pbd/action_names.h"
 #include "rapid_pbd/errors.h"
 #include "rapid_pbd/motion_planning.h"
+#include "rapid_pbd/visualizer.h"
 #include "rapid_pbd/world.h"
 
 using actionlib::SimpleActionClient;
@@ -25,11 +27,15 @@ namespace rapid {
 namespace pbd {
 ActionExecutor::ActionExecutor(const Action& action,
                                ActionClients* action_clients,
-                               MotionPlanning* motion_planning, World* world)
+                               MotionPlanning* motion_planning, World* world,
+                               const RobotConfig& robot_config,
+                               const RuntimeVisualizer& runtime_viz)
     : action_(action),
       clients_(action_clients),
       motion_planning_(motion_planning),
-      world_(world) {}
+      world_(world),
+      robot_config_(robot_config),
+      runtime_viz_(runtime_viz) {}
 
 bool ActionExecutor::IsValid(const Action& action) {
   if (action.type == Action::ACTUATE_GRIPPER) {
@@ -110,6 +116,7 @@ bool ActionExecutor::IsDone(std::string* error) const {
           *error = errors::kNoLandmarksDetected;
         }
         world_->surface_box_landmarks = result->landmarks;
+        runtime_viz_.PublishSurfaceBoxes(result->landmarks);
       } else {
         ROS_ERROR("Surface segmentation result pointer was null!");
         *error = "Surface segmentation result pointer was null!";

@@ -263,6 +263,13 @@
                 param: 'robot_description',
                 tfPrefix: ''
               },
+            }, {
+              isShown: false,
+              name: 'Current surface segmentation',
+              type: 'markerArray',
+              options: {
+                topic: '/rapid_pbd/runtime_segmentation',
+              },
             },
           ],
           sidebarOpened: false,
@@ -427,6 +434,7 @@
           this.$.rviz.set('displays.2.isShown', false);
           this.$.rviz.set('displays.3.isShown', false);
           this.$.rviz.set('displays.4.isShown', true);
+          this.$.rviz.set('displays.5.isShown', true);
         } else {
           if (this._depthCloud) {
             //this._depthCloud.stopStream();
@@ -440,6 +448,7 @@
           this.$.rviz.set('displays.2.isShown', true);
           this.$.rviz.set('displays.3.isShown', true);
           this.$.rviz.set('displays.4.isShown', false);
+          this.$.rviz.set('displays.5.isShown', false);
         }
       },
     });

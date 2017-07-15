@@ -12,6 +12,7 @@
 #include "pcl_conversions/pcl_conversions.h"
 #include "rapid_pbd/joint_state.h"
 #include "rapid_pbd_msgs/EditorEvent.h"
+#include "rapid_pbd_msgs/Landmark.h"
 #include "rapid_pbd_msgs/Program.h"
 #include "robot_markers/builder.h"
 #include "sensor_msgs/PointCloud2.h"
@@ -75,7 +76,8 @@ void Visualizer::Publish(const std::string& program_id, const World& world) {
 
   // Publish landmark markers
   MarkerArray scene_markers;
-  GetSegmentationMarker(world, &scene_markers);
+  GetSegmentationMarker(world.surface_box_landmarks, robot_config_,
+                        &scene_markers);
   if (scene_markers.markers.size() > 0) {
     step_vizs_[program_id].surface_seg_pub.publish(scene_markers);
   } else {
@@ -101,11 +103,36 @@ void Visualizer::StopPublishing(const std::string& program_id) {
   }
 }
 
-void Visualizer::GetSegmentationMarker(
-    const World& world, visualization_msgs::MarkerArray* scene_markers) {
+void Visualizer::CreateStepVizIfNotExists(const std::string& program_id) {
+  // Create the publisher if it doesn't exist.
+  if (step_vizs_.find(program_id) == step_vizs_.end()) {
+    step_vizs_[program_id].robot_pub =
+        nh_.advertise<MarkerArray>("robot/" + program_id, 10, true);
+    step_vizs_[program_id].scene_pub =
+        nh_.advertise<PointCloud2>("scene/" + program_id, 10, true);
+    step_vizs_[program_id].surface_seg_pub = nh_.advertise<MarkerArray>(
+        "surface_segmentation/" + program_id, 10, true);
+    step_vizs_[program_id].last_scene_id = "";
+  }
+}
+
+RuntimeVisualizer::RuntimeVisualizer(const RobotConfig& robot_config,
+                                     const ros::Publisher& surface_box_pub)
+    : robot_config_(robot_config), surface_box_pub_(surface_box_pub) {}
+
+void RuntimeVisualizer::PublishSurfaceBoxes(
+    const std::vector<rapid_pbd_msgs::Landmark>& box_landmarks) const {
+  MarkerArray scene_markers;
+  GetSegmentationMarker(box_landmarks, robot_config_, &scene_markers);
+  surface_box_pub_.publish(scene_markers);
+}
+
+void GetSegmentationMarker(const std::vector<msgs::Landmark>& landmarks,
+                           const RobotConfig& robot_config,
+                           visualization_msgs::MarkerArray* scene_markers) {
   std::vector<surface_perception::Object> objects;
-  for (size_t li = 0; li < world.surface_box_landmarks.size(); ++li) {
-    const msgs::Landmark& landmark = world.surface_box_landmarks[li];
+  for (size_t li = 0; li < landmarks.size(); ++li) {
+    const msgs::Landmark& landmark = landmarks[li];
     surface_perception::Object object;
     object.pose_stamped = landmark.pose_stamped;
     object.dimensions = landmark.surface_box_dims;
@@ -113,7 +140,7 @@ void Visualizer::GetSegmentationMarker(
   }
   surface_perception::ObjectMarkers(objects, &scene_markers->markers);
 
-  std::string base_link(robot_config_.base_link());
+  std::string base_link(robot_config.base_link());
 
   for (size_t i = 0; i < objects.size(); ++i) {
     scene_markers->markers[i].ns = "segmentation";
@@ -123,7 +150,7 @@ void Visualizer::GetSegmentationMarker(
     Marker marker = scene_markers->markers[i];
     marker.type = Marker::TEXT_VIEW_FACING;
     marker.ns = "segmentation_names";
-    marker.text = world.surface_box_landmarks[i].name;
+    marker.text = landmarks[i].name;
     marker.pose.position.z += 0.15;
     marker.scale.x = 0.1;
     marker.scale.y = 0.1;
@@ -149,19 +176,6 @@ void Visualizer::GetSegmentationMarker(
 
     blank.ns = "segmentation_names";
     scene_markers->markers.push_back(blank);
-  }
-}
-
-void Visualizer::CreateStepVizIfNotExists(const std::string& program_id) {
-  // Create the publisher if it doesn't exist.
-  if (step_vizs_.find(program_id) == step_vizs_.end()) {
-    step_vizs_[program_id].robot_pub =
-        nh_.advertise<MarkerArray>("robot/" + program_id, 10, true);
-    step_vizs_[program_id].scene_pub =
-        nh_.advertise<PointCloud2>("scene/" + program_id, 10, true);
-    step_vizs_[program_id].surface_seg_pub = nh_.advertise<MarkerArray>(
-        "surface_segmentation/" + program_id, 10, true);
-    step_vizs_[program_id].last_scene_id = "";
   }
 }
 }  // namespace pbd

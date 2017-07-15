@@ -7,6 +7,7 @@
 #include "tf/transform_listener.h"
 
 #include "rapid_pbd/action_executor.h"
+#include "rapid_pbd/visualizer.h"
 #include "rapid_pbd/world.h"
 
 using boost::shared_ptr;
@@ -18,10 +19,13 @@ namespace pbd {
 StepExecutor::StepExecutor(const rapid_pbd_msgs::Step& step,
                            ActionClients* action_clients,
                            const RobotConfig& robot_config, World* world,
+                           const RuntimeVisualizer& runtime_viz,
                            const tf::TransformListener& tf_listener)
     : step_(step),
       action_clients_(action_clients),
+      robot_config_(robot_config),
       world_(world),
+      runtime_viz_(runtime_viz),
       motion_planning_(robot_config, world, tf_listener),
       executors_() {}
 
@@ -40,7 +44,8 @@ void StepExecutor::Init() {
   for (size_t i = 0; i < step_.actions.size(); ++i) {
     Action action = step_.actions[i];
     shared_ptr<ActionExecutor> ae(
-        new ActionExecutor(action, action_clients_, &motion_planning_, world_));
+        new ActionExecutor(action, action_clients_, &motion_planning_, world_,
+                           robot_config_, runtime_viz_));
     executors_.push_back(ae);
   }
 }

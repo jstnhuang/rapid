@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "rapid_pbd_msgs/EditorEvent.h"
+#include "rapid_pbd_msgs/Landmark.h"
 #include "rapid_pbd_msgs/Program.h"
 #include "robot_markers/builder.h"
 #include "ros/ros.h"
@@ -29,7 +30,7 @@ struct StepVisualization {
   std::string last_scene_id;
 };
 
-// Visualization server for PbD programs.
+// Visualization server for PbD programs being edited.
 class Visualizer {
  public:
   Visualizer(const SceneDb& scene_db,
@@ -43,8 +44,6 @@ class Visualizer {
   void StopPublishing(const std::string& program_id);
 
  private:
-  void GetSegmentationMarker(const World& world,
-                             visualization_msgs::MarkerArray* scene_markers);
   void CreateStepVizIfNotExists(const std::string& program_id);
 
   const SceneDb scene_db_;
@@ -54,6 +53,24 @@ class Visualizer {
 
   ros::NodeHandle nh_;
 };
+
+// Visualizes the state of a program execution.
+class RuntimeVisualizer {
+ public:
+  RuntimeVisualizer(const RobotConfig& robot_config,
+                    const ros::Publisher& surface_box_pub);
+  void PublishSurfaceBoxes(
+      const std::vector<rapid_pbd_msgs::Landmark>& box_landmarks) const;
+
+ private:
+  const RobotConfig& robot_config_;
+  ros::Publisher surface_box_pub_;
+};
+
+void GetSegmentationMarker(
+    const std::vector<rapid_pbd_msgs::Landmark>& landmarks,
+    const RobotConfig& robot_config,
+    visualization_msgs::MarkerArray* scene_markers);
 }  // namespace pbd
 }  // namespace rapid
 

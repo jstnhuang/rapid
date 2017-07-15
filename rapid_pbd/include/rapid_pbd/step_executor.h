@@ -11,6 +11,7 @@
 #include "rapid_pbd/action_executor.h"
 #include "rapid_pbd/motion_planning.h"
 #include "rapid_pbd/robot_config.h"
+#include "rapid_pbd/visualizer.h"
 #include "rapid_pbd/world.h"
 
 namespace rapid {
@@ -19,6 +20,7 @@ class StepExecutor {
  public:
   StepExecutor(const rapid_pbd_msgs::Step& step, ActionClients* action_clients,
                const RobotConfig& robot_config, World* world,
+               const RuntimeVisualizer& runtime_viz,
                const tf::TransformListener& tf_listener);
 
   // Returns true if the Step message is valid, false otherwise.
@@ -41,7 +43,9 @@ class StepExecutor {
  private:
   rapid_pbd_msgs::Step step_;
   ActionClients* action_clients_;
+  const RobotConfig& robot_config_;
   World* world_;
+  RuntimeVisualizer runtime_viz_;
   MotionPlanning motion_planning_;
   std::vector<boost::shared_ptr<ActionExecutor> > executors_;
 };
