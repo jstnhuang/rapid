@@ -2,12 +2,21 @@
   <param name="mongodb_use_daemon" value="true" />
   <param name="mongodb_host" value="localhost" />
   <param name="mongodb_port" value="27017" />
+
+  <arg name="robot" />
   <node name="message_store" pkg="mongodb_store" type="message_store_node.py" output="screen" required="true" /> 
 
   <group ns="rapid_pbd">
-    <param name="robot" value="pr2" />
+    <param name="robot" value="$(arg robot)" />
     <node name="editor_node" pkg="rapid_pbd" type="editor_node" output="screen" required="true">
       <remap from="move_group" to="/move_group" />
     </node>
   </group>
+
+  <node pkg="ros_web_video" type="ros_web_video" name="rapid_pbd_video_server">
+    <param name="port" value="9998" />
+    <param name="framerate" value="15" />
+    <param name="bitrate" value="250000" />
+    <param name="profile" value="best" />
+  </node>
 </launch>

@@ -404,11 +404,37 @@
 
       _isRunningChanged: function(isRunning) {
         if (isRunning) {
+          if (!this._depthCloud) {
+            this._depthCloud = new ROS3D.DepthCloud({
+              url: 'http://' + window.location.hostname + ':9998/streams/depthcloud_encoded.webm',
+              f: 525.0
+            });
+          }
+          this._depthCloud.startStream();
+
+          this._depthNode = new ROS3D.SceneNode({
+            frameID: '/head_mount_kinect_rgb_optical_frame',
+            tfClient: this.$.rviz.tfClient,
+            object: this._depthCloud
+          });
+          this._depthNode.scale.x = 0.5;
+          this._depthNode.scale.y = 0.5;
+          this._depthNode.scale.z = 0.5;
+          this.$.rviz._viewer.scene.add(this._depthNode);
+
           this.$.rviz.set('displays.1.isShown', false);
           this.$.rviz.set('displays.2.isShown', false);
           this.$.rviz.set('displays.3.isShown', false);
           this.$.rviz.set('displays.4.isShown', true);
         } else {
+          if (this._depthCloud) {
+            //this._depthCloud.stopStream();
+          }
+          if (this._depthNode) {
+            this.$.rviz._viewer.scene.remove(this._depthNode);
+            this._depthNode = null;
+          }
+
           this.$.rviz.set('displays.1.isShown', true);
           this.$.rviz.set('displays.2.isShown', true);
           this.$.rviz.set('displays.3.isShown', true);
