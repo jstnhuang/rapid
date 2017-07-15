@@ -208,6 +208,7 @@
         '_programUpdated(program.*)',
         '_stepChanged(ros, routeData.id, currentStepNum)',
         '_currentStepNumChanged(program, currentStepNum)',
+        '_isRunningChanged(isRunning.data)',
       ],
 
       load: function(db_id) {
@@ -234,7 +235,7 @@
               },
             }, {
               isShown: true,
-              name: 'Robot model',
+              name: 'Program robot model',
               type: 'markerArray',
               options: {
                 topic: '/rapid_pbd/robot/' + db_id,
@@ -253,6 +254,14 @@
               type: 'markerArray',
               options: {
                 topic: '/rapid_pbd/surface_segmentation/' + db_id,
+              },
+            }, {
+              isShown: false,
+              name: 'Current robot model',
+              type: 'urdf',
+              options: {
+                param: 'robot_description',
+                tfPrefix: ''
               },
             },
           ],
@@ -390,6 +399,20 @@
         }
         if (!_.isEqual(this.program, program)) {
           this.set('program', program);
+        }
+      },
+
+      _isRunningChanged: function(isRunning) {
+        if (isRunning) {
+          this.$.rviz.set('displays.1.isShown', false);
+          this.$.rviz.set('displays.2.isShown', false);
+          this.$.rviz.set('displays.3.isShown', false);
+          this.$.rviz.set('displays.4.isShown', true);
+        } else {
+          this.$.rviz.set('displays.1.isShown', true);
+          this.$.rviz.set('displays.2.isShown', true);
+          this.$.rviz.set('displays.3.isShown', true);
+          this.$.rviz.set('displays.4.isShown', false);
         }
       },
     });
