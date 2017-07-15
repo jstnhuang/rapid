@@ -49,16 +49,20 @@
     </div>
     <div>
       <paper-input label="Max speed (m/s)"
-        value="{{action.control_strategy.max_speed}}"
+        value="[[action.control_strategy.max_speed]]"
+        on-change="_maxSpeedChanged"
       ></paper-input>
       <paper-input label="x"
-        value="{{action.pose.position.x}}"
+        value="[[action.pose.position.x]]"
+        on-change="_xChanged"
       ></paper-input>
       <paper-input label="y"
-        value="{{action.pose.position.y}}"
+        value="[[action.pose.position.y]]"
+        on-change="_yChanged"
       ></paper-input>
       <paper-input label="z"
-        value="{{action.pose.position.z}}"
+        value="[[action.pose.position.z]]"
+        on-change="_zChanged"
       ></paper-input>
     </div>
   </template>
@@ -80,10 +84,6 @@
 
       observers: [
         '_actionChanged(action)',
-        '_maxSpeedChanged(action.control_strategy.max_speed)',
-        '_xChanged(action.pose.position.x)',
-        '_yChanged(action.pose.position.y)',
-        '_zChanged(action.pose.position.z)',
       ],
 
       _actionChanged: function(action) {
@@ -167,17 +167,17 @@
         this.$.eventPub.publish(msg);
       },
 
-      _maxSpeedChanged: function(maxSpeed) {
-        this._parseString(maxSpeed, 'action.control_strategy.max_speed');
+      _maxSpeedChanged: function(evt) {
+        this._parseString(evt.target.value, 'action.control_strategy.max_speed');
       },
-      _xChanged: function(x) {
-        this._parseString(x, 'action.pose.position.x');
+      _xChanged: function(evt) {
+        this._parseString(evt.target.value, 'action.pose.position.x');
       },
       _yChanged: function(y) {
-        this._parseString(y, 'action.pose.position.y');
+        this._parseString(evt.target.value, 'action.pose.position.y');
       },
       _zChanged: function(z) {
-        this._parseString(z, 'action.pose.position.z');
+        this._parseString(evt.target.value, 'action.pose.position.z');
       },
 
       _parseString: function(s, key) {
@@ -187,7 +187,7 @@
             this.set(key, f);
           }
         } else {
-            this.set(key, s);
+          this.set(key, s);
         }
       },
     });
