@@ -63,7 +63,6 @@ void Visualizer::Publish(const std::string& program_id, const World& world) {
   if (world.scene_id != "" && scene_db_.Get(world.scene_id, &scene)) {
     if (world.scene_id != step_vizs_[program_id].last_scene_id) {
       step_vizs_[program_id].scene_pub.publish(scene);
-      step_vizs_[program_id].last_scene_id = world.scene_id;
     }
   } else {
     pcl::PointCloud<pcl::PointXYZRGB> blank;
@@ -73,6 +72,7 @@ void Visualizer::Publish(const std::string& program_id, const World& world) {
     scene.header.frame_id = base_link;
     step_vizs_[program_id].scene_pub.publish(scene);
   }
+  step_vizs_[program_id].last_scene_id = world.scene_id;
 
   // Publish landmark markers
   MarkerArray scene_markers;
