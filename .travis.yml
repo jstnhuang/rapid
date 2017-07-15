@@ -37,11 +37,10 @@ install:
     - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
     - sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
     - sudo apt-get update -qq
-    - sudo apt-get install -qq -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin ros-$ROS_DISTRO-ros lcov
+    - sudo apt-get install -qq -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin ros-$ROS_DISTRO-ros lcov python-catkin-tools
     - sudo apt-get install -qq -y mongodb ros-$ROS_DISTRO-warehouse-ros
     - sudo apt-get install -q -y ros-$ROS_DISTRO-moveit-full
     - sudo pip install -U setuptools
-    - sudo pip install -U catkin_tools
     - gem install coveralls-lcov
     - source /opt/ros/$ROS_DISTRO/setup.bash
     # Setup rosdep
@@ -56,7 +55,6 @@ install:
     - git clone https://github.com/jstnhuang/mongo_msg_db.git
     - git clone https://github.com/jstnhuang/moveit_goal_builder.git
     - git clone https://github.com/jstnhuang/transform_graph.git
-    - catkin_init_workspace
     # Install dependencies
     - cd ~/catkin_ws/
     - rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
@@ -72,6 +70,7 @@ install:
     - sudo make install
     # Build
     - cd ~/catkin_ws
+    - catkin init
     - catkin build --cmake-args -DCAFFE_INSTALL_DIR="" -DCUDA_INSTALL_DIR=""
 
 # Command to run tests
