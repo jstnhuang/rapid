@@ -39,7 +39,6 @@ install:
     - sudo apt-get update -qq
     - sudo apt-get install -qq -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin ros-$ROS_DISTRO-ros lcov
     - sudo apt-get install -qq -y mongodb ros-$ROS_DISTRO-warehouse-ros
-    - sudo apt-get install -q -y ros-$ROS_DISTRO-moveit ros-$ROS_DISTRO-moveit-full-pr2
     - sudo pip install -U setuptools
     - sudo pip install -U catkin_tools
     - gem install coveralls-lcov
@@ -47,6 +46,7 @@ install:
     # Setup rosdep
     - sudo rosdep init
     - rosdep update
+    - sudo apt-get install -q -y ros-$ROS_DISTRO-moveit ros-$ROS_DISTRO-moveit-full-pr2
     # Create workspace.
     - mkdir -p ~/catkin_ws/src
     - cd ..; mv rapid ~/catkin_ws/src
