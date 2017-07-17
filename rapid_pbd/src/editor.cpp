@@ -349,10 +349,12 @@ void Editor::GetPose(const std::string& db_id, size_t step_id, size_t action_id,
   msgs::Action* action = &step->actions[action_id];
   action->actuator_group = actuator_group;
 
-  // If the pose is blank, then read the end-effector pose from TF.
-  // If the pose is not blank, then reinterpret the existing pose in the new
+  // If the landmark is empty or the same as before, then update the action's
+  // pose.
+  // If the landmark has changed, then reinterpret the action's pose in the new
   // landmark frame.
-  if (action->landmark.type == "") {
+  if (action->landmark.type == "" || landmark.type == "" ||
+      action->landmark.type == landmark.type) {
     GetNewPose(landmark, actuator_group, action);
   } else {
     ReinterpretPose(landmark, action);
