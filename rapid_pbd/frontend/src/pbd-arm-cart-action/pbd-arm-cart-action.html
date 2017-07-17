@@ -113,9 +113,8 @@
           this.set('action.landmark', landmark);
         }
 
-        if (this.action.pose.position.x === 0
-            && this.action.pose.position.y === 0
-            && this.action.pose.position.z === 0) {
+        if (this.action.pose.orientation.w === 0 && this.action.pose.orientation.x === 0
+            && this.action.pose.orientation.y === 0 && this.action.pose.orientation.z === 0) {
           var that = this;
           this.debounce('get_ee_pose', function() {
             that._updatePose();

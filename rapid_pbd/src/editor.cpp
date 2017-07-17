@@ -315,8 +315,12 @@ void Editor::GetJointValues(const std::string& db_id, size_t step_id,
     action->joint_trajectory.points[0].time_from_start.sec = 3;
   }
 
+  // Clear any previous landmark.
+  action->landmark.type = "";
+
   Update(db_id, program);
 }
+
 void Editor::GetPose(const std::string& db_id, size_t step_id, size_t action_id,
                      const std::string& actuator_group,
                      const rapid_pbd_msgs::Landmark& landmark) {
@@ -343,8 +347,23 @@ void Editor::GetPose(const std::string& db_id, size_t step_id, size_t action_id,
   }
 
   msgs::Action* action = &step->actions[action_id];
-
   action->actuator_group = actuator_group;
+
+  if (action->landmark.type == "") {
+    GetNewPose(landmark, actuator_group, action);
+  } else {
+    ReinterpretPose(landmark, action);
+  }
+  Update(db_id, program);
+}
+
+// Gets the current pose of the end-effector relative to the given landmark.
+// action.pose and action.landmark are mutated.
+void Editor::GetNewPose(const rapid_pbd_msgs::Landmark& landmark,
+                        const std::string& actuator_group,
+                        rapid_pbd_msgs::Action* action) {
+  // Get transform from landmark to end-effector.
+  transform_graph::Graph graph;
 
   if (landmark.type == "") {
     action->landmark.type = msgs::Landmark::TF_FRAME;
@@ -353,10 +372,10 @@ void Editor::GetPose(const std::string& db_id, size_t step_id, size_t action_id,
     action->landmark = landmark;
   }
 
-  // Get transform from landmark to end-effector.
-  transform_graph::Graph graph;
-
   // Get transform of end-effector relative to base.
+  // If the pose is blank, then read the end-effector pose from TF.
+  // If the pose is not blank, then reinterpret the existing pose in the new
+  // landmark frame.
   tf::StampedTransform transform;
   try {
     std::string ee_frame = robot_config_.ee_frame_for_group(actuator_group);
@@ -403,12 +422,95 @@ void Editor::GetPose(const std::string& db_id, size_t step_id, size_t action_id,
   }
 
   transform_graph::Transform ee_in_landmark;
-  graph.ComputeDescription(transform_graph::LocalFrame("end effector"),
-                           transform_graph::RefFrame("landmark"),
-                           &ee_in_landmark);
+  bool success = graph.ComputeDescription(
+      transform_graph::LocalFrame("end effector"),
+      transform_graph::RefFrame("landmark"), &ee_in_landmark);
+  if (!success) {
+    ROS_ERROR("Unable to transform end-effector pose into landmark!");
+  }
   ee_in_landmark.ToPose(&action->pose);
+}
 
-  Update(db_id, program);
+// Reinterpret the existing pose to be relative to the given landmark.
+// Assumes as a precondition that action->pose is not empty.
+// action->pose and action->landmark are mutated.
+void Editor::ReinterpretPose(const rapid_pbd_msgs::Landmark& new_landmark,
+                             rapid_pbd_msgs::Action* action) {
+  transform_graph::Graph graph;
+  graph.Add("end effector", transform_graph::RefFrame("old landmark"),
+            action->pose);
+
+  if (action->landmark.type == msgs::Landmark::TF_FRAME) {
+    tf::StampedTransform landmark_transform;
+    try {
+      tf_listener_.lookupTransform(robot_config_.base_link(),
+                                   action->landmark.name, ros::Time(0),
+                                   landmark_transform);
+    } catch (tf::TransformException ex) {
+      ROS_ERROR("%s", ex.what());
+      return;
+    }
+    graph.Add("old landmark",
+              transform_graph::RefFrame(robot_config_.base_link()),
+              landmark_transform);
+  } else if (action->landmark.type == msgs::Landmark::SURFACE_BOX) {
+    std::string landmark_frame(action->landmark.pose_stamped.header.frame_id);
+    if (landmark_frame != robot_config_.base_link()) {
+      ROS_WARN("Landmark not in base frame.");
+    }
+    graph.Add("old landmark", transform_graph::RefFrame(landmark_frame),
+              action->landmark.pose_stamped.pose);
+
+  } else {
+    ROS_ERROR("Unsupported landmark type \"%s\"",
+              action->landmark.type.c_str());
+    return;
+  }
+
+  // Add the new landmark
+  action->landmark = new_landmark;
+
+  if (action->landmark.type == msgs::Landmark::TF_FRAME) {
+    tf::StampedTransform landmark_transform;
+    try {
+      tf_listener_.lookupTransform(robot_config_.base_link(),
+                                   action->landmark.name, ros::Time(0),
+                                   landmark_transform);
+    } catch (tf::TransformException ex) {
+      ROS_ERROR("%s", ex.what());
+      return;
+    }
+    graph.Add("new landmark",
+              transform_graph::RefFrame(robot_config_.base_link()),
+              landmark_transform);
+    action->landmark.pose_stamped.header.frame_id = robot_config_.base_link();
+    transform_graph::Transform landmark_tf(landmark_transform);
+    landmark_tf.ToPose(&action->landmark.pose_stamped.pose);
+  } else if (action->landmark.type == msgs::Landmark::SURFACE_BOX) {
+    std::string landmark_frame(action->landmark.pose_stamped.header.frame_id);
+    if (landmark_frame != robot_config_.base_link()) {
+      ROS_WARN("Landmark not in base frame.");
+    }
+    graph.Add("new landmark", transform_graph::RefFrame(landmark_frame),
+              action->landmark.pose_stamped.pose);
+
+  } else {
+    ROS_ERROR("Unsupported landmark type \"%s\"",
+              action->landmark.type.c_str());
+    return;
+  }
+
+  // Update the pose
+  transform_graph::Transform ee_in_new_landmark;
+  bool success = graph.ComputeDescription(
+      transform_graph::LocalFrame("end effector"),
+      transform_graph::RefFrame("new landmark"), &ee_in_new_landmark);
+
+  if (!success) {
+    ROS_ERROR("Unable to transform end-effector pose into new landmark!");
+    return;
+  }
+  ee_in_new_landmark.ToPose(&action->pose);
 }
 
 void Editor::DeleteScene(const std::string& scene_id) {

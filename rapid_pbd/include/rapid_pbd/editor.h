@@ -9,6 +9,7 @@
 #include "rapid_pbd_msgs/Program.h"
 #include "rapid_pbd_msgs/Step.h"
 #include "tf/transform_listener.h"
+#include "transform_graph/graph.h"
 
 #include "rapid_pbd/action_clients.h"
 #include "rapid_pbd/joint_state_reader.h"
@@ -46,6 +47,11 @@ class Editor {
   void GetPose(const std::string& db_id, size_t step_id, size_t action_id,
                const std::string& actuator_group,
                const rapid_pbd_msgs::Landmark& landmark);
+  void GetNewPose(const rapid_pbd_msgs::Landmark& landmark,
+                  const std::string& actuator_group,
+                  rapid_pbd_msgs::Action* action);
+  void ReinterpretPose(const rapid_pbd_msgs::Landmark& new_landmark,
+                       rapid_pbd_msgs::Action* action);
 
   // Delete a scene from the scene_db by ID if it exists.
   // Logs an error message if the ID is non-empty and does not exist in the DB.
