@@ -1,12 +1,15 @@
 #include "rapid_pbd/step_executor.h"
 
+#include <sstream>
+
 #include "boost/shared_ptr.hpp"
-#include "moveit_msgs/MoveGroupGoal.h"
+#include "moveit_msgs/MoveGroupAction.h"
 #include "rapid_pbd_msgs/Action.h"
 #include "rapid_pbd_msgs/Step.h"
 #include "tf/transform_listener.h"
 
 #include "rapid_pbd/action_executor.h"
+#include "rapid_pbd/errors.h"
 #include "rapid_pbd/visualizer.h"
 #include "rapid_pbd/world.h"
 
@@ -33,7 +36,7 @@ bool StepExecutor::IsValid(const rapid_pbd_msgs::Step& step) {
   for (size_t i = 0; i < step.actions.size(); ++i) {
     const Action& action = step.actions[i];
     if (!ActionExecutor::IsValid(action)) {
-      ROS_ERROR("Action type %s invalid in step %ld", action.type.c_str(), i);
+      ROS_ERROR("Action type %s invalid in action %ld", action.type.c_str(), i);
       return false;
     }
   }
@@ -80,6 +83,14 @@ bool StepExecutor::IsDone(std::string* error) const {
   if (motion_planning_.num_goals() > 0) {
     if (!action_clients_->moveit_client.getState().isDone()) {
       return false;
+    }
+    moveit_msgs::MoveGroupResultConstPtr result =
+        action_clients_->moveit_client.getResult();
+    if (result->error_code.val != moveit_msgs::MoveItErrorCodes::SUCCESS) {
+      std::stringstream ss;
+      ss << errors::kUnreachablePose
+         << " MoveIt error code: " << result->error_code.val;
+      *error = ss.str();
     }
   }
   return true;

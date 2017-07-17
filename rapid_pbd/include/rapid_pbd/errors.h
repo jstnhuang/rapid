@@ -7,6 +7,8 @@ namespace pbd {
 namespace errors {
 const char kNoLandmarksDetected[] = "No landmarks were detected.";
 const char kNoLandmarksMatch[] = "Unable to find a matching object.";
+const char kUnreachablePose[] =
+    "The robot is unable to reach one of the poses.";
 }  // namespace errors
 }  // namespace pbd
 }  // namespace rapid
