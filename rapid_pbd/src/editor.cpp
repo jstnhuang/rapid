@@ -349,6 +349,9 @@ void Editor::GetPose(const std::string& db_id, size_t step_id, size_t action_id,
   msgs::Action* action = &step->actions[action_id];
   action->actuator_group = actuator_group;
 
+  // If the pose is blank, then read the end-effector pose from TF.
+  // If the pose is not blank, then reinterpret the existing pose in the new
+  // landmark frame.
   if (action->landmark.type == "") {
     GetNewPose(landmark, actuator_group, action);
   } else {
@@ -365,6 +368,7 @@ void Editor::GetNewPose(const rapid_pbd_msgs::Landmark& landmark,
   // Get transform from landmark to end-effector.
   transform_graph::Graph graph;
 
+  // Get transform of end-effector relative to base.
   if (landmark.type == "") {
     action->landmark.type = msgs::Landmark::TF_FRAME;
     action->landmark.name = robot_config_.torso_link();
@@ -372,10 +376,6 @@ void Editor::GetNewPose(const rapid_pbd_msgs::Landmark& landmark,
     action->landmark = landmark;
   }
 
-  // Get transform of end-effector relative to base.
-  // If the pose is blank, then read the end-effector pose from TF.
-  // If the pose is not blank, then reinterpret the existing pose in the new
-  // landmark frame.
   tf::StampedTransform transform;
   try {
     std::string ee_frame = robot_config_.ee_frame_for_group(actuator_group);
