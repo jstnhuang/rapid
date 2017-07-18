@@ -105,13 +105,6 @@
               || action.control_strategy.max_speed === 0) {
           this.set('action.control_strategy.max_speed', 0.2);
         }
-        if (!action.landmark || !action.landmark.type) {
-          var landmark = {
-            type: 'tf frame',
-            name: 'torso_lift_link'
-          }
-          this.set('action.landmark', landmark);
-        }
 
         if (this.action.pose.orientation.w === 0 && this.action.pose.orientation.x === 0
             && this.action.pose.orientation.y === 0 && this.action.pose.orientation.z === 0) {

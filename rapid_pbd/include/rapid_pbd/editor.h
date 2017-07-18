@@ -16,6 +16,7 @@
 #include "rapid_pbd/program_db.h"
 #include "rapid_pbd/robot_config.h"
 #include "rapid_pbd/visualizer.h"
+#include "rapid_pbd/world.h"
 
 namespace rapid {
 namespace pbd {
@@ -44,14 +45,27 @@ class Editor {
   void DetectSurfaceObjects(const std::string& db_id, size_t step_id);
   void GetJointValues(const std::string& db_id, size_t step_id,
                       size_t action_id, const std::string& actuator_group);
+  // Pose actions
+  // Main handler
   void GetPose(const std::string& db_id, size_t step_id, size_t action_id,
                const std::string& actuator_group,
                const rapid_pbd_msgs::Landmark& landmark);
-  void GetNewPose(const rapid_pbd_msgs::Landmark& landmark,
+  // Handler if getting a new pose
+  void GetNewPose(const rapid_pbd_msgs::Landmark& landmark, const World& world,
                   const std::string& actuator_group,
                   rapid_pbd_msgs::Action* action);
+  // Handler if changing reference frame for a pose
   void ReinterpretPose(const rapid_pbd_msgs::Landmark& new_landmark,
                        rapid_pbd_msgs::Action* action);
+  // Returns the closest landmark
+  // ee_position is the position of the end-effector in the base frame.
+  // squared_distance_cutoff is the cutoff for a landmark to be considered
+  // "close". The distance should be squared, i.e., in units of meters^2.
+  // Returns true if a landmark closer than the cutoff was found. In that case,
+  // landmark is mutated.
+  bool ClosestLandmark(const geometry_msgs::Vector3& ee_position,
+                       const World& world, const double squared_distance_cutoff,
+                       rapid_pbd_msgs::Landmark* landmark);
 
   // Delete a scene from the scene_db by ID if it exists.
   // Logs an error message if the ID is non-empty and does not exist in the DB.

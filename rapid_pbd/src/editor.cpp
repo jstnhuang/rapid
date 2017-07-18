@@ -355,7 +355,13 @@ void Editor::GetPose(const std::string& db_id, size_t step_id, size_t action_id,
   // landmark frame.
   if (action->landmark.type == "" || landmark.type == "" ||
       action->landmark.type == landmark.type) {
-    GetNewPose(landmark, actuator_group, action);
+    size_t prev_step_id = 0;
+    if (step_id > 0) {
+      prev_step_id = step_id - 1;
+    }
+    World world;
+    GetWorld(robot_config_, program, prev_step_id, &world);
+    GetNewPose(landmark, world, actuator_group, action);
   } else {
     ReinterpretPose(landmark, action);
   }
@@ -365,19 +371,12 @@ void Editor::GetPose(const std::string& db_id, size_t step_id, size_t action_id,
 // Gets the current pose of the end-effector relative to the given landmark.
 // action.pose and action.landmark are mutated.
 void Editor::GetNewPose(const rapid_pbd_msgs::Landmark& landmark,
-                        const std::string& actuator_group,
+                        const World& world, const std::string& actuator_group,
                         rapid_pbd_msgs::Action* action) {
   // Get transform from landmark to end-effector.
   transform_graph::Graph graph;
 
   // Get transform of end-effector relative to base.
-  if (landmark.type == "") {
-    action->landmark.type = msgs::Landmark::TF_FRAME;
-    action->landmark.name = robot_config_.torso_link();
-  } else {
-    action->landmark = landmark;
-  }
-
   tf::StampedTransform transform;
   try {
     std::string ee_frame = robot_config_.ee_frame_for_group(actuator_group);
@@ -393,6 +392,29 @@ void Editor::GetNewPose(const rapid_pbd_msgs::Landmark& landmark,
   }
   graph.Add("end effector",
             transform_graph::RefFrame(robot_config_.base_link()), transform);
+
+  // If the action does not have a pre-existing landmark, then find the closest
+  // landmark. Otherwise, use the provided landmark.
+  if (action->landmark.type == "" || landmark.type == "") {
+    double distance_cutoff = 0.4;
+    ros::param::param("distance_cutoff", distance_cutoff, 0.4);
+    double squared_cutoff = distance_cutoff * distance_cutoff;
+
+    geometry_msgs::Vector3 ee_position;
+    ee_position.x = transform.getOrigin().x();
+    ee_position.y = transform.getOrigin().y();
+    ee_position.z = transform.getOrigin().z();
+    msgs::Landmark closest;
+
+    if (ClosestLandmark(ee_position, world, squared_cutoff, &closest)) {
+      action->landmark = closest;
+    } else {
+      action->landmark.type = msgs::Landmark::TF_FRAME;
+      action->landmark.name = robot_config_.torso_link();
+    }
+  } else {
+    action->landmark = landmark;
+  }
 
   // Get transform of landmark relative to base.
   if (action->landmark.type == msgs::Landmark::TF_FRAME) {
@@ -513,6 +535,32 @@ void Editor::ReinterpretPose(const rapid_pbd_msgs::Landmark& new_landmark,
     return;
   }
   ee_in_new_landmark.ToPose(&action->pose);
+}
+
+bool Editor::ClosestLandmark(const geometry_msgs::Vector3& ee_position,
+                             const World& world,
+                             const double squared_distance_cutoff,
+                             rapid_pbd_msgs::Landmark* landmark) {
+  bool success = false;
+  double closest_distance = std::numeric_limits<double>::max();
+  for (size_t i = 0; i < world.surface_box_landmarks.size(); ++i) {
+    const msgs::Landmark& world_landmark = world.surface_box_landmarks[i];
+    geometry_msgs::Vector3 world_pos;
+    world_pos.x = world_landmark.pose_stamped.pose.position.x;
+    world_pos.y = world_landmark.pose_stamped.pose.position.y;
+    world_pos.z = world_landmark.pose_stamped.pose.position.z;
+    double dx = world_pos.x - ee_position.x;
+    double dy = world_pos.y - ee_position.y;
+    double dz = world_pos.z - ee_position.z;
+    double squared_distance = dx * dx + dy * dy + dz * dz;
+    if (squared_distance < closest_distance &&
+        squared_distance <= squared_distance_cutoff) {
+      *landmark = world_landmark;
+      closest_distance = squared_distance;
+      success = true;
+    }
+  }
+  return success;
 }
 
 void Editor::DeleteScene(const std::string& scene_id) {
