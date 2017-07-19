@@ -43,5 +43,6 @@
   <run_depend>transform_graph</run_depend>
 
   <export>
+    <appname>Rapid PbD</appname>
   </export>
 </package>

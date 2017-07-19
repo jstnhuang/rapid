@@ -1,0 +1,59 @@
+<launch>
+  <!-- Executor -->
+  <arg name="camera_frame" default="/head_mount_kinect_rgb_optical_frame" />
+
+  <arg name="sim" value="false" />
+  <arg if="$(arg sim)" name="point_cloud_topic" default="/mock_point_cloud" />
+  <arg if="$(arg sim)" name="depth_topic" default="/head_mount_kinect/depth/image_raw" />
+  <arg if="$(arg sim)" name="color_topic" default="/head_mount_kinect/rgb/image_raw" />
+
+  <arg unless="$(arg sim)" name="point_cloud_topic" default="/head_mount_kinect/depth_registered/points" />
+  <arg unless="$(arg sim)" name="depth_topic" default="/head_mount_kinect/depth_registered/image" />
+  <arg unless="$(arg sim)" name="color_topic" default="/head_mount_kinect/rgb/image_color" />
+
+  <group ns="rapid_pbd"> 
+    <param name="robot" value="pr2" />
+    <node pkg="rapid_pbd" type="pr2_action_node" name="pr2_actuator_server" />
+    <node pkg="rapid_pbd" type="program_execution_node" name="program_executor">
+      <remap from="l_arm_joint_action" to="/l_arm_controller/follow_joint_trajectory" />
+      <remap from="r_arm_joint_action" to="/r_arm_controller/follow_joint_trajectory" />
+      <remap from="head_action" to="/head_traj_controller/follow_joint_trajectory" />
+      <remap from="move_group" to="/move_group" />
+    </node>
+    <node pkg="rapid_pbd" type="surface_segmentation_node" name="surface_segmentation_node" args="$(arg point_cloud_topic)" />
+  </group>
+
+  <!-- Depth cloud -->
+  <node pkg="nodelet" type="nodelet" name="rapid_pbd_convert_metric" args="standalone depth_image_proc/convert_metric" if="$(arg sim)">
+    <remap from="image_raw" to="$(arg depth_topic)" />
+    <remap from="image" to="$(arg depth_topic)_float" />
+  </node>
+  <node pkg="depthcloud_encoder" type="depthcloud_encoder_node" name="rapid_pbd_depthcloud_encoder">
+    <param name="rgb" value="$(arg color_topic)" />
+    <param if="$(arg sim)" name="depth" value="$(arg depth_topic)" />
+    <param unless="$(arg sim)" name="depth" value="$(arg depth_topic)_float" />
+    <param name="camera_frame_id" value="$(arg camera_frame)" />
+  </node>
+
+  <!-- Editor -->
+  <param name="mongodb_use_daemon" value="true" />
+  <param name="mongodb_host" value="localhost" />
+  <param name="mongodb_port" value="27017" />
+
+  <arg name="robot" value="pr2" />
+  <node name="message_store" pkg="mongodb_store" type="message_store_node.py" output="screen" required="true" /> 
+
+  <group ns="rapid_pbd">
+    <param name="robot" value="$(arg robot)" />
+    <node name="editor_node" pkg="rapid_pbd" type="editor_node" output="screen" required="true">
+      <remap from="move_group" to="/move_group" />
+    </node>
+  </group>
+
+  <node pkg="ros_web_video" type="ros_web_video" name="rapid_pbd_video_server">
+    <param name="port" value="9998" />
+    <param name="framerate" value="15" />
+    <param name="bitrate" value="250000" />
+    <param name="profile" value="best" />
+  </node>
+</launch>
