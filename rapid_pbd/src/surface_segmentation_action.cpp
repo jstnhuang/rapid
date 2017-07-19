@@ -7,6 +7,7 @@
 #include "pcl/common/common.h"
 #include "pcl/filters/crop_box.h"
 #include "pcl/filters/extract_indices.h"
+#include "pcl/filters/voxel_grid.h"
 #include "pcl_conversions/pcl_conversions.h"
 #include "pcl_ros/transforms.h"
 #include "rapid_pbd/action_names.h"
@@ -38,8 +39,6 @@ SurfaceSegmentationAction::SurfaceSegmentationAction(
           boost::bind(&SurfaceSegmentationAction::Execute, this, _1), false),
       seg_(),
       nh_(),
-      cropped_pub_(nh_.advertise<sensor_msgs::PointCloud2>(
-          "surface_seg/cropped_scene", 1, true)),
       marker_pub_(nh_.advertise<visualization_msgs::Marker>(
           "surface_seg/visualization", 100)),
       viz_(marker_pub_),
@@ -79,16 +78,15 @@ void SurfaceSegmentationAction::Execute(
   pcl_ros::transformPointCloud(robot_config_.base_link(), transform, *cloud_in,
                                cloud_msg);
 
+  // Start processing cloud with PCL
   rapid_pbd_msgs::SegmentSurfacesResult result;
-  if (goal->save_cloud) {
-    result.cloud_db_id = scene_db_.Insert(cloud_msg);
-  }
   PointCloudC::Ptr cloud(new PointCloudC);
   pcl::fromROSMsg(cloud_msg, *cloud);
 
   std::vector<int> indices;
   pcl::removeNaNFromPointCloud(*cloud, *cloud, indices);
 
+  // Crop
   double min_x = 0, min_y = 0, min_z = 0;
   double max_x = 0, max_y = 0, max_z = 0;
   ros::param::param<double>("crop_min_x", min_x, -1);
@@ -108,16 +106,20 @@ void SurfaceSegmentationAction::Execute(
   crop.setMax(max);
   crop.filter(point_indices->indices);
 
-  sensor_msgs::PointCloud2 viz_msg;
-  PointCloudC::Ptr viz_cloud(new PointCloudC);
-  pcl::ExtractIndices<PointC> extract;
-  extract.setInputCloud(cloud);
-  extract.setIndices(point_indices);
-  extract.filter(*viz_cloud);
-  ROS_INFO("Extracted %ld indices to %ld points", point_indices->indices.size(),
-           viz_cloud->size());
-  pcl::toROSMsg(*viz_cloud, viz_msg);
-  cropped_pub_.publish(viz_msg);
+  // Save cloud if requested
+  if (goal->save_cloud) {
+    PointCloudC::Ptr downsampled_cloud(new PointCloudC());
+    pcl::VoxelGrid<PointC> vox;
+    vox.setInputCloud(cloud);
+    vox.setIndices(point_indices);
+    float leaf_size = 0.01;
+    ros::param::param<float>("vox_leaf_size", leaf_size, 0.01);
+    vox.setLeafSize(leaf_size, leaf_size, leaf_size);
+    vox.filter(*downsampled_cloud);
+    sensor_msgs::PointCloud2 downsampled_cloud_msg;
+    pcl::toROSMsg(*downsampled_cloud, downsampled_cloud_msg);
+    result.cloud_db_id = scene_db_.Insert(downsampled_cloud_msg);
+  }
 
   double horizontal_tolerance_degrees;
   ros::param::param("horizontal_tolerance_degrees",
