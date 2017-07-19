@@ -29,7 +29,6 @@ class SurfaceSegmentationAction {
   actionlib::SimpleActionServer<rapid_pbd_msgs::SegmentSurfacesAction> as_;
   surface_perception::Segmentation seg_;
   ros::NodeHandle nh_;
-  ros::Publisher cropped_pub_;
   ros::Publisher marker_pub_;
   surface_perception::SurfaceViz viz_;
   tf::TransformListener tf_listener_;
