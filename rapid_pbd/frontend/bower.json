@@ -22,7 +22,8 @@
     "ros-service": "jstnhuang/ros-service#^2.0.0",
     "ros-action-client": "jstnhuang/ros-action-client#^1.0.0",
     "ros-rviz": "jstnhuang/ros-rviz#^1.0.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "ros-param": "jstnhuang/ros-param#^0.1.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^2.0.0",
