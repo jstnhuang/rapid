@@ -19,6 +19,9 @@ int main(int argc, char** argv) {
   actionlib::SimpleActionClient<
       robot_controllers_msgs::QueryControllerStatesAction>
       client(pbd::fetch::kControllerActionName, true);
+  while (ros::ok() && !client.waitForServer(ros::Duration(5.0))) {
+    ROS_WARN("Waiting for arm controller manager.");
+  }
   pbd::fetch::ArmControllerManager arm_controller_manager(
       arm_controller_state_pub, &client);
   ros::ServiceServer freeze_srv = nh.advertiseService(
