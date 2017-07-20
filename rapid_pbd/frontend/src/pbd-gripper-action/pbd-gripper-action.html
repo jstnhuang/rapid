@@ -17,9 +17,10 @@
         margin-left: 10px;
       }
     </style>
+    <!-- TODO: this is Fetch-specific -->
     <ros-action-client
       id="armAction"
-      server="/rapid_pbd/gripper_action"
+      server="/gripper_controller/gripper_action"
       action-type="control_msgs/GripperCommandAction"
       ros="[[ros]]"
     ></ros-action-client>
@@ -36,7 +37,7 @@
       ros="[[ros]]"
     ></ros-action-client>
     <div class="layout horizontal center">
-      <paper-dropdown-menu label="Gripper" hidden$="[[params.hasTwoArms]]">
+      <paper-dropdown-menu label="Gripper" hidden$="[[!params.hasTwoArms]]">
         <paper-listbox slot="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
           <paper-item data-actuator-group="left gripper">Left gripper</paper-item>
           <paper-item data-actuator-group="right gripper">Right gripper</paper-item>

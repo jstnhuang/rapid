@@ -59,7 +59,7 @@
     ></ros-service>
     <ros-action-client
       id="gripperAction"
-      server="/rapid_pbd/gripper_action"
+      server="/gripper_controller/gripper_action"
       action-type="control_msgs/GripperCommandAction"
       ros="[[ros]]"
     ></ros-action-client>
@@ -81,68 +81,77 @@
         <div class="flex"></div>
         <paper-button id="cancel" on-tap="cancel" class="clear">Cancel</paper-button>
       </div>
-      <div class="group layout horizontal" hidden$="[[!params.hasTwoArms]]">
-        <div class="half">
-          <paper-button hidden$="[[!_isLeftArmFrozen]]" class="normal"
-            on-tap="_relaxArm"
-            data-actuator-group="left arm"
-          >Relax left arm</paper-button>
-          <paper-button hidden$="[[_isLeftArmFrozen]]" class="normal"
-            on-tap="_freezeArm"
-            data-actuator-group="left arm"
-          >Freeze left arm</paper-button>
+      <template is="dom-if" if="[[params.hasTwoArms]]">
+        <div class="group layout horizontal">
+          <div class="half">
+            <paper-button hidden$="[[!_isLeftArmFrozen]]" class="normal"
+              on-tap="_relaxArm"
+              data-actuator-group="left arm"
+            >Relax left arm</paper-button>
+            <paper-button hidden$="[[_isLeftArmFrozen]]" class="normal"
+              on-tap="_freezeArm"
+              data-actuator-group="left arm"
+            >Freeze left arm</paper-button>
+          </div>
+          <div class="half">
+            <paper-button hidden$="[[!_isRightArmFrozen]]" class="normal"
+              on-tap="_relaxArm"
+              data-actuator-group="right arm"
+            >Relax right arm</paper-button>
+            <paper-button hidden$="[[_isRightArmFrozen]]" class="normal"
+              on-tap="_freezeArm"
+              data-actuator-group="right arm"
+            >Freeze right arm</paper-button>
+          </div>
         </div>
-        <div class="half">
-          <paper-button hidden$="[[!_isRightArmFrozen]]" class="normal"
+      </template>
+      <template is="dom-if" if="[[!params.hasTwoArms]]">
+        <div class="group layout horizontal">
+          <paper-button hidden$="[[!_isArmFrozen]]" class="normal"
             on-tap="_relaxArm"
-            data-actuator-group="right arm"
-          >Relax right arm</paper-button>
-          <paper-button hidden$="[[_isRightArmFrozen]]" class="normal"
+            data-actuator-group="arm"
+          >Relax arm</paper-button>
+          <paper-button hidden$="[[_isArmFrozen]]" class="normal"
             on-tap="_freezeArm"
-            data-actuator-group="right arm"
-          >Freeze right arm</paper-button>
+            data-actuator-group="arm"
+          >Freeze arm</paper-button>
         </div>
-      </div>
-      <div class="group layout horizontal" hidden$="[[params.hasTwoArms]]">
-        <paper-button hidden$="[[!_isArmFrozen]]" class="normal"
-          on-tap="_relaxArm"
-          data-actuator-group="arm"
-        >Relax arm</paper-button>
-        <paper-button hidden$="[[_isArmFrozen]]" class="normal"
-          on-tap="_freezeArm"
-          data-actuator-group="arm"
-        >Freeze arm</paper-button>
-      </div>
+      </template>
       <div class="group">
         <h3>Perception</h3>
         <paper-button class="normal" on-tap="selectMoveHead">Move head</paper-button>
         <paper-button class="normal" on-tap="selectDetectTabletopObjects">Detect tabletop objects</paper-button>
         <!--paper-button class="normal" on-tap="selectFindCustomLandmark">Find custom landmark</paper-button-->
       </div>
-      <div class="group layout horizontal" hidden$="[[!params.hasTwoArms]]">
-        <div class="half">
-          <h3>Left arm</h3>
-          <paper-button class="normal" on-tap="selectLeftGripperPose">Save gripper pose</paper-button><br />
-          <!--paper-button class="normal" on-tap="selectLeftJointAngles">Save joint angles</paper-button><br /-->
-          <paper-button class="normal" on-tap="selectLeftOpenGripper">Open gripper</paper-button><br />
-          <paper-button class="normal" on-tap="selectLeftCloseGripper">Close gripper</paper-button>
+      <template is="dom-if" if="[[params.hasTwoArms]]">
+        <div class="group layout horizontal">
+          <div class="half">
+            <h3>Left arm</h3>
+            <paper-button class="normal" on-tap="selectLeftGripperPose">Save gripper pose</paper-button><br />
+            <!--paper-button class="normal" on-tap="selectLeftJointAngles">Save joint angles</paper-button><br /-->
+            <paper-button class="normal" on-tap="selectLeftOpenGripper">Open gripper</paper-button><br />
+            <paper-button class="normal" on-tap="selectLeftCloseGripper">Close gripper</paper-button>
+          </div>
+          <div class="half">
+            <h3>Right arm</h3>
+            <paper-button class="normal" on-tap="selectRightGripperPose">Save gripper pose</paper-button><br />
+            <!--paper-button class="normal" on-tap="selectRightJointAngles">Save joint angles</paper-button><br /-->
+            <paper-button class="normal" on-tap="selectRightOpenGripper">Open gripper</paper-button><br />
+            <paper-button class="normal" on-tap="selectRightCloseGripper">Close gripper</paper-button>
+          </div>
         </div>
-        <div class="half">
-          <h3>Right arm</h3>
-          <paper-button class="normal" on-tap="selectRightGripperPose">Save gripper pose</paper-button><br />
-          <!--paper-button class="normal" on-tap="selectRightJointAngles">Save joint angles</paper-button><br /-->
-          <paper-button class="normal" on-tap="selectRightOpenGripper">Open gripper</paper-button><br />
-          <paper-button class="normal" on-tap="selectRightCloseGripper">Close gripper</paper-button>
+      </template>
+      <template is="dom-if" if="[[!params.hasTwoArms]]">
+        <div class="group" hidden$="[[params.hasTwoArms]]">
+          <h3>Arm</h3>
+          <div>
+            <paper-button class="normal" on-tap="selectGripperPose">Save gripper pose</paper-button><br />
+            <!--paper-button class="normal" on-tap="selectJointAngles">Save joint angles</paper-button><br /-->
+            <paper-button class="normal" on-tap="selectOpenGripper">Open gripper</paper-button><br />
+            <paper-button class="normal" on-tap="selectCloseGripper">Close gripper</paper-button>
+          </div>
         </div>
-      </div>
-      <div class="group layout horizontal" hidden$="[[params.hasTwoArms]]">
-        <h3>Arm</h3>
-        <paper-button class="normal" on-tap="selectGripperPose">Save gripper pose</paper-button><br />
-        <!--paper-button class="normal" on-tap="selectJointAngles">Save joint angles</paper-button><br /-->
-        <paper-button class="normal" on-tap="selectOpenGripper">Open gripper</paper-button><br />
-        <paper-button class="normal" on-tap="selectCloseGripper">Close gripper</paper-button>
-      </div>
-
+      </template>
     </div>
   </template>
   <script>
@@ -260,6 +269,7 @@
         var goal = { command: gripperCommand };
         var gripperAction = null;
         if (actuatorGroup === 'gripper') {
+          gripperAction = this.$.gripperAction;
         } else if (actuatorGroup === 'left gripper') {
           gripperAction = this.$.leftGripperAction;
         } else if (actuatorGroup === 'right gripper') {

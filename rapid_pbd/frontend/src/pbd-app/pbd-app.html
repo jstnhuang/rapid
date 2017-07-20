@@ -50,8 +50,9 @@
       ros="[[ros]]"
     ></ros-topic>
     <ros-param
+      id="param"
       name="rapid_pbd/robot"
-      string-val="[[_robot]]"
+      string-val="{{_robot}}"
       ros="[[ros]]"
     ></ros-param>
     <paper-dialog modal id="dialog">
@@ -100,11 +101,13 @@
           value: function() {
             return {};
           }
-        }
+        },
         _robot: {
           type: String,
-          observer: '_robotChanged'
+        }
       },
+
+      observers: [ '_robotChanged(_robot)' ],
 
       reconnect: function() {
         var url = this.$.websocketUrl.value;
