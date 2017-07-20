@@ -160,6 +160,7 @@
         <array-selector id="selector" items="{{program.steps}}" selected="{{currentStep}}"></array-selector>
         <div class="stepDiv" hidden$="[[!_hasSteps(program.steps)]]"><div class="stepDivInner">
           <pbd-step
+            id="step"
             index="[[currentStepNum]]"
             params="[[params]]"
             program-id="[[routeData.id]]"
@@ -330,6 +331,7 @@
         };
         this.$.eventPub.publish(msg);
         this.currentStepNum = this.program.steps.length;
+        this.$.step.openActionPicker();
       },
 
       selectStep: function(e) {
