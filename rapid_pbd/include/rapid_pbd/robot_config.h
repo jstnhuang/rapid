@@ -63,6 +63,31 @@ class Pr2RobotConfig : public RobotConfig {
   const robot_state::JointModelGroup* l_model_group_;
   const robot_state::JointModelGroup* r_model_group_;
 };
+
+class FetchRobotConfig : public RobotConfig {
+ public:
+  explicit FetchRobotConfig(robot_model::RobotModelPtr kinematic_model);
+  std::string planning_frame() const;
+  std::string planning_group() const;
+  std::string base_link() const;
+  std::string torso_link() const;
+  std::string ee_frame_for_group(const std::string& actuator_group) const;
+  void gripper_joints_for_group(const std::string& actuator_group,
+                                std::vector<std::string>* joint_names) const;
+  void gripper_open_positions(std::vector<double>* positions) const;
+  void gripper_close_positions(std::vector<double>* positions) const;
+  void joints_for_group(const std::string& actuator_group,
+                        std::vector<std::string>* joint_names) const;
+  int num_arms() const;
+  bool ComputeIk(const std::string& actuator_group,
+                 const geometry_msgs::Pose& pose,
+                 std::vector<std::string>* joint_names,
+                 std::vector<double>* joint_values) const;
+
+ private:
+  const robot_state::JointModelGroup* arm_group_;
+};
+
 }  // namespace pbd
 }  // namespace rapid
 
