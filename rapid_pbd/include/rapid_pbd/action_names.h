@@ -1,5 +1,5 @@
 // Constants for the names of our actions and the names of the actions in the
-// PR2 API.
+// robot APIs.
 
 #ifndef _RAPID_PBD_ACTION_NAMES_H_
 #define _RAPID_PBD_ACTION_NAMES_H_
@@ -38,6 +38,10 @@ static const char kSwitchControllerService[] =
 static const char kHeadActionName[] =
     "/head_traj_controller/follow_joint_trajectory";
 }  // namespace pr2
+
+namespace fetch {
+static const char kControllerActionName[] = "/query_controller_states";
+}  // namespace fetch
 }  // namespace pbd
 }  // namespace rapid
 
