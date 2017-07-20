@@ -14,6 +14,7 @@
     <param name="robot" value="fetch" />
     <node pkg="rapid_pbd" type="fetch_action_node" name="fetch_actuator_server" />
     <node pkg="rapid_pbd" type="program_execution_node" name="program_executor">
+      <remap from="arm_joint_action" to="/arm_controller/follow_joint_trajectory" />
       <remap from="gripper_action" to="/gripper_controller/gripper_action" />
       <remap from="head_action" to="/head_controller/follow_joint_trajectory" />
       <remap from="move_group" to="/move_group" />
