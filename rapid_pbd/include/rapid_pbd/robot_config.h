@@ -4,10 +4,6 @@
 #include <string>
 #include <vector>
 
-#include "geometry_msgs/Pose.h"
-#include "moveit/robot_model/robot_model.h"
-#include "moveit/robot_state/robot_state.h"
-
 namespace rapid {
 namespace pbd {
 class RobotConfig {
@@ -30,18 +26,11 @@ class RobotConfig {
       const std::string& actuator_group,
       std::vector<std::string>* joint_names) const = 0;
   virtual int num_arms() const = 0;
-  virtual bool ComputeIk(const std::string& actuator_group,
-                         const geometry_msgs::Pose& pose,
-                         std::vector<std::string>* joint_names,
-                         std::vector<double>* joint_values) const = 0;
-
- protected:
-  robot_model::RobotModelPtr kinematic_model_;
 };
 
 class Pr2RobotConfig : public RobotConfig {
  public:
-  explicit Pr2RobotConfig(robot_model::RobotModelPtr kinematic_model);
+  Pr2RobotConfig();
   std::string planning_frame() const;
   std::string planning_group() const;
   std::string base_link() const;
@@ -54,19 +43,11 @@ class Pr2RobotConfig : public RobotConfig {
   void joints_for_group(const std::string& actuator_group,
                         std::vector<std::string>* joint_names) const;
   int num_arms() const;
-  bool ComputeIk(const std::string& actuator_group,
-                 const geometry_msgs::Pose& pose,
-                 std::vector<std::string>* joint_names,
-                 std::vector<double>* joint_values) const;
-
- private:
-  const robot_state::JointModelGroup* l_model_group_;
-  const robot_state::JointModelGroup* r_model_group_;
 };
 
 class FetchRobotConfig : public RobotConfig {
  public:
-  explicit FetchRobotConfig(robot_model::RobotModelPtr kinematic_model);
+  FetchRobotConfig();
   std::string planning_frame() const;
   std::string planning_group() const;
   std::string base_link() const;
@@ -79,13 +60,6 @@ class FetchRobotConfig : public RobotConfig {
   void joints_for_group(const std::string& actuator_group,
                         std::vector<std::string>* joint_names) const;
   int num_arms() const;
-  bool ComputeIk(const std::string& actuator_group,
-                 const geometry_msgs::Pose& pose,
-                 std::vector<std::string>* joint_names,
-                 std::vector<double>* joint_values) const;
-
- private:
-  const robot_state::JointModelGroup* arm_group_;
 };
 
 }  // namespace pbd
