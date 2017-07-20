@@ -422,8 +422,16 @@
           }
           this._depthCloud.startStream();
 
+          var frameId = '';
+          if (this.params.robot === "pr2") {
+            frameId = '/head_mount_kinect_rgb_optical_frame';
+          } else if (this.params.robot === "fetch") {
+            frameId = '/head_camera_rgb_optical_frame';
+          } else {
+            console.error('Unknown robot type', this.params.robot);
+          }
           this._depthNode = new ROS3D.SceneNode({
-            frameID: '/head_mount_kinect_rgb_optical_frame',
+            frameID: frameId,
             tfClient: this.$.rviz.tfClient,
             object: this._depthCloud
           });
