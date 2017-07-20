@@ -42,13 +42,13 @@
       <paper-button class="delete" on-tap="_maybeDeleteStep">Delete</paper-button>
     </div>
     <iron-collapse id="picker">
-      <pbd-action-picker class="dropdown-content" ros="[[ros]]" on-iron-select="_addAction" on-iron-deselect="_closePicker"></pbd-action-picker>
+      <pbd-action-picker class="dropdown-content" params="[[params]]" ros="[[ros]]" on-iron-select="_addAction" on-iron-deselect="_closePicker"></pbd-action-picker>
     </iron-collapse>
     <div hidden$="[[hasActions(step.actions)]]">
       No actions
     </div>
     <template is="dom-repeat" items="{{step.actions}}" as="action" index-as="stepIndex">
-      <pbd-action action="{{action}}" program-id="[[programId]]"
+      <pbd-action action="{{action}}" params="[[params]]" program-id="[[programId]]"
         step-num="[[index]]" index="[[stepIndex]]" landmarks="[[landmarks]]"
         on-delete="_handleDeleteAction" ros="[[ros]]"></pbd-action>
     </template>
@@ -70,6 +70,7 @@
           type: Array,
           value: function() { return []; }
         },
+        params: Object,
         program: Object,
         programId: String,
         step: {

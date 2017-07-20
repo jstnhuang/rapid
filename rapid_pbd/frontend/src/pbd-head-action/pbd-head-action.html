@@ -18,11 +18,9 @@
         margin-left: 10px;
       }
     </style>
-    <!-- TODO: to support Fetch, will need to create a wrapper to account for
-      the fact that PR2 and Fetch use different names. -->
     <ros-action-client
       id="headAction"
-      server="/head_traj_controller/follow_joint_trajectory"
+      server="[[_computeServer(params.robot)]]"
       action-type="control_msgs/FollowJointTrajectory"
       ros="[[ros]]"
     ></ros-action-client>
@@ -50,6 +48,7 @@
           type: Number,
           value: 0,
         },
+        params: Object,
         tiltDegrees: {
           type: Number,
           value: 0,
@@ -166,6 +165,16 @@
         var tiltDegrees = this._radToDeg(tiltRadians);
         if (this.tiltDegrees !== tiltDegrees) {
           this.tiltDegrees = tiltDegrees;
+        }
+      },
+
+      _computeServer(robot) {
+        if (robot === "pr2") {
+          return "/head_traj_controller/follow_joint_trajectory";
+        } else if (robot === "fetch") {
+          return "/head_controller/follow_joint_trajectory";
+        } else {
+          return "";
         }
       },
     });

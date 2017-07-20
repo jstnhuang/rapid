@@ -30,7 +30,7 @@
       ros="[[ros]]"
     ></ros-topic>
     <div class="layout horizontal center">
-      <paper-dropdown-menu label="Arm to move">
+      <paper-dropdown-menu label="Arm to move" hidden$="[[!params.hasTwoArms]]">
         <paper-listbox slot="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
           <paper-item data-actuator-group="left arm" on-tap="_updateActuatorGroup">Left arm</paper-item>
           <paper-item data-actuator-group="right arm" on-tap="_updateActuatorGroup">Right arm</paper-item>
@@ -48,10 +48,10 @@
       </paper-dropdown-menu>
     </div>
     <div>
-      <paper-input label="Max speed (m/s)"
+      <!--paper-input label="Max speed (m/s)"
         value="[[action.control_strategy.max_speed]]"
         on-change="_maxSpeedChanged"
-      ></paper-input>
+      ></paper-input-->
       <paper-input label="x"
         value="[[action.pose.position.x]]"
         on-change="_xChanged"
@@ -77,6 +77,7 @@
         },
         index: Number,
         stepIndex: Number,
+        params: Object,
         programId: String,
         landmarks: Array,
         ros: Object,
@@ -133,7 +134,7 @@
           return 'Unknown landmark';
         }
         if (landmark.type === 'tf frame') {
-          if (landmark.name === 'base_link') {
+          if (landmark.name === 'base_link' || landmark.name === 'base_footprint') {
             return 'Robot base';
           } else if (landmark.name === 'torso_lift_link') {
             return 'Robot torso';

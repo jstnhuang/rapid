@@ -18,6 +18,12 @@
       }
     </style>
     <ros-action-client
+      id="armAction"
+      server="/rapid_pbd/gripper_action"
+      action-type="control_msgs/GripperCommandAction"
+      ros="[[ros]]"
+    ></ros-action-client>
+    <ros-action-client
       id="leftAction"
       server="/rapid_pbd/l_gripper_action"
       action-type="control_msgs/GripperCommandAction"
@@ -30,7 +36,7 @@
       ros="[[ros]]"
     ></ros-action-client>
     <div class="layout horizontal center">
-      <paper-dropdown-menu label="Gripper">
+      <paper-dropdown-menu label="Gripper" hidden$="[[params.hasTwoArms]]">
         <paper-listbox slot="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
           <paper-item data-actuator-group="left gripper">Left gripper</paper-item>
           <paper-item data-actuator-group="right gripper">Right gripper</paper-item>
@@ -49,6 +55,7 @@
           notify: true,
           type: Object,
         },
+        params: Object,
         ros: Object,
         _isOpen: {
           type: Boolean,
@@ -87,6 +94,7 @@
       _openGripper: function() {
         var goal = { command: this.action.gripper_command };
         if (this.action.actuator_group === 'gripper') {
+          this.$.armAction.send(goal);
         } else if (this.action.actuator_group === 'left gripper') {
           this.$.leftAction.send(goal);
         } else if (this.action.actuator_group === 'right gripper') {
@@ -97,6 +105,7 @@
       _closeGripper: function() {
         var goal = { command: this.action.gripper_command };
         if (this.action.actuator_group === 'gripper') {
+          this.$.armAction.send(goal);
         } else if (this.action.actuator_group === 'left gripper') {
           this.$.leftAction.send(goal);
         } else if (this.action.actuator_group === 'right gripper') {

@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
+<link rel="import" href="../../bower_components/ros-param/ros-param.html">
 <link rel="import" href="../../bower_components/ros-service/ros-service.html">
 <link rel="import" href="../../bower_components/ros-topic/ros-topic.html">
 <link rel="import" href="../shared-styles/shared-styles.html">
@@ -57,6 +58,12 @@
       service-type="rapid_pbd_msgs/RelaxArm"
     ></ros-service>
     <ros-action-client
+      id="gripperAction"
+      server="/rapid_pbd/gripper_action"
+      action-type="control_msgs/GripperCommandAction"
+      ros="[[ros]]"
+    ></ros-action-client>
+    <ros-action-client
       id="leftGripperAction"
       server="/rapid_pbd/l_gripper_action"
       action-type="control_msgs/GripperCommandAction"
@@ -74,7 +81,7 @@
         <div class="flex"></div>
         <paper-button id="cancel" on-tap="cancel" class="clear">Cancel</paper-button>
       </div>
-      <div class="group layout horizontal">
+      <div class="group layout horizontal" hidden$="[[!params.hasTwoArms]]">
         <div class="half">
           <paper-button hidden$="[[!_isLeftArmFrozen]]" class="normal"
             on-tap="_relaxArm"
@@ -96,13 +103,23 @@
           >Freeze right arm</paper-button>
         </div>
       </div>
+      <div class="group layout horizontal" hidden$="[[params.hasTwoArms]]">
+        <paper-button hidden$="[[!_isArmFrozen]]" class="normal"
+          on-tap="_relaxArm"
+          data-actuator-group="arm"
+        >Relax arm</paper-button>
+        <paper-button hidden$="[[_isArmFrozen]]" class="normal"
+          on-tap="_freezeArm"
+          data-actuator-group="arm"
+        >Freeze arm</paper-button>
+      </div>
       <div class="group">
         <h3>Perception</h3>
         <paper-button class="normal" on-tap="selectMoveHead">Move head</paper-button>
         <paper-button class="normal" on-tap="selectDetectTabletopObjects">Detect tabletop objects</paper-button>
         <!--paper-button class="normal" on-tap="selectFindCustomLandmark">Find custom landmark</paper-button-->
       </div>
-      <div class="group layout horizontal">
+      <div class="group layout horizontal" hidden$="[[!params.hasTwoArms]]">
         <div class="half">
           <h3>Left arm</h3>
           <paper-button class="normal" on-tap="selectLeftGripperPose">Save gripper pose</paper-button><br />
@@ -118,6 +135,14 @@
           <paper-button class="normal" on-tap="selectRightCloseGripper">Close gripper</paper-button>
         </div>
       </div>
+      <div class="group layout horizontal" hidden$="[[params.hasTwoArms]]">
+        <h3>Arm</h3>
+        <paper-button class="normal" on-tap="selectGripperPose">Save gripper pose</paper-button><br />
+        <!--paper-button class="normal" on-tap="selectJointAngles">Save joint angles</paper-button><br /-->
+        <paper-button class="normal" on-tap="selectOpenGripper">Open gripper</paper-button><br />
+        <paper-button class="normal" on-tap="selectCloseGripper">Close gripper</paper-button>
+      </div>
+
     </div>
   </template>
   <script>
@@ -127,6 +152,10 @@
       properties: {
         ros: Object,
         _armState: Object,
+        _isArmFrozen: {
+          type: Boolean,
+          computed: '_computeIsArmFrozen(_armState)'
+        },
         _isLeftArmFrozen: {
           type: Boolean,
           computed: '_computeIsLeftArmFrozen(_armState)'
@@ -161,6 +190,19 @@
           type: 'find custom landmark'
         };
         this.fire('iron-select', action);
+      },
+
+      selectGripperPose: function() {
+        this._selectGripperPose('arm');
+      },
+      selectJointAngles: function() {
+        this._selectJointAngles('arm');
+      },
+      selectOpenGripper: function() {
+        this._selectActuateGripper('gripper', 'open');
+      },
+      selectCloseGripper: function() {
+        this._selectActuateGripper('gripper', 'close');
       },
 
       selectLeftGripperPose: function() {
@@ -233,6 +275,13 @@
         this.fire('iron-select', action);
       },
 
+      _computeIsArmFrozen: function(armState) {
+        if (armState) {
+          return armState.arm_controller === 'frozen';
+        } else {
+          return true;
+        }
+      },
       _computeIsLeftArmFrozen: function(armState) {
         if (armState) {
           return armState.l_arm_controller === 'frozen';

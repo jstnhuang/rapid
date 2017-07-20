@@ -161,6 +161,7 @@
         <div class="stepDiv" hidden$="[[!_hasSteps(program.steps)]]"><div class="stepDivInner">
           <pbd-step
             index="[[currentStepNum]]"
+            params="[[params]]"
             program-id="[[routeData.id]]"
             program="[[program]]"
             step="{{currentStep}}"
@@ -189,6 +190,7 @@
           type: Number,
           value: 0,
         },
+        params: Object,
         program: {
           type: Object,
           observer: '_programChanged',

@@ -30,7 +30,7 @@
       ros="[[ros]]"
     ></ros-topic>
     <div class="layout horizontal center">
-      <paper-dropdown-menu label="Arm to move">
+      <paper-dropdown-menu label="Arm to move" hidden$="[[params.!hasTwoArms]]">
         <paper-listbox slot="dropdown-content" attr-for-selected="data-actuator-group" selected="{{action.actuator_group}}">
           <paper-item data-actuator-group="left arm" on-tap="_updateActuatorGroup">Left arm</paper-item>
           <paper-item data-actuator-group="right arm" on-tap="_updateActuatorGroup">Right arm</paper-item>
@@ -59,6 +59,7 @@
         },
         index: Number,
         stepIndex: Number,
+        params: Object,
         programId: String,
         jointValues: {
           type: Array,
