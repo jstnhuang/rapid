@@ -19,6 +19,7 @@
       <remap from="head_action" to="/head_controller/follow_joint_trajectory" />
       <remap from="move_group" to="/move_group" />
     </node>
+    <rosparam command="load" file="$(find rapid_pbd)/config/surface_segmentation.yaml" />
     <node pkg="rapid_pbd" type="surface_segmentation_node" name="surface_segmentation_node" args="$(arg point_cloud_topic)" />
   </group>
 

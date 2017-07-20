@@ -1,0 +1,19 @@
+# Scene cropping
+crop_min_x: 0
+crop_max_x: 1
+crop_min_y: -1.0
+crop_max_y: 1.0
+crop_min_z: 0.1
+crop_max_z: 1.5
+
+# Plane detection
+horizontal_tolerance_degrees: 10.0
+margin_above_surface: 0.015
+
+# Clustering
+cluster_distance: 0.025
+min_cluster_size: 300
+max_cluster_size: 10000
+
+# For downsampling saved point clouds
+vox_leaf_size: 0.01
