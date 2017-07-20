@@ -69,6 +69,10 @@ void GetWorld(const RobotConfig& robot_config, const msgs::Program& program,
           world->joint_state.SetPosition(name, position);
         }
       } else if (action.type == msgs::Action::MOVE_TO_CARTESIAN_GOAL) {
+        if (action.landmark.type == "") {
+          continue;
+        }
+
         transform_graph::Graph graph;
         graph.Add("landmark",
                   transform_graph::RefFrame(robot_config.base_link()),
