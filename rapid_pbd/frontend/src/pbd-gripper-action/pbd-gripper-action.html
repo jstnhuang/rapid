@@ -43,6 +43,10 @@
           <paper-item data-actuator-group="right gripper">Right gripper</paper-item>
         </paper-listbox>
       </paper-dropdown-menu>
+      <paper-input hidden$="[[_isOpen]]"
+        label="Closing force (35-100 N)"
+        value="[[action.gripper_command.max_effort]]"
+        on-change="_maxEffortChanged"></paper-input>
       <paper-button class="normal" hidden$="[[!_isOpen]]" on-tap="_openGripper">Open now</paper-button>
       <paper-button class="normal" hidden$="[[_isOpen]]" on-tap="_closeGripper">Close now</paper-button>
     </div>
@@ -112,7 +116,17 @@
         } else if (this.action.actuator_group === 'right gripper') {
           this.$.rightAction.send(goal);
         }
-      }
+      },
+
+      _maxEffortChanged: function(evt) {
+        var value = evt.target.value;
+        if (typeof value === 'string') {
+          var parsed = parseFloat(value);
+          if (!isNaN(parsed) && value !== '0.') {
+            this.set('action.gripper_command.max_effort', parsed);
+          }
+        }
+      },
     });
   </script>
 </dom-module>
