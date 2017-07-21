@@ -124,8 +124,7 @@
 
       _handleRosout: function(evt) {
         var msg = evt.detail;
-        if (msg.name !== '/rapid_pbd/editor_node'
-            && msg.name !== '/rapid_pbd/program_executor') {
+        if (msg.name.search("rapid_pbd") === -1) {
           return;
         }
         if (msg.level == 1 || msg.level == 2)  {
