@@ -1,3 +1,10 @@
+# Executes a program either by database ID, name, or by the program message.
+# If the db_id field is non-empty, then the program is looked up and executed.
+# If the db_id field is empty, then the program is looked up by name and executed.
+# If the name field is empty, then the program message is executed.
+# If db_id or name are provided, but the database lookup fails, the action fails.
+string db_id
+string name
 rapid_pbd_msgs/Program program
 ---
 string error

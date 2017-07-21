@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
       nh.advertise<rapid_pbd_msgs::ProgramInfoList>(pbd::kProgramListTopic, 1,
                                                     true);
   // Build DBs.
-  pbd::ProgramDb db(nh, &proxy, program_list_pub);
+  pbd::ProgramDb db(nh, &proxy, &program_list_pub);
   pbd::SceneDb scene_db(scene_proxy);
 
   // Build action clients.

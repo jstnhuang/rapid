@@ -1,5 +1,7 @@
 #include "rapid_pbd/program_executor.h"
 
+#include <sstream>
+
 #include "rapid_pbd_msgs/Action.h"
 #include "rapid_pbd_msgs/ExecuteProgramAction.h"
 #include "rapid_pbd_msgs/FreezeArm.h"
@@ -8,6 +10,7 @@
 #include "tf/transform_listener.h"
 
 #include "rapid_pbd/action_names.h"
+#include "rapid_pbd/program_db.h"
 #include "rapid_pbd/robot_config.h"
 #include "rapid_pbd/step_executor.h"
 #include "rapid_pbd/visualizer.h"
@@ -18,6 +21,7 @@ using rapid_pbd_msgs::ExecuteProgramFeedback;
 using rapid_pbd_msgs::ExecuteProgramGoal;
 using rapid_pbd_msgs::ExecuteProgramResult;
 using rapid_pbd_msgs::FreezeArm;
+using rapid_pbd_msgs::Program;
 using rapid_pbd_msgs::Step;
 
 namespace rapid {
@@ -26,7 +30,7 @@ ProgramExecutionServer::ProgramExecutionServer(
     const std::string& action_name, const ros::Publisher& is_running_pub,
     ActionClients* action_clients, const RobotConfig& robot_config,
     const tf::TransformListener& tf_listener,
-    const RuntimeVisualizer& runtime_viz)
+    const RuntimeVisualizer& runtime_viz, const ProgramDb& program_db)
     : nh_(),
       server_(action_name,
               boost::bind(&ProgramExecutionServer::Execute, this, _1), false),
@@ -35,7 +39,8 @@ ProgramExecutionServer::ProgramExecutionServer(
       action_clients_(action_clients),
       robot_config_(robot_config),
       tf_listener_(tf_listener),
-      runtime_viz_(runtime_viz) {}
+      runtime_viz_(runtime_viz),
+      program_db_(program_db) {}
 
 void ProgramExecutionServer::Start() {
   server_.start();
@@ -44,8 +49,29 @@ void ProgramExecutionServer::Start() {
 
 void ProgramExecutionServer::Execute(
     const rapid_pbd_msgs::ExecuteProgramGoalConstPtr& goal) {
-  if (!IsValid(goal->program)) {
-    std::string error("Program \"" + goal->program.name +
+  Program program;
+  if (goal->db_id != "") {
+    bool success = program_db_.Get(goal->db_id, &program);
+    if (!success) {
+      std::string error("Unable to find program with db_id: " + goal->db_id);
+      Cancel(error);
+      ros::spinOnce();
+      return;
+    }
+  } else if (goal->name != "") {
+    bool success = program_db_.GetByName(goal->name, &program);
+    if (!success) {
+      std::string error("Unable to find program with name: " + goal->name);
+      Cancel(error);
+      ros::spinOnce();
+      return;
+    }
+  } else {
+    program = goal->program;
+  }
+
+  if (!IsValid(program)) {
+    std::string error("Program \"" + program.name +
                       "\" was not constructed properly.");
     ExecuteProgramResult result;
     result.error = error;
@@ -69,8 +95,8 @@ void ProgramExecutionServer::Execute(
   World world;
   runtime_viz_.PublishSurfaceBoxes(world.surface_box_landmarks);
   std::vector<boost::shared_ptr<StepExecutor> > executors;
-  for (size_t i = 0; i < goal->program.steps.size(); ++i) {
-    const Step& step = goal->program.steps[i];
+  for (size_t i = 0; i < program.steps.size(); ++i) {
+    const Step& step = program.steps[i];
     boost::shared_ptr<StepExecutor> executor(
         new StepExecutor(step, action_clients_, robot_config_, &world,
                          runtime_viz_, tf_listener_));
@@ -78,7 +104,7 @@ void ProgramExecutionServer::Execute(
     executors.back()->Init();
   }
 
-  for (size_t i = 0; i < goal->program.steps.size(); ++i) {
+  for (size_t i = 0; i < program.steps.size(); ++i) {
     ExecuteProgramFeedback feedback;
     feedback.step_number = i;
     server_.publishFeedback(feedback);
@@ -94,8 +120,7 @@ void ProgramExecutionServer::Execute(
     while (!executors[i]->IsDone(&error)) {
       if (server_.isPreemptRequested() || !ros::ok()) {
         executors[i]->Cancel();
-        std::string msg("Program \"" + goal->program.name +
-                        "\" was preempted.");
+        std::string msg("Program \"" + program.name + "\" was preempted.");
         Cancel(msg);
         ros::spinOnce();
         return;
@@ -137,7 +162,7 @@ void ProgramExecutionServer::PublishIsRunning(bool is_running) {
 void ProgramExecutionServer::Cancel(const std::string& error) {
   ExecuteProgramResult result;
   result.error = error;
-  server_.setPreempted(result, error);
+  server_.setAborted(result, error);
   PublishIsRunning(false);
 }
 }  // namespace pbd

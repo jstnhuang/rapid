@@ -87,9 +87,14 @@ int main(int argc, char** argv) {
       nh.advertise<visualization_msgs::MarkerArray>("runtime_segmentation", 10);
   pbd::RuntimeVisualizer runtime_viz(*robot_config, box_pub);
 
+  // Build program DB.
+  mongodb_store::MessageStoreProxy proxy(nh, pbd::kMongoProgramCollectionName,
+                                         pbd::kMongoDbName);
+  pbd::ProgramDb program_db(nh, &proxy, NULL);
+
   rapid::pbd::ProgramExecutionServer server(
       rapid::pbd::kProgramActionName, is_running_pub, &action_clients,
-      *robot_config, tf_listener, runtime_viz);
+      *robot_config, tf_listener, runtime_viz, program_db);
   server.Start();
   ROS_INFO("RapidPbD program executor ready.");
   ros::spin();

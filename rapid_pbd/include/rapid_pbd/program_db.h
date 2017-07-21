@@ -30,7 +30,7 @@ class SceneDb {
 class ProgramDb {
  public:
   ProgramDb(const ros::NodeHandle& nh, mongodb_store::MessageStoreProxy* db,
-            const ros::Publisher& list_pub);
+            ros::Publisher* list_pub);
 
   // Publishes the first message.
   void Start();
@@ -39,12 +39,14 @@ class ProgramDb {
   void Update(const std::string& db_id, const rapid_pbd_msgs::Program& program);
   void StartPublishingProgramById(const std::string& db_id);
   bool Get(const std::string& db_id, rapid_pbd_msgs::Program* program) const;
+  bool GetByName(const std::string& name,
+                 rapid_pbd_msgs::Program* program) const;
   void Delete(const std::string& db_id);
 
  private:
   ros::NodeHandle nh_;
   mongodb_store::MessageStoreProxy* db_;
-  ros::Publisher list_pub_;
+  ros::Publisher* list_pub_;
   std::map<std::string, ros::Publisher> program_pubs_;
 
   void PublishList();

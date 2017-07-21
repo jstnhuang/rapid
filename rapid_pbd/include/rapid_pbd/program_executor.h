@@ -9,6 +9,7 @@
 #include "tf/transform_listener.h"
 
 #include "rapid_pbd/action_clients.h"
+#include "rapid_pbd/program_db.h"
 #include "rapid_pbd/robot_config.h"
 #include "rapid_pbd/visualizer.h"
 
@@ -21,7 +22,8 @@ class ProgramExecutionServer {
                          ActionClients* action_clients,
                          const RobotConfig& robot_config,
                          const tf::TransformListener& tf_listener,
-                         const RuntimeVisualizer& runtime_viz_);
+                         const RuntimeVisualizer& runtime_viz,
+                         const ProgramDb& program_db);
   void Start();
 
  private:
@@ -33,6 +35,7 @@ class ProgramExecutionServer {
   const RobotConfig& robot_config_;
   const tf::TransformListener& tf_listener_;
   RuntimeVisualizer runtime_viz_;
+  const ProgramDb& program_db_;
 
   void Execute(const rapid_pbd_msgs::ExecuteProgramGoalConstPtr& goal);
   static bool IsValid(const rapid_pbd_msgs::Program& program);

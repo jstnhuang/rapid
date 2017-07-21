@@ -49,7 +49,7 @@ bool SceneDb::Delete(const std::string& db_id) {
 
 ProgramDb::ProgramDb(const ros::NodeHandle& nh,
                      mongodb_store::MessageStoreProxy* db,
-                     const ros::Publisher& list_pub)
+                     ros::Publisher* list_pub)
     : nh_(nh), db_(db), list_pub_(list_pub), program_pubs_() {}
 
 void ProgramDb::Start() { PublishList(); }
@@ -98,6 +98,32 @@ bool ProgramDb::Get(const std::string& db_id,
   return true;
 }
 
+bool ProgramDb::GetByName(const std::string& name,
+                          rapid_pbd_msgs::Program* program) const {
+  vector<shared_ptr<Program> > results;
+  mongo::BSONObj query = BSON("name" << name);
+  mongo::BSONObj meta_query;
+  mongo::BSONObj sort_query;
+  bool find_one = true;
+  bool decode_metas = false;
+  int limit = 1;
+
+  vector<std::pair<shared_ptr<Program>, mongo::BSONObj> > msg_and_metas;
+  bool success = db_->query(msg_and_metas, query, meta_query, sort_query,
+                            find_one, decode_metas, limit);
+  if (!success || msg_and_metas.size() < 1) {
+    ROS_ERROR("Can't get program with name: \"%s\"", name.c_str());
+    return false;
+  }
+  shared_ptr<Program> program_p = msg_and_metas[0].first;
+  if (!program_p) {
+    ROS_ERROR("Database returned null message for name: \"%s\"", name.c_str());
+    return false;
+  }
+  *program = *program_p;
+  return true;
+}
+
 void ProgramDb::Delete(const std::string& db_id) {
   bool success = db_->deleteID(db_id);
 
@@ -113,6 +139,9 @@ void ProgramDb::Delete(const std::string& db_id) {
 }
 
 void ProgramDb::PublishList() {
+  if (list_pub_ == NULL) {
+    return;
+  }
   vector<pair<shared_ptr<Program>, mongo::BSONObj> > results;
   db_->query<Program>(results);
   ProgramInfoList msg;
@@ -122,7 +151,7 @@ void ProgramDb::PublishList() {
     info.db_id = results[i].second.getField("_id").OID().str();
     msg.programs.push_back(info);
   }
-  list_pub_.publish(msg);
+  list_pub_->publish(msg);
 }
 
 void ProgramDb::PublishProgram(const std::string& db_id) {
