@@ -6,7 +6,7 @@
   <arg if="$(arg sim)" name="depth_topic" default="/head_camera/depth_registered/image_raw" />
   <arg if="$(arg sim)" name="color_topic" default="/head_camera/rgb/image_raw" />
 
-  <arg unless="$(arg sim)" name="point_cloud_topic" default="/head_mount_kinect/depth_registered/points" />
+  <arg unless="$(arg sim)" name="point_cloud_topic" default="/head_camera/depth_registered/points" />
   <arg unless="$(arg sim)" name="depth_topic" default="/head_camera/depth_registered/image_raw" />
   <arg unless="$(arg sim)" name="color_topic" default="/head_camera/rgb/image_raw" />
 
@@ -24,14 +24,9 @@
   </group>
 
   <!-- Depth cloud -->
-  <node pkg="nodelet" type="nodelet" name="rapid_pbd_convert_metric" args="standalone depth_image_proc/convert_metric" if="$(arg sim)">
-    <remap from="image_raw" to="$(arg depth_topic)" />
-    <remap from="image" to="$(arg depth_topic)_float" />
-  </node>
   <node pkg="depthcloud_encoder" type="depthcloud_encoder_node" name="rapid_pbd_depthcloud_encoder">
     <param name="rgb" value="$(arg color_topic)" />
-    <param if="$(arg sim)" name="depth" value="$(arg depth_topic)" />
-    <param unless="$(arg sim)" name="depth" value="$(arg depth_topic)_float" />
+    <param name="depth" value="$(arg depth_topic)" />
     <param name="camera_frame_id" value="$(arg camera_frame)" />
   </node>
 </launch>
