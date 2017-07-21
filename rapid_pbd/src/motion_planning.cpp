@@ -1,6 +1,7 @@
 #include "rapid_pbd/motion_planning.h"
 
 #include <map>
+#include <sstream>
 #include <string>
 
 #include "geometry_msgs/Pose.h"
@@ -14,6 +15,7 @@
 #include "rapid_pbd/errors.h"
 #include "rapid_pbd/world.h"
 
+using moveit_msgs::MoveItErrorCodes;
 using std::string;
 namespace msgs = rapid_pbd_msgs;
 namespace tg = transform_graph;
@@ -102,5 +104,84 @@ void MotionPlanning::BuildGoal(moveit_msgs::MoveGroupGoal* goal) const {
 }
 
 int MotionPlanning::num_goals() const { return num_goals_; }
+
+std::string ErrorCodeToString(const MoveItErrorCodes& code) {
+  if (code.val == MoveItErrorCodes::SUCCESS) {
+    return "SUCCESS";
+  }
+  if (code.val == MoveItErrorCodes::FAILURE) {
+    return "FAILURE";
+  }
+  if (code.val == MoveItErrorCodes::PLANNING_FAILED) {
+    return "PLANNING_FAILED";
+  }
+  if (code.val == MoveItErrorCodes::INVALID_MOTION_PLAN) {
+    return "INVALID_MOTION_PLAN";
+  }
+  if (code.val ==
+      MoveItErrorCodes::MOTION_PLAN_INVALIDATED_BY_ENVIRONMENT_CHANGE) {
+    return "MOTION_PLAN_INVALIDATED_BY_ENVIRONMENT_CHANGE";
+  }
+  if (code.val == MoveItErrorCodes::CONTROL_FAILED) {
+    return "CONTROL_FAILED";
+  }
+  if (code.val == MoveItErrorCodes::UNABLE_TO_AQUIRE_SENSOR_DATA) {
+    return "UNABLE_TO_AQUIRE_SENSOR_DATA";
+  }
+  if (code.val == MoveItErrorCodes::TIMED_OUT) {
+    return "TIMED_OUT";
+  }
+  if (code.val == MoveItErrorCodes::PREEMPTED) {
+    return "PREEMPTED";
+  }
+  if (code.val == MoveItErrorCodes::START_STATE_IN_COLLISION) {
+    return "START_STATE_IN_COLLISION";
+  }
+  if (code.val == MoveItErrorCodes::START_STATE_VIOLATES_PATH_CONSTRAINTS) {
+    return "START_STATE_VIOLATES_PATH_CONSTRAINTS";
+  }
+  if (code.val == MoveItErrorCodes::GOAL_IN_COLLISION) {
+    return "GOAL_IN_COLLISION";
+  }
+  if (code.val == MoveItErrorCodes::GOAL_VIOLATES_PATH_CONSTRAINTS) {
+    return "GOAL_VIOLATES_PATH_CONSTRAINTS";
+  }
+  if (code.val == MoveItErrorCodes::GOAL_CONSTRAINTS_VIOLATED) {
+    return "GOAL_CONSTRAINTS_VIOLATED";
+  }
+  if (code.val == MoveItErrorCodes::INVALID_GROUP_NAME) {
+    return "INVALID_GROUP_NAME";
+  }
+  if (code.val == MoveItErrorCodes::INVALID_GOAL_CONSTRAINTS) {
+    return "INVALID_GOAL_CONSTRAINTS";
+  }
+  if (code.val == MoveItErrorCodes::INVALID_ROBOT_STATE) {
+    return "INVALID_ROBOT_STATE";
+  }
+  if (code.val == MoveItErrorCodes::INVALID_LINK_NAME) {
+    return "INVALID_LINK_NAME";
+  }
+  if (code.val == MoveItErrorCodes::INVALID_OBJECT_NAME) {
+    return "INVALID_OBJECT_NAME";
+  }
+  if (code.val == MoveItErrorCodes::FRAME_TRANSFORM_FAILURE) {
+    return "FRAME_TRANSFORM_FAILURE";
+  }
+  if (code.val == MoveItErrorCodes::COLLISION_CHECKING_UNAVAILABLE) {
+    return "COLLISION_CHECKING_UNAVAILABLE";
+  }
+  if (code.val == MoveItErrorCodes::ROBOT_STATE_STALE) {
+    return "ROBOT_STATE_STALE";
+  }
+  if (code.val == MoveItErrorCodes::SENSOR_INFO_STALE) {
+    return "SENSOR_INFO_STALE";
+  }
+  if (code.val == MoveItErrorCodes::NO_IK_SOLUTION) {
+    return "NO_IK_SOLUTION";
+  }
+  std::stringstream ss;
+  ss << "Unknown error code " << code.val;
+  return ss.str();
+}
 }  // namespace pbd
 }  // namespace rapid

@@ -6,6 +6,7 @@
 #include "geometry_msgs/Pose.h"
 #include "moveit_goal_builder/builder.h"
 #include "moveit_msgs/MoveGroupAction.h"
+#include "moveit_msgs/MoveItErrorCodes.h"
 #include "rapid_pbd_msgs/Landmark.h"
 #include "tf/transform_listener.h"
 
@@ -35,6 +36,8 @@ class MotionPlanning {
   moveit_goal_builder::Builder builder_;
   int num_goals_;
 };
+
+std::string ErrorCodeToString(const moveit_msgs::MoveItErrorCodes& code);
 }  // namespace pbd
 }  // namespace rapid
 

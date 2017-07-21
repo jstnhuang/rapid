@@ -10,6 +10,7 @@
 
 #include "rapid_pbd/action_executor.h"
 #include "rapid_pbd/errors.h"
+#include "rapid_pbd/motion_planning.h"
 #include "rapid_pbd/visualizer.h"
 #include "rapid_pbd/world.h"
 
@@ -92,7 +93,7 @@ bool StepExecutor::IsDone(std::string* error) const {
     if (result->error_code.val != moveit_msgs::MoveItErrorCodes::SUCCESS) {
       std::stringstream ss;
       ss << errors::kUnreachablePose
-         << " MoveIt error code: " << result->error_code.val;
+         << " MoveIt error code: " << ErrorCodeToString(result->error_code);
       *error = ss.str();
     }
   }
