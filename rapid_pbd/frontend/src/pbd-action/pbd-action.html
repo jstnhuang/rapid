@@ -178,11 +178,13 @@
         if (displayActionType === 'open gripper') {
           this.set('action.type', 'actuate gripper');
           this.set('action.gripper_command.position', 0.1);
-          this.set('action.gripper_command.max_effort', -1);
+          this.set('action.gripper_command.max_effort', 0);
         } else if (displayActionType === 'close gripper') {
           this.set('action.type', 'actuate gripper');
           this.set('action.gripper_command.position', 0);
-          this.set('action.gripper_command.max_effort', 100);
+          if (!this.action.gripper_command.max_effort) {
+            this.set('action.gripper_command.max_effort', 75);
+          }
         } else if (displayActionType === 'move head') {
           this.set('action.type', 'move to joint goal');
           this.set('action.actuator_group', 'head');
