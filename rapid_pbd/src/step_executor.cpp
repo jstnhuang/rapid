@@ -86,6 +86,9 @@ bool StepExecutor::IsDone(std::string* error) const {
     }
     moveit_msgs::MoveGroupResultConstPtr result =
         action_clients_->moveit_client.getResult();
+    if (!result) {
+      *error = "MoveIt returned null result.";
+    }
     if (result->error_code.val != moveit_msgs::MoveItErrorCodes::SUCCESS) {
       std::stringstream ss;
       ss << errors::kUnreachablePose
