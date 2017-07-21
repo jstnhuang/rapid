@@ -108,6 +108,11 @@ void ProgramExecutionServer::Execute(
       }
       ros::spinOnce();
     }
+    if (error != "") {
+      Cancel(error);
+      ros::spinOnce();
+      return;
+    }
   }
   PublishIsRunning(false);
   server_.setSucceeded();
