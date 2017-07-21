@@ -51,9 +51,8 @@ void SurfaceSegmentationAction::Execute(
   ros::Time start = ros::Time::now();
   boost::shared_ptr<const sensor_msgs::PointCloud2> cloud_in;
   for (size_t i = 0; i < 10; ++i) {
-    boost::shared_ptr<const sensor_msgs::PointCloud2> cloud_in =
-        ros::topic::waitForMessage<sensor_msgs::PointCloud2>(
-            topic_, ros::Duration(10.0));
+    cloud_in = ros::topic::waitForMessage<sensor_msgs::PointCloud2>(
+        topic_, ros::Duration(10.0));
     if (!cloud_in) {
       rapid_pbd_msgs::SegmentSurfacesResult result;
       ROS_ERROR("Failed to get point cloud on topic: %s.", topic_.c_str());
@@ -64,9 +63,13 @@ void SurfaceSegmentationAction::Execute(
       break;
     } else {
       if (i == 9) {
-        ROS_WARN("Got old point cloud, trying again.");
+        ROS_ERROR(
+            "Got old point cloud! Started at: %f, cloud was captured at: %f",
+            start.toSec(), cloud_in->header.stamp.toSec());
       } else {
-        ROS_ERROR("Got old point cloud!");
+        ROS_WARN(
+            "Got old point cloud! Started at: %f, cloud was captured at: %f",
+            start.toSec(), cloud_in->header.stamp.toSec());
       }
     }
   }
