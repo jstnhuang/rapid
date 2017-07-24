@@ -16,7 +16,10 @@ For example, in one step, you can point the head down and move the robot's arms 
 ## Installing
 - Copy the `rapid_pbd` and `rapid_pbd_msgs` folder to your catkin workspace.
 - Clone `moveit_goal_builder`: `git clone git@github.com:jstnhuang/moveit_goal_builder.git`
+- Clone `transform_graph` (until updated version reaches debs): `git clone git@github.com:jstnhuang/transform_graph.git`
+- Clone `surface_perception` (until updated version reaches debs): `git clone git@github.com:jstnhuang/surface_perception.git`
 - To avoid mongodb errors, please use my fork of mongodb_store: https://github.com/jstnhuang/mongodb_store
+- For Fetch development, install the fetch_ikfast_plugin package: 
 - Get other dependencies through rosdep: `cd ~/catkin_ws; rosdep install --from-paths src --ignore-src --rosdistro=indigo -y`
 
 ## Running the system (PR2 simulation)
