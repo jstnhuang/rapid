@@ -117,6 +117,7 @@ catkin_package(
   LIBRARIES
     rapid_pbd_action_clients
     rapid_pbd_action_executor
+    rapid_pbd_action_utils
     rapid_pbd_editor
     rapid_pbd_fetch_actions
     rapid_pbd_joint_state
@@ -172,6 +173,10 @@ target_link_libraries(rapid_pbd_action_executor
   rapid_pbd_visualizer
   rapid_pbd_world
   ${catkin_LIBRARIES})
+
+add_library(rapid_pbd_action_utils src/action_utils.cpp)
+add_dependencies(rapid_pbd_action_utils ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pbd_action_utils ${catkin_LIBRARIES})
 
 add_library(rapid_pbd_editor src/editor.cpp)
 add_dependencies(rapid_pbd_editor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
