@@ -157,6 +157,7 @@ void GetWorld(const RobotConfig& robot_config, const msgs::Program& program,
 }
 
 namespace {
+// TODO: move this into a landmark_utils library.
 // Returns dimensions as a vector, with x always <= y.
 void GetDims(const msgs::Landmark& landmark, std::vector<double>* dims) {
   dims->resize(3);
