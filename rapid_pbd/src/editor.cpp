@@ -14,6 +14,7 @@
 #include "transform_graph/graph.h"
 
 #include "rapid_pbd/action_clients.h"
+#include "rapid_pbd/action_utils.h"
 #include "rapid_pbd/joint_state_reader.h"
 #include "rapid_pbd/program_db.h"
 #include "rapid_pbd/robot_config.h"
@@ -288,27 +289,28 @@ void Editor::GetJointValues(const std::string& db_id, size_t step_id,
 
   msgs::Action* action = &step->actions[action_id];
   action->actuator_group = actuator_group;
-  action->joint_trajectory.joint_names.clear();
-  robot_config_.joints_for_group(actuator_group,
-                                 &action->joint_trajectory.joint_names);
-  if (action->joint_trajectory.joint_names.size() == 0) {
+
+  std::vector<std::string> joint_names;
+  robot_config_.joints_for_group(actuator_group, &joint_names);
+  if (joint_names.size() == 0) {
     ROS_ERROR("Can't get joint angles for actuator group \"%s\"",
               action->actuator_group.c_str());
     return;
   }
-  action->joint_trajectory.points.resize(1);
-  action->joint_trajectory.points[0].positions.clear();
 
-  for (size_t i = 0; i < action->joint_trajectory.joint_names.size(); ++i) {
-    const std::string& name = action->joint_trajectory.joint_names[i];
+  std::vector<double> joint_positions;
+  for (size_t i = 0; i < joint_names.size(); ++i) {
+    const std::string& name = joint_names[i];
     double pos = joint_state_reader_.get_position(name);
     if (pos == kNoJointValue) {
       ROS_ERROR("Could not get angle for joint \"%s\"", name.c_str());
-      action->joint_trajectory.points[0].positions.push_back(0);
+      joint_positions.push_back(0);
     } else {
-      action->joint_trajectory.points[0].positions.push_back(pos);
+      joint_positions.push_back(pos);
     }
   }
+
+  SetJointPositions(joint_names, joint_positions, action);
 
   // Fill in default time
   if (action->joint_trajectory.points[0].time_from_start.isZero()) {
@@ -316,7 +318,8 @@ void Editor::GetJointValues(const std::string& db_id, size_t step_id,
   }
 
   // Clear any previous landmark.
-  action->landmark.type = "";
+  msgs::Landmark blank_landmark;
+  action->landmark = blank_landmark;
 
   Update(db_id, program);
 }
@@ -453,6 +456,29 @@ void Editor::GetNewPose(const rapid_pbd_msgs::Landmark& landmark,
     ROS_ERROR("Unable to transform end-effector pose into landmark!");
   }
   ee_in_landmark.ToPose(&action->pose);
+
+  // Set joint angles as a seed.
+  std::vector<std::string> joint_names;
+  robot_config_.joints_for_group(actuator_group, &joint_names);
+  if (joint_names.size() == 0) {
+    ROS_ERROR("Can't get joint angles for actuator group \"%s\"",
+              action->actuator_group.c_str());
+    return;
+  }
+
+  std::vector<double> joint_positions;
+  for (size_t i = 0; i < joint_names.size(); ++i) {
+    const std::string& name = joint_names[i];
+    double pos = joint_state_reader_.get_position(name);
+    if (pos == kNoJointValue) {
+      ROS_ERROR("Could not get angle for joint \"%s\"", name.c_str());
+      joint_positions.push_back(0);
+    } else {
+      joint_positions.push_back(pos);
+    }
+  }
+
+  SetJointPositions(joint_names, joint_positions, action);
 }
 
 // Reinterpret the existing pose to be relative to the given landmark.
