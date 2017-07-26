@@ -11,6 +11,7 @@
 #include "rapid_pbd_msgs/Step.h"
 #include "transform_graph/graph.h"
 
+#include "rapid_pbd/action_utils.h"
 #include "rapid_pbd/joint_state.h"
 #include "rapid_pbd/robot_config.h"
 
@@ -85,46 +86,56 @@ void GetWorld(const RobotConfig& robot_config, const msgs::Program& program,
         geometry_msgs::Pose pose;
         ee_in_base.ToPose(&pose);
 
-        // TODO: This looks pretty inefficient but doesn't "feel" slow yet.
-        // Could use a rewrite if it does feel slow.
-        moveit_msgs::GetPositionIKRequest ik_req;
-        if (action.actuator_group == msgs::Action::ARM) {
-          ik_req.ik_request.group_name = "arm";
-        } else if (action.actuator_group == msgs::Action::LEFT_ARM) {
-          ik_req.ik_request.group_name = "left_arm";
-        } else if (action.actuator_group == msgs::Action::RIGHT_ARM) {
-          ik_req.ik_request.group_name = "right_arm";
-        }
-        ik_req.ik_request.pose_stamped.header.frame_id =
-            robot_config.base_link();
-        ik_req.ik_request.pose_stamped.pose = pose;
-        ik_req.ik_request.attempts = 3;
-        ik_req.ik_request.timeout = ros::Duration(1);
-        robot_config.joints_for_group(action.actuator_group,
-                                      &ik_req.ik_request.ik_link_names);
-
-        moveit_msgs::GetPositionIKResponse ik_res;
-        ros::service::call("/compute_ik", ik_req, ik_res);
-        bool success =
-            ik_res.error_code.val == moveit_msgs::MoveItErrorCodes::SUCCESS;
-
-        if (!success) {
-          ROS_ERROR_STREAM("Failed to compute IK for actuator "
-                           << action.actuator_group << " on step " << step_i
-                           << ", action " << action_i << ", pose: " << pose);
-          continue;
-        }
-
+        // Get joint angles for pose
         std::vector<std::string> joint_names;
-        robot_config.joints_for_group(action.actuator_group, &joint_names);
-        std::set<std::string> joint_set;
-        joint_set.insert(joint_names.begin(), joint_names.end());
-        for (size_t j = 0; j < ik_res.solution.joint_state.name.size(); ++j) {
-          const std::string& name = ik_res.solution.joint_state.name[j];
-          const double value = ik_res.solution.joint_state.position[j];
-          if (joint_set.find(name) != joint_set.end()) {
-            world->joint_state.SetPosition(name, value);
+        std::vector<double> joint_positions;
+
+        // Use IK seed if available, compute IK otherwise.
+        if (HasJointValues(action)) {
+          GetJointPositions(action, &joint_names, &joint_positions);
+        } else {
+          ROS_WARN(
+              "Step %ld, action %ld is old and does not have an IK seed. "
+              "Consider remaking it.",
+              step_i, action_i);
+          moveit_msgs::GetPositionIKRequest ik_req;
+          if (action.actuator_group == msgs::Action::ARM) {
+            ik_req.ik_request.group_name = "arm";
+          } else if (action.actuator_group == msgs::Action::LEFT_ARM) {
+            ik_req.ik_request.group_name = "left_arm";
+          } else if (action.actuator_group == msgs::Action::RIGHT_ARM) {
+            ik_req.ik_request.group_name = "right_arm";
           }
+          ik_req.ik_request.pose_stamped.header.frame_id =
+              robot_config.base_link();
+          ik_req.ik_request.pose_stamped.pose = pose;
+          ik_req.ik_request.attempts = 3;
+          ik_req.ik_request.timeout = ros::Duration(1);
+          robot_config.joints_for_group(action.actuator_group,
+                                        &ik_req.ik_request.ik_link_names);
+
+          moveit_msgs::GetPositionIKResponse ik_res;
+          ros::service::call("/compute_ik", ik_req, ik_res);
+          bool success =
+              ik_res.error_code.val == moveit_msgs::MoveItErrorCodes::SUCCESS;
+
+          if (!success) {
+            ROS_ERROR_STREAM("Failed to compute IK for actuator "
+                             << action.actuator_group << " on step " << step_i
+                             << ", action " << action_i << ", pose: " << pose);
+            continue;
+          }
+
+          for (size_t j = 0; j < ik_res.solution.joint_state.name.size(); ++j) {
+            const std::string& name = ik_res.solution.joint_state.name[j];
+            const double value = ik_res.solution.joint_state.position[j];
+            joint_names.push_back(name);
+            joint_positions.push_back(value);
+          }
+        }
+
+        for (size_t i = 0; i < joint_names.size(); ++i) {
+          world->joint_state.SetPosition(joint_names[i], joint_positions[i]);
         }
       }
     }
