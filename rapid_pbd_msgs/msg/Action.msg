@@ -33,6 +33,7 @@ control_msgs/GripperCommand gripper_command
 
 ## If type == MOVE_TO_JOINT_GOAL
 ## Used to move the head, torso, arm, or a custom set of joints
+## If the type is MOVE_TO_CARTESIAN_GOAL, this may also specify a seed set of joint angles.
 trajectory_msgs/JointTrajectory joint_trajectory
 
 ## If type == MOVE_TO_CARTESIAN_GOAL
