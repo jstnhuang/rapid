@@ -111,7 +111,7 @@ int main(int argc, char** argv) {
   floor.primitives.push_back(floor_shape);
   geometry_msgs::Pose floor_pose;
   floor_pose.orientation.w = 1;
-  floor_pose.position.z = -0.005;
+  floor_pose.position.z = 0;
   floor.primitive_poses.push_back(floor_pose);
   floor.operation = moveit_msgs::CollisionObject::ADD;
 
