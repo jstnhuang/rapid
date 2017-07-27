@@ -140,11 +140,11 @@ string MotionPlanning::AddPoseGoal(
     }
   }
 
-  return AddJointGoal(actuator_group, joint_names, joint_positions);
+  return AddJointGoal(joint_names, joint_positions);
 }
 
 std::string MotionPlanning::AddJointGoal(
-    const string& actuator_group, const std::vector<std::string>& joint_names,
+    const std::vector<std::string>& joint_names,
     const std::vector<double>& joint_positions) {
   if (joint_names.size() != joint_positions.size()) {
     std::string error("Joint names do not match joint positions!");

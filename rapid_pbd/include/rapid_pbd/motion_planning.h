@@ -31,8 +31,7 @@ class MotionPlanning {
                           const rapid_pbd_msgs::Landmark& landmark,
                           const std::vector<std::string>& seed_joint_names,
                           const std::vector<double>& seed_joint_positions);
-  std::string AddJointGoal(const std::string& actuator_group,
-                           const std::vector<std::string>& joint_names,
+  std::string AddJointGoal(const std::vector<std::string>& joint_names,
                            const std::vector<double>& joint_positions);
   void ClearGoals();
   void BuildGoal(moveit_msgs::MoveGroupGoal* goal) const;
