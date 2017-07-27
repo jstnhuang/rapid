@@ -1,11 +1,13 @@
 #include "rapid_pbd/motion_planning.h"
 
 #include <map>
+#include <set>
 #include <sstream>
 #include <string>
 
 #include "geometry_msgs/Pose.h"
 #include "moveit_goal_builder/builder.h"
+#include "moveit_msgs/GetPositionIK.h"
 #include "moveit_msgs/MoveGroupAction.h"
 #include "rapid_pbd_msgs/Landmark.h"
 #include "ros/ros.h"
@@ -28,11 +30,18 @@ MotionPlanning::MotionPlanning(const RobotConfig& robot_config, World* world,
       world_(world),
       tf_listener_(tf_listener),
       builder_(robot_config.planning_frame(), robot_config.planning_group()),
-      num_goals_(0) {}
+      num_goals_(0) {
+  builder_.can_replan = true;
+  builder_.num_planning_attempts = 10;
+  builder_.replan_attempts = 2;
+  builder_.planning_time = 10.0;
+}
 
-string MotionPlanning::AddPoseGoal(const string& actuator_group,
-                                   const geometry_msgs::Pose& pose,
-                                   const rapid_pbd_msgs::Landmark& landmark) {
+string MotionPlanning::AddPoseGoal(
+    const string& actuator_group, const geometry_msgs::Pose& pose,
+    const rapid_pbd_msgs::Landmark& landmark,
+    const std::vector<std::string>& seed_joint_names,
+    const std::vector<double>& seed_joint_positions) {
   string ee_link = robot_config_.ee_frame_for_group(actuator_group);
   if (ee_link == "") {
     ROS_ERROR("Unable to look up EE link for actuator group \"%s\"",
@@ -80,16 +89,75 @@ string MotionPlanning::AddPoseGoal(const string& actuator_group,
   geometry_msgs::Pose pose_in_base;
   landmark_transform.ToPose(&pose_in_base);
 
-  builder_.AddPoseGoal(ee_link, pose_in_base);
-  ++num_goals_;
+  // Compute IK
+  // TODO: This is copied from world.cpp. Consider creating a common IK
+  // function.
+  moveit_msgs::GetPositionIKRequest ik_req;
+  if (seed_joint_names.size() > 0) {
+    ik_req.ik_request.robot_state.joint_state.name = seed_joint_names;
+    ik_req.ik_request.robot_state.joint_state.position = seed_joint_positions;
+  }
+  if (actuator_group == msgs::Action::ARM) {
+    ik_req.ik_request.group_name = "arm";
+  } else if (actuator_group == msgs::Action::LEFT_ARM) {
+    ik_req.ik_request.group_name = "left_arm";
+  } else if (actuator_group == msgs::Action::RIGHT_ARM) {
+    ik_req.ik_request.group_name = "right_arm";
+  }
+  ik_req.ik_request.pose_stamped.header.frame_id = robot_config_.base_link();
+  ik_req.ik_request.pose_stamped.pose = pose_in_base;
+  ik_req.ik_request.avoid_collisions = true;
+  ik_req.ik_request.attempts = 5;
+  ik_req.ik_request.timeout = ros::Duration(2);
+  robot_config_.joints_for_group(actuator_group,
+                                 &ik_req.ik_request.ik_link_names);
+  moveit_msgs::GetPositionIKResponse ik_res;
+  ros::service::call("/compute_ik", ik_req, ik_res);
+  bool success =
+      ik_res.error_code.val == moveit_msgs::MoveItErrorCodes::SUCCESS;
+  if (!success) {
+    std::string error("No IK solution found");
+    ROS_ERROR("%s", error.c_str());
+    return error;
+  }
 
-  return "";
+  // GetPositionIK returns solution for all joints. Filter out to just joints
+  // relevant for this actuator.
+  std::set<std::string> joint_set;
+  joint_set.insert(ik_req.ik_request.ik_link_names.begin(),
+                   ik_req.ik_request.ik_link_names.end());
+
+  std::vector<std::string> joint_names;
+  std::vector<double> joint_positions;
+  for (size_t j = 0; j < ik_res.solution.joint_state.name.size(); ++j) {
+    const std::string& name = ik_res.solution.joint_state.name[j];
+    const double value = ik_res.solution.joint_state.position[j];
+    if (joint_set.find(name) != joint_set.end()) {
+      joint_names.push_back(name);
+      joint_positions.push_back(value);
+    }
+  }
+
+  return AddJointGoal(actuator_group, joint_names, joint_positions);
 }
 
-void MotionPlanning::AddJointGoal(const string& actuator_group,
-                                  const geometry_msgs::Pose& pose) {
-  // TODO: use moveit instead of joint controllers
-  ROS_ERROR("MotionPlanning::AddJointGoal not implemented");
+std::string MotionPlanning::AddJointGoal(
+    const string& actuator_group, const std::vector<std::string>& joint_names,
+    const std::vector<double>& joint_positions) {
+  if (joint_names.size() != joint_positions.size()) {
+    std::string error("Joint names do not match joint positions!");
+    ROS_ERROR_STREAM(error);
+    return error;
+  }
+
+  std::map<std::string, double> goal;
+  for (size_t i = 0; i < joint_names.size(); ++i) {
+    goal[joint_names[i]] = joint_positions[i];
+  }
+  builder_.SetJointGoal(goal);
+
+  ++num_goals_;
+  return "";
 }
 
 void MotionPlanning::ClearGoals() {

@@ -1,7 +1,9 @@
 #ifndef _RAPID_PBD_MOTION_PLANNING_H_
 #define _RAPID_PBD_MOTION_PLANNING_H_
 
+#include <set>
 #include <string>
+#include <vector>
 
 #include "geometry_msgs/Pose.h"
 #include "moveit_goal_builder/builder.h"
@@ -20,11 +22,16 @@ class MotionPlanning {
   MotionPlanning(const RobotConfig& robot_config, World* world,
                  const tf::TransformListener& tf_listener);
   // Returns an error message, or empty string if no error.
+  // Set seed_joint_names and seed_joint_positions to empty vectors if you do
+  // not want to specify an IK seed.
   std::string AddPoseGoal(const std::string& actuator_group,
                           const geometry_msgs::Pose& pose,
-                          const rapid_pbd_msgs::Landmark& landmark);
-  void AddJointGoal(const std::string& actuator_group,
-                    const geometry_msgs::Pose& pose);
+                          const rapid_pbd_msgs::Landmark& landmark,
+                          const std::vector<std::string>& seed_joint_names,
+                          const std::vector<double>& seed_joint_positions);
+  std::string AddJointGoal(const std::string& actuator_group,
+                           const std::vector<std::string>& joint_names,
+                           const std::vector<double>& joint_positions);
   void ClearGoals();
   void BuildGoal(moveit_msgs::MoveGroupGoal* goal) const;
   int num_goals() const;

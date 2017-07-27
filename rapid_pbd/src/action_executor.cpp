@@ -11,6 +11,7 @@
 #include "visualization_msgs/MarkerArray.h"
 
 #include "rapid_pbd/action_names.h"
+#include "rapid_pbd/action_utils.h"
 #include "rapid_pbd/errors.h"
 #include "rapid_pbd/motion_planning.h"
 #include "rapid_pbd/visualizer.h"
@@ -79,8 +80,14 @@ std::string ActionExecutor::Start() {
   } else if (action_.type == Action::MOVE_TO_JOINT_GOAL) {
     MoveToJointGoal();
   } else if (action_.type == Action::MOVE_TO_CARTESIAN_GOAL) {
+    std::vector<std::string> joint_names;
+    std::vector<double> joint_positions;
+    if (HasJointValues(action_)) {
+      GetJointPositions(action_, &joint_names, &joint_positions);
+    }
     return motion_planning_->AddPoseGoal(action_.actuator_group, action_.pose,
-                                         action_.landmark);
+                                         action_.landmark, joint_names,
+                                         joint_positions);
   } else if (action_.type == Action::DETECT_TABLETOP_OBJECTS) {
     DetectTabletopObjects();
   }
