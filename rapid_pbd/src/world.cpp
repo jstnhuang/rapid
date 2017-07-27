@@ -1,6 +1,7 @@
 #include "rapid_pbd/world.h"
 
 #include <math.h>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -126,11 +127,17 @@ void GetWorld(const RobotConfig& robot_config, const msgs::Program& program,
             continue;
           }
 
+          std::set<std::string> joint_set;
+          joint_set.insert(ik_req.ik_request.ik_link_names.begin(),
+                           ik_req.ik_request.ik_link_names.end());
+
           for (size_t j = 0; j < ik_res.solution.joint_state.name.size(); ++j) {
             const std::string& name = ik_res.solution.joint_state.name[j];
-            const double value = ik_res.solution.joint_state.position[j];
-            joint_names.push_back(name);
-            joint_positions.push_back(value);
+            if (joint_set.find(name) != joint_set.end()) {
+              const double value = ik_res.solution.joint_state.position[j];
+              joint_names.push_back(name);
+              joint_positions.push_back(value);
+            }
           }
         }
 
