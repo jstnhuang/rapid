@@ -6,5 +6,4 @@
     <arg name="robot" value="fetch" />
   </include>
   <include file="$(find rapid_pbd)/launch/fetch_moveit.launch" />
-  <node pkg="tf2_web_republisher" name="tf2_web_republisher" type="tf2_web_republisher" />
 </launch>
