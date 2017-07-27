@@ -98,6 +98,10 @@ bool StepExecutor::IsDone(std::string* error) const {
          << " MoveIt error code: " << ErrorCodeToString(result->error_code);
       *error = ss.str();
     }
+
+    // Insert a delay at the end to avoid "start state out of bounds" errors for
+    // subsequent motion plans.
+    ros::Duration(0.5).sleep();
   }
   return true;
 }
