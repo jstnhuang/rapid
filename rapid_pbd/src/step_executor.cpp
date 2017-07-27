@@ -101,7 +101,7 @@ bool StepExecutor::IsDone(std::string* error) const {
 
     // Insert a delay at the end to avoid "start state out of bounds" errors for
     // subsequent motion plans.
-    ros::Duration(1).sleep();
+    ros::Duration(0.1).sleep();
   }
   return true;
 }
