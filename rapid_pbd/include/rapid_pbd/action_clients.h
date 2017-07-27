@@ -19,12 +19,6 @@ struct ActionClients {
   actionlib::SimpleActionClient<control_msgs::GripperCommandAction>
       r_gripper_client;
   actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>
-      arm_joint_client;
-  actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>
-      l_arm_joint_client;
-  actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>
-      r_arm_joint_client;
-  actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>
       head_client;
   actionlib::SimpleActionClient<rapid_pbd_msgs::SegmentSurfacesAction>
       surface_segmentation_client;
