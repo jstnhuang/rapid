@@ -84,7 +84,18 @@ std::string ActionExecutor::Start() {
     std::vector<std::string> joint_names;
     std::vector<double> joint_positions;
     GetJointPositions(action_, &joint_names, &joint_positions);
-    return motion_planning_->AddJointGoal(joint_names, joint_positions);
+    if (action_.actuator_group == msgs::Action::ARM || action_.actuator_group == msgs::Action::LEFT_ARM || action_.actuator_group == msgs::Action::RIGHT_ARM) {
+      return motion_planning_->AddJointGoal(joint_names, joint_positions);
+    } else if (action_.actuator_group == Action::HEAD) {
+      control_msgs::FollowJointTrajectoryGoal joint_goal;
+      joint_goal.trajectory = action_.joint_trajectory;
+      joint_goal.trajectory.header.stamp = ros::Time::now();
+			SimpleActionClient<FollowJointTrajectoryAction>* client;
+  		  client = &clients_->head_client;
+  		client->sendGoal(joint_goal);
+    } else {
+      return "Invalid actuator group";
+    }
   } else if (action_.type == Action::MOVE_TO_CARTESIAN_GOAL) {
     std::vector<std::string> joint_names;
     std::vector<double> joint_positions;
@@ -108,6 +119,13 @@ bool ActionExecutor::IsDone(std::string* error) const {
       return clients_->l_gripper_client.getState().isDone();
     } else if (action_.actuator_group == Action::RIGHT_GRIPPER) {
       return clients_->r_gripper_client.getState().isDone();
+    }
+  } else if (action_.type == Action::MOVE_TO_JOINT_GOAL) {
+    if (action_.actuator_group == Action::HEAD) {
+      return clients_->head_client.getState().isDone();
+    } else {
+      // Arm motions are controlled by motion planning in the step executor.
+      return true;
     }
   } else if (action_.type == Action::DETECT_TABLETOP_OBJECTS) {
     bool done = clients_->surface_segmentation_client.getState().isDone();
@@ -139,6 +157,12 @@ void ActionExecutor::Cancel() {
       clients_->l_gripper_client.cancelAllGoals();
     } else if (action_.actuator_group == Action::RIGHT_GRIPPER) {
       clients_->r_gripper_client.cancelAllGoals();
+    }
+  } else if (action_.type == Action::MOVE_TO_JOINT_GOAL) {
+    if (action_.actuator_group == Action::HEAD) {
+      clients_->head_client.cancelAllGoals();
+    } else {
+      // Arm motions are cancelled by motion planning in the step executor.
     }
   } else if (action_.type == Action::DETECT_TABLETOP_OBJECTS) {
     clients_->surface_segmentation_client.cancelAllGoals();
