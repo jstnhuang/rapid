@@ -23,7 +23,8 @@ class ProgramExecutionServer {
                          const RobotConfig& robot_config,
                          const tf::TransformListener& tf_listener,
                          const RuntimeVisualizer& runtime_viz,
-                         const ProgramDb& program_db);
+                         const ProgramDb& program_db,
+                         const ros::Publisher& planning_scene_pub);
   void Start();
 
  private:
@@ -36,6 +37,7 @@ class ProgramExecutionServer {
   const tf::TransformListener& tf_listener_;
   RuntimeVisualizer runtime_viz_;
   const ProgramDb& program_db_;
+  ros::Publisher planning_scene_pub_;
 
   void Execute(const rapid_pbd_msgs::ExecuteProgramGoalConstPtr& goal);
   static bool IsValid(const rapid_pbd_msgs::Program& program);

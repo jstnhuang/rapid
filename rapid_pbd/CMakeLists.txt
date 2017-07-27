@@ -19,6 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
   robot_markers
   roscpp
   rospy
+  shape_msgs
   surface_perception
   transform_graph
 )

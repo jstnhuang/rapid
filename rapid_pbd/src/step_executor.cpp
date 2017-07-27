@@ -6,6 +6,7 @@
 #include "moveit_msgs/MoveGroupAction.h"
 #include "rapid_pbd_msgs/Action.h"
 #include "rapid_pbd_msgs/Step.h"
+#include "ros/ros.h"
 #include "tf/transform_listener.h"
 
 #include "rapid_pbd/action_executor.h"
@@ -24,13 +25,14 @@ StepExecutor::StepExecutor(const rapid_pbd_msgs::Step& step,
                            ActionClients* action_clients,
                            const RobotConfig& robot_config, World* world,
                            const RuntimeVisualizer& runtime_viz,
-                           const tf::TransformListener& tf_listener)
+                           const tf::TransformListener& tf_listener,
+                           const ros::Publisher& planning_scene_pub)
     : step_(step),
       action_clients_(action_clients),
       robot_config_(robot_config),
       world_(world),
       runtime_viz_(runtime_viz),
-      motion_planning_(robot_config, world, tf_listener),
+      motion_planning_(robot_config, world, tf_listener, planning_scene_pub),
       executors_() {}
 
 bool StepExecutor::IsValid(const rapid_pbd_msgs::Step& step) {

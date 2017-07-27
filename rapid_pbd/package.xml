@@ -21,6 +21,7 @@
   <build_depend>robot_markers</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>
+  <build_depend>shape_msgs</build_depend>
   <build_depend>surface_perception</build_depend>
   <build_depend>transform_graph</build_depend>
   <run_depend>actionlib</run_depend>
@@ -39,6 +40,7 @@
   <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>ros_web_video</run_depend>
+  <run_depend>shape_msgs</run_depend>
   <run_depend>surface_perception</run_depend>
   <run_depend>transform_graph</run_depend>
 

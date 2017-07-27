@@ -25,10 +25,12 @@ namespace tg = transform_graph;
 namespace rapid {
 namespace pbd {
 MotionPlanning::MotionPlanning(const RobotConfig& robot_config, World* world,
-                               const tf::TransformListener& tf_listener)
+                               const tf::TransformListener& tf_listener,
+                               const ros::Publisher& planning_scene_pub)
     : robot_config_(robot_config),
       world_(world),
       tf_listener_(tf_listener),
+      planning_scene_pub_(planning_scene_pub),
       builder_(robot_config.planning_frame(), robot_config.planning_group()),
       num_goals_(0) {
   builder_.can_replan = true;

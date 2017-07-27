@@ -10,6 +10,7 @@
 #include "moveit_msgs/MoveGroupAction.h"
 #include "moveit_msgs/MoveItErrorCodes.h"
 #include "rapid_pbd_msgs/Landmark.h"
+#include "ros/ros.h"
 #include "tf/transform_listener.h"
 
 #include "rapid_pbd/robot_config.h"
@@ -20,7 +21,8 @@ namespace pbd {
 class MotionPlanning {
  public:
   MotionPlanning(const RobotConfig& robot_config, World* world,
-                 const tf::TransformListener& tf_listener);
+                 const tf::TransformListener& tf_listener,
+                 const ros::Publisher& planning_scene_pub);
   // Returns an error message, or empty string if no error.
   // Set seed_joint_names and seed_joint_positions to empty vectors if you do
   // not want to specify an IK seed.
@@ -40,6 +42,7 @@ class MotionPlanning {
   const RobotConfig& robot_config_;
   World* world_;
   const tf::TransformListener& tf_listener_;
+  ros::Publisher planning_scene_pub_;
   moveit_goal_builder::Builder builder_;
   int num_goals_;
 };

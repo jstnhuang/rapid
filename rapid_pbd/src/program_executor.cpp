@@ -6,6 +6,7 @@
 #include "rapid_pbd_msgs/ExecuteProgramAction.h"
 #include "rapid_pbd_msgs/FreezeArm.h"
 #include "rapid_pbd_msgs/Program.h"
+#include "ros/ros.h"
 #include "std_msgs/Bool.h"
 #include "tf/transform_listener.h"
 
@@ -30,7 +31,8 @@ ProgramExecutionServer::ProgramExecutionServer(
     const std::string& action_name, const ros::Publisher& is_running_pub,
     ActionClients* action_clients, const RobotConfig& robot_config,
     const tf::TransformListener& tf_listener,
-    const RuntimeVisualizer& runtime_viz, const ProgramDb& program_db)
+    const RuntimeVisualizer& runtime_viz, const ProgramDb& program_db,
+    const ros::Publisher& planning_scene_pub)
     : nh_(),
       server_(action_name,
               boost::bind(&ProgramExecutionServer::Execute, this, _1), false),
@@ -40,7 +42,8 @@ ProgramExecutionServer::ProgramExecutionServer(
       robot_config_(robot_config),
       tf_listener_(tf_listener),
       runtime_viz_(runtime_viz),
-      program_db_(program_db) {}
+      program_db_(program_db),
+      planning_scene_pub_(planning_scene_pub) {}
 
 void ProgramExecutionServer::Start() {
   server_.start();
@@ -99,7 +102,7 @@ void ProgramExecutionServer::Execute(
     const Step& step = program.steps[i];
     boost::shared_ptr<StepExecutor> executor(
         new StepExecutor(step, action_clients_, robot_config_, &world,
-                         runtime_viz_, tf_listener_));
+                         runtime_viz_, tf_listener_, planning_scene_pub_));
     executors.push_back(executor);
     executors.back()->Init();
   }
