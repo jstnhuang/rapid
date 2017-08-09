@@ -13,7 +13,7 @@ margin_above_surface: 0.015
 # Clustering
 cluster_distance: 0.025
 min_cluster_size: 300
-max_cluster_size: 10000
+max_cluster_size: 20000
 
 # For downsampling saved point clouds
 vox_leaf_size: 0.01
