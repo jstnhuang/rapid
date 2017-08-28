@@ -1,0 +1,2 @@
+# Make a symlink to pr2_app.launch or fetch_app.launch, do not commit app.launch
+app.launch
