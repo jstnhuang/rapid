@@ -136,7 +136,7 @@
     <div id="layout" class="layout vertical">
       <div class="layout horizontal center">
         <a href="#/" class="self-end"><paper-button class="back clear"><iron-icon icon="arrow-back"></iron-icon> Back</paper-button></a>
-        <paper-input class="flex" label="Program name" value="{{program.name}}" on-blur="save"></paper-input>
+        <paper-input class="flex" label="Program name" value="[[program.name]]" on-blur="save"></paper-input>
         <paper-button class="runstop run" hidden$="[[isRunning.data]]" raised on-tap="run">
           <iron-icon icon="av:play-arrow"></iron-icon>
           Run
