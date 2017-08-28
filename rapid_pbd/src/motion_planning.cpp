@@ -4,11 +4,13 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <vector>
 
 #include "geometry_msgs/Pose.h"
 #include "moveit_goal_builder/builder.h"
 #include "moveit_msgs/GetPositionIK.h"
 #include "moveit_msgs/MoveGroupAction.h"
+#include "rapid_pbd_msgs/Action.h"
 #include "rapid_pbd_msgs/Landmark.h"
 #include "ros/ros.h"
 #include "tf/transform_listener.h"
@@ -26,13 +28,15 @@ namespace rapid {
 namespace pbd {
 MotionPlanning::MotionPlanning(const RobotConfig& robot_config, World* world,
                                const tf::TransformListener& tf_listener,
-                               const ros::Publisher& planning_scene_pub)
+                               const ros::Publisher& planning_scene_pub,
+                               const JointStateReader& js_reader)
     : robot_config_(robot_config),
       world_(world),
       tf_listener_(tf_listener),
       planning_scene_pub_(planning_scene_pub),
       builder_(robot_config.planning_frame(), robot_config.planning_group()),
-      num_goals_(0) {
+      num_goals_(0),
+      joint_state_reader_(js_reader) {
   builder_.can_replan = true;
   builder_.num_planning_attempts = 10;
   builder_.replan_attempts = 2;
@@ -152,11 +156,10 @@ std::string MotionPlanning::AddJointGoal(
     return error;
   }
 
-  std::map<std::string, double> goal;
   for (size_t i = 0; i < joint_names.size(); ++i) {
-    goal[joint_names[i]] = joint_positions[i];
+    current_joint_goal_[joint_names[i]] = joint_positions[i];
   }
-  builder_.SetJointGoal(goal);
+  builder_.SetJointGoal(current_joint_goal_);
 
   ++num_goals_;
   return "";
@@ -167,6 +170,22 @@ void MotionPlanning::ClearGoals() {
   // Overrides joint goals if any and deletes pose goals.
   builder_.SetPoseGoals(goals);
   num_goals_ = 0;
+
+  // If two-arm robot, then save the current joint angles for both arms
+  // This is because if you leave the joint goal for an arm unspecified, it can
+  // be random.
+  int num_arms = robot_config_.num_arms();
+  if (num_arms == 2) {
+    std::vector<std::string> joints;
+    robot_config_.joints_for_group(msgs::Action::LEFT_ARM, &joints);
+    robot_config_.joints_for_group(msgs::Action::RIGHT_ARM, &joints);
+    std::vector<double> joint_values;
+    joint_state_reader_.get_positions(joints, &joint_values);
+    current_joint_goal_.clear();
+    for (size_t i = 0; i < joints.size(); ++i) {
+      current_joint_goal_[joints[i]] = joint_values[i];
+    }
+  }
 }
 
 void MotionPlanning::BuildGoal(moveit_msgs::MoveGroupGoal* goal) const {

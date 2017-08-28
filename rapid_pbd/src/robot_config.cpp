@@ -61,7 +61,6 @@ void Pr2RobotConfig::gripper_close_positions(
 void Pr2RobotConfig::joints_for_group(
     const std::string& actuator_group,
     std::vector<std::string>* joint_names) const {
-  joint_names->clear();
   if (actuator_group == Action::LEFT_ARM) {
     joint_names->push_back("l_shoulder_pan_joint");
     joint_names->push_back("l_shoulder_lift_joint");
