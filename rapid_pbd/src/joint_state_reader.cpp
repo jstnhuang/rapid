@@ -38,7 +38,8 @@ void JointStateReader::ToMsg(sensor_msgs::JointState* msg) {
 
 void JointStateReader::Callback(const sensor_msgs::JointState& js) {
   if (js.name.size() != js.position.size()) {
-    ROS_WARN("JointState msg had different sized name and position field.");
+    ROS_ERROR_THROTTLE(
+        1, "JointState msg had different sized name and position field.");
     return;
   }
   for (size_t i = 0; i < js.name.size(); ++i) {

@@ -26,13 +26,15 @@ StepExecutor::StepExecutor(const rapid_pbd_msgs::Step& step,
                            const RobotConfig& robot_config, World* world,
                            const RuntimeVisualizer& runtime_viz,
                            const tf::TransformListener& tf_listener,
-                           const ros::Publisher& planning_scene_pub)
+                           const ros::Publisher& planning_scene_pub,
+                           const JointStateReader& js_reader)
     : step_(step),
       action_clients_(action_clients),
       robot_config_(robot_config),
       world_(world),
       runtime_viz_(runtime_viz),
-      motion_planning_(robot_config, world, tf_listener, planning_scene_pub),
+      motion_planning_(robot_config, world, tf_listener, planning_scene_pub,
+                       js_reader),
       executors_() {}
 
 bool StepExecutor::IsValid(const rapid_pbd_msgs::Step& step) {

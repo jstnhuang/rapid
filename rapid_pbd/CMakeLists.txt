@@ -206,6 +206,8 @@ target_link_libraries(rapid_pbd_joint_state_reader rapid_pbd_joint_state ${catki
 add_library(rapid_pbd_motion_planning src/motion_planning.cpp)
 add_dependencies(rapid_pbd_motion_planning ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_motion_planning
+  rapid_pbd_joint_state
+  rapid_pbd_joint_state_reader
   rapid_pbd_robot_config
   rapid_pbd_world
   ${catkin_LIBRARIES})
@@ -222,6 +224,7 @@ add_library(rapid_pbd_program_executor src/program_executor.cpp)
 add_dependencies(rapid_pbd_program_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_program_executor
   rapid_pbd_action_clients
+  rapid_pbd_joint_state_reader
   rapid_pbd_program_db
   rapid_pbd_robot_config
   rapid_pbd_step_executor
@@ -238,6 +241,7 @@ add_dependencies(rapid_pbd_step_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${c
 target_link_libraries(rapid_pbd_step_executor
   rapid_pbd_action_clients
   rapid_pbd_action_executor
+  rapid_pbd_joint_state_reader
   rapid_pbd_motion_planning
   rapid_pbd_robot_config
   rapid_pbd_visualizer
@@ -294,6 +298,7 @@ add_executable(rapid_pbd_program_execution_node src/program_execution_node.cpp)
 set_target_properties(rapid_pbd_program_execution_node PROPERTIES OUTPUT_NAME program_execution_node PREFIX "")
 add_dependencies(rapid_pbd_program_execution_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pbd_program_execution_node
+  rapid_pbd_joint_state_reader
   rapid_pbd_program_db
   rapid_pbd_program_executor
   rapid_pbd_robot_config

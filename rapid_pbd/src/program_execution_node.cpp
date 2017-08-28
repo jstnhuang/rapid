@@ -4,6 +4,7 @@
 #include "moveit_msgs/PlanningScene.h"
 #include "rapid_pbd/action_executor.h"
 #include "rapid_pbd/action_names.h"
+#include "rapid_pbd/joint_state_reader.h"
 #include "rapid_pbd/program_executor.h"
 #include "rapid_pbd/robot_config.h"
 #include "rapid_pbd/visualizer.h"
@@ -109,9 +110,12 @@ int main(int argc, char** argv) {
 
   planning_scene_pub.publish(scene);
 
+  rapid::pbd::JointStateReader js_reader;
+
   rapid::pbd::ProgramExecutionServer server(
       rapid::pbd::kProgramActionName, is_running_pub, &action_clients,
-      *robot_config, tf_listener, runtime_viz, program_db, planning_scene_pub);
+      *robot_config, tf_listener, runtime_viz, program_db, planning_scene_pub,
+      js_reader);
   server.Start();
   ROS_INFO("RapidPbD program executor ready.");
   ros::spin();
