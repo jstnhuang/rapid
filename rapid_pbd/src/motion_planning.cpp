@@ -81,10 +81,8 @@ string MotionPlanning::AddPoseGoal(
                 match.pose_stamped.header.frame_id.c_str());
       return "Landmark not in base frame.";
     }
-    msgs::Landmark processed;
-    ProcessSurfaceBox(match, &processed);
-    graph.Add("landmark", tg::RefFrame(processed.pose_stamped.header.frame_id),
-              processed.pose_stamped.pose);
+    graph.Add("landmark", tg::RefFrame(match.pose_stamped.header.frame_id),
+              match.pose_stamped.pose);
   } else {
     ROS_ERROR("Unsupported landmark type \"%s\"", landmark.type.c_str());
     return "Unsupported landmark type.";

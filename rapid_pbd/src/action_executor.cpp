@@ -13,6 +13,7 @@
 #include "rapid_pbd/action_names.h"
 #include "rapid_pbd/action_utils.h"
 #include "rapid_pbd/errors.h"
+#include "rapid_pbd/landmarks.h"
 #include "rapid_pbd/motion_planning.h"
 #include "rapid_pbd/visualizer.h"
 #include "rapid_pbd/world.h"
@@ -136,8 +137,13 @@ bool ActionExecutor::IsDone(std::string* error) const {
         if (result->landmarks.size() == 0) {
           *error = errors::kNoLandmarksDetected;
         }
-        world_->surface_box_landmarks = result->landmarks;
-        runtime_viz_.PublishSurfaceBoxes(result->landmarks);
+        world_->surface_box_landmarks.clear();
+        for (size_t i=0; i<result->landmarks.size(); ++i) {
+          msgs::Landmark landmark;
+          ProcessSurfaceBox(result->landmarks[i], &landmark);
+          world_->surface_box_landmarks.push_back(landmark);
+        }
+        runtime_viz_.PublishSurfaceBoxes(world_->surface_box_landmarks);
       } else {
         ROS_ERROR("Surface segmentation result pointer was null!");
         *error = "Surface segmentation result pointer was null!";

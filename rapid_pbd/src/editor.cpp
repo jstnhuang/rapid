@@ -16,6 +16,7 @@
 #include "rapid_pbd/action_clients.h"
 #include "rapid_pbd/action_utils.h"
 #include "rapid_pbd/joint_state_reader.h"
+#include "rapid_pbd/landmarks.h"
 #include "rapid_pbd/program_db.h"
 #include "rapid_pbd/robot_config.h"
 #include "rapid_pbd/visualizer.h"
@@ -256,9 +257,11 @@ void Editor::DetectSurfaceObjects(const std::string& db_id, size_t step_id) {
   DeleteScene(program.steps[step_id].scene_id);
   program.steps[step_id].scene_id = result->cloud_db_id;
   DeleteLandmarks(msgs::Landmark::SURFACE_BOX, &program.steps[step_id]);
-  program.steps[step_id].landmarks.insert(
-      program.steps[step_id].landmarks.end(), result->landmarks.begin(),
-      result->landmarks.end());
+  for (size_t i=0; i<result->landmarks.size(); ++i) {
+    msgs::Landmark landmark;
+    ProcessSurfaceBox(result->landmarks[i], &landmark);
+   program.steps[step_id].landmarks.push_back(landmark); 
+  }
   Update(db_id, program);
 }
 
