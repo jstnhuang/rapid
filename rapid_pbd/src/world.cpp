@@ -14,6 +14,7 @@
 
 #include "rapid_pbd/action_utils.h"
 #include "rapid_pbd/joint_state.h"
+#include "rapid_pbd/landmarks.h"
 #include "rapid_pbd/robot_config.h"
 
 #include "ros/ros.h"
@@ -75,10 +76,16 @@ void GetWorld(const RobotConfig& robot_config, const msgs::Program& program,
           continue;
         }
 
+        // If landmark is a surface box and the x/y dimensions are similar,
+        // ignore its orientation (since it's likely to be rotationally
+        // symmetric).
+        msgs::Landmark landmark;
+        ProcessSurfaceBox(action.landmark, &landmark);
+
         transform_graph::Graph graph;
         graph.Add("landmark",
                   transform_graph::RefFrame(robot_config.base_link()),
-                  action.landmark.pose_stamped.pose);
+                  landmark.pose_stamped.pose);
         graph.Add("ee", transform_graph::RefFrame("landmark"), action.pose);
         transform_graph::Transform ee_in_base;
         graph.ComputeDescription(
