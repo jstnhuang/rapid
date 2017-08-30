@@ -114,7 +114,7 @@
 
       _save: function(evt) {
         var panRadians = this._clamp(this._degToRad(this.panDegrees), -2.8, 2.8);
-        var tiltRadians = this._clamp(this._degToRad(this.tiltDegrees), -0.52, 1.04);
+        var tiltRadians = this._clamp(this._degToRad(this.tiltDegrees), -0.52, 1.22173);
         if (!this.action.joint_trajectory) {
           this.set('action.joint_trajectory', {points: []});
         }
