@@ -25,6 +25,7 @@
       ros="[[ros]]"
     ></ros-action-client>
     <div class="layout vertical">
+      <!-- TODO: this are joint limits for PR2, add Fetch values -->
       <paper-input type="number" step="1" min="-160" max="160"
         label="Pan angle (degrees, positive value looks left)"
         value="{{panDegrees}}" on-change="_save"></paper-input>
@@ -113,7 +114,7 @@
 
       _save: function(evt) {
         var panRadians = this._clamp(this._degToRad(this.panDegrees), -2.8, 2.8);
-        var tiltRadians = this._clamp(this._degToRad(this.tiltDegrees), -0.44, 0.96);
+        var tiltRadians = this._clamp(this._degToRad(this.tiltDegrees), -0.52, 1.04);
         if (!this.action.joint_trajectory) {
           this.set('action.joint_trajectory', {points: []});
         }
