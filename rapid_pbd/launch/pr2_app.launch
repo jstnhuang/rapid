@@ -2,7 +2,7 @@
   <!-- Executor -->
   <arg name="camera_frame" default="/head_mount_kinect_rgb_optical_frame" />
 
-  <arg name="sim" value="false" />
+  <arg name="sim" default="false" />
   <arg if="$(arg sim)" name="point_cloud_topic" default="/mock_point_cloud" />
   <arg if="$(arg sim)" name="depth_topic" default="/head_mount_kinect/depth/image_raw" />
   <arg if="$(arg sim)" name="color_topic" default="/head_mount_kinect/rgb/image_raw" />
