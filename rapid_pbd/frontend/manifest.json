@@ -1,7 +1,0 @@
-{
-  "name": "rapid-pbd",
-  "short_name": "rapid-pbd",
-  "description": "Programming by demonstration frontend",
-  "start_url": "/",
-  "display": "standalone"
-}
