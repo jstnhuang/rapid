@@ -53,8 +53,6 @@ install:
     - git clone https://github.com/hcrlab/blinky.git
     - git clone https://github.com/jstnhuang/mongo_msg_db_msgs.git
     - git clone https://github.com/jstnhuang/mongo_msg_db.git
-    - git clone https://github.com/jstnhuang/moveit_goal_builder.git
-    - git clone https://github.com/jstnhuang/transform_graph.git
     # Install dependencies
     - cd ~/catkin_ws/
     - rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
@@ -86,7 +84,6 @@ script:
     - catkin_test_results build/rapid_display
     - catkin_test_results build/rapid_fetch
     - catkin_test_results build/rapid_manipulation
-    - catkin_test_results build/rapid_pbd
     - catkin_test_results build/rapid_perception
     - catkin_test_results build/rapid_pr2
     - catkin_test_results build/rapid_ros
