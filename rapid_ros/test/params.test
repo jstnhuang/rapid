@@ -1,0 +1,3 @@
+<launch>
+  <test test-name="rapid_ros_params_test" pkg="rapid_ros" type="rapid_ros_params_test" />
+</launch>
