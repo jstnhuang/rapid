@@ -4,7 +4,7 @@
   <version>0.1.0</version>
   <description>Messages, services, and actions for the rapid library.</description>
   <maintainer email="jstn@cs.washington.edu">Justin Huang</maintainer>
-  <license>MIT</license>
+  <license>BSD</license>
 
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
