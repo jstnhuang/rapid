@@ -7,60 +7,10 @@
 
 #include "XmlRpcValue.h"
 #include "gtest/gtest.h"
+#include "rapid_testing/rosout_test_helper.h"
 #include "ros/ros.h"
 
-#include "rosgraph_msgs/Log.h"
-
 namespace rapid {
-class RosoutTestHelper {
- public:
-  RosoutTestHelper()
-      : nh_(),
-        rosout_sub_(
-            nh_.subscribe("/rosout", 10, &RosoutTestHelper::Callback, this)),
-        messages_() {}
-
-  void Callback(const rosgraph_msgs::Log& msg) { messages_.push_back(msg); }
-
-  std::vector<rosgraph_msgs::Log> messages() const { return messages_; }
-
-  bool WasDebugPublished() const {
-    return WasLevelPublished(rosgraph_msgs::Log::DEBUG);
-  }
-
-  bool WasInfoPublished() const {
-    return WasLevelPublished(rosgraph_msgs::Log::INFO);
-  }
-
-  bool WasWarningPublished() const {
-    return WasLevelPublished(rosgraph_msgs::Log::WARN);
-  }
-
-  bool WasErrorPublished() const {
-    return WasLevelPublished(rosgraph_msgs::Log::ERROR);
-  }
-
-  bool WasFatalPublished() const {
-    return WasLevelPublished(rosgraph_msgs::Log::FATAL);
-  }
-
- private:
-  bool WasLevelPublished(int8_t level) const {
-    ros::spinOnce();
-    for (size_t i = 0; i < messages_.size(); ++i) {
-      const rosgraph_msgs::Log& msg = messages_[i];
-      if (msg.level == level) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  ros::NodeHandle nh_;
-  ros::Subscriber rosout_sub_;
-  std::vector<rosgraph_msgs::Log> messages_;
-};
-
 TEST(ParamsTest, TestGetStringOrThrowSuccess) {
   ros::param::set("~test_string", "hello world");
   try {
@@ -76,7 +26,9 @@ TEST(ParamsTest, TestGetStringOrThrowSuccess) {
 TEST(ParamsTest, TestGetStringOrThrowFailure) {
   ros::param::del("~test_string");
   RosoutTestHelper rosout;
+  rosout.Start();
   EXPECT_THROW(GetStringParamOrThrow("~test_string"), std::runtime_error);
+  rosout.WaitForMessageCount(1, ros::Duration(1.0));
   EXPECT_TRUE(rosout.WasErrorPublished());
 }
 
@@ -95,7 +47,9 @@ TEST(ParamsTest, TestGetDoubleOrThrowSuccess) {
 TEST(ParamsTest, TestGetDoubleOrThrowFailure) {
   ros::param::del("~test_double");
   RosoutTestHelper rosout;
+  rosout.Start();
   EXPECT_THROW(GetDoubleParamOrThrow("~test_double"), std::runtime_error);
+  rosout.WaitForMessageCount(1, ros::Duration(1.0));
   EXPECT_TRUE(rosout.WasErrorPublished());
 }
 
@@ -114,7 +68,9 @@ TEST(ParamsTest, TestGetFloatOrThrowSuccess) {
 TEST(ParamsTest, TestGetFloatOrThrowFailure) {
   ros::param::del("~test_float");
   RosoutTestHelper rosout;
+  rosout.Start();
   EXPECT_THROW(GetFloatParamOrThrow("~test_float"), std::runtime_error);
+  rosout.WaitForMessageCount(1, ros::Duration(1.0));
   EXPECT_TRUE(rosout.WasErrorPublished());
 }
 
@@ -133,7 +89,9 @@ TEST(ParamsTest, TestGetIntOrThrowSuccess) {
 TEST(ParamsTest, TestGetIntOrThrowFailure) {
   ros::param::del("~test_int");
   RosoutTestHelper rosout;
+  rosout.Start();
   EXPECT_THROW(GetIntParamOrThrow("~test_int"), std::runtime_error);
+  rosout.WaitForMessageCount(1, ros::Duration(1.0));
   EXPECT_TRUE(rosout.WasErrorPublished());
 }
 
@@ -152,7 +110,9 @@ TEST(ParamsTest, TestGetBoolOrThrowSuccess) {
 TEST(ParamsTest, TestGetBoolOrThrowFailure) {
   ros::param::del("~test_bool");
   RosoutTestHelper rosout;
+  rosout.Start();
   EXPECT_THROW(GetBoolParamOrThrow("~test_bool"), std::runtime_error);
+  rosout.WaitForMessageCount(1, ros::Duration(1.0));
   EXPECT_TRUE(rosout.WasErrorPublished());
 }
 
@@ -172,7 +132,9 @@ TEST(ParamsTest, TestGetXmlRpcOrThrowSuccess) {
 TEST(ParamsTest, TestGetXmlRpcOrThrowFailure) {
   ros::param::del("~test_xmlrpc");
   RosoutTestHelper rosout;
+  rosout.Start();
   EXPECT_THROW(GetXmlRpcParamOrThrow("~test_xmlrpc"), std::runtime_error);
+  rosout.WaitForMessageCount(1, ros::Duration(1.0));
   EXPECT_TRUE(rosout.WasErrorPublished());
 }
 
@@ -195,8 +157,10 @@ TEST(ParamsTest, TestGetStringVectorOrThrowSuccess) {
 TEST(ParamsTest, TestGetStringVectorOrThrowFailure) {
   ros::param::del("~test_string_vector");
   RosoutTestHelper rosout;
+  rosout.Start();
   EXPECT_THROW(GetStringVectorParamOrThrow("~test_string_vector"),
                std::runtime_error);
+  rosout.WaitForMessageCount(1, ros::Duration(1.0));
   EXPECT_TRUE(rosout.WasErrorPublished());
 }
 
@@ -219,8 +183,10 @@ TEST(ParamsTest, TestGetDoubleVectorOrThrowSuccess) {
 TEST(ParamsTest, TestGetDoubleVectorOrThrowFailure) {
   ros::param::del("~test_double_vector");
   RosoutTestHelper rosout;
+  rosout.Start();
   EXPECT_THROW(GetDoubleVectorParamOrThrow("~test_double_vector"),
                std::runtime_error);
+  rosout.WaitForMessageCount(1, ros::Duration(1.0));
   EXPECT_TRUE(rosout.WasErrorPublished());
 }
 
@@ -243,8 +209,10 @@ TEST(ParamsTest, TestGetFloatVectorOrThrowSuccess) {
 TEST(ParamsTest, TestGetFloatVectorOrThrowFailure) {
   ros::param::del("~test_float_vector");
   RosoutTestHelper rosout;
+  rosout.Start();
   EXPECT_THROW(GetFloatVectorParamOrThrow("~test_float_vector"),
                std::runtime_error);
+  rosout.WaitForMessageCount(1, ros::Duration(1.0));
   EXPECT_TRUE(rosout.WasErrorPublished());
 }
 
@@ -266,8 +234,10 @@ TEST(ParamsTest, TestGetIntVectorOrThrowSuccess) {
 TEST(ParamsTest, TestGetIntVectorOrThrowFailure) {
   ros::param::del("~test_int_vector");
   RosoutTestHelper rosout;
+  rosout.Start();
   EXPECT_THROW(GetIntVectorParamOrThrow("~test_int_vector"),
                std::runtime_error);
+  rosout.WaitForMessageCount(1, ros::Duration(1.0));
   EXPECT_TRUE(rosout.WasErrorPublished());
 }
 
@@ -289,8 +259,10 @@ TEST(ParamsTest, TestGetBoolVectorOrThrowSuccess) {
 TEST(ParamsTest, TestGetBoolVectorOrThrowFailure) {
   ros::param::del("~test_bool_vector");
   RosoutTestHelper rosout;
+  rosout.Start();
   EXPECT_THROW(GetBoolVectorParamOrThrow("~test_bool_vector"),
                std::runtime_error);
+  rosout.WaitForMessageCount(1, ros::Duration(1.0));
   EXPECT_TRUE(rosout.WasErrorPublished());
 }
 
@@ -313,8 +285,10 @@ TEST(ParamsTest, TestGetStringMapOrThrowSuccess) {
 TEST(ParamsTest, TestGetStringMapOrThrowFailure) {
   ros::param::del("~test_string_map");
   RosoutTestHelper rosout;
+  rosout.Start();
   EXPECT_THROW(GetStringMapParamOrThrow("~test_string_map"),
                std::runtime_error);
+  rosout.WaitForMessageCount(1, ros::Duration(1.0));
   EXPECT_TRUE(rosout.WasErrorPublished());
 }
 
@@ -337,8 +311,10 @@ TEST(ParamsTest, TestGetDoubleMapOrThrowSuccess) {
 TEST(ParamsTest, TestGetDoubleMapOrThrowFailure) {
   ros::param::del("~test_double_map");
   RosoutTestHelper rosout;
+  rosout.Start();
   EXPECT_THROW(GetDoubleMapParamOrThrow("~test_double_map"),
                std::runtime_error);
+  rosout.WaitForMessageCount(1, ros::Duration(1.0));
   EXPECT_TRUE(rosout.WasErrorPublished());
 }
 
@@ -361,7 +337,9 @@ TEST(ParamsTest, TestGetFloatMapOrThrowSuccess) {
 TEST(ParamsTest, TestGetFloatMapOrThrowFailure) {
   ros::param::del("~test_float_map");
   RosoutTestHelper rosout;
+  rosout.Start();
   EXPECT_THROW(GetFloatMapParamOrThrow("~test_float_map"), std::runtime_error);
+  rosout.WaitForMessageCount(1, ros::Duration(1.0));
   EXPECT_TRUE(rosout.WasErrorPublished());
 }
 
@@ -381,9 +359,11 @@ TEST(ParamsTest, TestGetIntMapOrThrowSuccess) {
 }
 
 TEST(ParamsTest, TestGetIntMapOrThrowFailure) {
-  RosoutTestHelper rosout;
   ros::param::del("~test_int_map");
+  RosoutTestHelper rosout;
+  rosout.Start();
   EXPECT_THROW(GetIntMapParamOrThrow("~test_int_map"), std::runtime_error);
+  rosout.WaitForMessageCount(1, ros::Duration(1.0));
   EXPECT_TRUE(rosout.WasErrorPublished());
 }
 
@@ -406,7 +386,9 @@ TEST(ParamsTest, TestGetBoolMapOrThrowSuccess) {
 TEST(ParamsTest, TestGetBoolMapOrThrowFailure) {
   ros::param::del("~test_bool_map");
   RosoutTestHelper rosout;
+  rosout.Start();
   EXPECT_THROW(GetBoolMapParamOrThrow("~test_bool_map"), std::runtime_error);
+  rosout.WaitForMessageCount(1, ros::Duration(1.0));
   EXPECT_TRUE(rosout.WasErrorPublished());
 }
 }  // namespace rapid
