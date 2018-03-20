@@ -13,6 +13,7 @@ namespace rapid {
 //   RosoutTestHelper rosout;
 //   rosout.Start();
 //   Foo(); // This will publish an error message.
+//   rosout.WaitForMessageCount(1, ros::Duration(1.0));
 //   EXPECT_TRUE(rosout.WasErrorPublished());
 class RosoutTestHelper {
  public:
@@ -20,6 +21,15 @@ class RosoutTestHelper {
 
   // Start subscribing to /rosout.
   void Start();
+
+  // Waits until a certain number of messages have been received.
+  // Returns true if the number of received messages within the timeout is at
+  // least num_messages, false otherwise.
+  bool WaitForMessageCount(size_t num_messages,
+                           const ros::Duration& timeout) const;
+
+  // Clear message list.
+  void Clear();
 
   // Get the messages that were published since calling Start();
   std::vector<rosgraph_msgs::Log> messages() const;
