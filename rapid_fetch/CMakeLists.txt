@@ -10,7 +10,6 @@ project(rapid_fetch)
 find_package(catkin REQUIRED COMPONENTS
   actionlib
   control_msgs
-  rapid_display
   roscpp
   rospy
   sound_play

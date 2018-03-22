@@ -1,7 +1,6 @@
 #ifndef _RAPID_PR2_PR2_H_
 #define _RAPID_PR2_PR2_H_
 
-#include "rapid_display/display.h"
 #include "rapid_manipulation/arm.h"
 #include "rapid_manipulation/gripper.h"
 #include "rapid_manipulation/head.h"
@@ -23,7 +22,6 @@ class Pr2 {
   // The PR2 claims ownership of pointers passed in.
   Pr2(rapid::manipulation::ArmInterface* left_arm,
       rapid::manipulation::ArmInterface* right_arm,
-      rapid::display::DisplayInterface* display,
       rapid::manipulation::GripperInterface* left_gripper,
       rapid::manipulation::GripperInterface* right_gripper,
       rapid::manipulation::HeadInterface* head,
@@ -34,7 +32,6 @@ class Pr2 {
   // Accessors
   rapid::manipulation::ArmInterface* left_arm();
   rapid::manipulation::ArmInterface* right_arm();
-  rapid::display::DisplayInterface* display();
   rapid::manipulation::GripperInterface* left_gripper();
   rapid::manipulation::GripperInterface* right_gripper();
   rapid::manipulation::HeadInterface* head();
@@ -44,7 +41,6 @@ class Pr2 {
  private:
   rapid::manipulation::ArmInterface* const left_arm_;
   rapid::manipulation::ArmInterface* const right_arm_;
-  rapid::display::DisplayInterface* const display_;
   rapid::manipulation::GripperInterface* const left_gripper_;
   rapid::manipulation::GripperInterface* const right_gripper_;
   rapid::manipulation::HeadInterface* const head_;

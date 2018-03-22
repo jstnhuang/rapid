@@ -10,7 +10,6 @@
   <buildtool_depend>catkin</buildtool_depend>
   <depend>actionlib</depend>
   <depend>control_msgs</depend>
-  <depend>rapid_display</depend>
   <depend>roscpp</depend>
   <depend>rospy</depend>
   <depend>sound_play</depend>

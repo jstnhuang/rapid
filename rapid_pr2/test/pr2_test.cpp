@@ -2,13 +2,11 @@
 
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
-#include "rapid_display/display.h"
 #include "rapid_manipulation/arm.h"
 #include "rapid_manipulation/gripper.h"
 #include "rapid_manipulation/head.h"
 #include "rapid_sound/sound.h"
 
-using rapid::display::MockDisplay;
 using rapid::manipulation::MockArm;
 using rapid::manipulation::MockGripper;
 using rapid::manipulation::MockHead;

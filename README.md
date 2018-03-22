@@ -34,9 +34,6 @@ sudo make install
 See [.travis.yml](.travis.yml) for an example installation.
 
 ## Summary
-- **[rapid_display](rapid_display)**:
-  An interface for showing interactive content on a touch screen.
-  Includes a preliminary implementation based on [blinky](https://github.com/hcrlab/blinky).
 - **[rapid_main](rapid_main)**:
   Demo programs that exercise the capabilities of blinky.
   It is a leaf package, it has no libraries and no one should depend on it.

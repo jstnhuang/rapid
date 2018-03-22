@@ -40,7 +40,6 @@
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
-  <run_depend>rapid_display</run_depend>
   <run_depend>rapid_manipulation</run_depend>
   <run_depend>rapid_msgs</run_depend>
   <run_depend>rapid_pbd</run_depend>

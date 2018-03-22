@@ -7,7 +7,6 @@ project(rapid_pr2)
 find_package(catkin REQUIRED COMPONENTS
   blinky
   pr2_controllers_msgs
-  rapid_display
   rapid_manipulation
   rapid_ros
   rapid_sound
@@ -109,7 +108,6 @@ catkin_package(
   CATKIN_DEPENDS
     blinky
     pr2_controllers_msgs
-    rapid_display
     rapid_manipulation
     rapid_ros
     rapid_sound
