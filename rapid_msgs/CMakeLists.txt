@@ -57,8 +57,6 @@ add_message_files(
 add_service_files(
   FILES
   CaptureRoi3D.srv
-  MoveArm.srv
-  UseGrippers.srv
 )
 
 ## Generate actions in the 'action' folder
