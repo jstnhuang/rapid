@@ -50,7 +50,6 @@ install:
     - mkdir -p ~/catkin_ws/src
     - cd ..; mv rapid ~/catkin_ws/src
     - cd ~/catkin_ws/src
-    - git clone https://github.com/hcrlab/blinky.git
     # Install dependencies
     - cd ~/catkin_ws/
     - rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
