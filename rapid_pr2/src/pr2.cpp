@@ -1,5 +1,4 @@
 #include "rapid_pr2/pr2.h"
-#include "blinky/FaceAction.h"
 #include "pr2_common_action_msgs/TuckArmsAction.h"
 #include "pr2_controllers_msgs/PointHeadAction.h"
 #include "pr2_controllers_msgs/Pr2GripperCommandAction.h"
@@ -16,7 +15,6 @@
 #include "rapid_sound/sound.h"
 #include "rapid_viz/markers.h"
 
-using blinky::FaceAction;
 using pr2_common_action_msgs::TuckArmsAction;
 using pr2_controllers_msgs::PointHeadAction;
 using pr2_controllers_msgs::Pr2GripperCommandAction;

@@ -10,7 +10,6 @@ It is still in active development.
 ## Installation
 ```
 cd ~/catkin_ws/src
-git clone https://github.com/hcrlab/blinky.git
 git clone https://github.com/jstnhuang/rapid.git
 cd ~/catkin_ws
 rosdep install --from-paths src --ignore-src --rosdistro=indigo -y
@@ -34,9 +33,6 @@ sudo make install
 See [.travis.yml](.travis.yml) for an example installation.
 
 ## Summary
-- **[rapid_main](rapid_main)**:
-  Demo programs that exercise the capabilities of blinky.
-  It is a leaf package, it has no libraries and no one should depend on it.
 - **[rapid_manipulation](rapid_manipulation)**:
   Code related to arm manipulation and grasping.
 - **[rapid_msgs](rapid_msgs)**:
