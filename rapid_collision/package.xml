@@ -10,8 +10,8 @@
   <depend>cmake_modules</depend>
   <depend>eigen_conversions</depend>
   <depend>geometry_msgs</depend>
-  <depend>hcr_common_markers</depend>
   <depend>interactive_markers</depend>
+  <depend>rapid_viz</depend>
   <depend>roscpp</depend>
   <depend>visualization_msgs</depend>
 

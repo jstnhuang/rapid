@@ -11,8 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   cmake_modules
   eigen_conversions
   geometry_msgs
-  hcr_common_markers
   interactive_markers
+  rapid_viz
   roscpp
   visualization_msgs
 )
@@ -65,8 +65,8 @@ catkin_package(
     rapid_collision_collision_checks
   CATKIN_DEPENDS
     geometry_msgs
-    hcr_common_markers
     interactive_markers
+    rapid_viz
     roscpp
     visualization_msgs
   DEPENDS LIBFCL

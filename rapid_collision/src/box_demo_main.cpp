@@ -3,8 +3,8 @@
 #include "boost/bind.hpp"
 #include "geometry_msgs/Pose.h"
 #include "geometry_msgs/Vector3.h"
-#include "hcr_common_markers/six_dof_controls.h"
 #include "interactive_markers/interactive_marker_server.h"
+#include "rapid_viz/six_dof_controls.h"
 #include "ros/ros.h"
 #include "visualization_msgs/Marker.h"
 
@@ -43,8 +43,7 @@ InteractiveMarker MoveableBox(const std::string& name,
   box_control.always_visible = true;
   box_control.markers.push_back(BoxMarker(scale));
 
-  interactive_marker.controls =
-      hcr_common_markers::FreeOrientationSixDofControls();
+  interactive_marker.controls = rapid::FreeOrientationSixDofControls();
   interactive_marker.controls.push_back(box_control);
 
   return interactive_marker;
