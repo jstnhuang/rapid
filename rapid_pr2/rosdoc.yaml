@@ -1,0 +1,6 @@
+- builder: doxygen
+  name: C++ API
+  exclude_patterns: '*/test/*'
+  file_patterns: '*.cpp *.h *.md'
+  tab_size: 2
+  use_mdfile_as_mainpage: 'README.md'

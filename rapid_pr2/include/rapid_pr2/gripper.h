@@ -19,6 +19,7 @@ static const char kRightGripperAction[] = "r_gripper_controller/gripper_action";
 ///   while (ros::ok() && !left.IsDone()) {
 ///     ros::spinOnce();
 ///   }
+/// \endcode
 class Gripper {
  public:
   /// Returns a Gripper object for the PR2's left gripper.
