@@ -5,6 +5,7 @@ project(rapid_pr2)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  actionlib
   pr2_controllers_msgs
   rapid_manipulation
   rapid_ros
@@ -13,61 +14,12 @@ find_package(catkin REQUIRED COMPONENTS
   visualization_msgs
 )
 
+find_package(Boost REQUIRED)
+
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
 # catkin_python_setup()
-
-################################################
-## Declare ROS messages, services and actions ##
-################################################
-
-## To declare and build messages, services or actions from within this
-## package, follow these steps:
-## * Let MSG_DEP_SET be the set of packages whose message types you use in
-##   your messages/services/actions (e.g. std_msgs, actionlib_msgs, ...).
-## * In the file package.xml:
-##   * add a build_depend tag for "message_generation"
-##   * add a build_depend and a run_depend tag for each package in MSG_DEP_SET
-##   * If MSG_DEP_SET isn't empty the following dependency has been pulled in
-##     but can be declared for certainty nonetheless:
-##     * add a run_depend tag for "message_runtime"
-## * In this file (CMakeLists.txt):
-##   * add "message_generation" and every package in MSG_DEP_SET to
-##     find_package(catkin REQUIRED COMPONENTS ...)
-##   * add "message_runtime" and every package in MSG_DEP_SET to
-##     catkin_package(CATKIN_DEPENDS ...)
-##   * uncomment the add_*_files sections below as needed
-##     and list every .msg/.srv/.action file to be processed
-##   * uncomment the generate_messages entry below
-##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
-
-## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
-
-## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
-
-## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
-# )
-
-## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -103,15 +55,18 @@ catkin_package(
   LIBRARIES
     rapid_pr2
     rapid_pr2_arm_joints
+    rapid_pr2_gripper
     rapid_pr2_joint_states
   CATKIN_DEPENDS
+    actionlib
     pr2_controllers_msgs
     rapid_manipulation
     rapid_ros
     rapid_sound
     roscpp
     visualization_msgs
-  # DEPENDS
+  DEPENDS
+    Boost
 )
 
 ###########
@@ -126,36 +81,27 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_library(rapid_pr2
-  src/pr2.cpp
-)
-add_dependencies(rapid_pr2
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-)
-target_link_libraries(rapid_pr2
-  ${catkin_LIBRARIES}
-)
+add_library(rapid_pr2 src/pr2.cpp)
+add_dependencies(rapid_pr2 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pr2 ${catkin_LIBRARIES})
 
-add_library(rapid_pr2_arm_joints
-  src/arm_joints.cpp
-)
-add_dependencies(rapid_pr2_arm_joints
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-)
-target_link_libraries(rapid_pr2_arm_joints
-  ${catkin_LIBRARIES}
-)
+add_library(rapid_pr2_arm_joints src/arm_joints.cpp)
+add_dependencies(rapid_pr2_arm_joints ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pr2_arm_joints ${catkin_LIBRARIES})
 
-add_library(rapid_pr2_joint_states
-  src/joint_states.cpp
-)
-add_dependencies(rapid_pr2_joint_states
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-)
-target_link_libraries(rapid_pr2_joint_states
+add_library(rapid_pr2_gripper src/gripper.cpp)
+add_dependencies(rapid_pr2_gripper ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pr2_gripper ${catkin_LIBRARIES})
+
+add_library(rapid_pr2_joint_states src/joint_states.cpp)
+add_dependencies(rapid_pr2_joint_states ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pr2_joint_states ${catkin_LIBRARIES})
+
+add_executable(rapid_pr2_gripper_main src/gripper_main.cpp)
+set_target_properties(rapid_pr2_gripper_main PROPERTIES OUTPUT_NAME gripper PREFIX "")
+add_dependencies(rapid_pr2_gripper_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pr2_gripper_main
+  rapid_pr2_gripper
   ${catkin_LIBRARIES}
 )
 
