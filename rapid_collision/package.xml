@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>rapid_collision</name>
+  <version>0.0.0</version>
+  <description>Simple APIs for collision checking</description>
+  <maintainer email="jstn@todo.todo">jstn</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>cmake_modules</depend>
+  <depend>eigen_conversions</depend>
+  <depend>geometry_msgs</depend>
+  <depend>hcr_common_markers</depend>
+  <depend>interactive_markers</depend>
+  <depend>roscpp</depend>
+  <depend>visualization_msgs</depend>
+
+  <export>
+  </export>
+</package>
