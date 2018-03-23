@@ -114,10 +114,12 @@ catkin_package(
   LIBRARIES
     rapid_viz
     rapid_viz_cloud_poser
+    rapid_viz_drag_box_marker
     rapid_viz_point_cloud
     rapid_viz_publish
     rapid_viz_landmark_viz
     rapid_viz_scene_viz
+    rapid_viz_six_dof_controls
   CATKIN_DEPENDS
     cv_bridge
     geometry_msgs
@@ -188,9 +190,17 @@ add_library(rapid_viz_cloud_poser src/cloud_poser.cpp)
 add_dependencies(rapid_viz_cloud_poser rapid_viz_publish ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_viz_cloud_poser rapid_viz_publish ${catkin_LIBRARIES})
 
+add_library(rapid_viz_drag_box_marker src/drag_box_marker.cpp)
+add_dependencies(rapid_viz_drag_box_marker ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_viz_drag_box_marker ${catkin_LIBRARIES})
+
 add_library(rapid_viz_scene_viz src/scene_viz.cpp)
 add_dependencies(rapid_viz_scene_viz rapid_viz_publish ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_viz_scene_viz rapid_viz_publish ${catkin_LIBRARIES})
+
+add_library(rapid_viz_six_dof_controls src/six_dof_controls.cpp)
+add_dependencies(rapid_viz_six_dof_controls ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_viz_six_dof_controls ${catkin_LIBRARIES})
 
 add_library(rapid_viz_landmark_viz src/landmark_viz.cpp)
 add_dependencies(rapid_viz_landmark_viz rapid_viz_publish ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
