@@ -4,6 +4,7 @@ var NAVTREE =
     [ "rapid_collision", "md_rapid_collision_README.html", null ],
     [ "rapid_msgs", "md_rapid_msgs_README.html", null ],
     [ "rapid_ros", "md_rapid_ros_README.html", null ],
+    [ "rapid_utils", "md_rapid_utils_README.html", null ],
     [ "rapid_viz", "md_rapid_viz_README.html", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],

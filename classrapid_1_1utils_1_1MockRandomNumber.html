@@ -113,6 +113,9 @@ $(document).ready(function(){initNavTree('classrapid_1_1utils_1_1MockRandomNumbe
 </div><!--header-->
 <div class="contents">
 
+<p>A mock random number generator for unit testing.  
+ <a href="classrapid_1_1utils_1_1MockRandomNumber.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="random_8h_source.html">random.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for rapid::utils::MockRandomNumber:</div>
@@ -120,7 +123,7 @@ Inheritance diagram for rapid::utils::MockRandomNumber:</div>
  <div class="center">
   <img src="classrapid_1_1utils_1_1MockRandomNumber.png" usemap="#rapid::utils::MockRandomNumber_map" alt=""/>
   <map id="rapid::utils::MockRandomNumber_map" name="rapid::utils::MockRandomNumber_map">
-<area href="classrapid_1_1utils_1_1RandomNumberInterface.html" alt="rapid::utils::RandomNumberInterface" shape="rect" coords="0,0,214,24"/>
+<area href="classrapid_1_1utils_1_1RandomNumberInterface.html" title="Interface for random number generators. " alt="rapid::utils::RandomNumberInterface" shape="rect" coords="0,0,214,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -129,16 +132,23 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a75808494d864049f1fb8238dd3a39b22"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1utils_1_1MockRandomNumber.html#a75808494d864049f1fb8238dd3a39b22">MockRandomNumber</a> ()</td></tr>
 <tr class="separator:a75808494d864049f1fb8238dd3a39b22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7feff7d83d4c7453a796fea5ce5c68fa"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1utils_1_1MockRandomNumber.html#a7feff7d83d4c7453a796fea5ce5c68fa">rand</a> () const </td></tr>
+<tr class="memdesc:a7feff7d83d4c7453a796fea5ce5c68fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a random number in [0, RAND_MAX].  <a href="#a7feff7d83d4c7453a796fea5ce5c68fa">More...</a><br/></td></tr>
 <tr class="separator:a7feff7d83d4c7453a796fea5ce5c68fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05a07dd7f8aa8abf7f700de0512f1ff7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1utils_1_1MockRandomNumber.html#a05a07dd7f8aa8abf7f700de0512f1ff7">set_rand</a> (int val)</td></tr>
+<tr class="memdesc:a05a07dd7f8aa8abf7f700de0512f1ff7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set what <a class="el" href="classrapid_1_1utils_1_1MockRandomNumber.html#a7feff7d83d4c7453a796fea5ce5c68fa" title="Generate a random number in [0, RAND_MAX]. ">rand()</a> will return next.  <a href="#a05a07dd7f8aa8abf7f700de0512f1ff7">More...</a><br/></td></tr>
 <tr class="separator:a05a07dd7f8aa8abf7f700de0512f1ff7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classrapid_1_1utils_1_1RandomNumberInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classrapid_1_1utils_1_1RandomNumberInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classrapid_1_1utils_1_1RandomNumberInterface.html">rapid::utils::RandomNumberInterface</a></td></tr>
 <tr class="memitem:a6182c117e8feaaa20b388c1a89aad27d inherit pub_methods_classrapid_1_1utils_1_1RandomNumberInterface"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1utils_1_1RandomNumberInterface.html#a6182c117e8feaaa20b388c1a89aad27d">~RandomNumberInterface</a> ()</td></tr>
 <tr class="separator:a6182c117e8feaaa20b388c1a89aad27d inherit pub_methods_classrapid_1_1utils_1_1RandomNumberInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="random_8h_source.html#l00022">22</a> of file <a class="el" href="random_8h_source.html">random.h</a>.</p>
+<div class="textblock"><p>A mock random number generator for unit testing. </p>
+<p>Usage: </p>
+<div class="fragment"><div class="line"><a class="code" href="classrapid_1_1utils_1_1MockRandomNumber.html#a75808494d864049f1fb8238dd3a39b22">MockRandomNumber</a> rng;</div>
+<div class="line">rng.set_rand(5);</div>
+<div class="line">rng.rand(); <span class="comment">// Returns 5</span></div>
+</div><!-- fragment --> 
+<p>Definition at line <a class="el" href="random_8h_source.html#l00033">33</a> of file <a class="el" href="random_8h_source.html">random.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a75808494d864049f1fb8238dd3a39b22"></a>
 <div class="memitem">
@@ -177,6 +187,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Generate a random number in [0, RAND_MAX]. </p>
+<p>This is the same API as cstdlib's <a class="el" href="classrapid_1_1utils_1_1MockRandomNumber.html#a7feff7d83d4c7453a796fea5ce5c68fa" title="Generate a random number in [0, RAND_MAX]. ">rand()</a>.</p>
+<dl class="section return"><dt>Returns</dt><dd>A uniformly distributed random number in the range [0, RAND_MAX]. </dd></dl>
+
 <p>Implements <a class="el" href="classrapid_1_1utils_1_1RandomNumberInterface.html#a83c235725e918d0df10ccfed6cee6bee">rapid::utils::RandomNumberInterface</a>.</p>
 
 </div>
@@ -195,6 +209,8 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Set what <a class="el" href="classrapid_1_1utils_1_1MockRandomNumber.html#a7feff7d83d4c7453a796fea5ce5c68fa" title="Generate a random number in [0, RAND_MAX]. ">rand()</a> will return next. </p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
@@ -206,7 +222,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="namespacerapid_1_1utils.html">utils</a></li><li class="navelem"><a class="el" href="classrapid_1_1utils_1_1MockRandomNumber.html">MockRandomNumber</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 03:10:42 for rapid by
+    <li class="footer">Generated on Sat Mar 24 2018 04:36:36 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
