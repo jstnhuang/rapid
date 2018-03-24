@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid_1_1DragBoxMarker.html','');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,59 +112,458 @@ $(document).ready(function(){initNavTree('classrapid_1_1DragBoxMarker.html','');
 <div class="title">rapid::DragBoxMarker Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>An interactive marker for a box with draggable sides.  
+ <a href="classrapid_1_1DragBoxMarker.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="drag__box__marker_8h_source.html">drag_box_marker.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4e957bfc3d7f30a4dff75fcc8793ad44"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4e957bfc3d7f30a4dff75fcc8793ad44"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>DragBoxMarker</b> (const std::string &amp;name, interactive_markers::InteractiveMarkerServer *im_server)</td></tr>
+<tr class="memitem:a4e957bfc3d7f30a4dff75fcc8793ad44"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1DragBoxMarker.html#a4e957bfc3d7f30a4dff75fcc8793ad44">DragBoxMarker</a> (const std::string &amp;name, interactive_markers::InteractiveMarkerServer *im_server)</td></tr>
+<tr class="memdesc:a4e957bfc3d7f30a4dff75fcc8793ad44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a4e957bfc3d7f30a4dff75fcc8793ad44">More...</a><br/></td></tr>
 <tr class="separator:a4e957bfc3d7f30a4dff75fcc8793ad44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1394b37da82274c1f8046c63c116eba2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1394b37da82274c1f8046c63c116eba2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Show</b> ()</td></tr>
+<tr class="memitem:a1394b37da82274c1f8046c63c116eba2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1DragBoxMarker.html#a1394b37da82274c1f8046c63c116eba2">Show</a> ()</td></tr>
+<tr class="memdesc:a1394b37da82274c1f8046c63c116eba2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Show the marker.  <a href="#a1394b37da82274c1f8046c63c116eba2">More...</a><br/></td></tr>
 <tr class="separator:a1394b37da82274c1f8046c63c116eba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af77aa307f9064fc957b812e5e2e8dd30"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af77aa307f9064fc957b812e5e2e8dd30"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_pose_stamped</b> (const geometry_msgs::PoseStamped &amp;pose_stamped)</td></tr>
+<tr class="memitem:aa0e19dd6bec3c8ade75b0eeef8052018"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1DragBoxMarker.html#aa0e19dd6bec3c8ade75b0eeef8052018">Hide</a> ()</td></tr>
+<tr class="memdesc:aa0e19dd6bec3c8ade75b0eeef8052018"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erases the marker.  <a href="#aa0e19dd6bec3c8ade75b0eeef8052018">More...</a><br/></td></tr>
+<tr class="separator:aa0e19dd6bec3c8ade75b0eeef8052018"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af77aa307f9064fc957b812e5e2e8dd30"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1DragBoxMarker.html#af77aa307f9064fc957b812e5e2e8dd30">set_pose_stamped</a> (const geometry_msgs::PoseStamped &amp;<a class="el" href="classrapid_1_1DragBoxMarker.html#a7a3067c74972febb5042997699dc1c63">pose_stamped</a>)</td></tr>
+<tr class="memdesc:af77aa307f9064fc957b812e5e2e8dd30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the marker's pose.  <a href="#af77aa307f9064fc957b812e5e2e8dd30">More...</a><br/></td></tr>
 <tr class="separator:af77aa307f9064fc957b812e5e2e8dd30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a431682ecb7011742af34165558295bb7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a431682ecb7011742af34165558295bb7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_min_x</b> (double min_x)</td></tr>
+<tr class="memitem:a431682ecb7011742af34165558295bb7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1DragBoxMarker.html#a431682ecb7011742af34165558295bb7">set_min_x</a> (double <a class="el" href="classrapid_1_1DragBoxMarker.html#a17afaa54b5dd19c60a9d7db6aabeacbc">min_x</a>)</td></tr>
+<tr class="memdesc:a431682ecb7011742af34165558295bb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the minimum x value of the box.  <a href="#a431682ecb7011742af34165558295bb7">More...</a><br/></td></tr>
 <tr class="separator:a431682ecb7011742af34165558295bb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc40f35e3029e572ae17bd1105e91180"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abc40f35e3029e572ae17bd1105e91180"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_max_x</b> (double max_x)</td></tr>
+<tr class="memitem:abc40f35e3029e572ae17bd1105e91180"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1DragBoxMarker.html#abc40f35e3029e572ae17bd1105e91180">set_max_x</a> (double <a class="el" href="classrapid_1_1DragBoxMarker.html#a0aa4e7aa23157ba26a62a996df1cfb73">max_x</a>)</td></tr>
+<tr class="memdesc:abc40f35e3029e572ae17bd1105e91180"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the maximum x value of the box.  <a href="#abc40f35e3029e572ae17bd1105e91180">More...</a><br/></td></tr>
 <tr class="separator:abc40f35e3029e572ae17bd1105e91180"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60dcefdefecdb2b643c48f32da759684"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a60dcefdefecdb2b643c48f32da759684"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_min_y</b> (double min_y)</td></tr>
+<tr class="memitem:a60dcefdefecdb2b643c48f32da759684"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1DragBoxMarker.html#a60dcefdefecdb2b643c48f32da759684">set_min_y</a> (double <a class="el" href="classrapid_1_1DragBoxMarker.html#a33755c52954e129ebc7bafb0684517f2">min_y</a>)</td></tr>
+<tr class="memdesc:a60dcefdefecdb2b643c48f32da759684"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the minimum y value of the box.  <a href="#a60dcefdefecdb2b643c48f32da759684">More...</a><br/></td></tr>
 <tr class="separator:a60dcefdefecdb2b643c48f32da759684"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79d00d3644a2ac4f3ad7d41414184e2b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a79d00d3644a2ac4f3ad7d41414184e2b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_max_y</b> (double max_y)</td></tr>
+<tr class="memitem:a79d00d3644a2ac4f3ad7d41414184e2b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1DragBoxMarker.html#a79d00d3644a2ac4f3ad7d41414184e2b">set_max_y</a> (double <a class="el" href="classrapid_1_1DragBoxMarker.html#a3040ab12a65f1cba7ab74c1cc585fd3e">max_y</a>)</td></tr>
+<tr class="memdesc:a79d00d3644a2ac4f3ad7d41414184e2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the maximum y value of the box.  <a href="#a79d00d3644a2ac4f3ad7d41414184e2b">More...</a><br/></td></tr>
 <tr class="separator:a79d00d3644a2ac4f3ad7d41414184e2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9962aee22a8da69e65780cab1c6a947f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9962aee22a8da69e65780cab1c6a947f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_min_z</b> (double min_z)</td></tr>
+<tr class="memitem:a9962aee22a8da69e65780cab1c6a947f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1DragBoxMarker.html#a9962aee22a8da69e65780cab1c6a947f">set_min_z</a> (double <a class="el" href="classrapid_1_1DragBoxMarker.html#add7582451b47cadc2c65dca13f74b83f">min_z</a>)</td></tr>
+<tr class="memdesc:a9962aee22a8da69e65780cab1c6a947f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the minimum z value of the box.  <a href="#a9962aee22a8da69e65780cab1c6a947f">More...</a><br/></td></tr>
 <tr class="separator:a9962aee22a8da69e65780cab1c6a947f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a011a202d3e04826bea0d2924c8610537"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a011a202d3e04826bea0d2924c8610537"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_max_z</b> (double max_z)</td></tr>
+<tr class="memitem:a011a202d3e04826bea0d2924c8610537"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1DragBoxMarker.html#a011a202d3e04826bea0d2924c8610537">set_max_z</a> (double <a class="el" href="classrapid_1_1DragBoxMarker.html#ab531e80f3b290479aebb30a140217b69">max_z</a>)</td></tr>
+<tr class="memdesc:a011a202d3e04826bea0d2924c8610537"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the maximum z value of the box.  <a href="#a011a202d3e04826bea0d2924c8610537">More...</a><br/></td></tr>
 <tr class="separator:a011a202d3e04826bea0d2924c8610537"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17afaa54b5dd19c60a9d7db6aabeacbc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a17afaa54b5dd19c60a9d7db6aabeacbc"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>min_x</b> ()</td></tr>
+<tr class="memitem:a7a3067c74972febb5042997699dc1c63"><td class="memItemLeft" align="right" valign="top">geometry_msgs::PoseStamped&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1DragBoxMarker.html#a7a3067c74972febb5042997699dc1c63">pose_stamped</a> ()</td></tr>
+<tr class="separator:a7a3067c74972febb5042997699dc1c63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17afaa54b5dd19c60a9d7db6aabeacbc"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1DragBoxMarker.html#a17afaa54b5dd19c60a9d7db6aabeacbc">min_x</a> ()</td></tr>
 <tr class="separator:a17afaa54b5dd19c60a9d7db6aabeacbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0aa4e7aa23157ba26a62a996df1cfb73"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0aa4e7aa23157ba26a62a996df1cfb73"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>max_x</b> ()</td></tr>
+<tr class="memitem:a0aa4e7aa23157ba26a62a996df1cfb73"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1DragBoxMarker.html#a0aa4e7aa23157ba26a62a996df1cfb73">max_x</a> ()</td></tr>
 <tr class="separator:a0aa4e7aa23157ba26a62a996df1cfb73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33755c52954e129ebc7bafb0684517f2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a33755c52954e129ebc7bafb0684517f2"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>min_y</b> ()</td></tr>
+<tr class="memitem:a33755c52954e129ebc7bafb0684517f2"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1DragBoxMarker.html#a33755c52954e129ebc7bafb0684517f2">min_y</a> ()</td></tr>
 <tr class="separator:a33755c52954e129ebc7bafb0684517f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3040ab12a65f1cba7ab74c1cc585fd3e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3040ab12a65f1cba7ab74c1cc585fd3e"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>max_y</b> ()</td></tr>
+<tr class="memitem:a3040ab12a65f1cba7ab74c1cc585fd3e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1DragBoxMarker.html#a3040ab12a65f1cba7ab74c1cc585fd3e">max_y</a> ()</td></tr>
 <tr class="separator:a3040ab12a65f1cba7ab74c1cc585fd3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add7582451b47cadc2c65dca13f74b83f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="add7582451b47cadc2c65dca13f74b83f"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>min_z</b> ()</td></tr>
+<tr class="memitem:add7582451b47cadc2c65dca13f74b83f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1DragBoxMarker.html#add7582451b47cadc2c65dca13f74b83f">min_z</a> ()</td></tr>
 <tr class="separator:add7582451b47cadc2c65dca13f74b83f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab531e80f3b290479aebb30a140217b69"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab531e80f3b290479aebb30a140217b69"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>max_z</b> ()</td></tr>
+<tr class="memitem:ab531e80f3b290479aebb30a140217b69"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1DragBoxMarker.html#ab531e80f3b290479aebb30a140217b69">max_z</a> ()</td></tr>
 <tr class="separator:ab531e80f3b290479aebb30a140217b69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="drag__box__marker_8h_source.html#l00027">27</a> of file <a class="el" href="drag__box__marker_8h_source.html">drag_box_marker.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+<div class="textblock"><p>An interactive marker for a box with draggable sides. </p>
+<p>The box has a fixed pose but adjustable-length sides. After the user adjusts the side lengths, you can access the sides via min_x, max_x, etc. Note that the pose is not necessarily centered on or contained in the box. For example, if the pose could be at the origin while min_x=0.05 and max_x = 0.15. The box would appear to be centered at x=0.1.</p>
+<p>Usage: </p>
+<div class="fragment"><div class="line"><a class="code" href="classrapid_1_1DragBoxMarker.html#a4e957bfc3d7f30a4dff75fcc8793ad44">DragBoxMarker</a> box(<span class="stringliteral">&quot;left_hand&quot;</span>, &amp;im_server);</div>
+<div class="line">box.set_pose_stamped(ps);</div>
+<div class="line">box.set_min_x(-0.15);</div>
+<div class="line">box.set_max_x(0.15);</div>
+<div class="line">box.set_min_y(-0.15);</div>
+<div class="line">box.set_max_y(0.15);</div>
+<div class="line">box.set_min_z(-0.15);</div>
+<div class="line">box.set_max_z(0.15);</div>
+<div class="line">box.Show();</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Wait for user input, e.g., std::cin or waitKey</span></div>
+<div class="line"><span class="keywordtype">double</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#a17afaa54b5dd19c60a9d7db6aabeacbc">min_x</a> = box.min_x();</div>
+<div class="line">box.Hide();</div>
+</div><!-- fragment --> 
+<p>Definition at line <a class="el" href="drag__box__marker_8h_source.html#l00038">38</a> of file <a class="el" href="drag__box__marker_8h_source.html">drag_box_marker.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a4e957bfc3d7f30a4dff75fcc8793ad44"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::DragBoxMarker::DragBoxMarker </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">interactive_markers::InteractiveMarkerServer *&#160;</td>
+          <td class="paramname"><em>im_server</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">name</td><td>The name of the this interactive marker. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">im_server</td><td>The interactive marker server to add this marker to. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="drag__box__marker_8cpp_source.html#l00020">20</a> of file <a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="aa0e19dd6bec3c8ade75b0eeef8052018"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::DragBoxMarker::Hide </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Erases the marker. </p>
+
+<p>Definition at line <a class="el" href="drag__box__marker_8cpp_source.html#l00051">51</a> of file <a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0aa4e7aa23157ba26a62a996df1cfb73"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rapid::DragBoxMarker::max_x </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The maximum x value of the box. </dd></dl>
+
+<p>Definition at line <a class="el" href="drag__box__marker_8cpp_source.html#l00100">100</a> of file <a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3040ab12a65f1cba7ab74c1cc585fd3e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rapid::DragBoxMarker::max_y </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The maximum y value of the box. </dd></dl>
+
+<p>Definition at line <a class="el" href="drag__box__marker_8cpp_source.html#l00101">101</a> of file <a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab531e80f3b290479aebb30a140217b69"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rapid::DragBoxMarker::max_z </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The maximum z value of the box. </dd></dl>
+
+<p>Definition at line <a class="el" href="drag__box__marker_8cpp_source.html#l00102">102</a> of file <a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a17afaa54b5dd19c60a9d7db6aabeacbc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rapid::DragBoxMarker::min_x </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The minimum x value of the box. </dd></dl>
+
+<p>Definition at line <a class="el" href="drag__box__marker_8cpp_source.html#l00097">97</a> of file <a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a33755c52954e129ebc7bafb0684517f2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rapid::DragBoxMarker::min_y </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The minimum y value of the box. </dd></dl>
+
+<p>Definition at line <a class="el" href="drag__box__marker_8cpp_source.html#l00098">98</a> of file <a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="add7582451b47cadc2c65dca13f74b83f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rapid::DragBoxMarker::min_z </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The minimum z value of the box. </dd></dl>
+
+<p>Definition at line <a class="el" href="drag__box__marker_8cpp_source.html#l00099">99</a> of file <a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7a3067c74972febb5042997699dc1c63"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">geometry_msgs::PoseStamped rapid::DragBoxMarker::pose_stamped </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The pose of the box. </dd></dl>
+
+<p>Definition at line <a class="el" href="drag__box__marker_8cpp_source.html#l00094">94</a> of file <a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abc40f35e3029e572ae17bd1105e91180"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::DragBoxMarker::set_max_x </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>max_x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the maximum x value of the box. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">max_x</td><td>The maximum x value of the box. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="drag__box__marker_8cpp_source.html#l00073">73</a> of file <a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a79d00d3644a2ac4f3ad7d41414184e2b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::DragBoxMarker::set_max_y </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>max_y</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the maximum y value of the box. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">max_y</td><td>The maximum y value of the box. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="drag__box__marker_8cpp_source.html#l00081">81</a> of file <a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a011a202d3e04826bea0d2924c8610537"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::DragBoxMarker::set_max_z </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>max_z</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the maximum z value of the box. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">max_x</td><td>The maximum z value of the box. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="drag__box__marker_8cpp_source.html#l00089">89</a> of file <a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a431682ecb7011742af34165558295bb7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::DragBoxMarker::set_min_x </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>min_x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the minimum x value of the box. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">min_x</td><td>The minimum x value of the box. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="drag__box__marker_8cpp_source.html#l00069">69</a> of file <a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a60dcefdefecdb2b643c48f32da759684"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::DragBoxMarker::set_min_y </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>min_y</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the minimum y value of the box. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">min_y</td><td>The minimum y value of the box. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="drag__box__marker_8cpp_source.html#l00077">77</a> of file <a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9962aee22a8da69e65780cab1c6a947f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::DragBoxMarker::set_min_z </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>min_z</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the minimum z value of the box. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">min_z</td><td>The minimum z value of the box. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="drag__box__marker_8cpp_source.html#l00085">85</a> of file <a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af77aa307f9064fc957b812e5e2e8dd30"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::DragBoxMarker::set_pose_stamped </td>
+          <td>(</td>
+          <td class="paramtype">const geometry_msgs::PoseStamped &amp;&#160;</td>
+          <td class="paramname"><em>pose_stamped</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the marker's pose. </p>
+
+<p>Definition at line <a class="el" href="drag__box__marker_8cpp_source.html#l00062">62</a> of file <a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1394b37da82274c1f8046c63c116eba2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::DragBoxMarker::Show </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Show the marker. </p>
+
+<p>Definition at line <a class="el" href="drag__box__marker_8cpp_source.html#l00034">34</a> of file <a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>rapid_viz/include/rapid_viz/<a class="el" href="drag__box__marker_8h_source.html">drag_box_marker.h</a></li>
 <li>rapid_viz/src/<a class="el" href="drag__box__marker_8cpp_source.html">drag_box_marker.cpp</a></li>
 </ul>
@@ -172,8 +572,8 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>max_z</b> ()</td></
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid</b></li><li class="navelem"><a class="el" href="classrapid_1_1DragBoxMarker.html">DragBoxMarker</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="classrapid_1_1DragBoxMarker.html">DragBoxMarker</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

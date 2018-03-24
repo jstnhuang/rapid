@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('pick_8cpp_source.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +107,7 @@ $(document).ready(function(){initNavTree('pick_8cpp_source.html','');});
 <div class="title">pick.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;rapid_manipulation/pick.h&quot;</span></div>
+<a href="pick_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pick_8h.html">rapid_manipulation/pick.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
@@ -126,11 +128,11 @@ $(document).ready(function(){initNavTree('pick_8cpp_source.html','');});
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;Eigen/Dense&gt;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;rapid_manipulation/arm.h&quot;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;rapid_perception/scene.h&quot;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;rapid_ros/service_client.h&quot;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;rapid_utils/math.h&quot;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;rapid_viz/markers.h&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="arm_8h.html">rapid_manipulation/arm.h</a>&quot;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="scene_8h.html">rapid_perception/scene.h</a>&quot;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="service__client_8h.html">rapid_ros/service_client.h</a>&quot;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="math_8h.html">rapid_utils/math.h</a>&quot;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="markers_8h.html">rapid_viz/markers.h</a>&quot;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">using</span> agile_grasp::FindGrasps;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using</span> agile_grasp::Grasp;</div>
@@ -152,7 +154,7 @@ $(document).ready(function(){initNavTree('pick_8cpp_source.html','');});
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">namespace </span>manipulation {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;Picker::Picker(ArmInterface* arm, GripperInterface* gripper,</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Picker.html#a31628cb1152b4daacab6d524d14da7db">   48</a></span>&#160;<a class="code" href="classrapid_1_1manipulation_1_1Picker.html#a31628cb1152b4daacab6d524d14da7db">Picker::Picker</a>(<a class="code" href="classrapid_1_1manipulation_1_1ArmInterface.html">ArmInterface</a>* arm, <a class="code" href="classrapid_1_1manipulation_1_1GripperInterface.html">GripperInterface</a>* gripper,</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;               <a class="code" href="classrapid__ros_1_1ServiceClientInterface.html">rapid_ros::ServiceClientInterface&lt;FindGrasps&gt;</a>* grasp_gen_client,</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;               <a class="code" href="classrapid__ros_1_1PublisherInterface.html">rapid::viz::MarkerPub</a>* marker_pub)</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    :  <span class="comment">// co_pub_(nh_.advertise&lt;CollisionObject&gt;(&quot;collision_object&quot;, 10)),</span></div>
@@ -230,10 +232,10 @@ $(document).ready(function(){initNavTree('pick_8cpp_source.html','');});
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment">//  }</span></div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment">//}</span></div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="keywordtype">bool</span> Picker::Pick(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1Object.html">Object</a>&amp; obj, <span class="keywordtype">double</span> max_effort) {</div>
+<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Picker.html#a87c303f7457d9f8d9b1b45225560454f">  126</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1manipulation_1_1Picker.html#a87c303f7457d9f8d9b1b45225560454f">Picker::Pick</a>(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1Object.html">Object</a>&amp; obj, <span class="keywordtype">double</span> max_effort) {</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  <span class="comment">// Use agile_grasp to find some grasp poses.</span></div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  Grasps grasps_response;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <span class="keywordtype">bool</span> success = GenerateGrasps(obj, &amp;grasps_response);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <span class="keywordtype">bool</span> success = <a class="code" href="classrapid_1_1manipulation_1_1Picker.html#aa00e9b46e1621dad993979b70655ba82">GenerateGrasps</a>(obj, &amp;grasps_response);</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  <span class="keywordflow">if</span> (!success) {</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    ROS_ERROR(<span class="stringliteral">&quot;Grasp generation service failed.&quot;</span>);</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
@@ -260,34 +262,34 @@ $(document).ready(function(){initNavTree('pick_8cpp_source.html','');});
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;       grasp_i &lt; std::min(static_cast&lt;size_t&gt;(num_grasps), grasps.size());</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;       ++grasp_i) {</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keyword">const</span> Grasp&amp; grasp = grasps[grasp_i];</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    VisualizeGrasp(grasp, frame);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <a class="code" href="classrapid_1_1manipulation_1_1Picker.html#aba71e34cc58113fd707cc65cdfd90e37">VisualizeGrasp</a>(grasp, frame);</div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    PoseStamped grasp_pose;</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    grasp_pose.header.frame_id = frame;</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    grasp_pose.pose.position.x = grasp.surface_center.x;</div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    grasp_pose.pose.position.y = grasp.surface_center.y;</div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    grasp_pose.pose.position.z = grasp.surface_center.z;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    ComputeGraspOrientation(grasp.approach, grasp.axis,</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <a class="code" href="namespacerapid_1_1manipulation.html#afc6d19e198e0c1fffd8e70b80d2fc384">ComputeGraspOrientation</a>(grasp.approach, grasp.axis,</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                            &amp;grasp_pose.pose.orientation);</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="comment">// Pre-grasp</span></div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Attempting pre-grasp&quot;</span>);</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    success = MoveToPreGrasp(grasp_pose, grasp.approach);</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    success = <a class="code" href="classrapid_1_1manipulation_1_1Picker.html#a21f4d0826c5717dac4b70dec36bcea63">MoveToPreGrasp</a>(grasp_pose, grasp.approach);</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordflow">if</span> (!success) {</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;      ROS_ERROR(<span class="stringliteral">&quot;Failed to move to pre-grasp position.&quot;</span>);</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      <span class="keywordflow">continue</span>;</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    }</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    gripper_-&gt;Open();</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    gripper_-&gt;<a class="code" href="classrapid_1_1manipulation_1_1GripperInterface.html#acff12976247c57bee0dcba23d5d1c40c">Open</a>();</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="comment">// Grasp</span></div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Attempting grasp&quot;</span>);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    success = MoveToGrasp(grasp_pose, grasp.approach);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    success = <a class="code" href="classrapid_1_1manipulation_1_1Picker.html#ac3873a766d26b3b6bed3a09c63b5a4b9">MoveToGrasp</a>(grasp_pose, grasp.approach);</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordflow">if</span> (!success) {</div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;      ROS_ERROR(<span class="stringliteral">&quot;Failed to execute grasp.&quot;</span>);</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;      <span class="keywordflow">continue</span>;</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    }</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    gripper_-&gt;Close();</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    gripper_-&gt;set_held_object(obj);</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    gripper_-&gt;<a class="code" href="classrapid_1_1manipulation_1_1GripperInterface.html#a35559dcb8aca14263782367c89a7b418">Close</a>();</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    gripper_-&gt;<a class="code" href="classrapid_1_1manipulation_1_1GripperInterface.html#aaffc7914891420db087769f3afe9db29">set_held_object</a>(obj);</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    grasped_object = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  }</div>
@@ -301,13 +303,13 @@ $(document).ready(function(){initNavTree('pick_8cpp_source.html','');});
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;}</div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="keywordtype">bool</span> Picker::GenerateGrasps(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a>&amp; obj,</div>
+<div class="line"><a name="l00197"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Picker.html#aa00e9b46e1621dad993979b70655ba82">  197</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1manipulation_1_1Picker.html#aa00e9b46e1621dad993979b70655ba82">Picker::GenerateGrasps</a>(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a>&amp; obj,</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                            agile_grasp::Grasps* grasps) {</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;  FindGrasps grasps_srv;</div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;  pcl::PointCloud&lt;pcl::PointXYZ&gt; colorless;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  pcl::copyPointCloud(*obj.GetCloud(), colorless);</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  pcl::copyPointCloud(*obj.<a class="code" href="classrapid_1_1perception_1_1Object.html#a1124158e032b6117dfc0ccf50f63dfcb">GetCloud</a>(), colorless);</div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;  pcl::toROSMsg(colorless, grasps_srv.request.object);</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  <span class="keywordtype">bool</span> success = grasp_gen_client_-&gt;call(grasps_srv);</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  <span class="keywordtype">bool</span> success = grasp_gen_client_-&gt;<a class="code" href="classrapid__ros_1_1ServiceClientInterface.html#a9c5a353f8dd4b371d79cc1ef83a82f9c">call</a>(grasps_srv);</div>
 <div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;  <span class="keywordflow">if</span> (!success) {</div>
 <div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;  }</div>
@@ -315,50 +317,50 @@ $(document).ready(function(){initNavTree('pick_8cpp_source.html','');});
 <div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;}</div>
 <div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="keywordtype">bool</span> Picker::MoveToPreGrasp(<span class="keyword">const</span> PoseStamped&amp; grasp_pose,</div>
+<div class="line"><a name="l00211"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Picker.html#a21f4d0826c5717dac4b70dec36bcea63">  211</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1manipulation_1_1Picker.html#a21f4d0826c5717dac4b70dec36bcea63">Picker::MoveToPreGrasp</a>(<span class="keyword">const</span> PoseStamped&amp; grasp_pose,</div>
 <div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                            <span class="keyword">const</span> Vector3&amp; grasp_approach) {</div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;  PoseStamped pre_grasp = grasp_pose;</div>
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;  <span class="keywordtype">double</span> pregrasp_distance = 0;</div>
 <div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;  ros::param::param&lt;double&gt;(<span class="stringliteral">&quot;pregrasp_distance&quot;</span>, pregrasp_distance, 0.3);</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;  <span class="keywordtype">double</span> scale_factor = pregrasp_distance / rapid::utils::Norm(grasp_approach);</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;  <span class="keywordtype">double</span> scale_factor = pregrasp_distance / <a class="code" href="namespacerapid_1_1utils.html#ad767b7a06889b73c05ff1572d1cde3b1">rapid::utils::Norm</a>(grasp_approach);</div>
 <div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;  pre_grasp.pose.position.x -= scale_factor * grasp_approach.x;</div>
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;  pre_grasp.pose.position.y -= scale_factor * grasp_approach.y;</div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;  pre_grasp.pose.position.z -= scale_factor * grasp_approach.z;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;  <span class="keywordflow">return</span> arm_-&gt;MoveToPoseGoal(pre_grasp);</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;  <span class="keywordflow">return</span> arm_-&gt;<a class="code" href="classrapid_1_1manipulation_1_1ArmInterface.html#a36f71bde5577ba5b472d91043ff56364">MoveToPoseGoal</a>(pre_grasp);</div>
 <div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;}</div>
 <div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;<span class="keywordtype">bool</span> Picker::MoveToGrasp(<span class="keyword">const</span> geometry_msgs::PoseStamped&amp; grasp_pose,</div>
+<div class="line"><a name="l00223"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Picker.html#ac3873a766d26b3b6bed3a09c63b5a4b9">  223</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1manipulation_1_1Picker.html#ac3873a766d26b3b6bed3a09c63b5a4b9">Picker::MoveToGrasp</a>(<span class="keyword">const</span> geometry_msgs::PoseStamped&amp; grasp_pose,</div>
 <div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                         <span class="keyword">const</span> geometry_msgs::Vector3&amp; grasp_approach) {</div>
 <div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;  PoseStamped final_grasp_pose = grasp_pose;</div>
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;  <span class="keywordtype">double</span> grasp_distance = 0;  <span class="comment">// Distance from the object during the grasp.</span></div>
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;  ros::param::param&lt;double&gt;(<span class="stringliteral">&quot;grasp_distance&quot;</span>, grasp_distance, 0.13);</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;  <span class="keywordtype">double</span> scale_factor = grasp_distance / rapid::utils::Norm(grasp_approach);</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;  <span class="keywordtype">double</span> scale_factor = grasp_distance / <a class="code" href="namespacerapid_1_1utils.html#ad767b7a06889b73c05ff1572d1cde3b1">rapid::utils::Norm</a>(grasp_approach);</div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;  final_grasp_pose.pose.position.x -= scale_factor * grasp_approach.x;</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;  final_grasp_pose.pose.position.y -= scale_factor * grasp_approach.y;</div>
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;  final_grasp_pose.pose.position.z -= scale_factor * grasp_approach.z;</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  <span class="keywordflow">return</span> arm_-&gt;MoveToPoseGoal(final_grasp_pose);</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  <span class="keywordflow">return</span> arm_-&gt;<a class="code" href="classrapid_1_1manipulation_1_1ArmInterface.html#a36f71bde5577ba5b472d91043ff56364">MoveToPoseGoal</a>(final_grasp_pose);</div>
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;}</div>
 <div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;<span class="keywordtype">void</span> Picker::VisualizeGrasp(<span class="keyword">const</span> Grasp&amp; grasp, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; frame) {</div>
+<div class="line"><a name="l00235"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Picker.html#aba71e34cc58113fd707cc65cdfd90e37">  235</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1manipulation_1_1Picker.html#aba71e34cc58113fd707cc65cdfd90e37">Picker::VisualizeGrasp</a>(<span class="keyword">const</span> Grasp&amp; grasp, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; frame) {</div>
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  Point surface_center;</div>
 <div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  surface_center.x = grasp.surface_center.x;</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;  surface_center.y = grasp.surface_center.y;</div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;  surface_center.z = grasp.surface_center.z;</div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  <a class="code" href="classrapid_1_1viz_1_1Marker.html">rapid::viz::Marker</a> m = rapid::viz::Marker::Vector(</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  <a class="code" href="classrapid_1_1viz_1_1Marker.html">rapid::viz::Marker</a> m = <a class="code" href="classrapid_1_1viz_1_1Marker.html#a8f39187e7929a285c71c287792f8769e">rapid::viz::Marker::Vector</a>(</div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;      marker_pub_, frame, surface_center, grasp.approach);</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  m.SetNamespace(<span class="stringliteral">&quot;grasp_approach&quot;</span>);</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  m.SetColor(1, 0, 0, 0.5);</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;  m.Publish();</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a1ce5768e2fee331a5a05ab185cc64b98">SetNamespace</a>(<span class="stringliteral">&quot;grasp_approach&quot;</span>);</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a7d824084516919e8fa4a978c5f9c084e">SetColor</a>(1, 0, 0, 0.5);</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a49d7135203f48bca12d682bda4cfc0b0">Publish</a>();</div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;  m = rapid::viz::Marker::Vector(marker_pub_, frame, surface_center,</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;  m = <a class="code" href="classrapid_1_1viz_1_1Marker.html#a8f39187e7929a285c71c287792f8769e">rapid::viz::Marker::Vector</a>(marker_pub_, frame, surface_center,</div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                                 grasp.axis);</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;  m.SetNamespace(<span class="stringliteral">&quot;grasp_axis&quot;</span>);</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;  m.SetColor(0, 1, 0, 0.5);</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;  m.Publish();</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a1ce5768e2fee331a5a05ab185cc64b98">SetNamespace</a>(<span class="stringliteral">&quot;grasp_axis&quot;</span>);</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a7d824084516919e8fa4a978c5f9c084e">SetColor</a>(0, 1, 0, 0.5);</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a49d7135203f48bca12d682bda4cfc0b0">Publish</a>();</div>
 <div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;}</div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;<span class="keywordtype">void</span> ComputeGraspOrientation(<span class="keyword">const</span> geometry_msgs::Vector3&amp; approach,</div>
+<div class="line"><a name="l00254"></a><span class="lineno"><a class="line" href="namespacerapid_1_1manipulation.html#afc6d19e198e0c1fffd8e70b80d2fc384">  254</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacerapid_1_1manipulation.html#afc6d19e198e0c1fffd8e70b80d2fc384">ComputeGraspOrientation</a>(<span class="keyword">const</span> geometry_msgs::Vector3&amp; approach,</div>
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                             <span class="keyword">const</span> geometry_msgs::Vector3&amp; axis,</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                             geometry_msgs::Quaternion* orientation) {</div>
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;  <span class="comment">// Not sure if grasp.axis and grasp.approach are always orthogonal, so</span></div>
@@ -386,19 +388,45 @@ $(document).ready(function(){initNavTree('pick_8cpp_source.html','');});
 <div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;}</div>
 <div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;}  <span class="comment">// namespace manipulation</span></div>
 <div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;}  <span class="comment">// namespace rapid</span></div>
+<div class="ttc" id="math_8h_html"><div class="ttname"><a href="math_8h.html">math.h</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Picker_html_aa00e9b46e1621dad993979b70655ba82"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Picker.html#aa00e9b46e1621dad993979b70655ba82">rapid::manipulation::Picker::GenerateGrasps</a></div><div class="ttdeci">bool GenerateGrasps(const rapid::perception::Object &amp;obj, agile_grasp::Grasps *grasps)</div><div class="ttdef"><b>Definition:</b> <a href="pick_8cpp_source.html#l00197">pick.cpp:197</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1ArmInterface_html_a36f71bde5577ba5b472d91043ff56364"><div class="ttname"><a href="classrapid_1_1manipulation_1_1ArmInterface.html#a36f71bde5577ba5b472d91043ff56364">rapid::manipulation::ArmInterface::MoveToPoseGoal</a></div><div class="ttdeci">virtual bool MoveToPoseGoal(const geometry_msgs::PoseStamped &amp;pose) const =0</div></div>
+<div class="ttc" id="namespacerapid_1_1utils_html_ad767b7a06889b73c05ff1572d1cde3b1"><div class="ttname"><a href="namespacerapid_1_1utils.html#ad767b7a06889b73c05ff1572d1cde3b1">rapid::utils::Norm</a></div><div class="ttdeci">double Norm(const geometry_msgs::Vector3 &amp;v)</div><div class="ttdef"><b>Definition:</b> <a href="math_8cpp_source.html#l00038">math.cpp:38</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Picker_html_ac3873a766d26b3b6bed3a09c63b5a4b9"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Picker.html#ac3873a766d26b3b6bed3a09c63b5a4b9">rapid::manipulation::Picker::MoveToGrasp</a></div><div class="ttdeci">bool MoveToGrasp(const geometry_msgs::PoseStamped &amp;grasp_pose, const geometry_msgs::Vector3 &amp;grasp_approach)</div><div class="ttdef"><b>Definition:</b> <a href="pick_8cpp_source.html#l00223">pick.cpp:223</a></div></div>
 <div class="ttc" id="classrapid_1_1perception_1_1Object_html"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a></div><div class="ttdef"><b>Definition:</b> <a href="object_8h_source.html#l00015">object.h:15</a></div></div>
+<div class="ttc" id="pick_8h_html"><div class="ttname"><a href="pick_8h.html">pick.h</a></div></div>
+<div class="ttc" id="scene_8h_html"><div class="ttname"><a href="scene_8h.html">scene.h</a></div></div>
 <div class="ttc" id="classrapid__ros_1_1PublisherInterface_html"><div class="ttname"><a href="classrapid__ros_1_1PublisherInterface.html">rapid_ros::PublisherInterface</a></div><div class="ttdef"><b>Definition:</b> <a href="publisher_8h_source.html#l00012">publisher.h:12</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1GripperInterface_html_a35559dcb8aca14263782367c89a7b418"><div class="ttname"><a href="classrapid_1_1manipulation_1_1GripperInterface.html#a35559dcb8aca14263782367c89a7b418">rapid::manipulation::GripperInterface::Close</a></div><div class="ttdeci">virtual bool Close(double effort=-1.0)=0</div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a1ce5768e2fee331a5a05ab185cc64b98"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a1ce5768e2fee331a5a05ab185cc64b98">rapid::viz::Marker::SetNamespace</a></div><div class="ttdeci">void SetNamespace(const std::string &amp;ns)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00279">markers.cpp:279</a></div></div>
+<div class="ttc" id="namespacerapid_1_1manipulation_html_afc6d19e198e0c1fffd8e70b80d2fc384"><div class="ttname"><a href="namespacerapid_1_1manipulation.html#afc6d19e198e0c1fffd8e70b80d2fc384">rapid::manipulation::ComputeGraspOrientation</a></div><div class="ttdeci">void ComputeGraspOrientation(const geometry_msgs::Vector3 &amp;approach, const geometry_msgs::Vector3 &amp;axis, geometry_msgs::Quaternion *orientation)</div><div class="ttdef"><b>Definition:</b> <a href="pick_8cpp_source.html#l00254">pick.cpp:254</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a8f39187e7929a285c71c287792f8769e"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a8f39187e7929a285c71c287792f8769e">rapid::viz::Marker::Vector</a></div><div class="ttdeci">static Marker Vector(const MarkerPub *pub, const std::string &amp;frame_id, const geometry_msgs::Point &amp;origin, const geometry_msgs::Vector3 &amp;vector)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00222">markers.cpp:222</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Picker_html_a21f4d0826c5717dac4b70dec36bcea63"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Picker.html#a21f4d0826c5717dac4b70dec36bcea63">rapid::manipulation::Picker::MoveToPreGrasp</a></div><div class="ttdeci">bool MoveToPreGrasp(const geometry_msgs::PoseStamped &amp;grasp_pose, const geometry_msgs::Vector3 &amp;grasp_approach)</div><div class="ttdef"><b>Definition:</b> <a href="pick_8cpp_source.html#l00211">pick.cpp:211</a></div></div>
+<div class="ttc" id="service__client_8h_html"><div class="ttname"><a href="service__client_8h.html">service_client.h</a></div></div>
 <div class="ttc" id="classrapid__ros_1_1ServiceClientInterface_html"><div class="ttname"><a href="classrapid__ros_1_1ServiceClientInterface.html">rapid_ros::ServiceClientInterface</a></div><div class="ttdef"><b>Definition:</b> <a href="service__client_8h_source.html#l00009">service_client.h:9</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a49d7135203f48bca12d682bda4cfc0b0"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a49d7135203f48bca12d682bda4cfc0b0">rapid::viz::Marker::Publish</a></div><div class="ttdeci">void Publish()</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00254">markers.cpp:254</a></div></div>
+<div class="ttc" id="markers_8h_html"><div class="ttname"><a href="markers_8h.html">markers.h</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a7d824084516919e8fa4a978c5f9c084e"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a7d824084516919e8fa4a978c5f9c084e">rapid::viz::Marker::SetColor</a></div><div class="ttdeci">void SetColor(double r, double g, double b, double a=0.9)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00268">markers.cpp:268</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Picker_html_a31628cb1152b4daacab6d524d14da7db"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Picker.html#a31628cb1152b4daacab6d524d14da7db">rapid::manipulation::Picker::Picker</a></div><div class="ttdeci">Picker(ArmInterface *arm, GripperInterface *gripper, rapid_ros::ServiceClientInterface&lt; agile_grasp::FindGrasps &gt; *grasp_gen_client, rapid::viz::MarkerPub *marker_pub)</div><div class="ttdef"><b>Definition:</b> <a href="pick_8cpp_source.html#l00048">pick.cpp:48</a></div></div>
 <div class="ttc" id="classrapid_1_1viz_1_1Marker_html"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html">rapid::viz::Marker</a></div><div class="ttdef"><b>Definition:</b> <a href="markers_8h_source.html#l00032">markers.h:32</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1ArmInterface_html"><div class="ttname"><a href="classrapid_1_1manipulation_1_1ArmInterface.html">rapid::manipulation::ArmInterface</a></div><div class="ttdef"><b>Definition:</b> <a href="arm_8h_source.html#l00020">arm.h:20</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1Object_html_a1124158e032b6117dfc0ccf50f63dfcb"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html#a1124158e032b6117dfc0ccf50f63dfcb">rapid::perception::Object::GetCloud</a></div><div class="ttdeci">pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr GetCloud() const </div><div class="ttdef"><b>Definition:</b> <a href="object_8cpp_source.html#l00024">object.cpp:24</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Picker_html_aba71e34cc58113fd707cc65cdfd90e37"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Picker.html#aba71e34cc58113fd707cc65cdfd90e37">rapid::manipulation::Picker::VisualizeGrasp</a></div><div class="ttdeci">void VisualizeGrasp(const agile_grasp::Grasp &amp;grasp, const std::string &amp;frame)</div><div class="ttdef"><b>Definition:</b> <a href="pick_8cpp_source.html#l00235">pick.cpp:235</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Picker_html_a87c303f7457d9f8d9b1b45225560454f"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Picker.html#a87c303f7457d9f8d9b1b45225560454f">rapid::manipulation::Picker::Pick</a></div><div class="ttdeci">bool Pick(const rapid::perception::Object &amp;obj, double max_effort=-1)</div><div class="ttdef"><b>Definition:</b> <a href="pick_8cpp_source.html#l00126">pick.cpp:126</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1GripperInterface_html"><div class="ttname"><a href="classrapid_1_1manipulation_1_1GripperInterface.html">rapid::manipulation::GripperInterface</a></div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html#l00033">gripper.h:33</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1GripperInterface_html_acff12976247c57bee0dcba23d5d1c40c"><div class="ttname"><a href="classrapid_1_1manipulation_1_1GripperInterface.html#acff12976247c57bee0dcba23d5d1c40c">rapid::manipulation::GripperInterface::Open</a></div><div class="ttdeci">virtual bool Open(double effort=-1.0)=0</div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1GripperInterface_html_aaffc7914891420db087769f3afe9db29"><div class="ttname"><a href="classrapid_1_1manipulation_1_1GripperInterface.html#aaffc7914891420db087769f3afe9db29">rapid::manipulation::GripperInterface::set_held_object</a></div><div class="ttdeci">virtual void set_held_object(const rapid::perception::Object &amp;object)=0</div></div>
 <div class="ttc" id="classrapid_1_1perception_1_1Scene_html"><div class="ttname"><a href="classrapid_1_1perception_1_1Scene.html">rapid::perception::Scene</a></div><div class="ttdef"><b>Definition:</b> <a href="scene_8h_source.html#l00019">scene.h:19</a></div></div>
+<div class="ttc" id="arm_8h_html"><div class="ttname"><a href="arm_8h.html">arm.h</a></div></div>
 <div class="ttc" id="classrapid_1_1perception_1_1HSurface_html"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html">rapid::perception::HSurface</a></div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8h_source.html#l00020">hsurface.h:20</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1ServiceClientInterface_html_a9c5a353f8dd4b371d79cc1ef83a82f9c"><div class="ttname"><a href="classrapid__ros_1_1ServiceClientInterface.html#a9c5a353f8dd4b371d79cc1ef83a82f9c">rapid_ros::ServiceClientInterface::call</a></div><div class="ttdeci">virtual bool call(Service &amp;srv)=0</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_8e0ec4d7e362575df8ab63e8ba43ec60.html">rapid_manipulation</a></li><li class="navelem"><a class="el" href="dir_0d554eb1438da2189159099f72f0f544.html">src</a></li><li class="navelem"><b>pick.cpp</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_8e0ec4d7e362575df8ab63e8ba43ec60.html">rapid_manipulation</a></li><li class="navelem"><a class="el" href="dir_0d554eb1438da2189159099f72f0f544.html">src</a></li><li class="navelem"><a class="el" href="pick_8cpp.html">pick.cpp</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

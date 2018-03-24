@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('drag__box__marker_8h_source.html','');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +107,7 @@ $(document).ready(function(){initNavTree('drag__box__marker_8h_source.html','');
 <div class="title">drag_box_marker.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_VIZ_DRAG_BOX_MARKER_H_</span></div>
+<a href="drag__box__marker_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_VIZ_DRAG_BOX_MARKER_H_</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _RAPID_VIZ_DRAG_BOX_MARKER_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
@@ -118,77 +120,92 @@ $(document).ready(function(){initNavTree('drag__box__marker_8h_source.html','');
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;visualization_msgs/InteractiveMarker.h&quot;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>rapid {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">// An interactive marker for a box that has a fixed pose but adjustable-length</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// sides. After the user adjusts the side lengths, you can access the sides via</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// min_x, max_x, etc. Note that the pose is not necessarily centered on or</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">// contained in the box. For example, if the pose is at the origin and</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">// min_x=0.05 and max_x = 0.15, then the box is centered x=0.1</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// Usage:</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">//   DragBoxMarker box(&quot;left_hand&quot;, &amp;im_server);</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">//   box.set_pose_stamped(ps);</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">//   box.Show();</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">//   // Wait for user input, e.g., std::cin or waitKey</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">//   double min_x = box.min_x();</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classrapid_1_1DragBoxMarker.html">   27</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid_1_1DragBoxMarker.html">DragBoxMarker</a> {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <a class="code" href="classrapid_1_1DragBoxMarker.html">DragBoxMarker</a>(<span class="keyword">const</span> std::string&amp; name,</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                interactive_markers::InteractiveMarkerServer* im_server);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="keywordtype">void</span> Show();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  <span class="keywordtype">void</span> set_pose_stamped(<span class="keyword">const</span> geometry_msgs::PoseStamped&amp; pose_stamped);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="keywordtype">void</span> set_min_x(<span class="keywordtype">double</span> min_x);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="keywordtype">void</span> set_max_x(<span class="keywordtype">double</span> max_x);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordtype">void</span> set_min_y(<span class="keywordtype">double</span> min_y);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">void</span> set_max_y(<span class="keywordtype">double</span> max_y);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">void</span> set_min_z(<span class="keywordtype">double</span> min_z);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordtype">void</span> set_max_z(<span class="keywordtype">double</span> max_z);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordtype">double</span> min_x();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordtype">double</span> max_x();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordtype">double</span> min_y();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordtype">double</span> max_y();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordtype">double</span> min_z();</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordtype">double</span> max_z();</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="classrapid_1_1DragBoxMarker.html">   38</a></span>&#160;<span class="comment"></span><span class="keyword">class </span><a class="code" href="classrapid_1_1DragBoxMarker.html">DragBoxMarker</a> {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <a class="code" href="classrapid_1_1DragBoxMarker.html#a4e957bfc3d7f30a4dff75fcc8793ad44">DragBoxMarker</a>(<span class="keyword">const</span> std::string&amp; name,</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                interactive_markers::InteractiveMarkerServer* im_server);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="comment">// Update the interactive markers, assuming that min/max_xyz have been set.</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordtype">void</span> Update();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="comment">// Computes min/max_xyz given a new arrow position</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordtype">void</span> UpdateArrow(<span class="keyword">const</span> std::string&amp; axis, <span class="keyword">const</span> std::string&amp; polarity,</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                   <span class="keyword">const</span> geometry_msgs::Point&amp; point);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordtype">void</span> Feedback(</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <span class="keyword">const</span> visualization_msgs::InteractiveMarkerFeedbackConstPtr&amp; feedback);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordtype">void</span> MakeBox(visualization_msgs::InteractiveMarker* box);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordtype">void</span> MakeArrow(<span class="keyword">const</span> std::string&amp; axis, <span class="keyword">const</span> std::string&amp; polarity,</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                 visualization_msgs::InteractiveMarker* arrow);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  std::string name_;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  interactive_markers::InteractiveMarkerServer* im_server_;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  geometry_msgs::PoseStamped pose_stamped_;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keywordtype">double</span> min_x_;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordtype">double</span> max_x_;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordtype">double</span> min_y_;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordtype">double</span> max_y_;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordtype">double</span> min_z_;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keywordtype">double</span> max_z_;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  transform_graph::Graph tf_graph_;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;};</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}  <span class="comment">// namespace rapid</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#endif  // _RAPID_VIZ_DRAG_BOX_MARKER_H_</span></div>
-<div class="ttc" id="classrapid_1_1DragBoxMarker_html"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html">rapid::DragBoxMarker</a></div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8h_source.html#l00027">drag_box_marker.h:27</a></div></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#a1394b37da82274c1f8046c63c116eba2">Show</a>();</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#aa0e19dd6bec3c8ade75b0eeef8052018">Hide</a>();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#af77aa307f9064fc957b812e5e2e8dd30">set_pose_stamped</a>(<span class="keyword">const</span> geometry_msgs::PoseStamped&amp; <a class="code" href="classrapid_1_1DragBoxMarker.html#a7a3067c74972febb5042997699dc1c63">pose_stamped</a>);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#a431682ecb7011742af34165558295bb7">set_min_x</a>(<span class="keywordtype">double</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#a17afaa54b5dd19c60a9d7db6aabeacbc">min_x</a>);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#abc40f35e3029e572ae17bd1105e91180">set_max_x</a>(<span class="keywordtype">double</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#a0aa4e7aa23157ba26a62a996df1cfb73">max_x</a>);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#a60dcefdefecdb2b643c48f32da759684">set_min_y</a>(<span class="keywordtype">double</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#a33755c52954e129ebc7bafb0684517f2">min_y</a>);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#a79d00d3644a2ac4f3ad7d41414184e2b">set_max_y</a>(<span class="keywordtype">double</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#a3040ab12a65f1cba7ab74c1cc585fd3e">max_y</a>);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#a9962aee22a8da69e65780cab1c6a947f">set_min_z</a>(<span class="keywordtype">double</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#add7582451b47cadc2c65dca13f74b83f">min_z</a>);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#a011a202d3e04826bea0d2924c8610537">set_max_z</a>(<span class="keywordtype">double</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#ab531e80f3b290479aebb30a140217b69">max_z</a>);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  geometry_msgs::PoseStamped <a class="code" href="classrapid_1_1DragBoxMarker.html#a7a3067c74972febb5042997699dc1c63">pose_stamped</a>();</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keywordtype">double</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#a17afaa54b5dd19c60a9d7db6aabeacbc">min_x</a>();</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <span class="keywordtype">double</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#a0aa4e7aa23157ba26a62a996df1cfb73">max_x</a>();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  <span class="keywordtype">double</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#a33755c52954e129ebc7bafb0684517f2">min_y</a>();</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  <span class="keywordtype">double</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#a3040ab12a65f1cba7ab74c1cc585fd3e">max_y</a>();</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="keywordtype">double</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#add7582451b47cadc2c65dca13f74b83f">min_z</a>();</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <span class="keywordtype">double</span> <a class="code" href="classrapid_1_1DragBoxMarker.html#ab531e80f3b290479aebb30a140217b69">max_z</a>();</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  <span class="comment">// Update the interactive markers, assuming that min/max_xyz have been set.</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  <span class="keywordtype">void</span> Update();</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  <span class="comment">// Computes min/max_xyz given a new arrow position</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  <span class="keywordtype">void</span> UpdateArrow(<span class="keyword">const</span> std::string&amp; axis, <span class="keyword">const</span> std::string&amp; polarity,</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                   <span class="keyword">const</span> geometry_msgs::Point&amp; point);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  <span class="keywordtype">void</span> Feedback(</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <span class="keyword">const</span> visualization_msgs::InteractiveMarkerFeedbackConstPtr&amp; feedback);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  <span class="keywordtype">void</span> MakeBox(visualization_msgs::InteractiveMarker* box);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  <span class="keywordtype">void</span> MakeArrow(<span class="keyword">const</span> std::string&amp; axis, <span class="keyword">const</span> std::string&amp; polarity,</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                 visualization_msgs::InteractiveMarker* arrow);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  std::string name_;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  interactive_markers::InteractiveMarkerServer* im_server_;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  geometry_msgs::PoseStamped pose_stamped_;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <span class="keywordtype">double</span> min_x_;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  <span class="keywordtype">double</span> max_x_;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  <span class="keywordtype">double</span> min_y_;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  <span class="keywordtype">double</span> max_y_;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  <span class="keywordtype">double</span> min_z_;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  <span class="keywordtype">double</span> max_z_;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  transform_graph::Graph tf_graph_;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;};</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;}  <span class="comment">// namespace rapid</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="preprocessor">#endif  // _RAPID_VIZ_DRAG_BOX_MARKER_H_</span></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html_a0aa4e7aa23157ba26a62a996df1cfb73"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html#a0aa4e7aa23157ba26a62a996df1cfb73">rapid::DragBoxMarker::max_x</a></div><div class="ttdeci">double max_x()</div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8cpp_source.html#l00100">drag_box_marker.cpp:100</a></div></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html_aa0e19dd6bec3c8ade75b0eeef8052018"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html#aa0e19dd6bec3c8ade75b0eeef8052018">rapid::DragBoxMarker::Hide</a></div><div class="ttdeci">void Hide()</div><div class="ttdoc">Erases the marker. </div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8cpp_source.html#l00051">drag_box_marker.cpp:51</a></div></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html_a79d00d3644a2ac4f3ad7d41414184e2b"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html#a79d00d3644a2ac4f3ad7d41414184e2b">rapid::DragBoxMarker::set_max_y</a></div><div class="ttdeci">void set_max_y(double max_y)</div><div class="ttdoc">Sets the maximum y value of the box. </div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8cpp_source.html#l00081">drag_box_marker.cpp:81</a></div></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html_a33755c52954e129ebc7bafb0684517f2"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html#a33755c52954e129ebc7bafb0684517f2">rapid::DragBoxMarker::min_y</a></div><div class="ttdeci">double min_y()</div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8cpp_source.html#l00098">drag_box_marker.cpp:98</a></div></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html">rapid::DragBoxMarker</a></div><div class="ttdoc">An interactive marker for a box with draggable sides. </div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8h_source.html#l00038">drag_box_marker.h:38</a></div></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html_a7a3067c74972febb5042997699dc1c63"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html#a7a3067c74972febb5042997699dc1c63">rapid::DragBoxMarker::pose_stamped</a></div><div class="ttdeci">geometry_msgs::PoseStamped pose_stamped()</div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8cpp_source.html#l00094">drag_box_marker.cpp:94</a></div></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html_a1394b37da82274c1f8046c63c116eba2"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html#a1394b37da82274c1f8046c63c116eba2">rapid::DragBoxMarker::Show</a></div><div class="ttdeci">void Show()</div><div class="ttdoc">Show the marker. </div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8cpp_source.html#l00034">drag_box_marker.cpp:34</a></div></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html_a9962aee22a8da69e65780cab1c6a947f"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html#a9962aee22a8da69e65780cab1c6a947f">rapid::DragBoxMarker::set_min_z</a></div><div class="ttdeci">void set_min_z(double min_z)</div><div class="ttdoc">Sets the minimum z value of the box. </div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8cpp_source.html#l00085">drag_box_marker.cpp:85</a></div></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html_a431682ecb7011742af34165558295bb7"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html#a431682ecb7011742af34165558295bb7">rapid::DragBoxMarker::set_min_x</a></div><div class="ttdeci">void set_min_x(double min_x)</div><div class="ttdoc">Sets the minimum x value of the box. </div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8cpp_source.html#l00069">drag_box_marker.cpp:69</a></div></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html_a3040ab12a65f1cba7ab74c1cc585fd3e"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html#a3040ab12a65f1cba7ab74c1cc585fd3e">rapid::DragBoxMarker::max_y</a></div><div class="ttdeci">double max_y()</div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8cpp_source.html#l00101">drag_box_marker.cpp:101</a></div></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html_ab531e80f3b290479aebb30a140217b69"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html#ab531e80f3b290479aebb30a140217b69">rapid::DragBoxMarker::max_z</a></div><div class="ttdeci">double max_z()</div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8cpp_source.html#l00102">drag_box_marker.cpp:102</a></div></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html_a17afaa54b5dd19c60a9d7db6aabeacbc"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html#a17afaa54b5dd19c60a9d7db6aabeacbc">rapid::DragBoxMarker::min_x</a></div><div class="ttdeci">double min_x()</div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8cpp_source.html#l00097">drag_box_marker.cpp:97</a></div></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html_a60dcefdefecdb2b643c48f32da759684"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html#a60dcefdefecdb2b643c48f32da759684">rapid::DragBoxMarker::set_min_y</a></div><div class="ttdeci">void set_min_y(double min_y)</div><div class="ttdoc">Sets the minimum y value of the box. </div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8cpp_source.html#l00077">drag_box_marker.cpp:77</a></div></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html_abc40f35e3029e572ae17bd1105e91180"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html#abc40f35e3029e572ae17bd1105e91180">rapid::DragBoxMarker::set_max_x</a></div><div class="ttdeci">void set_max_x(double max_x)</div><div class="ttdoc">Sets the maximum x value of the box. </div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8cpp_source.html#l00073">drag_box_marker.cpp:73</a></div></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html_af77aa307f9064fc957b812e5e2e8dd30"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html#af77aa307f9064fc957b812e5e2e8dd30">rapid::DragBoxMarker::set_pose_stamped</a></div><div class="ttdeci">void set_pose_stamped(const geometry_msgs::PoseStamped &amp;pose_stamped)</div><div class="ttdoc">Sets the marker&#39;s pose. </div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8cpp_source.html#l00062">drag_box_marker.cpp:62</a></div></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html_a011a202d3e04826bea0d2924c8610537"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html#a011a202d3e04826bea0d2924c8610537">rapid::DragBoxMarker::set_max_z</a></div><div class="ttdeci">void set_max_z(double max_z)</div><div class="ttdoc">Sets the maximum z value of the box. </div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8cpp_source.html#l00089">drag_box_marker.cpp:89</a></div></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html_add7582451b47cadc2c65dca13f74b83f"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html#add7582451b47cadc2c65dca13f74b83f">rapid::DragBoxMarker::min_z</a></div><div class="ttdeci">double min_z()</div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8cpp_source.html#l00099">drag_box_marker.cpp:99</a></div></div>
+<div class="ttc" id="classrapid_1_1DragBoxMarker_html_a4e957bfc3d7f30a4dff75fcc8793ad44"><div class="ttname"><a href="classrapid_1_1DragBoxMarker.html#a4e957bfc3d7f30a4dff75fcc8793ad44">rapid::DragBoxMarker::DragBoxMarker</a></div><div class="ttdeci">DragBoxMarker(const std::string &amp;name, interactive_markers::InteractiveMarkerServer *im_server)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="drag__box__marker_8cpp_source.html#l00020">drag_box_marker.cpp:20</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_c6ed616797fd829864f033a9f45e46ef.html">rapid_viz</a></li><li class="navelem"><a class="el" href="dir_d3691a6a9ce5a9a7c26f8fddcd1c00d2.html">include</a></li><li class="navelem"><a class="el" href="dir_4992aba0ce7a918c20f420d87f81d1db.html">rapid_viz</a></li><li class="navelem"><b>drag_box_marker.h</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_c6ed616797fd829864f033a9f45e46ef.html">rapid_viz</a></li><li class="navelem"><a class="el" href="dir_d3691a6a9ce5a9a7c26f8fddcd1c00d2.html">include</a></li><li class="navelem"><a class="el" href="dir_4992aba0ce7a918c20f420d87f81d1db.html">rapid_viz</a></li><li class="navelem"><a class="el" href="drag__box__marker_8h.html">drag_box_marker.h</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

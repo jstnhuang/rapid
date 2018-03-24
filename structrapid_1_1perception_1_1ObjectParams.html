@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('structrapid_1_1perception_1_1ObjectPar
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,26 +112,81 @@ $(document).ready(function(){initNavTree('structrapid_1_1perception_1_1ObjectPar
 <div class="title">rapid::perception::ObjectParams Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="scene__parsing_8h_source.html">scene_parsing.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a85bcfd1e5861f3342e2ca5fc3080996e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a85bcfd1e5861f3342e2ca5fc3080996e"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>distance_threshold</b></td></tr>
+<tr class="memitem:a85bcfd1e5861f3342e2ca5fc3080996e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrapid_1_1perception_1_1ObjectParams.html#a85bcfd1e5861f3342e2ca5fc3080996e">distance_threshold</a></td></tr>
 <tr class="separator:a85bcfd1e5861f3342e2ca5fc3080996e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e10ebb6d18df1c34b5c59d59c93fed7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1e10ebb6d18df1c34b5c59d59c93fed7"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>point_color_threshold</b></td></tr>
+<tr class="memitem:a1e10ebb6d18df1c34b5c59d59c93fed7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrapid_1_1perception_1_1ObjectParams.html#a1e10ebb6d18df1c34b5c59d59c93fed7">point_color_threshold</a></td></tr>
 <tr class="separator:a1e10ebb6d18df1c34b5c59d59c93fed7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a477204574a936135ef188e3b95b9c7be"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a477204574a936135ef188e3b95b9c7be"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>region_color_threshold</b></td></tr>
+<tr class="memitem:a477204574a936135ef188e3b95b9c7be"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrapid_1_1perception_1_1ObjectParams.html#a477204574a936135ef188e3b95b9c7be">region_color_threshold</a></td></tr>
 <tr class="separator:a477204574a936135ef188e3b95b9c7be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12fc1e1d1c857478b4aacf40720511dd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a12fc1e1d1c857478b4aacf40720511dd"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>min_cluster_size</b></td></tr>
+<tr class="memitem:a12fc1e1d1c857478b4aacf40720511dd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrapid_1_1perception_1_1ObjectParams.html#a12fc1e1d1c857478b4aacf40720511dd">min_cluster_size</a></td></tr>
 <tr class="separator:a12fc1e1d1c857478b4aacf40720511dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="scene__parsing_8h_source.html#l00029">29</a> of file <a class="el" href="scene__parsing_8h_source.html">scene_parsing.h</a>.</p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a85bcfd1e5861f3342e2ca5fc3080996e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rapid::perception::ObjectParams::distance_threshold</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="scene__parsing_8h_source.html#l00030">30</a> of file <a class="el" href="scene__parsing_8h_source.html">scene_parsing.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a12fc1e1d1c857478b4aacf40720511dd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rapid::perception::ObjectParams::min_cluster_size</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="scene__parsing_8h_source.html#l00033">33</a> of file <a class="el" href="scene__parsing_8h_source.html">scene_parsing.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1e10ebb6d18df1c34b5c59d59c93fed7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rapid::perception::ObjectParams::point_color_threshold</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="scene__parsing_8h_source.html#l00031">31</a> of file <a class="el" href="scene__parsing_8h_source.html">scene_parsing.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a477204574a936135ef188e3b95b9c7be"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rapid::perception::ObjectParams::region_color_threshold</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="scene__parsing_8h_source.html#l00032">32</a> of file <a class="el" href="scene__parsing_8h_source.html">scene_parsing.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li>rapid_perception/include/rapid_perception/<a class="el" href="scene__parsing_8h_source.html">scene_parsing.h</a></li>
 </ul>
 </div><!-- contents -->
@@ -138,8 +194,8 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>min_cluster_size</b
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid</b></li><li class="navelem"><b>perception</b></li><li class="navelem"><a class="el" href="structrapid_1_1perception_1_1ObjectParams.html">ObjectParams</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="namespacerapid_1_1perception.html">perception</a></li><li class="navelem"><a class="el" href="structrapid_1_1perception_1_1ObjectParams.html">ObjectParams</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

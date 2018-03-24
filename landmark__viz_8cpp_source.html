@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('landmark__viz_8cpp_source.html','');})
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,17 +107,17 @@ $(document).ready(function(){initNavTree('landmark__viz_8cpp_source.html','');})
 <div class="title">landmark_viz.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;rapid_viz/landmark_viz.h&quot;</span></div>
+<a href="landmark__viz_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="landmark__viz_8h.html">rapid_viz/landmark_viz.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/PoseStamped.h&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;pcl_ros/transforms.h&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;transform_graph/transform_graph.h&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;rapid_viz/publish.h&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="publish_8h.html">rapid_viz/publish.h</a>&quot;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>viz {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;LandmarkViz::LandmarkViz(<span class="keyword">const</span> ros::Publisher&amp; cloud_pub,</div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1LandmarkViz.html#a271faf5859dd5bb7bd97ecbace4d7f11">   11</a></span>&#160;<a class="code" href="classrapid_1_1viz_1_1LandmarkViz.html#a271faf5859dd5bb7bd97ecbace4d7f11">LandmarkViz::LandmarkViz</a>(<span class="keyword">const</span> ros::Publisher&amp; cloud_pub,</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                         <span class="keyword">const</span> ros::Publisher&amp; marker_pub)</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    : cloud_pub_(cloud_pub),</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;      base_frame_(<span class="stringliteral">&quot;base_link&quot;</span>),</div>
@@ -123,9 +125,9 @@ $(document).ready(function(){initNavTree('landmark__viz_8cpp_source.html','');})
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;      roi_(),</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;      pose_(),</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;      marker_pub_(marker_pub),</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;      box_marker_(Marker::Null()) {}</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;      box_marker_(<a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a>::Null()) {}</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;LandmarkViz::LandmarkViz(<span class="keyword">const</span> ros::Publisher&amp; cloud_pub,</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1LandmarkViz.html#ac5bbe40dfe6610e6dde8c20e83b878bc">   21</a></span>&#160;<a class="code" href="classrapid_1_1viz_1_1LandmarkViz.html#a271faf5859dd5bb7bd97ecbace4d7f11">LandmarkViz::LandmarkViz</a>(<span class="keyword">const</span> ros::Publisher&amp; cloud_pub,</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                         <span class="keyword">const</span> ros::Publisher&amp; marker_pub,</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                         <span class="keyword">const</span> std::string&amp; base_frame)</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    : cloud_pub_(cloud_pub),</div>
@@ -134,9 +136,9 @@ $(document).ready(function(){initNavTree('landmark__viz_8cpp_source.html','');})
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;      roi_(),</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;      pose_(),</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;      marker_pub_(marker_pub),</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;      box_marker_(Marker::Null()) {}</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;      box_marker_(<a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a>::Null()) {}</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordtype">void</span> LandmarkViz::set_landmark(<span class="keyword">const</span> sensor_msgs::PointCloud2&amp; cloud,</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1LandmarkViz.html#a1dc210033c77a205b003046f3dc23eaf">   32</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1viz_1_1LandmarkViz.html#a1dc210033c77a205b003046f3dc23eaf">LandmarkViz::set_landmark</a>(<span class="keyword">const</span> sensor_msgs::PointCloud2&amp; cloud,</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                               <span class="keyword">const</span> rapid_msgs::Roi3D&amp; roi) {</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  cloud_ = cloud;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  roi_ = roi;</div>
@@ -148,10 +150,10 @@ $(document).ready(function(){initNavTree('landmark__viz_8cpp_source.html','');})
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  geometry_msgs::PoseStamped ps;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  ps.header.frame_id = base_frame_;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  ps.pose = pose_;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  box_marker_ = Marker::OutlineBox(&amp;marker_pub_, ps, roi_.dimensions);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  box_marker_ = <a class="code" href="classrapid_1_1viz_1_1Marker.html#a9c9838bae927b84340dc8acc4289d48b">Marker::OutlineBox</a>(&amp;marker_pub_, ps, roi_.dimensions);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keywordtype">void</span> LandmarkViz::UpdatePose(<span class="keyword">const</span> geometry_msgs::Pose&amp; pose) {</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1LandmarkViz.html#abdbff6f54ca9aa0c20d5cc2dd08d5971">   47</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1viz_1_1LandmarkViz.html#abdbff6f54ca9aa0c20d5cc2dd08d5971">LandmarkViz::UpdatePose</a>(<span class="keyword">const</span> geometry_msgs::Pose&amp; pose) {</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  roi_.transform.translation.x = pose.position.x;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  roi_.transform.translation.y = pose.position.y;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  roi_.transform.translation.z = pose.position.z;</div>
@@ -171,26 +173,39 @@ $(document).ready(function(){initNavTree('landmark__viz_8cpp_source.html','');})
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  pose_ = pose;</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keywordtype">void</span> LandmarkViz::Publish() {</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1LandmarkViz.html#a92698eb8050068416719d5f4354ec525">   67</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1viz_1_1LandmarkViz.html#a92698eb8050068416719d5f4354ec525">LandmarkViz::Publish</a>() {</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  sensor_msgs::PointCloud2 transformed_cloud;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  PublishCloud(cloud_pub_, cloud_);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  box_marker_.Publish();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <a class="code" href="namespacerapid_1_1viz.html#a333c32dbe655e3c6eec67ef55574ae88">PublishCloud</a>(cloud_pub_, cloud_);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  box_marker_.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a49d7135203f48bca12d682bda4cfc0b0">Publish</a>();</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keywordtype">void</span> LandmarkViz::Clear() {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  PublishBlankCloud(cloud_pub_);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  box_marker_.Delete();</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1LandmarkViz.html#a621562bed3be36bbca1df18f72e10fab">   74</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1viz_1_1LandmarkViz.html#a621562bed3be36bbca1df18f72e10fab">LandmarkViz::Clear</a>() {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <a class="code" href="namespacerapid_1_1viz.html#a09031f72d99862ae2e106e8101e111df">PublishBlankCloud</a>(cloud_pub_);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  box_marker_.<a class="code" href="classrapid_1_1viz_1_1Marker.html#aa470fee7bc48c502088145033e03cda3">Delete</a>();</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}  <span class="comment">// namespace viz</span></div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}  <span class="comment">// namespace rapid</span></div>
+<div class="ttc" id="classrapid_1_1viz_1_1LandmarkViz_html_a271faf5859dd5bb7bd97ecbace4d7f11"><div class="ttname"><a href="classrapid_1_1viz_1_1LandmarkViz.html#a271faf5859dd5bb7bd97ecbace4d7f11">rapid::viz::LandmarkViz::LandmarkViz</a></div><div class="ttdeci">LandmarkViz(const ros::Publisher &amp;cloud_pub, const ros::Publisher &amp;marker_pub)</div><div class="ttdef"><b>Definition:</b> <a href="landmark__viz_8cpp_source.html#l00011">landmark_viz.cpp:11</a></div></div>
+<div class="ttc" id="namespacerapid_1_1viz_html_a09031f72d99862ae2e106e8101e111df"><div class="ttname"><a href="namespacerapid_1_1viz.html#a09031f72d99862ae2e106e8101e111df">rapid::viz::PublishBlankCloud</a></div><div class="ttdeci">void PublishBlankCloud(const ros::Publisher &amp;pub, const std::string &amp;frame_id=&quot;base_link&quot;)</div><div class="ttdef"><b>Definition:</b> <a href="publish_8cpp_source.html#l00020">publish.cpp:20</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1LandmarkViz_html_abdbff6f54ca9aa0c20d5cc2dd08d5971"><div class="ttname"><a href="classrapid_1_1viz_1_1LandmarkViz.html#abdbff6f54ca9aa0c20d5cc2dd08d5971">rapid::viz::LandmarkViz::UpdatePose</a></div><div class="ttdeci">void UpdatePose(const geometry_msgs::Pose &amp;pose)</div><div class="ttdef"><b>Definition:</b> <a href="landmark__viz_8cpp_source.html#l00047">landmark_viz.cpp:47</a></div></div>
+<div class="ttc" id="landmark__viz_8h_html"><div class="ttname"><a href="landmark__viz_8h.html">landmark_viz.h</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a49d7135203f48bca12d682bda4cfc0b0"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a49d7135203f48bca12d682bda4cfc0b0">rapid::viz::Marker::Publish</a></div><div class="ttdeci">void Publish()</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00254">markers.cpp:254</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html">rapid::viz::Marker</a></div><div class="ttdef"><b>Definition:</b> <a href="markers_8h_source.html#l00032">markers.h:32</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1LandmarkViz_html_a92698eb8050068416719d5f4354ec525"><div class="ttname"><a href="classrapid_1_1viz_1_1LandmarkViz.html#a92698eb8050068416719d5f4354ec525">rapid::viz::LandmarkViz::Publish</a></div><div class="ttdeci">void Publish()</div><div class="ttdef"><b>Definition:</b> <a href="landmark__viz_8cpp_source.html#l00067">landmark_viz.cpp:67</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_aa470fee7bc48c502088145033e03cda3"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#aa470fee7bc48c502088145033e03cda3">rapid::viz::Marker::Delete</a></div><div class="ttdeci">void Delete()</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00261">markers.cpp:261</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1LandmarkViz_html_a1dc210033c77a205b003046f3dc23eaf"><div class="ttname"><a href="classrapid_1_1viz_1_1LandmarkViz.html#a1dc210033c77a205b003046f3dc23eaf">rapid::viz::LandmarkViz::set_landmark</a></div><div class="ttdeci">void set_landmark(const sensor_msgs::PointCloud2 &amp;cloud, const rapid_msgs::Roi3D &amp;roi)</div><div class="ttdef"><b>Definition:</b> <a href="landmark__viz_8cpp_source.html#l00032">landmark_viz.cpp:32</a></div></div>
+<div class="ttc" id="publish_8h_html"><div class="ttname"><a href="publish_8h.html">publish.h</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1LandmarkViz_html_a621562bed3be36bbca1df18f72e10fab"><div class="ttname"><a href="classrapid_1_1viz_1_1LandmarkViz.html#a621562bed3be36bbca1df18f72e10fab">rapid::viz::LandmarkViz::Clear</a></div><div class="ttdeci">void Clear()</div><div class="ttdef"><b>Definition:</b> <a href="landmark__viz_8cpp_source.html#l00074">landmark_viz.cpp:74</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a9c9838bae927b84340dc8acc4289d48b"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a9c9838bae927b84340dc8acc4289d48b">rapid::viz::Marker::OutlineBox</a></div><div class="ttdeci">static Marker OutlineBox(const MarkerPub *pub, const geometry_msgs::PoseStamped &amp;pose, const geometry_msgs::Vector3 &amp;scale)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00111">markers.cpp:111</a></div></div>
+<div class="ttc" id="namespacerapid_1_1viz_html_a333c32dbe655e3c6eec67ef55574ae88"><div class="ttname"><a href="namespacerapid_1_1viz.html#a333c32dbe655e3c6eec67ef55574ae88">rapid::viz::PublishCloud</a></div><div class="ttdeci">void PublishCloud(const ros::Publisher &amp;pub, const sensor_msgs::PointCloud2 &amp;cloud)</div><div class="ttdef"><b>Definition:</b> <a href="publish_8cpp_source.html#l00029">publish.cpp:29</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_c6ed616797fd829864f033a9f45e46ef.html">rapid_viz</a></li><li class="navelem"><a class="el" href="dir_96f9087990b6545fedf172cb8a718d43.html">src</a></li><li class="navelem"><b>landmark_viz.cpp</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_c6ed616797fd829864f033a9f45e46ef.html">rapid_viz</a></li><li class="navelem"><a class="el" href="dir_96f9087990b6545fedf172cb8a718d43.html">src</a></li><li class="navelem"><a class="el" href="landmark__viz_8cpp.html">landmark_viz.cpp</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

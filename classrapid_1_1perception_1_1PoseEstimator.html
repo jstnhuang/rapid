@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid_1_1perception_1_1PoseEstima
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,6 +112,8 @@ $(document).ready(function(){initNavTree('classrapid_1_1perception_1_1PoseEstima
 <div class="title">rapid::perception::PoseEstimator Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="pose__estimation_8h_source.html">pose_estimation.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for rapid::perception::PoseEstimator:</div>
 <div class="dyncontent">
@@ -123,65 +126,405 @@ Inheritance diagram for rapid::perception::PoseEstimator:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:afbc12ea3e1b650e69d47e1d6af45a899"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afbc12ea3e1b650e69d47e1d6af45a899"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>PoseEstimator</b> (<a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html">PoseEstimationHeatMapper</a> *heat_mapper)</td></tr>
+<tr class="memitem:afbc12ea3e1b650e69d47e1d6af45a899"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#afbc12ea3e1b650e69d47e1d6af45a899">PoseEstimator</a> (<a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html">PoseEstimationHeatMapper</a> *<a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#ade431d61c30bc422cd081b9371271340">heat_mapper</a>)</td></tr>
 <tr class="separator:afbc12ea3e1b650e69d47e1d6af45a899"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f22ce951e426d2c5c90a9750a22a6dc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9f22ce951e426d2c5c90a9750a22a6dc"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_scene</b> (pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr scene)</td></tr>
+<tr class="memitem:a9f22ce951e426d2c5c90a9750a22a6dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#a9f22ce951e426d2c5c90a9750a22a6dc">set_scene</a> (pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr scene)</td></tr>
 <tr class="separator:a9f22ce951e426d2c5c90a9750a22a6dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd107a790b7bc110c723e6ab5c0f2505"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acd107a790b7bc110c723e6ab5c0f2505"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_object</b> (const pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr &amp;object)</td></tr>
+<tr class="memitem:acd107a790b7bc110c723e6ab5c0f2505"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#acd107a790b7bc110c723e6ab5c0f2505">set_object</a> (const pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr &amp;object)</td></tr>
 <tr class="separator:acd107a790b7bc110c723e6ab5c0f2505"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adcfdbc0e7f5a9a62940f0eb567428ce2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adcfdbc0e7f5a9a62940f0eb567428ce2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_roi</b> (const rapid_msgs::Roi3D &amp;roi)</td></tr>
+<tr class="memitem:adcfdbc0e7f5a9a62940f0eb567428ce2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#adcfdbc0e7f5a9a62940f0eb567428ce2">set_roi</a> (const rapid_msgs::Roi3D &amp;roi)</td></tr>
 <tr class="separator:adcfdbc0e7f5a9a62940f0eb567428ce2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade431d61c30bc422cd081b9371271340"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ade431d61c30bc422cd081b9371271340"></a>
-<a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html">PoseEstimationHeatMapper</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>heat_mapper</b> ()</td></tr>
+<tr class="memitem:ade431d61c30bc422cd081b9371271340"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html">PoseEstimationHeatMapper</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#ade431d61c30bc422cd081b9371271340">heat_mapper</a> ()</td></tr>
 <tr class="separator:ade431d61c30bc422cd081b9371271340"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5324be552450813f88ee8f7a98c14c95"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5324be552450813f88ee8f7a98c14c95"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_num_candidates</b> (int val)</td></tr>
+<tr class="memitem:a5324be552450813f88ee8f7a98c14c95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#a5324be552450813f88ee8f7a98c14c95">set_num_candidates</a> (int val)</td></tr>
 <tr class="separator:a5324be552450813f88ee8f7a98c14c95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8fcfe0fdbb24ac45a1e53bf1eec74bc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad8fcfe0fdbb24ac45a1e53bf1eec74bc"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_sigma_threshold</b> (double val)</td></tr>
+<tr class="memitem:ad8fcfe0fdbb24ac45a1e53bf1eec74bc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#ad8fcfe0fdbb24ac45a1e53bf1eec74bc">set_sigma_threshold</a> (double val)</td></tr>
 <tr class="separator:ad8fcfe0fdbb24ac45a1e53bf1eec74bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafdd21207bbd3287da05fcf8d6b7340f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aafdd21207bbd3287da05fcf8d6b7340f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_nms_radius</b> (double val)</td></tr>
+<tr class="memitem:aafdd21207bbd3287da05fcf8d6b7340f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#aafdd21207bbd3287da05fcf8d6b7340f">set_nms_radius</a> (double val)</td></tr>
 <tr class="separator:aafdd21207bbd3287da05fcf8d6b7340f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82a74067031c308acea37ac418ea463d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a82a74067031c308acea37ac418ea463d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_fitness_threshold</b> (double val)</td></tr>
+<tr class="memitem:a82a74067031c308acea37ac418ea463d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#a82a74067031c308acea37ac418ea463d">set_fitness_threshold</a> (double val)</td></tr>
 <tr class="separator:a82a74067031c308acea37ac418ea463d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff6cb54b04808b4030d8e895c5f8aee8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aff6cb54b04808b4030d8e895c5f8aee8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_min_results</b> (int val)</td></tr>
+<tr class="memitem:aff6cb54b04808b4030d8e895c5f8aee8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#aff6cb54b04808b4030d8e895c5f8aee8">set_min_results</a> (int val)</td></tr>
 <tr class="separator:aff6cb54b04808b4030d8e895c5f8aee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a88b7045e2f437c723c518218718fb9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8a88b7045e2f437c723c518218718fb9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_debug</b> (bool val)</td></tr>
+<tr class="memitem:a8a88b7045e2f437c723c518218718fb9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#a8a88b7045e2f437c723c518218718fb9">set_debug</a> (bool val)</td></tr>
 <tr class="separator:a8a88b7045e2f437c723c518218718fb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee95a6cbf8923537fb2e8416191b6e1d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aee95a6cbf8923537fb2e8416191b6e1d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_scene_publisher</b> (const ros::Publisher &amp;pub)</td></tr>
+<tr class="memitem:aee95a6cbf8923537fb2e8416191b6e1d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#aee95a6cbf8923537fb2e8416191b6e1d">set_scene_publisher</a> (const ros::Publisher &amp;pub)</td></tr>
 <tr class="separator:aee95a6cbf8923537fb2e8416191b6e1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d26b286e17405c2be28e20f873a9914"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5d26b286e17405c2be28e20f873a9914"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_object_publisher</b> (const ros::Publisher &amp;pub)</td></tr>
+<tr class="memitem:a5d26b286e17405c2be28e20f873a9914"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#a5d26b286e17405c2be28e20f873a9914">set_object_publisher</a> (const ros::Publisher &amp;pub)</td></tr>
 <tr class="separator:a5d26b286e17405c2be28e20f873a9914"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67979719e6f90ce3d7b703def97430b1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67979719e6f90ce3d7b703def97430b1"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_candidates_publisher</b> (const ros::Publisher &amp;pub)</td></tr>
+<tr class="memitem:a67979719e6f90ce3d7b703def97430b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#a67979719e6f90ce3d7b703def97430b1">set_candidates_publisher</a> (const ros::Publisher &amp;pub)</td></tr>
 <tr class="separator:a67979719e6f90ce3d7b703def97430b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07b7fd51d9faf8c340f755eafd414eed"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a07b7fd51d9faf8c340f755eafd414eed"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_alignment_publisher</b> (const ros::Publisher &amp;pub)</td></tr>
+<tr class="memitem:a07b7fd51d9faf8c340f755eafd414eed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#a07b7fd51d9faf8c340f755eafd414eed">set_alignment_publisher</a> (const ros::Publisher &amp;pub)</td></tr>
 <tr class="separator:a07b7fd51d9faf8c340f755eafd414eed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b51536a2557bfc4956af450c7bf20e5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0b51536a2557bfc4956af450c7bf20e5"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_output_publisher</b> (const ros::Publisher &amp;pub)</td></tr>
+<tr class="memitem:a0b51536a2557bfc4956af450c7bf20e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#a0b51536a2557bfc4956af450c7bf20e5">set_output_publisher</a> (const ros::Publisher &amp;pub)</td></tr>
 <tr class="separator:a0b51536a2557bfc4956af450c7bf20e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80945435b91de11f31760278d1d9e24d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a80945435b91de11f31760278d1d9e24d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_marker_publisher</b> (const ros::Publisher &amp;pub)</td></tr>
+<tr class="memitem:a80945435b91de11f31760278d1d9e24d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#a80945435b91de11f31760278d1d9e24d">set_marker_publisher</a> (const ros::Publisher &amp;pub)</td></tr>
 <tr class="separator:a80945435b91de11f31760278d1d9e24d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5eb9001b5ef704f686a4db2f5efd3308"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5eb9001b5ef704f686a4db2f5efd3308"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Find</b> (std::vector&lt; <a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html">PoseEstimationMatch</a> &gt; *matches)</td></tr>
+<tr class="memitem:a5eb9001b5ef704f686a4db2f5efd3308"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html#a5eb9001b5ef704f686a4db2f5efd3308">Find</a> (std::vector&lt; <a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html">PoseEstimationMatch</a> &gt; *matches)</td></tr>
 <tr class="separator:a5eb9001b5ef704f686a4db2f5efd3308"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classrapid_1_1perception_1_1PoseEstimationInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classrapid_1_1perception_1_1PoseEstimationInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classrapid_1_1perception_1_1PoseEstimationInterface.html">rapid::perception::PoseEstimationInterface</a></td></tr>
+<tr class="memitem:a3c82b4e98107102ae7e5911aa9236f27 inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationInterface"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationInterface.html#a3c82b4e98107102ae7e5911aa9236f27">~PoseEstimationInterface</a> ()</td></tr>
+<tr class="separator:a3c82b4e98107102ae7e5911aa9236f27 inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="pose__estimation_8h_source.html#l00049">49</a> of file <a class="el" href="pose__estimation_8h_source.html">pose_estimation.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="afbc12ea3e1b650e69d47e1d6af45a899"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::perception::PoseEstimator::PoseEstimator </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html">PoseEstimationHeatMapper</a> *&#160;</td>
+          <td class="paramname"><em>heat_mapper</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00057">57</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a5eb9001b5ef704f686a4db2f5efd3308"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::PoseEstimator::Find </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html">PoseEstimationMatch</a> &gt; *&#160;</td>
+          <td class="paramname"><em>matches</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid_1_1perception_1_1PoseEstimationInterface.html#afd803be83842ef5d9cf65ad246b57152">rapid::perception::PoseEstimationInterface</a>.</p>
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00152">152</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ade431d61c30bc422cd081b9371271340"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html">PoseEstimationHeatMapper</a> * rapid::perception::PoseEstimator::heat_mapper </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00119">119</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a07b7fd51d9faf8c340f755eafd414eed"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::PoseEstimator::set_alignment_publisher </td>
+          <td>(</td>
+          <td class="paramtype">const ros::Publisher &amp;&#160;</td>
+          <td class="paramname"><em>pub</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00142">142</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a67979719e6f90ce3d7b703def97430b1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::PoseEstimator::set_candidates_publisher </td>
+          <td>(</td>
+          <td class="paramtype">const ros::Publisher &amp;&#160;</td>
+          <td class="paramname"><em>pub</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00139">139</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8a88b7045e2f437c723c518218718fb9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::PoseEstimator::set_debug </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>val</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00121">121</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a82a74067031c308acea37ac418ea463d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::PoseEstimator::set_fitness_threshold </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>val</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00128">128</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a80945435b91de11f31760278d1d9e24d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::PoseEstimator::set_marker_publisher </td>
+          <td>(</td>
+          <td class="paramtype">const ros::Publisher &amp;&#160;</td>
+          <td class="paramname"><em>pub</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00148">148</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aff6cb54b04808b4030d8e895c5f8aee8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::PoseEstimator::set_min_results </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>val</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00131">131</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aafdd21207bbd3287da05fcf8d6b7340f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::PoseEstimator::set_nms_radius </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>val</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00127">127</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5324be552450813f88ee8f7a98c14c95"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::PoseEstimator::set_num_candidates </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>val</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00125">125</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acd107a790b7bc110c723e6ab5c0f2505"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::PoseEstimator::set_object </td>
+          <td>(</td>
+          <td class="paramtype">const pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr &amp;&#160;</td>
+          <td class="paramname"><em>object</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid_1_1perception_1_1PoseEstimationInterface.html#a8a87b7357775ae618189e67261feee6a">rapid::perception::PoseEstimationInterface</a>.</p>
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00079">79</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5d26b286e17405c2be28e20f873a9914"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::PoseEstimator::set_object_publisher </td>
+          <td>(</td>
+          <td class="paramtype">const ros::Publisher &amp;&#160;</td>
+          <td class="paramname"><em>pub</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00136">136</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0b51536a2557bfc4956af450c7bf20e5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::PoseEstimator::set_output_publisher </td>
+          <td>(</td>
+          <td class="paramtype">const ros::Publisher &amp;&#160;</td>
+          <td class="paramname"><em>pub</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00145">145</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adcfdbc0e7f5a9a62940f0eb567428ce2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::PoseEstimator::set_roi </td>
+          <td>(</td>
+          <td class="paramtype">const rapid_msgs::Roi3D &amp;&#160;</td>
+          <td class="paramname"><em>roi</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00097">97</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9f22ce951e426d2c5c90a9750a22a6dc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::PoseEstimator::set_scene </td>
+          <td>(</td>
+          <td class="paramtype">pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr&#160;</td>
+          <td class="paramname"><em>scene</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid_1_1perception_1_1PoseEstimationInterface.html#a6009bbc7545833d0450d4bb0fa9c5543">rapid::perception::PoseEstimationInterface</a>.</p>
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00073">73</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aee95a6cbf8923537fb2e8416191b6e1d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::PoseEstimator::set_scene_publisher </td>
+          <td>(</td>
+          <td class="paramtype">const ros::Publisher &amp;&#160;</td>
+          <td class="paramname"><em>pub</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00133">133</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad8fcfe0fdbb24ac45a1e53bf1eec74bc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::PoseEstimator::set_sigma_threshold </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>val</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation_8cpp_source.html#l00126">126</a> of file <a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>rapid_perception/include/rapid_perception/<a class="el" href="pose__estimation_8h_source.html">pose_estimation.h</a></li>
 <li>rapid_perception/src/<a class="el" href="pose__estimation_8cpp_source.html">pose_estimation.cpp</a></li>
 </ul>
@@ -190,8 +533,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Find</b> (std::vector
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid</b></li><li class="navelem"><b>perception</b></li><li class="navelem"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html">PoseEstimator</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="namespacerapid_1_1perception.html">perception</a></li><li class="navelem"><a class="el" href="classrapid_1_1perception_1_1PoseEstimator.html">PoseEstimator</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('service__client_8h_source.html','');})
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,19 +107,19 @@ $(document).ready(function(){initNavTree('service__client_8h_source.html','');})
 <div class="title">service_client.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_ROS_SERVICE_CLIENT_H_</span></div>
+<a href="service__client_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_ROS_SERVICE_CLIENT_H_</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _RAPID_ROS_SERVICE_CLIENT_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;ros/service_client.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="service__client_8h.html">ros/service_client.h</a>&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>rapid_ros {</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// DECLARATIONS ---------------------------------------------------------------</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> Service&gt;</div>
 <div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1ServiceClientInterface.html">    9</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid__ros_1_1ServiceClientInterface.html">ServiceClientInterface</a> {</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;  <span class="keyword">virtual</span> ~<a class="code" href="classrapid__ros_1_1ServiceClientInterface.html">ServiceClientInterface</a>() {}</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> call(Service&amp; srv) = 0;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> call(<span class="keyword">typename</span> Service::Request&amp; req,</div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1ServiceClientInterface.html#aa34387f2ba6ddec486dc27b35956b2a3">   11</a></span>&#160;  <span class="keyword">virtual</span> <a class="code" href="classrapid__ros_1_1ServiceClientInterface.html#aa34387f2ba6ddec486dc27b35956b2a3">~ServiceClientInterface</a>() {}</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classrapid__ros_1_1ServiceClientInterface.html#a9c5a353f8dd4b371d79cc1ef83a82f9c">call</a>(Service&amp; srv) = 0;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classrapid__ros_1_1ServiceClientInterface.html#a9c5a353f8dd4b371d79cc1ef83a82f9c">call</a>(<span class="keyword">typename</span> Service::Request&amp; req,</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                    <span class="keyword">typename</span> Service::Response&amp; res) = 0;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;};</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
@@ -126,8 +128,8 @@ $(document).ready(function(){initNavTree('service__client_8h_source.html','');})
 <div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1ServiceClient.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid__ros_1_1ServiceClient.html">ServiceClient</a> : <span class="keyword">public</span> <a class="code" href="classrapid__ros_1_1ServiceClientInterface.html">ServiceClientInterface</a>&lt;Service&gt; {</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keyword">explicit</span> <a class="code" href="classrapid__ros_1_1ServiceClient.html">ServiceClient</a>(<span class="keyword">const</span> ros::ServiceClient&amp; client);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> call(Service&amp; srv);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> call(<span class="keyword">typename</span> Service::Request&amp; req,</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classrapid__ros_1_1ServiceClient.html#a9f2c891921dded8ae0c1afe4d7edf0cf">call</a>(Service&amp; srv);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classrapid__ros_1_1ServiceClient.html#a9f2c891921dded8ae0c1afe4d7edf0cf">call</a>(<span class="keyword">typename</span> Service::Request&amp; req,</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                    <span class="keyword">typename</span> Service::Response&amp; res);</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; <span class="keyword">private</span>:</div>
@@ -144,14 +146,14 @@ $(document).ready(function(){initNavTree('service__client_8h_source.html','');})
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> Service&gt;</div>
 <div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1MockServiceClient.html">   38</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid__ros_1_1MockServiceClient.html">MockServiceClient</a> : <span class="keyword">public</span> <a class="code" href="classrapid__ros_1_1ServiceClientInterface.html">ServiceClientInterface</a>&lt;Service&gt; {</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="classrapid__ros_1_1MockServiceClient.html">MockServiceClient</a>();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> call(Service&amp; srv);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> call(<span class="keyword">typename</span> Service::Request&amp; req,</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="classrapid__ros_1_1MockServiceClient.html#a87df12b9fe6b5af69b629413ba3d0ad2">MockServiceClient</a>();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classrapid__ros_1_1MockServiceClient.html#a8e57d86f73431f774f4a7d68e26c2196">call</a>(Service&amp; srv);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classrapid__ros_1_1MockServiceClient.html#a8e57d86f73431f774f4a7d68e26c2196">call</a>(<span class="keyword">typename</span> Service::Request&amp; req,</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                    <span class="keyword">typename</span> Service::Response&amp; res);</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="comment">// Mock methods.</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordtype">void</span> set_success(<span class="keywordtype">bool</span> success);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordtype">void</span> set_response(<span class="keyword">const</span> <span class="keyword">typename</span> Service::Response&amp; response);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid__ros_1_1MockServiceClient.html#ad906c10de6a2e11395087254877233dd">set_success</a>(<span class="keywordtype">bool</span> success);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid__ros_1_1MockServiceClient.html#a1e53b5d5d6acbba156aab6c1e1bd95d3">set_response</a>(<span class="keyword">const</span> <span class="keyword">typename</span> Service::Response&amp; response);</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordtype">bool</span> success_;</div>
@@ -161,26 +163,26 @@ $(document).ready(function(){initNavTree('service__client_8h_source.html','');})
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">// DEFINITIONS ----------------------------------------------------------------</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">// An interface for service clients.</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> Service&gt;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<a class="code" href="classrapid__ros_1_1ServiceClient.html">ServiceClient&lt;Service&gt;::ServiceClient</a>(<span class="keyword">const</span> ros::ServiceClient&amp; client)</div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1ServiceClient.html#af82655c15201710990567b5cfa590d48">   57</a></span>&#160;<a class="code" href="classrapid__ros_1_1ServiceClient.html">ServiceClient&lt;Service&gt;::ServiceClient</a>(<span class="keyword">const</span> ros::ServiceClient&amp; client)</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    : client_(client) {}</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> Service&gt;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keywordtype">bool</span> ServiceClient&lt;Service&gt;::call(Service&amp; srv) {</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1ServiceClient.html#a9f2c891921dded8ae0c1afe4d7edf0cf">   61</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid__ros_1_1ServiceClient.html#a9f2c891921dded8ae0c1afe4d7edf0cf">ServiceClient&lt;Service&gt;::call</a>(Service&amp; srv) {</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordflow">return</span> client_.call(srv);</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> Service&gt;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keywordtype">bool</span> ServiceClient&lt;Service&gt;::call(<span class="keyword">typename</span> Service::Request&amp; req,</div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1ServiceClient.html#ae584f04c1352bfee6debc05c887dfb57">   66</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid__ros_1_1ServiceClient.html#a9f2c891921dded8ae0c1afe4d7edf0cf">ServiceClient&lt;Service&gt;::call</a>(<span class="keyword">typename</span> Service::Request&amp; req,</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                                  <span class="keyword">typename</span> Service::Response&amp; res) {</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordflow">return</span> client_.call(req, res);</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> Service&gt;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;MockServiceClient&lt;Service&gt;::MockServiceClient()</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1MockServiceClient.html#a87df12b9fe6b5af69b629413ba3d0ad2">   72</a></span>&#160;<a class="code" href="classrapid__ros_1_1MockServiceClient.html#a87df12b9fe6b5af69b629413ba3d0ad2">MockServiceClient&lt;Service&gt;::MockServiceClient</a>()</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    : success_(true), response_() {}</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> Service&gt;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keywordtype">bool</span> MockServiceClient&lt;Service&gt;::call(Service&amp; srv) {</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1MockServiceClient.html#a8e57d86f73431f774f4a7d68e26c2196">   76</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid__ros_1_1MockServiceClient.html#a8e57d86f73431f774f4a7d68e26c2196">MockServiceClient&lt;Service&gt;::call</a>(Service&amp; srv) {</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="keywordflow">return</span> call(srv.request, srv.response);</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="comment">// if (!success_) {</span></div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="comment">//  return false;</span></div>
@@ -190,7 +192,7 @@ $(document).ready(function(){initNavTree('service__client_8h_source.html','');})
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> Service&gt;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keywordtype">bool</span> MockServiceClient&lt;Service&gt;::call(<span class="keyword">typename</span> Service::Request&amp; req,</div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1MockServiceClient.html#a29b1b2133ab05caf1ef60223b2cefb6a">   86</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid__ros_1_1MockServiceClient.html#a8e57d86f73431f774f4a7d68e26c2196">MockServiceClient&lt;Service&gt;::call</a>(<span class="keyword">typename</span> Service::Request&amp; req,</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                                      <span class="keyword">typename</span> Service::Response&amp; res) {</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  <span class="keywordflow">if</span> (!success_) {</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
@@ -200,28 +202,36 @@ $(document).ready(function(){initNavTree('service__client_8h_source.html','');})
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;}</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> Service&gt;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="keywordtype">void</span> MockServiceClient&lt;Service&gt;::set_success(<span class="keywordtype">bool</span> success) {</div>
+<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1MockServiceClient.html#ad906c10de6a2e11395087254877233dd">   96</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid__ros_1_1MockServiceClient.html#ad906c10de6a2e11395087254877233dd">MockServiceClient&lt;Service&gt;::set_success</a>(<span class="keywordtype">bool</span> success) {</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  success_ = success;</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;}</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> Service&gt;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="keywordtype">void</span> MockServiceClient&lt;Service&gt;::set_response(</div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1MockServiceClient.html#a1e53b5d5d6acbba156aab6c1e1bd95d3">  101</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid__ros_1_1MockServiceClient.html#a1e53b5d5d6acbba156aab6c1e1bd95d3">MockServiceClient&lt;Service&gt;::set_response</a>(</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">const</span> <span class="keyword">typename</span> Service::Response&amp; response) {</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  response_ = response;</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;}</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;}  <span class="comment">// namespace rapid_ros</span></div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">#endif  // _RAPID_ROS_SERVICE_CLIENT_H_</span></div>
+<div class="ttc" id="classrapid__ros_1_1MockServiceClient_html_ad906c10de6a2e11395087254877233dd"><div class="ttname"><a href="classrapid__ros_1_1MockServiceClient.html#ad906c10de6a2e11395087254877233dd">rapid_ros::MockServiceClient::set_success</a></div><div class="ttdeci">void set_success(bool success)</div><div class="ttdef"><b>Definition:</b> <a href="service__client_8h_source.html#l00096">service_client.h:96</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1ServiceClientInterface_html_aa34387f2ba6ddec486dc27b35956b2a3"><div class="ttname"><a href="classrapid__ros_1_1ServiceClientInterface.html#aa34387f2ba6ddec486dc27b35956b2a3">rapid_ros::ServiceClientInterface::~ServiceClientInterface</a></div><div class="ttdeci">virtual ~ServiceClientInterface()</div><div class="ttdef"><b>Definition:</b> <a href="service__client_8h_source.html#l00011">service_client.h:11</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1MockServiceClient_html_a8e57d86f73431f774f4a7d68e26c2196"><div class="ttname"><a href="classrapid__ros_1_1MockServiceClient.html#a8e57d86f73431f774f4a7d68e26c2196">rapid_ros::MockServiceClient::call</a></div><div class="ttdeci">virtual bool call(Service &amp;srv)</div><div class="ttdef"><b>Definition:</b> <a href="service__client_8h_source.html#l00076">service_client.h:76</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1MockServiceClient_html_a87df12b9fe6b5af69b629413ba3d0ad2"><div class="ttname"><a href="classrapid__ros_1_1MockServiceClient.html#a87df12b9fe6b5af69b629413ba3d0ad2">rapid_ros::MockServiceClient::MockServiceClient</a></div><div class="ttdeci">MockServiceClient()</div><div class="ttdef"><b>Definition:</b> <a href="service__client_8h_source.html#l00072">service_client.h:72</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1ServiceClient_html_a9f2c891921dded8ae0c1afe4d7edf0cf"><div class="ttname"><a href="classrapid__ros_1_1ServiceClient.html#a9f2c891921dded8ae0c1afe4d7edf0cf">rapid_ros::ServiceClient::call</a></div><div class="ttdeci">virtual bool call(Service &amp;srv)</div><div class="ttdef"><b>Definition:</b> <a href="service__client_8h_source.html#l00061">service_client.h:61</a></div></div>
+<div class="ttc" id="service__client_8h_html"><div class="ttname"><a href="service__client_8h.html">service_client.h</a></div></div>
 <div class="ttc" id="classrapid__ros_1_1ServiceClientInterface_html"><div class="ttname"><a href="classrapid__ros_1_1ServiceClientInterface.html">rapid_ros::ServiceClientInterface</a></div><div class="ttdef"><b>Definition:</b> <a href="service__client_8h_source.html#l00009">service_client.h:9</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1MockServiceClient_html_a1e53b5d5d6acbba156aab6c1e1bd95d3"><div class="ttname"><a href="classrapid__ros_1_1MockServiceClient.html#a1e53b5d5d6acbba156aab6c1e1bd95d3">rapid_ros::MockServiceClient::set_response</a></div><div class="ttdeci">void set_response(const typename Service::Response &amp;response)</div><div class="ttdef"><b>Definition:</b> <a href="service__client_8h_source.html#l00101">service_client.h:101</a></div></div>
 <div class="ttc" id="classrapid__ros_1_1MockServiceClient_html"><div class="ttname"><a href="classrapid__ros_1_1MockServiceClient.html">rapid_ros::MockServiceClient</a></div><div class="ttdef"><b>Definition:</b> <a href="service__client_8h_source.html#l00038">service_client.h:38</a></div></div>
 <div class="ttc" id="classrapid__ros_1_1ServiceClient_html"><div class="ttname"><a href="classrapid__ros_1_1ServiceClient.html">rapid_ros::ServiceClient</a></div><div class="ttdef"><b>Definition:</b> <a href="service__client_8h_source.html#l00019">service_client.h:19</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1ServiceClientInterface_html_a9c5a353f8dd4b371d79cc1ef83a82f9c"><div class="ttname"><a href="classrapid__ros_1_1ServiceClientInterface.html#a9c5a353f8dd4b371d79cc1ef83a82f9c">rapid_ros::ServiceClientInterface::call</a></div><div class="ttdeci">virtual bool call(Service &amp;srv)=0</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_0a7b170a4acb12d360b78d8b9c7f1d81.html">rapid_ros</a></li><li class="navelem"><a class="el" href="dir_c484b34104d4b84f74799fed06568198.html">include</a></li><li class="navelem"><a class="el" href="dir_ab29f5c1c64e50326bf37cd190ceb0e0.html">rapid_ros</a></li><li class="navelem"><b>service_client.h</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_0a7b170a4acb12d360b78d8b9c7f1d81.html">rapid_ros</a></li><li class="navelem"><a class="el" href="dir_c484b34104d4b84f74799fed06568198.html">include</a></li><li class="navelem"><a class="el" href="dir_ab29f5c1c64e50326bf37cd190ceb0e0.html">rapid_ros</a></li><li class="navelem"><a class="el" href="service__client_8h.html">service_client.h</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

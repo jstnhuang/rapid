@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('joint__states_8cpp_source.html','');})
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,13 +107,13 @@ $(document).ready(function(){initNavTree('joint__states_8cpp_source.html','');})
 <div class="title">joint_states.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;rapid_pr2/joint_states.h&quot;</span></div>
+<a href="joint__states_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="joint__states_8h.html">rapid_pr2/joint_states.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">namespace </span>pr2 {</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;JointStates::JointStates() : joint_positions_() { Initialize(); }</div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="classrapid_1_1pr2_1_1JointStates.html#ae0e90aaf47007f53d00e6aa6b9c056b7">    5</a></span>&#160;<a class="code" href="classrapid_1_1pr2_1_1JointStates.html#ae0e90aaf47007f53d00e6aa6b9c056b7">JointStates::JointStates</a>() : joint_positions_() { Initialize(); }</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keywordtype">void</span> JointStates::Set(<span class="keyword">const</span> std::map&lt;std::string, double&gt;&amp; joint_positions) {</div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classrapid_1_1pr2_1_1JointStates.html#af93ff47fa4b7f8b012b3d9616f7b47b5">    7</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1pr2_1_1JointStates.html#af93ff47fa4b7f8b012b3d9616f7b47b5">JointStates::Set</a>(<span class="keyword">const</span> std::map&lt;std::string, double&gt;&amp; joint_positions) {</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;  <span class="keywordflow">for</span> (std::map&lt;std::string, double&gt;::const_iterator i =</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;           joint_positions.begin();</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;       i != joint_positions.end(); ++i) {</div>
@@ -119,7 +121,7 @@ $(document).ready(function(){initNavTree('joint__states_8cpp_source.html','');})
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;  }</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;}</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;std::map&lt;std::string, double&gt; JointStates::joint_positions()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classrapid_1_1pr2_1_1JointStates.html#ac7a93aa2530d83867f54560292a2eeb8">   15</a></span>&#160;std::map&lt;std::string, double&gt; <a class="code" href="classrapid_1_1pr2_1_1JointStates.html#ac7a93aa2530d83867f54560292a2eeb8">JointStates::joint_positions</a>()<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  <span class="keywordflow">return</span> joint_positions_;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;}</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
@@ -172,13 +174,17 @@ $(document).ready(function(){initNavTree('joint__states_8cpp_source.html','');})
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}  <span class="comment">// namespace pr2</span></div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}  <span class="comment">// namespace rapid</span></div>
+<div class="ttc" id="classrapid_1_1pr2_1_1JointStates_html_af93ff47fa4b7f8b012b3d9616f7b47b5"><div class="ttname"><a href="classrapid_1_1pr2_1_1JointStates.html#af93ff47fa4b7f8b012b3d9616f7b47b5">rapid::pr2::JointStates::Set</a></div><div class="ttdeci">void Set(const std::map&lt; std::string, double &gt; &amp;joint_positions)</div><div class="ttdef"><b>Definition:</b> <a href="joint__states_8cpp_source.html#l00007">joint_states.cpp:7</a></div></div>
+<div class="ttc" id="classrapid_1_1pr2_1_1JointStates_html_ac7a93aa2530d83867f54560292a2eeb8"><div class="ttname"><a href="classrapid_1_1pr2_1_1JointStates.html#ac7a93aa2530d83867f54560292a2eeb8">rapid::pr2::JointStates::joint_positions</a></div><div class="ttdeci">std::map&lt; std::string, double &gt; joint_positions() const </div><div class="ttdef"><b>Definition:</b> <a href="joint__states_8cpp_source.html#l00015">joint_states.cpp:15</a></div></div>
+<div class="ttc" id="joint__states_8h_html"><div class="ttname"><a href="joint__states_8h.html">joint_states.h</a></div></div>
+<div class="ttc" id="classrapid_1_1pr2_1_1JointStates_html_ae0e90aaf47007f53d00e6aa6b9c056b7"><div class="ttname"><a href="classrapid_1_1pr2_1_1JointStates.html#ae0e90aaf47007f53d00e6aa6b9c056b7">rapid::pr2::JointStates::JointStates</a></div><div class="ttdeci">JointStates()</div><div class="ttdef"><b>Definition:</b> <a href="joint__states_8cpp_source.html#l00005">joint_states.cpp:5</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_49149d62a85156263d42e1f608814b17.html">rapid_pr2</a></li><li class="navelem"><a class="el" href="dir_be83c14fee8647c68273cb0a356634de.html">src</a></li><li class="navelem"><b>joint_states.cpp</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_49149d62a85156263d42e1f608814b17.html">rapid_pr2</a></li><li class="navelem"><a class="el" href="dir_be83c14fee8647c68273cb0a356634de.html">src</a></li><li class="navelem"><a class="el" href="joint__states_8cpp.html">joint_states.cpp</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

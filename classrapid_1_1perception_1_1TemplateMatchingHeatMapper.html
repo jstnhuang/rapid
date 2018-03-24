@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid_1_1perception_1_1TemplateMa
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,6 +112,8 @@ $(document).ready(function(){initNavTree('classrapid_1_1perception_1_1TemplateMa
 <div class="title">rapid::perception::TemplateMatchingHeatMapper Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="template__matching__heat__mapper_8h_source.html">template_matching_heat_mapper.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for rapid::perception::TemplateMatchingHeatMapper:</div>
 <div class="dyncontent">
@@ -123,55 +126,215 @@ Inheritance diagram for rapid::perception::TemplateMatchingHeatMapper:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3c53e4df80246db919d41df6992c50ee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3c53e4df80246db919d41df6992c50ee"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Compute</b> (pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr indices, Eigen::VectorXd *importances)</td></tr>
+<tr class="memitem:ac7cef6a3667d5fc5e5861857e64afff0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1TemplateMatchingHeatMapper.html#ac7cef6a3667d5fc5e5861857e64afff0">TemplateMatchingHeatMapper</a> ()</td></tr>
+<tr class="separator:ac7cef6a3667d5fc5e5861857e64afff0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c53e4df80246db919d41df6992c50ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1TemplateMatchingHeatMapper.html#a3c53e4df80246db919d41df6992c50ee">Compute</a> (pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr indices, Eigen::VectorXd *importances)</td></tr>
 <tr class="separator:a3c53e4df80246db919d41df6992c50ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a114e3b92c29e0972b7bbbe4f2cd20d14"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a114e3b92c29e0972b7bbbe4f2cd20d14"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_scene</b> (pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr scene)</td></tr>
+<tr class="memitem:a114e3b92c29e0972b7bbbe4f2cd20d14"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1TemplateMatchingHeatMapper.html#a114e3b92c29e0972b7bbbe4f2cd20d14">set_scene</a> (pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr scene)</td></tr>
 <tr class="separator:a114e3b92c29e0972b7bbbe4f2cd20d14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78871769693542c170890009e404e5dd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a78871769693542c170890009e404e5dd"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_object</b> (pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr object)</td></tr>
+<tr class="memitem:a78871769693542c170890009e404e5dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1TemplateMatchingHeatMapper.html#a78871769693542c170890009e404e5dd">set_object</a> (pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr object)</td></tr>
 <tr class="separator:a78871769693542c170890009e404e5dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab021be343d73851ab5cb1f2eb31ca2a9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab021be343d73851ab5cb1f2eb31ca2a9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_object_roi</b> (const rapid_msgs::Roi3D &amp;roi)</td></tr>
+<tr class="memitem:ab021be343d73851ab5cb1f2eb31ca2a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1TemplateMatchingHeatMapper.html#ab021be343d73851ab5cb1f2eb31ca2a9">set_object_roi</a> (const rapid_msgs::Roi3D &amp;roi)</td></tr>
 <tr class="separator:ab021be343d73851ab5cb1f2eb31ca2a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf8cb521dad0e02d57a966b93ea38303"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abf8cb521dad0e02d57a966b93ea38303"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_sample_ratio</b> (double val)</td></tr>
+<tr class="memitem:abf8cb521dad0e02d57a966b93ea38303"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1TemplateMatchingHeatMapper.html#abf8cb521dad0e02d57a966b93ea38303">set_sample_ratio</a> (double val)</td></tr>
 <tr class="separator:abf8cb521dad0e02d57a966b93ea38303"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac02feacb1d6dacb9e5988a0e6b06a410"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac02feacb1d6dacb9e5988a0e6b06a410"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_max_samples</b> (int val)</td></tr>
+<tr class="memitem:ac02feacb1d6dacb9e5988a0e6b06a410"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1TemplateMatchingHeatMapper.html#ac02feacb1d6dacb9e5988a0e6b06a410">set_max_samples</a> (int val)</td></tr>
 <tr class="separator:ac02feacb1d6dacb9e5988a0e6b06a410"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html">rapid::perception::PoseEstimationHeatMapper</a></td></tr>
-<tr class="memitem:a8c2f777dce39ade0232c146730cc1c1d inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8c2f777dce39ade0232c146730cc1c1d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_name</b> (const std::string &amp;val)</td></tr>
+<tr class="memitem:a75dadd03400cccdb4d204a5c01b009dc inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html#a75dadd03400cccdb4d204a5c01b009dc">PoseEstimationHeatMapper</a> ()</td></tr>
+<tr class="separator:a75dadd03400cccdb4d204a5c01b009dc inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a310041317fc8bd8ba949d255a98e778a inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html#a310041317fc8bd8ba949d255a98e778a">~PoseEstimationHeatMapper</a> ()</td></tr>
+<tr class="separator:a310041317fc8bd8ba949d255a98e778a inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c2f777dce39ade0232c146730cc1c1d inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html#a8c2f777dce39ade0232c146730cc1c1d">set_name</a> (const std::string &amp;val)</td></tr>
 <tr class="separator:a8c2f777dce39ade0232c146730cc1c1d inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4836a58ed69ce94baae723918356b103 inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4836a58ed69ce94baae723918356b103"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_debug</b> (bool val)</td></tr>
+<tr class="memitem:a4836a58ed69ce94baae723918356b103 inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html#a4836a58ed69ce94baae723918356b103">set_debug</a> (bool val)</td></tr>
 <tr class="separator:a4836a58ed69ce94baae723918356b103 inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e64376358853309ef230f6c3814bb14 inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9e64376358853309ef230f6c3814bb14"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_heatmap_publisher</b> (const ros::Publisher &amp;pub)</td></tr>
+<tr class="memitem:a9e64376358853309ef230f6c3814bb14 inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html#a9e64376358853309ef230f6c3814bb14">set_heatmap_publisher</a> (const ros::Publisher &amp;pub)</td></tr>
 <tr class="separator:a9e64376358853309ef230f6c3814bb14 inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac858dd5349e9b2bc953b1a7be7eb73a1 inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac858dd5349e9b2bc953b1a7be7eb73a1"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> ()</td></tr>
+<tr class="memitem:ac858dd5349e9b2bc953b1a7be7eb73a1 inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html#ac858dd5349e9b2bc953b1a7be7eb73a1">name</a> ()</td></tr>
 <tr class="separator:ac858dd5349e9b2bc953b1a7be7eb73a1 inherit pub_methods_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_attribs_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classrapid_1_1perception_1_1PoseEstimationHeatMapper')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html">rapid::perception::PoseEstimationHeatMapper</a></td></tr>
-<tr class="memitem:a111d9aa2145d682f4210899c67252ef1 inherit pro_attribs_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a111d9aa2145d682f4210899c67252ef1"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name_</b></td></tr>
+<tr class="memitem:a111d9aa2145d682f4210899c67252ef1 inherit pro_attribs_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html#a111d9aa2145d682f4210899c67252ef1">name_</a></td></tr>
 <tr class="separator:a111d9aa2145d682f4210899c67252ef1 inherit pro_attribs_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20751d61e67ece3ef0000e23ed7d96b5 inherit pro_attribs_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a20751d61e67ece3ef0000e23ed7d96b5"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>debug_</b></td></tr>
+<tr class="memitem:a20751d61e67ece3ef0000e23ed7d96b5 inherit pro_attribs_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html#a20751d61e67ece3ef0000e23ed7d96b5">debug_</a></td></tr>
 <tr class="separator:a20751d61e67ece3ef0000e23ed7d96b5 inherit pro_attribs_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f26df90f56f33857629313cab642e5a inherit pro_attribs_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2f26df90f56f33857629313cab642e5a"></a>
-ros::Publisher&#160;</td><td class="memItemRight" valign="bottom"><b>heatmap_pub_</b></td></tr>
+<tr class="memitem:a2f26df90f56f33857629313cab642e5a inherit pro_attribs_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memItemLeft" align="right" valign="top">ros::Publisher&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html#a2f26df90f56f33857629313cab642e5a">heatmap_pub_</a></td></tr>
 <tr class="separator:a2f26df90f56f33857629313cab642e5a inherit pro_attribs_classrapid_1_1perception_1_1PoseEstimationHeatMapper"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="template__matching__heat__mapper_8h_source.html#l00016">16</a> of file <a class="el" href="template__matching__heat__mapper_8h_source.html">template_matching_heat_mapper.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ac7cef6a3667d5fc5e5861857e64afff0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::perception::TemplateMatchingHeatMapper::TemplateMatchingHeatMapper </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="template__matching__heat__mapper_8cpp_source.html#l00027">27</a> of file <a class="el" href="template__matching__heat__mapper_8cpp_source.html">template_matching_heat_mapper.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a3c53e4df80246db919d41df6992c50ee"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::TemplateMatchingHeatMapper::Compute </td>
+          <td>(</td>
+          <td class="paramtype">pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr&#160;</td>
+          <td class="paramname"><em>indices</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::VectorXd *&#160;</td>
+          <td class="paramname"><em>importances</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html#a703ffc4baead34555eff6c3970c46bd3">rapid::perception::PoseEstimationHeatMapper</a>.</p>
+
+<p>Definition at line <a class="el" href="template__matching__heat__mapper_8cpp_source.html#l00034">34</a> of file <a class="el" href="template__matching__heat__mapper_8cpp_source.html">template_matching_heat_mapper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac02feacb1d6dacb9e5988a0e6b06a410"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::TemplateMatchingHeatMapper::set_max_samples </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>val</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="template__matching__heat__mapper_8cpp_source.html#l00134">134</a> of file <a class="el" href="template__matching__heat__mapper_8cpp_source.html">template_matching_heat_mapper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a78871769693542c170890009e404e5dd"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::TemplateMatchingHeatMapper::set_object </td>
+          <td>(</td>
+          <td class="paramtype">pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr&#160;</td>
+          <td class="paramname"><em>object</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html#a0f39d26e09e8bab76798e997e6a8fdd5">rapid::perception::PoseEstimationHeatMapper</a>.</p>
+
+<p>Definition at line <a class="el" href="template__matching__heat__mapper_8cpp_source.html#l00116">116</a> of file <a class="el" href="template__matching__heat__mapper_8cpp_source.html">template_matching_heat_mapper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab021be343d73851ab5cb1f2eb31ca2a9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::TemplateMatchingHeatMapper::set_object_roi </td>
+          <td>(</td>
+          <td class="paramtype">const rapid_msgs::Roi3D &amp;&#160;</td>
+          <td class="paramname"><em>roi</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="template__matching__heat__mapper_8cpp_source.html#l00126">126</a> of file <a class="el" href="template__matching__heat__mapper_8cpp_source.html">template_matching_heat_mapper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abf8cb521dad0e02d57a966b93ea38303"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::TemplateMatchingHeatMapper::set_sample_ratio </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>val</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="template__matching__heat__mapper_8cpp_source.html#l00130">130</a> of file <a class="el" href="template__matching__heat__mapper_8cpp_source.html">template_matching_heat_mapper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a114e3b92c29e0972b7bbbe4f2cd20d14"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::TemplateMatchingHeatMapper::set_scene </td>
+          <td>(</td>
+          <td class="paramtype">pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr&#160;</td>
+          <td class="paramname"><em>scene</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html#a895885cbfcd46199f220922dbb1433bb">rapid::perception::PoseEstimationHeatMapper</a>.</p>
+
+<p>Definition at line <a class="el" href="template__matching__heat__mapper_8cpp_source.html#l00112">112</a> of file <a class="el" href="template__matching__heat__mapper_8cpp_source.html">template_matching_heat_mapper.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>rapid_perception/include/rapid_perception/<a class="el" href="template__matching__heat__mapper_8h_source.html">template_matching_heat_mapper.h</a></li>
 <li>rapid_perception/src/<a class="el" href="template__matching__heat__mapper_8cpp_source.html">template_matching_heat_mapper.cpp</a></li>
 </ul>
@@ -180,8 +343,8 @@ ros::Publisher&#160;</td><td class="memItemRight" valign="bottom"><b>heatmap_pub
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid</b></li><li class="navelem"><b>perception</b></li><li class="navelem"><a class="el" href="classrapid_1_1perception_1_1TemplateMatchingHeatMapper.html">TemplateMatchingHeatMapper</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="namespacerapid_1_1perception.html">perception</a></li><li class="navelem"><a class="el" href="classrapid_1_1perception_1_1TemplateMatchingHeatMapper.html">TemplateMatchingHeatMapper</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

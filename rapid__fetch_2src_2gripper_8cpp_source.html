@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('rapid__fetch_2src_2gripper_8cpp_source
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,47 +107,54 @@ $(document).ready(function(){initNavTree('rapid__fetch_2src_2gripper_8cpp_source
 <div class="title">gripper.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;rapid_fetch/gripper.h&quot;</span></div>
+<a href="rapid__fetch_2src_2gripper_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="rapid__fetch_2include_2rapid__fetch_2gripper_8h.html">rapid_fetch/gripper.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;control_msgs/GripperCommandAction.h&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>fetch {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">const</span> <span class="keywordtype">char</span> Gripper::kGripperAction[] = <span class="stringliteral">&quot;gripper_controller/gripper_action&quot;</span>;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> Gripper::kClosedPosition = 0;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> Gripper::kOpenedPosition = 0.115;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">const</span> <span class="keywordtype">char</span> <a class="code" href="classrapid_1_1fetch_1_1Gripper.html#a505425788b7971fe488594413cd33ba9">Gripper::kGripperAction</a>[] = <span class="stringliteral">&quot;gripper_controller/gripper_action&quot;</span>;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code" href="classrapid_1_1fetch_1_1Gripper.html#a3afe7611aa1ca2ddab14414a2f4af223">Gripper::kClosedPosition</a> = 0;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code" href="classrapid_1_1fetch_1_1Gripper.html#ac950b747fad9936de41cba89dc6aebbe">Gripper::kOpenedPosition</a> = 0.115;</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;Gripper::Gripper() : client_(kGripperAction, true) {</div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classrapid_1_1fetch_1_1Gripper.html#a2bf0868856dc40b155de53ba78b0cadd">   12</a></span>&#160;<a class="code" href="classrapid_1_1fetch_1_1Gripper.html#a2bf0868856dc40b155de53ba78b0cadd">Gripper::Gripper</a>() : client_(kGripperAction, true) {</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  <span class="keywordflow">if</span> (client_.waitForServer(ros::Duration(5.0))) {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    ROS_ERROR(<span class="stringliteral">&quot;Gripper server \&quot;%s\&quot; may not be connected.&quot;</span>, kGripperAction);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    ROS_ERROR(<span class="stringliteral">&quot;Gripper server \&quot;%s\&quot; may not be connected.&quot;</span>, <a class="code" href="classrapid_1_1fetch_1_1Gripper.html#a505425788b7971fe488594413cd33ba9">kGripperAction</a>);</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  }</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keywordtype">bool</span> Gripper::Close(<span class="keywordtype">double</span> max_effort) {</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classrapid_1_1fetch_1_1Gripper.html#ae1b89735481629fa92a996b20163228d">   18</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1fetch_1_1Gripper.html#ae1b89735481629fa92a996b20163228d">Gripper::Close</a>(<span class="keywordtype">double</span> max_effort) {</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  control_msgs::GripperCommandGoal goal;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  goal.command.position = kClosedPosition;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  goal.command.position = <a class="code" href="classrapid_1_1fetch_1_1Gripper.html#a3afe7611aa1ca2ddab14414a2f4af223">kClosedPosition</a>;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  goal.command.max_effort = max_effort;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  client_.sendGoal(goal);</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="keywordflow">return</span> client_.waitForResult(ros::Duration(5.0));</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordtype">bool</span> Gripper::Open(<span class="keywordtype">double</span> max_effort) {</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classrapid_1_1fetch_1_1Gripper.html#ad56dd58657744f2221899e2589a7b750">   26</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1fetch_1_1Gripper.html#ad56dd58657744f2221899e2589a7b750">Gripper::Open</a>(<span class="keywordtype">double</span> max_effort) {</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  control_msgs::GripperCommandGoal goal;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  goal.command.position = kOpenedPosition;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  goal.command.position = <a class="code" href="classrapid_1_1fetch_1_1Gripper.html#ac950b747fad9936de41cba89dc6aebbe">kOpenedPosition</a>;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  goal.command.max_effort = max_effort;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  client_.sendGoal(goal);</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <span class="keywordflow">return</span> client_.waitForResult(ros::Duration(5.0));</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}  <span class="comment">// namespace fetch</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}  <span class="comment">// namespace rapid</span></div>
+<div class="ttc" id="classrapid_1_1fetch_1_1Gripper_html_a3afe7611aa1ca2ddab14414a2f4af223"><div class="ttname"><a href="classrapid_1_1fetch_1_1Gripper.html#a3afe7611aa1ca2ddab14414a2f4af223">rapid::fetch::Gripper::kClosedPosition</a></div><div class="ttdeci">static const double kClosedPosition</div><div class="ttdef"><b>Definition:</b> <a href="rapid__fetch_2include_2rapid__fetch_2gripper_8h_source.html#l00018">gripper.h:18</a></div></div>
+<div class="ttc" id="classrapid_1_1fetch_1_1Gripper_html_ac950b747fad9936de41cba89dc6aebbe"><div class="ttname"><a href="classrapid_1_1fetch_1_1Gripper.html#ac950b747fad9936de41cba89dc6aebbe">rapid::fetch::Gripper::kOpenedPosition</a></div><div class="ttdeci">static const double kOpenedPosition</div><div class="ttdef"><b>Definition:</b> <a href="rapid__fetch_2include_2rapid__fetch_2gripper_8h_source.html#l00019">gripper.h:19</a></div></div>
+<div class="ttc" id="classrapid_1_1fetch_1_1Gripper_html_ae1b89735481629fa92a996b20163228d"><div class="ttname"><a href="classrapid_1_1fetch_1_1Gripper.html#ae1b89735481629fa92a996b20163228d">rapid::fetch::Gripper::Close</a></div><div class="ttdeci">bool Close(double max_effort=0)</div><div class="ttdef"><b>Definition:</b> <a href="rapid__fetch_2src_2gripper_8cpp_source.html#l00018">gripper.cpp:18</a></div></div>
+<div class="ttc" id="classrapid_1_1fetch_1_1Gripper_html_a2bf0868856dc40b155de53ba78b0cadd"><div class="ttname"><a href="classrapid_1_1fetch_1_1Gripper.html#a2bf0868856dc40b155de53ba78b0cadd">rapid::fetch::Gripper::Gripper</a></div><div class="ttdeci">Gripper()</div><div class="ttdef"><b>Definition:</b> <a href="rapid__fetch_2src_2gripper_8cpp_source.html#l00012">gripper.cpp:12</a></div></div>
+<div class="ttc" id="classrapid_1_1fetch_1_1Gripper_html_a505425788b7971fe488594413cd33ba9"><div class="ttname"><a href="classrapid_1_1fetch_1_1Gripper.html#a505425788b7971fe488594413cd33ba9">rapid::fetch::Gripper::kGripperAction</a></div><div class="ttdeci">static const char kGripperAction[]</div><div class="ttdef"><b>Definition:</b> <a href="rapid__fetch_2include_2rapid__fetch_2gripper_8h_source.html#l00017">gripper.h:17</a></div></div>
+<div class="ttc" id="rapid__fetch_2include_2rapid__fetch_2gripper_8h_html"><div class="ttname"><a href="rapid__fetch_2include_2rapid__fetch_2gripper_8h.html">gripper.h</a></div></div>
+<div class="ttc" id="classrapid_1_1fetch_1_1Gripper_html_ad56dd58657744f2221899e2589a7b750"><div class="ttname"><a href="classrapid_1_1fetch_1_1Gripper.html#ad56dd58657744f2221899e2589a7b750">rapid::fetch::Gripper::Open</a></div><div class="ttdeci">bool Open(double max_effort=0)</div><div class="ttdef"><b>Definition:</b> <a href="rapid__fetch_2src_2gripper_8cpp_source.html#l00026">gripper.cpp:26</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_992c15de8bcf25e8f8ba1d8e6e73a50e.html">rapid_fetch</a></li><li class="navelem"><a class="el" href="dir_a417bc10b9ff555c169b0c75adc5b186.html">src</a></li><li class="navelem"><b>gripper.cpp</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_992c15de8bcf25e8f8ba1d8e6e73a50e.html">rapid_fetch</a></li><li class="navelem"><a class="el" href="dir_a417bc10b9ff555c169b0c75adc5b186.html">src</a></li><li class="navelem"><a class="el" href="rapid__fetch_2src_2gripper_8cpp.html">gripper.cpp</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

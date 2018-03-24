@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('rosout__test__helper_8cpp_source.html'
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,40 +107,40 @@ $(document).ready(function(){initNavTree('rosout__test__helper_8cpp_source.html'
 <div class="title">rosout_test_helper.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;rapid_testing/rosout_test_helper.h&quot;</span></div>
+<a href="rosout__test__helper_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="rosout__test__helper_8h.html">rapid_testing/rosout_test_helper.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>rapid {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;RosoutTestHelper::RosoutTestHelper() : nh_(), rosout_sub_(), messages_() {}</div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="classrapid_1_1RosoutTestHelper.html#ac17ccebb0c8685d6e231d141fd35b7fa">    6</a></span>&#160;<a class="code" href="classrapid_1_1RosoutTestHelper.html#ac17ccebb0c8685d6e231d141fd35b7fa">RosoutTestHelper::RosoutTestHelper</a>() : nh_(), rosout_sub_(), messages_() {}</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keywordtype">void</span> RosoutTestHelper::Start() {</div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="classrapid_1_1RosoutTestHelper.html#aee2be5ecb1134fc4b6f266ac57da4709">    8</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1RosoutTestHelper.html#aee2be5ecb1134fc4b6f266ac57da4709">RosoutTestHelper::Start</a>() {</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;  rosout_sub_ = nh_.subscribe(<span class="stringliteral">&quot;/rosout&quot;</span>, 10, &amp;RosoutTestHelper::Callback, <span class="keyword">this</span>);</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;}</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keywordtype">void</span> RosoutTestHelper::Clear() { messages_.clear(); }</div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classrapid_1_1RosoutTestHelper.html#a9b016c237fe023b76d9fc4a15a90f26b">   12</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1RosoutTestHelper.html#a9b016c237fe023b76d9fc4a15a90f26b">RosoutTestHelper::Clear</a>() { messages_.clear(); }</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;std::vector&lt;rosgraph_msgs::Log&gt; RosoutTestHelper::messages()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classrapid_1_1RosoutTestHelper.html#a5fb5fdecf088109b26921bbbffbff379">   14</a></span>&#160;std::vector&lt;rosgraph_msgs::Log&gt; <a class="code" href="classrapid_1_1RosoutTestHelper.html#a5fb5fdecf088109b26921bbbffbff379">RosoutTestHelper::messages</a>()<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  <span class="keywordflow">return</span> messages_;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keywordtype">bool</span> RosoutTestHelper::WasDebugPublished()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classrapid_1_1RosoutTestHelper.html#ac9cda8cffcc3231f36c622a864be9126">   18</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1RosoutTestHelper.html#ac9cda8cffcc3231f36c622a864be9126">RosoutTestHelper::WasDebugPublished</a>()<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <span class="keywordflow">return</span> WasLevelPublished(rosgraph_msgs::Log::DEBUG);</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordtype">bool</span> RosoutTestHelper::WasInfoPublished()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classrapid_1_1RosoutTestHelper.html#a8498928c1a0bb5f98a2afbad52199e00">   22</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1RosoutTestHelper.html#a8498928c1a0bb5f98a2afbad52199e00">RosoutTestHelper::WasInfoPublished</a>()<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="keywordflow">return</span> WasLevelPublished(rosgraph_msgs::Log::INFO);</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordtype">bool</span> RosoutTestHelper::WasWarningPublished()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classrapid_1_1RosoutTestHelper.html#a6ee6880bc26f5bbe8a5df8da4ecb53e4">   26</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1RosoutTestHelper.html#a6ee6880bc26f5bbe8a5df8da4ecb53e4">RosoutTestHelper::WasWarningPublished</a>()<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keywordflow">return</span> WasLevelPublished(rosgraph_msgs::Log::WARN);</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;}</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordtype">bool</span> RosoutTestHelper::WasErrorPublished()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classrapid_1_1RosoutTestHelper.html#aa43fe06154e22b103073dd809fd93782">   30</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1RosoutTestHelper.html#aa43fe06154e22b103073dd809fd93782">RosoutTestHelper::WasErrorPublished</a>()<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <span class="keywordflow">return</span> WasLevelPublished(rosgraph_msgs::Log::ERROR);</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">bool</span> RosoutTestHelper::WasFatalPublished()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classrapid_1_1RosoutTestHelper.html#a5b2ba4c7cbe304010b023638b1e6657c">   34</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1RosoutTestHelper.html#a5b2ba4c7cbe304010b023638b1e6657c">RosoutTestHelper::WasFatalPublished</a>()<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="keywordflow">return</span> WasLevelPublished(rosgraph_msgs::Log::FATAL);</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
@@ -146,7 +148,7 @@ $(document).ready(function(){initNavTree('rosout__test__helper_8cpp_source.html'
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  messages_.push_back(msg);</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keywordtype">bool</span> RosoutTestHelper::WaitForMessageCount(<span class="keywordtype">size_t</span> num_messages,</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classrapid_1_1RosoutTestHelper.html#a4241c696fea033cfbc8789a507b3d674">   42</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1RosoutTestHelper.html#a4241c696fea033cfbc8789a507b3d674">RosoutTestHelper::WaitForMessageCount</a>(<span class="keywordtype">size_t</span> num_messages,</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                                           <span class="keyword">const</span> ros::Duration&amp; timeout)<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  ros::Time start = ros::Time::now();</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">while</span> (ros::Time::now() &lt; start + timeout) {</div>
@@ -168,13 +170,24 @@ $(document).ready(function(){initNavTree('rosout__test__helper_8cpp_source.html'
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}  <span class="comment">// namespace rapid</span></div>
+<div class="ttc" id="classrapid_1_1RosoutTestHelper_html_ac17ccebb0c8685d6e231d141fd35b7fa"><div class="ttname"><a href="classrapid_1_1RosoutTestHelper.html#ac17ccebb0c8685d6e231d141fd35b7fa">rapid::RosoutTestHelper::RosoutTestHelper</a></div><div class="ttdeci">RosoutTestHelper()</div><div class="ttdef"><b>Definition:</b> <a href="rosout__test__helper_8cpp_source.html#l00006">rosout_test_helper.cpp:6</a></div></div>
+<div class="ttc" id="classrapid_1_1RosoutTestHelper_html_a8498928c1a0bb5f98a2afbad52199e00"><div class="ttname"><a href="classrapid_1_1RosoutTestHelper.html#a8498928c1a0bb5f98a2afbad52199e00">rapid::RosoutTestHelper::WasInfoPublished</a></div><div class="ttdeci">bool WasInfoPublished() const </div><div class="ttdef"><b>Definition:</b> <a href="rosout__test__helper_8cpp_source.html#l00022">rosout_test_helper.cpp:22</a></div></div>
+<div class="ttc" id="classrapid_1_1RosoutTestHelper_html_a5fb5fdecf088109b26921bbbffbff379"><div class="ttname"><a href="classrapid_1_1RosoutTestHelper.html#a5fb5fdecf088109b26921bbbffbff379">rapid::RosoutTestHelper::messages</a></div><div class="ttdeci">std::vector&lt; rosgraph_msgs::Log &gt; messages() const </div><div class="ttdef"><b>Definition:</b> <a href="rosout__test__helper_8cpp_source.html#l00014">rosout_test_helper.cpp:14</a></div></div>
+<div class="ttc" id="classrapid_1_1RosoutTestHelper_html_a9b016c237fe023b76d9fc4a15a90f26b"><div class="ttname"><a href="classrapid_1_1RosoutTestHelper.html#a9b016c237fe023b76d9fc4a15a90f26b">rapid::RosoutTestHelper::Clear</a></div><div class="ttdeci">void Clear()</div><div class="ttdef"><b>Definition:</b> <a href="rosout__test__helper_8cpp_source.html#l00012">rosout_test_helper.cpp:12</a></div></div>
+<div class="ttc" id="classrapid_1_1RosoutTestHelper_html_a4241c696fea033cfbc8789a507b3d674"><div class="ttname"><a href="classrapid_1_1RosoutTestHelper.html#a4241c696fea033cfbc8789a507b3d674">rapid::RosoutTestHelper::WaitForMessageCount</a></div><div class="ttdeci">bool WaitForMessageCount(size_t num_messages, const ros::Duration &amp;timeout) const </div><div class="ttdef"><b>Definition:</b> <a href="rosout__test__helper_8cpp_source.html#l00042">rosout_test_helper.cpp:42</a></div></div>
+<div class="ttc" id="rosout__test__helper_8h_html"><div class="ttname"><a href="rosout__test__helper_8h.html">rosout_test_helper.h</a></div></div>
+<div class="ttc" id="classrapid_1_1RosoutTestHelper_html_ac9cda8cffcc3231f36c622a864be9126"><div class="ttname"><a href="classrapid_1_1RosoutTestHelper.html#ac9cda8cffcc3231f36c622a864be9126">rapid::RosoutTestHelper::WasDebugPublished</a></div><div class="ttdeci">bool WasDebugPublished() const </div><div class="ttdef"><b>Definition:</b> <a href="rosout__test__helper_8cpp_source.html#l00018">rosout_test_helper.cpp:18</a></div></div>
+<div class="ttc" id="classrapid_1_1RosoutTestHelper_html_aee2be5ecb1134fc4b6f266ac57da4709"><div class="ttname"><a href="classrapid_1_1RosoutTestHelper.html#aee2be5ecb1134fc4b6f266ac57da4709">rapid::RosoutTestHelper::Start</a></div><div class="ttdeci">void Start()</div><div class="ttdef"><b>Definition:</b> <a href="rosout__test__helper_8cpp_source.html#l00008">rosout_test_helper.cpp:8</a></div></div>
+<div class="ttc" id="classrapid_1_1RosoutTestHelper_html_a5b2ba4c7cbe304010b023638b1e6657c"><div class="ttname"><a href="classrapid_1_1RosoutTestHelper.html#a5b2ba4c7cbe304010b023638b1e6657c">rapid::RosoutTestHelper::WasFatalPublished</a></div><div class="ttdeci">bool WasFatalPublished() const </div><div class="ttdef"><b>Definition:</b> <a href="rosout__test__helper_8cpp_source.html#l00034">rosout_test_helper.cpp:34</a></div></div>
+<div class="ttc" id="classrapid_1_1RosoutTestHelper_html_a6ee6880bc26f5bbe8a5df8da4ecb53e4"><div class="ttname"><a href="classrapid_1_1RosoutTestHelper.html#a6ee6880bc26f5bbe8a5df8da4ecb53e4">rapid::RosoutTestHelper::WasWarningPublished</a></div><div class="ttdeci">bool WasWarningPublished() const </div><div class="ttdef"><b>Definition:</b> <a href="rosout__test__helper_8cpp_source.html#l00026">rosout_test_helper.cpp:26</a></div></div>
+<div class="ttc" id="classrapid_1_1RosoutTestHelper_html_aa43fe06154e22b103073dd809fd93782"><div class="ttname"><a href="classrapid_1_1RosoutTestHelper.html#aa43fe06154e22b103073dd809fd93782">rapid::RosoutTestHelper::WasErrorPublished</a></div><div class="ttdeci">bool WasErrorPublished() const </div><div class="ttdef"><b>Definition:</b> <a href="rosout__test__helper_8cpp_source.html#l00030">rosout_test_helper.cpp:30</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_5d44aee1319fd9bbdd221a3b9395ec74.html">rapid_testing</a></li><li class="navelem"><a class="el" href="dir_c5bbf26b013539b11e56bf2b8640621a.html">src</a></li><li class="navelem"><b>rosout_test_helper.cpp</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_5d44aee1319fd9bbdd221a3b9395ec74.html">rapid_testing</a></li><li class="navelem"><a class="el" href="dir_c5bbf26b013539b11e56bf2b8640621a.html">src</a></li><li class="navelem"><a class="el" href="rosout__test__helper_8cpp.html">rosout_test_helper.cpp</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

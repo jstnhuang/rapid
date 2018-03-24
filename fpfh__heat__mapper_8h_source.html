@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('fpfh__heat__mapper_8h_source.html','')
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +107,7 @@ $(document).ready(function(){initNavTree('fpfh__heat__mapper_8h_source.html','')
 <div class="title">fpfh_heat_mapper.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_PERCEPTION_FPFH_HEAT_MAPPER_H_</span></div>
+<a href="fpfh__heat__mapper_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_PERCEPTION_FPFH_HEAT_MAPPER_H_</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _RAPID_PERCEPTION_FPFH_HEAT_MAPPER_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;Eigen/Core&quot;</span></div>
@@ -115,26 +117,26 @@ $(document).ready(function(){initNavTree('fpfh__heat__mapper_8h_source.html','')
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;pcl/search/kdtree.h&quot;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;rapid_perception/pose_estimation_heat_mapper.h&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pose__estimation__heat__mapper_8h.html">rapid_perception/pose_estimation_heat_mapper.h</a>&quot;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span>perception {</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// Heat mapper that uses FPFH features on the point cloud.</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classrapid_1_1perception_1_1FpfhHeatMapper.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid_1_1perception_1_1FpfhHeatMapper.html">FpfhHeatMapper</a> : <span class="keyword">public</span> <a class="code" href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html">PoseEstimationHeatMapper</a> {</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <a class="code" href="classrapid_1_1perception_1_1FpfhHeatMapper.html">FpfhHeatMapper</a>();</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <a class="code" href="classrapid_1_1perception_1_1FpfhHeatMapper.html#aebd7ff7dcce89b3cef142d570cb737ba">FpfhHeatMapper</a>();</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keywordtype">void</span> Compute(pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr heatmap,</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1FpfhHeatMapper.html#ab27198a7c16ed564d6154bdcae4ef554">Compute</a>(pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr heatmap,</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;               Eigen::VectorXd* importances);</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="keywordtype">void</span> set_scene(pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr scene);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="keywordtype">void</span> set_object(pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr <span class="keywordtype">object</span>);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1FpfhHeatMapper.html#a8eee531fbb12ff27c163925df15aef86">set_scene</a>(pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr scene);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1FpfhHeatMapper.html#acaf83caa4c466eecfedf2b9b2a04da8b">set_object</a>(pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr <span class="keywordtype">object</span>);</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="keywordtype">void</span> set_sample_ratio(<span class="keywordtype">double</span> val);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keywordtype">void</span> set_max_samples(<span class="keywordtype">int</span> val);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="keywordtype">void</span> set_max_sample_radius(<span class="keywordtype">double</span> val);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="keywordtype">void</span> set_max_neighbors(<span class="keywordtype">int</span> val);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <span class="keywordtype">void</span> set_feature_threshold(<span class="keywordtype">double</span> val);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1FpfhHeatMapper.html#a5625761946736982944ca40c5434e0d3">set_sample_ratio</a>(<span class="keywordtype">double</span> val);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1FpfhHeatMapper.html#a24b9c1c697e31e4e4cb6a27f27bc0310">set_max_samples</a>(<span class="keywordtype">int</span> val);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1FpfhHeatMapper.html#ae49f7b2044fac27bd745c45f2a12bd40">set_max_sample_radius</a>(<span class="keywordtype">double</span> val);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1FpfhHeatMapper.html#a9d464307e6d806074d8815122fa3e57b">set_max_neighbors</a>(<span class="keywordtype">int</span> val);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1FpfhHeatMapper.html#ab457c1b51eaa23a72a2d6c7ffa8bf274">set_feature_threshold</a>(<span class="keywordtype">double</span> val);</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keywordtype">void</span> ComputeNormals(pcl::PointCloud&lt;pcl::PointXYZRGBNormal&gt;::Ptr cloud);</div>
@@ -170,20 +172,31 @@ $(document).ready(function(){initNavTree('fpfh__heat__mapper_8h_source.html','')
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;};</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">// Convert a feature to a string for debugging purposes.</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;std::string FpfhFeatureString(<span class="keyword">const</span> pcl::FPFHSignature33&amp; feature);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;std::string <a class="code" href="namespacerapid_1_1perception.html#aa99629a5dd3f9e0af484c97a67acf2fa">FpfhFeatureString</a>(<span class="keyword">const</span> pcl::FPFHSignature33&amp; feature);</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}  <span class="comment">// namespace perception</span></div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}  <span class="comment">// namespace rapid</span></div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">#endif  // _RAPID_PERCEPTION_FPFH_HEAT_MAPPER_H_</span></div>
 <div class="ttc" id="classrapid_1_1perception_1_1PoseEstimationHeatMapper_html"><div class="ttname"><a href="classrapid_1_1perception_1_1PoseEstimationHeatMapper.html">rapid::perception::PoseEstimationHeatMapper</a></div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__heat__mapper_8h_source.html#l00017">pose_estimation_heat_mapper.h:17</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1FpfhHeatMapper_html_aebd7ff7dcce89b3cef142d570cb737ba"><div class="ttname"><a href="classrapid_1_1perception_1_1FpfhHeatMapper.html#aebd7ff7dcce89b3cef142d570cb737ba">rapid::perception::FpfhHeatMapper::FpfhHeatMapper</a></div><div class="ttdeci">FpfhHeatMapper()</div><div class="ttdef"><b>Definition:</b> <a href="fpfh__heat__mapper_8cpp_source.html#l00036">fpfh_heat_mapper.cpp:36</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1FpfhHeatMapper_html_ab27198a7c16ed564d6154bdcae4ef554"><div class="ttname"><a href="classrapid_1_1perception_1_1FpfhHeatMapper.html#ab27198a7c16ed564d6154bdcae4ef554">rapid::perception::FpfhHeatMapper::Compute</a></div><div class="ttdeci">void Compute(pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr heatmap, Eigen::VectorXd *importances)</div><div class="ttdef"><b>Definition:</b> <a href="fpfh__heat__mapper_8cpp_source.html#l00053">fpfh_heat_mapper.cpp:53</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1FpfhHeatMapper_html_ab457c1b51eaa23a72a2d6c7ffa8bf274"><div class="ttname"><a href="classrapid_1_1perception_1_1FpfhHeatMapper.html#ab457c1b51eaa23a72a2d6c7ffa8bf274">rapid::perception::FpfhHeatMapper::set_feature_threshold</a></div><div class="ttdeci">void set_feature_threshold(double val)</div><div class="ttdef"><b>Definition:</b> <a href="fpfh__heat__mapper_8cpp_source.html#l00166">fpfh_heat_mapper.cpp:166</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1FpfhHeatMapper_html_a24b9c1c697e31e4e4cb6a27f27bc0310"><div class="ttname"><a href="classrapid_1_1perception_1_1FpfhHeatMapper.html#a24b9c1c697e31e4e4cb6a27f27bc0310">rapid::perception::FpfhHeatMapper::set_max_samples</a></div><div class="ttdeci">void set_max_samples(int val)</div><div class="ttdef"><b>Definition:</b> <a href="fpfh__heat__mapper_8cpp_source.html#l00161">fpfh_heat_mapper.cpp:161</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1FpfhHeatMapper_html_ae49f7b2044fac27bd745c45f2a12bd40"><div class="ttname"><a href="classrapid_1_1perception_1_1FpfhHeatMapper.html#ae49f7b2044fac27bd745c45f2a12bd40">rapid::perception::FpfhHeatMapper::set_max_sample_radius</a></div><div class="ttdeci">void set_max_sample_radius(double val)</div><div class="ttdef"><b>Definition:</b> <a href="fpfh__heat__mapper_8cpp_source.html#l00162">fpfh_heat_mapper.cpp:162</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1FpfhHeatMapper_html_acaf83caa4c466eecfedf2b9b2a04da8b"><div class="ttname"><a href="classrapid_1_1perception_1_1FpfhHeatMapper.html#acaf83caa4c466eecfedf2b9b2a04da8b">rapid::perception::FpfhHeatMapper::set_object</a></div><div class="ttdeci">void set_object(pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr object)</div><div class="ttdef"><b>Definition:</b> <a href="fpfh__heat__mapper_8cpp_source.html#l00142">fpfh_heat_mapper.cpp:142</a></div></div>
+<div class="ttc" id="namespacerapid_1_1perception_html_aa99629a5dd3f9e0af484c97a67acf2fa"><div class="ttname"><a href="namespacerapid_1_1perception.html#aa99629a5dd3f9e0af484c97a67acf2fa">rapid::perception::FpfhFeatureString</a></div><div class="ttdeci">std::string FpfhFeatureString(const pcl::FPFHSignature33 &amp;feature)</div><div class="ttdef"><b>Definition:</b> <a href="fpfh__heat__mapper_8cpp_source.html#l00196">fpfh_heat_mapper.cpp:196</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1FpfhHeatMapper_html_a5625761946736982944ca40c5434e0d3"><div class="ttname"><a href="classrapid_1_1perception_1_1FpfhHeatMapper.html#a5625761946736982944ca40c5434e0d3">rapid::perception::FpfhHeatMapper::set_sample_ratio</a></div><div class="ttdeci">void set_sample_ratio(double val)</div><div class="ttdef"><b>Definition:</b> <a href="fpfh__heat__mapper_8cpp_source.html#l00160">fpfh_heat_mapper.cpp:160</a></div></div>
 <div class="ttc" id="classrapid_1_1perception_1_1FpfhHeatMapper_html"><div class="ttname"><a href="classrapid_1_1perception_1_1FpfhHeatMapper.html">rapid::perception::FpfhHeatMapper</a></div><div class="ttdef"><b>Definition:</b> <a href="fpfh__heat__mapper_8h_source.html#l00016">fpfh_heat_mapper.h:16</a></div></div>
+<div class="ttc" id="pose__estimation__heat__mapper_8h_html"><div class="ttname"><a href="pose__estimation__heat__mapper_8h.html">pose_estimation_heat_mapper.h</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1FpfhHeatMapper_html_a9d464307e6d806074d8815122fa3e57b"><div class="ttname"><a href="classrapid_1_1perception_1_1FpfhHeatMapper.html#a9d464307e6d806074d8815122fa3e57b">rapid::perception::FpfhHeatMapper::set_max_neighbors</a></div><div class="ttdeci">void set_max_neighbors(int val)</div><div class="ttdef"><b>Definition:</b> <a href="fpfh__heat__mapper_8cpp_source.html#l00165">fpfh_heat_mapper.cpp:165</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1FpfhHeatMapper_html_a8eee531fbb12ff27c163925df15aef86"><div class="ttname"><a href="classrapid_1_1perception_1_1FpfhHeatMapper.html#a8eee531fbb12ff27c163925df15aef86">rapid::perception::FpfhHeatMapper::set_scene</a></div><div class="ttdeci">void set_scene(pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr scene)</div><div class="ttdef"><b>Definition:</b> <a href="fpfh__heat__mapper_8cpp_source.html#l00132">fpfh_heat_mapper.cpp:132</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_f050cd5b5a42f922fefa6101e4fe30c9.html">include</a></li><li class="navelem"><a class="el" href="dir_88ea72b7ce2a238d697cf63b222e5534.html">rapid_perception</a></li><li class="navelem"><b>fpfh_heat_mapper.h</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_f050cd5b5a42f922fefa6101e4fe30c9.html">include</a></li><li class="navelem"><a class="el" href="dir_88ea72b7ce2a238d697cf63b222e5534.html">rapid_perception</a></li><li class="navelem"><a class="el" href="fpfh__heat__mapper_8h.html">fpfh_heat_mapper.h</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

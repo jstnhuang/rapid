@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('image__recognition_8h_source.html','')
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +107,7 @@ $(document).ready(function(){initNavTree('image__recognition_8h_source.html','')
 <div class="title">image_recognition.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_PERCEPTION_IMAGE_RECOGNITION_H_</span></div>
+<a href="image__recognition_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_PERCEPTION_IMAGE_RECOGNITION_H_</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _RAPID_PERCEPTION_IMAGE_RECOGNITION_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
@@ -136,16 +138,16 @@ $(document).ready(function(){initNavTree('image__recognition_8h_source.html','')
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">//    &amp;error);</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classrapid_1_1perception_1_1ImageRecognizer.html">   30</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid_1_1perception_1_1ImageRecognizer.html">ImageRecognizer</a> {</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <a class="code" href="classrapid_1_1perception_1_1ImageRecognizer.html">ImageRecognizer</a>();  <span class="comment">// Do not use, call ImageRecognizer::AlexNet() instead.</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <a class="code" href="classrapid_1_1perception_1_1ImageRecognizer.html">ImageRecognizer</a>(boost::shared_ptr&lt;caffe::Net&lt;float&gt; &gt; feature_extraction_net,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <a class="code" href="classrapid_1_1perception_1_1ImageRecognizer.html#aee6aaa3d809962997386272e7d038449">ImageRecognizer</a>();  <span class="comment">// Do not use, call ImageRecognizer::AlexNet() instead.</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <a class="code" href="classrapid_1_1perception_1_1ImageRecognizer.html#aee6aaa3d809962997386272e7d038449">ImageRecognizer</a>(boost::shared_ptr&lt;caffe::Net&lt;float&gt; &gt; feature_extraction_net,</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                  cv::Mat mean, cv::Size input_geometry, <span class="keywordtype">int</span> num_channels,</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                  <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; labels);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="keywordtype">void</span> set_image(<span class="keyword">const</span> cv::Mat&amp; image);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1ImageRecognizer.html#a9b4375830b9ae73cd7349dafd4dacf02">set_image</a>(<span class="keyword">const</span> cv::Mat&amp; image);</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="comment">// Get a layer as a single vector</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  cv::Mat layer(<span class="keyword">const</span> std::string&amp; layer_name, std::string* error);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  std::vector&lt;std::pair&lt;std::string, float&gt; &gt; predictions(<span class="keywordtype">int</span> num_predictions,</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  cv::Mat <a class="code" href="classrapid_1_1perception_1_1ImageRecognizer.html#abd02e094e7e156ec6a0a9d40bbe9d76e">layer</a>(<span class="keyword">const</span> std::string&amp; layer_name, std::string* error);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  std::vector&lt;std::pair&lt;std::string, float&gt; &gt; <a class="code" href="classrapid_1_1perception_1_1ImageRecognizer.html#a473b151884bc68856a9e4ba0bcdb33f7">predictions</a>(<span class="keywordtype">int</span> num_predictions,</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                                                          std::string* error);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keyword">static</span> <span class="keywordtype">bool</span> AlexNet(std::string model_dir, <a class="code" href="classrapid_1_1perception_1_1ImageRecognizer.html">ImageRecognizer</a>* recognizer,</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1perception_1_1ImageRecognizer.html#a3fa42da2954006d0cccfa084130d0d5b">AlexNet</a>(std::string model_dir, <a class="code" href="classrapid_1_1perception_1_1ImageRecognizer.html">ImageRecognizer</a>* recognizer,</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                      std::string* error);</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; <span class="keyword">private</span>:</div>
@@ -171,27 +173,35 @@ $(document).ready(function(){initNavTree('image__recognition_8h_source.html','')
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keywordtype">bool</span> needs_update_;  <span class="comment">// True if new image.</span></div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;};</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;cv::Mat ReadMeanFile(<span class="keyword">const</span> std::string&amp; mean_file,</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;cv::Mat <a class="code" href="namespacerapid_1_1perception.html#a0955486ab771fb2fc78e0c30b3028214">ReadMeanFile</a>(<span class="keyword">const</span> std::string&amp; mean_file,</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                     <span class="keyword">const</span> cv::Size&amp; input_geometry, <span class="keywordtype">int</span> num_channels,</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                     std::string* error = NULL);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span> PairCompare(<span class="keyword">const</span> std::pair&lt;float, int&gt;&amp; lhs,</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="namespacerapid_1_1perception.html#aa387d900e22ced0cf923d64e16eb58c6">PairCompare</a>(<span class="keyword">const</span> std::pair&lt;float, int&gt;&amp; lhs,</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                        <span class="keyword">const</span> std::pair&lt;float, int&gt;&amp; rhs);</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">/* Return the indices of the top N values of vector v. */</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">static</span> std::vector&lt;int&gt; Argmax(<span class="keyword">const</span> std::vector&lt;float&gt;&amp; v, <span class="keywordtype">int</span> N);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">static</span> std::vector&lt;int&gt; <a class="code" href="namespacerapid_1_1perception.html#adc53dcb55d3f161f241d4934ad279b25">Argmax</a>(<span class="keyword">const</span> std::vector&lt;float&gt;&amp; v, <span class="keywordtype">int</span> N);</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}  <span class="comment">// namespace perception</span></div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}  <span class="comment">// namespace rapid</span></div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#endif  // _RAPID_PERCEPTION_IMAGE_RECOGNITION_H_</span></div>
+<div class="ttc" id="namespacerapid_1_1perception_html_aa387d900e22ced0cf923d64e16eb58c6"><div class="ttname"><a href="namespacerapid_1_1perception.html#aa387d900e22ced0cf923d64e16eb58c6">rapid::perception::PairCompare</a></div><div class="ttdeci">static bool PairCompare(const std::pair&lt; float, int &gt; &amp;lhs, const std::pair&lt; float, int &gt; &amp;rhs)</div></div>
+<div class="ttc" id="namespacerapid_1_1perception_html_adc53dcb55d3f161f241d4934ad279b25"><div class="ttname"><a href="namespacerapid_1_1perception.html#adc53dcb55d3f161f241d4934ad279b25">rapid::perception::Argmax</a></div><div class="ttdeci">static std::vector&lt; int &gt; Argmax(const std::vector&lt; float &gt; &amp;v, int N)</div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1ImageRecognizer_html_a9b4375830b9ae73cd7349dafd4dacf02"><div class="ttname"><a href="classrapid_1_1perception_1_1ImageRecognizer.html#a9b4375830b9ae73cd7349dafd4dacf02">rapid::perception::ImageRecognizer::set_image</a></div><div class="ttdeci">void set_image(const cv::Mat &amp;image)</div><div class="ttdef"><b>Definition:</b> <a href="image__recognition_8cpp_source.html#l00043">image_recognition.cpp:43</a></div></div>
+<div class="ttc" id="namespacerapid_1_1perception_html_a0955486ab771fb2fc78e0c30b3028214"><div class="ttname"><a href="namespacerapid_1_1perception.html#a0955486ab771fb2fc78e0c30b3028214">rapid::perception::ReadMeanFile</a></div><div class="ttdeci">cv::Mat ReadMeanFile(const std::string &amp;mean_file, const cv::Size &amp;input_geometry, int num_channels, std::string *error=NULL)</div><div class="ttdef"><b>Definition:</b> <a href="image__recognition_8cpp_source.html#l00268">image_recognition.cpp:268</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1ImageRecognizer_html_aee6aaa3d809962997386272e7d038449"><div class="ttname"><a href="classrapid_1_1perception_1_1ImageRecognizer.html#aee6aaa3d809962997386272e7d038449">rapid::perception::ImageRecognizer::ImageRecognizer</a></div><div class="ttdeci">ImageRecognizer()</div><div class="ttdef"><b>Definition:</b> <a href="image__recognition_8cpp_source.html#l00024">image_recognition.cpp:24</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1ImageRecognizer_html_abd02e094e7e156ec6a0a9d40bbe9d76e"><div class="ttname"><a href="classrapid_1_1perception_1_1ImageRecognizer.html#abd02e094e7e156ec6a0a9d40bbe9d76e">rapid::perception::ImageRecognizer::layer</a></div><div class="ttdeci">cv::Mat layer(const std::string &amp;layer_name, std::string *error)</div><div class="ttdef"><b>Definition:</b> <a href="image__recognition_8cpp_source.html#l00048">image_recognition.cpp:48</a></div></div>
 <div class="ttc" id="classrapid_1_1perception_1_1ImageRecognizer_html"><div class="ttname"><a href="classrapid_1_1perception_1_1ImageRecognizer.html">rapid::perception::ImageRecognizer</a></div><div class="ttdef"><b>Definition:</b> <a href="image__recognition_8h_source.html#l00030">image_recognition.h:30</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1ImageRecognizer_html_a473b151884bc68856a9e4ba0bcdb33f7"><div class="ttname"><a href="classrapid_1_1perception_1_1ImageRecognizer.html#a473b151884bc68856a9e4ba0bcdb33f7">rapid::perception::ImageRecognizer::predictions</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; std::string, float &gt; &gt; predictions(int num_predictions, std::string *error)</div><div class="ttdef"><b>Definition:</b> <a href="image__recognition_8cpp_source.html#l00082">image_recognition.cpp:82</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1ImageRecognizer_html_a3fa42da2954006d0cccfa084130d0d5b"><div class="ttname"><a href="classrapid_1_1perception_1_1ImageRecognizer.html#a3fa42da2954006d0cccfa084130d0d5b">rapid::perception::ImageRecognizer::AlexNet</a></div><div class="ttdeci">static bool AlexNet(std::string model_dir, ImageRecognizer *recognizer, std::string *error)</div><div class="ttdef"><b>Definition:</b> <a href="image__recognition_8cpp_source.html#l00197">image_recognition.cpp:197</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_f050cd5b5a42f922fefa6101e4fe30c9.html">include</a></li><li class="navelem"><a class="el" href="dir_88ea72b7ce2a238d697cf63b222e5534.html">rapid_perception</a></li><li class="navelem"><b>image_recognition.h</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_f050cd5b5a42f922fefa6101e4fe30c9.html">include</a></li><li class="navelem"><a class="el" href="dir_88ea72b7ce2a238d697cf63b222e5534.html">rapid_perception</a></li><li class="navelem"><a class="el" href="image__recognition_8h.html">image_recognition.h</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

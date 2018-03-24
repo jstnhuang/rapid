@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('pose__estimation__match_8cpp_source.ht
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +107,7 @@ $(document).ready(function(){initNavTree('pose__estimation__match_8cpp_source.ht
 <div class="title">pose_estimation_match.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;rapid_perception/pose_estimation_match.h&quot;</span></div>
+<a href="pose__estimation__match_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pose__estimation__match_8h.html">rapid_perception/pose_estimation_match.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
@@ -118,24 +120,24 @@ $(document).ready(function(){initNavTree('pose__estimation__match_8cpp_source.ht
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;pcl/point_types.h&quot;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;rapid_viz/markers.h&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;rapid_viz/point_cloud.h&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;rapid_viz/publish.h&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="markers_8h.html">rapid_viz/markers.h</a>&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="point__cloud_8h.html">rapid_viz/point_cloud.h</a>&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="publish_8h.html">rapid_viz/publish.h</a>&quot;</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">typedef</span> pcl::PointXYZRGB PointC;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">typedef</span> pcl::PointCloud&lt;PointC&gt; PointCloudC;</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="pose__estimation__match_8cpp.html#a8307f385b73130ae2a6491449e9c2ce1">   18</a></span>&#160;<span class="keyword">typedef</span> pcl::PointXYZRGB <a class="code" href="pose__estimation__match_8cpp.html#a8307f385b73130ae2a6491449e9c2ce1">PointC</a>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="pose__estimation__match_8cpp.html#af5eb6364f41717ab0eaa1389f4ac946b">   19</a></span>&#160;<span class="keyword">typedef</span> pcl::PointCloud&lt;PointC&gt; <a class="code" href="pose__estimation__match_8cpp.html#af5eb6364f41717ab0eaa1389f4ac946b">PointCloudC</a>;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span>perception {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;PoseEstimationMatch::PoseEstimationMatch()</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    : cloud_(new PointCloudC), fitness_(std::numeric_limits&lt;double&gt;::max()) {}</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a31988dbda6dc08ad46502d2d173f0fa5">   23</a></span>&#160;<a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a31988dbda6dc08ad46502d2d173f0fa5">PoseEstimationMatch::PoseEstimationMatch</a>()</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    : cloud_(new <a class="code" href="fpfh__heat__mapper_8cpp.html#af5eb6364f41717ab0eaa1389f4ac946b">PointCloudC</a>), fitness_(std::numeric_limits&lt;double&gt;::max()) {}</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;PoseEstimationMatch::PoseEstimationMatch(PointCloudC::Ptr cloud,</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a31988dbda6dc08ad46502d2d173f0fa5">PoseEstimationMatch::PoseEstimationMatch</a>(PointCloudC::Ptr cloud,</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                                         <span class="keyword">const</span> geometry_msgs::Pose&amp; pose,</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                                         <span class="keyword">const</span> geometry_msgs::Vector3&amp; scale,</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                                         <span class="keywordtype">double</span> fitness)</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    : cloud_(new PointCloudC), pose_(pose), scale_(scale), fitness_(fitness) {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  *cloud_ = *cloud;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    : cloud_(new <a class="code" href="fpfh__heat__mapper_8cpp.html#af5eb6364f41717ab0eaa1389f4ac946b">PointCloudC</a>), pose_(pose), scale_(scale), fitness_(fitness) {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  *cloud_ = *<a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#aadc1ca9230c07ef294629f8bb2312446">cloud</a>;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  Eigen::Vector4f min_pt;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  Eigen::Vector4f max_pt;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  pcl::getMinMax3D(*cloud_, min_pt, max_pt);</div>
@@ -144,26 +146,26 @@ $(document).ready(function(){initNavTree('pose__estimation__match_8cpp_source.ht
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  center_.z = min_pt.z() + (max_pt.z() - min_pt.z()) / 2;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr PoseEstimationMatch::cloud()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#aadc1ca9230c07ef294629f8bb2312446">   40</a></span>&#160;pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#aadc1ca9230c07ef294629f8bb2312446">PoseEstimationMatch::cloud</a>()<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">return</span> cloud_;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;geometry_msgs::Pose PoseEstimationMatch::pose()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> pose_; }</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a5116773473ada16667dc1187600dfed4">   44</a></span>&#160;geometry_msgs::Pose <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a5116773473ada16667dc1187600dfed4">PoseEstimationMatch::pose</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> pose_; }</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;geometry_msgs::Vector3 PoseEstimationMatch::scale()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> scale_; }</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a005ccdc1da57a29c3c8ed55f7ac26109">   46</a></span>&#160;geometry_msgs::Vector3 <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a005ccdc1da57a29c3c8ed55f7ac26109">PoseEstimationMatch::scale</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> scale_; }</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;pcl::PointXYZ PoseEstimationMatch::center()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> center_; }</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a599c66bb1c77676e460561bcd195fad7">   48</a></span>&#160;pcl::PointXYZ <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a599c66bb1c77676e460561bcd195fad7">PoseEstimationMatch::center</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> center_; }</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keywordtype">double</span> PoseEstimationMatch::fitness()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> fitness_; }</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a93990f1a8d7292d5978a5680f42b2dad">   50</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a93990f1a8d7292d5978a5680f42b2dad">PoseEstimationMatch::fitness</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> fitness_; }</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keywordtype">void</span> PoseEstimationMatch::set_fitness(<span class="keywordtype">double</span> fitness) { fitness_ = fitness; }</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a982ba77c0bba8a7e30698b5e7d160dd0">   52</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a982ba77c0bba8a7e30698b5e7d160dd0">PoseEstimationMatch::set_fitness</a>(<span class="keywordtype">double</span> fitness) { fitness_ = <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a93990f1a8d7292d5978a5680f42b2dad">fitness</a>; }</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keywordtype">bool</span> ComparePoseEstimationMatch(<span class="keyword">const</span> PoseEstimationMatch&amp; a,</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                                <span class="keyword">const</span> PoseEstimationMatch&amp; b) {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">return</span> a.fitness() &lt; b.fitness();</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="namespacerapid_1_1perception.html#a542fbddb4b45bf183f6eeffa5f94c0dc">   54</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacerapid_1_1perception.html#a542fbddb4b45bf183f6eeffa5f94c0dc">ComparePoseEstimationMatch</a>(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html">PoseEstimationMatch</a>&amp; a,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                                <span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html">PoseEstimationMatch</a>&amp; b) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">return</span> a.<a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a93990f1a8d7292d5978a5680f42b2dad">fitness</a>() &lt; b.<a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a93990f1a8d7292d5978a5680f42b2dad">fitness</a>();</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keywordtype">void</span> VisualizeMatches(ros::Publisher&amp; pub, ros::Publisher&amp; marker_pub,</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="namespacerapid_1_1perception.html#ac57d932eb30c54494419b34a4fcf830d">   59</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacerapid_1_1perception.html#ac57d932eb30c54494419b34a4fcf830d">VisualizeMatches</a>(ros::Publisher&amp; pub, ros::Publisher&amp; marker_pub,</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                      <span class="keyword">const</span> std::vector&lt;PoseEstimationMatch&gt;&amp; matches) {</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  std::string frame_id = <span class="stringliteral">&quot;&quot;</span>;</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  visualization_msgs::Marker clear;</div>
@@ -173,20 +175,20 @@ $(document).ready(function(){initNavTree('pose__estimation__match_8cpp_source.ht
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    marker_pub.publish(clear);</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  }</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordflow">if</span> (pub) {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    PointCloudC::Ptr output_cloud(<span class="keyword">new</span> PointCloudC);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    PointCloudC::Ptr output_cloud(<span class="keyword">new</span> <a class="code" href="fpfh__heat__mapper_8cpp.html#af5eb6364f41717ab0eaa1389f4ac946b">PointCloudC</a>);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; matches.size(); ++i) {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      <span class="keyword">const</span> PoseEstimationMatch&amp; match = matches[i];</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      viz::ColorizeRandom(match.cloud());</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      *output_cloud += *match.cloud();</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      <span class="keywordflow">if</span> (frame_id == <span class="stringliteral">&quot;&quot;</span> &amp;&amp; match.cloud()-&gt;header.frame_id != <span class="stringliteral">&quot;&quot;</span>) {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        frame_id = match.cloud()-&gt;header.frame_id;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      <span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html">PoseEstimationMatch</a>&amp; match = matches[i];</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      <a class="code" href="namespacerapid_1_1viz.html#afaab86e943230ef2131b23a6aba48c62">viz::ColorizeRandom</a>(match.<a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#aadc1ca9230c07ef294629f8bb2312446">cloud</a>());</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      *output_cloud += *match.<a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#aadc1ca9230c07ef294629f8bb2312446">cloud</a>();</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      <span class="keywordflow">if</span> (frame_id == <span class="stringliteral">&quot;&quot;</span> &amp;&amp; match.<a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#aadc1ca9230c07ef294629f8bb2312446">cloud</a>()-&gt;header.frame_id != <span class="stringliteral">&quot;&quot;</span>) {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        frame_id = match.<a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#aadc1ca9230c07ef294629f8bb2312446">cloud</a>()-&gt;header.frame_id;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      }</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      <span class="keywordflow">if</span> (marker_pub) {</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        geometry_msgs::PoseStamped ps;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        ps.header.frame_id = match.cloud()-&gt;header.frame_id;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        ps.pose = match.pose();</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        visualization_msgs::Marker box = viz::OutlineBox(ps, match.scale());</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        ps.header.frame_id = match.<a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#aadc1ca9230c07ef294629f8bb2312446">cloud</a>()-&gt;header.frame_id;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        ps.pose = match.<a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a5116773473ada16667dc1187600dfed4">pose</a>();</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        visualization_msgs::Marker box = <a class="code" href="namespacerapid_1_1viz.html#a58f477a63a15553599c4d7d97d3dd167">viz::OutlineBox</a>(ps, match.<a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a005ccdc1da57a29c3c8ed55f7ac26109">scale</a>());</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        box.ns = <span class="stringliteral">&quot;output&quot;</span>;</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        box.id = i;</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        box.scale.x = 0.0025;</div>
@@ -210,18 +212,38 @@ $(document).ready(function(){initNavTree('pose__estimation__match_8cpp_source.ht
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    }</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Visualizing matches in frame: %s&quot;</span>, frame_id.c_str());</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    output_cloud-&gt;header.frame_id = frame_id;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    viz::PublishCloud(pub, *output_cloud);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <a class="code" href="namespacerapid_1_1viz.html#a333c32dbe655e3c6eec67ef55574ae88">viz::PublishCloud</a>(pub, *output_cloud);</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  }</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;}</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}  <span class="comment">// namespace perception</span></div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}  <span class="comment">// namespace rapid</span></div>
+<div class="ttc" id="pose__estimation__match_8cpp_html_af5eb6364f41717ab0eaa1389f4ac946b"><div class="ttname"><a href="pose__estimation__match_8cpp.html#af5eb6364f41717ab0eaa1389f4ac946b">PointCloudC</a></div><div class="ttdeci">pcl::PointCloud&lt; PointC &gt; PointCloudC</div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00019">pose_estimation_match.cpp:19</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1PoseEstimationMatch_html_a93990f1a8d7292d5978a5680f42b2dad"><div class="ttname"><a href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a93990f1a8d7292d5978a5680f42b2dad">rapid::perception::PoseEstimationMatch::fitness</a></div><div class="ttdeci">double fitness() const </div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00050">pose_estimation_match.cpp:50</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1PoseEstimationMatch_html"><div class="ttname"><a href="classrapid_1_1perception_1_1PoseEstimationMatch.html">rapid::perception::PoseEstimationMatch</a></div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8h_source.html#l00015">pose_estimation_match.h:15</a></div></div>
+<div class="ttc" id="namespacerapid_1_1viz_html_a58f477a63a15553599c4d7d97d3dd167"><div class="ttname"><a href="namespacerapid_1_1viz.html#a58f477a63a15553599c4d7d97d3dd167">rapid::viz::OutlineBox</a></div><div class="ttdeci">visualization_msgs::Marker OutlineBox(const geometry_msgs::PoseStamped &amp;pose, const geometry_msgs::Vector3 &amp;scale)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00026">markers.cpp:26</a></div></div>
+<div class="ttc" id="fpfh__heat__mapper_8cpp_html_af5eb6364f41717ab0eaa1389f4ac946b"><div class="ttname"><a href="fpfh__heat__mapper_8cpp.html#af5eb6364f41717ab0eaa1389f4ac946b">PointCloudC</a></div><div class="ttdeci">pcl::PointCloud&lt; PointC &gt; PointCloudC</div><div class="ttdef"><b>Definition:</b> <a href="fpfh__heat__mapper_8cpp_source.html#l00026">fpfh_heat_mapper.cpp:26</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1PoseEstimationMatch_html_aadc1ca9230c07ef294629f8bb2312446"><div class="ttname"><a href="classrapid_1_1perception_1_1PoseEstimationMatch.html#aadc1ca9230c07ef294629f8bb2312446">rapid::perception::PoseEstimationMatch::cloud</a></div><div class="ttdeci">pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr cloud() const </div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00040">pose_estimation_match.cpp:40</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1PoseEstimationMatch_html_a5116773473ada16667dc1187600dfed4"><div class="ttname"><a href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a5116773473ada16667dc1187600dfed4">rapid::perception::PoseEstimationMatch::pose</a></div><div class="ttdeci">geometry_msgs::Pose pose() const </div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00044">pose_estimation_match.cpp:44</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1PoseEstimationMatch_html_a005ccdc1da57a29c3c8ed55f7ac26109"><div class="ttname"><a href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a005ccdc1da57a29c3c8ed55f7ac26109">rapid::perception::PoseEstimationMatch::scale</a></div><div class="ttdeci">geometry_msgs::Vector3 scale() const </div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00046">pose_estimation_match.cpp:46</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1PoseEstimationMatch_html_a31988dbda6dc08ad46502d2d173f0fa5"><div class="ttname"><a href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a31988dbda6dc08ad46502d2d173f0fa5">rapid::perception::PoseEstimationMatch::PoseEstimationMatch</a></div><div class="ttdeci">PoseEstimationMatch()</div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00023">pose_estimation_match.cpp:23</a></div></div>
+<div class="ttc" id="namespacerapid_1_1perception_html_a542fbddb4b45bf183f6eeffa5f94c0dc"><div class="ttname"><a href="namespacerapid_1_1perception.html#a542fbddb4b45bf183f6eeffa5f94c0dc">rapid::perception::ComparePoseEstimationMatch</a></div><div class="ttdeci">bool ComparePoseEstimationMatch(const PoseEstimationMatch &amp;a, const PoseEstimationMatch &amp;b)</div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00054">pose_estimation_match.cpp:54</a></div></div>
+<div class="ttc" id="markers_8h_html"><div class="ttname"><a href="markers_8h.html">markers.h</a></div></div>
+<div class="ttc" id="namespacerapid_1_1perception_html_ac57d932eb30c54494419b34a4fcf830d"><div class="ttname"><a href="namespacerapid_1_1perception.html#ac57d932eb30c54494419b34a4fcf830d">rapid::perception::VisualizeMatches</a></div><div class="ttdeci">void VisualizeMatches(ros::Publisher &amp;pub, ros::Publisher &amp;marker_pub, const std::vector&lt; PoseEstimationMatch &gt; &amp;matches)</div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00059">pose_estimation_match.cpp:59</a></div></div>
+<div class="ttc" id="point__cloud_8h_html"><div class="ttname"><a href="point__cloud_8h.html">point_cloud.h</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1PoseEstimationMatch_html_a599c66bb1c77676e460561bcd195fad7"><div class="ttname"><a href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a599c66bb1c77676e460561bcd195fad7">rapid::perception::PoseEstimationMatch::center</a></div><div class="ttdeci">pcl::PointXYZ center() const </div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00048">pose_estimation_match.cpp:48</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1PoseEstimationMatch_html_a982ba77c0bba8a7e30698b5e7d160dd0"><div class="ttname"><a href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a982ba77c0bba8a7e30698b5e7d160dd0">rapid::perception::PoseEstimationMatch::set_fitness</a></div><div class="ttdeci">void set_fitness(double fitness)</div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00052">pose_estimation_match.cpp:52</a></div></div>
+<div class="ttc" id="publish_8h_html"><div class="ttname"><a href="publish_8h.html">publish.h</a></div></div>
+<div class="ttc" id="pose__estimation__match_8cpp_html_a8307f385b73130ae2a6491449e9c2ce1"><div class="ttname"><a href="pose__estimation__match_8cpp.html#a8307f385b73130ae2a6491449e9c2ce1">PointC</a></div><div class="ttdeci">pcl::PointXYZRGB PointC</div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00018">pose_estimation_match.cpp:18</a></div></div>
+<div class="ttc" id="namespacerapid_1_1viz_html_afaab86e943230ef2131b23a6aba48c62"><div class="ttname"><a href="namespacerapid_1_1viz.html#afaab86e943230ef2131b23a6aba48c62">rapid::viz::ColorizeRandom</a></div><div class="ttdeci">void ColorizeRandom(pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr cloud)</div><div class="ttdef"><b>Definition:</b> <a href="point__cloud_8cpp_source.html#l00019">point_cloud.cpp:19</a></div></div>
+<div class="ttc" id="pose__estimation__match_8h_html"><div class="ttname"><a href="pose__estimation__match_8h.html">pose_estimation_match.h</a></div></div>
+<div class="ttc" id="namespacerapid_1_1viz_html_a333c32dbe655e3c6eec67ef55574ae88"><div class="ttname"><a href="namespacerapid_1_1viz.html#a333c32dbe655e3c6eec67ef55574ae88">rapid::viz::PublishCloud</a></div><div class="ttdeci">void PublishCloud(const ros::Publisher &amp;pub, const sensor_msgs::PointCloud2 &amp;cloud)</div><div class="ttdef"><b>Definition:</b> <a href="publish_8cpp_source.html#l00029">publish.cpp:29</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_bb97d22164c4cc09d5879f408b857901.html">src</a></li><li class="navelem"><b>pose_estimation_match.cpp</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_bb97d22164c4cc09d5879f408b857901.html">src</a></li><li class="navelem"><a class="el" href="pose__estimation__match_8cpp.html">pose_estimation_match.cpp</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('pose__estimation__match_8h_source.html
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +107,7 @@ $(document).ready(function(){initNavTree('pose__estimation__match_8h_source.html
 <div class="title">pose_estimation_match.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_POSE_ESTIMATION_MATCH_H_</span></div>
+<a href="pose__estimation__match_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_POSE_ESTIMATION_MATCH_H_</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _RAPID_POSE_ESTIMATION_MATCH_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
@@ -122,19 +124,19 @@ $(document).ready(function(){initNavTree('pose__estimation__match_8h_source.html
 <div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classrapid_1_1perception_1_1PoseEstimationMatch.html">   15</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html">PoseEstimationMatch</a> {</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <span class="comment">// Do not use default constructor except to initialize empty objects.</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html">PoseEstimationMatch</a>();</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html">PoseEstimationMatch</a>(pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr cloud,</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                      <span class="keyword">const</span> geometry_msgs::Pose&amp; pose,</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                      <span class="keyword">const</span> geometry_msgs::Vector3&amp; scale, <span class="keywordtype">double</span> fitness);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr cloud() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a31988dbda6dc08ad46502d2d173f0fa5">PoseEstimationMatch</a>();</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a31988dbda6dc08ad46502d2d173f0fa5">PoseEstimationMatch</a>(pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#aadc1ca9230c07ef294629f8bb2312446">cloud</a>,</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                      <span class="keyword">const</span> geometry_msgs::Pose&amp; <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a5116773473ada16667dc1187600dfed4">pose</a>,</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                      <span class="keyword">const</span> geometry_msgs::Vector3&amp; <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a005ccdc1da57a29c3c8ed55f7ac26109">scale</a>, <span class="keywordtype">double</span> <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a93990f1a8d7292d5978a5680f42b2dad">fitness</a>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#aadc1ca9230c07ef294629f8bb2312446">cloud</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="comment">// Returns the pose of the match.</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  geometry_msgs::Pose pose() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  geometry_msgs::Vector3 scale() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  geometry_msgs::Pose <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a5116773473ada16667dc1187600dfed4">pose</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  geometry_msgs::Vector3 <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a005ccdc1da57a29c3c8ed55f7ac26109">scale</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="comment">// Returns the center point of the point cloud</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  pcl::PointXYZ center() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  pcl::PointXYZ <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a599c66bb1c77676e460561bcd195fad7">center</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="comment">// Returns the ICP fitness score (lower score is a better match).</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="keywordtype">double</span> fitness() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <span class="keywordtype">void</span> set_fitness(<span class="keywordtype">double</span> fitness);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="keywordtype">double</span> <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a93990f1a8d7292d5978a5680f42b2dad">fitness</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a982ba77c0bba8a7e30698b5e7d160dd0">set_fitness</a>(<span class="keywordtype">double</span> fitness);</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr cloud_;</div>
@@ -145,24 +147,33 @@ $(document).ready(function(){initNavTree('pose__estimation__match_8h_source.html
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;};</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">// Returns true if a has a lower fitness score than b.</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordtype">bool</span> ComparePoseEstimationMatch(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html">PoseEstimationMatch</a>&amp; a,</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacerapid_1_1perception.html#a542fbddb4b45bf183f6eeffa5f94c0dc">ComparePoseEstimationMatch</a>(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html">PoseEstimationMatch</a>&amp; a,</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                                <span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1PoseEstimationMatch.html">PoseEstimationMatch</a>&amp; b);</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">// Visualize matches to a PointCloud2 publisher.</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">void</span> VisualizeMatches(ros::Publisher&amp; pub, ros::Publisher&amp; marker_pub,</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacerapid_1_1perception.html#ac57d932eb30c54494419b34a4fcf830d">VisualizeMatches</a>(ros::Publisher&amp; pub, ros::Publisher&amp; marker_pub,</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                      <span class="keyword">const</span> std::vector&lt;PoseEstimationMatch&gt;&amp; matches);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}  <span class="comment">// namespace perception</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}  <span class="comment">// namespace rapid</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#endif  // _RAPID_PERCEPTION_POSE_ESTIMATION_MATCH_H_</span></div>
+<div class="ttc" id="classrapid_1_1perception_1_1PoseEstimationMatch_html_a93990f1a8d7292d5978a5680f42b2dad"><div class="ttname"><a href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a93990f1a8d7292d5978a5680f42b2dad">rapid::perception::PoseEstimationMatch::fitness</a></div><div class="ttdeci">double fitness() const </div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00050">pose_estimation_match.cpp:50</a></div></div>
 <div class="ttc" id="classrapid_1_1perception_1_1PoseEstimationMatch_html"><div class="ttname"><a href="classrapid_1_1perception_1_1PoseEstimationMatch.html">rapid::perception::PoseEstimationMatch</a></div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8h_source.html#l00015">pose_estimation_match.h:15</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1PoseEstimationMatch_html_aadc1ca9230c07ef294629f8bb2312446"><div class="ttname"><a href="classrapid_1_1perception_1_1PoseEstimationMatch.html#aadc1ca9230c07ef294629f8bb2312446">rapid::perception::PoseEstimationMatch::cloud</a></div><div class="ttdeci">pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr cloud() const </div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00040">pose_estimation_match.cpp:40</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1PoseEstimationMatch_html_a5116773473ada16667dc1187600dfed4"><div class="ttname"><a href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a5116773473ada16667dc1187600dfed4">rapid::perception::PoseEstimationMatch::pose</a></div><div class="ttdeci">geometry_msgs::Pose pose() const </div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00044">pose_estimation_match.cpp:44</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1PoseEstimationMatch_html_a005ccdc1da57a29c3c8ed55f7ac26109"><div class="ttname"><a href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a005ccdc1da57a29c3c8ed55f7ac26109">rapid::perception::PoseEstimationMatch::scale</a></div><div class="ttdeci">geometry_msgs::Vector3 scale() const </div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00046">pose_estimation_match.cpp:46</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1PoseEstimationMatch_html_a31988dbda6dc08ad46502d2d173f0fa5"><div class="ttname"><a href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a31988dbda6dc08ad46502d2d173f0fa5">rapid::perception::PoseEstimationMatch::PoseEstimationMatch</a></div><div class="ttdeci">PoseEstimationMatch()</div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00023">pose_estimation_match.cpp:23</a></div></div>
+<div class="ttc" id="namespacerapid_1_1perception_html_a542fbddb4b45bf183f6eeffa5f94c0dc"><div class="ttname"><a href="namespacerapid_1_1perception.html#a542fbddb4b45bf183f6eeffa5f94c0dc">rapid::perception::ComparePoseEstimationMatch</a></div><div class="ttdeci">bool ComparePoseEstimationMatch(const PoseEstimationMatch &amp;a, const PoseEstimationMatch &amp;b)</div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00054">pose_estimation_match.cpp:54</a></div></div>
+<div class="ttc" id="namespacerapid_1_1perception_html_ac57d932eb30c54494419b34a4fcf830d"><div class="ttname"><a href="namespacerapid_1_1perception.html#ac57d932eb30c54494419b34a4fcf830d">rapid::perception::VisualizeMatches</a></div><div class="ttdeci">void VisualizeMatches(ros::Publisher &amp;pub, ros::Publisher &amp;marker_pub, const std::vector&lt; PoseEstimationMatch &gt; &amp;matches)</div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00059">pose_estimation_match.cpp:59</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1PoseEstimationMatch_html_a599c66bb1c77676e460561bcd195fad7"><div class="ttname"><a href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a599c66bb1c77676e460561bcd195fad7">rapid::perception::PoseEstimationMatch::center</a></div><div class="ttdeci">pcl::PointXYZ center() const </div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00048">pose_estimation_match.cpp:48</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1PoseEstimationMatch_html_a982ba77c0bba8a7e30698b5e7d160dd0"><div class="ttname"><a href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a982ba77c0bba8a7e30698b5e7d160dd0">rapid::perception::PoseEstimationMatch::set_fitness</a></div><div class="ttdeci">void set_fitness(double fitness)</div><div class="ttdef"><b>Definition:</b> <a href="pose__estimation__match_8cpp_source.html#l00052">pose_estimation_match.cpp:52</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_f050cd5b5a42f922fefa6101e4fe30c9.html">include</a></li><li class="navelem"><a class="el" href="dir_88ea72b7ce2a238d697cf63b222e5534.html">rapid_perception</a></li><li class="navelem"><b>pose_estimation_match.h</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_f050cd5b5a42f922fefa6101e4fe30c9.html">include</a></li><li class="navelem"><a class="el" href="dir_88ea72b7ce2a238d697cf63b222e5534.html">rapid_perception</a></li><li class="navelem"><a class="el" href="pose__estimation__match_8h.html">pose_estimation_match.h</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

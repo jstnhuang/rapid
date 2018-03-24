@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('hsurface_8h_source.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +107,7 @@ $(document).ready(function(){initNavTree('hsurface_8h_source.html','');});
 <div class="title">hsurface.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_PERCEPTION_HSURFACE_H_</span></div>
+<a href="hsurface_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_PERCEPTION_HSURFACE_H_</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _RAPID_PERCEPTION_HSURFACE_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
@@ -117,7 +119,7 @@ $(document).ready(function(){initNavTree('hsurface_8h_source.html','');});
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;pcl/point_cloud.h&quot;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;pcl/point_types.h&quot;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;rapid_perception/object.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="object_8h.html">rapid_perception/object.h</a>&quot;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span>perception {</div>
@@ -126,31 +128,31 @@ $(document).ready(function(){initNavTree('hsurface_8h_source.html','');});
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// its scale gives the dimensions in the x, y, and z directions.</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classrapid_1_1perception_1_1HSurface.html">   20</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid_1_1perception_1_1HSurface.html">HSurface</a> {</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <a class="code" href="classrapid_1_1perception_1_1HSurface.html">HSurface</a>();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <a class="code" href="classrapid_1_1perception_1_1HSurface.html#a3a1c0bf5827d9021f41e62c60dc099f5">HSurface</a>();</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="comment">// Add an object to this HSurface.</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <span class="keywordtype">void</span> AddObject(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1Object.html">Object</a>&amp; <span class="keywordtype">object</span>);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1HSurface.html#a458d5eee73c049dab62a1c75bb70b88b">AddObject</a>(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1Object.html">Object</a>&amp; <span class="keywordtype">object</span>);</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="comment">// Get a PointCloud representation of this HSurface.</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr GetCloud() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr <a class="code" href="classrapid_1_1perception_1_1HSurface.html#a30c746d49390feef5a4dbfeb141a0079">GetCloud</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <span class="comment">// Set the point cloud containing this HSurface, and the indices of that point</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <span class="comment">// cloud representing this HSurface.</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="keywordtype">void</span> SetCloud(<span class="keyword">const</span> pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::ConstPtr&amp; cloud,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1HSurface.html#aaaa2914bd6b955bbe0ec4d82d9a237b3">SetCloud</a>(<span class="keyword">const</span> pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::ConstPtr&amp; cloud,</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="keyword">const</span> pcl::PointIndices::ConstPtr&amp; indices);</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="comment">// Finds an object by name. Returns false if the object does not exist.</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="keywordtype">bool</span> GetObject(<span class="keyword">const</span> std::string&amp; name, <a class="code" href="classrapid_1_1perception_1_1Object.html">Object</a>* <span class="keywordtype">object</span>);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1perception_1_1HSurface.html#a3cd5a2061263193002f6a85a9ac98827">GetObject</a>(<span class="keyword">const</span> std::string&amp; <a class="code" href="classrapid_1_1perception_1_1HSurface.html#a375beff48ae74ab8d28796f63d2baba0">name</a>, <a class="code" href="classrapid_1_1perception_1_1Object.html">Object</a>* <span class="keywordtype">object</span>);</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="comment">// Getters / setters.</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  std::string name() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  geometry_msgs::PoseStamped pose() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  geometry_msgs::Vector3 scale() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  std::string <a class="code" href="classrapid_1_1perception_1_1HSurface.html#a375beff48ae74ab8d28796f63d2baba0">name</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  geometry_msgs::PoseStamped <a class="code" href="classrapid_1_1perception_1_1HSurface.html#a7782e69e791fc76dca7d399f7a45c1f8">pose</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  geometry_msgs::Vector3 <a class="code" href="classrapid_1_1perception_1_1HSurface.html#abb3d4954d7f61d8a3d56f60c4fa57979">scale</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordtype">void</span> set_name(<span class="keyword">const</span> std::string&amp; name);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordtype">void</span> set_pose(<span class="keyword">const</span> geometry_msgs::PoseStamped&amp; ps);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordtype">void</span> set_scale(<span class="keyword">const</span> geometry_msgs::Vector3&amp; scale);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  std::vector&lt;Object&gt; objects() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1HSurface.html#a16413ee5d0cac57dbcb93e79bf1b13fd">set_name</a>(<span class="keyword">const</span> std::string&amp; name);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1HSurface.html#af11934c262b42dbff038c44609a327b5">set_pose</a>(<span class="keyword">const</span> geometry_msgs::PoseStamped&amp; ps);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1HSurface.html#acc997c3adc8707f00e2c9d0b0df9fbcb">set_scale</a>(<span class="keyword">const</span> geometry_msgs::Vector3&amp; scale);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  std::vector&lt;Object&gt; <a class="code" href="classrapid_1_1perception_1_1HSurface.html#a6dfd0fcbb66f1a6114b84003523102f8">objects</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="comment">// void Visualize();</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
@@ -174,14 +176,27 @@ $(document).ready(function(){initNavTree('hsurface_8h_source.html','');});
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#endif  // _RAPID_PERCEPTION_HSURFACE_H_</span></div>
 <div class="ttc" id="classrapid_1_1perception_1_1Object_html"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a></div><div class="ttdef"><b>Definition:</b> <a href="object_8h_source.html#l00015">object.h:15</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurface_html_a3a1c0bf5827d9021f41e62c60dc099f5"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html#a3a1c0bf5827d9021f41e62c60dc099f5">rapid::perception::HSurface::HSurface</a></div><div class="ttdeci">HSurface()</div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8cpp_source.html#l00024">hsurface.cpp:24</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurface_html_a16413ee5d0cac57dbcb93e79bf1b13fd"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html#a16413ee5d0cac57dbcb93e79bf1b13fd">rapid::perception::HSurface::set_name</a></div><div class="ttdeci">void set_name(const std::string &amp;name)</div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8cpp_source.html#l00057">hsurface.cpp:57</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurface_html_a7782e69e791fc76dca7d399f7a45c1f8"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html#a7782e69e791fc76dca7d399f7a45c1f8">rapid::perception::HSurface::pose</a></div><div class="ttdeci">geometry_msgs::PoseStamped pose() const </div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8cpp_source.html#l00053">hsurface.cpp:53</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurface_html_af11934c262b42dbff038c44609a327b5"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html#af11934c262b42dbff038c44609a327b5">rapid::perception::HSurface::set_pose</a></div><div class="ttdeci">void set_pose(const geometry_msgs::PoseStamped &amp;ps)</div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8cpp_source.html#l00058">hsurface.cpp:58</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurface_html_acc997c3adc8707f00e2c9d0b0df9fbcb"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html#acc997c3adc8707f00e2c9d0b0df9fbcb">rapid::perception::HSurface::set_scale</a></div><div class="ttdeci">void set_scale(const geometry_msgs::Vector3 &amp;scale)</div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8cpp_source.html#l00059">hsurface.cpp:59</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurface_html_a30c746d49390feef5a4dbfeb141a0079"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html#a30c746d49390feef5a4dbfeb141a0079">rapid::perception::HSurface::GetCloud</a></div><div class="ttdeci">pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr GetCloud() const </div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8cpp_source.html#l00029">hsurface.cpp:29</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurface_html_a375beff48ae74ab8d28796f63d2baba0"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html#a375beff48ae74ab8d28796f63d2baba0">rapid::perception::HSurface::name</a></div><div class="ttdeci">std::string name() const </div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8cpp_source.html#l00052">hsurface.cpp:52</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurface_html_abb3d4954d7f61d8a3d56f60c4fa57979"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html#abb3d4954d7f61d8a3d56f60c4fa57979">rapid::perception::HSurface::scale</a></div><div class="ttdeci">geometry_msgs::Vector3 scale() const </div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8cpp_source.html#l00054">hsurface.cpp:54</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurface_html_a3cd5a2061263193002f6a85a9ac98827"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html#a3cd5a2061263193002f6a85a9ac98827">rapid::perception::HSurface::GetObject</a></div><div class="ttdeci">bool GetObject(const std::string &amp;name, Object *object)</div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8cpp_source.html#l00040">hsurface.cpp:40</a></div></div>
+<div class="ttc" id="object_8h_html"><div class="ttname"><a href="object_8h.html">object.h</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurface_html_a6dfd0fcbb66f1a6114b84003523102f8"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html#a6dfd0fcbb66f1a6114b84003523102f8">rapid::perception::HSurface::objects</a></div><div class="ttdeci">std::vector&lt; Object &gt; objects() const </div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8cpp_source.html#l00055">hsurface.cpp:55</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurface_html_a458d5eee73c049dab62a1c75bb70b88b"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html#a458d5eee73c049dab62a1c75bb70b88b">rapid::perception::HSurface::AddObject</a></div><div class="ttdeci">void AddObject(const Object &amp;object)</div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8cpp_source.html#l00027">hsurface.cpp:27</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurface_html_aaaa2914bd6b955bbe0ec4d82d9a237b3"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html#aaaa2914bd6b955bbe0ec4d82d9a237b3">rapid::perception::HSurface::SetCloud</a></div><div class="ttdeci">void SetCloud(const pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::ConstPtr &amp;cloud, const pcl::PointIndices::ConstPtr &amp;indices)</div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8cpp_source.html#l00034">hsurface.cpp:34</a></div></div>
 <div class="ttc" id="classrapid_1_1perception_1_1HSurface_html"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html">rapid::perception::HSurface</a></div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8h_source.html#l00020">hsurface.h:20</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_f050cd5b5a42f922fefa6101e4fe30c9.html">include</a></li><li class="navelem"><a class="el" href="dir_88ea72b7ce2a238d697cf63b222e5534.html">rapid_perception</a></li><li class="navelem"><b>hsurface.h</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_f050cd5b5a42f922fefa6101e4fe30c9.html">include</a></li><li class="navelem"><a class="el" href="dir_88ea72b7ce2a238d697cf63b222e5534.html">rapid_perception</a></li><li class="navelem"><a class="el" href="hsurface_8h.html">hsurface.h</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

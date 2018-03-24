@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('rapid__ros_2README_8md.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,27 +107,30 @@ $(document).ready(function(){initNavTree('rapid__ros_2README_8md.html','');});
 <div class="title">rapid_ros/README.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor"># rapid_ros</span></div>
+<a href="rapid__ros_2README_8md.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor"># rapid_ros</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;rapid_ros contains utilities <span class="keywordflow">for</span> common ROS features.</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;## ROS Parameters</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;When <span class="keyword">using</span> ROS parameters, it is preferred to set all parameters in a config file and not specify any <span class="keywordflow">default</span> values in the code.</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;Use functions like rapid::GetStringParamOrThrow, rapid::GetDoubleParamOrThrow, etc. to read parameters from the ROS parameter server.</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;Use functions like <a class="code" href="namespacerapid.html#ac9689007843a29cb7d33d98ec1855a97">rapid::GetStringParamOrThrow</a>, <a class="code" href="namespacerapid.html#af79bc2f180907784f37aaa2a375164c2">rapid::GetDoubleParamOrThrow</a>, etc. to read parameters from the ROS parameter server.</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;These will <span class="keywordflow">throw</span> a runtime error <span class="keywordflow">if</span> the parameter does not exist.</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;~~~cpp</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;rapid_ros/params.h&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="params_8h.html">rapid_ros/params.h</a>&quot;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordtype">double</span> foo = rapid::GetDoubleParamOrThrow(<span class="stringliteral">&quot;foo&quot;</span>);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordtype">double</span> foo = <a class="code" href="namespacerapid.html#af79bc2f180907784f37aaa2a375164c2">rapid::GetDoubleParamOrThrow</a>(<span class="stringliteral">&quot;foo&quot;</span>);</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;~~~</div>
+<div class="ttc" id="namespacerapid_html_af79bc2f180907784f37aaa2a375164c2"><div class="ttname"><a href="namespacerapid.html#af79bc2f180907784f37aaa2a375164c2">rapid::GetDoubleParamOrThrow</a></div><div class="ttdeci">double GetDoubleParamOrThrow(const std::string &amp;name)</div><div class="ttdoc">Gets a double from the parameter server. </div><div class="ttdef"><b>Definition:</b> <a href="params_8cpp_source.html#l00027">params.cpp:27</a></div></div>
+<div class="ttc" id="params_8h_html"><div class="ttname"><a href="params_8h.html">params.h</a></div></div>
+<div class="ttc" id="namespacerapid_html_ac9689007843a29cb7d33d98ec1855a97"><div class="ttname"><a href="namespacerapid.html#ac9689007843a29cb7d33d98ec1855a97">rapid::GetStringParamOrThrow</a></div><div class="ttdeci">std::string GetStringParamOrThrow(const std::string &amp;name)</div><div class="ttdoc">Gets a string from the parameter server. </div><div class="ttdef"><b>Definition:</b> <a href="params_8cpp_source.html#l00019">params.cpp:19</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>README.md</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="rapid__ros_2README_8md.html">README.md</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

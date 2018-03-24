@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('pr2__gripper_8h_source.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,10 +107,10 @@ $(document).ready(function(){initNavTree('pr2__gripper_8h_source.html','');});
 <div class="title">pr2_gripper.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_VIZ_PR2_GRIPPER_H_</span></div>
+<a href="pr2__gripper_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_VIZ_PR2_GRIPPER_H_</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _RAPID_VIZ_PR2_GRIPPER_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="math_8h.html">math.h</a>&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/PoseStamped.h&quot;</span></div>
@@ -118,35 +120,41 @@ $(document).ready(function(){initNavTree('pr2__gripper_8h_source.html','');});
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>viz {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* PR2_GRIPPER_PALM_URI =</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="namespacerapid_1_1viz.html#acc79337e9ef42612e4b5f5a96f9bac42">   14</a></span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="namespacerapid_1_1viz.html#acc79337e9ef42612e4b5f5a96f9bac42">PR2_GRIPPER_PALM_URI</a> =</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="stringliteral">&quot;package://pr2_description/meshes/gripper_v0/gripper_palm.dae&quot;</span>;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* PR2_GRIPPER_FINGER_URI =</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="namespacerapid_1_1viz.html#a955fd59200a4728e7ea25830bc45ef82">   16</a></span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="namespacerapid_1_1viz.html#a955fd59200a4728e7ea25830bc45ef82">PR2_GRIPPER_FINGER_URI</a> =</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="stringliteral">&quot;package://pr2_description/meshes/gripper_v0/l_finger.dae&quot;</span>;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* PR2_GRIPPER_FINGERTIP_URI =</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="namespacerapid_1_1viz.html#a08dabdf08b4b3dcdee942eacdec01816">   18</a></span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="namespacerapid_1_1viz.html#a08dabdf08b4b3dcdee942eacdec01816">PR2_GRIPPER_FINGERTIP_URI</a> =</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="stringliteral">&quot;package://pr2_description/meshes/gripper_v0/l_finger_tip.dae&quot;</span>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">double</span> PR2_GRIPPER_MAX_RADIANS = 28.0 * M_PI / 180.0;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="namespacerapid_1_1viz.html#a773e425bbf7d259046e2ba2e4c2513cc">   20</a></span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code" href="namespacerapid_1_1viz.html#a773e425bbf7d259046e2ba2e4c2513cc">PR2_GRIPPER_MAX_RADIANS</a> = 28.0 * M_PI / 180.0;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// Create an interactive marker representing a PR2 gripper.</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">// openness is between 0 and 1, with 1 being as open as possible.</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// Leave color as all zeros to use the PR2 mesh color, otherwise it will be</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// colored as given.</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;visualization_msgs::InteractiveMarker Pr2GripperMarker(</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;visualization_msgs::InteractiveMarker <a class="code" href="namespacerapid_1_1viz.html#a6e6113e9f35d73a857f9f50f395ecdde">Pr2GripperMarker</a>(</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> geometry_msgs::PoseStamped&amp; ps,</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">double</span> openness);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;visualization_msgs::InteractiveMarker Pr2GripperMarker(</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;visualization_msgs::InteractiveMarker <a class="code" href="namespacerapid_1_1viz.html#a6e6113e9f35d73a857f9f50f395ecdde">Pr2GripperMarker</a>(</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> geometry_msgs::PoseStamped&amp; ps,</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">double</span> openness, std_msgs::ColorRGBA&amp; color);</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}  <span class="comment">// namespace viz</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}  <span class="comment">// namespace rapid</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#endif  // _RAPID_VIZ_PR2_GRIPPER_H_</span></div>
+<div class="ttc" id="math_8h_html"><div class="ttname"><a href="math_8h.html">math.h</a></div></div>
+<div class="ttc" id="namespacerapid_1_1viz_html_a08dabdf08b4b3dcdee942eacdec01816"><div class="ttname"><a href="namespacerapid_1_1viz.html#a08dabdf08b4b3dcdee942eacdec01816">rapid::viz::PR2_GRIPPER_FINGERTIP_URI</a></div><div class="ttdeci">static const char * PR2_GRIPPER_FINGERTIP_URI</div><div class="ttdef"><b>Definition:</b> <a href="pr2__gripper_8h_source.html#l00018">pr2_gripper.h:18</a></div></div>
+<div class="ttc" id="namespacerapid_1_1viz_html_a955fd59200a4728e7ea25830bc45ef82"><div class="ttname"><a href="namespacerapid_1_1viz.html#a955fd59200a4728e7ea25830bc45ef82">rapid::viz::PR2_GRIPPER_FINGER_URI</a></div><div class="ttdeci">static const char * PR2_GRIPPER_FINGER_URI</div><div class="ttdef"><b>Definition:</b> <a href="pr2__gripper_8h_source.html#l00016">pr2_gripper.h:16</a></div></div>
+<div class="ttc" id="namespacerapid_1_1viz_html_acc79337e9ef42612e4b5f5a96f9bac42"><div class="ttname"><a href="namespacerapid_1_1viz.html#acc79337e9ef42612e4b5f5a96f9bac42">rapid::viz::PR2_GRIPPER_PALM_URI</a></div><div class="ttdeci">static const char * PR2_GRIPPER_PALM_URI</div><div class="ttdef"><b>Definition:</b> <a href="pr2__gripper_8h_source.html#l00014">pr2_gripper.h:14</a></div></div>
+<div class="ttc" id="namespacerapid_1_1viz_html_a6e6113e9f35d73a857f9f50f395ecdde"><div class="ttname"><a href="namespacerapid_1_1viz.html#a6e6113e9f35d73a857f9f50f395ecdde">rapid::viz::Pr2GripperMarker</a></div><div class="ttdeci">visualization_msgs::InteractiveMarker Pr2GripperMarker(const std::string &amp;name, const geometry_msgs::PoseStamped &amp;ps, double openness)</div><div class="ttdef"><b>Definition:</b> <a href="pr2__gripper_8cpp_source.html#l00016">pr2_gripper.cpp:16</a></div></div>
+<div class="ttc" id="namespacerapid_1_1viz_html_a773e425bbf7d259046e2ba2e4c2513cc"><div class="ttname"><a href="namespacerapid_1_1viz.html#a773e425bbf7d259046e2ba2e4c2513cc">rapid::viz::PR2_GRIPPER_MAX_RADIANS</a></div><div class="ttdeci">static const double PR2_GRIPPER_MAX_RADIANS</div><div class="ttdef"><b>Definition:</b> <a href="pr2__gripper_8h_source.html#l00020">pr2_gripper.h:20</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_c6ed616797fd829864f033a9f45e46ef.html">rapid_viz</a></li><li class="navelem"><a class="el" href="dir_d3691a6a9ce5a9a7c26f8fddcd1c00d2.html">include</a></li><li class="navelem"><a class="el" href="dir_4992aba0ce7a918c20f420d87f81d1db.html">rapid_viz</a></li><li class="navelem"><b>pr2_gripper.h</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_c6ed616797fd829864f033a9f45e46ef.html">rapid_viz</a></li><li class="navelem"><a class="el" href="dir_d3691a6a9ce5a9a7c26f8fddcd1c00d2.html">include</a></li><li class="navelem"><a class="el" href="dir_4992aba0ce7a918c20f420d87f81d1db.html">rapid_viz</a></li><li class="navelem"><a class="el" href="pr2__gripper_8h.html">pr2_gripper.h</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

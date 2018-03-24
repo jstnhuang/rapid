@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('arm_8h_source.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +107,7 @@ $(document).ready(function(){initNavTree('arm_8h_source.html','');});
 <div class="title">arm.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_MANIPULATION_ARM_H_</span></div>
+<a href="arm_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_MANIPULATION_ARM_H_</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _RAPID_MANIPULATION_ARM_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;boost/shared_ptr.hpp&quot;</span></div>
@@ -114,10 +116,10 @@ $(document).ready(function(){initNavTree('arm_8h_source.html','');});
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;moveit/move_group_interface/move_group.h&quot;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;rapid_manipulation/arm_id.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="arm__id_8h.html">rapid_manipulation/arm_id.h</a>&quot;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>rapid {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>manipulation {</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="namespacerapid_1_1manipulation.html">   13</a></span>&#160;<span class="keyword">namespace </span>manipulation {</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">// Interface for sending arm navigation goals.</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// Sample usage:</span></div>
@@ -126,13 +128,13 @@ $(document).ready(function(){initNavTree('arm_8h_source.html','');});
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">//   right_arm-&gt;MoveToPoseGoal(pose, false);</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1ArmInterface.html">   20</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid_1_1manipulation_1_1ArmInterface.html">ArmInterface</a> {</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <span class="keyword">virtual</span> ~<a class="code" href="classrapid_1_1manipulation_1_1ArmInterface.html">ArmInterface</a>() {}</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1ArmInterface.html#af3633704cc750a0902a8932a6ef99219">   22</a></span>&#160;  <span class="keyword">virtual</span> <a class="code" href="classrapid_1_1manipulation_1_1ArmInterface.html#af3633704cc750a0902a8932a6ef99219">~ArmInterface</a>() {}</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="comment">// Sends a goal for the end effector to move to the given pose.</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <span class="comment">// refresh_point_cloud tells trajopt to capture a new point cloud before</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="comment">// planning. Otherwise, it uses a previously captured point cloud. This arg</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="comment">// has not effect on MoveIt.</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> MoveToPoseGoal(<span class="keyword">const</span> geometry_msgs::PoseStamped&amp; pose) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1manipulation_1_1ArmInterface.html#a36f71bde5577ba5b472d91043ff56364">MoveToPoseGoal</a>(<span class="keyword">const</span> geometry_msgs::PoseStamped&amp; pose) <span class="keyword">const</span> = 0;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;};</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">// Implements arm navigation using MoveIt.</span></div>
@@ -141,16 +143,16 @@ $(document).ready(function(){initNavTree('arm_8h_source.html','');});
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  boost::shared_ptr&lt;moveit::planning_interface::MoveGroup&gt; group_;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <a class="code" href="classrapid_1_1manipulation_1_1MoveItArm.html">MoveItArm</a>(boost::shared_ptr&lt;moveit::planning_interface::MoveGroup&gt; group);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <a class="code" href="classrapid_1_1manipulation_1_1MoveItArm.html">MoveItArm</a>(ArmId <span class="keywordtype">id</span>);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  ~<a class="code" href="classrapid_1_1manipulation_1_1MoveItArm.html">MoveItArm</a>(){};</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordtype">bool</span> MoveToPoseGoal(<span class="keyword">const</span> geometry_msgs::PoseStamped&amp; pose) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <a class="code" href="classrapid_1_1manipulation_1_1MoveItArm.html#ae5beaa85047ef0ec0a4f5d8b6a753aa3">MoveItArm</a>(boost::shared_ptr&lt;moveit::planning_interface::MoveGroup&gt; group);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <a class="code" href="classrapid_1_1manipulation_1_1MoveItArm.html#ae5beaa85047ef0ec0a4f5d8b6a753aa3">MoveItArm</a>(<a class="code" href="namespacerapid_1_1manipulation.html#a1876fb30ac91a01e529397d59d2216ec">ArmId</a> <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1MoveItArm.html#aded917c51262a80f450d61b2daf0f223">   39</a></span>&#160;  <a class="code" href="classrapid_1_1manipulation_1_1MoveItArm.html#aded917c51262a80f450d61b2daf0f223">~MoveItArm</a>(){};</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1manipulation_1_1MoveItArm.html#a2ac46ce48d531218b0ce6579757f4243">MoveToPoseGoal</a>(<span class="keyword">const</span> geometry_msgs::PoseStamped&amp; pose) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;};</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
 <div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1MockArm.html">   43</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid_1_1manipulation_1_1MockArm.html">MockArm</a> : <span class="keyword">public</span> <a class="code" href="classrapid_1_1manipulation_1_1ArmInterface.html">ArmInterface</a> {</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <a class="code" href="classrapid_1_1manipulation_1_1MockArm.html">MockArm</a>() {}</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  MOCK_CONST_METHOD1(MoveToPoseGoal,</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1MockArm.html#a346fe6c608ef4bb5b46e9a47c42a5ba5">   45</a></span>&#160;  <a class="code" href="classrapid_1_1manipulation_1_1MockArm.html#a346fe6c608ef4bb5b46e9a47c42a5ba5">MockArm</a>() {}</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <a class="code" href="classrapid_1_1manipulation_1_1MockArm.html#ab01789255b388c208e27efc0f5662c5e">MOCK_CONST_METHOD1</a>(<a class="code" href="classrapid_1_1manipulation_1_1ArmInterface.html#a36f71bde5577ba5b472d91043ff56364">MoveToPoseGoal</a>,</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                     <span class="keywordtype">bool</span>(<span class="keyword">const</span> geometry_msgs::PoseStamped&amp; pose));</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;};</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}  <span class="comment">// namespace manipulation</span></div>
@@ -158,15 +160,24 @@ $(document).ready(function(){initNavTree('arm_8h_source.html','');});
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#endif  // _RAPID_MANIPULATION_ARM_H_</span></div>
 <div class="ttc" id="classrapid_1_1manipulation_1_1MoveItArm_html"><div class="ttname"><a href="classrapid_1_1manipulation_1_1MoveItArm.html">rapid::manipulation::MoveItArm</a></div><div class="ttdef"><b>Definition:</b> <a href="arm_8h_source.html#l00032">arm.h:32</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1ArmInterface_html_a36f71bde5577ba5b472d91043ff56364"><div class="ttname"><a href="classrapid_1_1manipulation_1_1ArmInterface.html#a36f71bde5577ba5b472d91043ff56364">rapid::manipulation::ArmInterface::MoveToPoseGoal</a></div><div class="ttdeci">virtual bool MoveToPoseGoal(const geometry_msgs::PoseStamped &amp;pose) const =0</div></div>
 <div class="ttc" id="classrapid_1_1manipulation_1_1MockArm_html"><div class="ttname"><a href="classrapid_1_1manipulation_1_1MockArm.html">rapid::manipulation::MockArm</a></div><div class="ttdef"><b>Definition:</b> <a href="arm_8h_source.html#l00043">arm.h:43</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1ArmInterface_html_af3633704cc750a0902a8932a6ef99219"><div class="ttname"><a href="classrapid_1_1manipulation_1_1ArmInterface.html#af3633704cc750a0902a8932a6ef99219">rapid::manipulation::ArmInterface::~ArmInterface</a></div><div class="ttdeci">virtual ~ArmInterface()</div><div class="ttdef"><b>Definition:</b> <a href="arm_8h_source.html#l00022">arm.h:22</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1MockArm_html_ab01789255b388c208e27efc0f5662c5e"><div class="ttname"><a href="classrapid_1_1manipulation_1_1MockArm.html#ab01789255b388c208e27efc0f5662c5e">rapid::manipulation::MockArm::MOCK_CONST_METHOD1</a></div><div class="ttdeci">MOCK_CONST_METHOD1(MoveToPoseGoal, bool(const geometry_msgs::PoseStamped &amp;pose))</div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1MoveItArm_html_aded917c51262a80f450d61b2daf0f223"><div class="ttname"><a href="classrapid_1_1manipulation_1_1MoveItArm.html#aded917c51262a80f450d61b2daf0f223">rapid::manipulation::MoveItArm::~MoveItArm</a></div><div class="ttdeci">~MoveItArm()</div><div class="ttdef"><b>Definition:</b> <a href="arm_8h_source.html#l00039">arm.h:39</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1MockArm_html_a346fe6c608ef4bb5b46e9a47c42a5ba5"><div class="ttname"><a href="classrapid_1_1manipulation_1_1MockArm.html#a346fe6c608ef4bb5b46e9a47c42a5ba5">rapid::manipulation::MockArm::MockArm</a></div><div class="ttdeci">MockArm()</div><div class="ttdef"><b>Definition:</b> <a href="arm_8h_source.html#l00045">arm.h:45</a></div></div>
 <div class="ttc" id="classrapid_1_1manipulation_1_1ArmInterface_html"><div class="ttname"><a href="classrapid_1_1manipulation_1_1ArmInterface.html">rapid::manipulation::ArmInterface</a></div><div class="ttdef"><b>Definition:</b> <a href="arm_8h_source.html#l00020">arm.h:20</a></div></div>
+<div class="ttc" id="namespacerapid_1_1manipulation_html_a1876fb30ac91a01e529397d59d2216ec"><div class="ttname"><a href="namespacerapid_1_1manipulation.html#a1876fb30ac91a01e529397d59d2216ec">rapid::manipulation::ArmId</a></div><div class="ttdeci">ArmId</div><div class="ttdef"><b>Definition:</b> <a href="arm__id_8h_source.html#l00005">arm_id.h:5</a></div></div>
+<div class="ttc" id="arm__id_8h_html"><div class="ttname"><a href="arm__id_8h.html">arm_id.h</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1MoveItArm_html_a2ac46ce48d531218b0ce6579757f4243"><div class="ttname"><a href="classrapid_1_1manipulation_1_1MoveItArm.html#a2ac46ce48d531218b0ce6579757f4243">rapid::manipulation::MoveItArm::MoveToPoseGoal</a></div><div class="ttdeci">bool MoveToPoseGoal(const geometry_msgs::PoseStamped &amp;pose) const </div><div class="ttdef"><b>Definition:</b> <a href="arm_8cpp_source.html#l00022">arm.cpp:22</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1MoveItArm_html_ae5beaa85047ef0ec0a4f5d8b6a753aa3"><div class="ttname"><a href="classrapid_1_1manipulation_1_1MoveItArm.html#ae5beaa85047ef0ec0a4f5d8b6a753aa3">rapid::manipulation::MoveItArm::MoveItArm</a></div><div class="ttdeci">MoveItArm(boost::shared_ptr&lt; moveit::planning_interface::MoveGroup &gt; group)</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_8e0ec4d7e362575df8ab63e8ba43ec60.html">rapid_manipulation</a></li><li class="navelem"><a class="el" href="dir_7ff3122d340e761a1ca3df2fec832cca.html">include</a></li><li class="navelem"><a class="el" href="dir_acaafe4282e6bfff9f752c215928129a.html">rapid_manipulation</a></li><li class="navelem"><b>arm.h</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_8e0ec4d7e362575df8ab63e8ba43ec60.html">rapid_manipulation</a></li><li class="navelem"><a class="el" href="dir_7ff3122d340e761a1ca3df2fec832cca.html">include</a></li><li class="navelem"><a class="el" href="dir_acaafe4282e6bfff9f752c215928129a.html">rapid_manipulation</a></li><li class="navelem"><a class="el" href="arm_8h.html">arm.h</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

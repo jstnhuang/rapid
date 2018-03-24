@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid_1_1manipulation_1_1MoveItAr
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,6 +112,8 @@ $(document).ready(function(){initNavTree('classrapid_1_1manipulation_1_1MoveItAr
 <div class="title">rapid::manipulation::MoveItArm Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="arm_8h_source.html">arm.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for rapid::manipulation::MoveItArm:</div>
 <div class="dyncontent">
@@ -123,20 +126,111 @@ Inheritance diagram for rapid::manipulation::MoveItArm:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae5beaa85047ef0ec0a4f5d8b6a753aa3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5beaa85047ef0ec0a4f5d8b6a753aa3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>MoveItArm</b> (boost::shared_ptr&lt; moveit::planning_interface::MoveGroup &gt; group)</td></tr>
+<tr class="memitem:ae5beaa85047ef0ec0a4f5d8b6a753aa3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1MoveItArm.html#ae5beaa85047ef0ec0a4f5d8b6a753aa3">MoveItArm</a> (boost::shared_ptr&lt; moveit::planning_interface::MoveGroup &gt; group)</td></tr>
 <tr class="separator:ae5beaa85047ef0ec0a4f5d8b6a753aa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebbdb9d1c2300c48acd390fc691fd7ad"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aebbdb9d1c2300c48acd390fc691fd7ad"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>MoveItArm</b> (ArmId id)</td></tr>
+<tr class="memitem:aebbdb9d1c2300c48acd390fc691fd7ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1MoveItArm.html#aebbdb9d1c2300c48acd390fc691fd7ad">MoveItArm</a> (<a class="el" href="namespacerapid_1_1manipulation.html#a1876fb30ac91a01e529397d59d2216ec">ArmId</a> id)</td></tr>
 <tr class="separator:aebbdb9d1c2300c48acd390fc691fd7ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ac46ce48d531218b0ce6579757f4243"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2ac46ce48d531218b0ce6579757f4243"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>MoveToPoseGoal</b> (const geometry_msgs::PoseStamped &amp;pose) const </td></tr>
+<tr class="memitem:aded917c51262a80f450d61b2daf0f223"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1MoveItArm.html#aded917c51262a80f450d61b2daf0f223">~MoveItArm</a> ()</td></tr>
+<tr class="separator:aded917c51262a80f450d61b2daf0f223"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ac46ce48d531218b0ce6579757f4243"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1MoveItArm.html#a2ac46ce48d531218b0ce6579757f4243">MoveToPoseGoal</a> (const geometry_msgs::PoseStamped &amp;pose) const </td></tr>
 <tr class="separator:a2ac46ce48d531218b0ce6579757f4243"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classrapid_1_1manipulation_1_1ArmInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classrapid_1_1manipulation_1_1ArmInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classrapid_1_1manipulation_1_1ArmInterface.html">rapid::manipulation::ArmInterface</a></td></tr>
+<tr class="memitem:af3633704cc750a0902a8932a6ef99219 inherit pub_methods_classrapid_1_1manipulation_1_1ArmInterface"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1ArmInterface.html#af3633704cc750a0902a8932a6ef99219">~ArmInterface</a> ()</td></tr>
+<tr class="separator:af3633704cc750a0902a8932a6ef99219 inherit pub_methods_classrapid_1_1manipulation_1_1ArmInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="arm_8h_source.html#l00032">32</a> of file <a class="el" href="arm_8h_source.html">arm.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ae5beaa85047ef0ec0a4f5d8b6a753aa3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::manipulation::MoveItArm::MoveItArm </td>
+          <td>(</td>
+          <td class="paramtype">boost::shared_ptr&lt; moveit::planning_interface::MoveGroup &gt;&#160;</td>
+          <td class="paramname"><em>group</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aebbdb9d1c2300c48acd390fc691fd7ad"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::manipulation::MoveItArm::MoveItArm </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacerapid_1_1manipulation.html#a1876fb30ac91a01e529397d59d2216ec">ArmId</a>&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="arm_8cpp_source.html#l00014">14</a> of file <a class="el" href="arm_8cpp_source.html">arm.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aded917c51262a80f450d61b2daf0f223"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::manipulation::MoveItArm::~MoveItArm </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="arm_8h_source.html#l00039">39</a> of file <a class="el" href="arm_8h_source.html">arm.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a2ac46ce48d531218b0ce6579757f4243"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rapid::manipulation::MoveItArm::MoveToPoseGoal </td>
+          <td>(</td>
+          <td class="paramtype">const geometry_msgs::PoseStamped &amp;&#160;</td>
+          <td class="paramname"><em>pose</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid_1_1manipulation_1_1ArmInterface.html#a36f71bde5577ba5b472d91043ff56364">rapid::manipulation::ArmInterface</a>.</p>
+
+<p>Definition at line <a class="el" href="arm_8cpp_source.html#l00022">22</a> of file <a class="el" href="arm_8cpp_source.html">arm.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>rapid_manipulation/include/rapid_manipulation/<a class="el" href="arm_8h_source.html">arm.h</a></li>
 <li>rapid_manipulation/src/<a class="el" href="arm_8cpp_source.html">arm.cpp</a></li>
 </ul>
@@ -145,8 +239,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>MoveToPoseGoal</b> (c
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid</b></li><li class="navelem"><b>manipulation</b></li><li class="navelem"><a class="el" href="classrapid_1_1manipulation_1_1MoveItArm.html">MoveItArm</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="namespacerapid_1_1manipulation.html">manipulation</a></li><li class="navelem"><a class="el" href="classrapid_1_1manipulation_1_1MoveItArm.html">MoveItArm</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

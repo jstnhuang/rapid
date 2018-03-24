@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid_1_1fetch_1_1Gripper.html','
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,32 +113,153 @@ $(document).ready(function(){initNavTree('classrapid_1_1fetch_1_1Gripper.html','
 <div class="title">rapid::fetch::Gripper Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="rapid__fetch_2include_2rapid__fetch_2gripper_8h_source.html">gripper.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae1b89735481629fa92a996b20163228d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae1b89735481629fa92a996b20163228d"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Close</b> (double max_effort=0)</td></tr>
+<tr class="memitem:a2bf0868856dc40b155de53ba78b0cadd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1fetch_1_1Gripper.html#a2bf0868856dc40b155de53ba78b0cadd">Gripper</a> ()</td></tr>
+<tr class="separator:a2bf0868856dc40b155de53ba78b0cadd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1b89735481629fa92a996b20163228d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1fetch_1_1Gripper.html#ae1b89735481629fa92a996b20163228d">Close</a> (double max_effort=0)</td></tr>
 <tr class="separator:ae1b89735481629fa92a996b20163228d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad56dd58657744f2221899e2589a7b750"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad56dd58657744f2221899e2589a7b750"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Open</b> (double max_effort=0)</td></tr>
+<tr class="memitem:ad56dd58657744f2221899e2589a7b750"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1fetch_1_1Gripper.html#ad56dd58657744f2221899e2589a7b750">Open</a> (double max_effort=0)</td></tr>
 <tr class="separator:ad56dd58657744f2221899e2589a7b750"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a505425788b7971fe488594413cd33ba9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a505425788b7971fe488594413cd33ba9"></a>
-static const char&#160;</td><td class="memItemRight" valign="bottom"><b>kGripperAction</b> [] = &quot;gripper_controller/gripper_action&quot;</td></tr>
+<tr class="memitem:a505425788b7971fe488594413cd33ba9"><td class="memItemLeft" align="right" valign="top">static const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1fetch_1_1Gripper.html#a505425788b7971fe488594413cd33ba9">kGripperAction</a> [] = &quot;gripper_controller/gripper_action&quot;</td></tr>
 <tr class="separator:a505425788b7971fe488594413cd33ba9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3afe7611aa1ca2ddab14414a2f4af223"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3afe7611aa1ca2ddab14414a2f4af223"></a>
-static const double&#160;</td><td class="memItemRight" valign="bottom"><b>kClosedPosition</b> = 0</td></tr>
+<tr class="memitem:a3afe7611aa1ca2ddab14414a2f4af223"><td class="memItemLeft" align="right" valign="top">static const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1fetch_1_1Gripper.html#a3afe7611aa1ca2ddab14414a2f4af223">kClosedPosition</a> = 0</td></tr>
 <tr class="separator:a3afe7611aa1ca2ddab14414a2f4af223"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac950b747fad9936de41cba89dc6aebbe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac950b747fad9936de41cba89dc6aebbe"></a>
-static const double&#160;</td><td class="memItemRight" valign="bottom"><b>kOpenedPosition</b> = 0.115</td></tr>
+<tr class="memitem:ac950b747fad9936de41cba89dc6aebbe"><td class="memItemLeft" align="right" valign="top">static const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1fetch_1_1Gripper.html#ac950b747fad9936de41cba89dc6aebbe">kOpenedPosition</a> = 0.115</td></tr>
 <tr class="separator:ac950b747fad9936de41cba89dc6aebbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="rapid__fetch_2include_2rapid__fetch_2gripper_8h_source.html#l00010">10</a> of file <a class="el" href="rapid__fetch_2include_2rapid__fetch_2gripper_8h_source.html">gripper.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a2bf0868856dc40b155de53ba78b0cadd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::fetch::Gripper::Gripper </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rapid__fetch_2src_2gripper_8cpp_source.html#l00012">12</a> of file <a class="el" href="rapid__fetch_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ae1b89735481629fa92a996b20163228d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rapid::fetch::Gripper::Close </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>max_effort</em> = <code>0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rapid__fetch_2src_2gripper_8cpp_source.html#l00018">18</a> of file <a class="el" href="rapid__fetch_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad56dd58657744f2221899e2589a7b750"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rapid::fetch::Gripper::Open </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>max_effort</em> = <code>0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rapid__fetch_2src_2gripper_8cpp_source.html#l00026">26</a> of file <a class="el" href="rapid__fetch_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a3afe7611aa1ca2ddab14414a2f4af223"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double rapid::fetch::Gripper::kClosedPosition = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rapid__fetch_2include_2rapid__fetch_2gripper_8h_source.html#l00018">18</a> of file <a class="el" href="rapid__fetch_2include_2rapid__fetch_2gripper_8h_source.html">gripper.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a505425788b7971fe488594413cd33ba9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char rapid::fetch::Gripper::kGripperAction = &quot;gripper_controller/gripper_action&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rapid__fetch_2include_2rapid__fetch_2gripper_8h_source.html#l00017">17</a> of file <a class="el" href="rapid__fetch_2include_2rapid__fetch_2gripper_8h_source.html">gripper.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac950b747fad9936de41cba89dc6aebbe"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double rapid::fetch::Gripper::kOpenedPosition = 0.115</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rapid__fetch_2include_2rapid__fetch_2gripper_8h_source.html#l00019">19</a> of file <a class="el" href="rapid__fetch_2include_2rapid__fetch_2gripper_8h_source.html">gripper.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>rapid_fetch/include/rapid_fetch/<a class="el" href="rapid__fetch_2include_2rapid__fetch_2gripper_8h_source.html">gripper.h</a></li>
 <li>rapid_fetch/src/<a class="el" href="rapid__fetch_2src_2gripper_8cpp_source.html">gripper.cpp</a></li>
 </ul>
@@ -146,8 +268,8 @@ static const double&#160;</td><td class="memItemRight" valign="bottom"><b>kOpene
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid</b></li><li class="navelem"><b>fetch</b></li><li class="navelem"><a class="el" href="classrapid_1_1fetch_1_1Gripper.html">Gripper</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="namespacerapid_1_1fetch.html">fetch</a></li><li class="navelem"><a class="el" href="classrapid_1_1fetch_1_1Gripper.html">Gripper</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

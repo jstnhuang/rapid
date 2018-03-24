@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('point__cloud_8cpp_source.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +107,7 @@ $(document).ready(function(){initNavTree('point__cloud_8cpp_source.html','');});
 <div class="title">point_cloud.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;rapid_viz/point_cloud.h&quot;</span></div>
+<a href="point__cloud_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="point__cloud_8h.html">rapid_viz/point_cloud.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;cstdlib&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
@@ -114,7 +116,7 @@ $(document).ready(function(){initNavTree('point__cloud_8cpp_source.html','');});
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>viz {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keywordtype">void</span> Colorize(pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr cloud, <span class="keywordtype">double</span> r, <span class="keywordtype">double</span> g,</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="namespacerapid_1_1viz.html#a15c41a8901e0182700e3048c87a6aa53">   10</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacerapid_1_1viz.html#a15c41a8901e0182700e3048c87a6aa53">Colorize</a>(pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr cloud, <span class="keywordtype">double</span> r, <span class="keywordtype">double</span> g,</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;              <span class="keywordtype">double</span> b) {</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; cloud-&gt;size(); ++i) {</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    cloud-&gt;points[i].r = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(round(r * 255));</div>
@@ -123,21 +125,24 @@ $(document).ready(function(){initNavTree('point__cloud_8cpp_source.html','');});
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  }</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;}</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordtype">void</span> ColorizeRandom(pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr cloud) {</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="namespacerapid_1_1viz.html#afaab86e943230ef2131b23a6aba48c62">   19</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacerapid_1_1viz.html#afaab86e943230ef2131b23a6aba48c62">ColorizeRandom</a>(pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr cloud) {</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keywordtype">double</span> r = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(rand()) / RAND_MAX;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keywordtype">double</span> g = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(rand()) / RAND_MAX;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <span class="keywordtype">double</span> b = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(rand()) / RAND_MAX;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  Colorize(cloud, r, g, b);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <a class="code" href="namespacerapid_1_1viz.html#a15c41a8901e0182700e3048c87a6aa53">Colorize</a>(cloud, r, g, b);</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}  <span class="comment">// namespace viz</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}  <span class="comment">// namespace rapid</span></div>
+<div class="ttc" id="namespacerapid_1_1viz_html_a15c41a8901e0182700e3048c87a6aa53"><div class="ttname"><a href="namespacerapid_1_1viz.html#a15c41a8901e0182700e3048c87a6aa53">rapid::viz::Colorize</a></div><div class="ttdeci">void Colorize(pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr cloud, double r, double g, double b)</div><div class="ttdef"><b>Definition:</b> <a href="point__cloud_8cpp_source.html#l00010">point_cloud.cpp:10</a></div></div>
+<div class="ttc" id="point__cloud_8h_html"><div class="ttname"><a href="point__cloud_8h.html">point_cloud.h</a></div></div>
+<div class="ttc" id="namespacerapid_1_1viz_html_afaab86e943230ef2131b23a6aba48c62"><div class="ttname"><a href="namespacerapid_1_1viz.html#afaab86e943230ef2131b23a6aba48c62">rapid::viz::ColorizeRandom</a></div><div class="ttdeci">void ColorizeRandom(pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr cloud)</div><div class="ttdef"><b>Definition:</b> <a href="point__cloud_8cpp_source.html#l00019">point_cloud.cpp:19</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_c6ed616797fd829864f033a9f45e46ef.html">rapid_viz</a></li><li class="navelem"><a class="el" href="dir_96f9087990b6545fedf172cb8a718d43.html">src</a></li><li class="navelem"><b>point_cloud.cpp</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_c6ed616797fd829864f033a9f45e46ef.html">rapid_viz</a></li><li class="navelem"><a class="el" href="dir_96f9087990b6545fedf172cb8a718d43.html">src</a></li><li class="navelem"><a class="el" href="point__cloud_8cpp.html">point_cloud.cpp</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

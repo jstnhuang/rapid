@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('tf__listener_8cpp_source.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +107,7 @@ $(document).ready(function(){initNavTree('tf__listener_8cpp_source.html','');});
 <div class="title">tf_listener.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;rapid_ros/tf_listener.h&quot;</span></div>
+<a href="tf__listener_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tf__listener_8h.html">rapid_ros/tf_listener.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
@@ -118,30 +120,30 @@ $(document).ready(function(){initNavTree('tf__listener_8cpp_source.html','');});
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;ros/time.h&quot;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>rapid_ros {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;TfListener::TfListener() : tf_() {}</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1TfListener.html#a438404e59869147717ce59e5a0f69e4d">   14</a></span>&#160;<a class="code" href="classrapid__ros_1_1TfListener.html#a438404e59869147717ce59e5a0f69e4d">TfListener::TfListener</a>() : tf_() {}</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordtype">bool</span> TfListener::waitForTransform(<span class="keyword">const</span> std::string&amp; target_frame,</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1TfListener.html#a1a7519844f1eb593ab056de890cc022d">   16</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid__ros_1_1TfListener.html#a1a7519844f1eb593ab056de890cc022d">TfListener::waitForTransform</a>(<span class="keyword">const</span> std::string&amp; target_frame,</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                                  <span class="keyword">const</span> std::string&amp; source_frame,</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                                  <span class="keyword">const</span> ros::Time&amp; time,</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                                  <span class="keyword">const</span> ros::Duration&amp; timeout)<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keywordflow">return</span> tf_.waitForTransform(target_frame, source_frame, time, timeout);</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keywordtype">void</span> TfListener::lookupTransform(<span class="keyword">const</span> std::string&amp; target_frame,</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1TfListener.html#a405a411d38fa21f0b4e633a8948f1a86">   23</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid__ros_1_1TfListener.html#a405a411d38fa21f0b4e633a8948f1a86">TfListener::lookupTransform</a>(<span class="keyword">const</span> std::string&amp; target_frame,</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                                 <span class="keyword">const</span> std::string&amp; source_frame,</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                                 <span class="keyword">const</span> ros::Time&amp; time,</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                                 tf::StampedTransform&amp; transform)<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  tf_.lookupTransform(target_frame, source_frame, time, transform);</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;}</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;MockTfListener::MockTfListener()</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1MockTfListener.html#ad9b796c7cc58e284318757187f8d0663">   30</a></span>&#160;<a class="code" href="classrapid__ros_1_1MockTfListener.html#ad9b796c7cc58e284318757187f8d0663">MockTfListener::MockTfListener</a>()</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    : transforms_(), durations_(), should_throw_exception_() {}</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keywordtype">bool</span> MockTfListener::waitForTransform(<span class="keyword">const</span> std::string&amp; target_frame,</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1MockTfListener.html#a146ab1674f8537bb40f7604e703e64a9">   33</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid__ros_1_1MockTfListener.html#a146ab1674f8537bb40f7604e703e64a9">MockTfListener::waitForTransform</a>(<span class="keyword">const</span> std::string&amp; target_frame,</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                                      <span class="keyword">const</span> std::string&amp; source_frame,</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                                      <span class="keyword">const</span> ros::Time&amp; time,</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                                      <span class="keyword">const</span> ros::Duration&amp; timeout)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  FramePair fp(target_frame, source_frame);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <a class="code" href="classrapid__ros_1_1MockTfListener.html#a7ba98cf72eaa636399230211971cba6f">FramePair</a> fp(target_frame, source_frame);</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span> (should_throw_exception_.find(fp) != should_throw_exception_.end() &amp;&amp;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      should_throw_exception_.find(fp)-&gt;second == <span class="keyword">false</span>) {</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">throw</span> tf::TransformException(<span class="stringliteral">&quot;Mock exception&quot;</span>);</div>
@@ -165,11 +167,11 @@ $(document).ready(function(){initNavTree('tf__listener_8cpp_source.html','');});
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  }</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keywordtype">void</span> MockTfListener::lookupTransform(<span class="keyword">const</span> std::string&amp; target_frame,</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1MockTfListener.html#a523dee6d0565b22ebe8f880277dea173">   61</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid__ros_1_1MockTfListener.html#a523dee6d0565b22ebe8f880277dea173">MockTfListener::lookupTransform</a>(<span class="keyword">const</span> std::string&amp; target_frame,</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                                     <span class="keyword">const</span> std::string&amp; source_frame,</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                                     <span class="keyword">const</span> ros::Time&amp; time,</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                                     tf::StampedTransform&amp; transform)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  FramePair fp(target_frame, source_frame);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <a class="code" href="classrapid__ros_1_1MockTfListener.html#a7ba98cf72eaa636399230211971cba6f">FramePair</a> fp(target_frame, source_frame);</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordflow">if</span> (should_throw_exception_.find(fp) != should_throw_exception_.end() &amp;&amp;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      should_throw_exception_.find(fp)-&gt;second == <span class="keyword">false</span>) {</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">throw</span> tf::TransformException(<span class="stringliteral">&quot;Mock exception&quot;</span>);</div>
@@ -182,34 +184,45 @@ $(document).ready(function(){initNavTree('tf__listener_8cpp_source.html','');});
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  }</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keywordtype">void</span> MockTfListener::SetTransform(<span class="keyword">const</span> std::string&amp; target,</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1MockTfListener.html#a7f35eb577fa30095ab9dc06693cb00fe">   78</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid__ros_1_1MockTfListener.html#a7f35eb577fa30095ab9dc06693cb00fe">MockTfListener::SetTransform</a>(<span class="keyword">const</span> std::string&amp; target,</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                                  <span class="keyword">const</span> std::string&amp; source,</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                                  <span class="keyword">const</span> tf::StampedTransform&amp; transform) {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  FramePair fp(target, source);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <a class="code" href="classrapid__ros_1_1MockTfListener.html#a7ba98cf72eaa636399230211971cba6f">FramePair</a> fp(target, source);</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  transforms_[fp] = transform;</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keywordtype">void</span> MockTfListener::SetLookupDuration(<span class="keyword">const</span> std::string&amp; target,</div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1MockTfListener.html#a250d63ab6b0671f7b508fbecde6b7dc6">   85</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid__ros_1_1MockTfListener.html#a250d63ab6b0671f7b508fbecde6b7dc6">MockTfListener::SetLookupDuration</a>(<span class="keyword">const</span> std::string&amp; target,</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                                       <span class="keyword">const</span> std::string&amp; source,</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                                       <span class="keyword">const</span> ros::Duration&amp; duration) {</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  FramePair fp(target, source);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  <a class="code" href="classrapid__ros_1_1MockTfListener.html#a7ba98cf72eaa636399230211971cba6f">FramePair</a> fp(target, source);</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  durations_[fp] = duration;</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keywordtype">void</span> MockTfListener::SetThrowException(<span class="keyword">const</span> std::string&amp; target,</div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="classrapid__ros_1_1MockTfListener.html#a33cf62ca09118c9e2d51bb6a5202ca73">   92</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid__ros_1_1MockTfListener.html#a33cf62ca09118c9e2d51bb6a5202ca73">MockTfListener::SetThrowException</a>(<span class="keyword">const</span> std::string&amp; target,</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                                       <span class="keyword">const</span> std::string&amp; source,</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                                       <span class="keywordtype">bool</span> should_throw) {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  FramePair fp(target, source);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <a class="code" href="classrapid__ros_1_1MockTfListener.html#a7ba98cf72eaa636399230211971cba6f">FramePair</a> fp(target, source);</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  should_throw_exception_[fp] = should_throw;</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;}</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;}  <span class="comment">// namespace rapid_ros</span></div>
+<div class="ttc" id="classrapid__ros_1_1MockTfListener_html_a7f35eb577fa30095ab9dc06693cb00fe"><div class="ttname"><a href="classrapid__ros_1_1MockTfListener.html#a7f35eb577fa30095ab9dc06693cb00fe">rapid_ros::MockTfListener::SetTransform</a></div><div class="ttdeci">void SetTransform(const std::string &amp;target, const std::string &amp;source, const tf::StampedTransform &amp;transform)</div><div class="ttdef"><b>Definition:</b> <a href="tf__listener_8cpp_source.html#l00078">tf_listener.cpp:78</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1MockTfListener_html_a7ba98cf72eaa636399230211971cba6f"><div class="ttname"><a href="classrapid__ros_1_1MockTfListener.html#a7ba98cf72eaa636399230211971cba6f">rapid_ros::MockTfListener::FramePair</a></div><div class="ttdeci">std::pair&lt; std::string, std::string &gt; FramePair</div><div class="ttdef"><b>Definition:</b> <a href="tf__listener_8h_source.html#l00057">tf_listener.h:57</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1MockTfListener_html_a33cf62ca09118c9e2d51bb6a5202ca73"><div class="ttname"><a href="classrapid__ros_1_1MockTfListener.html#a33cf62ca09118c9e2d51bb6a5202ca73">rapid_ros::MockTfListener::SetThrowException</a></div><div class="ttdeci">void SetThrowException(const std::string &amp;target, const std::string &amp;source, bool should_throw)</div><div class="ttdef"><b>Definition:</b> <a href="tf__listener_8cpp_source.html#l00092">tf_listener.cpp:92</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1TfListener_html_a1a7519844f1eb593ab056de890cc022d"><div class="ttname"><a href="classrapid__ros_1_1TfListener.html#a1a7519844f1eb593ab056de890cc022d">rapid_ros::TfListener::waitForTransform</a></div><div class="ttdeci">bool waitForTransform(const std::string &amp;target_frame, const std::string &amp;source_frame, const ros::Time &amp;time, const ros::Duration &amp;timeout) const </div><div class="ttdef"><b>Definition:</b> <a href="tf__listener_8cpp_source.html#l00016">tf_listener.cpp:16</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1MockTfListener_html_ad9b796c7cc58e284318757187f8d0663"><div class="ttname"><a href="classrapid__ros_1_1MockTfListener.html#ad9b796c7cc58e284318757187f8d0663">rapid_ros::MockTfListener::MockTfListener</a></div><div class="ttdeci">MockTfListener()</div><div class="ttdef"><b>Definition:</b> <a href="tf__listener_8cpp_source.html#l00030">tf_listener.cpp:30</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1MockTfListener_html_a523dee6d0565b22ebe8f880277dea173"><div class="ttname"><a href="classrapid__ros_1_1MockTfListener.html#a523dee6d0565b22ebe8f880277dea173">rapid_ros::MockTfListener::lookupTransform</a></div><div class="ttdeci">void lookupTransform(const std::string &amp;target_frame, const std::string &amp;source_frame, const ros::Time &amp;time, tf::StampedTransform &amp;transform) const </div><div class="ttdef"><b>Definition:</b> <a href="tf__listener_8cpp_source.html#l00061">tf_listener.cpp:61</a></div></div>
+<div class="ttc" id="tf__listener_8h_html"><div class="ttname"><a href="tf__listener_8h.html">tf_listener.h</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1TfListener_html_a438404e59869147717ce59e5a0f69e4d"><div class="ttname"><a href="classrapid__ros_1_1TfListener.html#a438404e59869147717ce59e5a0f69e4d">rapid_ros::TfListener::TfListener</a></div><div class="ttdeci">TfListener()</div><div class="ttdef"><b>Definition:</b> <a href="tf__listener_8cpp_source.html#l00014">tf_listener.cpp:14</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1TfListener_html_a405a411d38fa21f0b4e633a8948f1a86"><div class="ttname"><a href="classrapid__ros_1_1TfListener.html#a405a411d38fa21f0b4e633a8948f1a86">rapid_ros::TfListener::lookupTransform</a></div><div class="ttdeci">void lookupTransform(const std::string &amp;target_frame, const std::string &amp;source_frame, const ros::Time &amp;time, tf::StampedTransform &amp;transform) const </div><div class="ttdef"><b>Definition:</b> <a href="tf__listener_8cpp_source.html#l00023">tf_listener.cpp:23</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1MockTfListener_html_a250d63ab6b0671f7b508fbecde6b7dc6"><div class="ttname"><a href="classrapid__ros_1_1MockTfListener.html#a250d63ab6b0671f7b508fbecde6b7dc6">rapid_ros::MockTfListener::SetLookupDuration</a></div><div class="ttdeci">void SetLookupDuration(const std::string &amp;target, const std::string &amp;source, const ros::Duration &amp;duration)</div><div class="ttdef"><b>Definition:</b> <a href="tf__listener_8cpp_source.html#l00085">tf_listener.cpp:85</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1MockTfListener_html_a146ab1674f8537bb40f7604e703e64a9"><div class="ttname"><a href="classrapid__ros_1_1MockTfListener.html#a146ab1674f8537bb40f7604e703e64a9">rapid_ros::MockTfListener::waitForTransform</a></div><div class="ttdeci">bool waitForTransform(const std::string &amp;target_frame, const std::string &amp;source_frame, const ros::Time &amp;time, const ros::Duration &amp;timeout) const </div><div class="ttdef"><b>Definition:</b> <a href="tf__listener_8cpp_source.html#l00033">tf_listener.cpp:33</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_0a7b170a4acb12d360b78d8b9c7f1d81.html">rapid_ros</a></li><li class="navelem"><a class="el" href="dir_c36a77b4c2b9aea7a40b4201d49ceabf.html">src</a></li><li class="navelem"><b>tf_listener.cpp</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_0a7b170a4acb12d360b78d8b9c7f1d81.html">rapid_ros</a></li><li class="navelem"><a class="el" href="dir_c36a77b4c2b9aea7a40b4201d49ceabf.html">src</a></li><li class="navelem"><a class="el" href="tf__listener_8cpp.html">tf_listener.cpp</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

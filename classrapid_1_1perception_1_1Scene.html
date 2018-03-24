@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid_1_1perception_1_1Scene.html
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,42 +112,224 @@ $(document).ready(function(){initNavTree('classrapid_1_1perception_1_1Scene.html
 <div class="title">rapid::perception::Scene Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="scene_8h_source.html">scene.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1b37b64d7a6ecb06ee9dbb481d166319"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1b37b64d7a6ecb06ee9dbb481d166319"></a>
-pcl::PointCloud<br class="typebreak"/>
-&lt; pcl::PointXYZRGB &gt;::ConstPtr&#160;</td><td class="memItemRight" valign="bottom"><b>cloud</b> () const </td></tr>
+<tr class="memitem:ad251262a79bf10462865f0328171b647"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1Scene.html#ad251262a79bf10462865f0328171b647">Scene</a> ()</td></tr>
+<tr class="separator:ad251262a79bf10462865f0328171b647"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b37b64d7a6ecb06ee9dbb481d166319"><td class="memItemLeft" align="right" valign="top">pcl::PointCloud<br class="typebreak"/>
+&lt; pcl::PointXYZRGB &gt;::ConstPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1Scene.html#a1b37b64d7a6ecb06ee9dbb481d166319">cloud</a> () const </td></tr>
 <tr class="separator:a1b37b64d7a6ecb06ee9dbb481d166319"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5677fefbdb2ea5f3cfe39ac6a71c2e61"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5677fefbdb2ea5f3cfe39ac6a71c2e61"></a>
-geometry_msgs::PoseStamped&#160;</td><td class="memItemRight" valign="bottom"><b>pose</b> ()</td></tr>
+<tr class="memitem:a5677fefbdb2ea5f3cfe39ac6a71c2e61"><td class="memItemLeft" align="right" valign="top">geometry_msgs::PoseStamped&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1Scene.html#a5677fefbdb2ea5f3cfe39ac6a71c2e61">pose</a> ()</td></tr>
 <tr class="separator:a5677fefbdb2ea5f3cfe39ac6a71c2e61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6bfa342a01905af459f971a6d746c077"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6bfa342a01905af459f971a6d746c077"></a>
-<a class="el" href="classrapid_1_1perception_1_1HSurface.html">HSurface</a>&#160;</td><td class="memItemRight" valign="bottom"><b>primary_surface</b> () const </td></tr>
+<tr class="memitem:a6bfa342a01905af459f971a6d746c077"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrapid_1_1perception_1_1HSurface.html">HSurface</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1Scene.html#a6bfa342a01905af459f971a6d746c077">primary_surface</a> () const </td></tr>
 <tr class="separator:a6bfa342a01905af459f971a6d746c077"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a752c8a077fc80261a34b3cd4e66ec25d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a752c8a077fc80261a34b3cd4e66ec25d"></a>
-geometry_msgs::Vector3&#160;</td><td class="memItemRight" valign="bottom"><b>scale</b> ()</td></tr>
+<tr class="memitem:a752c8a077fc80261a34b3cd4e66ec25d"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Vector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1Scene.html#a752c8a077fc80261a34b3cd4e66ec25d">scale</a> ()</td></tr>
 <tr class="separator:a752c8a077fc80261a34b3cd4e66ec25d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4a3f9d2c7869d82a7025ce07e13266d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab4a3f9d2c7869d82a7025ce07e13266d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_cloud</b> (const pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::ConstPtr &amp;cloud)</td></tr>
+<tr class="memitem:ab4a3f9d2c7869d82a7025ce07e13266d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1Scene.html#ab4a3f9d2c7869d82a7025ce07e13266d">set_cloud</a> (const pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::ConstPtr &amp;<a class="el" href="classrapid_1_1perception_1_1Scene.html#a1b37b64d7a6ecb06ee9dbb481d166319">cloud</a>)</td></tr>
 <tr class="separator:ab4a3f9d2c7869d82a7025ce07e13266d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d04f6dfa9e90f2299cdec07eb7e8249"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7d04f6dfa9e90f2299cdec07eb7e8249"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_pose</b> (const geometry_msgs::PoseStamped &amp;ps)</td></tr>
+<tr class="memitem:a7d04f6dfa9e90f2299cdec07eb7e8249"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1Scene.html#a7d04f6dfa9e90f2299cdec07eb7e8249">set_pose</a> (const geometry_msgs::PoseStamped &amp;ps)</td></tr>
 <tr class="separator:a7d04f6dfa9e90f2299cdec07eb7e8249"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a173f0e5aa2824e14332bac018874c5ad"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a173f0e5aa2824e14332bac018874c5ad"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_primary_surface</b> (const <a class="el" href="classrapid_1_1perception_1_1HSurface.html">HSurface</a> &amp;surface)</td></tr>
+<tr class="memitem:a173f0e5aa2824e14332bac018874c5ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1Scene.html#a173f0e5aa2824e14332bac018874c5ad">set_primary_surface</a> (const <a class="el" href="classrapid_1_1perception_1_1HSurface.html">HSurface</a> &amp;surface)</td></tr>
 <tr class="separator:a173f0e5aa2824e14332bac018874c5ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a267ce10c700fda84d1bcec17ca46b8ec"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a267ce10c700fda84d1bcec17ca46b8ec"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_scale</b> (const geometry_msgs::Vector3 &amp;scale)</td></tr>
+<tr class="memitem:a267ce10c700fda84d1bcec17ca46b8ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1Scene.html#a267ce10c700fda84d1bcec17ca46b8ec">set_scale</a> (const geometry_msgs::Vector3 &amp;<a class="el" href="classrapid_1_1perception_1_1Scene.html#a752c8a077fc80261a34b3cd4e66ec25d">scale</a>)</td></tr>
 <tr class="separator:a267ce10c700fda84d1bcec17ca46b8ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48e7df4d13291641eef69356d9c5e212"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a48e7df4d13291641eef69356d9c5e212"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>GetObject</b> (const std::string &amp;name, <a class="el" href="classrapid_1_1perception_1_1Object.html">Object</a> *object)</td></tr>
+<tr class="memitem:a48e7df4d13291641eef69356d9c5e212"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1Scene.html#a48e7df4d13291641eef69356d9c5e212">GetObject</a> (const std::string &amp;name, <a class="el" href="classrapid_1_1perception_1_1Object.html">Object</a> *object)</td></tr>
 <tr class="separator:a48e7df4d13291641eef69356d9c5e212"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="scene_8h_source.html#l00019">19</a> of file <a class="el" href="scene_8h_source.html">scene.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ad251262a79bf10462865f0328171b647"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::perception::Scene::Scene </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="scene_8cpp_source.html#l00018">18</a> of file <a class="el" href="scene_8cpp_source.html">scene.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a1b37b64d7a6ecb06ee9dbb481d166319"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PointCloud&lt; PointXYZRGB &gt;::ConstPtr rapid::perception::Scene::cloud </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="scene_8cpp_source.html#l00020">20</a> of file <a class="el" href="scene_8cpp_source.html">scene.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a48e7df4d13291641eef69356d9c5e212"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rapid::perception::Scene::GetObject </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classrapid_1_1perception_1_1Object.html">Object</a> *&#160;</td>
+          <td class="paramname"><em>object</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="scene_8cpp_source.html#l00033">33</a> of file <a class="el" href="scene_8cpp_source.html">scene.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5677fefbdb2ea5f3cfe39ac6a71c2e61"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">geometry_msgs::PoseStamped rapid::perception::Scene::pose </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="scene_8cpp_source.html#l00021">21</a> of file <a class="el" href="scene_8cpp_source.html">scene.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6bfa342a01905af459f971a6d746c077"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrapid_1_1perception_1_1HSurface.html">HSurface</a> rapid::perception::Scene::primary_surface </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="scene_8cpp_source.html#l00022">22</a> of file <a class="el" href="scene_8cpp_source.html">scene.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a752c8a077fc80261a34b3cd4e66ec25d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">geometry_msgs::Vector3 rapid::perception::Scene::scale </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="scene_8cpp_source.html#l00023">23</a> of file <a class="el" href="scene_8cpp_source.html">scene.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab4a3f9d2c7869d82a7025ce07e13266d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::Scene::set_cloud </td>
+          <td>(</td>
+          <td class="paramtype">const pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::ConstPtr &amp;&#160;</td>
+          <td class="paramname"><em>cloud</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="scene_8cpp_source.html#l00024">24</a> of file <a class="el" href="scene_8cpp_source.html">scene.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7d04f6dfa9e90f2299cdec07eb7e8249"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::Scene::set_pose </td>
+          <td>(</td>
+          <td class="paramtype">const geometry_msgs::PoseStamped &amp;&#160;</td>
+          <td class="paramname"><em>ps</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="scene_8cpp_source.html#l00027">27</a> of file <a class="el" href="scene_8cpp_source.html">scene.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a173f0e5aa2824e14332bac018874c5ad"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::Scene::set_primary_surface </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classrapid_1_1perception_1_1HSurface.html">HSurface</a> &amp;&#160;</td>
+          <td class="paramname"><em>surface</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="scene_8cpp_source.html#l00028">28</a> of file <a class="el" href="scene_8cpp_source.html">scene.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a267ce10c700fda84d1bcec17ca46b8ec"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::Scene::set_scale </td>
+          <td>(</td>
+          <td class="paramtype">const geometry_msgs::Vector3 &amp;&#160;</td>
+          <td class="paramname"><em>scale</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="scene_8cpp_source.html#l00031">31</a> of file <a class="el" href="scene_8cpp_source.html">scene.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>rapid_perception/include/rapid_perception/<a class="el" href="scene_8h_source.html">scene.h</a></li>
 <li>rapid_perception/src/<a class="el" href="scene_8cpp_source.html">scene.cpp</a></li>
 </ul>
@@ -155,8 +338,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>GetObject</b> (const 
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid</b></li><li class="navelem"><b>perception</b></li><li class="navelem"><a class="el" href="classrapid_1_1perception_1_1Scene.html">Scene</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="namespacerapid_1_1perception.html">perception</a></li><li class="navelem"><a class="el" href="classrapid_1_1perception_1_1Scene.html">Scene</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

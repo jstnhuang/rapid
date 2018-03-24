@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('collision__checks_8h_source.html','');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,13 +107,13 @@ $(document).ready(function(){initNavTree('collision__checks_8h_source.html','');
 <div class="title">collision_checks.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_COLLISION_COLLISION_CHECKS_H_</span></div>
+<a href="collision__checks_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_COLLISION_COLLISION_CHECKS_H_</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _RAPID_COLLISION_COLLISION_CHECKS_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Pose.h&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/Vector3.h&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>rapid {</div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="namespacerapid.html">    7</a></span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">// Returns true if the given oriented bounding boxes are colliding.</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">// The poses must be in the same frame and the scales must be in the same units.</span></div>
@@ -121,20 +123,21 @@ $(document).ready(function(){initNavTree('collision__checks_8h_source.html','');
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">//  scale1: The x/y/z dimensions of the first box.</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">//  pose2: The pose of the second box.</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">//  scale2: The x/y/z dimensions of the second box.</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordtype">bool</span> AreObbsInCollision(<span class="keyword">const</span> geometry_msgs::Pose&amp; pose1,</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacerapid.html#ae58e3145f5ef737bfb2f30dab961df31">AreObbsInCollision</a>(<span class="keyword">const</span> geometry_msgs::Pose&amp; pose1,</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                        <span class="keyword">const</span> geometry_msgs::Vector3&amp; scale1,</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                        <span class="keyword">const</span> geometry_msgs::Pose&amp; pose2,</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                        <span class="keyword">const</span> geometry_msgs::Vector3&amp; scale2);</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}  <span class="comment">// namespace rapid</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#endif  // _RAPID_COLLISION_COLLISION_CHECKS_H_</span></div>
+<div class="ttc" id="namespacerapid_html_ae58e3145f5ef737bfb2f30dab961df31"><div class="ttname"><a href="namespacerapid.html#ae58e3145f5ef737bfb2f30dab961df31">rapid::AreObbsInCollision</a></div><div class="ttdeci">bool AreObbsInCollision(const geometry_msgs::Pose &amp;pose1, const geometry_msgs::Vector3 &amp;scale1, const geometry_msgs::Pose &amp;pose2, const geometry_msgs::Vector3 &amp;scale2)</div><div class="ttdef"><b>Definition:</b> <a href="collision__checks_8cpp_source.html#l00007">collision_checks.cpp:7</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_3f5d7476dd82b7002ea7a71568e1606b.html">rapid_collision</a></li><li class="navelem"><a class="el" href="dir_cf75562f5de3625a0eed1b8f5760646f.html">include</a></li><li class="navelem"><a class="el" href="dir_0b3f1f5292dac08961aa839b7590f0dc.html">rapid_collision</a></li><li class="navelem"><b>collision_checks.h</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_3f5d7476dd82b7002ea7a71568e1606b.html">rapid_collision</a></li><li class="navelem"><a class="el" href="dir_cf75562f5de3625a0eed1b8f5760646f.html">include</a></li><li class="navelem"><a class="el" href="dir_0b3f1f5292dac08961aa839b7590f0dc.html">rapid_collision</a></li><li class="navelem"><a class="el" href="collision__checks_8h.html">collision_checks.h</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

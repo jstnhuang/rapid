@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('rapid__pr2_2include_2rapid__pr2_2gripp
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +107,7 @@ $(document).ready(function(){initNavTree('rapid__pr2_2include_2rapid__pr2_2gripp
 <div class="title">gripper.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_PR2_GRIPPER_H_</span></div>
+<a href="rapid__pr2_2include_2rapid__pr2_2gripper_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_PR2_GRIPPER_H_</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _RAPID_PR2_GRIPPER_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;actionlib/client/simple_action_client.h&quot;</span></div>
@@ -114,8 +116,8 @@ $(document).ready(function(){initNavTree('rapid__pr2_2include_2rapid__pr2_2gripp
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>pr2 {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> kLeftGripperAction[] = <span class="stringliteral">&quot;l_gripper_controller/gripper_action&quot;</span>;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> kRightGripperAction[] = <span class="stringliteral">&quot;r_gripper_controller/gripper_action&quot;</span>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="namespacerapid_1_1pr2.html#afd83b682d025d3df115943c9641c06cc">   10</a></span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> <a class="code" href="namespacerapid_1_1pr2.html#afd83b682d025d3df115943c9641c06cc">kLeftGripperAction</a>[] = <span class="stringliteral">&quot;l_gripper_controller/gripper_action&quot;</span>;</div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="namespacerapid_1_1pr2.html#a0a30fe66d8ea8f02bfd3bcf28e3f6288">   11</a></span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> <a class="code" href="namespacerapid_1_1pr2.html#a0a30fe66d8ea8f02bfd3bcf28e3f6288">kRightGripperAction</a>[] = <span class="stringliteral">&quot;r_gripper_controller/gripper_action&quot;</span>;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
 <div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="classrapid_1_1pr2_1_1Gripper.html">   23</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid_1_1pr2_1_1Gripper.html">Gripper</a> {</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; <span class="keyword">public</span>:</div>
@@ -146,6 +148,8 @@ $(document).ready(function(){initNavTree('rapid__pr2_2include_2rapid__pr2_2gripp
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#endif  // _RAPID_PR2_GRIPPER_H_</span></div>
 <div class="ttc" id="classrapid_1_1pr2_1_1Gripper_html_aa406a1f8fc8e7b75b88b707ce34bf5ec"><div class="ttname"><a href="classrapid_1_1pr2_1_1Gripper.html#aa406a1f8fc8e7b75b88b707ce34bf5ec">rapid::pr2::Gripper::Right</a></div><div class="ttdeci">static Gripper Right()</div><div class="ttdoc">Returns a Gripper object for the PR2&#39;s right gripper. </div><div class="ttdef"><b>Definition:</b> <a href="rapid__pr2_2src_2gripper_8cpp_source.html#l00015">gripper.cpp:15</a></div></div>
 <div class="ttc" id="classrapid_1_1pr2_1_1Gripper_html_ac5254bd959f1d53ca94bc896d18f0109"><div class="ttname"><a href="classrapid_1_1pr2_1_1Gripper.html#ac5254bd959f1d53ca94bc896d18f0109">rapid::pr2::Gripper::Cancel</a></div><div class="ttdeci">void Cancel()</div><div class="ttdoc">Stops the gripper&#39;s opening or closing movement. </div><div class="ttdef"><b>Definition:</b> <a href="rapid__pr2_2src_2gripper_8cpp_source.html#l00045">gripper.cpp:45</a></div></div>
+<div class="ttc" id="namespacerapid_1_1pr2_html_afd83b682d025d3df115943c9641c06cc"><div class="ttname"><a href="namespacerapid_1_1pr2.html#afd83b682d025d3df115943c9641c06cc">rapid::pr2::kLeftGripperAction</a></div><div class="ttdeci">static const char kLeftGripperAction[]</div><div class="ttdef"><b>Definition:</b> <a href="rapid__pr2_2include_2rapid__pr2_2gripper_8h_source.html#l00010">gripper.h:10</a></div></div>
+<div class="ttc" id="namespacerapid_1_1pr2_html_a0a30fe66d8ea8f02bfd3bcf28e3f6288"><div class="ttname"><a href="namespacerapid_1_1pr2.html#a0a30fe66d8ea8f02bfd3bcf28e3f6288">rapid::pr2::kRightGripperAction</a></div><div class="ttdeci">static const char kRightGripperAction[]</div><div class="ttdef"><b>Definition:</b> <a href="rapid__pr2_2include_2rapid__pr2_2gripper_8h_source.html#l00011">gripper.h:11</a></div></div>
 <div class="ttc" id="classrapid_1_1pr2_1_1Gripper_html_a8b784334c9a12822dee05d4d7b349e26"><div class="ttname"><a href="classrapid_1_1pr2_1_1Gripper.html#a8b784334c9a12822dee05d4d7b349e26">rapid::pr2::Gripper::StartOpening</a></div><div class="ttdeci">bool StartOpening()</div><div class="ttdoc">Starts opening the gripper. </div><div class="ttdef"><b>Definition:</b> <a href="rapid__pr2_2src_2gripper_8cpp_source.html#l00017">gripper.cpp:17</a></div></div>
 <div class="ttc" id="classrapid_1_1pr2_1_1Gripper_html_a8ed26c36be4e0e876d2934ba8b512f0a"><div class="ttname"><a href="classrapid_1_1pr2_1_1Gripper.html#a8ed26c36be4e0e876d2934ba8b512f0a">rapid::pr2::Gripper::IsDone</a></div><div class="ttdeci">bool IsDone() const </div><div class="ttdoc">Returns true if the gripper is done opening or closing. </div><div class="ttdef"><b>Definition:</b> <a href="rapid__pr2_2src_2gripper_8cpp_source.html#l00043">gripper.cpp:43</a></div></div>
 <div class="ttc" id="classrapid_1_1pr2_1_1Gripper_html_a68cfb630eb6c3b6d157ade15b98b43dd"><div class="ttname"><a href="classrapid_1_1pr2_1_1Gripper.html#a68cfb630eb6c3b6d157ade15b98b43dd">rapid::pr2::Gripper::Left</a></div><div class="ttdeci">static Gripper Left()</div><div class="ttdoc">Returns a Gripper object for the PR2&#39;s left gripper. </div><div class="ttdef"><b>Definition:</b> <a href="rapid__pr2_2src_2gripper_8cpp_source.html#l00013">gripper.cpp:13</a></div></div>
@@ -156,8 +160,8 @@ $(document).ready(function(){initNavTree('rapid__pr2_2include_2rapid__pr2_2gripp
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_49149d62a85156263d42e1f608814b17.html">rapid_pr2</a></li><li class="navelem"><a class="el" href="dir_1d69d3dc4f9df1adc10fa251d5fbe773.html">include</a></li><li class="navelem"><a class="el" href="dir_9e9de26df8fa5fc0db0e55bfe68035fd.html">rapid_pr2</a></li><li class="navelem"><b>gripper.h</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_49149d62a85156263d42e1f608814b17.html">rapid_pr2</a></li><li class="navelem"><a class="el" href="dir_1d69d3dc4f9df1adc10fa251d5fbe773.html">include</a></li><li class="navelem"><a class="el" href="dir_9e9de26df8fa5fc0db0e55bfe68035fd.html">rapid_pr2</a></li><li class="navelem"><a class="el" href="rapid__pr2_2include_2rapid__pr2_2gripper_8h.html">gripper.h</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

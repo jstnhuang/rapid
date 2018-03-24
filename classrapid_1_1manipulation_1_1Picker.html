@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid_1_1manipulation_1_1Picker.h
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,32 +112,210 @@ $(document).ready(function(){initNavTree('classrapid_1_1manipulation_1_1Picker.h
 <div class="title">rapid::manipulation::Picker Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="pick_8h_source.html">pick.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a31628cb1152b4daacab6d524d14da7db"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a31628cb1152b4daacab6d524d14da7db"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Picker</b> (<a class="el" href="classrapid_1_1manipulation_1_1ArmInterface.html">ArmInterface</a> *arm, <a class="el" href="classrapid_1_1manipulation_1_1GripperInterface.html">GripperInterface</a> *gripper, <a class="el" href="classrapid__ros_1_1ServiceClientInterface.html">rapid_ros::ServiceClientInterface</a>&lt; agile_grasp::FindGrasps &gt; *grasp_gen_client, <a class="el" href="classrapid__ros_1_1PublisherInterface.html">rapid::viz::MarkerPub</a> *marker_pub)</td></tr>
+<tr class="memitem:a31628cb1152b4daacab6d524d14da7db"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Picker.html#a31628cb1152b4daacab6d524d14da7db">Picker</a> (<a class="el" href="classrapid_1_1manipulation_1_1ArmInterface.html">ArmInterface</a> *arm, <a class="el" href="classrapid_1_1manipulation_1_1GripperInterface.html">GripperInterface</a> *gripper, <a class="el" href="classrapid__ros_1_1ServiceClientInterface.html">rapid_ros::ServiceClientInterface</a>&lt; agile_grasp::FindGrasps &gt; *grasp_gen_client, <a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">rapid::viz::MarkerPub</a> *marker_pub)</td></tr>
 <tr class="separator:a31628cb1152b4daacab6d524d14da7db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87c303f7457d9f8d9b1b45225560454f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a87c303f7457d9f8d9b1b45225560454f"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Pick</b> (const <a class="el" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a> &amp;obj, double max_effort=-1)</td></tr>
+<tr class="memitem:a87c303f7457d9f8d9b1b45225560454f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Picker.html#a87c303f7457d9f8d9b1b45225560454f">Pick</a> (const <a class="el" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a> &amp;obj, double max_effort=-1)</td></tr>
 <tr class="separator:a87c303f7457d9f8d9b1b45225560454f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa00e9b46e1621dad993979b70655ba82"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa00e9b46e1621dad993979b70655ba82"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>GenerateGrasps</b> (const <a class="el" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a> &amp;obj, agile_grasp::Grasps *grasps)</td></tr>
+<tr class="memitem:aa00e9b46e1621dad993979b70655ba82"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Picker.html#aa00e9b46e1621dad993979b70655ba82">GenerateGrasps</a> (const <a class="el" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a> &amp;obj, agile_grasp::Grasps *grasps)</td></tr>
 <tr class="separator:aa00e9b46e1621dad993979b70655ba82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba71e34cc58113fd707cc65cdfd90e37"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aba71e34cc58113fd707cc65cdfd90e37"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>VisualizeGrasp</b> (const agile_grasp::Grasp &amp;grasp, const std::string &amp;frame)</td></tr>
+<tr class="memitem:aba71e34cc58113fd707cc65cdfd90e37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Picker.html#aba71e34cc58113fd707cc65cdfd90e37">VisualizeGrasp</a> (const agile_grasp::Grasp &amp;grasp, const std::string &amp;frame)</td></tr>
 <tr class="separator:aba71e34cc58113fd707cc65cdfd90e37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21f4d0826c5717dac4b70dec36bcea63"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a21f4d0826c5717dac4b70dec36bcea63"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>MoveToPreGrasp</b> (const geometry_msgs::PoseStamped &amp;grasp_pose, const geometry_msgs::Vector3 &amp;grasp_approach)</td></tr>
+<tr class="memitem:a21f4d0826c5717dac4b70dec36bcea63"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Picker.html#a21f4d0826c5717dac4b70dec36bcea63">MoveToPreGrasp</a> (const geometry_msgs::PoseStamped &amp;grasp_pose, const geometry_msgs::Vector3 &amp;grasp_approach)</td></tr>
 <tr class="separator:a21f4d0826c5717dac4b70dec36bcea63"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac3873a766d26b3b6bed3a09c63b5a4b9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac3873a766d26b3b6bed3a09c63b5a4b9"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>MoveToGrasp</b> (const geometry_msgs::PoseStamped &amp;grasp_pose, const geometry_msgs::Vector3 &amp;grasp_approach)</td></tr>
+<tr class="memitem:ac3873a766d26b3b6bed3a09c63b5a4b9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Picker.html#ac3873a766d26b3b6bed3a09c63b5a4b9">MoveToGrasp</a> (const geometry_msgs::PoseStamped &amp;grasp_pose, const geometry_msgs::Vector3 &amp;grasp_approach)</td></tr>
 <tr class="separator:ac3873a766d26b3b6bed3a09c63b5a4b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="pick_8h_source.html#l00024">24</a> of file <a class="el" href="pick_8h_source.html">pick.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a31628cb1152b4daacab6d524d14da7db"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::manipulation::Picker::Picker </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classrapid_1_1manipulation_1_1ArmInterface.html">ArmInterface</a> *&#160;</td>
+          <td class="paramname"><em>arm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classrapid_1_1manipulation_1_1GripperInterface.html">GripperInterface</a> *&#160;</td>
+          <td class="paramname"><em>gripper</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classrapid__ros_1_1ServiceClientInterface.html">rapid_ros::ServiceClientInterface</a>&lt; agile_grasp::FindGrasps &gt; *&#160;</td>
+          <td class="paramname"><em>grasp_gen_client</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">rapid::viz::MarkerPub</a> *&#160;</td>
+          <td class="paramname"><em>marker_pub</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pick_8cpp_source.html#l00048">48</a> of file <a class="el" href="pick_8cpp_source.html">pick.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="aa00e9b46e1621dad993979b70655ba82"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rapid::manipulation::Picker::GenerateGrasps </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a> &amp;&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">agile_grasp::Grasps *&#160;</td>
+          <td class="paramname"><em>grasps</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pick_8cpp_source.html#l00197">197</a> of file <a class="el" href="pick_8cpp_source.html">pick.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac3873a766d26b3b6bed3a09c63b5a4b9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rapid::manipulation::Picker::MoveToGrasp </td>
+          <td>(</td>
+          <td class="paramtype">const geometry_msgs::PoseStamped &amp;&#160;</td>
+          <td class="paramname"><em>grasp_pose</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const geometry_msgs::Vector3 &amp;&#160;</td>
+          <td class="paramname"><em>grasp_approach</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pick_8cpp_source.html#l00223">223</a> of file <a class="el" href="pick_8cpp_source.html">pick.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a21f4d0826c5717dac4b70dec36bcea63"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rapid::manipulation::Picker::MoveToPreGrasp </td>
+          <td>(</td>
+          <td class="paramtype">const geometry_msgs::PoseStamped &amp;&#160;</td>
+          <td class="paramname"><em>grasp_pose</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const geometry_msgs::Vector3 &amp;&#160;</td>
+          <td class="paramname"><em>grasp_approach</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pick_8cpp_source.html#l00211">211</a> of file <a class="el" href="pick_8cpp_source.html">pick.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a87c303f7457d9f8d9b1b45225560454f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rapid::manipulation::Picker::Pick </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a> &amp;&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>max_effort</em> = <code>-1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pick_8cpp_source.html#l00126">126</a> of file <a class="el" href="pick_8cpp_source.html">pick.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aba71e34cc58113fd707cc65cdfd90e37"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::manipulation::Picker::VisualizeGrasp </td>
+          <td>(</td>
+          <td class="paramtype">const agile_grasp::Grasp &amp;&#160;</td>
+          <td class="paramname"><em>grasp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>frame</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pick_8cpp_source.html#l00235">235</a> of file <a class="el" href="pick_8cpp_source.html">pick.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>rapid_manipulation/include/rapid_manipulation/<a class="el" href="pick_8h_source.html">pick.h</a></li>
 <li>rapid_manipulation/src/<a class="el" href="pick_8cpp_source.html">pick.cpp</a></li>
 </ul>
@@ -145,8 +324,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>MoveToGrasp</b> (cons
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid</b></li><li class="navelem"><b>manipulation</b></li><li class="navelem"><a class="el" href="classrapid_1_1manipulation_1_1Picker.html">Picker</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="namespacerapid_1_1manipulation.html">manipulation</a></li><li class="navelem"><a class="el" href="classrapid_1_1manipulation_1_1Picker.html">Picker</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

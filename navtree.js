@@ -4,26 +4,47 @@ var NAVTREE =
     [ "rapid_collision", "md_rapid_collision_README.html", null ],
     [ "rapid_msgs", "md_rapid_msgs_README.html", null ],
     [ "rapid_ros", "md_rapid_ros_README.html", null ],
+    [ "Namespaces", null, [
+      [ "Namespace List", "namespaces.html", "namespaces" ],
+      [ "Namespace Members", "namespacemembers.html", [
+        [ "All", "namespacemembers.html", null ],
+        [ "Functions", "namespacemembers_func.html", null ],
+        [ "Variables", "namespacemembers_vars.html", null ],
+        [ "Typedefs", "namespacemembers_type.html", null ],
+        [ "Enumerations", "namespacemembers_enum.html", null ],
+        [ "Enumerator", "namespacemembers_eval.html", null ]
+      ] ]
+    ] ],
     [ "Classes", null, [
       [ "Class List", "annotated.html", "annotated" ],
       [ "Class Index", "classes.html", null ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
-        [ "All", "functions.html", null ],
-        [ "Functions", "functions_func.html", null ]
+        [ "All", "functions.html", "functions_dup" ],
+        [ "Functions", "functions_func.html", "functions_func" ],
+        [ "Variables", "functions_vars.html", null ],
+        [ "Typedefs", "functions_type.html", null ]
       ] ]
     ] ],
     [ "Files", null, [
-      [ "File List", "files.html", "files" ]
+      [ "File List", "files.html", "files" ],
+      [ "File Members", "globals.html", [
+        [ "All", "globals.html", null ],
+        [ "Functions", "globals_func.html", null ],
+        [ "Variables", "globals_vars.html", null ],
+        [ "Typedefs", "globals_type.html", null ]
+      ] ]
     ] ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-".html",
-"classrapid_1_1perception_1_1PoseEstimationHeatMapper.html#a9e64376358853309ef230f6c3814bb14",
-"command__interface_8h_source.html"
+"_8ycm__extra__conf_8py.html",
+"classrapid_1_1perception_1_1HSurface.html#af11934c262b42dbff038c44609a327b5",
+"classrapid__ros_1_1MockActionClient.html#ae1ec8414b5290c7922ce8a883cd0bbc3",
+"joint__state__reader_8h.html",
+"rapid__perception_2include_2rapid__perception_2pr2_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

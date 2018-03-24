@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('sound_8cpp_source.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +107,7 @@ $(document).ready(function(){initNavTree('sound_8cpp_source.html','');});
 <div class="title">sound.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;rapid_sound/sound.h&quot;</span></div>
+<a href="sound_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="sound_8h.html">rapid_sound/sound.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
@@ -114,18 +116,21 @@ $(document).ready(function(){initNavTree('sound_8cpp_source.html','');});
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>sound {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;SoundPlay::SoundPlay(<span class="keyword">const</span> std::string&amp; voice) : client_(), voice_(voice) {}</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classrapid_1_1sound_1_1SoundPlay.html#ae0b348c3f2385577dce88246e1f0e734">   10</a></span>&#160;<a class="code" href="classrapid_1_1sound_1_1SoundPlay.html#ae0b348c3f2385577dce88246e1f0e734">SoundPlay::SoundPlay</a>(<span class="keyword">const</span> std::string&amp; voice) : client_(), voice_(voice) {}</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keywordtype">void</span> SoundPlay::Say(<span class="keyword">const</span> std::string&amp; text) { client_.say(text, voice_); }</div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classrapid_1_1sound_1_1SoundPlay.html#ad1fa7fe1b465b7d4aad29fec07d1c298">   12</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1sound_1_1SoundPlay.html#ad1fa7fe1b465b7d4aad29fec07d1c298">SoundPlay::Say</a>(<span class="keyword">const</span> std::string&amp; text) { client_.say(text, voice_); }</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;}  <span class="comment">// namespace sound</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}  <span class="comment">// namespace rapid</span></div>
+<div class="ttc" id="sound_8h_html"><div class="ttname"><a href="sound_8h.html">sound.h</a></div></div>
+<div class="ttc" id="classrapid_1_1sound_1_1SoundPlay_html_ae0b348c3f2385577dce88246e1f0e734"><div class="ttname"><a href="classrapid_1_1sound_1_1SoundPlay.html#ae0b348c3f2385577dce88246e1f0e734">rapid::sound::SoundPlay::SoundPlay</a></div><div class="ttdeci">SoundPlay(const std::string &amp;voice=&quot;voice_kal_diphone&quot;)</div><div class="ttdef"><b>Definition:</b> <a href="sound_8cpp_source.html#l00010">sound.cpp:10</a></div></div>
+<div class="ttc" id="classrapid_1_1sound_1_1SoundPlay_html_ad1fa7fe1b465b7d4aad29fec07d1c298"><div class="ttname"><a href="classrapid_1_1sound_1_1SoundPlay.html#ad1fa7fe1b465b7d4aad29fec07d1c298">rapid::sound::SoundPlay::Say</a></div><div class="ttdeci">virtual void Say(const std::string &amp;text)</div><div class="ttdef"><b>Definition:</b> <a href="sound_8cpp_source.html#l00012">sound.cpp:12</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_7aa7d824e3b611efae06c65cfaae4d69.html">rapid_sound</a></li><li class="navelem"><a class="el" href="dir_26be3066bd935467108904373243e662.html">src</a></li><li class="navelem"><b>sound.cpp</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_7aa7d824e3b611efae06c65cfaae4d69.html">rapid_sound</a></li><li class="navelem"><a class="el" href="dir_26be3066bd935467108904373243e662.html">src</a></li><li class="navelem"><a class="el" href="sound_8cpp.html">sound.cpp</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

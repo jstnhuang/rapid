@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid_1_1viz_1_1Marker.html','');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,77 +113,628 @@ $(document).ready(function(){initNavTree('classrapid_1_1viz_1_1Marker.html','');
 <div class="title">rapid::viz::Marker Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="markers_8h_source.html">markers.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a69850ccdd8fade0052ee0091f3611dbd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a69850ccdd8fade0052ee0091f3611dbd"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Marker</b> (const <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a> &amp;rhs)</td></tr>
+<tr class="memitem:a8ca9f7a909f7938010ca526d4dbbb03d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#a8ca9f7a909f7938010ca526d4dbbb03d">~Marker</a> ()</td></tr>
+<tr class="separator:a8ca9f7a909f7938010ca526d4dbbb03d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69850ccdd8fade0052ee0091f3611dbd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#a69850ccdd8fade0052ee0091f3611dbd">Marker</a> (const <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a> &amp;rhs)</td></tr>
 <tr class="separator:a69850ccdd8fade0052ee0091f3611dbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adca91d4d036e70e6ce2abdf8cbba34f8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adca91d4d036e70e6ce2abdf8cbba34f8"></a>
-<a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a> &amp;rhs)</td></tr>
+<tr class="memitem:adca91d4d036e70e6ce2abdf8cbba34f8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#adca91d4d036e70e6ce2abdf8cbba34f8">operator=</a> (const <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a> &amp;rhs)</td></tr>
 <tr class="separator:adca91d4d036e70e6ce2abdf8cbba34f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49d7135203f48bca12d682bda4cfc0b0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a49d7135203f48bca12d682bda4cfc0b0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Publish</b> ()</td></tr>
+<tr class="memitem:a49d7135203f48bca12d682bda4cfc0b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#a49d7135203f48bca12d682bda4cfc0b0">Publish</a> ()</td></tr>
 <tr class="separator:a49d7135203f48bca12d682bda4cfc0b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa470fee7bc48c502088145033e03cda3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa470fee7bc48c502088145033e03cda3"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Delete</b> ()</td></tr>
+<tr class="memitem:aa470fee7bc48c502088145033e03cda3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#aa470fee7bc48c502088145033e03cda3">Delete</a> ()</td></tr>
 <tr class="separator:aa470fee7bc48c502088145033e03cda3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d824084516919e8fa4a978c5f9c084e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7d824084516919e8fa4a978c5f9c084e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetColor</b> (double r, double g, double b, double a=0.9)</td></tr>
+<tr class="memitem:a7d824084516919e8fa4a978c5f9c084e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#a7d824084516919e8fa4a978c5f9c084e">SetColor</a> (double r, double g, double b, double a=0.9)</td></tr>
 <tr class="separator:a7d824084516919e8fa4a978c5f9c084e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a262f7ef76ceb005cfd796919533f9825"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a262f7ef76ceb005cfd796919533f9825"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetFrame</b> (const std::string &amp;frame_id)</td></tr>
+<tr class="memitem:a262f7ef76ceb005cfd796919533f9825"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#a262f7ef76ceb005cfd796919533f9825">SetFrame</a> (const std::string &amp;frame_id)</td></tr>
 <tr class="separator:a262f7ef76ceb005cfd796919533f9825"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ce5768e2fee331a5a05ab185cc64b98"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1ce5768e2fee331a5a05ab185cc64b98"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetNamespace</b> (const std::string &amp;ns)</td></tr>
+<tr class="memitem:a1ce5768e2fee331a5a05ab185cc64b98"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#a1ce5768e2fee331a5a05ab185cc64b98">SetNamespace</a> (const std::string &amp;ns)</td></tr>
 <tr class="separator:a1ce5768e2fee331a5a05ab185cc64b98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d28c130a874d7f0799737fc9eaf6e8d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6d28c130a874d7f0799737fc9eaf6e8d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetPoints</b> (const std::vector&lt; geometry_msgs::Point &gt; &amp;points)</td></tr>
+<tr class="memitem:a6d28c130a874d7f0799737fc9eaf6e8d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#a6d28c130a874d7f0799737fc9eaf6e8d">SetPoints</a> (const std::vector&lt; geometry_msgs::Point &gt; &amp;points)</td></tr>
 <tr class="separator:a6d28c130a874d7f0799737fc9eaf6e8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f5486ef87a5df4c6a9abf20d33ef669"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1f5486ef87a5df4c6a9abf20d33ef669"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetPose</b> (const geometry_msgs::PoseStamped &amp;ps)</td></tr>
+<tr class="memitem:a1f5486ef87a5df4c6a9abf20d33ef669"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#a1f5486ef87a5df4c6a9abf20d33ef669">SetPose</a> (const geometry_msgs::PoseStamped &amp;ps)</td></tr>
 <tr class="separator:a1f5486ef87a5df4c6a9abf20d33ef669"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55c7dc5387b304966bd82034384da436"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a55c7dc5387b304966bd82034384da436"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetScale</b> (const geometry_msgs::Vector3 &amp;scale)</td></tr>
+<tr class="memitem:a55c7dc5387b304966bd82034384da436"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#a55c7dc5387b304966bd82034384da436">SetScale</a> (const geometry_msgs::Vector3 &amp;scale)</td></tr>
 <tr class="separator:a55c7dc5387b304966bd82034384da436"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b710d6f5a6cfbd0cb72044d7de2e69c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6b710d6f5a6cfbd0cb72044d7de2e69c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetText</b> (const std::string &amp;text)</td></tr>
+<tr class="memitem:a6b710d6f5a6cfbd0cb72044d7de2e69c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#a6b710d6f5a6cfbd0cb72044d7de2e69c">SetText</a> (const std::string &amp;text)</td></tr>
 <tr class="separator:a6b710d6f5a6cfbd0cb72044d7de2e69c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af450a481b350f1f59cd90e62c6c6c4bc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af450a481b350f1f59cd90e62c6c6c4bc"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetType</b> (uint8_t type)</td></tr>
+<tr class="memitem:af450a481b350f1f59cd90e62c6c6c4bc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#af450a481b350f1f59cd90e62c6c6c4bc">SetType</a> (uint8_t type)</td></tr>
 <tr class="separator:af450a481b350f1f59cd90e62c6c6c4bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ed16d54fecf8ba3c05d127508a2a340"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0ed16d54fecf8ba3c05d127508a2a340"></a>
-visualization_msgs::Marker&#160;</td><td class="memItemRight" valign="bottom"><b>marker</b> () const </td></tr>
+<tr class="memitem:a0ed16d54fecf8ba3c05d127508a2a340"><td class="memItemLeft" align="right" valign="top">visualization_msgs::Marker&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#a0ed16d54fecf8ba3c05d127508a2a340">marker</a> () const </td></tr>
 <tr class="separator:a0ed16d54fecf8ba3c05d127508a2a340"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:aa01187de884a468abf9a92e1e68f774f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa01187de884a468abf9a92e1e68f774f"></a>
-static <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Box</b> (const <a class="el" href="classrapid__ros_1_1PublisherInterface.html">MarkerPub</a> *pub, const geometry_msgs::PoseStamped &amp;pose, const geometry_msgs::Vector3 &amp;scale)</td></tr>
+<tr class="memitem:aa01187de884a468abf9a92e1e68f774f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#aa01187de884a468abf9a92e1e68f774f">Box</a> (const <a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">MarkerPub</a> *pub, const geometry_msgs::PoseStamped &amp;pose, const geometry_msgs::Vector3 &amp;scale)</td></tr>
 <tr class="separator:aa01187de884a468abf9a92e1e68f774f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c9838bae927b84340dc8acc4289d48b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9c9838bae927b84340dc8acc4289d48b"></a>
-static <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&#160;</td><td class="memItemRight" valign="bottom"><b>OutlineBox</b> (const <a class="el" href="classrapid__ros_1_1PublisherInterface.html">MarkerPub</a> *pub, const geometry_msgs::PoseStamped &amp;pose, const geometry_msgs::Vector3 &amp;scale)</td></tr>
+<tr class="memitem:a9c9838bae927b84340dc8acc4289d48b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#a9c9838bae927b84340dc8acc4289d48b">OutlineBox</a> (const <a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">MarkerPub</a> *pub, const geometry_msgs::PoseStamped &amp;pose, const geometry_msgs::Vector3 &amp;scale)</td></tr>
 <tr class="separator:a9c9838bae927b84340dc8acc4289d48b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2614c9df442b95b044b7b2c6d0b56ce5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2614c9df442b95b044b7b2c6d0b56ce5"></a>
-static <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Mesh</b> (const <a class="el" href="classrapid__ros_1_1PublisherInterface.html">MarkerPub</a> *pub, const geometry_msgs::PoseStamped &amp;ps, const std::string &amp;uri)</td></tr>
+<tr class="memitem:a2614c9df442b95b044b7b2c6d0b56ce5"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#a2614c9df442b95b044b7b2c6d0b56ce5">Mesh</a> (const <a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">MarkerPub</a> *pub, const geometry_msgs::PoseStamped &amp;ps, const std::string &amp;uri)</td></tr>
 <tr class="separator:a2614c9df442b95b044b7b2c6d0b56ce5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9d4cb7d69cf08af36db8ec69956aacf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae9d4cb7d69cf08af36db8ec69956aacf"></a>
-static <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Mesh</b> (const <a class="el" href="classrapid__ros_1_1PublisherInterface.html">MarkerPub</a> *pub, const geometry_msgs::PoseStamped &amp;ps, const std::string &amp;uri, const std_msgs::ColorRGBA &amp;color)</td></tr>
+<tr class="memitem:ae9d4cb7d69cf08af36db8ec69956aacf"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#ae9d4cb7d69cf08af36db8ec69956aacf">Mesh</a> (const <a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">MarkerPub</a> *pub, const geometry_msgs::PoseStamped &amp;ps, const std::string &amp;uri, const std_msgs::ColorRGBA &amp;color)</td></tr>
 <tr class="separator:ae9d4cb7d69cf08af36db8ec69956aacf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a30d50a5560c60412edf6c3ceaf4f3f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3a30d50a5560c60412edf6c3ceaf4f3f"></a>
-static <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Text</b> (const <a class="el" href="classrapid__ros_1_1PublisherInterface.html">MarkerPub</a> *pub, const geometry_msgs::PoseStamped &amp;pose, const std::string &amp;text, double size)</td></tr>
+<tr class="memitem:a3a30d50a5560c60412edf6c3ceaf4f3f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#a3a30d50a5560c60412edf6c3ceaf4f3f">Text</a> (const <a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">MarkerPub</a> *pub, const geometry_msgs::PoseStamped &amp;pose, const std::string &amp;text, double size)</td></tr>
 <tr class="separator:a3a30d50a5560c60412edf6c3ceaf4f3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f39187e7929a285c71c287792f8769e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8f39187e7929a285c71c287792f8769e"></a>
-static <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Vector</b> (const <a class="el" href="classrapid__ros_1_1PublisherInterface.html">MarkerPub</a> *pub, const std::string &amp;frame_id, const geometry_msgs::Point &amp;origin, const geometry_msgs::Vector3 &amp;vector)</td></tr>
+<tr class="memitem:a8f39187e7929a285c71c287792f8769e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#a8f39187e7929a285c71c287792f8769e">Vector</a> (const <a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">MarkerPub</a> *pub, const std::string &amp;frame_id, const geometry_msgs::Point &amp;origin, const geometry_msgs::Vector3 &amp;vector)</td></tr>
 <tr class="separator:a8f39187e7929a285c71c287792f8769e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25b76779a50488107e9a241886ce8c14"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a25b76779a50488107e9a241886ce8c14"></a>
-static <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Null</b> ()</td></tr>
+<tr class="memitem:a25b76779a50488107e9a241886ce8c14"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1viz_1_1Marker.html#a25b76779a50488107e9a241886ce8c14">Null</a> ()</td></tr>
 <tr class="separator:a25b76779a50488107e9a241886ce8c14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="markers_8h_source.html#l00032">32</a> of file <a class="el" href="markers_8h_source.html">markers.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a8ca9f7a909f7938010ca526d4dbbb03d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::viz::Marker::~Marker </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00312">312</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a69850ccdd8fade0052ee0091f3611dbd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::viz::Marker::Marker </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00300">300</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="aa01187de884a468abf9a92e1e68f774f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a> rapid::viz::Marker::Box </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">MarkerPub</a> *&#160;</td>
+          <td class="paramname"><em>pub</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const geometry_msgs::PoseStamped &amp;&#160;</td>
+          <td class="paramname"><em>pose</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const geometry_msgs::Vector3 &amp;&#160;</td>
+          <td class="paramname"><em>scale</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00100">100</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa470fee7bc48c502088145033e03cda3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::viz::Marker::Delete </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00261">261</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0ed16d54fecf8ba3c05d127508a2a340"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">visualization_msgs::Marker rapid::viz::Marker::marker </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00296">296</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2614c9df442b95b044b7b2c6d0b56ce5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a> rapid::viz::Marker::Mesh </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">MarkerPub</a> *&#160;</td>
+          <td class="paramname"><em>pub</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const geometry_msgs::PoseStamped &amp;&#160;</td>
+          <td class="paramname"><em>ps</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>uri</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00186">186</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae9d4cb7d69cf08af36db8ec69956aacf"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a> rapid::viz::Marker::Mesh </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">MarkerPub</a> *&#160;</td>
+          <td class="paramname"><em>pub</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const geometry_msgs::PoseStamped &amp;&#160;</td>
+          <td class="paramname"><em>ps</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>uri</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std_msgs::ColorRGBA &amp;&#160;</td>
+          <td class="paramname"><em>color</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00201">201</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a25b76779a50488107e9a241886ce8c14"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a> rapid::viz::Marker::Null </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00248">248</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adca91d4d036e70e6ce2abdf8cbba34f8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a> &amp; rapid::viz::Marker::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00304">304</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9c9838bae927b84340dc8acc4289d48b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a> rapid::viz::Marker::OutlineBox </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">MarkerPub</a> *&#160;</td>
+          <td class="paramname"><em>pub</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const geometry_msgs::PoseStamped &amp;&#160;</td>
+          <td class="paramname"><em>pose</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const geometry_msgs::Vector3 &amp;&#160;</td>
+          <td class="paramname"><em>scale</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00111">111</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a49d7135203f48bca12d682bda4cfc0b0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::viz::Marker::Publish </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00254">254</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7d824084516919e8fa4a978c5f9c084e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::viz::Marker::SetColor </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>a</em> = <code>0.9</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00268">268</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a262f7ef76ceb005cfd796919533f9825"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::viz::Marker::SetFrame </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>frame_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00275">275</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1ce5768e2fee331a5a05ab185cc64b98"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::viz::Marker::SetNamespace </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>ns</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00279">279</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6d28c130a874d7f0799737fc9eaf6e8d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::viz::Marker::SetPoints </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; geometry_msgs::Point &gt; &amp;&#160;</td>
+          <td class="paramname"><em>points</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00281">281</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1f5486ef87a5df4c6a9abf20d33ef669"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::viz::Marker::SetPose </td>
+          <td>(</td>
+          <td class="paramtype">const geometry_msgs::PoseStamped &amp;&#160;</td>
+          <td class="paramname"><em>ps</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00285">285</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a55c7dc5387b304966bd82034384da436"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::viz::Marker::SetScale </td>
+          <td>(</td>
+          <td class="paramtype">const geometry_msgs::Vector3 &amp;&#160;</td>
+          <td class="paramname"><em>scale</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00290">290</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6b710d6f5a6cfbd0cb72044d7de2e69c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::viz::Marker::SetText </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>text</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00292">292</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af450a481b350f1f59cd90e62c6c6c4bc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::viz::Marker::SetType </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00294">294</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3a30d50a5560c60412edf6c3ceaf4f3f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a> rapid::viz::Marker::Text </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">MarkerPub</a> *&#160;</td>
+          <td class="paramname"><em>pub</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const geometry_msgs::PoseStamped &amp;&#160;</td>
+          <td class="paramname"><em>pose</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00208">208</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8f39187e7929a285c71c287792f8769e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a> rapid::viz::Marker::Vector </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">MarkerPub</a> *&#160;</td>
+          <td class="paramname"><em>pub</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>frame_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const geometry_msgs::Point &amp;&#160;</td>
+          <td class="paramname"><em>origin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const geometry_msgs::Vector3 &amp;&#160;</td>
+          <td class="paramname"><em>vector</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="markers_8cpp_source.html#l00222">222</a> of file <a class="el" href="markers_8cpp_source.html">markers.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>rapid_viz/include/rapid_viz/<a class="el" href="markers_8h_source.html">markers.h</a></li>
 <li>rapid_viz/src/<a class="el" href="markers_8cpp_source.html">markers.cpp</a></li>
 </ul>
@@ -191,8 +743,8 @@ static <a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&#160;</t
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid</b></li><li class="navelem"><b>viz</b></li><li class="navelem"><a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="namespacerapid_1_1viz.html">viz</a></li><li class="navelem"><a class="el" href="classrapid_1_1viz_1_1Marker.html">Marker</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

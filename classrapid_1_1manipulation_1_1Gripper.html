@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid_1_1manipulation_1_1Gripper.
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,6 +113,8 @@ $(document).ready(function(){initNavTree('classrapid_1_1manipulation_1_1Gripper.
 <div class="title">rapid::manipulation::Gripper Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html">gripper.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for rapid::manipulation::Gripper:</div>
 <div class="dyncontent">
@@ -124,60 +127,407 @@ Inheritance diagram for rapid::manipulation::Gripper:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a63f7b00710ce9aaec246040327f3569f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a63f7b00710ce9aaec246040327f3569f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Gripper</b> (const int gripper_id, <a class="el" href="classrapid__ros_1_1ActionClientInterface.html">GripperClient</a> *client, <a class="el" href="classrapid__ros_1_1TfListenerInterface.html">rapid_ros::TfListenerInterface</a> *tf_listener)</td></tr>
+<tr class="memitem:a63f7b00710ce9aaec246040327f3569f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html#a63f7b00710ce9aaec246040327f3569f">Gripper</a> (const int gripper_id, <a class="el" href="namespacerapid_1_1manipulation.html#a0a88174492a1408d74227b15411d0b1a">GripperClient</a> *client, <a class="el" href="classrapid__ros_1_1TfListenerInterface.html">rapid_ros::TfListenerInterface</a> *tf_listener)</td></tr>
 <tr class="separator:a63f7b00710ce9aaec246040327f3569f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab5bc33b83c76c4245993636e5f74348"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab5bc33b83c76c4245993636e5f74348"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>SetPosition</b> (double position, double effort=-1.0)</td></tr>
+<tr class="memitem:a15c7d0dbcd24d956e037afb00ff6fe5b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html#a15c7d0dbcd24d956e037afb00ff6fe5b">~Gripper</a> ()</td></tr>
+<tr class="separator:a15c7d0dbcd24d956e037afb00ff6fe5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab5bc33b83c76c4245993636e5f74348"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html#aab5bc33b83c76c4245993636e5f74348">SetPosition</a> (double position, double effort=-1.0)</td></tr>
 <tr class="separator:aab5bc33b83c76c4245993636e5f74348"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2d670dd9d17647c05b9af46d746517d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad2d670dd9d17647c05b9af46d746517d"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>GetPosition</b> () const </td></tr>
+<tr class="memitem:ad2d670dd9d17647c05b9af46d746517d"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html#ad2d670dd9d17647c05b9af46d746517d">GetPosition</a> () const </td></tr>
 <tr class="separator:ad2d670dd9d17647c05b9af46d746517d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99600aa5a9428a909a65e7c99abfa712"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a99600aa5a9428a909a65e7c99abfa712"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>HeldObject</b> (<a class="el" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a> *object) const </td></tr>
+<tr class="memitem:a99600aa5a9428a909a65e7c99abfa712"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html#a99600aa5a9428a909a65e7c99abfa712">HeldObject</a> (<a class="el" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a> *object) const </td></tr>
 <tr class="separator:a99600aa5a9428a909a65e7c99abfa712"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a173f4d7eb7d44086f34f6e5884381e6f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a173f4d7eb7d44086f34f6e5884381e6f"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsOpen</b> () const </td></tr>
+<tr class="memitem:a173f4d7eb7d44086f34f6e5884381e6f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html#a173f4d7eb7d44086f34f6e5884381e6f">IsOpen</a> () const </td></tr>
 <tr class="separator:a173f4d7eb7d44086f34f6e5884381e6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee6f20a39a7a4279c045f7f23d1137ee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aee6f20a39a7a4279c045f7f23d1137ee"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Open</b> (double effort=-1.0)</td></tr>
+<tr class="memitem:aee6f20a39a7a4279c045f7f23d1137ee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html#aee6f20a39a7a4279c045f7f23d1137ee">Open</a> (double effort=-1.0)</td></tr>
 <tr class="separator:aee6f20a39a7a4279c045f7f23d1137ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54a684ab4f854006cb83f3d76ba0abb0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a54a684ab4f854006cb83f3d76ba0abb0"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Close</b> (double effort=-1.0)</td></tr>
+<tr class="memitem:a54a684ab4f854006cb83f3d76ba0abb0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html#a54a684ab4f854006cb83f3d76ba0abb0">Close</a> (double effort=-1.0)</td></tr>
 <tr class="separator:a54a684ab4f854006cb83f3d76ba0abb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab35a6c6a9303126d8a093bc37f83551f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab35a6c6a9303126d8a093bc37f83551f"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_holding_object</b> () const </td></tr>
+<tr class="memitem:ab35a6c6a9303126d8a093bc37f83551f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html#ab35a6c6a9303126d8a093bc37f83551f">is_holding_object</a> () const </td></tr>
 <tr class="separator:ab35a6c6a9303126d8a093bc37f83551f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab27284733c0fefea905b5fe67fb4d645"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab27284733c0fefea905b5fe67fb4d645"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_held_object</b> (const <a class="el" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a> &amp;object)</td></tr>
+<tr class="memitem:ab27284733c0fefea905b5fe67fb4d645"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html#ab27284733c0fefea905b5fe67fb4d645">set_held_object</a> (const <a class="el" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a> &amp;object)</td></tr>
 <tr class="separator:ab27284733c0fefea905b5fe67fb4d645"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e193f0f5f5a27266faa58b63da30120"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1e193f0f5f5a27266faa58b63da30120"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_is_holding_object</b> (bool holding)</td></tr>
+<tr class="memitem:a1e193f0f5f5a27266faa58b63da30120"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html#a1e193f0f5f5a27266faa58b63da30120">set_is_holding_object</a> (bool holding)</td></tr>
 <tr class="separator:a1e193f0f5f5a27266faa58b63da30120"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classrapid_1_1manipulation_1_1GripperInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classrapid_1_1manipulation_1_1GripperInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classrapid_1_1manipulation_1_1GripperInterface.html">rapid::manipulation::GripperInterface</a></td></tr>
+<tr class="memitem:ae7b5ab98eb3c488d3f227f06f7c56bf8 inherit pub_methods_classrapid_1_1manipulation_1_1GripperInterface"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1GripperInterface.html#ae7b5ab98eb3c488d3f227f06f7c56bf8">~GripperInterface</a> ()</td></tr>
+<tr class="separator:ae7b5ab98eb3c488d3f227f06f7c56bf8 inherit pub_methods_classrapid_1_1manipulation_1_1GripperInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:ae51233d774280dc561b4b16014185707"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae51233d774280dc561b4b16014185707"></a>
-static const double&#160;</td><td class="memItemRight" valign="bottom"><b>OPEN</b> = 0.09</td></tr>
+<tr class="memitem:ae51233d774280dc561b4b16014185707"><td class="memItemLeft" align="right" valign="top">static const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html#ae51233d774280dc561b4b16014185707">OPEN</a> = 0.09</td></tr>
 <tr class="separator:ae51233d774280dc561b4b16014185707"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0712a3d5bc511b05c348181899e2f6d7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0712a3d5bc511b05c348181899e2f6d7"></a>
-static const double&#160;</td><td class="memItemRight" valign="bottom"><b>CLOSED</b> = 0.00</td></tr>
+<tr class="memitem:a0712a3d5bc511b05c348181899e2f6d7"><td class="memItemLeft" align="right" valign="top">static const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html#a0712a3d5bc511b05c348181899e2f6d7">CLOSED</a> = 0.00</td></tr>
 <tr class="separator:a0712a3d5bc511b05c348181899e2f6d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac1a55873116f7160fcd36fd828def0a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aac1a55873116f7160fcd36fd828def0a"></a>
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>LEFT_GRIPPER</b> = 0</td></tr>
+<tr class="memitem:aac1a55873116f7160fcd36fd828def0a"><td class="memItemLeft" align="right" valign="top">static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html#aac1a55873116f7160fcd36fd828def0a">LEFT_GRIPPER</a> = 0</td></tr>
 <tr class="separator:aac1a55873116f7160fcd36fd828def0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa13150ce5b5b36d1fb3da8125f285b55"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa13150ce5b5b36d1fb3da8125f285b55"></a>
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RIGHT_GRIPPER</b> = 1</td></tr>
+<tr class="memitem:aa13150ce5b5b36d1fb3da8125f285b55"><td class="memItemLeft" align="right" valign="top">static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html#aa13150ce5b5b36d1fb3da8125f285b55">RIGHT_GRIPPER</a> = 1</td></tr>
 <tr class="separator:aa13150ce5b5b36d1fb3da8125f285b55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91bf313a56d900f7e94c80915e06ef72"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>LEFT_GRIPPER_ACTION</b></td></tr>
+<tr class="memitem:a91bf313a56d900f7e94c80915e06ef72"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html#a91bf313a56d900f7e94c80915e06ef72">LEFT_GRIPPER_ACTION</a></td></tr>
 <tr class="separator:a91bf313a56d900f7e94c80915e06ef72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bfcff48ded57f21d0ae02ce06d6ec2b"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>RIGHT_GRIPPER_ACTION</b></td></tr>
+<tr class="memitem:a5bfcff48ded57f21d0ae02ce06d6ec2b"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html#a5bfcff48ded57f21d0ae02ce06d6ec2b">RIGHT_GRIPPER_ACTION</a></td></tr>
 <tr class="separator:a5bfcff48ded57f21d0ae02ce06d6ec2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html#l00071">71</a> of file <a class="el" href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html">gripper.h</a>.</p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a63f7b00710ce9aaec246040327f3569f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::manipulation::Gripper::Gripper </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>gripper_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacerapid_1_1manipulation.html#a0a88174492a1408d74227b15411d0b1a">GripperClient</a> *&#160;</td>
+          <td class="paramname"><em>client</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classrapid__ros_1_1TfListenerInterface.html">rapid_ros::TfListenerInterface</a> *&#160;</td>
+          <td class="paramname"><em>tf_listener</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00025">25</a> of file <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a15c7d0dbcd24d956e037afb00ff6fe5b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::manipulation::Gripper::~Gripper </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00043">43</a> of file <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a54a684ab4f854006cb83f3d76ba0abb0"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rapid::manipulation::Gripper::Close </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>effort</em> = <code>-1.0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid_1_1manipulation_1_1GripperInterface.html#a35559dcb8aca14263782367c89a7b418">rapid::manipulation::GripperInterface</a>.</p>
+
+<p>Definition at line <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00130">130</a> of file <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad2d670dd9d17647c05b9af46d746517d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rapid::manipulation::Gripper::GetPosition </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid_1_1manipulation_1_1GripperInterface.html#adb36847daa0cc4b71c66d1ce133eb516">rapid::manipulation::GripperInterface</a>.</p>
+
+<p>Definition at line <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00086">86</a> of file <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a99600aa5a9428a909a65e7c99abfa712"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rapid::manipulation::Gripper::HeldObject </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a> *&#160;</td>
+          <td class="paramname"><em>object</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid_1_1manipulation_1_1GripperInterface.html#a1011822cd7121a85f76db39aa9ed605e">rapid::manipulation::GripperInterface</a>.</p>
+
+<p>Definition at line <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00117">117</a> of file <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab35a6c6a9303126d8a093bc37f83551f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rapid::manipulation::Gripper::is_holding_object </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid_1_1manipulation_1_1GripperInterface.html#aa914ab8ffd78d2e862427697ae1c49c7">rapid::manipulation::GripperInterface</a>.</p>
+
+<p>Definition at line <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00134">134</a> of file <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a173f4d7eb7d44086f34f6e5884381e6f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rapid::manipulation::Gripper::IsOpen </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid_1_1manipulation_1_1GripperInterface.html#a38a6516cd9952acf731eedf5f7429b12">rapid::manipulation::GripperInterface</a>.</p>
+
+<p>Definition at line <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00124">124</a> of file <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aee6f20a39a7a4279c045f7f23d1137ee"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rapid::manipulation::Gripper::Open </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>effort</em> = <code>-1.0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid_1_1manipulation_1_1GripperInterface.html#acff12976247c57bee0dcba23d5d1c40c">rapid::manipulation::GripperInterface</a>.</p>
+
+<p>Definition at line <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00126">126</a> of file <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab27284733c0fefea905b5fe67fb4d645"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::manipulation::Gripper::set_held_object </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a> &amp;&#160;</td>
+          <td class="paramname"><em>object</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid_1_1manipulation_1_1GripperInterface.html#aaffc7914891420db087769f3afe9db29">rapid::manipulation::GripperInterface</a>.</p>
+
+<p>Definition at line <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00140">140</a> of file <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1e193f0f5f5a27266faa58b63da30120"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::manipulation::Gripper::set_is_holding_object </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>holding</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid_1_1manipulation_1_1GripperInterface.html#a8020488d9861a4a3847dce4a8bc255df">rapid::manipulation::GripperInterface</a>.</p>
+
+<p>Definition at line <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00136">136</a> of file <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aab5bc33b83c76c4245993636e5f74348"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rapid::manipulation::Gripper::SetPosition </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>position</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>effort</em> = <code>-1.0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid_1_1manipulation_1_1GripperInterface.html#a7672ab5bb11a5b9646107b8dbadfa6c0">rapid::manipulation::GripperInterface</a>.</p>
+
+<p>Definition at line <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00045">45</a> of file <a class="el" href="rapid__manipulation_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a0712a3d5bc511b05c348181899e2f6d7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double rapid::manipulation::Gripper::CLOSED = 0.00</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html#l00074">74</a> of file <a class="el" href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html">gripper.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aac1a55873116f7160fcd36fd828def0a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int rapid::manipulation::Gripper::LEFT_GRIPPER = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html#l00077">77</a> of file <a class="el" href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html">gripper.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a91bf313a56d900f7e94c80915e06ef72"></a>
 <div class="memitem">
 <div class="memproto">
@@ -199,6 +549,50 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RIGHT_GRI
 <div class="line">    <span class="stringliteral">&quot;l_gripper_controller/gripper_action&quot;</span></div>
 </div><!-- fragment -->
 <p>Definition at line <a class="el" href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html#l00081">81</a> of file <a class="el" href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html">gripper.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae51233d774280dc561b4b16014185707"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double rapid::manipulation::Gripper::OPEN = 0.09</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html#l00073">73</a> of file <a class="el" href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html">gripper.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa13150ce5b5b36d1fb3da8125f285b55"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int rapid::manipulation::Gripper::RIGHT_GRIPPER = 1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html#l00078">78</a> of file <a class="el" href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html">gripper.h</a>.</p>
 
 </div>
 </div>
@@ -235,8 +629,8 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RIGHT_GRI
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid</b></li><li class="navelem"><b>manipulation</b></li><li class="navelem"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html">Gripper</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="namespacerapid_1_1manipulation.html">manipulation</a></li><li class="navelem"><a class="el" href="classrapid_1_1manipulation_1_1Gripper.html">Gripper</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

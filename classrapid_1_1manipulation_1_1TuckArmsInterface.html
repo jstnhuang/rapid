@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid_1_1manipulation_1_1TuckArms
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,6 +112,8 @@ $(document).ready(function(){initNavTree('classrapid_1_1manipulation_1_1TuckArms
 <div class="title">rapid::manipulation::TuckArmsInterface Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="tuck__arms_8h_source.html">tuck_arms.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for rapid::manipulation::TuckArmsInterface:</div>
 <div class="dyncontent">
@@ -124,23 +127,148 @@ Inheritance diagram for rapid::manipulation::TuckArmsInterface:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad236699cc9749ec23a4fffc9f86f9c2b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad236699cc9749ec23a4fffc9f86f9c2b"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>TuckArms</b> ()=0</td></tr>
+<tr class="memitem:a6181b11cc0ced92cc8d8d0dd9e20ee21"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1TuckArmsInterface.html#a6181b11cc0ced92cc8d8d0dd9e20ee21">~TuckArmsInterface</a> ()</td></tr>
+<tr class="separator:a6181b11cc0ced92cc8d8d0dd9e20ee21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad236699cc9749ec23a4fffc9f86f9c2b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1TuckArmsInterface.html#ad236699cc9749ec23a4fffc9f86f9c2b">TuckArms</a> ()=0</td></tr>
 <tr class="separator:ad236699cc9749ec23a4fffc9f86f9c2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a207b9722bb0cf73b9f3e95630445e242"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a207b9722bb0cf73b9f3e95630445e242"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>DeployLeft</b> ()=0</td></tr>
+<tr class="memitem:a207b9722bb0cf73b9f3e95630445e242"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1TuckArmsInterface.html#a207b9722bb0cf73b9f3e95630445e242">DeployLeft</a> ()=0</td></tr>
 <tr class="separator:a207b9722bb0cf73b9f3e95630445e242"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1683d1d4de7f10404b3605f290b831d8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1683d1d4de7f10404b3605f290b831d8"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>DeployRight</b> ()=0</td></tr>
+<tr class="memitem:a1683d1d4de7f10404b3605f290b831d8"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1TuckArmsInterface.html#a1683d1d4de7f10404b3605f290b831d8">DeployRight</a> ()=0</td></tr>
 <tr class="separator:a1683d1d4de7f10404b3605f290b831d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a603f3592a92148d054daba1243e58243"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a603f3592a92148d054daba1243e58243"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>DeployArms</b> ()=0</td></tr>
+<tr class="memitem:a603f3592a92148d054daba1243e58243"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1TuckArmsInterface.html#a603f3592a92148d054daba1243e58243">DeployArms</a> ()=0</td></tr>
 <tr class="separator:a603f3592a92148d054daba1243e58243"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="tuck__arms_8h_source.html#l00013">13</a> of file <a class="el" href="tuck__arms_8h_source.html">tuck_arms.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a6181b11cc0ced92cc8d8d0dd9e20ee21"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual rapid::manipulation::TuckArmsInterface::~TuckArmsInterface </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="tuck__arms_8h_source.html#l00015">15</a> of file <a class="el" href="tuck__arms_8h_source.html">tuck_arms.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a603f3592a92148d054daba1243e58243"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool rapid::manipulation::TuckArmsInterface::DeployArms </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classrapid_1_1manipulation_1_1Pr2TuckArms.html#a76f02b28e2835a259aca8c0c6d9fde11">rapid::manipulation::Pr2TuckArms</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a207b9722bb0cf73b9f3e95630445e242"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool rapid::manipulation::TuckArmsInterface::DeployLeft </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classrapid_1_1manipulation_1_1Pr2TuckArms.html#adceb7c0fb1ef6b955f7361ea50f7cddb">rapid::manipulation::Pr2TuckArms</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1683d1d4de7f10404b3605f290b831d8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool rapid::manipulation::TuckArmsInterface::DeployRight </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classrapid_1_1manipulation_1_1Pr2TuckArms.html#af46f1cf2b36560421e494f600a976f25">rapid::manipulation::Pr2TuckArms</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad236699cc9749ec23a4fffc9f86f9c2b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool rapid::manipulation::TuckArmsInterface::TuckArms </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classrapid_1_1manipulation_1_1Pr2TuckArms.html#ab1b528a3e099fff12376ef0693f1f6cf">rapid::manipulation::Pr2TuckArms</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>rapid_manipulation/include/rapid_manipulation/<a class="el" href="tuck__arms_8h_source.html">tuck_arms.h</a></li>
 </ul>
 </div><!-- contents -->
@@ -148,8 +276,8 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>DeployArms</b
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid</b></li><li class="navelem"><b>manipulation</b></li><li class="navelem"><a class="el" href="classrapid_1_1manipulation_1_1TuckArmsInterface.html">TuckArmsInterface</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="namespacerapid_1_1manipulation.html">manipulation</a></li><li class="navelem"><a class="el" href="classrapid_1_1manipulation_1_1TuckArmsInterface.html">TuckArmsInterface</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

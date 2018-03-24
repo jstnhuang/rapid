@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid_1_1pr2_1_1JointStates.html'
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,20 +112,76 @@ $(document).ready(function(){initNavTree('classrapid_1_1pr2_1_1JointStates.html'
 <div class="title">rapid::pr2::JointStates Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="joint__states_8h_source.html">joint_states.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af93ff47fa4b7f8b012b3d9616f7b47b5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af93ff47fa4b7f8b012b3d9616f7b47b5"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Set</b> (const std::map&lt; std::string, double &gt; &amp;joint_positions)</td></tr>
+<tr class="memitem:ae0e90aaf47007f53d00e6aa6b9c056b7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1pr2_1_1JointStates.html#ae0e90aaf47007f53d00e6aa6b9c056b7">JointStates</a> ()</td></tr>
+<tr class="separator:ae0e90aaf47007f53d00e6aa6b9c056b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af93ff47fa4b7f8b012b3d9616f7b47b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1pr2_1_1JointStates.html#af93ff47fa4b7f8b012b3d9616f7b47b5">Set</a> (const std::map&lt; std::string, double &gt; &amp;<a class="el" href="classrapid_1_1pr2_1_1JointStates.html#ac7a93aa2530d83867f54560292a2eeb8">joint_positions</a>)</td></tr>
 <tr class="separator:af93ff47fa4b7f8b012b3d9616f7b47b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7a93aa2530d83867f54560292a2eeb8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac7a93aa2530d83867f54560292a2eeb8"></a>
-std::map&lt; std::string, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>joint_positions</b> () const </td></tr>
+<tr class="memitem:ac7a93aa2530d83867f54560292a2eeb8"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1pr2_1_1JointStates.html#ac7a93aa2530d83867f54560292a2eeb8">joint_positions</a> () const </td></tr>
 <tr class="separator:ac7a93aa2530d83867f54560292a2eeb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="joint__states_8h_source.html#l00013">13</a> of file <a class="el" href="joint__states_8h_source.html">joint_states.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ae0e90aaf47007f53d00e6aa6b9c056b7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::pr2::JointStates::JointStates </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="joint__states_8cpp_source.html#l00005">5</a> of file <a class="el" href="joint__states_8cpp_source.html">joint_states.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ac7a93aa2530d83867f54560292a2eeb8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt; std::string, double &gt; rapid::pr2::JointStates::joint_positions </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="joint__states_8cpp_source.html#l00015">15</a> of file <a class="el" href="joint__states_8cpp_source.html">joint_states.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af93ff47fa4b7f8b012b3d9616f7b47b5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::pr2::JointStates::Set </td>
+          <td>(</td>
+          <td class="paramtype">const std::map&lt; std::string, double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>joint_positions</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="joint__states_8cpp_source.html#l00007">7</a> of file <a class="el" href="joint__states_8cpp_source.html">joint_states.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>rapid_pr2/include/rapid_pr2/<a class="el" href="joint__states_8h_source.html">joint_states.h</a></li>
 <li>rapid_pr2/src/<a class="el" href="joint__states_8cpp_source.html">joint_states.cpp</a></li>
 </ul>
@@ -133,8 +190,8 @@ std::map&lt; std::string, double &gt;&#160;</td><td class="memItemRight" valign=
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid</b></li><li class="navelem"><b>pr2</b></li><li class="navelem"><a class="el" href="classrapid_1_1pr2_1_1JointStates.html">JointStates</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="namespacerapid_1_1pr2.html">pr2</a></li><li class="navelem"><a class="el" href="classrapid_1_1pr2_1_1JointStates.html">JointStates</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('object_8h_source.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +107,7 @@ $(document).ready(function(){initNavTree('object_8h_source.html','');});
 <div class="title">object.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_PERCEPTION_OBJECT_H_</span></div>
+<a href="object_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_PERCEPTION_OBJECT_H_</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _RAPID_PERCEPTION_OBJECT_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
@@ -122,24 +124,24 @@ $(document).ready(function(){initNavTree('object_8h_source.html','');});
 <div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classrapid_1_1perception_1_1Object.html">   15</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid_1_1perception_1_1Object.html">Object</a> {</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <span class="comment">// Default constructor.</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <a class="code" href="classrapid_1_1perception_1_1Object.html">Object</a>();</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <a class="code" href="classrapid_1_1perception_1_1Object.html#af29fa21f67ed2769ad0e414daf31b802">Object</a>();</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="comment">// Get a PointCloud representation of this Object.</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr GetCloud() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr <a class="code" href="classrapid_1_1perception_1_1Object.html#a1124158e032b6117dfc0ccf50f63dfcb">GetCloud</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="comment">// Set the point cloud containing this Object, and the indices of that point</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="comment">// cloud representing this Object.</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <span class="keywordtype">void</span> SetCloud(<span class="keyword">const</span> pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::ConstPtr&amp; cloud,</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1Object.html#ae66a1f56a44b35aa1de8c369109302a1">SetCloud</a>(<span class="keyword">const</span> pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::ConstPtr&amp; cloud,</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                <span class="keyword">const</span> pcl::PointIndices::ConstPtr&amp; indices);</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="comment">// Getters / setters.</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  std::string name() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  geometry_msgs::PoseStamped pose() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  geometry_msgs::Vector3 scale() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  std::string <a class="code" href="classrapid_1_1perception_1_1Object.html#a4ac195d5a8abd051b894ed63d6099ffc">name</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  geometry_msgs::PoseStamped <a class="code" href="classrapid_1_1perception_1_1Object.html#a5976e635ee9cd8a2f1463217ea892018">pose</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  geometry_msgs::Vector3 <a class="code" href="classrapid_1_1perception_1_1Object.html#a0756f21e73c7ec688ad7300438d201a3">scale</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keywordtype">void</span> set_name(<span class="keyword">const</span> std::string&amp; name);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  <span class="keywordtype">void</span> set_pose(<span class="keyword">const</span> geometry_msgs::PoseStamped&amp; ps);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="keywordtype">void</span> set_scale(<span class="keyword">const</span> geometry_msgs::Vector3&amp; scale);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1Object.html#af318826d6c701a8ef15f1479568999db">set_name</a>(<span class="keyword">const</span> std::string&amp; name);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1Object.html#a200354e7e63c6a15aa024b6c02f3ef8c">set_pose</a>(<span class="keyword">const</span> geometry_msgs::PoseStamped&amp; ps);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1Object.html#a14a3fef080af3f3012c2ddd744601c34">set_scale</a>(<span class="keyword">const</span> geometry_msgs::Vector3&amp; scale);</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="comment">// void Visualize();</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
@@ -155,14 +157,23 @@ $(document).ready(function(){initNavTree('object_8h_source.html','');});
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}  <span class="comment">// namespace rapid</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#endif  // _RAPID_PERCEPTION_OBJECT_H_</span></div>
+<div class="ttc" id="classrapid_1_1perception_1_1Object_html_a4ac195d5a8abd051b894ed63d6099ffc"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html#a4ac195d5a8abd051b894ed63d6099ffc">rapid::perception::Object::name</a></div><div class="ttdeci">std::string name() const </div><div class="ttdef"><b>Definition:</b> <a href="object_8cpp_source.html#l00034">object.cpp:34</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1Object_html_af29fa21f67ed2769ad0e414daf31b802"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html#af29fa21f67ed2769ad0e414daf31b802">rapid::perception::Object::Object</a></div><div class="ttdeci">Object()</div><div class="ttdef"><b>Definition:</b> <a href="object_8cpp_source.html#l00022">object.cpp:22</a></div></div>
 <div class="ttc" id="classrapid_1_1perception_1_1Object_html"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a></div><div class="ttdef"><b>Definition:</b> <a href="object_8h_source.html#l00015">object.h:15</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1Object_html_a0756f21e73c7ec688ad7300438d201a3"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html#a0756f21e73c7ec688ad7300438d201a3">rapid::perception::Object::scale</a></div><div class="ttdeci">geometry_msgs::Vector3 scale() const </div><div class="ttdef"><b>Definition:</b> <a href="object_8cpp_source.html#l00036">object.cpp:36</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1Object_html_ae66a1f56a44b35aa1de8c369109302a1"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html#ae66a1f56a44b35aa1de8c369109302a1">rapid::perception::Object::SetCloud</a></div><div class="ttdeci">void SetCloud(const pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::ConstPtr &amp;cloud, const pcl::PointIndices::ConstPtr &amp;indices)</div><div class="ttdef"><b>Definition:</b> <a href="object_8cpp_source.html#l00028">object.cpp:28</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1Object_html_a5976e635ee9cd8a2f1463217ea892018"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html#a5976e635ee9cd8a2f1463217ea892018">rapid::perception::Object::pose</a></div><div class="ttdeci">geometry_msgs::PoseStamped pose() const </div><div class="ttdef"><b>Definition:</b> <a href="object_8cpp_source.html#l00035">object.cpp:35</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1Object_html_a1124158e032b6117dfc0ccf50f63dfcb"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html#a1124158e032b6117dfc0ccf50f63dfcb">rapid::perception::Object::GetCloud</a></div><div class="ttdeci">pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr GetCloud() const </div><div class="ttdef"><b>Definition:</b> <a href="object_8cpp_source.html#l00024">object.cpp:24</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1Object_html_a200354e7e63c6a15aa024b6c02f3ef8c"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html#a200354e7e63c6a15aa024b6c02f3ef8c">rapid::perception::Object::set_pose</a></div><div class="ttdeci">void set_pose(const geometry_msgs::PoseStamped &amp;ps)</div><div class="ttdef"><b>Definition:</b> <a href="object_8cpp_source.html#l00039">object.cpp:39</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1Object_html_a14a3fef080af3f3012c2ddd744601c34"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html#a14a3fef080af3f3012c2ddd744601c34">rapid::perception::Object::set_scale</a></div><div class="ttdeci">void set_scale(const geometry_msgs::Vector3 &amp;scale)</div><div class="ttdef"><b>Definition:</b> <a href="object_8cpp_source.html#l00040">object.cpp:40</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1Object_html_af318826d6c701a8ef15f1479568999db"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html#af318826d6c701a8ef15f1479568999db">rapid::perception::Object::set_name</a></div><div class="ttdeci">void set_name(const std::string &amp;name)</div><div class="ttdef"><b>Definition:</b> <a href="object_8cpp_source.html#l00038">object.cpp:38</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_f050cd5b5a42f922fefa6101e4fe30c9.html">include</a></li><li class="navelem"><a class="el" href="dir_88ea72b7ce2a238d697cf63b222e5534.html">rapid_perception</a></li><li class="navelem"><b>object.h</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_f050cd5b5a42f922fefa6101e4fe30c9.html">include</a></li><li class="navelem"><a class="el" href="dir_88ea72b7ce2a238d697cf63b222e5534.html">rapid_perception</a></li><li class="navelem"><a class="el" href="object_8h.html">object.h</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

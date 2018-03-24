@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('rapid__manipulation_2src_2gripper_8cpp
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,31 +107,31 @@ $(document).ready(function(){initNavTree('rapid__manipulation_2src_2gripper_8cpp
 <div class="title">gripper.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;rapid_manipulation/gripper.h&quot;</span></div>
+<a href="rapid__manipulation_2src_2gripper_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h.html">rapid_manipulation/gripper.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;actionlib/client/simple_client_goal_state.h&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;pr2_controllers_msgs/Pr2GripperCommandAction.h&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;tf/exceptions.h&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;rapid_perception/object.h&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;rapid_ros/action_client.h&quot;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;rapid_ros/tf_listener.h&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="object_8h.html">rapid_perception/object.h</a>&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="action__client_8h.html">rapid_ros/action_client.h</a>&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tf__listener_8h.html">rapid_ros/tf_listener.h</a>&quot;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">using</span> actionlib::SimpleClientGoalState;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">using</span> <a class="code" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a>;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span>manipulation {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">const</span> std::string Gripper::LEFT_GRIPPER_ACTION =</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">const</span> std::string <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#a91bf313a56d900f7e94c80915e06ef72">Gripper::LEFT_GRIPPER_ACTION</a> =</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="stringliteral">&quot;l_gripper_controller/gripper_action&quot;</span>;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">const</span> std::string Gripper::RIGHT_GRIPPER_ACTION =</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">const</span> std::string <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#a5bfcff48ded57f21d0ae02ce06d6ec2b">Gripper::RIGHT_GRIPPER_ACTION</a> =</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="stringliteral">&quot;r_gripper_controller/gripper_action&quot;</span>;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> Gripper::OPEN_THRESHOLD = 0.005;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> Gripper::OPEN = 0.09;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> Gripper::CLOSED = 0.00;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#ae51233d774280dc561b4b16014185707">Gripper::OPEN</a> = 0.09;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#a0712a3d5bc511b05c348181899e2f6d7">Gripper::CLOSED</a> = 0.00;</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;Gripper::Gripper(<span class="keyword">const</span> <span class="keywordtype">int</span> gripper_id, GripperClient* client,</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Gripper.html#a63f7b00710ce9aaec246040327f3569f">   25</a></span>&#160;<a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#a63f7b00710ce9aaec246040327f3569f">Gripper::Gripper</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> gripper_id, <a class="code" href="classrapid__ros_1_1ActionClientInterface.html">GripperClient</a>* client,</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                 <a class="code" href="classrapid__ros_1_1TfListenerInterface.html">rapid_ros::TfListenerInterface</a>* tf_listener)</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    : gripper_id_(gripper_id),</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;      gripper_client_(client),</div>
@@ -137,46 +139,46 @@ $(document).ready(function(){initNavTree('rapid__manipulation_2src_2gripper_8cpp
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;      is_holding_object_(false),</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;      held_object_() {</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  std::string action_name;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keywordflow">if</span> (gripper_id == Gripper::LEFT_GRIPPER) {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    action_name = LEFT_GRIPPER_ACTION;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (gripper_id == Gripper::RIGHT_GRIPPER) {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    action_name = RIGHT_GRIPPER_ACTION;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keywordflow">if</span> (gripper_id == <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#aac1a55873116f7160fcd36fd828def0a">Gripper::LEFT_GRIPPER</a>) {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    action_name = <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#a91bf313a56d900f7e94c80915e06ef72">LEFT_GRIPPER_ACTION</a>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (gripper_id == <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#aa13150ce5b5b36d1fb3da8125f285b55">Gripper::RIGHT_GRIPPER</a>) {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    action_name = <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#a5bfcff48ded57f21d0ae02ce06d6ec2b">RIGHT_GRIPPER_ACTION</a>;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  } <span class="keywordflow">else</span> {</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    ROS_ERROR(<span class="stringliteral">&quot;Bad gripper ID: %d&quot;</span>, gripper_id);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    action_name = RIGHT_GRIPPER_ACTION;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    action_name = <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#a5bfcff48ded57f21d0ae02ce06d6ec2b">RIGHT_GRIPPER_ACTION</a>;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  }</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;Gripper::~Gripper() { <span class="keyword">delete</span> gripper_client_; }</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Gripper.html#a15c7d0dbcd24d956e037afb00ff6fe5b">   43</a></span>&#160;<a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#a15c7d0dbcd24d956e037afb00ff6fe5b">Gripper::~Gripper</a>() { <span class="keyword">delete</span> gripper_client_; }</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">bool</span> Gripper::SetPosition(<span class="keywordtype">double</span> position, <span class="keywordtype">double</span> effort) {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span> (position &gt; Gripper::OPEN) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Gripper.html#aab5bc33b83c76c4245993636e5f74348">   45</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#aab5bc33b83c76c4245993636e5f74348">Gripper::SetPosition</a>(<span class="keywordtype">double</span> position, <span class="keywordtype">double</span> effort) {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span> (position &gt; <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#ae51233d774280dc561b4b16014185707">Gripper::OPEN</a>) {</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    ROS_WARN(<span class="stringliteral">&quot;Clamping gripper position %0.3f to max: %0.3f&quot;</span>, position,</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;             Gripper::OPEN);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    position = Gripper::OPEN;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (position &lt; Gripper::CLOSED) {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;             <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#ae51233d774280dc561b4b16014185707">Gripper::OPEN</a>);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    position = <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#ae51233d774280dc561b4b16014185707">Gripper::OPEN</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (position &lt; <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#a0712a3d5bc511b05c348181899e2f6d7">Gripper::CLOSED</a>) {</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    ROS_WARN(<span class="stringliteral">&quot;Clamping gripper position %0.3f to min: %0.3f&quot;</span>, position,</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;             Gripper::CLOSED);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    position = Gripper::CLOSED;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;             <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#a0712a3d5bc511b05c348181899e2f6d7">Gripper::CLOSED</a>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    position = <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#a0712a3d5bc511b05c348181899e2f6d7">Gripper::CLOSED</a>;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">if</span> (!gripper_client_-&gt;waitForServer(ros::Duration(5))) {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">if</span> (!gripper_client_-&gt;<a class="code" href="classrapid__ros_1_1ActionClientInterface.html#a86e5090debc90f68f9fd179b450c21b0">waitForServer</a>(ros::Duration(5))) {</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    ROS_ERROR(<span class="stringliteral">&quot;The gripper action server was not available after 5 seconds!&quot;</span>);</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  }</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keywordtype">double</span> start_position = GetPosition();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keywordtype">double</span> start_position = <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#ad2d670dd9d17647c05b9af46d746517d">GetPosition</a>();</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  pr2_controllers_msgs::Pr2GripperCommandGoal goal;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  goal.command.position = position;</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  goal.command.max_effort = effort;</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  gripper_client_-&gt;sendGoal(goal);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordflow">if</span> (!gripper_client_-&gt;waitForResult(ros::Duration(10))) {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  gripper_client_-&gt;<a class="code" href="classrapid__ros_1_1ActionClientInterface.html#a0aba01978edd233a52a918eb3eb30d0f">sendGoal</a>(goal);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordflow">if</span> (!gripper_client_-&gt;<a class="code" href="classrapid__ros_1_1ActionClientInterface.html#a65eddd4a9064d5188e8873f3f2642027">waitForResult</a>(ros::Duration(10))) {</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    ROS_ERROR(</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="stringliteral">&quot;The gripper action server did not return a result after 10 seconds!&quot;</span>);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  SimpleClientGoalState state = gripper_client_-&gt;getState();</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  SimpleClientGoalState state = gripper_client_-&gt;<a class="code" href="classrapid__ros_1_1ActionClientInterface.html#aebed369ce04941a3b94c185de391e1a4">getState</a>();</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="keywordflow">if</span> (state == SimpleClientGoalState::SUCCEEDED ||</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      state == SimpleClientGoalState::ABORTED) {</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">if</span> (position &gt; start_position) {</div>
@@ -190,25 +192,25 @@ $(document).ready(function(){initNavTree('rapid__manipulation_2src_2gripper_8cpp
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  }</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keywordtype">double</span> Gripper::GetPosition()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Gripper.html#ad2d670dd9d17647c05b9af46d746517d">   86</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#ad2d670dd9d17647c05b9af46d746517d">Gripper::GetPosition</a>()<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  tf::StampedTransform transform;</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  std::string target_frame;</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  std::string source_frame;</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  <span class="comment">// set frames based on whether this is a right or left gripper</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="keywordflow">if</span> (gripper_id_ == Gripper::LEFT_GRIPPER) {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="keywordflow">if</span> (gripper_id_ == <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#aac1a55873116f7160fcd36fd828def0a">Gripper::LEFT_GRIPPER</a>) {</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    source_frame = <span class="stringliteral">&quot;l_gripper_l_finger_tip_link&quot;</span>;</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    target_frame = <span class="stringliteral">&quot;l_gripper_r_finger_tip_link&quot;</span>;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (gripper_id_ == Gripper::RIGHT_GRIPPER) {</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (gripper_id_ == <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#aa13150ce5b5b36d1fb3da8125f285b55">Gripper::RIGHT_GRIPPER</a>) {</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    source_frame = <span class="stringliteral">&quot;r_gripper_l_finger_tip_link&quot;</span>;</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    target_frame = <span class="stringliteral">&quot;r_gripper_r_finger_tip_link&quot;</span>;</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  }</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  <span class="comment">// get the transform between the fingertips</span></div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    transform_listener_-&gt;waitForTransform(target_frame, source_frame,</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    transform_listener_-&gt;<a class="code" href="classrapid__ros_1_1TfListenerInterface.html#a780988e57f6771d1cfbc1f1dbfd82f60">waitForTransform</a>(target_frame, source_frame,</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                                          ros::Time(0), ros::Duration(10.0));</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    transform_listener_-&gt;lookupTransform(target_frame, source_frame,</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    transform_listener_-&gt;<a class="code" href="classrapid__ros_1_1TfListenerInterface.html#adc2d5aac8a1da45c75f284aac43251f9">lookupTransform</a>(target_frame, source_frame,</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                                         ros::Time(0), transform);</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  } <span class="keywordflow">catch</span> (tf::TransformException ex) {</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    ROS_ERROR(<span class="stringliteral">&quot;%s&quot;</span>, ex.what());</div>
@@ -221,44 +223,72 @@ $(document).ready(function(){initNavTree('rapid__manipulation_2src_2gripper_8cpp
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  <span class="keywordflow">return</span> gripper_offset - 0.032;</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="keywordtype">bool</span> Gripper::HeldObject(<a class="code" href="classrapid_1_1perception_1_1Object.html">Object</a>* <span class="keywordtype">object</span>)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Gripper.html#a99600aa5a9428a909a65e7c99abfa712">  117</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#a99600aa5a9428a909a65e7c99abfa712">Gripper::HeldObject</a>(<a class="code" href="classrapid_1_1perception_1_1Object.html">Object</a>* <span class="keywordtype">object</span>)<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  <span class="keywordflow">if</span> (is_holding_object_) {</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    *<span class="keywordtype">object</span> = held_object_;</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  }</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  <span class="keywordflow">return</span> is_holding_object_;</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;}</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="keywordtype">bool</span> Gripper::IsOpen()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> GetPosition() &gt; Gripper::OPEN_THRESHOLD; }</div>
+<div class="line"><a name="l00124"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Gripper.html#a173f4d7eb7d44086f34f6e5884381e6f">  124</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#a173f4d7eb7d44086f34f6e5884381e6f">Gripper::IsOpen</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#ad2d670dd9d17647c05b9af46d746517d">GetPosition</a>() &gt; Gripper::OPEN_THRESHOLD; }</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="keywordtype">bool</span> Gripper::Open(<span class="keywordtype">double</span> effort) {</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  <span class="keywordflow">return</span> Gripper::SetPosition(Gripper::OPEN, effort);</div>
+<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Gripper.html#aee6f20a39a7a4279c045f7f23d1137ee">  126</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#aee6f20a39a7a4279c045f7f23d1137ee">Gripper::Open</a>(<span class="keywordtype">double</span> effort) {</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#aab5bc33b83c76c4245993636e5f74348">Gripper::SetPosition</a>(<a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#ae51233d774280dc561b4b16014185707">Gripper::OPEN</a>, effort);</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;}</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="keywordtype">bool</span> Gripper::Close(<span class="keywordtype">double</span> effort) {</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  <span class="keywordflow">return</span> Gripper::SetPosition(Gripper::CLOSED, effort);</div>
+<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Gripper.html#a54a684ab4f854006cb83f3d76ba0abb0">  130</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#a54a684ab4f854006cb83f3d76ba0abb0">Gripper::Close</a>(<span class="keywordtype">double</span> effort) {</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#aab5bc33b83c76c4245993636e5f74348">Gripper::SetPosition</a>(<a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#a0712a3d5bc511b05c348181899e2f6d7">Gripper::CLOSED</a>, effort);</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;}</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="keywordtype">bool</span> Gripper::is_holding_object()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> is_holding_object_; }</div>
+<div class="line"><a name="l00134"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Gripper.html#ab35a6c6a9303126d8a093bc37f83551f">  134</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#ab35a6c6a9303126d8a093bc37f83551f">Gripper::is_holding_object</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> is_holding_object_; }</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="keywordtype">void</span> Gripper::set_is_holding_object(<span class="keywordtype">bool</span> holding) {</div>
+<div class="line"><a name="l00136"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Gripper.html#a1e193f0f5f5a27266faa58b63da30120">  136</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#a1e193f0f5f5a27266faa58b63da30120">Gripper::set_is_holding_object</a>(<span class="keywordtype">bool</span> holding) {</div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;  is_holding_object_ = holding;</div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;}</div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="keywordtype">void</span> Gripper::set_held_object(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1Object.html">Object</a>&amp; <span class="keywordtype">object</span>) {</div>
+<div class="line"><a name="l00140"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Gripper.html#ab27284733c0fefea905b5fe67fb4d645">  140</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1manipulation_1_1Gripper.html#ab27284733c0fefea905b5fe67fb4d645">Gripper::set_held_object</a>(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1Object.html">Object</a>&amp; <span class="keywordtype">object</span>) {</div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;  is_holding_object_ = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;  held_object_ = object;</div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;}</div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;}  <span class="comment">// namespace manipulation</span></div>
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;}  <span class="comment">// namespace rapid</span></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Gripper_html_ae51233d774280dc561b4b16014185707"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Gripper.html#ae51233d774280dc561b4b16014185707">rapid::manipulation::Gripper::OPEN</a></div><div class="ttdeci">static const double OPEN</div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html#l00073">gripper.h:73</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Gripper_html_a0712a3d5bc511b05c348181899e2f6d7"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Gripper.html#a0712a3d5bc511b05c348181899e2f6d7">rapid::manipulation::Gripper::CLOSED</a></div><div class="ttdeci">static const double CLOSED</div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html#l00074">gripper.h:74</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Gripper_html_aa13150ce5b5b36d1fb3da8125f285b55"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Gripper.html#aa13150ce5b5b36d1fb3da8125f285b55">rapid::manipulation::Gripper::RIGHT_GRIPPER</a></div><div class="ttdeci">static const int RIGHT_GRIPPER</div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html#l00078">gripper.h:78</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Gripper_html_a91bf313a56d900f7e94c80915e06ef72"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Gripper.html#a91bf313a56d900f7e94c80915e06ef72">rapid::manipulation::Gripper::LEFT_GRIPPER_ACTION</a></div><div class="ttdeci">static const std::string LEFT_GRIPPER_ACTION</div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html#l00081">gripper.h:81</a></div></div>
 <div class="ttc" id="classrapid_1_1perception_1_1Object_html"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a></div><div class="ttdef"><b>Definition:</b> <a href="object_8h_source.html#l00015">object.h:15</a></div></div>
+<div class="ttc" id="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_html"><div class="ttname"><a href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h.html">gripper.h</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Gripper_html_a63f7b00710ce9aaec246040327f3569f"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Gripper.html#a63f7b00710ce9aaec246040327f3569f">rapid::manipulation::Gripper::Gripper</a></div><div class="ttdeci">Gripper(const int gripper_id, GripperClient *client, rapid_ros::TfListenerInterface *tf_listener)</div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00025">gripper.cpp:25</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Gripper_html_ab35a6c6a9303126d8a093bc37f83551f"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Gripper.html#ab35a6c6a9303126d8a093bc37f83551f">rapid::manipulation::Gripper::is_holding_object</a></div><div class="ttdeci">bool is_holding_object() const </div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00134">gripper.cpp:134</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Gripper_html_a5bfcff48ded57f21d0ae02ce06d6ec2b"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Gripper.html#a5bfcff48ded57f21d0ae02ce06d6ec2b">rapid::manipulation::Gripper::RIGHT_GRIPPER_ACTION</a></div><div class="ttdeci">static const std::string RIGHT_GRIPPER_ACTION</div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html#l00082">gripper.h:82</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1ActionClientInterface_html"><div class="ttname"><a href="classrapid__ros_1_1ActionClientInterface.html">rapid_ros::ActionClientInterface</a></div><div class="ttdef"><b>Definition:</b> <a href="action__client_8h_source.html#l00017">action_client.h:17</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Gripper_html_a1e193f0f5f5a27266faa58b63da30120"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Gripper.html#a1e193f0f5f5a27266faa58b63da30120">rapid::manipulation::Gripper::set_is_holding_object</a></div><div class="ttdeci">void set_is_holding_object(bool holding)</div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00136">gripper.cpp:136</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Gripper_html_ad2d670dd9d17647c05b9af46d746517d"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Gripper.html#ad2d670dd9d17647c05b9af46d746517d">rapid::manipulation::Gripper::GetPosition</a></div><div class="ttdeci">double GetPosition() const </div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00086">gripper.cpp:86</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1ActionClientInterface_html_aebed369ce04941a3b94c185de391e1a4"><div class="ttname"><a href="classrapid__ros_1_1ActionClientInterface.html#aebed369ce04941a3b94c185de391e1a4">rapid_ros::ActionClientInterface::getState</a></div><div class="ttdeci">virtual actionlib::SimpleClientGoalState getState()=0</div></div>
 <div class="ttc" id="classrapid__ros_1_1TfListenerInterface_html"><div class="ttname"><a href="classrapid__ros_1_1TfListenerInterface.html">rapid_ros::TfListenerInterface</a></div><div class="ttdef"><b>Definition:</b> <a href="tf__listener_8h_source.html#l00017">tf_listener.h:17</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Gripper_html_aab5bc33b83c76c4245993636e5f74348"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Gripper.html#aab5bc33b83c76c4245993636e5f74348">rapid::manipulation::Gripper::SetPosition</a></div><div class="ttdeci">bool SetPosition(double position, double effort=-1.0)</div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00045">gripper.cpp:45</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Gripper_html_a173f4d7eb7d44086f34f6e5884381e6f"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Gripper.html#a173f4d7eb7d44086f34f6e5884381e6f">rapid::manipulation::Gripper::IsOpen</a></div><div class="ttdeci">bool IsOpen() const </div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00124">gripper.cpp:124</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Gripper_html_a54a684ab4f854006cb83f3d76ba0abb0"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Gripper.html#a54a684ab4f854006cb83f3d76ba0abb0">rapid::manipulation::Gripper::Close</a></div><div class="ttdeci">bool Close(double effort=-1.0)</div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00130">gripper.cpp:130</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1ActionClientInterface_html_a0aba01978edd233a52a918eb3eb30d0f"><div class="ttname"><a href="classrapid__ros_1_1ActionClientInterface.html#a0aba01978edd233a52a918eb3eb30d0f">rapid_ros::ActionClientInterface::sendGoal</a></div><div class="ttdeci">virtual void sendGoal(const Goal &amp;goal)=0</div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Gripper_html_a99600aa5a9428a909a65e7c99abfa712"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Gripper.html#a99600aa5a9428a909a65e7c99abfa712">rapid::manipulation::Gripper::HeldObject</a></div><div class="ttdeci">bool HeldObject(rapid::perception::Object *object) const </div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00117">gripper.cpp:117</a></div></div>
+<div class="ttc" id="action__client_8h_html"><div class="ttname"><a href="action__client_8h.html">action_client.h</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Gripper_html_ab27284733c0fefea905b5fe67fb4d645"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Gripper.html#ab27284733c0fefea905b5fe67fb4d645">rapid::manipulation::Gripper::set_held_object</a></div><div class="ttdeci">void set_held_object(const rapid::perception::Object &amp;object)</div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00140">gripper.cpp:140</a></div></div>
+<div class="ttc" id="object_8h_html"><div class="ttname"><a href="object_8h.html">object.h</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Gripper_html_a15c7d0dbcd24d956e037afb00ff6fe5b"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Gripper.html#a15c7d0dbcd24d956e037afb00ff6fe5b">rapid::manipulation::Gripper::~Gripper</a></div><div class="ttdeci">~Gripper()</div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00043">gripper.cpp:43</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1ActionClientInterface_html_a86e5090debc90f68f9fd179b450c21b0"><div class="ttname"><a href="classrapid__ros_1_1ActionClientInterface.html#a86e5090debc90f68f9fd179b450c21b0">rapid_ros::ActionClientInterface::waitForServer</a></div><div class="ttdeci">virtual bool waitForServer(const ros::Duration &amp;timeout=ros::Duration(0, 0))=0</div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Gripper_html_aee6f20a39a7a4279c045f7f23d1137ee"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Gripper.html#aee6f20a39a7a4279c045f7f23d1137ee">rapid::manipulation::Gripper::Open</a></div><div class="ttdeci">bool Open(double effort=-1.0)</div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2src_2gripper_8cpp_source.html#l00126">gripper.cpp:126</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1ActionClientInterface_html_a65eddd4a9064d5188e8873f3f2642027"><div class="ttname"><a href="classrapid__ros_1_1ActionClientInterface.html#a65eddd4a9064d5188e8873f3f2642027">rapid_ros::ActionClientInterface::waitForResult</a></div><div class="ttdeci">virtual bool waitForResult(const ros::Duration &amp;timeout=ros::Duration(0, 0))=0</div></div>
+<div class="ttc" id="classrapid__ros_1_1TfListenerInterface_html_a780988e57f6771d1cfbc1f1dbfd82f60"><div class="ttname"><a href="classrapid__ros_1_1TfListenerInterface.html#a780988e57f6771d1cfbc1f1dbfd82f60">rapid_ros::TfListenerInterface::waitForTransform</a></div><div class="ttdeci">virtual bool waitForTransform(const std::string &amp;target_frame, const std::string &amp;source_frame, const ros::Time &amp;time, const ros::Duration &amp;timeout) const =0</div></div>
+<div class="ttc" id="classrapid__ros_1_1TfListenerInterface_html_adc2d5aac8a1da45c75f284aac43251f9"><div class="ttname"><a href="classrapid__ros_1_1TfListenerInterface.html#adc2d5aac8a1da45c75f284aac43251f9">rapid_ros::TfListenerInterface::lookupTransform</a></div><div class="ttdeci">virtual void lookupTransform(const std::string &amp;target_frame, const std::string &amp;source_frame, const ros::Time &amp;time, tf::StampedTransform &amp;transform) const =0</div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Gripper_html_aac1a55873116f7160fcd36fd828def0a"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Gripper.html#aac1a55873116f7160fcd36fd828def0a">rapid::manipulation::Gripper::LEFT_GRIPPER</a></div><div class="ttdeci">static const int LEFT_GRIPPER</div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html#l00077">gripper.h:77</a></div></div>
+<div class="ttc" id="tf__listener_8h_html"><div class="ttname"><a href="tf__listener_8h.html">tf_listener.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_8e0ec4d7e362575df8ab63e8ba43ec60.html">rapid_manipulation</a></li><li class="navelem"><a class="el" href="dir_0d554eb1438da2189159099f72f0f544.html">src</a></li><li class="navelem"><b>gripper.cpp</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_8e0ec4d7e362575df8ab63e8ba43ec60.html">rapid_manipulation</a></li><li class="navelem"><a class="el" href="dir_0d554eb1438da2189159099f72f0f544.html">src</a></li><li class="navelem"><a class="el" href="rapid__manipulation_2src_2gripper_8cpp.html">gripper.cpp</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

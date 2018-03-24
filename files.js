@@ -11,5 +11,5 @@ var files =
     [ "rapid_testing", "dir_5d44aee1319fd9bbdd221a3b9395ec74.html", "dir_5d44aee1319fd9bbdd221a3b9395ec74" ],
     [ "rapid_utils", "dir_9dd2167d7a0fe46460dd83e1b3c081f1.html", "dir_9dd2167d7a0fe46460dd83e1b3c081f1" ],
     [ "rapid_viz", "dir_c6ed616797fd829864f033a9f45e46ef.html", "dir_c6ed616797fd829864f033a9f45e46ef" ],
-    [ ".ycm_extra_conf.py", "_8ycm__extra__conf_8py_source.html", null ]
+    [ ".ycm_extra_conf.py", "_8ycm__extra__conf_8py.html", "_8ycm__extra__conf_8py" ]
 ];

@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid_1_1perception_1_1PoseEstima
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,36 +112,193 @@ $(document).ready(function(){initNavTree('classrapid_1_1perception_1_1PoseEstima
 <div class="title">rapid::perception::PoseEstimationMatch Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="pose__estimation__match_8h_source.html">pose_estimation_match.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7436fd518e58e834ac9fedba10468db3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7436fd518e58e834ac9fedba10468db3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>PoseEstimationMatch</b> (pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr cloud, const geometry_msgs::Pose &amp;pose, const geometry_msgs::Vector3 &amp;scale, double fitness)</td></tr>
+<tr class="memitem:a31988dbda6dc08ad46502d2d173f0fa5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a31988dbda6dc08ad46502d2d173f0fa5">PoseEstimationMatch</a> ()</td></tr>
+<tr class="separator:a31988dbda6dc08ad46502d2d173f0fa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7436fd518e58e834ac9fedba10468db3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a7436fd518e58e834ac9fedba10468db3">PoseEstimationMatch</a> (pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr <a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#aadc1ca9230c07ef294629f8bb2312446">cloud</a>, const geometry_msgs::Pose &amp;<a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a5116773473ada16667dc1187600dfed4">pose</a>, const geometry_msgs::Vector3 &amp;<a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a005ccdc1da57a29c3c8ed55f7ac26109">scale</a>, double <a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a93990f1a8d7292d5978a5680f42b2dad">fitness</a>)</td></tr>
 <tr class="separator:a7436fd518e58e834ac9fedba10468db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadc1ca9230c07ef294629f8bb2312446"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aadc1ca9230c07ef294629f8bb2312446"></a>
-pcl::PointCloud<br class="typebreak"/>
-&lt; pcl::PointXYZRGB &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>cloud</b> () const </td></tr>
+<tr class="memitem:aadc1ca9230c07ef294629f8bb2312446"><td class="memItemLeft" align="right" valign="top">pcl::PointCloud<br class="typebreak"/>
+&lt; pcl::PointXYZRGB &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#aadc1ca9230c07ef294629f8bb2312446">cloud</a> () const </td></tr>
 <tr class="separator:aadc1ca9230c07ef294629f8bb2312446"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5116773473ada16667dc1187600dfed4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5116773473ada16667dc1187600dfed4"></a>
-geometry_msgs::Pose&#160;</td><td class="memItemRight" valign="bottom"><b>pose</b> () const </td></tr>
+<tr class="memitem:a5116773473ada16667dc1187600dfed4"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a5116773473ada16667dc1187600dfed4">pose</a> () const </td></tr>
 <tr class="separator:a5116773473ada16667dc1187600dfed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a005ccdc1da57a29c3c8ed55f7ac26109"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a005ccdc1da57a29c3c8ed55f7ac26109"></a>
-geometry_msgs::Vector3&#160;</td><td class="memItemRight" valign="bottom"><b>scale</b> () const </td></tr>
+<tr class="memitem:a005ccdc1da57a29c3c8ed55f7ac26109"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Vector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a005ccdc1da57a29c3c8ed55f7ac26109">scale</a> () const </td></tr>
 <tr class="separator:a005ccdc1da57a29c3c8ed55f7ac26109"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a599c66bb1c77676e460561bcd195fad7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a599c66bb1c77676e460561bcd195fad7"></a>
-pcl::PointXYZ&#160;</td><td class="memItemRight" valign="bottom"><b>center</b> () const </td></tr>
+<tr class="memitem:a599c66bb1c77676e460561bcd195fad7"><td class="memItemLeft" align="right" valign="top">pcl::PointXYZ&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a599c66bb1c77676e460561bcd195fad7">center</a> () const </td></tr>
 <tr class="separator:a599c66bb1c77676e460561bcd195fad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93990f1a8d7292d5978a5680f42b2dad"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a93990f1a8d7292d5978a5680f42b2dad"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>fitness</b> () const </td></tr>
+<tr class="memitem:a93990f1a8d7292d5978a5680f42b2dad"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a93990f1a8d7292d5978a5680f42b2dad">fitness</a> () const </td></tr>
 <tr class="separator:a93990f1a8d7292d5978a5680f42b2dad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a982ba77c0bba8a7e30698b5e7d160dd0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a982ba77c0bba8a7e30698b5e7d160dd0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_fitness</b> (double fitness)</td></tr>
+<tr class="memitem:a982ba77c0bba8a7e30698b5e7d160dd0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a982ba77c0bba8a7e30698b5e7d160dd0">set_fitness</a> (double <a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html#a93990f1a8d7292d5978a5680f42b2dad">fitness</a>)</td></tr>
 <tr class="separator:a982ba77c0bba8a7e30698b5e7d160dd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="pose__estimation__match_8h_source.html#l00015">15</a> of file <a class="el" href="pose__estimation__match_8h_source.html">pose_estimation_match.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a31988dbda6dc08ad46502d2d173f0fa5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::perception::PoseEstimationMatch::PoseEstimationMatch </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation__match_8cpp_source.html#l00023">23</a> of file <a class="el" href="pose__estimation__match_8cpp_source.html">pose_estimation_match.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7436fd518e58e834ac9fedba10468db3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::perception::PoseEstimationMatch::PoseEstimationMatch </td>
+          <td>(</td>
+          <td class="paramtype">pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr&#160;</td>
+          <td class="paramname"><em>cloud</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const geometry_msgs::Pose &amp;&#160;</td>
+          <td class="paramname"><em>pose</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const geometry_msgs::Vector3 &amp;&#160;</td>
+          <td class="paramname"><em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>fitness</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a599c66bb1c77676e460561bcd195fad7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pcl::PointXYZ rapid::perception::PoseEstimationMatch::center </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation__match_8cpp_source.html#l00048">48</a> of file <a class="el" href="pose__estimation__match_8cpp_source.html">pose_estimation_match.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aadc1ca9230c07ef294629f8bb2312446"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr rapid::perception::PoseEstimationMatch::cloud </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation__match_8cpp_source.html#l00040">40</a> of file <a class="el" href="pose__estimation__match_8cpp_source.html">pose_estimation_match.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a93990f1a8d7292d5978a5680f42b2dad"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rapid::perception::PoseEstimationMatch::fitness </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation__match_8cpp_source.html#l00050">50</a> of file <a class="el" href="pose__estimation__match_8cpp_source.html">pose_estimation_match.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5116773473ada16667dc1187600dfed4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">geometry_msgs::Pose rapid::perception::PoseEstimationMatch::pose </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation__match_8cpp_source.html#l00044">44</a> of file <a class="el" href="pose__estimation__match_8cpp_source.html">pose_estimation_match.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a005ccdc1da57a29c3c8ed55f7ac26109"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">geometry_msgs::Vector3 rapid::perception::PoseEstimationMatch::scale </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation__match_8cpp_source.html#l00046">46</a> of file <a class="el" href="pose__estimation__match_8cpp_source.html">pose_estimation_match.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a982ba77c0bba8a7e30698b5e7d160dd0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::PoseEstimationMatch::set_fitness </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>fitness</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="pose__estimation__match_8cpp_source.html#l00052">52</a> of file <a class="el" href="pose__estimation__match_8cpp_source.html">pose_estimation_match.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>rapid_perception/include/rapid_perception/<a class="el" href="pose__estimation__match_8h_source.html">pose_estimation_match.h</a></li>
 <li>rapid_perception/src/<a class="el" href="pose__estimation__match_8cpp_source.html">pose_estimation_match.cpp</a></li>
 </ul>
@@ -149,8 +307,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>set_fitness</b> (doub
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid</b></li><li class="navelem"><b>perception</b></li><li class="navelem"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html">PoseEstimationMatch</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="namespacerapid_1_1perception.html">perception</a></li><li class="navelem"><a class="el" href="classrapid_1_1perception_1_1PoseEstimationMatch.html">PoseEstimationMatch</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

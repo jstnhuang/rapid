@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('icp__fitness__functions_8cpp_source.ht
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +107,7 @@ $(document).ready(function(){initNavTree('icp__fitness__functions_8cpp_source.ht
 <div class="title">icp_fitness_functions.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;rapid_perception/icp_fitness_functions.h&quot;</span></div>
+<a href="icp__fitness__functions_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="icp__fitness__functions_8h.html">rapid_perception/icp_fitness_functions.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
@@ -122,14 +124,14 @@ $(document).ready(function(){initNavTree('icp__fitness__functions_8cpp_source.ht
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;rapid_msgs/Roi3D.h&quot;</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">typedef</span> pcl::PointXYZRGB PointC;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">typedef</span> pcl::PointCloud&lt;PointC&gt; PointCloudC;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">typedef</span> pcl::search::KdTree&lt;PointC&gt; PointCTree;</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="icp__fitness__functions_8cpp.html#a8307f385b73130ae2a6491449e9c2ce1">   18</a></span>&#160;<span class="keyword">typedef</span> pcl::PointXYZRGB <a class="code" href="icp__fitness__functions_8cpp.html#a8307f385b73130ae2a6491449e9c2ce1">PointC</a>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="icp__fitness__functions_8cpp.html#af5eb6364f41717ab0eaa1389f4ac946b">   19</a></span>&#160;<span class="keyword">typedef</span> pcl::PointCloud&lt;PointC&gt; <a class="code" href="icp__fitness__functions_8cpp.html#af5eb6364f41717ab0eaa1389f4ac946b">PointCloudC</a>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="icp__fitness__functions_8cpp.html#a107a212d3f901510e4d5bbe312cf55d9">   20</a></span>&#160;<span class="keyword">typedef</span> pcl::search::KdTree&lt;PointC&gt; <a class="code" href="icp__fitness__functions_8cpp.html#a107a212d3f901510e4d5bbe312cf55d9">PointCTree</a>;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">using</span> std::vector;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">namespace </span>perception {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keywordtype">double</span> ComputeIcpFitness(PointCloudC::Ptr&amp; scene, PointCloudC::Ptr&amp; <span class="keywordtype">object</span>,</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="namespacerapid_1_1perception.html#a18bf0e3268849e6dbd49b9b90cd098e2">   25</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="namespacerapid_1_1perception.html#ab0e3dc72f826b0618d2385be62cddb4d">ComputeIcpFitness</a>(PointCloudC::Ptr&amp; scene, PointCloudC::Ptr&amp; <span class="keywordtype">object</span>,</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                         <span class="keyword">const</span> rapid_msgs::Roi3D&amp; roi) {</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  Eigen::Vector4f min;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  min.x() = -roi.dimensions.x / 2;</div>
@@ -164,7 +166,7 @@ $(document).ready(function(){initNavTree('icp__fitness__functions_8cpp_source.ht
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  crop.filter(*indices);</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  vector&lt;bool&gt; visited(object-&gt;size());</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  PointCTree object_tree;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <a class="code" href="icp__fitness__functions_8cpp.html#a107a212d3f901510e4d5bbe312cf55d9">PointCTree</a> object_tree;</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  object_tree.setInputCloud(<span class="keywordtype">object</span>);</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  vector&lt;int&gt; nn_indices(1);</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  vector&lt;float&gt; nn_dists(1);</div>
@@ -172,7 +174,7 @@ $(document).ready(function(){initNavTree('icp__fitness__functions_8cpp_source.ht
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordtype">int</span> denominator = 0;</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> index_i = 0; index_i &lt; indices-&gt;size(); ++index_i) {</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">int</span> index = indices-&gt;at(index_i);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">const</span> PointC&amp; scene_pt = scene-&gt;at(index);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">const</span> <a class="code" href="fpfh__heat__mapper_8cpp.html#a8307f385b73130ae2a6491449e9c2ce1">PointC</a>&amp; scene_pt = scene-&gt;at(index);</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    object_tree.nearestKSearch(scene_pt, 1, nn_indices, nn_dists);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">double</span> distance = sqrt(nn_dists[0]);</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    fitness += distance;</div>
@@ -182,14 +184,14 @@ $(document).ready(function(){initNavTree('icp__fitness__functions_8cpp_source.ht
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="comment">// Compute distance for unvisited object points</span></div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="keywordtype">bool</span> scene_tree_built = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  PointCTree scene_tree;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <a class="code" href="icp__fitness__functions_8cpp.html#a107a212d3f901510e4d5bbe312cf55d9">PointCTree</a> scene_tree;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; visited.size(); ++i) {</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">if</span> (!visited[i]) {</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      <span class="keywordflow">if</span> (!scene_tree_built) {</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        scene_tree.setInputCloud(scene, indices);</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        scene_tree_built = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      <span class="keyword">const</span> PointC&amp; obj_pt = <span class="keywordtype">object</span>-&gt;at(i);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      <span class="keyword">const</span> <a class="code" href="fpfh__heat__mapper_8cpp.html#a8307f385b73130ae2a6491449e9c2ce1">PointC</a>&amp; obj_pt = <span class="keywordtype">object</span>-&gt;at(i);</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      scene_tree.nearestKSearch(obj_pt, 1, nn_indices, nn_dists);</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      <span class="keywordtype">double</span> distance = sqrt(nn_dists[0]);</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      <span class="keywordflow">if</span> (distance &lt; 0.05) {</div>
@@ -204,13 +206,19 @@ $(document).ready(function(){initNavTree('icp__fitness__functions_8cpp_source.ht
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;}</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;}  <span class="comment">// namespace perception</span></div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;}  <span class="comment">// namespace rapid</span></div>
+<div class="ttc" id="icp__fitness__functions_8cpp_html_af5eb6364f41717ab0eaa1389f4ac946b"><div class="ttname"><a href="icp__fitness__functions_8cpp.html#af5eb6364f41717ab0eaa1389f4ac946b">PointCloudC</a></div><div class="ttdeci">pcl::PointCloud&lt; PointC &gt; PointCloudC</div><div class="ttdef"><b>Definition:</b> <a href="icp__fitness__functions_8cpp_source.html#l00019">icp_fitness_functions.cpp:19</a></div></div>
+<div class="ttc" id="fpfh__heat__mapper_8cpp_html_a8307f385b73130ae2a6491449e9c2ce1"><div class="ttname"><a href="fpfh__heat__mapper_8cpp.html#a8307f385b73130ae2a6491449e9c2ce1">PointC</a></div><div class="ttdeci">pcl::PointXYZRGB PointC</div><div class="ttdef"><b>Definition:</b> <a href="fpfh__heat__mapper_8cpp_source.html#l00022">fpfh_heat_mapper.cpp:22</a></div></div>
+<div class="ttc" id="namespacerapid_1_1perception_html_ab0e3dc72f826b0618d2385be62cddb4d"><div class="ttname"><a href="namespacerapid_1_1perception.html#ab0e3dc72f826b0618d2385be62cddb4d">rapid::perception::ComputeIcpFitness</a></div><div class="ttdeci">double ComputeIcpFitness(pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr &amp;scene, pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr &amp;object, const rapid_msgs::Roi3D &amp;roi)</div></div>
+<div class="ttc" id="icp__fitness__functions_8cpp_html_a107a212d3f901510e4d5bbe312cf55d9"><div class="ttname"><a href="icp__fitness__functions_8cpp.html#a107a212d3f901510e4d5bbe312cf55d9">PointCTree</a></div><div class="ttdeci">pcl::search::KdTree&lt; PointC &gt; PointCTree</div><div class="ttdef"><b>Definition:</b> <a href="icp__fitness__functions_8cpp_source.html#l00020">icp_fitness_functions.cpp:20</a></div></div>
+<div class="ttc" id="icp__fitness__functions_8cpp_html_a8307f385b73130ae2a6491449e9c2ce1"><div class="ttname"><a href="icp__fitness__functions_8cpp.html#a8307f385b73130ae2a6491449e9c2ce1">PointC</a></div><div class="ttdeci">pcl::PointXYZRGB PointC</div><div class="ttdef"><b>Definition:</b> <a href="icp__fitness__functions_8cpp_source.html#l00018">icp_fitness_functions.cpp:18</a></div></div>
+<div class="ttc" id="icp__fitness__functions_8h_html"><div class="ttname"><a href="icp__fitness__functions_8h.html">icp_fitness_functions.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_bb97d22164c4cc09d5879f408b857901.html">src</a></li><li class="navelem"><b>icp_fitness_functions.cpp</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_bb97d22164c4cc09d5879f408b857901.html">src</a></li><li class="navelem"><a class="el" href="icp__fitness__functions_8cpp.html">icp_fitness_functions.cpp</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

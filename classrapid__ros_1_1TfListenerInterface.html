@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid__ros_1_1TfListenerInterface
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,6 +112,8 @@ $(document).ready(function(){initNavTree('classrapid__ros_1_1TfListenerInterface
 <div class="title">rapid_ros::TfListenerInterface Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="tf__listener_8h_source.html">tf_listener.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for rapid_ros::TfListenerInterface:</div>
 <div class="dyncontent">
@@ -124,17 +127,140 @@ Inheritance diagram for rapid_ros::TfListenerInterface:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a780988e57f6771d1cfbc1f1dbfd82f60"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a780988e57f6771d1cfbc1f1dbfd82f60"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>waitForTransform</b> (const std::string &amp;target_frame, const std::string &amp;source_frame, const ros::Time &amp;time, const ros::Duration &amp;timeout) const =0</td></tr>
+<tr class="memitem:a1d83e3900da27b9b78724f0b8c35a5f7"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid__ros_1_1TfListenerInterface.html#a1d83e3900da27b9b78724f0b8c35a5f7">~TfListenerInterface</a> ()</td></tr>
+<tr class="separator:a1d83e3900da27b9b78724f0b8c35a5f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a780988e57f6771d1cfbc1f1dbfd82f60"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid__ros_1_1TfListenerInterface.html#a780988e57f6771d1cfbc1f1dbfd82f60">waitForTransform</a> (const std::string &amp;target_frame, const std::string &amp;source_frame, const ros::Time &amp;time, const ros::Duration &amp;timeout) const =0</td></tr>
 <tr class="separator:a780988e57f6771d1cfbc1f1dbfd82f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc2d5aac8a1da45c75f284aac43251f9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adc2d5aac8a1da45c75f284aac43251f9"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>lookupTransform</b> (const std::string &amp;target_frame, const std::string &amp;source_frame, const ros::Time &amp;time, tf::StampedTransform &amp;transform) const =0</td></tr>
+<tr class="memitem:adc2d5aac8a1da45c75f284aac43251f9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid__ros_1_1TfListenerInterface.html#adc2d5aac8a1da45c75f284aac43251f9">lookupTransform</a> (const std::string &amp;target_frame, const std::string &amp;source_frame, const ros::Time &amp;time, tf::StampedTransform &amp;transform) const =0</td></tr>
 <tr class="separator:adc2d5aac8a1da45c75f284aac43251f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="tf__listener_8h_source.html#l00017">17</a> of file <a class="el" href="tf__listener_8h_source.html">tf_listener.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a1d83e3900da27b9b78724f0b8c35a5f7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual rapid_ros::TfListenerInterface::~TfListenerInterface </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="tf__listener_8h_source.html#l00019">19</a> of file <a class="el" href="tf__listener_8h_source.html">tf_listener.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="adc2d5aac8a1da45c75f284aac43251f9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void rapid_ros::TfListenerInterface::lookupTransform </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>target_frame</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>source_frame</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const ros::Time &amp;&#160;</td>
+          <td class="paramname"><em>time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">tf::StampedTransform &amp;&#160;</td>
+          <td class="paramname"><em>transform</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classrapid__ros_1_1MockTfListener.html#a523dee6d0565b22ebe8f880277dea173">rapid_ros::MockTfListener</a>, and <a class="el" href="classrapid__ros_1_1TfListener.html#a405a411d38fa21f0b4e633a8948f1a86">rapid_ros::TfListener</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a780988e57f6771d1cfbc1f1dbfd82f60"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool rapid_ros::TfListenerInterface::waitForTransform </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>target_frame</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>source_frame</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const ros::Time &amp;&#160;</td>
+          <td class="paramname"><em>time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const ros::Duration &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classrapid__ros_1_1MockTfListener.html#a146ab1674f8537bb40f7604e703e64a9">rapid_ros::MockTfListener</a>, and <a class="el" href="classrapid__ros_1_1TfListener.html#a1a7519844f1eb593ab056de890cc022d">rapid_ros::TfListener</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>rapid_ros/include/rapid_ros/<a class="el" href="tf__listener_8h_source.html">tf_listener.h</a></li>
 </ul>
 </div><!-- contents -->
@@ -142,8 +268,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>lookupTransfo
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid_ros</b></li><li class="navelem"><a class="el" href="classrapid__ros_1_1TfListenerInterface.html">TfListenerInterface</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid__ros.html">rapid_ros</a></li><li class="navelem"><a class="el" href="classrapid__ros_1_1TfListenerInterface.html">TfListenerInterface</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

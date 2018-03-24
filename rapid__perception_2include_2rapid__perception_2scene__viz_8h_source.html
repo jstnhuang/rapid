@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('rapid__perception_2include_2rapid__per
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,25 +107,25 @@ $(document).ready(function(){initNavTree('rapid__perception_2include_2rapid__per
 <div class="title">scene_viz.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_PERCEPTION_SCENE_VIZ_H_</span></div>
+<a href="rapid__perception_2include_2rapid__perception_2scene__viz_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_PERCEPTION_SCENE_VIZ_H_</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _RAPID_PERCEPTION_SCENE_VIZ_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;rapid_perception/hsurface.h&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;rapid_perception/object.h&quot;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;rapid_perception/scene.h&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;rapid_viz/markers.h&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hsurface_8h.html">rapid_perception/hsurface.h</a>&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="object_8h.html">rapid_perception/object.h</a>&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="scene_8h.html">rapid_perception/scene.h</a>&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="markers_8h.html">rapid_viz/markers.h</a>&quot;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span>perception {</div>
 <div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classrapid_1_1perception_1_1ObjectViz.html">   15</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid_1_1perception_1_1ObjectViz.html">ObjectViz</a> {</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <span class="keyword">explicit</span> <a class="code" href="classrapid_1_1perception_1_1ObjectViz.html">ObjectViz</a>(<span class="keyword">const</span> <a class="code" href="classrapid__ros_1_1PublisherInterface.html">rapid::viz::MarkerPub</a>* pub);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <span class="keywordtype">void</span> set_object(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1Object.html">Object</a>&amp; <span class="keywordtype">object</span>);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <span class="keywordtype">void</span> Visualize();</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <span class="keyword">explicit</span> <a class="code" href="classrapid_1_1perception_1_1ObjectViz.html#abefdc44ebd85979a67a73fb42ef8c840">ObjectViz</a>(<span class="keyword">const</span> <a class="code" href="classrapid__ros_1_1PublisherInterface.html">rapid::viz::MarkerPub</a>* pub);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1ObjectViz.html#afea679ab5600bef1a6b40900f8feac37">set_object</a>(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1Object.html">Object</a>&amp; <span class="keywordtype">object</span>);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1ObjectViz.html#af4baee1a075b4e7a8a9a64894387a3e7">Visualize</a>();</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <a class="code" href="classrapid_1_1perception_1_1Object.html">Object</a> object_;</div>
@@ -134,9 +136,9 @@ $(document).ready(function(){initNavTree('rapid__perception_2include_2rapid__per
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
 <div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classrapid_1_1perception_1_1HSurfaceViz.html">   28</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid_1_1perception_1_1HSurfaceViz.html">HSurfaceViz</a> {</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <span class="keyword">explicit</span> <a class="code" href="classrapid_1_1perception_1_1HSurfaceViz.html">HSurfaceViz</a>(<span class="keyword">const</span> <a class="code" href="classrapid__ros_1_1PublisherInterface.html">rapid::viz::MarkerPub</a>* pub);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <span class="keywordtype">void</span> set_hsurface(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1HSurface.html">HSurface</a>&amp; hsurface);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="keywordtype">void</span> Visualize();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <span class="keyword">explicit</span> <a class="code" href="classrapid_1_1perception_1_1HSurfaceViz.html#a8c390ac6da347f1d7dc56cb7bf9c9cde">HSurfaceViz</a>(<span class="keyword">const</span> <a class="code" href="classrapid__ros_1_1PublisherInterface.html">rapid::viz::MarkerPub</a>* pub);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1HSurfaceViz.html#a94663bb412eaf81ca08ddf73a556b773">set_hsurface</a>(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1HSurface.html">HSurface</a>&amp; hsurface);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1HSurfaceViz.html#ab664a40052be8d1a4121e3659ed0b1a1">Visualize</a>();</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <a class="code" href="classrapid_1_1perception_1_1HSurface.html">HSurface</a> surface_;</div>
@@ -147,9 +149,9 @@ $(document).ready(function(){initNavTree('rapid__perception_2include_2rapid__per
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
 <div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classrapid_1_1perception_1_1SceneViz.html">   41</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid_1_1perception_1_1SceneViz.html">SceneViz</a> {</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keyword">explicit</span> <a class="code" href="classrapid_1_1perception_1_1SceneViz.html">SceneViz</a>(<span class="keyword">const</span> <a class="code" href="classrapid__ros_1_1PublisherInterface.html">rapid::viz::MarkerPub</a>* pub);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordtype">void</span> set_scene(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1Scene.html">Scene</a>&amp; scene);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordtype">void</span> Visualize();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keyword">explicit</span> <a class="code" href="classrapid_1_1perception_1_1SceneViz.html#a8592b10b9131af8625575ee0583cdc73">SceneViz</a>(<span class="keyword">const</span> <a class="code" href="classrapid__ros_1_1PublisherInterface.html">rapid::viz::MarkerPub</a>* pub);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1SceneViz.html#a607bfa8ecae928b105fbc064fb35b036">set_scene</a>(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1Scene.html">Scene</a>&amp; scene);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1perception_1_1SceneViz.html#aa45fd7ef5603842c64348e3d1a953f49">Visualize</a>();</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <a class="code" href="classrapid_1_1perception_1_1Scene.html">Scene</a> scene_;</div>
@@ -161,21 +163,34 @@ $(document).ready(function(){initNavTree('rapid__perception_2include_2rapid__per
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}  <span class="comment">// namespace rapid</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif  // _RAPID_PERCEPTION_SCENE_VIZ_H_</span></div>
+<div class="ttc" id="hsurface_8h_html"><div class="ttname"><a href="hsurface_8h.html">hsurface.h</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1ObjectViz_html_afea679ab5600bef1a6b40900f8feac37"><div class="ttname"><a href="classrapid_1_1perception_1_1ObjectViz.html#afea679ab5600bef1a6b40900f8feac37">rapid::perception::ObjectViz::set_object</a></div><div class="ttdeci">void set_object(const Object &amp;object)</div><div class="ttdef"><b>Definition:</b> <a href="rapid__perception_2src_2scene__viz_8cpp_source.html#l00022">scene_viz.cpp:22</a></div></div>
 <div class="ttc" id="classrapid_1_1perception_1_1Object_html"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a></div><div class="ttdef"><b>Definition:</b> <a href="object_8h_source.html#l00015">object.h:15</a></div></div>
+<div class="ttc" id="scene_8h_html"><div class="ttname"><a href="scene_8h.html">scene.h</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurfaceViz_html_a8c390ac6da347f1d7dc56cb7bf9c9cde"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurfaceViz.html#a8c390ac6da347f1d7dc56cb7bf9c9cde">rapid::perception::HSurfaceViz::HSurfaceViz</a></div><div class="ttdeci">HSurfaceViz(const rapid::viz::MarkerPub *pub)</div><div class="ttdef"><b>Definition:</b> <a href="rapid__perception_2src_2scene__viz_8cpp_source.html#l00037">scene_viz.cpp:37</a></div></div>
 <div class="ttc" id="classrapid__ros_1_1PublisherInterface_html"><div class="ttname"><a href="classrapid__ros_1_1PublisherInterface.html">rapid_ros::PublisherInterface</a></div><div class="ttdef"><b>Definition:</b> <a href="publisher_8h_source.html#l00012">publisher.h:12</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1ObjectViz_html_af4baee1a075b4e7a8a9a64894387a3e7"><div class="ttname"><a href="classrapid_1_1perception_1_1ObjectViz.html#af4baee1a075b4e7a8a9a64894387a3e7">rapid::perception::ObjectViz::Visualize</a></div><div class="ttdeci">void Visualize()</div><div class="ttdef"><b>Definition:</b> <a href="rapid__perception_2src_2scene__viz_8cpp_source.html#l00024">scene_viz.cpp:24</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurfaceViz_html_ab664a40052be8d1a4121e3659ed0b1a1"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurfaceViz.html#ab664a40052be8d1a4121e3659ed0b1a1">rapid::perception::HSurfaceViz::Visualize</a></div><div class="ttdeci">void Visualize()</div><div class="ttdef"><b>Definition:</b> <a href="rapid__perception_2src_2scene__viz_8cpp_source.html#l00044">scene_viz.cpp:44</a></div></div>
 <div class="ttc" id="classrapid_1_1perception_1_1SceneViz_html"><div class="ttname"><a href="classrapid_1_1perception_1_1SceneViz.html">rapid::perception::SceneViz</a></div><div class="ttdef"><b>Definition:</b> <a href="rapid__perception_2include_2rapid__perception_2scene__viz_8h_source.html#l00041">scene_viz.h:41</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1SceneViz_html_aa45fd7ef5603842c64348e3d1a953f49"><div class="ttname"><a href="classrapid_1_1perception_1_1SceneViz.html#aa45fd7ef5603842c64348e3d1a953f49">rapid::perception::SceneViz::Visualize</a></div><div class="ttdeci">void Visualize()</div><div class="ttdef"><b>Definition:</b> <a href="rapid__perception_2src_2scene__viz_8cpp_source.html#l00068">scene_viz.cpp:68</a></div></div>
+<div class="ttc" id="markers_8h_html"><div class="ttname"><a href="markers_8h.html">markers.h</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1ObjectViz_html_abefdc44ebd85979a67a73fb42ef8c840"><div class="ttname"><a href="classrapid_1_1perception_1_1ObjectViz.html#abefdc44ebd85979a67a73fb42ef8c840">rapid::perception::ObjectViz::ObjectViz</a></div><div class="ttdeci">ObjectViz(const rapid::viz::MarkerPub *pub)</div><div class="ttdef"><b>Definition:</b> <a href="rapid__perception_2src_2scene__viz_8cpp_source.html#l00016">scene_viz.cpp:16</a></div></div>
 <div class="ttc" id="classrapid_1_1perception_1_1ObjectViz_html"><div class="ttname"><a href="classrapid_1_1perception_1_1ObjectViz.html">rapid::perception::ObjectViz</a></div><div class="ttdef"><b>Definition:</b> <a href="rapid__perception_2include_2rapid__perception_2scene__viz_8h_source.html#l00015">scene_viz.h:15</a></div></div>
 <div class="ttc" id="classrapid_1_1viz_1_1Marker_html"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html">rapid::viz::Marker</a></div><div class="ttdef"><b>Definition:</b> <a href="markers_8h_source.html#l00032">markers.h:32</a></div></div>
+<div class="ttc" id="object_8h_html"><div class="ttname"><a href="object_8h.html">object.h</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1SceneViz_html_a607bfa8ecae928b105fbc064fb35b036"><div class="ttname"><a href="classrapid_1_1perception_1_1SceneViz.html#a607bfa8ecae928b105fbc064fb35b036">rapid::perception::SceneViz::set_scene</a></div><div class="ttdeci">void set_scene(const Scene &amp;scene)</div><div class="ttdef"><b>Definition:</b> <a href="rapid__perception_2src_2scene__viz_8cpp_source.html#l00066">scene_viz.cpp:66</a></div></div>
 <div class="ttc" id="classrapid_1_1perception_1_1Scene_html"><div class="ttname"><a href="classrapid_1_1perception_1_1Scene.html">rapid::perception::Scene</a></div><div class="ttdef"><b>Definition:</b> <a href="scene_8h_source.html#l00019">scene.h:19</a></div></div>
 <div class="ttc" id="classrapid_1_1perception_1_1HSurfaceViz_html"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurfaceViz.html">rapid::perception::HSurfaceViz</a></div><div class="ttdef"><b>Definition:</b> <a href="rapid__perception_2include_2rapid__perception_2scene__viz_8h_source.html#l00028">scene_viz.h:28</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurfaceViz_html_a94663bb412eaf81ca08ddf73a556b773"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurfaceViz.html#a94663bb412eaf81ca08ddf73a556b773">rapid::perception::HSurfaceViz::set_hsurface</a></div><div class="ttdeci">void set_hsurface(const HSurface &amp;hsurface)</div><div class="ttdef"><b>Definition:</b> <a href="rapid__perception_2src_2scene__viz_8cpp_source.html#l00040">scene_viz.cpp:40</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1SceneViz_html_a8592b10b9131af8625575ee0583cdc73"><div class="ttname"><a href="classrapid_1_1perception_1_1SceneViz.html#a8592b10b9131af8625575ee0583cdc73">rapid::perception::SceneViz::SceneViz</a></div><div class="ttdeci">SceneViz(const rapid::viz::MarkerPub *pub)</div></div>
 <div class="ttc" id="classrapid_1_1perception_1_1HSurface_html"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html">rapid::perception::HSurface</a></div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8h_source.html#l00020">hsurface.h:20</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_f050cd5b5a42f922fefa6101e4fe30c9.html">include</a></li><li class="navelem"><a class="el" href="dir_88ea72b7ce2a238d697cf63b222e5534.html">rapid_perception</a></li><li class="navelem"><b>scene_viz.h</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_f050cd5b5a42f922fefa6101e4fe30c9.html">include</a></li><li class="navelem"><a class="el" href="dir_88ea72b7ce2a238d697cf63b222e5534.html">rapid_perception</a></li><li class="navelem"><a class="el" href="rapid__perception_2include_2rapid__perception_2scene__viz_8h.html">scene_viz.h</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

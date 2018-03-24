@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid__ros_1_1MockServiceClient.h
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,6 +112,8 @@ $(document).ready(function(){initNavTree('classrapid__ros_1_1MockServiceClient.h
 <div class="title">rapid_ros::MockServiceClient&lt; Service &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="service__client_8h_source.html">service_client.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for rapid_ros::MockServiceClient&lt; Service &gt;:</div>
 <div class="dyncontent">
@@ -123,18 +126,19 @@ Inheritance diagram for rapid_ros::MockServiceClient&lt; Service &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8e57d86f73431f774f4a7d68e26c2196"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8e57d86f73431f774f4a7d68e26c2196"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>call</b> (Service &amp;srv)</td></tr>
+<tr class="memitem:a87df12b9fe6b5af69b629413ba3d0ad2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid__ros_1_1MockServiceClient.html#a87df12b9fe6b5af69b629413ba3d0ad2">MockServiceClient</a> ()</td></tr>
+<tr class="separator:a87df12b9fe6b5af69b629413ba3d0ad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e57d86f73431f774f4a7d68e26c2196"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid__ros_1_1MockServiceClient.html#a8e57d86f73431f774f4a7d68e26c2196">call</a> (Service &amp;srv)</td></tr>
 <tr class="separator:a8e57d86f73431f774f4a7d68e26c2196"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29b1b2133ab05caf1ef60223b2cefb6a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a29b1b2133ab05caf1ef60223b2cefb6a"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>call</b> (typename Service::Request &amp;req, typename Service::Response &amp;res)</td></tr>
+<tr class="memitem:a29b1b2133ab05caf1ef60223b2cefb6a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid__ros_1_1MockServiceClient.html#a29b1b2133ab05caf1ef60223b2cefb6a">call</a> (typename Service::Request &amp;req, typename Service::Response &amp;res)</td></tr>
 <tr class="separator:a29b1b2133ab05caf1ef60223b2cefb6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad906c10de6a2e11395087254877233dd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad906c10de6a2e11395087254877233dd"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_success</b> (bool success)</td></tr>
+<tr class="memitem:ad906c10de6a2e11395087254877233dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid__ros_1_1MockServiceClient.html#ad906c10de6a2e11395087254877233dd">set_success</a> (bool success)</td></tr>
 <tr class="separator:ad906c10de6a2e11395087254877233dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e53b5d5d6acbba156aab6c1e1bd95d3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1e53b5d5d6acbba156aab6c1e1bd95d3"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_response</b> (const typename Service::Response &amp;response)</td></tr>
+<tr class="memitem:a1e53b5d5d6acbba156aab6c1e1bd95d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid__ros_1_1MockServiceClient.html#a1e53b5d5d6acbba156aab6c1e1bd95d3">set_response</a> (const typename Service::Response &amp;response)</td></tr>
 <tr class="separator:a1e53b5d5d6acbba156aab6c1e1bd95d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classrapid__ros_1_1ServiceClientInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classrapid__ros_1_1ServiceClientInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classrapid__ros_1_1ServiceClientInterface.html">rapid_ros::ServiceClientInterface&lt; Service &gt;</a></td></tr>
+<tr class="memitem:aa34387f2ba6ddec486dc27b35956b2a3 inherit pub_methods_classrapid__ros_1_1ServiceClientInterface"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid__ros_1_1ServiceClientInterface.html#aa34387f2ba6ddec486dc27b35956b2a3">~ServiceClientInterface</a> ()</td></tr>
+<tr class="separator:aa34387f2ba6ddec486dc27b35956b2a3 inherit pub_methods_classrapid__ros_1_1ServiceClientInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class Service&gt;<br/>
@@ -142,7 +146,138 @@ class rapid_ros::MockServiceClient&lt; Service &gt;</h3>
 
 
 <p>Definition at line <a class="el" href="service__client_8h_source.html#l00038">38</a> of file <a class="el" href="service__client_8h_source.html">service_client.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a87df12b9fe6b5af69b629413ba3d0ad2"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Service &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrapid__ros_1_1MockServiceClient.html">rapid_ros::MockServiceClient</a>&lt; Service &gt;::<a class="el" href="classrapid__ros_1_1MockServiceClient.html">MockServiceClient</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="service__client_8h_source.html#l00072">72</a> of file <a class="el" href="service__client_8h_source.html">service_client.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a8e57d86f73431f774f4a7d68e26c2196"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Service &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classrapid__ros_1_1MockServiceClient.html">rapid_ros::MockServiceClient</a>&lt; Service &gt;::call </td>
+          <td>(</td>
+          <td class="paramtype">Service &amp;&#160;</td>
+          <td class="paramname"><em>srv</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid__ros_1_1ServiceClientInterface.html#a9c5a353f8dd4b371d79cc1ef83a82f9c">rapid_ros::ServiceClientInterface&lt; Service &gt;</a>.</p>
+
+<p>Definition at line <a class="el" href="service__client_8h_source.html#l00076">76</a> of file <a class="el" href="service__client_8h_source.html">service_client.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a29b1b2133ab05caf1ef60223b2cefb6a"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Service &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classrapid__ros_1_1MockServiceClient.html">rapid_ros::MockServiceClient</a>&lt; Service &gt;::call </td>
+          <td>(</td>
+          <td class="paramtype">typename Service::Request &amp;&#160;</td>
+          <td class="paramname"><em>req</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">typename Service::Response &amp;&#160;</td>
+          <td class="paramname"><em>res</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classrapid__ros_1_1ServiceClientInterface.html#ad25409159098b83ee9e3a236af41ecde">rapid_ros::ServiceClientInterface&lt; Service &gt;</a>.</p>
+
+<p>Definition at line <a class="el" href="service__client_8h_source.html#l00086">86</a> of file <a class="el" href="service__client_8h_source.html">service_client.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1e53b5d5d6acbba156aab6c1e1bd95d3"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Service &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classrapid__ros_1_1MockServiceClient.html">rapid_ros::MockServiceClient</a>&lt; Service &gt;::set_response </td>
+          <td>(</td>
+          <td class="paramtype">const typename Service::Response &amp;&#160;</td>
+          <td class="paramname"><em>response</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="service__client_8h_source.html#l00101">101</a> of file <a class="el" href="service__client_8h_source.html">service_client.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad906c10de6a2e11395087254877233dd"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Service &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classrapid__ros_1_1MockServiceClient.html">rapid_ros::MockServiceClient</a>&lt; Service &gt;::set_success </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>success</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="service__client_8h_source.html#l00096">96</a> of file <a class="el" href="service__client_8h_source.html">service_client.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>rapid_ros/include/rapid_ros/<a class="el" href="service__client_8h_source.html">service_client.h</a></li>
 </ul>
 </div><!-- contents -->
@@ -150,8 +285,8 @@ class rapid_ros::MockServiceClient&lt; Service &gt;</h3>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid_ros</b></li><li class="navelem"><a class="el" href="classrapid__ros_1_1MockServiceClient.html">MockServiceClient</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid__ros.html">rapid_ros</a></li><li class="navelem"><a class="el" href="classrapid__ros_1_1MockServiceClient.html">MockServiceClient</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid_1_1perception_1_1ObjectViz.
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,23 +112,85 @@ $(document).ready(function(){initNavTree('classrapid_1_1perception_1_1ObjectViz.
 <div class="title">rapid::perception::ObjectViz Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="rapid__perception_2include_2rapid__perception_2scene__viz_8h_source.html">scene_viz.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abefdc44ebd85979a67a73fb42ef8c840"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abefdc44ebd85979a67a73fb42ef8c840"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ObjectViz</b> (const <a class="el" href="classrapid__ros_1_1PublisherInterface.html">rapid::viz::MarkerPub</a> *pub)</td></tr>
+<tr class="memitem:abefdc44ebd85979a67a73fb42ef8c840"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1ObjectViz.html#abefdc44ebd85979a67a73fb42ef8c840">ObjectViz</a> (const <a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">rapid::viz::MarkerPub</a> *pub)</td></tr>
 <tr class="separator:abefdc44ebd85979a67a73fb42ef8c840"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afea679ab5600bef1a6b40900f8feac37"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afea679ab5600bef1a6b40900f8feac37"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_object</b> (const <a class="el" href="classrapid_1_1perception_1_1Object.html">Object</a> &amp;object)</td></tr>
+<tr class="memitem:afea679ab5600bef1a6b40900f8feac37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1ObjectViz.html#afea679ab5600bef1a6b40900f8feac37">set_object</a> (const <a class="el" href="classrapid_1_1perception_1_1Object.html">Object</a> &amp;object)</td></tr>
 <tr class="separator:afea679ab5600bef1a6b40900f8feac37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4baee1a075b4e7a8a9a64894387a3e7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af4baee1a075b4e7a8a9a64894387a3e7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Visualize</b> ()</td></tr>
+<tr class="memitem:af4baee1a075b4e7a8a9a64894387a3e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1ObjectViz.html#af4baee1a075b4e7a8a9a64894387a3e7">Visualize</a> ()</td></tr>
 <tr class="separator:af4baee1a075b4e7a8a9a64894387a3e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="rapid__perception_2include_2rapid__perception_2scene__viz_8h_source.html#l00015">15</a> of file <a class="el" href="rapid__perception_2include_2rapid__perception_2scene__viz_8h_source.html">scene_viz.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="abefdc44ebd85979a67a73fb42ef8c840"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::perception::ObjectViz::ObjectViz </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">rapid::viz::MarkerPub</a> *&#160;</td>
+          <td class="paramname"><em>pub</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rapid__perception_2src_2scene__viz_8cpp_source.html#l00016">16</a> of file <a class="el" href="rapid__perception_2src_2scene__viz_8cpp_source.html">scene_viz.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="afea679ab5600bef1a6b40900f8feac37"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::ObjectViz::set_object </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classrapid_1_1perception_1_1Object.html">Object</a> &amp;&#160;</td>
+          <td class="paramname"><em>object</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rapid__perception_2src_2scene__viz_8cpp_source.html#l00022">22</a> of file <a class="el" href="rapid__perception_2src_2scene__viz_8cpp_source.html">scene_viz.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af4baee1a075b4e7a8a9a64894387a3e7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::ObjectViz::Visualize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rapid__perception_2src_2scene__viz_8cpp_source.html#l00024">24</a> of file <a class="el" href="rapid__perception_2src_2scene__viz_8cpp_source.html">scene_viz.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>rapid_perception/include/rapid_perception/<a class="el" href="rapid__perception_2include_2rapid__perception_2scene__viz_8h_source.html">scene_viz.h</a></li>
 <li>rapid_perception/src/<a class="el" href="rapid__perception_2src_2scene__viz_8cpp_source.html">scene_viz.cpp</a></li>
 </ul>
@@ -136,8 +199,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Visualize</b> ()</td>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid</b></li><li class="navelem"><b>perception</b></li><li class="navelem"><a class="el" href="classrapid_1_1perception_1_1ObjectViz.html">ObjectViz</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="namespacerapid_1_1perception.html">perception</a></li><li class="navelem"><a class="el" href="classrapid_1_1perception_1_1ObjectViz.html">ObjectViz</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

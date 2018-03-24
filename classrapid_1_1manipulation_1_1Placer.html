@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid_1_1manipulation_1_1Placer.h
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,23 +112,114 @@ $(document).ready(function(){initNavTree('classrapid_1_1manipulation_1_1Placer.h
 <div class="title">rapid::manipulation::Placer Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="place_8h_source.html">place.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a60934206eda46d724f5448fdf1e6e232"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a60934206eda46d724f5448fdf1e6e232"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Placer</b> (<a class="el" href="classrapid_1_1manipulation_1_1ArmInterface.html">ArmInterface</a> *arm, <a class="el" href="classrapid_1_1manipulation_1_1GripperInterface.html">GripperInterface</a> *gripper, <a class="el" href="classrapid__ros_1_1PublisherInterface.html">rapid::viz::MarkerPub</a> *marker_pub)</td></tr>
+<tr class="memitem:a60934206eda46d724f5448fdf1e6e232"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Placer.html#a60934206eda46d724f5448fdf1e6e232">Placer</a> (<a class="el" href="classrapid_1_1manipulation_1_1ArmInterface.html">ArmInterface</a> *arm, <a class="el" href="classrapid_1_1manipulation_1_1GripperInterface.html">GripperInterface</a> *gripper, <a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">rapid::viz::MarkerPub</a> *marker_pub)</td></tr>
 <tr class="separator:a60934206eda46d724f5448fdf1e6e232"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a495e9431598477accda9d9d43882fa90"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a495e9431598477accda9d9d43882fa90"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Place</b> (const <a class="el" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a> &amp;obj, const <a class="el" href="classrapid_1_1perception_1_1HSurface.html">rapid::perception::HSurface</a> &amp;table)</td></tr>
+<tr class="memitem:a495e9431598477accda9d9d43882fa90"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Placer.html#a495e9431598477accda9d9d43882fa90">Place</a> (const <a class="el" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a> &amp;obj, const <a class="el" href="classrapid_1_1perception_1_1HSurface.html">rapid::perception::HSurface</a> &amp;table)</td></tr>
 <tr class="separator:a495e9431598477accda9d9d43882fa90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84fcf2c1a0eb1e0c647dd7d7507b6491"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a84fcf2c1a0eb1e0c647dd7d7507b6491"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>VisualizePlacement</b> (const geometry_msgs::PoseStamped &amp;obj_ps, const geometry_msgs::Vector3 &amp;obj_scale)</td></tr>
+<tr class="memitem:a84fcf2c1a0eb1e0c647dd7d7507b6491"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1manipulation_1_1Placer.html#a84fcf2c1a0eb1e0c647dd7d7507b6491">VisualizePlacement</a> (const geometry_msgs::PoseStamped &amp;obj_ps, const geometry_msgs::Vector3 &amp;obj_scale)</td></tr>
 <tr class="separator:a84fcf2c1a0eb1e0c647dd7d7507b6491"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="place_8h_source.html#l00017">17</a> of file <a class="el" href="place_8h_source.html">place.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a60934206eda46d724f5448fdf1e6e232"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::manipulation::Placer::Placer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classrapid_1_1manipulation_1_1ArmInterface.html">ArmInterface</a> *&#160;</td>
+          <td class="paramname"><em>arm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classrapid_1_1manipulation_1_1GripperInterface.html">GripperInterface</a> *&#160;</td>
+          <td class="paramname"><em>gripper</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e">rapid::viz::MarkerPub</a> *&#160;</td>
+          <td class="paramname"><em>marker_pub</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="place_8cpp_source.html#l00032">32</a> of file <a class="el" href="place_8cpp_source.html">place.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a495e9431598477accda9d9d43882fa90"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rapid::manipulation::Placer::Place </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a> &amp;&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classrapid_1_1perception_1_1HSurface.html">rapid::perception::HSurface</a> &amp;&#160;</td>
+          <td class="paramname"><em>table</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="place_8cpp_source.html#l00036">36</a> of file <a class="el" href="place_8cpp_source.html">place.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a84fcf2c1a0eb1e0c647dd7d7507b6491"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::manipulation::Placer::VisualizePlacement </td>
+          <td>(</td>
+          <td class="paramtype">const geometry_msgs::PoseStamped &amp;&#160;</td>
+          <td class="paramname"><em>obj_ps</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const geometry_msgs::Vector3 &amp;&#160;</td>
+          <td class="paramname"><em>obj_scale</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="place_8cpp_source.html#l00115">115</a> of file <a class="el" href="place_8cpp_source.html">place.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>rapid_manipulation/include/rapid_manipulation/<a class="el" href="place_8h_source.html">place.h</a></li>
 <li>rapid_manipulation/src/<a class="el" href="place_8cpp_source.html">place.cpp</a></li>
 </ul>
@@ -136,8 +228,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>VisualizePlacement</b
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid</b></li><li class="navelem"><b>manipulation</b></li><li class="navelem"><a class="el" href="classrapid_1_1manipulation_1_1Placer.html">Placer</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="namespacerapid_1_1manipulation.html">manipulation</a></li><li class="navelem"><a class="el" href="classrapid_1_1manipulation_1_1Placer.html">Placer</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

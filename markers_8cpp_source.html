@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('markers_8cpp_source.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +107,7 @@ $(document).ready(function(){initNavTree('markers_8cpp_source.html','');});
 <div class="title">markers.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;rapid_viz/markers.h&quot;</span></div>
+<a href="markers_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="markers_8h.html">rapid_viz/markers.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
@@ -119,7 +121,7 @@ $(document).ready(function(){initNavTree('markers_8cpp_source.html','');});
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;std_msgs/ColorRGBA.h&quot;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;visualization_msgs/Marker.h&quot;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;rapid_utils/math.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="math_8h.html">rapid_utils/math.h</a>&quot;</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">using</span> std::string;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">using</span> std::vector;</div>
@@ -130,7 +132,7 @@ $(document).ready(function(){initNavTree('markers_8cpp_source.html','');});
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">namespace </span>viz {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;visualization_msgs::Marker OutlineBox(<span class="keyword">const</span> geometry_msgs::PoseStamped&amp; pose,</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="namespacerapid_1_1viz.html#a58f477a63a15553599c4d7d97d3dd167">   26</a></span>&#160;visualization_msgs::Marker <a class="code" href="namespacerapid_1_1viz.html#a58f477a63a15553599c4d7d97d3dd167">OutlineBox</a>(<span class="keyword">const</span> geometry_msgs::PoseStamped&amp; pose,</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                                      <span class="keyword">const</span> geometry_msgs::Vector3&amp; scale) {</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  visualization_msgs::Marker marker;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  marker.type = visualization_msgs::Marker::LINE_LIST;</div>
@@ -204,28 +206,28 @@ $(document).ready(function(){initNavTree('markers_8cpp_source.html','');});
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  <span class="keywordflow">return</span> marker;</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;}</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;Marker Marker::Box(<span class="keyword">const</span> MarkerPub* pub, <span class="keyword">const</span> PoseStamped&amp; pose,</div>
+<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#aa01187de884a468abf9a92e1e68f774f">  100</a></span>&#160;<a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a> <a class="code" href="classrapid_1_1viz_1_1Marker.html#aa01187de884a468abf9a92e1e68f774f">Marker::Box</a>(<span class="keyword">const</span> <a class="code" href="classrapid__ros_1_1PublisherInterface.html">MarkerPub</a>* pub, <span class="keyword">const</span> PoseStamped&amp; pose,</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                   <span class="keyword">const</span> Vector3&amp; scale) {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  Marker m(pub);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  m.SetType(visualization_msgs::Marker::CUBE);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  m.SetPose(pose);</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  m.SetScale(scale);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  m.SetNamespace(<span class="stringliteral">&quot;marker&quot;</span>);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  m.SetColor(0, 1, 0);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  <a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a> m(pub);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#af450a481b350f1f59cd90e62c6c6c4bc">SetType</a>(visualization_msgs::Marker::CUBE);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a1f5486ef87a5df4c6a9abf20d33ef669">SetPose</a>(pose);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a55c7dc5387b304966bd82034384da436">SetScale</a>(scale);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a1ce5768e2fee331a5a05ab185cc64b98">SetNamespace</a>(<span class="stringliteral">&quot;marker&quot;</span>);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a7d824084516919e8fa4a978c5f9c084e">SetColor</a>(0, 1, 0);</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  <span class="keywordflow">return</span> m;</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;Marker Marker::OutlineBox(<span class="keyword">const</span> MarkerPub* pub, <span class="keyword">const</span> PoseStamped&amp; pose,</div>
+<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#a9c9838bae927b84340dc8acc4289d48b">  111</a></span>&#160;<a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a> <a class="code" href="classrapid_1_1viz_1_1Marker.html#a9c9838bae927b84340dc8acc4289d48b">Marker::OutlineBox</a>(<span class="keyword">const</span> <a class="code" href="classrapid__ros_1_1PublisherInterface.html">MarkerPub</a>* pub, <span class="keyword">const</span> PoseStamped&amp; pose,</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                          <span class="keyword">const</span> Vector3&amp; scale) {</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  Marker m(pub);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  m.SetType(visualization_msgs::Marker::LINE_LIST);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  <a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a> m(pub);</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#af450a481b350f1f59cd90e62c6c6c4bc">SetType</a>(visualization_msgs::Marker::LINE_LIST);</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  Vector3 line_scale;</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  line_scale.x = 0.01;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  m.SetFrame(pose.header.frame_id);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  m.SetPose(pose);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  m.SetScale(line_scale);</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  m.SetNamespace(<span class="stringliteral">&quot;marker&quot;</span>);</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  m.SetColor(0, 1, 0);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a262f7ef76ceb005cfd796919533f9825">SetFrame</a>(pose.header.frame_id);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a1f5486ef87a5df4c6a9abf20d33ef669">SetPose</a>(pose);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a55c7dc5387b304966bd82034384da436">SetScale</a>(line_scale);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a1ce5768e2fee331a5a05ab185cc64b98">SetNamespace</a>(<span class="stringliteral">&quot;marker&quot;</span>);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a7d824084516919e8fa4a978c5f9c084e">SetColor</a>(0, 1, 0);</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  <span class="keywordtype">double</span> max_x = scale.x / 2;</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;  <span class="keywordtype">double</span> max_y = scale.y / 2;</div>
@@ -285,147 +287,175 @@ $(document).ready(function(){initNavTree('markers_8cpp_source.html','');});
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;  points.push_back(t4);</div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  points.push_back(b4);</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  m.SetPoints(points);</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a6d28c130a874d7f0799737fc9eaf6e8d">SetPoints</a>(points);</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;  <span class="keywordflow">return</span> m;</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;}</div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;Marker Marker::Mesh(<span class="keyword">const</span> MarkerPub* pub, <span class="keyword">const</span> geometry_msgs::PoseStamped&amp; ps,</div>
+<div class="line"><a name="l00186"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#a2614c9df442b95b044b7b2c6d0b56ce5">  186</a></span>&#160;<a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a> <a class="code" href="classrapid_1_1viz_1_1Marker.html#a2614c9df442b95b044b7b2c6d0b56ce5">Marker::Mesh</a>(<span class="keyword">const</span> <a class="code" href="classrapid__ros_1_1PublisherInterface.html">MarkerPub</a>* pub, <span class="keyword">const</span> geometry_msgs::PoseStamped&amp; ps,</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                    <span class="keyword">const</span> std::string&amp; uri) {</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  Marker m(pub);</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;  m.SetType(visualization_msgs::Marker::MESH_RESOURCE);</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  m.SetPose(ps);</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  <a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a> m(pub);</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#af450a481b350f1f59cd90e62c6c6c4bc">SetType</a>(visualization_msgs::Marker::MESH_RESOURCE);</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a1f5486ef87a5df4c6a9abf20d33ef669">SetPose</a>(ps);</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;  Vector3 scale;</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;  scale.x = 1;</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;  scale.y = 1;</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  scale.z = 1;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  m.SetScale(scale);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a55c7dc5387b304966bd82034384da436">SetScale</a>(scale);</div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;  m.marker_.mesh_resource = uri;</div>
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  m.marker_.mesh_use_embedded_materials = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;  <span class="keywordflow">return</span> m;</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;}</div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;Marker Marker::Mesh(<span class="keyword">const</span> MarkerPub* pub, <span class="keyword">const</span> geometry_msgs::PoseStamped&amp; ps,</div>
+<div class="line"><a name="l00201"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#ae9d4cb7d69cf08af36db8ec69956aacf">  201</a></span>&#160;<a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a> <a class="code" href="classrapid_1_1viz_1_1Marker.html#a2614c9df442b95b044b7b2c6d0b56ce5">Marker::Mesh</a>(<span class="keyword">const</span> <a class="code" href="classrapid__ros_1_1PublisherInterface.html">MarkerPub</a>* pub, <span class="keyword">const</span> geometry_msgs::PoseStamped&amp; ps,</div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                    <span class="keyword">const</span> std::string&amp; uri, <span class="keyword">const</span> std_msgs::ColorRGBA&amp; color) {</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  Marker m = Marker::Mesh(pub, ps, uri);</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;  m.SetColor(color.r, color.g, color.b, color.a);</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  <a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a> m = <a class="code" href="classrapid_1_1viz_1_1Marker.html#a2614c9df442b95b044b7b2c6d0b56ce5">Marker::Mesh</a>(pub, ps, uri);</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a7d824084516919e8fa4a978c5f9c084e">SetColor</a>(color.r, color.g, color.b, color.a);</div>
 <div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;  <span class="keywordflow">return</span> m;</div>
 <div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;}</div>
 <div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;Marker Marker::Text(<span class="keyword">const</span> MarkerPub* pub, <span class="keyword">const</span> PoseStamped&amp; pose,</div>
+<div class="line"><a name="l00208"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#a3a30d50a5560c60412edf6c3ceaf4f3f">  208</a></span>&#160;<a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a> <a class="code" href="classrapid_1_1viz_1_1Marker.html#a3a30d50a5560c60412edf6c3ceaf4f3f">Marker::Text</a>(<span class="keyword">const</span> <a class="code" href="classrapid__ros_1_1PublisherInterface.html">MarkerPub</a>* pub, <span class="keyword">const</span> PoseStamped&amp; pose,</div>
 <div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                    <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; text, <span class="keywordtype">double</span> size) {</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;  Marker m(pub);</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;  m.SetType(visualization_msgs::Marker::TEXT_VIEW_FACING);</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;  m.SetPose(pose);</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;  <a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a> m(pub);</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#af450a481b350f1f59cd90e62c6c6c4bc">SetType</a>(visualization_msgs::Marker::TEXT_VIEW_FACING);</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a1f5486ef87a5df4c6a9abf20d33ef669">SetPose</a>(pose);</div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;  Vector3 scale;</div>
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;  scale.z = size;</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;  m.SetScale(scale);</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;  m.SetText(text);</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;  m.SetNamespace(<span class="stringliteral">&quot;marker&quot;</span>);</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;  m.SetColor(0, 1, 0);</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a55c7dc5387b304966bd82034384da436">SetScale</a>(scale);</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a6b710d6f5a6cfbd0cb72044d7de2e69c">SetText</a>(text);</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a1ce5768e2fee331a5a05ab185cc64b98">SetNamespace</a>(<span class="stringliteral">&quot;marker&quot;</span>);</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a7d824084516919e8fa4a978c5f9c084e">SetColor</a>(0, 1, 0);</div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;  <span class="keywordflow">return</span> m;</div>
 <div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;}</div>
 <div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;Marker Marker::Vector(<span class="keyword">const</span> MarkerPub* pub, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; frame_id,</div>
+<div class="line"><a name="l00222"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#a8f39187e7929a285c71c287792f8769e">  222</a></span>&#160;<a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a> <a class="code" href="classrapid_1_1viz_1_1Marker.html#a8f39187e7929a285c71c287792f8769e">Marker::Vector</a>(<span class="keyword">const</span> <a class="code" href="classrapid__ros_1_1PublisherInterface.html">MarkerPub</a>* pub, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; frame_id,</div>
 <div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                      <span class="keyword">const</span> Point&amp; origin, <span class="keyword">const</span> Vector3&amp; vector) {</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;  Marker m(pub);</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;  m.SetType(visualization_msgs::Marker::ARROW);</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;  m.SetFrame(frame_id);</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;  <a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a> m(pub);</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#af450a481b350f1f59cd90e62c6c6c4bc">SetType</a>(visualization_msgs::Marker::ARROW);</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a262f7ef76ceb005cfd796919533f9825">SetFrame</a>(frame_id);</div>
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;</div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;  std::vector&lt;Point&gt; points;</div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;  points.push_back(origin);</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;  <span class="keywordtype">double</span> norm = rapid::utils::Norm(vector);</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;  <span class="keywordtype">double</span> norm = <a class="code" href="namespacerapid_1_1utils.html#ad767b7a06889b73c05ff1572d1cde3b1">rapid::utils::Norm</a>(vector);</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  Point end = origin;</div>
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;  end.x += vector.x * 0.03 / norm;</div>
 <div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;  end.y += vector.y * 0.03 / norm;</div>
 <div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;  end.z += vector.z * 0.03 / norm;</div>
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  points.push_back(end);</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  m.SetPoints(points);</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a6d28c130a874d7f0799737fc9eaf6e8d">SetPoints</a>(points);</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;</div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;  Vector3 scale;</div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  scale.x = 0.005;</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  scale.y = 0.01;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;  m.SetScale(scale);</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  m.SetNamespace(<span class="stringliteral">&quot;marker&quot;</span>);</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  m.SetColor(0, 1, 0);</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a55c7dc5387b304966bd82034384da436">SetScale</a>(scale);</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a1ce5768e2fee331a5a05ab185cc64b98">SetNamespace</a>(<span class="stringliteral">&quot;marker&quot;</span>);</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  m.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a7d824084516919e8fa4a978c5f9c084e">SetColor</a>(0, 1, 0);</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;  <span class="keywordflow">return</span> m;</div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;}</div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;Marker Marker::Null() {</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;  MarkerPub* null_pub = NULL;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;  Marker m(null_pub);</div>
+<div class="line"><a name="l00248"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#a25b76779a50488107e9a241886ce8c14">  248</a></span>&#160;<a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a> <a class="code" href="classrapid_1_1viz_1_1Marker.html#a25b76779a50488107e9a241886ce8c14">Marker::Null</a>() {</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;  <a class="code" href="classrapid__ros_1_1PublisherInterface.html">MarkerPub</a>* null_pub = NULL;</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;  <a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a> m(null_pub);</div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;  <span class="keywordflow">return</span> m;</div>
 <div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;}</div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;<span class="keywordtype">void</span> Marker::Publish() {</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;  <span class="keywordflow">if</span> (pub_ &amp;&amp; pub_-&gt;IsValid()) {</div>
+<div class="line"><a name="l00254"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#a49d7135203f48bca12d682bda4cfc0b0">  254</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1viz_1_1Marker.html#a49d7135203f48bca12d682bda4cfc0b0">Marker::Publish</a>() {</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;  <span class="keywordflow">if</span> (pub_ &amp;&amp; pub_-&gt;<a class="code" href="classrapid__ros_1_1PublisherInterface.html#afa8f8f02af2025154d231f74bd468731">IsValid</a>()) {</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    marker_.action = visualization_msgs::Marker::ADD;</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    pub_-&gt;publish(marker_);</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    pub_-&gt;<a class="code" href="classrapid__ros_1_1PublisherInterface.html#a9047ace550bd655783382ebf05ddadb0">publish</a>(marker_);</div>
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;  }</div>
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;}</div>
 <div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="keywordtype">void</span> Marker::Delete() {</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;  <span class="keywordflow">if</span> (pub_ &amp;&amp; pub_-&gt;IsValid()) {</div>
+<div class="line"><a name="l00261"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#aa470fee7bc48c502088145033e03cda3">  261</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1viz_1_1Marker.html#aa470fee7bc48c502088145033e03cda3">Marker::Delete</a>() {</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;  <span class="keywordflow">if</span> (pub_ &amp;&amp; pub_-&gt;<a class="code" href="classrapid__ros_1_1PublisherInterface.html#afa8f8f02af2025154d231f74bd468731">IsValid</a>()) {</div>
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    marker_.action = visualization_msgs::Marker::DELETE;</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    pub_-&gt;publish(marker_);</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    pub_-&gt;<a class="code" href="classrapid__ros_1_1PublisherInterface.html#a9047ace550bd655783382ebf05ddadb0">publish</a>(marker_);</div>
 <div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;  }</div>
 <div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;}</div>
 <div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="keywordtype">void</span> Marker::SetColor(<span class="keywordtype">double</span> r, <span class="keywordtype">double</span> g, <span class="keywordtype">double</span> b, <span class="keywordtype">double</span> a) {</div>
+<div class="line"><a name="l00268"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#a7d824084516919e8fa4a978c5f9c084e">  268</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1viz_1_1Marker.html#a7d824084516919e8fa4a978c5f9c084e">Marker::SetColor</a>(<span class="keywordtype">double</span> r, <span class="keywordtype">double</span> g, <span class="keywordtype">double</span> b, <span class="keywordtype">double</span> a) {</div>
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;  marker_.color.r = r;</div>
 <div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;  marker_.color.g = g;</div>
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;  marker_.color.b = b;</div>
 <div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;  marker_.color.a = a;</div>
 <div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;}</div>
 <div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;<span class="keywordtype">void</span> Marker::SetFrame(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; frame_id) {</div>
+<div class="line"><a name="l00275"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#a262f7ef76ceb005cfd796919533f9825">  275</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1viz_1_1Marker.html#a262f7ef76ceb005cfd796919533f9825">Marker::SetFrame</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; frame_id) {</div>
 <div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;  marker_.header.frame_id = frame_id;</div>
 <div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;}</div>
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="keywordtype">void</span> Marker::SetNamespace(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; ns) { marker_.ns = ns; }</div>
+<div class="line"><a name="l00279"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#a1ce5768e2fee331a5a05ab185cc64b98">  279</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1viz_1_1Marker.html#a1ce5768e2fee331a5a05ab185cc64b98">Marker::SetNamespace</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; ns) { marker_.ns = ns; }</div>
 <div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="keywordtype">void</span> Marker::SetPoints(<span class="keyword">const</span> std::vector&lt;geometry_msgs::Point&gt;&amp; points) {</div>
+<div class="line"><a name="l00281"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#a6d28c130a874d7f0799737fc9eaf6e8d">  281</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1viz_1_1Marker.html#a6d28c130a874d7f0799737fc9eaf6e8d">Marker::SetPoints</a>(<span class="keyword">const</span> std::vector&lt;geometry_msgs::Point&gt;&amp; points) {</div>
 <div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;  marker_.points = points;</div>
 <div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;}</div>
 <div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;<span class="keywordtype">void</span> Marker::SetPose(<span class="keyword">const</span> PoseStamped&amp; ps) {</div>
+<div class="line"><a name="l00285"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#a1f5486ef87a5df4c6a9abf20d33ef669">  285</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1viz_1_1Marker.html#a1f5486ef87a5df4c6a9abf20d33ef669">Marker::SetPose</a>(<span class="keyword">const</span> PoseStamped&amp; ps) {</div>
 <div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;  marker_.header = ps.header;</div>
 <div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;  marker_.pose = ps.pose;</div>
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;}</div>
 <div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="keywordtype">void</span> Marker::SetScale(<span class="keyword">const</span> Vector3&amp; scale) { marker_.scale = scale; }</div>
+<div class="line"><a name="l00290"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#a55c7dc5387b304966bd82034384da436">  290</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1viz_1_1Marker.html#a55c7dc5387b304966bd82034384da436">Marker::SetScale</a>(<span class="keyword">const</span> Vector3&amp; scale) { marker_.scale = scale; }</div>
 <div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;<span class="keywordtype">void</span> Marker::SetText(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; text) { marker_.text = text; }</div>
+<div class="line"><a name="l00292"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#a6b710d6f5a6cfbd0cb72044d7de2e69c">  292</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1viz_1_1Marker.html#a6b710d6f5a6cfbd0cb72044d7de2e69c">Marker::SetText</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; text) { marker_.text = text; }</div>
 <div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="keywordtype">void</span> Marker::SetType(uint8_t type) { marker_.type = type; }</div>
+<div class="line"><a name="l00294"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#af450a481b350f1f59cd90e62c6c6c4bc">  294</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1viz_1_1Marker.html#af450a481b350f1f59cd90e62c6c6c4bc">Marker::SetType</a>(uint8_t type) { marker_.type = type; }</div>
 <div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;visualization_msgs::Marker Marker::marker()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> marker_; }</div>
+<div class="line"><a name="l00296"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#a0ed16d54fecf8ba3c05d127508a2a340">  296</a></span>&#160;visualization_msgs::Marker <a class="code" href="classrapid_1_1viz_1_1Marker.html#a0ed16d54fecf8ba3c05d127508a2a340">Marker::marker</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> marker_; }</div>
 <div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;Marker::Marker(<span class="keyword">const</span> MarkerPub* pub) : pub_(pub), marker_() {}</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<a class="code" href="classrapid_1_1viz_1_1Marker.html#a69850ccdd8fade0052ee0091f3611dbd">Marker::Marker</a>(<span class="keyword">const</span> <a class="code" href="classrapid__ros_1_1PublisherInterface.html">MarkerPub</a>* pub) : pub_(pub), marker_() {}</div>
 <div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;Marker::Marker(<span class="keyword">const</span> Marker&amp; rhs) : pub_(rhs.pub_), marker_(rhs.marker_) {</div>
+<div class="line"><a name="l00300"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#a69850ccdd8fade0052ee0091f3611dbd">  300</a></span>&#160;<a class="code" href="classrapid_1_1viz_1_1Marker.html#a69850ccdd8fade0052ee0091f3611dbd">Marker::Marker</a>(<span class="keyword">const</span> <a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&amp; rhs) : pub_(rhs.pub_), marker_(rhs.marker_) {</div>
 <div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;  marker_.id = rand();</div>
 <div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;}</div>
 <div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;Marker&amp; Marker::operator=(<span class="keyword">const</span> Marker&amp; rhs) {</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;  Delete();</div>
+<div class="line"><a name="l00304"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#adca91d4d036e70e6ce2abdf8cbba34f8">  304</a></span>&#160;<a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&amp; <a class="code" href="classrapid_1_1viz_1_1Marker.html#adca91d4d036e70e6ce2abdf8cbba34f8">Marker::operator=</a>(<span class="keyword">const</span> <a class="code" href="classrapid_1_1viz_1_1Marker.html">Marker</a>&amp; rhs) {</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;  <a class="code" href="classrapid_1_1viz_1_1Marker.html#aa470fee7bc48c502088145033e03cda3">Delete</a>();</div>
 <div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;  pub_ = rhs.pub_;</div>
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;  marker_ = rhs.marker_;</div>
 <div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;  marker_.id = rand();</div>
 <div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;  <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
 <div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;}</div>
 <div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;Marker::~Marker() { Delete(); }</div>
+<div class="line"><a name="l00312"></a><span class="lineno"><a class="line" href="classrapid_1_1viz_1_1Marker.html#a8ca9f7a909f7938010ca526d4dbbb03d">  312</a></span>&#160;<a class="code" href="classrapid_1_1viz_1_1Marker.html#a8ca9f7a909f7938010ca526d4dbbb03d">Marker::~Marker</a>() { <a class="code" href="classrapid_1_1viz_1_1Marker.html#aa470fee7bc48c502088145033e03cda3">Delete</a>(); }</div>
 <div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;}  <span class="comment">// namespace viz</span></div>
 <div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;}  <span class="comment">// namespace rapid</span></div>
+<div class="ttc" id="math_8h_html"><div class="ttname"><a href="math_8h.html">math.h</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1PublisherInterface_html_afa8f8f02af2025154d231f74bd468731"><div class="ttname"><a href="classrapid__ros_1_1PublisherInterface.html#afa8f8f02af2025154d231f74bd468731">rapid_ros::PublisherInterface::IsValid</a></div><div class="ttdeci">virtual bool IsValid() const =0</div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a69850ccdd8fade0052ee0091f3611dbd"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a69850ccdd8fade0052ee0091f3611dbd">rapid::viz::Marker::Marker</a></div><div class="ttdeci">Marker(const Marker &amp;rhs)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00300">markers.cpp:300</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a2614c9df442b95b044b7b2c6d0b56ce5"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a2614c9df442b95b044b7b2c6d0b56ce5">rapid::viz::Marker::Mesh</a></div><div class="ttdeci">static Marker Mesh(const MarkerPub *pub, const geometry_msgs::PoseStamped &amp;ps, const std::string &amp;uri)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00186">markers.cpp:186</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a262f7ef76ceb005cfd796919533f9825"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a262f7ef76ceb005cfd796919533f9825">rapid::viz::Marker::SetFrame</a></div><div class="ttdeci">void SetFrame(const std::string &amp;frame_id)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00275">markers.cpp:275</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a0ed16d54fecf8ba3c05d127508a2a340"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a0ed16d54fecf8ba3c05d127508a2a340">rapid::viz::Marker::marker</a></div><div class="ttdeci">visualization_msgs::Marker marker() const </div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00296">markers.cpp:296</a></div></div>
+<div class="ttc" id="namespacerapid_1_1utils_html_ad767b7a06889b73c05ff1572d1cde3b1"><div class="ttname"><a href="namespacerapid_1_1utils.html#ad767b7a06889b73c05ff1572d1cde3b1">rapid::utils::Norm</a></div><div class="ttdeci">double Norm(const geometry_msgs::Vector3 &amp;v)</div><div class="ttdef"><b>Definition:</b> <a href="math_8cpp_source.html#l00038">math.cpp:38</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a6b710d6f5a6cfbd0cb72044d7de2e69c"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a6b710d6f5a6cfbd0cb72044d7de2e69c">rapid::viz::Marker::SetText</a></div><div class="ttdeci">void SetText(const std::string &amp;text)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00292">markers.cpp:292</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a1f5486ef87a5df4c6a9abf20d33ef669"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a1f5486ef87a5df4c6a9abf20d33ef669">rapid::viz::Marker::SetPose</a></div><div class="ttdeci">void SetPose(const geometry_msgs::PoseStamped &amp;ps)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00285">markers.cpp:285</a></div></div>
+<div class="ttc" id="namespacerapid_1_1viz_html_a58f477a63a15553599c4d7d97d3dd167"><div class="ttname"><a href="namespacerapid_1_1viz.html#a58f477a63a15553599c4d7d97d3dd167">rapid::viz::OutlineBox</a></div><div class="ttdeci">visualization_msgs::Marker OutlineBox(const geometry_msgs::PoseStamped &amp;pose, const geometry_msgs::Vector3 &amp;scale)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00026">markers.cpp:26</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1PublisherInterface_html"><div class="ttname"><a href="classrapid__ros_1_1PublisherInterface.html">rapid_ros::PublisherInterface</a></div><div class="ttdef"><b>Definition:</b> <a href="publisher_8h_source.html#l00012">publisher.h:12</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_aa01187de884a468abf9a92e1e68f774f"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#aa01187de884a468abf9a92e1e68f774f">rapid::viz::Marker::Box</a></div><div class="ttdeci">static Marker Box(const MarkerPub *pub, const geometry_msgs::PoseStamped &amp;pose, const geometry_msgs::Vector3 &amp;scale)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00100">markers.cpp:100</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a1ce5768e2fee331a5a05ab185cc64b98"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a1ce5768e2fee331a5a05ab185cc64b98">rapid::viz::Marker::SetNamespace</a></div><div class="ttdeci">void SetNamespace(const std::string &amp;ns)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00279">markers.cpp:279</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a8f39187e7929a285c71c287792f8769e"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a8f39187e7929a285c71c287792f8769e">rapid::viz::Marker::Vector</a></div><div class="ttdeci">static Marker Vector(const MarkerPub *pub, const std::string &amp;frame_id, const geometry_msgs::Point &amp;origin, const geometry_msgs::Vector3 &amp;vector)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00222">markers.cpp:222</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a25b76779a50488107e9a241886ce8c14"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a25b76779a50488107e9a241886ce8c14">rapid::viz::Marker::Null</a></div><div class="ttdeci">static Marker Null()</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00248">markers.cpp:248</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a3a30d50a5560c60412edf6c3ceaf4f3f"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a3a30d50a5560c60412edf6c3ceaf4f3f">rapid::viz::Marker::Text</a></div><div class="ttdeci">static Marker Text(const MarkerPub *pub, const geometry_msgs::PoseStamped &amp;pose, const std::string &amp;text, double size)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00208">markers.cpp:208</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a49d7135203f48bca12d682bda4cfc0b0"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a49d7135203f48bca12d682bda4cfc0b0">rapid::viz::Marker::Publish</a></div><div class="ttdeci">void Publish()</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00254">markers.cpp:254</a></div></div>
+<div class="ttc" id="markers_8h_html"><div class="ttname"><a href="markers_8h.html">markers.h</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a7d824084516919e8fa4a978c5f9c084e"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a7d824084516919e8fa4a978c5f9c084e">rapid::viz::Marker::SetColor</a></div><div class="ttdeci">void SetColor(double r, double g, double b, double a=0.9)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00268">markers.cpp:268</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_af450a481b350f1f59cd90e62c6c6c4bc"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#af450a481b350f1f59cd90e62c6c6c4bc">rapid::viz::Marker::SetType</a></div><div class="ttdeci">void SetType(uint8_t type)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00294">markers.cpp:294</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1PublisherInterface_html_a9047ace550bd655783382ebf05ddadb0"><div class="ttname"><a href="classrapid__ros_1_1PublisherInterface.html#a9047ace550bd655783382ebf05ddadb0">rapid_ros::PublisherInterface::publish</a></div><div class="ttdeci">virtual void publish(const Message &amp;message) const =0</div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_adca91d4d036e70e6ce2abdf8cbba34f8"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#adca91d4d036e70e6ce2abdf8cbba34f8">rapid::viz::Marker::operator=</a></div><div class="ttdeci">Marker &amp; operator=(const Marker &amp;rhs)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00304">markers.cpp:304</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a55c7dc5387b304966bd82034384da436"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a55c7dc5387b304966bd82034384da436">rapid::viz::Marker::SetScale</a></div><div class="ttdeci">void SetScale(const geometry_msgs::Vector3 &amp;scale)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00290">markers.cpp:290</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html">rapid::viz::Marker</a></div><div class="ttdef"><b>Definition:</b> <a href="markers_8h_source.html#l00032">markers.h:32</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a6d28c130a874d7f0799737fc9eaf6e8d"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a6d28c130a874d7f0799737fc9eaf6e8d">rapid::viz::Marker::SetPoints</a></div><div class="ttdeci">void SetPoints(const std::vector&lt; geometry_msgs::Point &gt; &amp;points)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00281">markers.cpp:281</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_aa470fee7bc48c502088145033e03cda3"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#aa470fee7bc48c502088145033e03cda3">rapid::viz::Marker::Delete</a></div><div class="ttdeci">void Delete()</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00261">markers.cpp:261</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a9c9838bae927b84340dc8acc4289d48b"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a9c9838bae927b84340dc8acc4289d48b">rapid::viz::Marker::OutlineBox</a></div><div class="ttdeci">static Marker OutlineBox(const MarkerPub *pub, const geometry_msgs::PoseStamped &amp;pose, const geometry_msgs::Vector3 &amp;scale)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00111">markers.cpp:111</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a8ca9f7a909f7938010ca526d4dbbb03d"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a8ca9f7a909f7938010ca526d4dbbb03d">rapid::viz::Marker::~Marker</a></div><div class="ttdeci">~Marker()</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00312">markers.cpp:312</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_c6ed616797fd829864f033a9f45e46ef.html">rapid_viz</a></li><li class="navelem"><a class="el" href="dir_96f9087990b6545fedf172cb8a718d43.html">src</a></li><li class="navelem"><b>markers.cpp</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_c6ed616797fd829864f033a9f45e46ef.html">rapid_viz</a></li><li class="navelem"><a class="el" href="dir_96f9087990b6545fedf172cb8a718d43.html">src</a></li><li class="navelem"><a class="el" href="markers_8cpp.html">markers.cpp</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

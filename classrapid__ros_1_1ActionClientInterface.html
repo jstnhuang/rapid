@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid__ros_1_1ActionClientInterfa
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,6 +112,8 @@ $(document).ready(function(){initNavTree('classrapid__ros_1_1ActionClientInterfa
 <div class="title">rapid_ros::ActionClientInterface&lt; ActionSpec &gt; Class Template Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="action__client_8h_source.html">action_client.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for rapid_ros::ActionClientInterface&lt; ActionSpec &gt;:</div>
 <div class="dyncontent">
@@ -124,24 +127,20 @@ Inheritance diagram for rapid_ros::ActionClientInterface&lt; ActionSpec &gt;:</d
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7cad879d3fb3396a42e7386aa337537e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7cad879d3fb3396a42e7386aa337537e"></a>
-virtual ResultConstPtr&#160;</td><td class="memItemRight" valign="bottom"><b>getResult</b> ()=0</td></tr>
+<tr class="memitem:a6a100a230567bd8d22aa659116ebd895"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid__ros_1_1ActionClientInterface.html#a6a100a230567bd8d22aa659116ebd895">~ActionClientInterface</a> ()</td></tr>
+<tr class="separator:a6a100a230567bd8d22aa659116ebd895"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cad879d3fb3396a42e7386aa337537e"><td class="memItemLeft" align="right" valign="top">virtual ResultConstPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid__ros_1_1ActionClientInterface.html#a7cad879d3fb3396a42e7386aa337537e">getResult</a> ()=0</td></tr>
 <tr class="separator:a7cad879d3fb3396a42e7386aa337537e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebed369ce04941a3b94c185de391e1a4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aebed369ce04941a3b94c185de391e1a4"></a>
-virtual <br class="typebreak"/>
-actionlib::SimpleClientGoalState&#160;</td><td class="memItemRight" valign="bottom"><b>getState</b> ()=0</td></tr>
+<tr class="memitem:aebed369ce04941a3b94c185de391e1a4"><td class="memItemLeft" align="right" valign="top">virtual <br class="typebreak"/>
+actionlib::SimpleClientGoalState&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid__ros_1_1ActionClientInterface.html#aebed369ce04941a3b94c185de391e1a4">getState</a> ()=0</td></tr>
 <tr class="separator:aebed369ce04941a3b94c185de391e1a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a077ef793c834cd99721213f670a501cb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a077ef793c834cd99721213f670a501cb"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>isServerConnected</b> ()=0</td></tr>
+<tr class="memitem:a077ef793c834cd99721213f670a501cb"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid__ros_1_1ActionClientInterface.html#a077ef793c834cd99721213f670a501cb">isServerConnected</a> ()=0</td></tr>
 <tr class="separator:a077ef793c834cd99721213f670a501cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0aba01978edd233a52a918eb3eb30d0f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0aba01978edd233a52a918eb3eb30d0f"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>sendGoal</b> (const Goal &amp;goal)=0</td></tr>
+<tr class="memitem:a0aba01978edd233a52a918eb3eb30d0f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid__ros_1_1ActionClientInterface.html#a0aba01978edd233a52a918eb3eb30d0f">sendGoal</a> (const Goal &amp;goal)=0</td></tr>
 <tr class="separator:a0aba01978edd233a52a918eb3eb30d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65eddd4a9064d5188e8873f3f2642027"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a65eddd4a9064d5188e8873f3f2642027"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>waitForResult</b> (const ros::Duration &amp;timeout=ros::Duration(0, 0))=0</td></tr>
+<tr class="memitem:a65eddd4a9064d5188e8873f3f2642027"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid__ros_1_1ActionClientInterface.html#a65eddd4a9064d5188e8873f3f2642027">waitForResult</a> (const ros::Duration &amp;timeout=ros::Duration(0, 0))=0</td></tr>
 <tr class="separator:a65eddd4a9064d5188e8873f3f2642027"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86e5090debc90f68f9fd179b450c21b0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a86e5090debc90f68f9fd179b450c21b0"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>waitForServer</b> (const ros::Duration &amp;timeout=ros::Duration(0, 0))=0</td></tr>
+<tr class="memitem:a86e5090debc90f68f9fd179b450c21b0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid__ros_1_1ActionClientInterface.html#a86e5090debc90f68f9fd179b450c21b0">waitForServer</a> (const ros::Duration &amp;timeout=ros::Duration(0, 0))=0</td></tr>
 <tr class="separator:a86e5090debc90f68f9fd179b450c21b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -150,7 +149,201 @@ class rapid_ros::ActionClientInterface&lt; ActionSpec &gt;</h3>
 
 
 <p>Definition at line <a class="el" href="action__client_8h_source.html#l00017">17</a> of file <a class="el" href="action__client_8h_source.html">action_client.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a6a100a230567bd8d22aa659116ebd895"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ActionSpec&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classrapid__ros_1_1ActionClientInterface.html">rapid_ros::ActionClientInterface</a>&lt; ActionSpec &gt;::~<a class="el" href="classrapid__ros_1_1ActionClientInterface.html">ActionClientInterface</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="action__client_8h_source.html#l00022">22</a> of file <a class="el" href="action__client_8h_source.html">action_client.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a7cad879d3fb3396a42e7386aa337537e"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ActionSpec&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual ResultConstPtr <a class="el" href="classrapid__ros_1_1ActionClientInterface.html">rapid_ros::ActionClientInterface</a>&lt; ActionSpec &gt;::getResult </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classrapid__ros_1_1MockActionClient.html#ae1ec8414b5290c7922ce8a883cd0bbc3">rapid_ros::MockActionClient&lt; ActionSpec &gt;</a>, and <a class="el" href="classrapid__ros_1_1ActionClient.html#a4621fc4546aaa944f06680e9fb60aafe">rapid_ros::ActionClient&lt; ActionSpec &gt;</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aebed369ce04941a3b94c185de391e1a4"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ActionSpec&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual actionlib::SimpleClientGoalState <a class="el" href="classrapid__ros_1_1ActionClientInterface.html">rapid_ros::ActionClientInterface</a>&lt; ActionSpec &gt;::getState </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classrapid__ros_1_1MockActionClient.html#aa91439f44ddb11585c21600c33256819">rapid_ros::MockActionClient&lt; ActionSpec &gt;</a>, and <a class="el" href="classrapid__ros_1_1ActionClient.html#a836f70121059bf8d8a4b57ff72b09ee7">rapid_ros::ActionClient&lt; ActionSpec &gt;</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a077ef793c834cd99721213f670a501cb"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ActionSpec&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool <a class="el" href="classrapid__ros_1_1ActionClientInterface.html">rapid_ros::ActionClientInterface</a>&lt; ActionSpec &gt;::isServerConnected </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classrapid__ros_1_1MockActionClient.html#a89c34e1af1bbe27ae6ab0ccfbd21aa37">rapid_ros::MockActionClient&lt; ActionSpec &gt;</a>, and <a class="el" href="classrapid__ros_1_1ActionClient.html#af9d4129644752086f666f55fb925b4a4">rapid_ros::ActionClient&lt; ActionSpec &gt;</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0aba01978edd233a52a918eb3eb30d0f"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ActionSpec&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void <a class="el" href="classrapid__ros_1_1ActionClientInterface.html">rapid_ros::ActionClientInterface</a>&lt; ActionSpec &gt;::sendGoal </td>
+          <td>(</td>
+          <td class="paramtype">const Goal &amp;&#160;</td>
+          <td class="paramname"><em>goal</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classrapid__ros_1_1MockActionClient.html#aca5fdb5429455b750440ff86fc82f516">rapid_ros::MockActionClient&lt; ActionSpec &gt;</a>, and <a class="el" href="classrapid__ros_1_1ActionClient.html#a2ca213a70f5ab54901b08ebae29a1c90">rapid_ros::ActionClient&lt; ActionSpec &gt;</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a65eddd4a9064d5188e8873f3f2642027"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ActionSpec&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool <a class="el" href="classrapid__ros_1_1ActionClientInterface.html">rapid_ros::ActionClientInterface</a>&lt; ActionSpec &gt;::waitForResult </td>
+          <td>(</td>
+          <td class="paramtype">const ros::Duration &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code>ros::Duration(0,&#160;0)</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classrapid__ros_1_1MockActionClient.html#a58a9ab1751d81cad1a71237f430befc9">rapid_ros::MockActionClient&lt; ActionSpec &gt;</a>, and <a class="el" href="classrapid__ros_1_1ActionClient.html#aadacdafe83a60c282e467ea7595f6db3">rapid_ros::ActionClient&lt; ActionSpec &gt;</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a86e5090debc90f68f9fd179b450c21b0"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ActionSpec&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool <a class="el" href="classrapid__ros_1_1ActionClientInterface.html">rapid_ros::ActionClientInterface</a>&lt; ActionSpec &gt;::waitForServer </td>
+          <td>(</td>
+          <td class="paramtype">const ros::Duration &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code>ros::Duration(0,&#160;0)</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classrapid__ros_1_1MockActionClient.html#ab56677ed44f948c1be1289553fd7bbb5">rapid_ros::MockActionClient&lt; ActionSpec &gt;</a>, and <a class="el" href="classrapid__ros_1_1ActionClient.html#a812b765adc972c673e054c8501cbe050">rapid_ros::ActionClient&lt; ActionSpec &gt;</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>rapid_ros/include/rapid_ros/<a class="el" href="action__client_8h_source.html">action_client.h</a></li>
 </ul>
 </div><!-- contents -->
@@ -158,8 +351,8 @@ class rapid_ros::ActionClientInterface&lt; ActionSpec &gt;</h3>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid_ros</b></li><li class="navelem"><a class="el" href="classrapid__ros_1_1ActionClientInterface.html">ActionClientInterface</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid__ros.html">rapid_ros</a></li><li class="navelem"><a class="el" href="classrapid__ros_1_1ActionClientInterface.html">ActionClientInterface</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

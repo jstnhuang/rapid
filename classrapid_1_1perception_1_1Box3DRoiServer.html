@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classrapid_1_1perception_1_1Box3DRoiSe
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,32 +112,188 @@ $(document).ready(function(){initNavTree('classrapid_1_1perception_1_1Box3DRoiSe
 <div class="title">rapid::perception::Box3DRoiServer Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="box3d__roi__server_8h_source.html">box3d_roi_server.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a35d66109d70dea3a4a20f63d66741b17"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a35d66109d70dea3a4a20f63d66741b17"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Box3DRoiServer</b> (const std::string &amp;topic)</td></tr>
+<tr class="memitem:a35d66109d70dea3a4a20f63d66741b17"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1Box3DRoiServer.html#a35d66109d70dea3a4a20f63d66741b17">Box3DRoiServer</a> (const std::string &amp;topic)</td></tr>
 <tr class="separator:a35d66109d70dea3a4a20f63d66741b17"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f91a31c790f510b3f5c0e17ddaa5b31"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8f91a31c790f510b3f5c0e17ddaa5b31"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Start</b> ()</td></tr>
+<tr class="memitem:a9dbb9e992c1bf447d3e8f289efa551e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1Box3DRoiServer.html#a9dbb9e992c1bf447d3e8f289efa551e6">~Box3DRoiServer</a> ()</td></tr>
+<tr class="separator:a9dbb9e992c1bf447d3e8f289efa551e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f91a31c790f510b3f5c0e17ddaa5b31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1Box3DRoiServer.html#a8f91a31c790f510b3f5c0e17ddaa5b31">Start</a> ()</td></tr>
 <tr class="separator:a8f91a31c790f510b3f5c0e17ddaa5b31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0fe33132df48a26979b76b01a20532ed"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0fe33132df48a26979b76b01a20532ed"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Start</b> (double x, double y, double z, double scale_x, double scale_y, double scale_z)</td></tr>
+<tr class="memitem:a0fe33132df48a26979b76b01a20532ed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1Box3DRoiServer.html#a0fe33132df48a26979b76b01a20532ed">Start</a> (double x, double y, double z, double scale_x, double scale_y, double scale_z)</td></tr>
 <tr class="separator:a0fe33132df48a26979b76b01a20532ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f680acb9fd6bed2d32db0fdf38f1ec4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4f680acb9fd6bed2d32db0fdf38f1ec4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Stop</b> ()</td></tr>
+<tr class="memitem:a4f680acb9fd6bed2d32db0fdf38f1ec4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1Box3DRoiServer.html#a4f680acb9fd6bed2d32db0fdf38f1ec4">Stop</a> ()</td></tr>
 <tr class="separator:a4f680acb9fd6bed2d32db0fdf38f1ec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a981387987082434f880e246356de4add"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a981387987082434f880e246356de4add"></a>
-rapid_msgs::Roi3D&#160;</td><td class="memItemRight" valign="bottom"><b>roi</b> ()</td></tr>
+<tr class="memitem:a981387987082434f880e246356de4add"><td class="memItemLeft" align="right" valign="top">rapid_msgs::Roi3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1Box3DRoiServer.html#a981387987082434f880e246356de4add">roi</a> ()</td></tr>
 <tr class="separator:a981387987082434f880e246356de4add"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b9a77427dbfe72db26497e3c4cfe64c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8b9a77427dbfe72db26497e3c4cfe64c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_base_frame</b> (const std::string &amp;base_frame)</td></tr>
+<tr class="memitem:a8b9a77427dbfe72db26497e3c4cfe64c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1perception_1_1Box3DRoiServer.html#a8b9a77427dbfe72db26497e3c4cfe64c">set_base_frame</a> (const std::string &amp;base_frame)</td></tr>
 <tr class="separator:a8b9a77427dbfe72db26497e3c4cfe64c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="box3d__roi__server_8h_source.html#l00015">15</a> of file <a class="el" href="box3d__roi__server_8h_source.html">box3d_roi_server.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a35d66109d70dea3a4a20f63d66741b17"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::perception::Box3DRoiServer::Box3DRoiServer </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>topic</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="box3d__roi__server_8cpp_source.html#l00027">27</a> of file <a class="el" href="box3d__roi__server_8cpp_source.html">box3d_roi_server.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9dbb9e992c1bf447d3e8f289efa551e6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid::perception::Box3DRoiServer::~Box3DRoiServer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="box3d__roi__server_8cpp_source.html#l00031">31</a> of file <a class="el" href="box3d__roi__server_8cpp_source.html">box3d_roi_server.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a981387987082434f880e246356de4add"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapid_msgs::Roi3D rapid::perception::Box3DRoiServer::roi </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="box3d__roi__server_8cpp_source.html#l00300">300</a> of file <a class="el" href="box3d__roi__server_8cpp_source.html">box3d_roi_server.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8b9a77427dbfe72db26497e3c4cfe64c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::Box3DRoiServer::set_base_frame </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>base_frame</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="box3d__roi__server_8cpp_source.html#l00302">302</a> of file <a class="el" href="box3d__roi__server_8cpp_source.html">box3d_roi_server.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8f91a31c790f510b3f5c0e17ddaa5b31"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::Box3DRoiServer::Start </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="box3d__roi__server_8cpp_source.html#l00077">77</a> of file <a class="el" href="box3d__roi__server_8cpp_source.html">box3d_roi_server.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0fe33132df48a26979b76b01a20532ed"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::Box3DRoiServer::Start </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale_z</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="box3d__roi__server_8cpp_source.html#l00079">79</a> of file <a class="el" href="box3d__roi__server_8cpp_source.html">box3d_roi_server.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4f680acb9fd6bed2d32db0fdf38f1ec4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rapid::perception::Box3DRoiServer::Stop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="box3d__roi__server_8cpp_source.html#l00116">116</a> of file <a class="el" href="box3d__roi__server_8cpp_source.html">box3d_roi_server.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>rapid_perception/include/rapid_perception/<a class="el" href="box3d__roi__server_8h_source.html">box3d_roi_server.h</a></li>
 <li>rapid_perception/src/<a class="el" href="box3d__roi__server_8cpp_source.html">box3d_roi_server.cpp</a></li>
 </ul>
@@ -145,8 +302,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>set_base_frame</b> (c
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>rapid</b></li><li class="navelem"><b>perception</b></li><li class="navelem"><a class="el" href="classrapid_1_1perception_1_1Box3DRoiServer.html">Box3DRoiServer</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="namespacerapid_1_1perception.html">perception</a></li><li class="navelem"><a class="el" href="classrapid_1_1perception_1_1Box3DRoiServer.html">Box3DRoiServer</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -16,5 +16,11 @@ var classrapid_1_1perception_1_1RansacPoseEstimator =
     [ "set_scene_publisher", "classrapid_1_1perception_1_1RansacPoseEstimator.html#aab14b68e38b91779e9d0c1e0afaa3c98", null ],
     [ "set_threshold", "classrapid_1_1perception_1_1RansacPoseEstimator.html#a6c28418a79c1091e2716abecb8334c62", null ],
     [ "set_voxel_size", "classrapid_1_1perception_1_1RansacPoseEstimator.html#a7651429ccce002943e836b640321df03", null ],
-    [ "voxel_size", "classrapid_1_1perception_1_1RansacPoseEstimator.html#a77a04eb60de6f52c32814e3eb9a9b21e", null ]
+    [ "voxel_size", "classrapid_1_1perception_1_1RansacPoseEstimator.html#a77a04eb60de6f52c32814e3eb9a9b21e", null ],
+    [ "kDefaultObjectNormalRadius", "classrapid_1_1perception_1_1RansacPoseEstimator.html#a6b2a3f1527a3135ec9d39fb4b4b557d6", null ],
+    [ "kDefaultPairWidth", "classrapid_1_1perception_1_1RansacPoseEstimator.html#a7dd4ca80953c716ccf901d78b840ccfd", null ],
+    [ "kDefaultSceneNormalRadius", "classrapid_1_1perception_1_1RansacPoseEstimator.html#a67e43ae9fb9392cb50584baa3c860ae0", null ],
+    [ "kDefaultThreshold", "classrapid_1_1perception_1_1RansacPoseEstimator.html#a0e37adabac7db1d111745d44b47a090f", null ],
+    [ "kDefaultVoxelSize", "classrapid_1_1perception_1_1RansacPoseEstimator.html#a53857bfc04c77ce5928c04d6d8489602", null ],
+    [ "kObjectName", "classrapid_1_1perception_1_1RansacPoseEstimator.html#ac74a9c89f06f2be89ca009509f79a3a1", null ]
 ];

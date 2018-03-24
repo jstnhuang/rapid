@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('cloud__projection_8h_source.html','');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +107,7 @@ $(document).ready(function(){initNavTree('cloud__projection_8h_source.html','');
 <div class="title">cloud_projection.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_PERCEPTION_CLOUD_PROJECTION_H_</span></div>
+<a href="cloud__projection_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_PERCEPTION_CLOUD_PROJECTION_H_</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _RAPID_PERCEPTION_CLOUD_PROJECTION_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;opencv2/core/core.hpp&quot;</span></div>
@@ -117,27 +119,29 @@ $(document).ready(function(){initNavTree('cloud__projection_8h_source.html','');
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>perception {</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// Projects the given point cloud onto the image plane.</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordtype">void</span> CloudToImage(<span class="keyword">const</span> sensor_msgs::CameraInfo&amp; camera_info,</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacerapid_1_1perception.html#a0ff30f0950a0ec66c2f280094346322b">CloudToImage</a>(<span class="keyword">const</span> sensor_msgs::CameraInfo&amp; camera_info,</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                  <span class="keyword">const</span> pcl::PointCloud&lt;pcl::PointXYZRGB&gt;&amp; cloud,</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                  cv::Mat* image);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordtype">void</span> CloudToImage(<span class="keyword">const</span> sensor_msgs::CameraInfo&amp; camera_info,</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacerapid_1_1perception.html#a0ff30f0950a0ec66c2f280094346322b">CloudToImage</a>(<span class="keyword">const</span> sensor_msgs::CameraInfo&amp; camera_info,</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                  <span class="keyword">const</span> pcl::PointCloud&lt;pcl::PointXYZRGB&gt;&amp; cloud,</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                  <span class="keyword">const</span> pcl::PointIndices::Ptr&amp; indices, cv::Mat* image);</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// Returns the standard CameraInfo value for the head-mounted Kinect 360 on the</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">// PR2.</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;sensor_msgs::CameraInfo HeadMountKinectCameraInfo();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;sensor_msgs::CameraInfo <a class="code" href="namespacerapid_1_1perception.html#ad9169b0178c46fcd3c3a5862e1b8674e">HeadMountKinectCameraInfo</a>();</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;}  <span class="comment">// namespace perception</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}  <span class="comment">// namespace rapid</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#endif  // _RAPID_PERCEPTION_CLOUD_PROJECTION_H_</span></div>
+<div class="ttc" id="namespacerapid_1_1perception_html_a0ff30f0950a0ec66c2f280094346322b"><div class="ttname"><a href="namespacerapid_1_1perception.html#a0ff30f0950a0ec66c2f280094346322b">rapid::perception::CloudToImage</a></div><div class="ttdeci">void CloudToImage(const sensor_msgs::CameraInfo &amp;camera_info, const pcl::PointCloud&lt; pcl::PointXYZRGB &gt; &amp;cloud, cv::Mat *image)</div><div class="ttdef"><b>Definition:</b> <a href="cloud__projection_8cpp_source.html#l00073">cloud_projection.cpp:73</a></div></div>
+<div class="ttc" id="namespacerapid_1_1perception_html_ad9169b0178c46fcd3c3a5862e1b8674e"><div class="ttname"><a href="namespacerapid_1_1perception.html#ad9169b0178c46fcd3c3a5862e1b8674e">rapid::perception::HeadMountKinectCameraInfo</a></div><div class="ttdeci">sensor_msgs::CameraInfo HeadMountKinectCameraInfo()</div><div class="ttdef"><b>Definition:</b> <a href="cloud__projection_8cpp_source.html#l00080">cloud_projection.cpp:80</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_f050cd5b5a42f922fefa6101e4fe30c9.html">include</a></li><li class="navelem"><a class="el" href="dir_88ea72b7ce2a238d697cf63b222e5534.html">rapid_perception</a></li><li class="navelem"><b>cloud_projection.h</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_5982acfdf82d1ef12df22fc901e14936.html">rapid_perception</a></li><li class="navelem"><a class="el" href="dir_f050cd5b5a42f922fefa6101e4fe30c9.html">include</a></li><li class="navelem"><a class="el" href="dir_88ea72b7ce2a238d697cf63b222e5534.html">rapid_perception</a></li><li class="navelem"><a class="el" href="cloud__projection_8h.html">cloud_projection.h</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

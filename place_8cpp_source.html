@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -91,7 +93,7 @@ $(document).ready(function(){initNavTree('place_8cpp_source.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +107,7 @@ $(document).ready(function(){initNavTree('place_8cpp_source.html','');});
 <div class="title">place.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;rapid_manipulation/place.h&quot;</span></div>
+<a href="place_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="place_8h.html">rapid_manipulation/place.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
@@ -116,12 +118,12 @@ $(document).ready(function(){initNavTree('place_8cpp_source.html','');});
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;tf/transform_datatypes.h&quot;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;rapid_manipulation/arm.h&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;rapid_manipulation/gripper.h&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;rapid_perception/hsurface.h&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;rapid_perception/object.h&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;rapid_utils/math.h&quot;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;rapid_viz/markers.h&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="arm_8h.html">rapid_manipulation/arm.h</a>&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h.html">rapid_manipulation/gripper.h</a>&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hsurface_8h.html">rapid_perception/hsurface.h</a>&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="object_8h.html">rapid_perception/object.h</a>&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="math_8h.html">rapid_utils/math.h</a>&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="markers_8h.html">rapid_viz/markers.h</a>&quot;</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">using</span> geometry_msgs::Point;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">using</span> geometry_msgs::PointStamped;</div>
@@ -136,11 +138,11 @@ $(document).ready(function(){initNavTree('place_8cpp_source.html','');});
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>manipulation {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;Placer::Placer(ArmInterface* arm, GripperInterface* gripper,</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;               viz::MarkerPub* marker_pub)</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Placer.html#a60934206eda46d724f5448fdf1e6e232">   32</a></span>&#160;<a class="code" href="classrapid_1_1manipulation_1_1Placer.html#a60934206eda46d724f5448fdf1e6e232">Placer::Placer</a>(<a class="code" href="classrapid_1_1manipulation_1_1ArmInterface.html">ArmInterface</a>* arm, <a class="code" href="classrapid_1_1manipulation_1_1GripperInterface.html">GripperInterface</a>* gripper,</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;               <a class="code" href="classrapid__ros_1_1PublisherInterface.html">viz::MarkerPub</a>* marker_pub)</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    : marker_pub_(marker_pub), arm_(arm), gripper_(gripper) {}</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">bool</span> Placer::Place(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1Object.html">Object</a>&amp; obj, <span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1HSurface.html">HSurface</a>&amp; table) {</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Placer.html#a495e9431598477accda9d9d43882fa90">   36</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1manipulation_1_1Placer.html#a495e9431598477accda9d9d43882fa90">Placer::Place</a>(<span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1Object.html">Object</a>&amp; obj, <span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1HSurface.html">HSurface</a>&amp; table) {</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="comment">// Naive, proof of concept place.</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  ROS_INFO(<span class="stringliteral">&quot;Attempting place&quot;</span>);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
@@ -153,13 +155,13 @@ $(document).ready(function(){initNavTree('place_8cpp_source.html','');});
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> num_tries = 0; num_tries &lt; max_tries; ++num_tries) {</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Sampling placement location&quot;</span>);</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    PointStamped loc_position;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    SampleRandomPlacement(obj.scale().z, table, &amp;loc_position);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="namespacerapid_1_1manipulation.html#a1c5475f685ff01851d5d9ebec92c3e29">SampleRandomPlacement</a>(obj.<a class="code" href="classrapid_1_1perception_1_1Object.html#a0756f21e73c7ec688ad7300438d201a3">scale</a>().z, table, &amp;loc_position);</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    PoseStamped location;</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    location.header = loc_position.header;</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    location.pose.position = loc_position.point;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    location.pose.orientation.w = 1;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    VisualizePlacement(location, obj.scale());</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="classrapid_1_1manipulation_1_1Placer.html#a84fcf2c1a0eb1e0c647dd7d7507b6491">VisualizePlacement</a>(location, obj.<a class="code" href="classrapid_1_1perception_1_1Object.html#a0756f21e73c7ec688ad7300438d201a3">scale</a>());</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">bool</span> success = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
@@ -177,7 +179,7 @@ $(document).ready(function(){initNavTree('place_8cpp_source.html','');});
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    pre_place.pose.orientation.y = 0;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    pre_place.pose.orientation.z = 0;</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    pre_place.pose.orientation.w = 1;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    success = arm_-&gt;MoveToPoseGoal(pre_place);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    success = arm_-&gt;<a class="code" href="classrapid_1_1manipulation_1_1ArmInterface.html#a36f71bde5577ba5b472d91043ff56364">MoveToPoseGoal</a>(pre_place);</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">if</span> (!success) {</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      ROS_WARN(<span class="stringliteral">&quot;Failed to move to pre-place location.&quot;</span>);</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <span class="keywordflow">continue</span>;</div>
@@ -191,12 +193,12 @@ $(document).ready(function(){initNavTree('place_8cpp_source.html','');});
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    place.pose.orientation.y = 0;</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    place.pose.orientation.z = 0;</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    place.pose.orientation.w = 1;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    success = arm_-&gt;MoveToPoseGoal(place);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    success = arm_-&gt;<a class="code" href="classrapid_1_1manipulation_1_1ArmInterface.html#a36f71bde5577ba5b472d91043ff56364">MoveToPoseGoal</a>(place);</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">if</span> (!success) {</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      ROS_WARN(<span class="stringliteral">&quot;Failed to move to place location.&quot;</span>);</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      <span class="keywordflow">continue</span>;</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    }</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    gripper_-&gt;Open();</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    gripper_-&gt;<a class="code" href="classrapid_1_1manipulation_1_1GripperInterface.html#acff12976247c57bee0dcba23d5d1c40c">Open</a>();</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="comment">// Post-place</span></div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    ROS_INFO(<span class="stringliteral">&quot;Attempting post-place&quot;</span>);</div>
@@ -206,7 +208,7 @@ $(document).ready(function(){initNavTree('place_8cpp_source.html','');});
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    post_place.pose.orientation.y = 0;</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    post_place.pose.orientation.z = 0;</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    post_place.pose.orientation.w = 1;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    success = arm_-&gt;MoveToPoseGoal(post_place);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    success = arm_-&gt;<a class="code" href="classrapid_1_1manipulation_1_1ArmInterface.html#a36f71bde5577ba5b472d91043ff56364">MoveToPoseGoal</a>(post_place);</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordflow">if</span> (!success) {</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      ROS_WARN(<span class="stringliteral">&quot;Failed to move to post-place location.&quot;</span>);</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      <span class="keywordflow">continue</span>;</div>
@@ -214,30 +216,30 @@ $(document).ready(function(){initNavTree('place_8cpp_source.html','');});
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  }</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  ROS_ERROR(<span class="stringliteral">&quot;Failed to place object %s on table %s.&quot;</span>, obj.name().c_str(),</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            table.name().c_str());</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  ROS_ERROR(<span class="stringliteral">&quot;Failed to place object %s on table %s.&quot;</span>, obj.<a class="code" href="classrapid_1_1perception_1_1Object.html#a4ac195d5a8abd051b894ed63d6099ffc">name</a>().c_str(),</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            table.<a class="code" href="classrapid_1_1perception_1_1HSurface.html#a375beff48ae74ab8d28796f63d2baba0">name</a>().c_str());</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="keywordtype">void</span> Placer::VisualizePlacement(<span class="keyword">const</span> PoseStamped&amp; obj_ps,</div>
+<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1Placer.html#a84fcf2c1a0eb1e0c647dd7d7507b6491">  115</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classrapid_1_1manipulation_1_1Placer.html#a84fcf2c1a0eb1e0c647dd7d7507b6491">Placer::VisualizePlacement</a>(<span class="keyword">const</span> PoseStamped&amp; obj_ps,</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                                <span class="keyword">const</span> Vector3&amp; obj_scale) {</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  <a class="code" href="classrapid_1_1viz_1_1Marker.html">rapid::viz::Marker</a> marker =</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;      rapid::viz::Marker::Box(marker_pub_, obj_ps, obj_scale);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  marker.SetNamespace(<span class="stringliteral">&quot;sampled_placement&quot;</span>);</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  marker.SetColor(1, 1, 0, 0.5);</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  marker.Publish();</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;      <a class="code" href="classrapid_1_1viz_1_1Marker.html#aa01187de884a468abf9a92e1e68f774f">rapid::viz::Marker::Box</a>(marker_pub_, obj_ps, obj_scale);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  marker.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a1ce5768e2fee331a5a05ab185cc64b98">SetNamespace</a>(<span class="stringliteral">&quot;sampled_placement&quot;</span>);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  marker.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a7d824084516919e8fa4a978c5f9c084e">SetColor</a>(1, 1, 0, 0.5);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  marker.<a class="code" href="classrapid_1_1viz_1_1Marker.html#a49d7135203f48bca12d682bda4cfc0b0">Publish</a>();</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;}</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="keywordtype">bool</span> SampleRandomPlacement(<span class="keywordtype">double</span> obj_height, <span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1HSurface.html">HSurface</a>&amp; table,</div>
+<div class="line"><a name="l00124"></a><span class="lineno"><a class="line" href="namespacerapid_1_1manipulation.html#a8059ed1c2bc1a58f2c5c1b7209dc74e7">  124</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacerapid_1_1manipulation.html#a1c5475f685ff01851d5d9ebec92c3e29">SampleRandomPlacement</a>(<span class="keywordtype">double</span> obj_height, <span class="keyword">const</span> <a class="code" href="classrapid_1_1perception_1_1HSurface.html">HSurface</a>&amp; table,</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                           PointStamped* location) {</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  <span class="keywordtype">double</span> distance_from_edge = 0;</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  ros::param::param&lt;double&gt;(<span class="stringliteral">&quot;distance_from_edge&quot;</span>, distance_from_edge, 0.05);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  geometry_msgs::PoseStamped table_ps = table.pose();</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <span class="keywordtype">double</span> x_range = table.scale().x - 2 * distance_from_edge;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  <span class="keywordtype">double</span> start_x = -table.scale().x / 2 + distance_from_edge;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  <span class="keywordtype">double</span> y_range = table.scale().y - 2 * distance_from_edge;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  <span class="keywordtype">double</span> start_y = -table.scale().y / 2 + distance_from_edge;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;  <span class="keywordtype">double</span> z = table.scale().z / 2 + obj_height / 2;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  geometry_msgs::PoseStamped table_ps = table.<a class="code" href="classrapid_1_1perception_1_1HSurface.html#a7782e69e791fc76dca7d399f7a45c1f8">pose</a>();</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <span class="keywordtype">double</span> x_range = table.<a class="code" href="classrapid_1_1perception_1_1HSurface.html#abb3d4954d7f61d8a3d56f60c4fa57979">scale</a>().x - 2 * distance_from_edge;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  <span class="keywordtype">double</span> start_x = -table.<a class="code" href="classrapid_1_1perception_1_1HSurface.html#abb3d4954d7f61d8a3d56f60c4fa57979">scale</a>().x / 2 + distance_from_edge;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  <span class="keywordtype">double</span> y_range = table.<a class="code" href="classrapid_1_1perception_1_1HSurface.html#abb3d4954d7f61d8a3d56f60c4fa57979">scale</a>().y - 2 * distance_from_edge;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  <span class="keywordtype">double</span> start_y = -table.<a class="code" href="classrapid_1_1perception_1_1HSurface.html#abb3d4954d7f61d8a3d56f60c4fa57979">scale</a>().y / 2 + distance_from_edge;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;  <span class="keywordtype">double</span> z = table.<a class="code" href="classrapid_1_1perception_1_1HSurface.html#abb3d4954d7f61d8a3d56f60c4fa57979">scale</a>().z / 2 + obj_height / 2;</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;  tf::Transform table_frame;  <span class="comment">// Transform from table to base</span></div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;  tf::Vector3 table_origin(table_ps.pose.position.x, table_ps.pose.position.y,</div>
@@ -268,7 +270,7 @@ $(document).ready(function(){initNavTree('place_8cpp_source.html','');});
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="comment">// that it&#39;s some distance away from other objects.</span></div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="comment">// TODO(jstn): this assumes objects are in the base frame.</span></div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keywordtype">bool</span> intersect = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keyword">const</span> vector&lt;Object&gt;&amp; objects = table.objects();</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keyword">const</span> vector&lt;Object&gt;&amp; objects = table.<a class="code" href="classrapid_1_1perception_1_1HSurface.html#a6dfd0fcbb66f1a6114b84003523102f8">objects</a>();</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> obj_i = 0; obj_i &lt; objects.size(); ++obj_i) {</div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;      <span class="keyword">const</span> Point&amp; obj_pos = objects[obj_i].pose().pose.position;</div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;      <span class="keywordtype">double</span> xd = obj_pos.x - transformed.x();</div>
@@ -283,7 +285,7 @@ $(document).ready(function(){initNavTree('place_8cpp_source.html','');});
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;      <span class="keywordflow">continue</span>;</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    }</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    location-&gt;header.frame_id = table.pose().header.frame_id;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    location-&gt;header.frame_id = table.<a class="code" href="classrapid_1_1perception_1_1HSurface.html#a7782e69e791fc76dca7d399f7a45c1f8">pose</a>().header.frame_id;</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    location-&gt;point.x = transformed.x();</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    location-&gt;point.y = transformed.y();</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    location-&gt;point.z = transformed.z();</div>
@@ -294,16 +296,42 @@ $(document).ready(function(){initNavTree('place_8cpp_source.html','');});
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;}</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;}  <span class="comment">// namespace manipulation</span></div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;}  <span class="comment">// namespace rapid</span></div>
+<div class="ttc" id="math_8h_html"><div class="ttname"><a href="math_8h.html">math.h</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1Object_html_a4ac195d5a8abd051b894ed63d6099ffc"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html#a4ac195d5a8abd051b894ed63d6099ffc">rapid::perception::Object::name</a></div><div class="ttdeci">std::string name() const </div><div class="ttdef"><b>Definition:</b> <a href="object_8cpp_source.html#l00034">object.cpp:34</a></div></div>
+<div class="ttc" id="hsurface_8h_html"><div class="ttname"><a href="hsurface_8h.html">hsurface.h</a></div></div>
+<div class="ttc" id="place_8h_html"><div class="ttname"><a href="place_8h.html">place.h</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1ArmInterface_html_a36f71bde5577ba5b472d91043ff56364"><div class="ttname"><a href="classrapid_1_1manipulation_1_1ArmInterface.html#a36f71bde5577ba5b472d91043ff56364">rapid::manipulation::ArmInterface::MoveToPoseGoal</a></div><div class="ttdeci">virtual bool MoveToPoseGoal(const geometry_msgs::PoseStamped &amp;pose) const =0</div></div>
 <div class="ttc" id="classrapid_1_1perception_1_1Object_html"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html">rapid::perception::Object</a></div><div class="ttdef"><b>Definition:</b> <a href="object_8h_source.html#l00015">object.h:15</a></div></div>
+<div class="ttc" id="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_html"><div class="ttname"><a href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h.html">gripper.h</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1Object_html_a0756f21e73c7ec688ad7300438d201a3"><div class="ttname"><a href="classrapid_1_1perception_1_1Object.html#a0756f21e73c7ec688ad7300438d201a3">rapid::perception::Object::scale</a></div><div class="ttdeci">geometry_msgs::Vector3 scale() const </div><div class="ttdef"><b>Definition:</b> <a href="object_8cpp_source.html#l00036">object.cpp:36</a></div></div>
+<div class="ttc" id="classrapid__ros_1_1PublisherInterface_html"><div class="ttname"><a href="classrapid__ros_1_1PublisherInterface.html">rapid_ros::PublisherInterface</a></div><div class="ttdef"><b>Definition:</b> <a href="publisher_8h_source.html#l00012">publisher.h:12</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_aa01187de884a468abf9a92e1e68f774f"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#aa01187de884a468abf9a92e1e68f774f">rapid::viz::Marker::Box</a></div><div class="ttdeci">static Marker Box(const MarkerPub *pub, const geometry_msgs::PoseStamped &amp;pose, const geometry_msgs::Vector3 &amp;scale)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00100">markers.cpp:100</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurface_html_a7782e69e791fc76dca7d399f7a45c1f8"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html#a7782e69e791fc76dca7d399f7a45c1f8">rapid::perception::HSurface::pose</a></div><div class="ttdeci">geometry_msgs::PoseStamped pose() const </div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8cpp_source.html#l00053">hsurface.cpp:53</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a1ce5768e2fee331a5a05ab185cc64b98"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a1ce5768e2fee331a5a05ab185cc64b98">rapid::viz::Marker::SetNamespace</a></div><div class="ttdeci">void SetNamespace(const std::string &amp;ns)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00279">markers.cpp:279</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Placer_html_a495e9431598477accda9d9d43882fa90"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Placer.html#a495e9431598477accda9d9d43882fa90">rapid::manipulation::Placer::Place</a></div><div class="ttdeci">bool Place(const rapid::perception::Object &amp;obj, const rapid::perception::HSurface &amp;table)</div><div class="ttdef"><b>Definition:</b> <a href="place_8cpp_source.html#l00036">place.cpp:36</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurface_html_a375beff48ae74ab8d28796f63d2baba0"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html#a375beff48ae74ab8d28796f63d2baba0">rapid::perception::HSurface::name</a></div><div class="ttdeci">std::string name() const </div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8cpp_source.html#l00052">hsurface.cpp:52</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a49d7135203f48bca12d682bda4cfc0b0"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a49d7135203f48bca12d682bda4cfc0b0">rapid::viz::Marker::Publish</a></div><div class="ttdeci">void Publish()</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00254">markers.cpp:254</a></div></div>
+<div class="ttc" id="markers_8h_html"><div class="ttname"><a href="markers_8h.html">markers.h</a></div></div>
+<div class="ttc" id="classrapid_1_1viz_1_1Marker_html_a7d824084516919e8fa4a978c5f9c084e"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html#a7d824084516919e8fa4a978c5f9c084e">rapid::viz::Marker::SetColor</a></div><div class="ttdeci">void SetColor(double r, double g, double b, double a=0.9)</div><div class="ttdef"><b>Definition:</b> <a href="markers_8cpp_source.html#l00268">markers.cpp:268</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurface_html_abb3d4954d7f61d8a3d56f60c4fa57979"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html#abb3d4954d7f61d8a3d56f60c4fa57979">rapid::perception::HSurface::scale</a></div><div class="ttdeci">geometry_msgs::Vector3 scale() const </div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8cpp_source.html#l00054">hsurface.cpp:54</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Placer_html_a84fcf2c1a0eb1e0c647dd7d7507b6491"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Placer.html#a84fcf2c1a0eb1e0c647dd7d7507b6491">rapid::manipulation::Placer::VisualizePlacement</a></div><div class="ttdeci">void VisualizePlacement(const geometry_msgs::PoseStamped &amp;obj_ps, const geometry_msgs::Vector3 &amp;obj_scale)</div><div class="ttdef"><b>Definition:</b> <a href="place_8cpp_source.html#l00115">place.cpp:115</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1Placer_html_a60934206eda46d724f5448fdf1e6e232"><div class="ttname"><a href="classrapid_1_1manipulation_1_1Placer.html#a60934206eda46d724f5448fdf1e6e232">rapid::manipulation::Placer::Placer</a></div><div class="ttdeci">Placer(ArmInterface *arm, GripperInterface *gripper, rapid::viz::MarkerPub *marker_pub)</div><div class="ttdef"><b>Definition:</b> <a href="place_8cpp_source.html#l00032">place.cpp:32</a></div></div>
 <div class="ttc" id="classrapid_1_1viz_1_1Marker_html"><div class="ttname"><a href="classrapid_1_1viz_1_1Marker.html">rapid::viz::Marker</a></div><div class="ttdef"><b>Definition:</b> <a href="markers_8h_source.html#l00032">markers.h:32</a></div></div>
+<div class="ttc" id="namespacerapid_1_1manipulation_html_a1c5475f685ff01851d5d9ebec92c3e29"><div class="ttname"><a href="namespacerapid_1_1manipulation.html#a1c5475f685ff01851d5d9ebec92c3e29">rapid::manipulation::SampleRandomPlacement</a></div><div class="ttdeci">bool SampleRandomPlacement(double obj_height, const rapid::perception::HSurface &amp;table, geometry_msgs::PointStamped *location)</div></div>
+<div class="ttc" id="object_8h_html"><div class="ttname"><a href="object_8h.html">object.h</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1ArmInterface_html"><div class="ttname"><a href="classrapid_1_1manipulation_1_1ArmInterface.html">rapid::manipulation::ArmInterface</a></div><div class="ttdef"><b>Definition:</b> <a href="arm_8h_source.html#l00020">arm.h:20</a></div></div>
+<div class="ttc" id="classrapid_1_1perception_1_1HSurface_html_a6dfd0fcbb66f1a6114b84003523102f8"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html#a6dfd0fcbb66f1a6114b84003523102f8">rapid::perception::HSurface::objects</a></div><div class="ttdeci">std::vector&lt; Object &gt; objects() const </div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8cpp_source.html#l00055">hsurface.cpp:55</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1GripperInterface_html"><div class="ttname"><a href="classrapid_1_1manipulation_1_1GripperInterface.html">rapid::manipulation::GripperInterface</a></div><div class="ttdef"><b>Definition:</b> <a href="rapid__manipulation_2include_2rapid__manipulation_2gripper_8h_source.html#l00033">gripper.h:33</a></div></div>
+<div class="ttc" id="classrapid_1_1manipulation_1_1GripperInterface_html_acff12976247c57bee0dcba23d5d1c40c"><div class="ttname"><a href="classrapid_1_1manipulation_1_1GripperInterface.html#acff12976247c57bee0dcba23d5d1c40c">rapid::manipulation::GripperInterface::Open</a></div><div class="ttdeci">virtual bool Open(double effort=-1.0)=0</div></div>
+<div class="ttc" id="arm_8h_html"><div class="ttname"><a href="arm_8h.html">arm.h</a></div></div>
 <div class="ttc" id="classrapid_1_1perception_1_1HSurface_html"><div class="ttname"><a href="classrapid_1_1perception_1_1HSurface.html">rapid::perception::HSurface</a></div><div class="ttdef"><b>Definition:</b> <a href="hsurface_8h_source.html#l00020">hsurface.h:20</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_8e0ec4d7e362575df8ab63e8ba43ec60.html">rapid_manipulation</a></li><li class="navelem"><a class="el" href="dir_0d554eb1438da2189159099f72f0f544.html">src</a></li><li class="navelem"><b>place.cpp</b></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:06:21 for rapid by
+    <li class="navelem"><a class="el" href="dir_8e0ec4d7e362575df8ab63e8ba43ec60.html">rapid_manipulation</a></li><li class="navelem"><a class="el" href="dir_0d554eb1438da2189159099f72f0f544.html">src</a></li><li class="navelem"><a class="el" href="place_8cpp.html">place.cpp</a></li>
+    <li class="footer">Generated on Sat Mar 24 2018 02:41:48 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
