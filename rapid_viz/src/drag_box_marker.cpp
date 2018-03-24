@@ -48,6 +48,17 @@ void DragBoxMarker::Show() {
   im_server_->applyChanges();
 }
 
+void DragBoxMarker::Hide() {
+  im_server_->erase(name_ + "-box");
+  im_server_->erase(name_ + "-pos_x");
+  im_server_->erase(name_ + "-pos_y");
+  im_server_->erase(name_ + "-pos_z");
+  im_server_->erase(name_ + "-neg_x");
+  im_server_->erase(name_ + "-neg_y");
+  im_server_->erase(name_ + "-neg_z");
+  im_server_->applyChanges();
+}
+
 void DragBoxMarker::set_pose_stamped(const PoseStamped& pose_stamped) {
   pose_stamped_ = pose_stamped;
   tf_graph_.Add("box", transform_graph::RefFrame(pose_stamped_.header.frame_id),
@@ -80,6 +91,9 @@ void DragBoxMarker::set_max_z(double max_z) {
   Update();
 }
 
+geometry_msgs::PoseStamped DragBoxMarker::pose_stamped() {
+  return pose_stamped_;
+}
 double DragBoxMarker::min_x() { return min_x_; }
 double DragBoxMarker::min_y() { return min_y_; }
 double DragBoxMarker::min_z() { return min_z_; }
