@@ -62,7 +62,7 @@ install:
     - cd ~/local/googletest/mybuild
     - cmake ..
     - make
-    #- sudo make install
+    - sudo make install
     # Build
     - cd ~/catkin_ws
     - catkin init
@@ -71,7 +71,7 @@ install:
 # Command to run tests
 # --------------------
 script:
-#    # Download test data
+    # Download test data
     - source ~/catkin_ws/devel/setup.bash --extend
     - cd ~/catkin_ws/src/rapid/rapid_perception/scripts
     - ./download_test_data.sh
