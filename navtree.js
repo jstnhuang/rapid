@@ -4,6 +4,7 @@ var NAVTREE =
     [ "rapid_collision", "md_rapid_collision_README.html", null ],
     [ "rapid_msgs", "md_rapid_msgs_README.html", null ],
     [ "rapid_ros", "md_rapid_ros_README.html", null ],
+    [ "rapid_viz", "md_rapid_viz_README.html", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -31,8 +32,7 @@ var NAVTREE =
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
         [ "Functions", "globals_func.html", null ],
-        [ "Variables", "globals_vars.html", null ],
-        [ "Typedefs", "globals_type.html", null ]
+        [ "Variables", "globals_vars.html", null ]
       ] ]
     ] ]
   ] ]
@@ -41,10 +41,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_8ycm__extra__conf_8py.html",
-"classrapid_1_1perception_1_1HSurface.html#af11934c262b42dbff038c44609a327b5",
-"classrapid__ros_1_1MockActionClient.html#ae1ec8414b5290c7922ce8a883cd0bbc3",
-"joint__state__reader_8h.html",
-"rapid__perception_2include_2rapid__perception_2pr2_8h_source.html"
+"classrapid_1_1perception_1_1ImageRecognizer.html#aee6aaa3d809962997386272e7d038449",
+"classrapid__ros_1_1MockServiceClient.html#a1e53b5d5d6acbba156aab6c1e1bd95d3",
+"pcl__conversions_8h.html#aac0344c3dc45b5adda8a50f3508cb3a1"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

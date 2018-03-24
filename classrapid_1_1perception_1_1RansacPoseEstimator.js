@@ -22,5 +22,5 @@ var classrapid_1_1perception_1_1RansacPoseEstimator =
     [ "kDefaultSceneNormalRadius", "classrapid_1_1perception_1_1RansacPoseEstimator.html#a67e43ae9fb9392cb50584baa3c860ae0", null ],
     [ "kDefaultThreshold", "classrapid_1_1perception_1_1RansacPoseEstimator.html#a0e37adabac7db1d111745d44b47a090f", null ],
     [ "kDefaultVoxelSize", "classrapid_1_1perception_1_1RansacPoseEstimator.html#a53857bfc04c77ce5928c04d6d8489602", null ],
-    [ "kObjectName", "classrapid_1_1perception_1_1RansacPoseEstimator.html#ac74a9c89f06f2be89ca009509f79a3a1", null ]
+    [ "kObjectName", "classrapid_1_1perception_1_1RansacPoseEstimator.html#a3ce8a03f425a4604b429706b47fd6c91", null ]
 ];

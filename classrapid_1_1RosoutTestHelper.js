@@ -2,7 +2,7 @@ var classrapid_1_1RosoutTestHelper =
 [
     [ "RosoutTestHelper", "classrapid_1_1RosoutTestHelper.html#ac17ccebb0c8685d6e231d141fd35b7fa", null ],
     [ "Clear", "classrapid_1_1RosoutTestHelper.html#a9b016c237fe023b76d9fc4a15a90f26b", null ],
-    [ "messages", "classrapid_1_1RosoutTestHelper.html#a5fb5fdecf088109b26921bbbffbff379", null ],
+    [ "messages", "classrapid_1_1RosoutTestHelper.html#a53b909b071568340123fd4312fe7d1bd", null ],
     [ "Start", "classrapid_1_1RosoutTestHelper.html#aee2be5ecb1134fc4b6f266ac57da4709", null ],
     [ "WaitForMessageCount", "classrapid_1_1RosoutTestHelper.html#a4241c696fea033cfbc8789a507b3d674", null ],
     [ "WasDebugPublished", "classrapid_1_1RosoutTestHelper.html#ac9cda8cffcc3231f36c622a864be9126", null ],

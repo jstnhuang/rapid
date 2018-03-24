@@ -139,17 +139,17 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a68cfb630eb6c3b6d157ade15b98b43dd"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classrapid_1_1pr2_1_1Gripper.html">Gripper</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1pr2_1_1Gripper.html#a68cfb630eb6c3b6d157ade15b98b43dd">Left</a> ()</td></tr>
-<tr class="memdesc:a68cfb630eb6c3b6d157ade15b98b43dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="classrapid_1_1pr2_1_1Gripper.html" title="High-level interface for a PR2&#39;s gripper. ">Gripper</a> object for the PR2's left gripper.  <a href="#a68cfb630eb6c3b6d157ade15b98b43dd">More...</a><br/></td></tr>
-<tr class="separator:a68cfb630eb6c3b6d157ade15b98b43dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa406a1f8fc8e7b75b88b707ce34bf5ec"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classrapid_1_1pr2_1_1Gripper.html">Gripper</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1pr2_1_1Gripper.html#aa406a1f8fc8e7b75b88b707ce34bf5ec">Right</a> ()</td></tr>
-<tr class="memdesc:aa406a1f8fc8e7b75b88b707ce34bf5ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="classrapid_1_1pr2_1_1Gripper.html" title="High-level interface for a PR2&#39;s gripper. ">Gripper</a> object for the PR2's right gripper.  <a href="#aa406a1f8fc8e7b75b88b707ce34bf5ec">More...</a><br/></td></tr>
-<tr class="separator:aa406a1f8fc8e7b75b88b707ce34bf5ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac460f213c8d654372b5c4cb6fbcfc568"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classrapid_1_1pr2_1_1Gripper.html">Gripper</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1pr2_1_1Gripper.html#ac460f213c8d654372b5c4cb6fbcfc568">Left</a> ()</td></tr>
+<tr class="memdesc:ac460f213c8d654372b5c4cb6fbcfc568"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="classrapid_1_1pr2_1_1Gripper.html" title="High-level interface for a PR2&#39;s gripper. ">Gripper</a> object for the PR2's left gripper.  <a href="#ac460f213c8d654372b5c4cb6fbcfc568">More...</a><br/></td></tr>
+<tr class="separator:ac460f213c8d654372b5c4cb6fbcfc568"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2698186f462cea960b237bf05154dd56"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classrapid_1_1pr2_1_1Gripper.html">Gripper</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1pr2_1_1Gripper.html#a2698186f462cea960b237bf05154dd56">Right</a> ()</td></tr>
+<tr class="memdesc:a2698186f462cea960b237bf05154dd56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="classrapid_1_1pr2_1_1Gripper.html" title="High-level interface for a PR2&#39;s gripper. ">Gripper</a> object for the PR2's right gripper.  <a href="#a2698186f462cea960b237bf05154dd56">More...</a><br/></td></tr>
+<tr class="separator:a2698186f462cea960b237bf05154dd56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>High-level interface for a PR2's gripper. </p>
 <p><b>Example:</b> </p>
-<div class="fragment"><div class="line"><a class="code" href="classrapid_1_1pr2_1_1Gripper.html">rapid::pr2::Gripper</a> left = <a class="code" href="classrapid_1_1pr2_1_1Gripper.html#a68cfb630eb6c3b6d157ade15b98b43dd">rapid::pr2::Gripper::Left</a>();</div>
+<div class="fragment"><div class="line"><a class="code" href="classrapid_1_1pr2_1_1Gripper.html">rapid::pr2::Gripper</a> left = <a class="code" href="classrapid_1_1pr2_1_1Gripper.html#ac460f213c8d654372b5c4cb6fbcfc568">rapid::pr2::Gripper::Left</a>();</div>
 <div class="line">left.<a class="code" href="classrapid_1_1pr2_1_1Gripper.html#a5775b8131a3a015025f930b91bc87768">StartClosing</a>();</div>
 <div class="line"><span class="keywordflow">while</span> (ros::ok() &amp;&amp; !left.<a class="code" href="classrapid_1_1pr2_1_1Gripper.html#a8ed26c36be4e0e876d2934ba8b512f0a">IsDone</a>()) {</div>
 <div class="line">  ros::spinOnce();</div>
@@ -172,8 +172,6 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Stops the gripper's opening or closing movement. </p>
 
-<p>Definition at line <a class="el" href="rapid__pr2_2src_2gripper_8cpp_source.html#l00045">45</a> of file <a class="el" href="rapid__pr2_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a8ed26c36be4e0e876d2934ba8b512f0a"></a>
@@ -191,11 +189,9 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Returns true if the gripper is done opening or closing. </p>
 
-<p>Definition at line <a class="el" href="rapid__pr2_2src_2gripper_8cpp_source.html#l00043">43</a> of file <a class="el" href="rapid__pr2_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="a68cfb630eb6c3b6d157ade15b98b43dd"></a>
+<a class="anchor" id="ac460f213c8d654372b5c4cb6fbcfc568"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -203,7 +199,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classrapid_1_1pr2_1_1Gripper.html">Gripper</a> rapid::pr2::Gripper::Left </td>
+          <td class="memname">static <a class="el" href="classrapid_1_1pr2_1_1Gripper.html">Gripper</a> rapid::pr2::Gripper::Left </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -218,11 +214,9 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Returns a <a class="el" href="classrapid_1_1pr2_1_1Gripper.html" title="High-level interface for a PR2&#39;s gripper. ">Gripper</a> object for the PR2's left gripper. </p>
 
-<p>Definition at line <a class="el" href="rapid__pr2_2src_2gripper_8cpp_source.html#l00013">13</a> of file <a class="el" href="rapid__pr2_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="aa406a1f8fc8e7b75b88b707ce34bf5ec"></a>
+<a class="anchor" id="a2698186f462cea960b237bf05154dd56"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -230,7 +224,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classrapid_1_1pr2_1_1Gripper.html">Gripper</a> rapid::pr2::Gripper::Right </td>
+          <td class="memname">static <a class="el" href="classrapid_1_1pr2_1_1Gripper.html">Gripper</a> rapid::pr2::Gripper::Right </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -244,8 +238,6 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns a <a class="el" href="classrapid_1_1pr2_1_1Gripper.html" title="High-level interface for a PR2&#39;s gripper. ">Gripper</a> object for the PR2's right gripper. </p>
-
-<p>Definition at line <a class="el" href="rapid__pr2_2src_2gripper_8cpp_source.html#l00015">15</a> of file <a class="el" href="rapid__pr2_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
 
 </div>
 </div>
@@ -264,8 +256,6 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Starts closing the gripper. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if the goal was sent, false if this couldn't connect to the gripper action server within 1 second. </dd></dl>
-
-<p>Definition at line <a class="el" href="rapid__pr2_2src_2gripper_8cpp_source.html#l00029">29</a> of file <a class="el" href="rapid__pr2_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
 
 </div>
 </div>
@@ -292,8 +282,6 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the goal was sent, false if this couldn't connect to the gripper action server within 1 second. </dd></dl>
 
-<p>Definition at line <a class="el" href="rapid__pr2_2src_2gripper_8cpp_source.html#l00031">31</a> of file <a class="el" href="rapid__pr2_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a8b784334c9a12822dee05d4d7b349e26"></a>
@@ -312,13 +300,10 @@ Static Public Member Functions</h2></td></tr>
 <p>Starts opening the gripper. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if the goal was sent, false if this couldn't connect to the gripper action server within 1 second. </dd></dl>
 
-<p>Definition at line <a class="el" href="rapid__pr2_2src_2gripper_8cpp_source.html#l00017">17</a> of file <a class="el" href="rapid__pr2_2src_2gripper_8cpp_source.html">gripper.cpp</a>.</p>
-
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>rapid_pr2/include/rapid_pr2/<a class="el" href="rapid__pr2_2include_2rapid__pr2_2gripper_8h_source.html">gripper.h</a></li>
-<li>rapid_pr2/src/<a class="el" href="rapid__pr2_2src_2gripper_8cpp_source.html">gripper.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -326,7 +311,7 @@ Static Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="namespacerapid_1_1pr2.html">pr2</a></li><li class="navelem"><a class="el" href="classrapid_1_1pr2_1_1Gripper.html">Gripper</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 02:41:49 for rapid by
+    <li class="footer">Generated on Sat Mar 24 2018 02:52:56 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

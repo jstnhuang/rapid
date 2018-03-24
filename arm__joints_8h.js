@@ -1,5 +1,5 @@
 var arm__joints_8h =
 [
-    [ "left_arm_joint_names", "arm__joints_8h.html#affbb8cc07c3ab5ffc0fbae92d6be6861", null ],
-    [ "right_arm_joint_names", "arm__joints_8h.html#a93b95c9e8f19d210f8a392af47bbe49e", null ]
+    [ "left_arm_joint_names", "arm__joints_8h.html#a6339f5bb711565e121a6fa63c080d00d", null ],
+    [ "right_arm_joint_names", "arm__joints_8h.html#ac56e3b983ff554710bb3ebebea368358", null ]
 ];

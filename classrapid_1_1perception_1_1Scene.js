@@ -1,7 +1,7 @@
 var classrapid_1_1perception_1_1Scene =
 [
     [ "Scene", "classrapid_1_1perception_1_1Scene.html#ad251262a79bf10462865f0328171b647", null ],
-    [ "cloud", "classrapid_1_1perception_1_1Scene.html#a1b37b64d7a6ecb06ee9dbb481d166319", null ],
+    [ "cloud", "classrapid_1_1perception_1_1Scene.html#a6f39d382b3d4dfeab95246db9d677b3d", null ],
     [ "GetObject", "classrapid_1_1perception_1_1Scene.html#a48e7df4d13291641eef69356d9c5e212", null ],
     [ "pose", "classrapid_1_1perception_1_1Scene.html#a5677fefbdb2ea5f3cfe39ac6a71c2e61", null ],
     [ "primary_surface", "classrapid_1_1perception_1_1Scene.html#a6bfa342a01905af459f971a6d746c077", null ],

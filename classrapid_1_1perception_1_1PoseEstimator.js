@@ -2,7 +2,7 @@ var classrapid_1_1perception_1_1PoseEstimator =
 [
     [ "PoseEstimator", "classrapid_1_1perception_1_1PoseEstimator.html#afbc12ea3e1b650e69d47e1d6af45a899", null ],
     [ "Find", "classrapid_1_1perception_1_1PoseEstimator.html#a5eb9001b5ef704f686a4db2f5efd3308", null ],
-    [ "heat_mapper", "classrapid_1_1perception_1_1PoseEstimator.html#ade431d61c30bc422cd081b9371271340", null ],
+    [ "heat_mapper", "classrapid_1_1perception_1_1PoseEstimator.html#a85965210a37156075f1b623858634bfc", null ],
     [ "set_alignment_publisher", "classrapid_1_1perception_1_1PoseEstimator.html#a07b7fd51d9faf8c340f755eafd414eed", null ],
     [ "set_candidates_publisher", "classrapid_1_1perception_1_1PoseEstimator.html#a67979719e6f90ce3d7b703def97430b1", null ],
     [ "set_debug", "classrapid_1_1perception_1_1PoseEstimator.html#a8a88b7045e2f437c723c518218718fb9", null ],
