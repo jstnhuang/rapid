@@ -40,57 +40,6 @@ set(CUDA_INSTALL_DIR /usr/local/cuda)
 # catkin_python_setup()
 
 ################################################
-## Declare ROS messages, services and actions ##
-################################################
-
-## To declare and build messages, services or actions from within this
-## package, follow these steps:
-## * Let MSG_DEP_SET be the set of packages whose message types you use in
-##   your messages/services/actions (e.g. std_msgs, actionlib_msgs, ...).
-## * In the file package.xml:
-##   * add a build_depend tag for "message_generation"
-##   * add a build_depend and a run_depend tag for each package in MSG_DEP_SET
-##   * If MSG_DEP_SET isn't empty the following dependency has been pulled in
-##     but can be declared for certainty nonetheless:
-##     * add a run_depend tag for "message_runtime"
-## * In this file (CMakeLists.txt):
-##   * add "message_generation" and every package in MSG_DEP_SET to
-##     find_package(catkin REQUIRED COMPONENTS ...)
-##   * add "message_runtime" and every package in MSG_DEP_SET to
-##     catkin_package(CATKIN_DEPENDS ...)
-##   * uncomment the add_*_files sections below as needed
-##     and list every .msg/.srv/.action file to be processed
-##   * uncomment the generate_messages entry below
-##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
-
-## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
-
-## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
-
-## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
-# )
-
-## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
-
-################################################
 ## Declare ROS dynamic reconfigure parameters ##
 ################################################
 
@@ -125,12 +74,8 @@ set(MY_RAPID_PERCEPTION_EXPORTED_LIBRARIES
   rapid_perception_conversions
   rapid_perception_icp_fitness_functions
   rapid_perception_pose_estimation
-  rapid_perception_ransac_pose_estimator
-  rapid_perception_grouping_pose_estimator
   rapid_perception_pose_estimation_match
   rapid_perception_pose_estimation_heat_mapper
-  rapid_perception_fpfh_heat_mapper
-  rapid_perception_template_matching_heat_mapper
   rapid_perception_random_heat_mapper
   rapid_perception_pr2
   rapid_perception_rgbd
@@ -142,7 +87,6 @@ set(MY_RAPID_PERCEPTION_EXPORTED_LIBRARIES
 if (${CAFFE_INSTALL_DIR})
   LIST(APPEND MY_RAPID_PERCEPTION_EXPORTED_LIBRARIES
     rapid_perception_image_recognition
-    rapid_perception_pose_estimation_cnn_heat_mapper
   )
 endif()
 
@@ -264,64 +208,6 @@ target_link_libraries(rapid_perception_pose_estimation_heat_mapper
   ${catkin_LIBRARIES}
 )
 
-if (${CAFFE_INSTALL_DIR})
-  include_directories(${CAFFE_INSTALL_DIR}/include)
-  link_directories(${CAFFE_INSTALL_DIR}/lib)
-  find_library(caffe libcaffe.so ${CAFFE_INSTALL_DIR}/lib)
-  if (${CUDA_INSTALL_DIR})
-    include_directories(${CUDA_INSTALL_DIR}/include)
-  else()
-    add_definitions(-DCPU_ONLY)
-  endif()
-
-  add_library(rapid_perception_pose_estimation_cnn_heat_mapper
-    src/pose_estimation_cnn_heat_mapper.cpp
-  )
-  add_dependencies(rapid_perception_pose_estimation_cnn_heat_mapper
-    ${${PROJECT_NAME}_EXPORTED_TARGETS}
-    ${catkin_EXPORTED_TARGETS}
-    rapid_perception_cloud_projection
-    rapid_perception_image_recognition
-    rapid_perception_pose_estimation_heat_mapper
-  )
-  target_link_libraries(rapid_perception_pose_estimation_cnn_heat_mapper
-    ${PCL_LIBRARIES}
-    ${catkin_LIBRARIES}
-    caffe
-    rapid_perception_cloud_projection
-    rapid_perception_image_recognition
-    rapid_perception_pose_estimation_heat_mapper
-  )
-endif()
-
-add_library(rapid_perception_fpfh_heat_mapper
-  src/fpfh_heat_mapper.cpp
-)
-add_dependencies(rapid_perception_fpfh_heat_mapper
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-  rapid_perception_pose_estimation_heat_mapper
-)
-target_link_libraries(rapid_perception_fpfh_heat_mapper
-  ${PCL_LIBRARIES}
-  ${catkin_LIBRARIES}
-  rapid_perception_pose_estimation_heat_mapper
-)
-
-add_library(rapid_perception_template_matching_heat_mapper
-  src/template_matching_heat_mapper.cpp
-)
-add_dependencies(rapid_perception_template_matching_heat_mapper
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-  rapid_perception_pose_estimation_heat_mapper
-)
-target_link_libraries(rapid_perception_template_matching_heat_mapper
-  ${PCL_LIBRARIES}
-  ${catkin_LIBRARIES}
-  rapid_perception_pose_estimation_heat_mapper
-)
-
 add_library(rapid_perception_random_heat_mapper
   src/random_heat_mapper.cpp
 )
@@ -356,7 +242,6 @@ add_dependencies(rapid_perception_pose_estimation
   ${catkin_EXPORTED_TARGETS}
   rapid_perception_icp_fitness_functions
   rapid_perception_random_heat_mapper
-  rapid_perception_template_matching_heat_mapper
   rapid_perception_pose_estimation_match
 )
 target_link_libraries(rapid_perception_pose_estimation
@@ -364,38 +249,7 @@ target_link_libraries(rapid_perception_pose_estimation
   ${catkin_LIBRARIES}
   rapid_perception_icp_fitness_functions
   rapid_perception_random_heat_mapper
-  rapid_perception_template_matching_heat_mapper
   rapid_perception_pose_estimation_match
-)
-
-add_library(rapid_perception_ransac_pose_estimator
-  src/ransac_pose_estimator.cpp
-)
-add_dependencies(rapid_perception_ransac_pose_estimator
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-  rapid_perception_pose_estimation_match
-)
-target_link_libraries(rapid_perception_ransac_pose_estimator
-  ${PCL_LIBRARIES}
-  ${catkin_LIBRARIES}
-  rapid_perception_pose_estimation_match
-)
-
-add_library(rapid_perception_grouping_pose_estimator
-  src/grouping_pose_estimator.cpp
-)
-add_dependencies(rapid_perception_grouping_pose_estimator
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-  rapid_perception_pose_estimation_match
-  rapid_perception_rgbd
-)
-target_link_libraries(rapid_perception_grouping_pose_estimator
-  ${PCL_LIBRARIES}
-  ${catkin_LIBRARIES}
-  rapid_perception_pose_estimation_match
-  rapid_perception_rgbd
 )
 
 add_library(rapid_perception_pr2 src/pr2.cpp)

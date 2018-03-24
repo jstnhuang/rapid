@@ -1,17 +1,17 @@
 #include "rapid_perception/pose_estimation.h"
 
+#include <limits.h>
 #include <algorithm>
 #include <cmath>
 #include <iostream>
-#include <limits.h>
 #include <numeric>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "boost/asio/io_service.hpp"
-#include "boost/thread/mutex.hpp"
 #include "boost/bind.hpp"
+#include "boost/thread/mutex.hpp"
 #include "boost/thread/thread.hpp"
 
 #include "Eigen/Core"
@@ -32,7 +32,6 @@
 #include "rapid_perception/icp_fitness_functions.h"
 #include "rapid_perception/pose_estimation_match.h"
 #include "rapid_perception/random_heat_mapper.h"
-#include "rapid_perception/template_matching_heat_mapper.h"
 #include "rapid_utils/eigen_conversions.h"
 #include "rapid_utils/pcl_conversions.h"
 #include "rapid_utils/stochastic_universal_sampling.h"
@@ -96,10 +95,6 @@ void PoseEstimator::set_object(
 
 void PoseEstimator::set_roi(const rapid_msgs::Roi3D& roi) {
   object_roi_ = roi;
-
-  if (heat_mapper_->name() == "template_matching") {
-    static_cast<TemplateMatchingHeatMapper*>(heat_mapper_)->set_object_roi(roi);
-  }
 
   geometry_msgs::PoseStamped pose;
   pose.header.frame_id = object_->header.frame_id;
