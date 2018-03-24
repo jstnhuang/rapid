@@ -43,10 +43,10 @@ install:
     #- sudo apt-get install -q -y ros-$ROS_DISTRO-moveit-full
     - sudo pip install -U setuptools
     - gem install coveralls-lcov
-    - source /opt/ros/$ROS_DISTRO/setup.bash
+      #- source /opt/ros/$ROS_DISTRO/setup.bash
     # Setup rosdep
-    - sudo rosdep init
-    - rosdep update
+    #- sudo rosdep init
+    #- rosdep update
     # Create workspace.
     - mkdir -p ~/catkin_ws/src
     - cd ..; mv rapid ~/catkin_ws/src
@@ -55,18 +55,18 @@ install:
     - cd ~/catkin_ws/
       #    - rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
     # Install latest gmock
-    - mkdir ~/local
-    - cd ~/local
-    - git clone https://github.com/google/googletest.git
-    - cd ~/local/googletest
-    - mkdir mybuild
-    - cd ~/local/googletest/mybuild
-    - cmake ..
-    - make
-    - sudo make install
+    #- mkdir ~/local
+    #- cd ~/local
+    #- git clone https://github.com/google/googletest.git
+    #- cd ~/local/googletest
+    #- mkdir mybuild
+    #- cd ~/local/googletest/mybuild
+    #- cmake ..
+    #- make
+    #- sudo make install
     # Build
     - cd ~/catkin_ws
-    - catkin init
+      #- catkin init
       #    - catkin build --cmake-args -DCAFFE_INSTALL_DIR="" -DCUDA_INSTALL_DIR=""
 
 # Command to run tests
