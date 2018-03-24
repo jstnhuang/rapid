@@ -48,13 +48,10 @@ install:
     #- sudo rosdep init
     #- rosdep update
     # Create workspace.
-    - mkdir -p $TRAVIS_BUILD_DIR/../catkin_ws/src
-    - cd ..; mv rapid $TRAVIS_BUILD_DIR/../catkin_ws/src
-    - echo $TRAVIS_BUILD_DIR
-    - ls $TRAVIS_BUILD_DIR/..
-    - ls $TRAVIS_BUILD_DIR/../catkin_ws
+    - mkdir -p ~/catkin_ws/src
+    - cd ..; cp -r rapid ~/catkin_ws/src
     # Install dependencies
-    - cd $TRAVIS_BUILD_DIR/../catkin_ws/
+    - cd ~/catkin_ws/
       #    - rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
     # Install latest gmock
     #- mkdir ~/local
@@ -67,7 +64,7 @@ install:
     #- make
     #- sudo make install
     # Build
-    - cd $TRAVIS_BUILD_DIR/../catkin_ws
+    - cd ~/catkin_ws
       #- catkin init
       #    - catkin build --cmake-args -DCAFFE_INSTALL_DIR="" -DCUDA_INSTALL_DIR=""
 
@@ -78,7 +75,7 @@ script:
 #    - source $TRAVIS_BUILD_DIR/../catkin_ws/devel/setup.bash --extend
 #    - cd $TRAVIS_BUILD_DIR/../catkin_ws/src/rapid/rapid_perception/scripts
 #    - ./download_test_data.sh
-    - cd $TRAVIS_BUILD_DIR/../catkin_ws
+    - cd ~/catkin_ws
 #    - catkin build --cmake-args -DCAFFE_INSTALL_DIR="" -DCUDA_INSTALL_DIR="" --catkin-make-args run_tests -- rapid --no-deps
 #    - catkin_test_results build/rapid_collision
 #    - catkin_test_results build/rapid_db
@@ -100,8 +97,9 @@ after_success:
   #    - lcov --remove coverage.info '/opt/*' '/usr/*' '*/devel/*' '*test_*' '*_test*' --output-file coverage.info
   #    - lcov --list coverage.info
   #    - coveralls-lcov coverage.info
-    - cd $TRAVIS_BUILD_DIR/../catkin_ws/src/rapid
+    - cd ~/catkin_ws/src/rapid
     - doxygen
+    - cp -r ~/catkin_ws/src/rapid/html $TRAVIS_BUILD_DIR
 
 deploy:
   provider: pages
