@@ -7,10 +7,6 @@
 
 #include "rapid_msgs/Roi3D.h"
 
-namespace ros {
-class Publisher;
-}  // namespace ros
-
 namespace rapid {
 namespace perception {
 // Computes an alternative ICP fitness score between the scene and an object
