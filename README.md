@@ -1,10 +1,11 @@
 # rapid
-A ROS robotics library.
 [![Build Status](https://travis-ci.org/jstnhuang/rapid.svg?branch=indigo-devel)](https://travis-ci.org/jstnhuang/rapid)
 [![Coverage Status](https://coveralls.io/repos/github/jstnhuang/rapid/badge.svg?branch=indigo-devel)](https://coveralls.io/github/jstnhuang/rapid?branch=indigo-devel)
 
-This is especially designed for ROS Indigo and the PR2 robot.
-It is still in active development.
+A ROS robotics library.
+- [Code API](https://jstnhuang.github.io/rapid/)
+
+Currently, this supports [ROS Indigo](http://www.ros.org/reps/rep-0003.html#indigo-igloo-may-2014).
 
 ## Installation
 ~~~
