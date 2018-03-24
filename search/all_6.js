@@ -33,15 +33,12 @@ var searchData=
   ['getstringvectorparamorthrow',['GetStringVectorParamOrThrow',['../namespacerapid.html#a3cf883acdb7520fe02cb06d283374060',1,'rapid']]],
   ['getxmlrpcparamorthrow',['GetXmlRpcParamOrThrow',['../namespacerapid.html#a98163d941acc6099b0c25e24f533a22a',1,'rapid']]],
   ['gripper',['Gripper',['../classrapid_1_1manipulation_1_1Gripper.html',1,'rapid::manipulation']]],
+  ['gripper',['Gripper',['../classrapid_1_1fetch_1_1Gripper.html',1,'rapid::fetch']]],
   ['gripper',['gripper',['../classrapid_1_1fetch_1_1Fetch.html#a21723947960020e44aadf43cb28859df',1,'rapid::fetch::Fetch::gripper()'],['../classrapid_1_1fetch_1_1Gripper.html#a2bf0868856dc40b155de53ba78b0cadd',1,'rapid::fetch::Gripper::Gripper()'],['../classrapid_1_1manipulation_1_1Gripper.html#a63f7b00710ce9aaec246040327f3569f',1,'rapid::manipulation::Gripper::Gripper()']]],
   ['gripper',['Gripper',['../classrapid_1_1pr2_1_1Gripper.html',1,'rapid::pr2']]],
-  ['gripper',['Gripper',['../classrapid_1_1fetch_1_1Gripper.html',1,'rapid::fetch']]],
   ['gripper_2eh',['gripper.h',['../rapid__fetch_2include_2rapid__fetch_2gripper_8h.html',1,'']]],
-  ['gripper_2eh',['gripper.h',['../rapid__manipulation_2include_2rapid__manipulation_2gripper_8h.html',1,'']]],
   ['gripper_2eh',['gripper.h',['../rapid__pr2_2include_2rapid__pr2_2gripper_8h.html',1,'']]],
+  ['gripper_2eh',['gripper.h',['../rapid__manipulation_2include_2rapid__manipulation_2gripper_8h.html',1,'']]],
   ['gripperclient',['GripperClient',['../namespacerapid_1_1manipulation.html#a0a88174492a1408d74227b15411d0b1a',1,'rapid::manipulation']]],
-  ['gripperinterface',['GripperInterface',['../classrapid_1_1manipulation_1_1GripperInterface.html',1,'rapid::manipulation']]],
-  ['grouping_5fpose_5festimator_2eh',['grouping_pose_estimator.h',['../grouping__pose__estimator_8h.html',1,'']]],
-  ['groupingposeestimator',['GroupingPoseEstimator',['../classrapid_1_1perception_1_1GroupingPoseEstimator.html',1,'rapid::perception']]],
-  ['groupingposeestimator',['GroupingPoseEstimator',['../classrapid_1_1perception_1_1GroupingPoseEstimator.html#a7b2b5a68c6503cfce628da4a5f998504',1,'rapid::perception::GroupingPoseEstimator']]]
+  ['gripperinterface',['GripperInterface',['../classrapid_1_1manipulation_1_1GripperInterface.html',1,'rapid::manipulation']]]
 ];

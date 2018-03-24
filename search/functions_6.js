@@ -32,6 +32,5 @@ var searchData=
   ['getstringparamorthrow',['GetStringParamOrThrow',['../namespacerapid.html#ac9689007843a29cb7d33d98ec1855a97',1,'rapid']]],
   ['getstringvectorparamorthrow',['GetStringVectorParamOrThrow',['../namespacerapid.html#a3cf883acdb7520fe02cb06d283374060',1,'rapid']]],
   ['getxmlrpcparamorthrow',['GetXmlRpcParamOrThrow',['../namespacerapid.html#a98163d941acc6099b0c25e24f533a22a',1,'rapid']]],
-  ['gripper',['Gripper',['../classrapid_1_1fetch_1_1Gripper.html#a2bf0868856dc40b155de53ba78b0cadd',1,'rapid::fetch::Gripper::Gripper()'],['../classrapid_1_1manipulation_1_1Gripper.html#a63f7b00710ce9aaec246040327f3569f',1,'rapid::manipulation::Gripper::Gripper()']]],
-  ['groupingposeestimator',['GroupingPoseEstimator',['../classrapid_1_1perception_1_1GroupingPoseEstimator.html#a7b2b5a68c6503cfce628da4a5f998504',1,'rapid::perception::GroupingPoseEstimator']]]
+  ['gripper',['Gripper',['../classrapid_1_1fetch_1_1Gripper.html#a2bf0868856dc40b155de53ba78b0cadd',1,'rapid::fetch::Gripper::Gripper()'],['../classrapid_1_1manipulation_1_1Gripper.html#a63f7b00710ce9aaec246040327f3569f',1,'rapid::manipulation::Gripper::Gripper()']]]
 ];

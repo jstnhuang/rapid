@@ -41,9 +41,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_8ycm__extra__conf_8py.html",
-"classrapid_1_1perception_1_1ImageRecognizer.html#aee6aaa3d809962997386272e7d038449",
-"classrapid__ros_1_1MockServiceClient.html#a1e53b5d5d6acbba156aab6c1e1bd95d3",
-"pcl__conversions_8h.html#aac0344c3dc45b5adda8a50f3508cb3a1"
+"classrapid_1_1perception_1_1PoseEstimator.html#a82a74067031c308acea37ac418ea463d",
+"dir_cf75562f5de3625a0eed1b8f5760646f.html",
+"six__dof__controls_8h.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

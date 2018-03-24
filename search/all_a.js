@@ -1,25 +1,10 @@
 var searchData=
 [
   ['kclosedposition',['kClosedPosition',['../classrapid_1_1fetch_1_1Gripper.html#a3afe7611aa1ca2ddab14414a2f4af223',1,'rapid::fetch::Gripper']]],
-  ['kdefaultcgsize',['kDefaultCgSize',['../classrapid_1_1perception_1_1GroupingPoseEstimator.html#ad3278bdd04163bb237577aaf9bc60ef6',1,'rapid::perception::GroupingPoseEstimator']]],
-  ['kdefaultcgthreshold',['kDefaultCgThreshold',['../classrapid_1_1perception_1_1GroupingPoseEstimator.html#ac7f613a8452d7c2e6119c44fb307b2a9',1,'rapid::perception::GroupingPoseEstimator']]],
-  ['kdefaultcorrmatchthreshold',['kDefaultCorrMatchThreshold',['../classrapid_1_1perception_1_1GroupingPoseEstimator.html#a9781e52ef59aa679d13a9435eee8fa01',1,'rapid::perception::GroupingPoseEstimator']]],
-  ['kdefaultnormalk',['kDefaultNormalK',['../classrapid_1_1perception_1_1GroupingPoseEstimator.html#ab77f809987a2a3ecfc1640fcbf4518ce',1,'rapid::perception::GroupingPoseEstimator']]],
-  ['kdefaultobjectnormalradius',['kDefaultObjectNormalRadius',['../classrapid_1_1perception_1_1RansacPoseEstimator.html#a6b2a3f1527a3135ec9d39fb4b4b557d6',1,'rapid::perception::RansacPoseEstimator']]],
-  ['kdefaultobjectvox',['kDefaultObjectVox',['../classrapid_1_1perception_1_1GroupingPoseEstimator.html#a810df1513a44f0ca8c6fce005a96bd70',1,'rapid::perception::GroupingPoseEstimator']]],
-  ['kdefaultpairwidth',['kDefaultPairWidth',['../classrapid_1_1perception_1_1RansacPoseEstimator.html#a7dd4ca80953c716ccf901d78b840ccfd',1,'rapid::perception::RansacPoseEstimator']]],
-  ['kdefaultrfradius',['kDefaultRfRadius',['../classrapid_1_1perception_1_1GroupingPoseEstimator.html#a50435e637bd042be8255a23b584a1009',1,'rapid::perception::GroupingPoseEstimator']]],
-  ['kdefaultscenenormalradius',['kDefaultSceneNormalRadius',['../classrapid_1_1perception_1_1RansacPoseEstimator.html#a67e43ae9fb9392cb50584baa3c860ae0',1,'rapid::perception::RansacPoseEstimator']]],
-  ['kdefaultscenevox',['kDefaultSceneVox',['../classrapid_1_1perception_1_1GroupingPoseEstimator.html#a18df37165cd17fd83cadcc30724de3d6',1,'rapid::perception::GroupingPoseEstimator']]],
-  ['kdefaultshotradius',['kDefaultShotRadius',['../classrapid_1_1perception_1_1GroupingPoseEstimator.html#a37b37e0a2371e96055d6521055454818',1,'rapid::perception::GroupingPoseEstimator']]],
-  ['kdefaultthreshold',['kDefaultThreshold',['../classrapid_1_1perception_1_1RansacPoseEstimator.html#a0e37adabac7db1d111745d44b47a090f',1,'rapid::perception::RansacPoseEstimator']]],
-  ['kdefaultusehough',['kDefaultUseHough',['../classrapid_1_1perception_1_1GroupingPoseEstimator.html#aecf116b759074fb25412d1b3e05aecde',1,'rapid::perception::GroupingPoseEstimator']]],
-  ['kdefaultvoxelsize',['kDefaultVoxelSize',['../classrapid_1_1perception_1_1RansacPoseEstimator.html#a53857bfc04c77ce5928c04d6d8489602',1,'rapid::perception::RansacPoseEstimator']]],
   ['kdegtorads',['kDegToRads',['../namespacerapid_1_1utils.html#a7fad934557185f2d1e21c4e5d3cce9f7',1,'rapid::utils']]],
   ['kgripperaction',['kGripperAction',['../classrapid_1_1fetch_1_1Gripper.html#a96824bcf8caae3f294d92710d45c00fd',1,'rapid::fetch::Gripper']]],
   ['kleftgripperaction',['kLeftGripperAction',['../namespacerapid_1_1pr2.html#afd83b682d025d3df115943c9641c06cc',1,'rapid::pr2']]],
   ['knojointvalue',['kNoJointValue',['../namespacerapid_1_1manipulation.html#a2a74f8c402482b4635aa57766970deee',1,'rapid::manipulation']]],
-  ['kobjectname',['kObjectName',['../classrapid_1_1perception_1_1RansacPoseEstimator.html#a3ce8a03f425a4604b429706b47fd6c91',1,'rapid::perception::RansacPoseEstimator']]],
   ['kopenedposition',['kOpenedPosition',['../classrapid_1_1fetch_1_1Gripper.html#ac950b747fad9936de41cba89dc6aebbe',1,'rapid::fetch::Gripper']]],
   ['krightgripperaction',['kRightGripperAction',['../namespacerapid_1_1pr2.html#a0a30fe66d8ea8f02bfd3bcf28e3f6288',1,'rapid::pr2']]]
 ];

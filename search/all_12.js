@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['template_5fmatching_5fheat_5fmapper_2eh',['template_matching_heat_mapper.h',['../template__matching__heat__mapper_8h.html',1,'']]],
-  ['templatematchingheatmapper',['TemplateMatchingHeatMapper',['../classrapid_1_1perception_1_1TemplateMatchingHeatMapper.html#ac7cef6a3667d5fc5e5861857e64afff0',1,'rapid::perception::TemplateMatchingHeatMapper']]],
-  ['templatematchingheatmapper',['TemplateMatchingHeatMapper',['../classrapid_1_1perception_1_1TemplateMatchingHeatMapper.html',1,'rapid::perception']]],
   ['text',['Text',['../classrapid_1_1viz_1_1Marker.html#ac78541835b6a54d7836bbfed3ea4ef53',1,'rapid::viz::Marker']]],
   ['tf_5flistener_2eh',['tf_listener.h',['../tf__listener_8h.html',1,'']]],
   ['tflistener',['TfListener',['../classrapid__ros_1_1TfListener.html',1,'rapid_ros']]],

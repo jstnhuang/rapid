@@ -2,18 +2,14 @@ var namespacerapid_1_1perception =
 [
     [ "pr2", "namespacerapid_1_1perception_1_1pr2.html", null ],
     [ "Box3DRoiServer", "classrapid_1_1perception_1_1Box3DRoiServer.html", "classrapid_1_1perception_1_1Box3DRoiServer" ],
-    [ "FpfhHeatMapper", "classrapid_1_1perception_1_1FpfhHeatMapper.html", "classrapid_1_1perception_1_1FpfhHeatMapper" ],
-    [ "GroupingPoseEstimator", "classrapid_1_1perception_1_1GroupingPoseEstimator.html", "classrapid_1_1perception_1_1GroupingPoseEstimator" ],
     [ "HSurface", "classrapid_1_1perception_1_1HSurface.html", "classrapid_1_1perception_1_1HSurface" ],
     [ "ImageRecognizer", "classrapid_1_1perception_1_1ImageRecognizer.html", "classrapid_1_1perception_1_1ImageRecognizer" ],
     [ "Object", "classrapid_1_1perception_1_1Object.html", "classrapid_1_1perception_1_1Object" ],
     [ "PoseEstimator", "classrapid_1_1perception_1_1PoseEstimator.html", "classrapid_1_1perception_1_1PoseEstimator" ],
-    [ "CnnHeatMapper", "classrapid_1_1perception_1_1CnnHeatMapper.html", "classrapid_1_1perception_1_1CnnHeatMapper" ],
     [ "PoseEstimationHeatMapper", "classrapid_1_1perception_1_1PoseEstimationHeatMapper.html", "classrapid_1_1perception_1_1PoseEstimationHeatMapper" ],
     [ "PoseEstimationInterface", "classrapid_1_1perception_1_1PoseEstimationInterface.html", "classrapid_1_1perception_1_1PoseEstimationInterface" ],
     [ "PoseEstimationMatch", "classrapid_1_1perception_1_1PoseEstimationMatch.html", "classrapid_1_1perception_1_1PoseEstimationMatch" ],
     [ "RandomHeatMapper", "classrapid_1_1perception_1_1RandomHeatMapper.html", "classrapid_1_1perception_1_1RandomHeatMapper" ],
-    [ "RansacPoseEstimator", "classrapid_1_1perception_1_1RansacPoseEstimator.html", "classrapid_1_1perception_1_1RansacPoseEstimator" ],
     [ "Scene", "classrapid_1_1perception_1_1Scene.html", "classrapid_1_1perception_1_1Scene" ],
     [ "SceneParseParams", "structrapid_1_1perception_1_1SceneParseParams.html", "structrapid_1_1perception_1_1SceneParseParams" ],
     [ "HSurfaceParams", "structrapid_1_1perception_1_1HSurfaceParams.html", "structrapid_1_1perception_1_1HSurfaceParams" ],
@@ -21,6 +17,5 @@ var namespacerapid_1_1perception =
     [ "ParseParams", "structrapid_1_1perception_1_1ParseParams.html", "structrapid_1_1perception_1_1ParseParams" ],
     [ "ObjectViz", "classrapid_1_1perception_1_1ObjectViz.html", "classrapid_1_1perception_1_1ObjectViz" ],
     [ "HSurfaceViz", "classrapid_1_1perception_1_1HSurfaceViz.html", "classrapid_1_1perception_1_1HSurfaceViz" ],
-    [ "SceneViz", "classrapid_1_1perception_1_1SceneViz.html", "classrapid_1_1perception_1_1SceneViz" ],
-    [ "TemplateMatchingHeatMapper", "classrapid_1_1perception_1_1TemplateMatchingHeatMapper.html", "classrapid_1_1perception_1_1TemplateMatchingHeatMapper" ]
+    [ "SceneViz", "classrapid_1_1perception_1_1SceneViz.html", "classrapid_1_1perception_1_1SceneViz" ]
 ];

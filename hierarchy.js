@@ -45,15 +45,10 @@ var hierarchy =
     [ "rapid::manipulation::Picker", "classrapid_1_1manipulation_1_1Picker.html", null ],
     [ "rapid::manipulation::Placer", "classrapid_1_1manipulation_1_1Placer.html", null ],
     [ "rapid::perception::PoseEstimationHeatMapper", "classrapid_1_1perception_1_1PoseEstimationHeatMapper.html", [
-      [ "rapid::perception::CnnHeatMapper", "classrapid_1_1perception_1_1CnnHeatMapper.html", null ],
-      [ "rapid::perception::FpfhHeatMapper", "classrapid_1_1perception_1_1FpfhHeatMapper.html", null ],
-      [ "rapid::perception::RandomHeatMapper", "classrapid_1_1perception_1_1RandomHeatMapper.html", null ],
-      [ "rapid::perception::TemplateMatchingHeatMapper", "classrapid_1_1perception_1_1TemplateMatchingHeatMapper.html", null ]
+      [ "rapid::perception::RandomHeatMapper", "classrapid_1_1perception_1_1RandomHeatMapper.html", null ]
     ] ],
     [ "rapid::perception::PoseEstimationInterface", "classrapid_1_1perception_1_1PoseEstimationInterface.html", [
-      [ "rapid::perception::GroupingPoseEstimator", "classrapid_1_1perception_1_1GroupingPoseEstimator.html", null ],
-      [ "rapid::perception::PoseEstimator", "classrapid_1_1perception_1_1PoseEstimator.html", null ],
-      [ "rapid::perception::RansacPoseEstimator", "classrapid_1_1perception_1_1RansacPoseEstimator.html", null ]
+      [ "rapid::perception::PoseEstimator", "classrapid_1_1perception_1_1PoseEstimator.html", null ]
     ] ],
     [ "rapid::perception::PoseEstimationMatch", "classrapid_1_1perception_1_1PoseEstimationMatch.html", null ],
     [ "rapid::pr2::Pr2", "classrapid_1_1pr2_1_1Pr2.html", null ],
@@ -71,8 +66,8 @@ var hierarchy =
     [ "rapid::RosoutTestHelper", "classrapid_1_1RosoutTestHelper.html", null ],
     [ "rapid::perception::Scene", "classrapid_1_1perception_1_1Scene.html", null ],
     [ "rapid::perception::SceneParseParams", "structrapid_1_1perception_1_1SceneParseParams.html", null ],
-    [ "rapid::perception::SceneViz", "classrapid_1_1perception_1_1SceneViz.html", null ],
     [ "rapid::viz::SceneViz", "classrapid_1_1viz_1_1SceneViz.html", null ],
+    [ "rapid::perception::SceneViz", "classrapid_1_1perception_1_1SceneViz.html", null ],
     [ "rapid_ros::ServiceClientInterface< Service >", "classrapid__ros_1_1ServiceClientInterface.html", [
       [ "rapid_ros::MockServiceClient< Service >", "classrapid__ros_1_1MockServiceClient.html", null ],
       [ "rapid_ros::ServiceClient< Service >", "classrapid__ros_1_1ServiceClient.html", null ]

@@ -7,6 +7,5 @@ var searchData=
   ['namedb',['NameDb',['../classrapid_1_1db_1_1NameDb.html#a241c445b86e15cc5d9c9e79c863931a8',1,'rapid::db::NameDb']]],
   ['next',['Next',['../classrapid_1_1utils_1_1CommandLine.html#a5843659a4349202759b7d218a7102ff1',1,'rapid::utils::CommandLine']]],
   ['norm',['Norm',['../namespacerapid_1_1utils.html#ad767b7a06889b73c05ff1572d1cde3b1',1,'rapid::utils']]],
-  ['normal_5fk_5f',['normal_k_',['../classrapid_1_1perception_1_1GroupingPoseEstimator.html#a0760eb2abf7fc8c5af7ca12886c3e688',1,'rapid::perception::GroupingPoseEstimator']]],
   ['null',['Null',['../classrapid_1_1viz_1_1Marker.html#af1141d3a716bc09ce8e86e4d30e9f601',1,'rapid::viz::Marker']]]
 ];

@@ -5,10 +5,6 @@ var dir_88ea72b7ce2a238d697cf63b222e5534 =
     ] ],
     [ "cloud_projection.h", "cloud__projection_8h.html", "cloud__projection_8h" ],
     [ "conversions.h", "conversions_8h.html", "conversions_8h" ],
-    [ "fpfh_heat_mapper.h", "fpfh__heat__mapper_8h.html", "fpfh__heat__mapper_8h" ],
-    [ "grouping_pose_estimator.h", "grouping__pose__estimator_8h.html", [
-      [ "GroupingPoseEstimator", "classrapid_1_1perception_1_1GroupingPoseEstimator.html", "classrapid_1_1perception_1_1GroupingPoseEstimator" ]
-    ] ],
     [ "hsurface.h", "hsurface_8h.html", [
       [ "HSurface", "classrapid_1_1perception_1_1HSurface.html", "classrapid_1_1perception_1_1HSurface" ]
     ] ],
@@ -19,9 +15,6 @@ var dir_88ea72b7ce2a238d697cf63b222e5534 =
     ] ],
     [ "pose_estimation.h", "pose__estimation_8h.html", [
       [ "PoseEstimator", "classrapid_1_1perception_1_1PoseEstimator.html", "classrapid_1_1perception_1_1PoseEstimator" ]
-    ] ],
-    [ "pose_estimation_cnn_heat_mapper.h", "pose__estimation__cnn__heat__mapper_8h.html", [
-      [ "CnnHeatMapper", "classrapid_1_1perception_1_1CnnHeatMapper.html", "classrapid_1_1perception_1_1CnnHeatMapper" ]
     ] ],
     [ "pose_estimation_heat_mapper.h", "pose__estimation__heat__mapper_8h.html", [
       [ "PoseEstimationHeatMapper", "classrapid_1_1perception_1_1PoseEstimationHeatMapper.html", "classrapid_1_1perception_1_1PoseEstimationHeatMapper" ]
@@ -34,9 +27,6 @@ var dir_88ea72b7ce2a238d697cf63b222e5534 =
     [ "random_heat_mapper.h", "random__heat__mapper_8h.html", [
       [ "RandomHeatMapper", "classrapid_1_1perception_1_1RandomHeatMapper.html", "classrapid_1_1perception_1_1RandomHeatMapper" ]
     ] ],
-    [ "ransac_pose_estimator.h", "ransac__pose__estimator_8h.html", [
-      [ "RansacPoseEstimator", "classrapid_1_1perception_1_1RansacPoseEstimator.html", "classrapid_1_1perception_1_1RansacPoseEstimator" ]
-    ] ],
     [ "rgbd.h", "rgbd_8h.html", "rgbd_8h" ],
     [ "scene.h", "scene_8h.html", [
       [ "Scene", "classrapid_1_1perception_1_1Scene.html", "classrapid_1_1perception_1_1Scene" ]
@@ -46,8 +36,5 @@ var dir_88ea72b7ce2a238d697cf63b222e5534 =
       [ "ObjectViz", "classrapid_1_1perception_1_1ObjectViz.html", "classrapid_1_1perception_1_1ObjectViz" ],
       [ "HSurfaceViz", "classrapid_1_1perception_1_1HSurfaceViz.html", "classrapid_1_1perception_1_1HSurfaceViz" ],
       [ "SceneViz", "classrapid_1_1perception_1_1SceneViz.html", "classrapid_1_1perception_1_1SceneViz" ]
-    ] ],
-    [ "template_matching_heat_mapper.h", "template__matching__heat__mapper_8h.html", [
-      [ "TemplateMatchingHeatMapper", "classrapid_1_1perception_1_1TemplateMatchingHeatMapper.html", "classrapid_1_1perception_1_1TemplateMatchingHeatMapper" ]
     ] ]
 ];

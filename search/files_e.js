@@ -6,7 +6,6 @@ var searchData=
   ['place_2eh',['place.h',['../place_8h.html',1,'']]],
   ['point_5fcloud_2eh',['point_cloud.h',['../point__cloud_8h.html',1,'']]],
   ['pose_5festimation_2eh',['pose_estimation.h',['../pose__estimation_8h.html',1,'']]],
-  ['pose_5festimation_5fcnn_5fheat_5fmapper_2eh',['pose_estimation_cnn_heat_mapper.h',['../pose__estimation__cnn__heat__mapper_8h.html',1,'']]],
   ['pose_5festimation_5fheat_5fmapper_2eh',['pose_estimation_heat_mapper.h',['../pose__estimation__heat__mapper_8h.html',1,'']]],
   ['pose_5festimation_5finterface_2eh',['pose_estimation_interface.h',['../pose__estimation__interface_8h.html',1,'']]],
   ['pose_5festimation_5fmatch_2eh',['pose_estimation_match.h',['../pose__estimation__match_8h.html',1,'']]],
