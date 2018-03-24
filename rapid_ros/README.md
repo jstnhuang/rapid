@@ -1,5 +1,4 @@
-rapid_ros {#mainpage}
-=========
+# rapid_ros
 
 rapid_ros contains utilities for common ROS features.
 

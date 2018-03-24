@@ -21,6 +21,7 @@ msg/_*.py
 *.dox
 *.wikidoc
 doc/
+html/
 
 # eclipse stuff
 .project
