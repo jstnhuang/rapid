@@ -50,7 +50,9 @@ install:
     # Create workspace.
     - mkdir -p $TRAVIS_BUILD_DIR/../catkin_ws/src
     - cd ..; mv rapid $TRAVIS_BUILD_DIR/../catkin_ws/src
-    - cd $TRAVIS_BUILD_DIR/../catkin_ws/src
+    - echo $TRAVIS_BUILD_DIR
+    - ls $TRAVIS_BUILD_DIR/..
+    - ls $TRAVIS_BUILD_DIR/../catkin_ws
     # Install dependencies
     - cd $TRAVIS_BUILD_DIR/../catkin_ws/
       #    - rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
