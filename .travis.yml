@@ -108,5 +108,4 @@ deploy:
   keep_history: true
   on:
     branch: indigo-devel
-  local_dir: ../../../catkin_ws/src/rapid/html
   target_branch: gh-pages
