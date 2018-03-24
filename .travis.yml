@@ -20,6 +20,7 @@ cache: apt
 before_install: # Use this to prepare the system to install prerequisites or dependencies
     # Define some config vars
     - sudo apt-get --purge remove mongodb-10gen postgresql-9.2 postgresql-contrib-9.2 postgresql-9.3 postgresql-contrib-9.3
+    - sudo apt-get install doxygen
     - export ROS_DISTRO=indigo
     # Settings to make installing script more general.
     - export ROS_CI_DESKTOP=`lsb_release -cs`  # e.g. 'precise'
@@ -97,3 +98,15 @@ after_success:
     - lcov --remove coverage.info '/opt/*' '/usr/*' '*/devel/*' '*test_*' '*_test*' --output-file coverage.info
     - lcov --list coverage.info
     - coveralls-lcov coverage.info
+    - cd ~/catkin_ws/src/rapid
+    - doxygen
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  on:
+    branch: indigo-devel
+  local-dir: html
+  target-branch: gh-pages
