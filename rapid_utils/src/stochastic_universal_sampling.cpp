@@ -4,7 +4,6 @@
 
 namespace rapid {
 namespace utils {
-
 void StochasticUniversalSampling(const std::vector<double>& cdf,
                                  int num_samples, std::vector<int>* indices) {
   RandomNumber rng;
