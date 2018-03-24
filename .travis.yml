@@ -38,65 +38,65 @@ install:
     - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
     - sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
     - sudo apt-get update -qq
-    #- sudo apt-get install -qq -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin ros-$ROS_DISTRO-ros lcov python-catkin-tools
-    #- sudo apt-get install -qq -y mongodb ros-$ROS_DISTRO-warehouse-ros
-    #- sudo apt-get install -q -y ros-$ROS_DISTRO-moveit-full
+    - sudo apt-get install -qq -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin ros-$ROS_DISTRO-ros lcov python-catkin-tools
+    - sudo apt-get install -qq -y mongodb ros-$ROS_DISTRO-warehouse-ros
+    - sudo apt-get install -q -y ros-$ROS_DISTRO-moveit-full
     - sudo pip install -U setuptools
     - gem install coveralls-lcov
-      #- source /opt/ros/$ROS_DISTRO/setup.bash
+    - source /opt/ros/$ROS_DISTRO/setup.bash
     # Setup rosdep
-    #- sudo rosdep init
-    #- rosdep update
+    - sudo rosdep init
+    - rosdep update
     # Create workspace.
     - mkdir -p ~/catkin_ws/src
     - cd ..; cp -r rapid ~/catkin_ws/src
     # Install dependencies
     - cd ~/catkin_ws/
-      #    - rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+    - rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
     # Install latest gmock
-    #- mkdir ~/local
-    #- cd ~/local
-    #- git clone https://github.com/google/googletest.git
-    #- cd ~/local/googletest
-    #- mkdir mybuild
-    #- cd ~/local/googletest/mybuild
-    #- cmake ..
-    #- make
+    - mkdir ~/local
+    - cd ~/local
+    - git clone https://github.com/google/googletest.git
+    - cd ~/local/googletest
+    - mkdir mybuild
+    - cd ~/local/googletest/mybuild
+    - cmake ..
+    - make
     #- sudo make install
     # Build
     - cd ~/catkin_ws
-      #- catkin init
-      #    - catkin build --cmake-args -DCAFFE_INSTALL_DIR="" -DCUDA_INSTALL_DIR=""
+    - catkin init
+    - catkin build --cmake-args -DCAFFE_INSTALL_DIR="" -DCUDA_INSTALL_DIR=""
 
 # Command to run tests
 # --------------------
 script:
 #    # Download test data
-#    - source $TRAVIS_BUILD_DIR/../catkin_ws/devel/setup.bash --extend
-#    - cd $TRAVIS_BUILD_DIR/../catkin_ws/src/rapid/rapid_perception/scripts
-#    - ./download_test_data.sh
+    - source ~/catkin_ws/devel/setup.bash --extend
+    - cd ~/catkin_ws/src/rapid/rapid_perception/scripts
+    - ./download_test_data.sh
     - cd ~/catkin_ws
-#    - catkin build --cmake-args -DCAFFE_INSTALL_DIR="" -DCUDA_INSTALL_DIR="" --catkin-make-args run_tests -- rapid --no-deps
-#    - catkin_test_results build/rapid_collision
-#    - catkin_test_results build/rapid_db
-#    - catkin_test_results build/rapid_fetch
-#    - catkin_test_results build/rapid_manipulation
-#    - catkin_test_results build/rapid_perception
-#    - catkin_test_results build/rapid_pr2
-#    - catkin_test_results build/rapid_ros
-#    - catkin_test_results build/rapid_sound
-#    - catkin_test_results build/rapid_testing
-#    - catkin_test_results build/rapid_utils
-#    - catkin_test_results build/rapid_viz
+    - catkin build --cmake-args -DCAFFE_INSTALL_DIR="" -DCUDA_INSTALL_DIR="" --catkin-make-args run_tests -- rapid --no-deps
+    - catkin_test_results build/rapid_collision
+    - catkin_test_results build/rapid_db
+    - catkin_test_results build/rapid_fetch
+    - catkin_test_results build/rapid_manipulation
+    - catkin_test_results build/rapid_perception
+    - catkin_test_results build/rapid_pr2
+    - catkin_test_results build/rapid_ros
+    - catkin_test_results build/rapid_sound
+    - catkin_test_results build/rapid_testing
+    - catkin_test_results build/rapid_utils
+    - catkin_test_results build/rapid_viz
 
 # Generate code coverage, other artifacts
 # ---------------------------------------
 after_success:
-  #    - cd $TRAVIS_BUILD_DIR/../catkin_ws/build
-  #    - lcov --directory . --capture --output-file coverage.info
-  #    - lcov --remove coverage.info '/opt/*' '/usr/*' '*/devel/*' '*test_*' '*_test*' --output-file coverage.info
-  #    - lcov --list coverage.info
-  #    - coveralls-lcov coverage.info
+    - cd ~/catkin_ws/build
+    - lcov --directory . --capture --output-file coverage.info
+    - lcov --remove coverage.info '/opt/*' '/usr/*' '*/devel/*' '*test_*' '*_test*' --output-file coverage.info
+    - lcov --list coverage.info
+    - coveralls-lcov coverage.info
     - cd ~/catkin_ws/src/rapid
     - doxygen
     - cp -r ~/catkin_ws/src/rapid/html $TRAVIS_BUILD_DIR
