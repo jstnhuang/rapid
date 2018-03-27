@@ -3,6 +3,7 @@ var NAVTREE =
   [ "rapid", "index.html", [
     [ "rapid_collision", "md_rapid_collision_README.html", null ],
     [ "rapid_msgs", "md_rapid_msgs_README.html", null ],
+    [ "rapid_pr2", "md_rapid_pr2_README.html", null ],
     [ "rapid_robot", "md_rapid_robot_README.html", null ],
     [ "rapid_ros", "md_rapid_ros_README.html", null ],
     [ "rapid_utils", "md_rapid_utils_README.html", null ],
@@ -44,8 +45,8 @@ var NAVTREEINDEX =
 [
 "_8ycm__extra__conf_8py.html",
 "classrapid_1_1perception_1_1PoseEstimator.html#a5eb9001b5ef704f686a4db2f5efd3308",
-"dir_acaafe4282e6bfff9f752c215928129a.html",
-"scene__parsing_8h.html#a2657035662ad7ba667023c9c1f4157f3"
+"dir_8e0ec4d7e362575df8ab63e8ba43ec60.html",
+"rgbd_8h.html#aec8d7e7c6d3d445c57f7186093f8b850"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

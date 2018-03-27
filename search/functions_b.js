@@ -1,7 +1,7 @@
 var searchData=
 [
   ['makerelativepathsinflagsabsolute',['MakeRelativePathsInFlagsAbsolute',['../_8ycm__extra__conf_8py.html#aa17b17787ee25ee278fe0330e8245fb8',1,'.ycm_extra_conf.py']]],
-  ['marker',['marker',['../classrapid_1_1viz_1_1Marker.html#a0ed16d54fecf8ba3c05d127508a2a340',1,'rapid::viz::Marker::marker() const '],['../classrapid_1_1viz_1_1Marker.html#a69850ccdd8fade0052ee0091f3611dbd',1,'rapid::viz::Marker::Marker(const Marker &amp;rhs)']]],
+  ['marker',['Marker',['../classrapid_1_1viz_1_1Marker.html#a69850ccdd8fade0052ee0091f3611dbd',1,'rapid::viz::Marker::Marker(const Marker &amp;rhs)'],['../classrapid_1_1viz_1_1Marker.html#a0ed16d54fecf8ba3c05d127508a2a340',1,'rapid::viz::Marker::marker() const ']]],
   ['max_5fx',['max_x',['../classrapid_1_1DragBoxMarker.html#a0aa4e7aa23157ba26a62a996df1cfb73',1,'rapid::DragBoxMarker']]],
   ['max_5fy',['max_y',['../classrapid_1_1DragBoxMarker.html#a3040ab12a65f1cba7ab74c1cc585fd3e',1,'rapid::DragBoxMarker']]],
   ['max_5fz',['max_z',['../classrapid_1_1DragBoxMarker.html#ab531e80f3b290479aebb30a140217b69',1,'rapid::DragBoxMarker']]],

@@ -66,8 +66,8 @@ var hierarchy =
     [ "rapid::RosoutTestHelper", "classrapid_1_1RosoutTestHelper.html", null ],
     [ "rapid::perception::Scene", "classrapid_1_1perception_1_1Scene.html", null ],
     [ "rapid::perception::SceneParseParams", "structrapid_1_1perception_1_1SceneParseParams.html", null ],
-    [ "rapid::viz::SceneViz", "classrapid_1_1viz_1_1SceneViz.html", null ],
     [ "rapid::perception::SceneViz", "classrapid_1_1perception_1_1SceneViz.html", null ],
+    [ "rapid::viz::SceneViz", "classrapid_1_1viz_1_1SceneViz.html", null ],
     [ "rapid_ros::ServiceClientInterface< Service >", "classrapid__ros_1_1ServiceClientInterface.html", [
       [ "rapid_ros::MockServiceClient< Service >", "classrapid__ros_1_1MockServiceClient.html", null ],
       [ "rapid_ros::ServiceClient< Service >", "classrapid__ros_1_1ServiceClient.html", null ]
@@ -81,6 +81,7 @@ var hierarchy =
       [ "rapid_ros::MockTfListener", "classrapid__ros_1_1MockTfListener.html", null ],
       [ "rapid_ros::TfListener", "classrapid__ros_1_1TfListener.html", null ]
     ] ],
+    [ "rapid::pr2::Torso", "classrapid_1_1pr2_1_1Torso.html", null ],
     [ "rapid::manipulation::TuckArmsInterface", "classrapid_1_1manipulation_1_1TuckArmsInterface.html", [
       [ "rapid::manipulation::MockTuckArms", "classrapid_1_1manipulation_1_1MockTuckArms.html", null ],
       [ "rapid::manipulation::Pr2TuckArms", "classrapid_1_1manipulation_1_1Pr2TuckArms.html", null ]
