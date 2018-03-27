@@ -1,3 +1,4 @@
+#include <signal.h>
 #include <stdlib.h>
 #include <iostream>
 
@@ -5,9 +6,13 @@
 #include "rapid_robot/joint_state_reader.h"
 #include "rapid_ros/time.h"
 
+sig_atomic_t volatile g_request_shutdown = 0;
+
 void PrintUsage() {
   std::cout << "Usage: rosrun rapid_pr2 torso 0.31" << std::endl;
 }
+
+void HandleSigint(int signum) { g_request_shutdown = 1; }
 
 int main(int argc, char** argv) {
   if (argc < 2) {
@@ -15,7 +20,9 @@ int main(int argc, char** argv) {
     return 0;
   }
 
-  ros::init(argc, argv, "rapid_pr2_torso_main");
+  ros::init(argc, argv, "rapid_pr2_torso_main",
+            ros::init_options::NoSigintHandler);
+  signal(SIGINT, HandleSigint);
   ros::NodeHandle nh;
   rapid::WaitForTime();
 
@@ -29,9 +36,17 @@ int main(int argc, char** argv) {
     ROS_ERROR("Failed to send torso goal.");
     return 1;
   }
-  while (!torso.IsDone() && ros::ok()) {
+  while (!g_request_shutdown) {
+    if (torso.IsDone()) {
+      break;
+    }
     ros::spinOnce();
   }
+
+  if (!torso.IsDone()) {
+    torso.Cancel();
+  }
+  ros::shutdown();
 
   return 0;
 }

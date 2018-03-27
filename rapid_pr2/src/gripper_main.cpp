@@ -1,3 +1,4 @@
+#include <signal.h>
 #include <stdlib.h>
 #include <iostream>
 #include <string>
@@ -5,6 +6,8 @@
 #include "rapid_pr2/gripper.h"
 #include "rapid_ros/time.h"
 #include "ros/ros.h"
+
+sig_atomic_t volatile g_request_shutdown = 0;
 
 void PrintUsage() {
   std::cout << "Usage: rosrun rapid_pr2 pr2_gripper_demo open left"
@@ -17,9 +20,17 @@ void PrintUsage() {
             << std::endl;
 }
 
-void WaitFor(const rapid::pr2::Gripper& gripper) {
-  while (ros::ok() && gripper.IsDone()) {
+void HandleSigint(int signum) { g_request_shutdown = 1; }
+
+void WaitFor(rapid::pr2::Gripper& gripper) {
+  while (!g_request_shutdown) {
+    if (gripper.IsDone()) {
+      break;
+    }
     ros::spinOnce();
+  }
+  if (!gripper.IsDone()) {
+    gripper.Cancel();
   }
 }
 
@@ -29,7 +40,9 @@ int main(int argc, char** argv) {
     return 0;
   }
 
-  ros::init(argc, argv, "rapid_pr2_gripper_main");
+  ros::init(argc, argv, "rapid_pr2_gripper_main",
+            ros::init_options::NoSigintHandler);
+  signal(SIGINT, HandleSigint);
   ros::NodeHandle nh;
   rapid::WaitForTime();
 
