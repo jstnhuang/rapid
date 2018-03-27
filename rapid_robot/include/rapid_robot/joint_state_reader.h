@@ -58,7 +58,7 @@ class JointStateReader {
   ///
   /// Blocks until a message is received on the joint_states topic or the
   /// timeout is reached. This is useful when you want to read a joint value
-  /// shortly after calling Start() and ROS has not had time to process
+  /// shortly after calling Start(), and ROS has not had time to process
   /// callbacks yet.
   ///
   /// \param[in] timeout The maximum amount of time to wait.
@@ -72,7 +72,7 @@ class JointStateReader {
   /// Blocks until the given joint value has been recorded at least once or the
   /// timeout is reached. Usually, calling WaitForMessages will be sufficient,
   /// but sometimes different controllers publish different subsets of the robot
-  /// joint states and the first message might not contain the joint you are
+  /// joint states, and the first message might not contain the joint you are
   /// looking for.
   ///
   /// \param[in] name The name of the joint to wait for.
