@@ -31,6 +31,7 @@ int main(int argc, char** argv) {
   } else {
     for (int argi = 1; argi < argc; ++argi) {
       std::string name(argv[argi]);
+      reader.WaitForJoint(name, ros::Duration(1));
       if (!reader.HasJoint(name)) {
         std::cout << name << " not found!" << std::endl;
       } else {
