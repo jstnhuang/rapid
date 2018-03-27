@@ -1,15 +1,20 @@
 #include <stdlib.h>
+#include <iostream>
 #include <string>
 
 #include "rapid_pr2/gripper.h"
+#include "rapid_ros/time.h"
 #include "ros/ros.h"
 
 void PrintUsage() {
-  ROS_INFO("Usage: rosrun rapid_pr2 pr2_gripper_demo open left");
-  ROS_INFO("       rosrun rapid_pr2 pr2_gripper_demo close right");
-  ROS_INFO(
-      "Usage (with max force): rosrun rapid_pr2 pr2_gripper_demo close right "
-      "50");
+  std::cout << "Usage: rosrun rapid_pr2 pr2_gripper_demo open left"
+            << std::endl;
+  std::cout << "       rosrun rapid_pr2 pr2_gripper_demo close right"
+            << std::endl;
+  std::cout << "Usage (with max force): rosrun rapid_pr2 pr2_gripper_demo "
+               "close right "
+               "50"
+            << std::endl;
 }
 
 void WaitFor(const rapid::pr2::Gripper& gripper) {
@@ -19,11 +24,14 @@ void WaitFor(const rapid::pr2::Gripper& gripper) {
 }
 
 int main(int argc, char** argv) {
-  ros::init(argc, argv, "rapid_pr2_gripper_main");
   if (argc < 3) {
     PrintUsage();
     return 0;
   }
+
+  ros::init(argc, argv, "rapid_pr2_gripper_main");
+  ros::NodeHandle nh;
+  rapid::WaitForTime();
 
   std::string command(argv[1]);
   std::string side(argv[2]);
