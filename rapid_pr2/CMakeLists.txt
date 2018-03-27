@@ -6,11 +6,13 @@ project(rapid_pr2)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   actionlib
+  control_msgs
   pr2_controllers_msgs
   rapid_manipulation
   rapid_ros
   rapid_sound
   roscpp
+  trajectory_msgs
   visualization_msgs
 )
 
@@ -59,11 +61,13 @@ catkin_package(
     rapid_pr2_joint_states
   CATKIN_DEPENDS
     actionlib
+    control_msgs
     pr2_controllers_msgs
     rapid_manipulation
     rapid_ros
     rapid_sound
     roscpp
+    trajectory_msgs
     visualization_msgs
   DEPENDS
     Boost
@@ -96,6 +100,10 @@ target_link_libraries(rapid_pr2_gripper ${catkin_LIBRARIES})
 add_library(rapid_pr2_joint_states src/joint_states.cpp)
 add_dependencies(rapid_pr2_joint_states ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pr2_joint_states ${catkin_LIBRARIES})
+
+add_library(rapid_pr2_torso src/torso.cpp)
+add_dependencies(rapid_pr2_torso ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pr2_torso ${catkin_LIBRARIES})
 
 add_executable(rapid_pr2_gripper_main src/gripper_main.cpp)
 set_target_properties(rapid_pr2_gripper_main PROPERTIES OUTPUT_NAME gripper PREFIX "")
