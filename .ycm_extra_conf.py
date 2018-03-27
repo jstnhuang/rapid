@@ -73,6 +73,8 @@ flags = [
 '-I',
 'rapid_pr2/include',
 '-I',
+'rapid_robot/include',
+'-I',
 'rapid_ros/include',
 '-I',
 'rapid_sound/include',

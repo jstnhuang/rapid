@@ -83,6 +83,7 @@ script:
     - catkin_test_results build/rapid_manipulation
     - catkin_test_results build/rapid_perception
     - catkin_test_results build/rapid_pr2
+    - catkin_test_results build/rapid_robot
     - catkin_test_results build/rapid_ros
     - catkin_test_results build/rapid_sound
     - catkin_test_results build/rapid_testing
