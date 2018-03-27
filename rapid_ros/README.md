@@ -12,3 +12,13 @@ These will throw a runtime error if the parameter does not exist.
 
 double foo = rapid::GetDoubleParamOrThrow("foo");
 ~~~
+
+## Simulation time
+When working in simulation, you should wait for time to start.
+Otherwise, you may find that ros::Time::now() is zero.
+
+~~~cpp
+#include "rapid_ros/time.h"
+
+rapid::WaitForTime();
+~~~
