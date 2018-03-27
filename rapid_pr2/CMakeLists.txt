@@ -60,6 +60,7 @@ catkin_package(
     rapid_pr2_arm_joints
     rapid_pr2_gripper
     rapid_pr2_joint_states
+    rapid_pr2_torso
   CATKIN_DEPENDS
     actionlib
     control_msgs
@@ -112,6 +113,14 @@ set_target_properties(rapid_pr2_gripper_main PROPERTIES OUTPUT_NAME gripper PREF
 add_dependencies(rapid_pr2_gripper_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pr2_gripper_main
   rapid_pr2_gripper
+  ${catkin_LIBRARIES}
+)
+
+add_executable(rapid_pr2_torso_main src/torso_main.cpp)
+set_target_properties(rapid_pr2_torso_main PROPERTIES OUTPUT_NAME torso PREFIX "")
+add_dependencies(rapid_pr2_torso_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pr2_torso_main
+  rapid_pr2_torso
   ${catkin_LIBRARIES}
 )
 
