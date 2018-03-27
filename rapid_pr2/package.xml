@@ -11,6 +11,7 @@
   <depend>control_msgs</depend>
   <depend>pr2_controllers_msgs</depend>
   <depend>rapid_manipulation</depend>
+  <depend>rapid_robot</depend>
   <depend>rapid_ros</depend>
   <depend>rapid_sound</depend>
   <depend>roscpp</depend>

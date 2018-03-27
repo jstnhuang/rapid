@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   control_msgs
   pr2_controllers_msgs
   rapid_manipulation
+  rapid_robot
   rapid_ros
   rapid_sound
   roscpp
@@ -64,6 +65,7 @@ catkin_package(
     control_msgs
     pr2_controllers_msgs
     rapid_manipulation
+    rapid_robot
     rapid_ros
     rapid_sound
     roscpp

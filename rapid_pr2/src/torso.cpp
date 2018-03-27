@@ -1,10 +1,13 @@
 #include "rapid_pr2/torso.h"
 
+#include <cmath>
+
 #include "trajectory_msgs/JointTrajectoryPoint.h"
 
 namespace rapid {
 namespace pr2 {
-Torso::Torso() : client_(kTorsoAction) {}
+Torso::Torso(const rapid::JointStateReader& js_reader)
+    : client_(kTorsoAction), js_reader_(js_reader) {}
 
 bool Torso::StartMoving(double height) {
   if (!client_.waitForServer(ros::Duration(1.0))) {
@@ -19,7 +22,14 @@ bool Torso::StartMoving(double height) {
 
   trajectory_msgs::JointTrajectoryPoint point;
   point.positions.push_back(height);
-  // TODO: add time here.
+  bool success = js_reader_.WaitForJoint(kTorsoJoint, ros::Duration(1));
+  if (!success) {
+    ROS_ERROR("Failed to read current torso position!");
+    return false;
+  }
+  double current = js_reader_.position(kTorsoJoint);
+  double distance = fabs(current - height);
+  point.time_from_start = ros::Duration(distance / kMaxVel);
 
   control_msgs::FollowJointTrajectoryGoal goal;
   goal.trajectory.joint_names.push_back(kTorsoJoint);

@@ -2,8 +2,8 @@
 #define _RAPID_PR2_TORSO_H_
 
 #include "actionlib/client/simple_action_client.h"
-#include "boost/shared_ptr.hpp"
 #include "control_msgs/FollowJointTrajectoryAction.h"
+#include "rapid_robot/joint_state_reader.h"
 
 namespace rapid {
 namespace pr2 {
@@ -12,7 +12,12 @@ namespace pr2 {
 ///
 /// \b Example:
 /// \code
-///   rapid::pr2::Torso torso;
+///   #include "rapid_robot/joint_state_reader.h"
+///   #include "rapid_pr2/torso.h"
+///
+///   rapid::JointStateReader js_reader;
+///   js_reader.Start();
+///   rapid::pr2::Torso torso(js_reader);
 ///   torso.StartMoving(0.31);
 ///   while (ros::ok() && !torso.IsDone()) {
 ///     ros::spinOnce();
@@ -24,17 +29,18 @@ class Torso {
   static const double kMaxHeight;  /// The maximum torso height.
 
   /// Constructor.
-  Torso();
+  explicit Torso(const rapid::JointStateReader& js_reader);
 
   /// \brief Starts moving the torso.
   ///
   /// The torso will move at its maximum velocity (1.3 cm/s) towards the goal.
+  /// If this method fails to connect to the torso action server or read the
+  /// current torso joint value, it will return false.
   ///
   /// \param[in] height The height move to. The value will be clamped between
   ///   Torso::kMinHeight and Torso::kMaxHeight.
   ///
-  /// \returns true if the connection to the torso action server was successful,
-  ///   false otherwise.
+  /// \returns true if torso goal was sent successfully, false otherwise.
   bool StartMoving(double height);
 
   /// \brief Returns true if the torso is done moving.
@@ -48,6 +54,7 @@ class Torso {
   static const char kTorsoJoint[];
   actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>
       client_;
+  const rapid::JointStateReader& js_reader_;
 };
 
 static const char kTorsoAction[] = "/torso_controller/follow_joint_trajectory";
