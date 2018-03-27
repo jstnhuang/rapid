@@ -124,7 +124,7 @@ if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage") # Enable code coverage
   add_rostest_gtest(rapid_ros_params_test test/params.test test/params_test.cpp)
-  target_link_libraries(rapid_ros_params_test rapid_ros ${catkin_LIBRARIES})
+  target_link_libraries(rapid_ros_params_test rapid_ros_params ${catkin_LIBRARIES})
 endif()
 
 ## Add folders to be run by python nosetests
