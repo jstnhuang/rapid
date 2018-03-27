@@ -7,8 +7,9 @@
 
 namespace rapid {
 namespace pr2 {
-static const char kLeftGripperAction[] = "l_gripper_controller/gripper_action";
-static const char kRightGripperAction[] = "r_gripper_controller/gripper_action";
+static const char kLeftGripperAction[] = "/l_gripper_controller/gripper_action";
+static const char kRightGripperAction[] =
+    "/r_gripper_controller/gripper_action";
 
 /// \brief High-level interface for a PR2's gripper.
 ///
