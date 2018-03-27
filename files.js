@@ -6,6 +6,7 @@ var files =
     [ "rapid_manipulation", "dir_8e0ec4d7e362575df8ab63e8ba43ec60.html", "dir_8e0ec4d7e362575df8ab63e8ba43ec60" ],
     [ "rapid_perception", "dir_5982acfdf82d1ef12df22fc901e14936.html", "dir_5982acfdf82d1ef12df22fc901e14936" ],
     [ "rapid_pr2", "dir_49149d62a85156263d42e1f608814b17.html", "dir_49149d62a85156263d42e1f608814b17" ],
+    [ "rapid_robot", "dir_f324de2af42ba817ab68f04a4f36cd54.html", "dir_f324de2af42ba817ab68f04a4f36cd54" ],
     [ "rapid_ros", "dir_0a7b170a4acb12d360b78d8b9c7f1d81.html", "dir_0a7b170a4acb12d360b78d8b9c7f1d81" ],
     [ "rapid_sound", "dir_7aa7d824e3b611efae06c65cfaae4d69.html", "dir_7aa7d824e3b611efae06c65cfaae4d69" ],
     [ "rapid_testing", "dir_5d44aee1319fd9bbdd221a3b9395ec74.html", "dir_5d44aee1319fd9bbdd221a3b9395ec74" ],

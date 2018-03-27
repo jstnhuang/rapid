@@ -2,7 +2,7 @@ var searchData=
 [
   ['makerelativepathsinflagsabsolute',['MakeRelativePathsInFlagsAbsolute',['../_8ycm__extra__conf_8py.html#aa17b17787ee25ee278fe0330e8245fb8',1,'.ycm_extra_conf.py']]],
   ['marker',['Marker',['../classrapid_1_1viz_1_1Marker.html',1,'rapid::viz']]],
-  ['marker',['Marker',['../classrapid_1_1viz_1_1Marker.html#a69850ccdd8fade0052ee0091f3611dbd',1,'rapid::viz::Marker::Marker(const Marker &amp;rhs)'],['../classrapid_1_1viz_1_1Marker.html#a0ed16d54fecf8ba3c05d127508a2a340',1,'rapid::viz::Marker::marker() const ']]],
+  ['marker',['marker',['../classrapid_1_1viz_1_1Marker.html#a0ed16d54fecf8ba3c05d127508a2a340',1,'rapid::viz::Marker::marker() const '],['../classrapid_1_1viz_1_1Marker.html#a69850ccdd8fade0052ee0091f3611dbd',1,'rapid::viz::Marker::Marker(const Marker &amp;rhs)']]],
   ['markerpub',['MarkerPub',['../namespacerapid_1_1viz.html#a95c2ebf2c5eb3794a542e6e4b280810e',1,'rapid::viz']]],
   ['markers_2eh',['markers.h',['../markers_8h.html',1,'']]],
   ['math_2eh',['math.h',['../math_8h.html',1,'']]],

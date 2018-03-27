@@ -32,7 +32,7 @@ var hierarchy =
     [ "rapid::perception::HSurfaceParams", "structrapid_1_1perception_1_1HSurfaceParams.html", null ],
     [ "rapid::perception::HSurfaceViz", "classrapid_1_1perception_1_1HSurfaceViz.html", null ],
     [ "rapid::perception::ImageRecognizer", "classrapid_1_1perception_1_1ImageRecognizer.html", null ],
-    [ "rapid::manipulation::JointStateReader", "classrapid_1_1manipulation_1_1JointStateReader.html", null ],
+    [ "rapid::JointStateReader", "classrapid_1_1JointStateReader.html", null ],
     [ "rapid::pr2::JointStates", "classrapid_1_1pr2_1_1JointStates.html", null ],
     [ "rapid::viz::LandmarkViz", "classrapid_1_1viz_1_1LandmarkViz.html", null ],
     [ "rapid::viz::Marker", "classrapid_1_1viz_1_1Marker.html", null ],

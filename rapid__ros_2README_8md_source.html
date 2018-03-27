@@ -121,7 +121,18 @@ $(document).ready(function(){initNavTree('rapid__ros_2README_8md.html','');});
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordtype">double</span> foo = <a class="code" href="namespacerapid.html#af79bc2f180907784f37aaa2a375164c2">rapid::GetDoubleParamOrThrow</a>(<span class="stringliteral">&quot;foo&quot;</span>);</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;~~~</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">## Simulation time</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span>When working in simulation, you should wait <span class="keywordflow">for</span> time to start.</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;Otherwise, you may find that ros::Time::now() is zero.</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;~~~cpp</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;rapid_ros/time.h&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<a class="code" href="namespacerapid.html#af345ad19fc4c6b5467acefb825a655e1">rapid::WaitForTime</a>();</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;~~~</div>
 <div class="ttc" id="namespacerapid_html_af79bc2f180907784f37aaa2a375164c2"><div class="ttname"><a href="namespacerapid.html#af79bc2f180907784f37aaa2a375164c2">rapid::GetDoubleParamOrThrow</a></div><div class="ttdeci">double GetDoubleParamOrThrow(const std::string &amp;name)</div><div class="ttdoc">Gets a double from the parameter server. </div></div>
+<div class="ttc" id="namespacerapid_html_af345ad19fc4c6b5467acefb825a655e1"><div class="ttname"><a href="namespacerapid.html#af345ad19fc4c6b5467acefb825a655e1">rapid::WaitForTime</a></div><div class="ttdeci">void WaitForTime()</div><div class="ttdoc">Wait for simulated time to begin. </div></div>
 <div class="ttc" id="params_8h_html"><div class="ttname"><a href="params_8h.html">params.h</a></div></div>
 <div class="ttc" id="namespacerapid_html_ac9689007843a29cb7d33d98ec1855a97"><div class="ttname"><a href="namespacerapid.html#ac9689007843a29cb7d33d98ec1855a97">rapid::GetStringParamOrThrow</a></div><div class="ttdeci">std::string GetStringParamOrThrow(const std::string &amp;name)</div><div class="ttdoc">Gets a string from the parameter server. </div></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -130,7 +141,7 @@ $(document).ready(function(){initNavTree('rapid__ros_2README_8md.html','');});
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="rapid__ros_2README_8md.html">README.md</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 04:36:36 for rapid by
+    <li class="footer">Generated on Tue Mar 27 2018 04:13:03 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

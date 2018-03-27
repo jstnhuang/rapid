@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>rapid: rapid_manipulation/include/rapid_manipulation/joint_state_reader.h Source File</title>
+<title>rapid: rapid_robot/include/rapid_robot/joint_state_reader.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -107,67 +107,64 @@ $(document).ready(function(){initNavTree('joint__state__reader_8h_source.html','
 <div class="title">joint_state_reader.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="joint__state__reader_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_MANIPULATION_JOINT_STATE_READER_H_</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _RAPID_MANIPULATION_JOINT_STATE_READER_H_</span></div>
+<a href="joint__state__reader_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RAPID_ROBOT_JOINT_STATE_READER_H_</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _RAPID_ROBOT_JOINT_STATE_READER_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;limits.h&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;sensor_msgs/JointState.h&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>rapid {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>manipulation {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// The joint value when a joint name is invalid.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// This assumes that a joint value will never reach this number, although that</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">// is not necessarily true for continuous joints.</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="namespacerapid_1_1manipulation.html#a2a74f8c402482b4635aa57766970deee">   18</a></span>&#160;<span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="namespacerapid_1_1manipulation.html#a2a74f8c402482b4635aa57766970deee">kNoJointValue</a> = std::numeric_limits&lt;double&gt;::min();</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// JointStateReader tracks the latest joint states.</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classrapid_1_1manipulation_1_1JointStateReader.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid_1_1manipulation_1_1JointStateReader.html">JointStateReader</a> {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <a class="code" href="classrapid_1_1manipulation_1_1JointStateReader.html#ac1611fc23c7466e6bb157f9d57b9ecb0">JointStateReader</a>();</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <a class="code" href="classrapid_1_1manipulation_1_1JointStateReader.html#ac1611fc23c7466e6bb157f9d57b9ecb0">JointStateReader</a>(<span class="keyword">const</span> std::string&amp; joint_states_topic);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1manipulation_1_1JointStateReader.html#a1718455c58c2f74e496ed4001b311b98">Start</a>();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="comment">// Returns the position of the given joint.</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="comment">// If the joint name is invalid, returns rapid::manipulation::kNoJointValue.</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <span class="keywordtype">double</span> <a class="code" href="classrapid_1_1manipulation_1_1JointStateReader.html#a7b8a93cb6fc936b410e54b1719e0f5d2">get_position</a>(<span class="keyword">const</span> std::string&amp; name) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="comment">// Returns the positions of the given vector of joints. If a joint name is</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="comment">// invalid, then its value will be kNoJointValue.</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1manipulation_1_1JointStateReader.html#a8f4713f04f0e306f5f581ad2df9c0b91">get_positions</a>(<span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; names,</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                     std::vector&lt;double&gt;* positions) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">void</span> callback(<span class="keyword">const</span> sensor_msgs::JointState&amp; msg);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  ros::NodeHandle nh_;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  ros::Subscriber sub_;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  std::string topic_;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  std::map&lt;std::string, double&gt; positions_;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;};</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}  <span class="comment">// namespace manipulation</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}  <span class="comment">// namespace rapid</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#endif  // _RAPID_MANIPULATION_JOINT_STATE_READER_H_</span></div>
-<div class="ttc" id="classrapid_1_1manipulation_1_1JointStateReader_html_a7b8a93cb6fc936b410e54b1719e0f5d2"><div class="ttname"><a href="classrapid_1_1manipulation_1_1JointStateReader.html#a7b8a93cb6fc936b410e54b1719e0f5d2">rapid::manipulation::JointStateReader::get_position</a></div><div class="ttdeci">double get_position(const std::string &amp;name) const </div></div>
-<div class="ttc" id="namespacerapid_1_1manipulation_html_a2a74f8c402482b4635aa57766970deee"><div class="ttname"><a href="namespacerapid_1_1manipulation.html#a2a74f8c402482b4635aa57766970deee">rapid::manipulation::kNoJointValue</a></div><div class="ttdeci">static const double kNoJointValue</div><div class="ttdef"><b>Definition:</b> <a href="joint__state__reader_8h_source.html#l00018">joint_state_reader.h:18</a></div></div>
-<div class="ttc" id="classrapid_1_1manipulation_1_1JointStateReader_html_ac1611fc23c7466e6bb157f9d57b9ecb0"><div class="ttname"><a href="classrapid_1_1manipulation_1_1JointStateReader.html#ac1611fc23c7466e6bb157f9d57b9ecb0">rapid::manipulation::JointStateReader::JointStateReader</a></div><div class="ttdeci">JointStateReader()</div></div>
-<div class="ttc" id="classrapid_1_1manipulation_1_1JointStateReader_html"><div class="ttname"><a href="classrapid_1_1manipulation_1_1JointStateReader.html">rapid::manipulation::JointStateReader</a></div><div class="ttdef"><b>Definition:</b> <a href="joint__state__reader_8h_source.html#l00021">joint_state_reader.h:21</a></div></div>
-<div class="ttc" id="classrapid_1_1manipulation_1_1JointStateReader_html_a8f4713f04f0e306f5f581ad2df9c0b91"><div class="ttname"><a href="classrapid_1_1manipulation_1_1JointStateReader.html#a8f4713f04f0e306f5f581ad2df9c0b91">rapid::manipulation::JointStateReader::get_positions</a></div><div class="ttdeci">void get_positions(const std::vector&lt; std::string &gt; &amp;names, std::vector&lt; double &gt; *positions) const </div></div>
-<div class="ttc" id="classrapid_1_1manipulation_1_1JointStateReader_html_a1718455c58c2f74e496ed4001b311b98"><div class="ttname"><a href="classrapid_1_1manipulation_1_1JointStateReader.html#a1718455c58c2f74e496ed4001b311b98">rapid::manipulation::JointStateReader::Start</a></div><div class="ttdeci">void Start()</div></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;ros/ros.h&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;sensor_msgs/JointState.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>rapid {</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classrapid_1_1JointStateReader.html">   26</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid_1_1JointStateReader.html">JointStateReader</a> {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <a class="code" href="classrapid_1_1JointStateReader.html#a9feb27cbacde964297c216d0f5be4eeb">JointStateReader</a>();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <a class="code" href="classrapid_1_1JointStateReader.html#a9feb27cbacde964297c216d0f5be4eeb">JointStateReader</a>(<span class="keyword">const</span> std::string&amp; joint_states_topic);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1JointStateReader.html#a5806652f78c38e8a7340403a61b4c0d0">Start</a>();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1JointStateReader.html#abe14723aa6e8da9d9006b1d77b6c6abc">HasJoint</a>(<span class="keyword">const</span> std::string&amp; name) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordtype">double</span> <a class="code" href="classrapid_1_1JointStateReader.html#a38976b4cba9e0d749c2097a47488503c">position</a>(<span class="keyword">const</span> std::string&amp; name) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  std::map&lt;std::string, double&gt; <a class="code" href="classrapid_1_1JointStateReader.html#ab337801b571cde913b47b1b81bb67af8">positions</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1JointStateReader.html#abc9e24098b6bef5721db28f6d26394df">WaitForMessages</a>(<span class="keyword">const</span> ros::Duration&amp; timeout) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="classrapid_1_1JointStateReader.html#a5abf058bfc1eb4bb9ca2891586843dcf">WaitForJoint</a>(<span class="keyword">const</span> std::string&amp; name,</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                    <span class="keyword">const</span> ros::Duration&amp; timeout) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keywordtype">void</span> callback(<span class="keyword">const</span> sensor_msgs::JointState&amp; msg);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  ros::NodeHandle nh_;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  ros::Subscriber sub_;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  std::string topic_;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  std::map&lt;std::string, double&gt; positions_;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <span class="keywordtype">bool</span> received_callback_;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;};</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;}  <span class="comment">// namespace rapid</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#endif  // _RAPID_ROBOT_JOINT_STATE_READER_H_</span></div>
+<div class="ttc" id="classrapid_1_1JointStateReader_html_a5abf058bfc1eb4bb9ca2891586843dcf"><div class="ttname"><a href="classrapid_1_1JointStateReader.html#a5abf058bfc1eb4bb9ca2891586843dcf">rapid::JointStateReader::WaitForJoint</a></div><div class="ttdeci">bool WaitForJoint(const std::string &amp;name, const ros::Duration &amp;timeout) const </div><div class="ttdoc">Wait until a joint value is available. </div></div>
+<div class="ttc" id="classrapid_1_1JointStateReader_html_a5806652f78c38e8a7340403a61b4c0d0"><div class="ttname"><a href="classrapid_1_1JointStateReader.html#a5806652f78c38e8a7340403a61b4c0d0">rapid::JointStateReader::Start</a></div><div class="ttdeci">void Start()</div><div class="ttdoc">Starts subscribing to the joint states. </div></div>
+<div class="ttc" id="classrapid_1_1JointStateReader_html_ab337801b571cde913b47b1b81bb67af8"><div class="ttname"><a href="classrapid_1_1JointStateReader.html#ab337801b571cde913b47b1b81bb67af8">rapid::JointStateReader::positions</a></div><div class="ttdeci">std::map&lt; std::string, double &gt; positions() const </div><div class="ttdoc">Returns all the joint positions so far. </div></div>
+<div class="ttc" id="classrapid_1_1JointStateReader_html_abe14723aa6e8da9d9006b1d77b6c6abc"><div class="ttname"><a href="classrapid_1_1JointStateReader.html#abe14723aa6e8da9d9006b1d77b6c6abc">rapid::JointStateReader::HasJoint</a></div><div class="ttdeci">bool HasJoint(const std::string &amp;name) const </div><div class="ttdoc">Returns true if this reader has a given joint state. </div></div>
+<div class="ttc" id="classrapid_1_1JointStateReader_html_abc9e24098b6bef5721db28f6d26394df"><div class="ttname"><a href="classrapid_1_1JointStateReader.html#abc9e24098b6bef5721db28f6d26394df">rapid::JointStateReader::WaitForMessages</a></div><div class="ttdeci">bool WaitForMessages(const ros::Duration &amp;timeout) const </div><div class="ttdoc">Wait for at least one JointState message. </div></div>
+<div class="ttc" id="classrapid_1_1JointStateReader_html_a9feb27cbacde964297c216d0f5be4eeb"><div class="ttname"><a href="classrapid_1_1JointStateReader.html#a9feb27cbacde964297c216d0f5be4eeb">rapid::JointStateReader::JointStateReader</a></div><div class="ttdeci">JointStateReader()</div><div class="ttdoc">Constructor. </div></div>
+<div class="ttc" id="classrapid_1_1JointStateReader_html_a38976b4cba9e0d749c2097a47488503c"><div class="ttname"><a href="classrapid_1_1JointStateReader.html#a38976b4cba9e0d749c2097a47488503c">rapid::JointStateReader::position</a></div><div class="ttdeci">double position(const std::string &amp;name) const </div><div class="ttdoc">Returns the position of the given joint. </div></div>
+<div class="ttc" id="classrapid_1_1JointStateReader_html"><div class="ttname"><a href="classrapid_1_1JointStateReader.html">rapid::JointStateReader</a></div><div class="ttdoc">Tracks the latest joint states. </div><div class="ttdef"><b>Definition:</b> <a href="joint__state__reader_8h_source.html#l00026">joint_state_reader.h:26</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_8e0ec4d7e362575df8ab63e8ba43ec60.html">rapid_manipulation</a></li><li class="navelem"><a class="el" href="dir_7ff3122d340e761a1ca3df2fec832cca.html">include</a></li><li class="navelem"><a class="el" href="dir_acaafe4282e6bfff9f752c215928129a.html">rapid_manipulation</a></li><li class="navelem"><a class="el" href="joint__state__reader_8h.html">joint_state_reader.h</a></li>
-    <li class="footer">Generated on Sat Mar 24 2018 04:36:36 for rapid by
+    <li class="navelem"><a class="el" href="dir_f324de2af42ba817ab68f04a4f36cd54.html">rapid_robot</a></li><li class="navelem"><a class="el" href="dir_338a745fe7e478a7a067b34809b923e8.html">include</a></li><li class="navelem"><a class="el" href="dir_d3f474632b8ae467646a5c1e282caaa8.html">rapid_robot</a></li><li class="navelem"><a class="el" href="joint__state__reader_8h.html">joint_state_reader.h</a></li>
+    <li class="footer">Generated on Tue Mar 27 2018 04:13:03 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

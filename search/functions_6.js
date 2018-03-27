@@ -4,8 +4,6 @@ var searchData=
   ['geometrymsgtoeigen',['GeometryMsgToEigen',['../namespacerapid_1_1utils.html#a09a65b8e06a45b5391dd9de9af85d016',1,'rapid::utils']]],
   ['geometrymsgtopcl',['GeometryMsgToPcl',['../namespacerapid_1_1utils.html#a97c7fc96b840ce233e1de7b257e9d2a6',1,'rapid::utils::GeometryMsgToPcl(const geometry_msgs::Point &amp;in, pcl::PointXYZ *out)'],['../namespacerapid_1_1utils.html#a38f34ea11566d346a0d1214c8f0c3edb',1,'rapid::utils::GeometryMsgToPcl(const geometry_msgs::Vector3 &amp;in, pcl::PointXYZ *out)']]],
   ['get',['Get',['../classrapid_1_1db_1_1NameDb.html#a276174d7d623a1cc6b458979a16cac3f',1,'rapid::db::NameDb']]],
-  ['get_5fposition',['get_position',['../classrapid_1_1manipulation_1_1JointStateReader.html#a7b8a93cb6fc936b410e54b1719e0f5d2',1,'rapid::manipulation::JointStateReader']]],
-  ['get_5fpositions',['get_positions',['../classrapid_1_1manipulation_1_1JointStateReader.html#a8f4713f04f0e306f5f581ad2df9c0b91',1,'rapid::manipulation::JointStateReader']]],
   ['getboolmapparamorthrow',['GetBoolMapParamOrThrow',['../namespacerapid.html#a4766c628fee03b6195d5e18a9c09e5db',1,'rapid']]],
   ['getboolparamorthrow',['GetBoolParamOrThrow',['../namespacerapid.html#a2a26c45e1aa38aba8e8d5a0e2592fa2c',1,'rapid']]],
   ['getboolvectorparamorthrow',['GetBoolVectorParamOrThrow',['../namespacerapid.html#a9479a3f845f05d7cce978e0855011c61',1,'rapid']]],

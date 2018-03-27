@@ -4,8 +4,6 @@ var searchData=
   ['geometrymsgtoeigen',['GeometryMsgToEigen',['../namespacerapid_1_1utils.html#a09a65b8e06a45b5391dd9de9af85d016',1,'rapid::utils']]],
   ['geometrymsgtopcl',['GeometryMsgToPcl',['../namespacerapid_1_1utils.html#a97c7fc96b840ce233e1de7b257e9d2a6',1,'rapid::utils::GeometryMsgToPcl(const geometry_msgs::Point &amp;in, pcl::PointXYZ *out)'],['../namespacerapid_1_1utils.html#a38f34ea11566d346a0d1214c8f0c3edb',1,'rapid::utils::GeometryMsgToPcl(const geometry_msgs::Vector3 &amp;in, pcl::PointXYZ *out)']]],
   ['get',['Get',['../classrapid_1_1db_1_1NameDb.html#a276174d7d623a1cc6b458979a16cac3f',1,'rapid::db::NameDb']]],
-  ['get_5fposition',['get_position',['../classrapid_1_1manipulation_1_1JointStateReader.html#a7b8a93cb6fc936b410e54b1719e0f5d2',1,'rapid::manipulation::JointStateReader']]],
-  ['get_5fpositions',['get_positions',['../classrapid_1_1manipulation_1_1JointStateReader.html#a8f4713f04f0e306f5f581ad2df9c0b91',1,'rapid::manipulation::JointStateReader']]],
   ['getboolmapparamorthrow',['GetBoolMapParamOrThrow',['../namespacerapid.html#a4766c628fee03b6195d5e18a9c09e5db',1,'rapid']]],
   ['getboolparamorthrow',['GetBoolParamOrThrow',['../namespacerapid.html#a2a26c45e1aa38aba8e8d5a0e2592fa2c',1,'rapid']]],
   ['getboolvectorparamorthrow',['GetBoolVectorParamOrThrow',['../namespacerapid.html#a9479a3f845f05d7cce978e0855011c61',1,'rapid']]],
@@ -36,9 +34,9 @@ var searchData=
   ['gripper',['Gripper',['../classrapid_1_1fetch_1_1Gripper.html',1,'rapid::fetch']]],
   ['gripper',['gripper',['../classrapid_1_1fetch_1_1Fetch.html#a21723947960020e44aadf43cb28859df',1,'rapid::fetch::Fetch::gripper()'],['../classrapid_1_1fetch_1_1Gripper.html#a2bf0868856dc40b155de53ba78b0cadd',1,'rapid::fetch::Gripper::Gripper()'],['../classrapid_1_1manipulation_1_1Gripper.html#a63f7b00710ce9aaec246040327f3569f',1,'rapid::manipulation::Gripper::Gripper()']]],
   ['gripper',['Gripper',['../classrapid_1_1pr2_1_1Gripper.html',1,'rapid::pr2']]],
+  ['gripper_2eh',['gripper.h',['../rapid__manipulation_2include_2rapid__manipulation_2gripper_8h.html',1,'']]],
   ['gripper_2eh',['gripper.h',['../rapid__fetch_2include_2rapid__fetch_2gripper_8h.html',1,'']]],
   ['gripper_2eh',['gripper.h',['../rapid__pr2_2include_2rapid__pr2_2gripper_8h.html',1,'']]],
-  ['gripper_2eh',['gripper.h',['../rapid__manipulation_2include_2rapid__manipulation_2gripper_8h.html',1,'']]],
   ['gripperclient',['GripperClient',['../namespacerapid_1_1manipulation.html#a0a88174492a1408d74227b15411d0b1a',1,'rapid::manipulation']]],
   ['gripperinterface',['GripperInterface',['../classrapid_1_1manipulation_1_1GripperInterface.html',1,'rapid::manipulation']]]
 ];

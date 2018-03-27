@@ -107,12 +107,17 @@ $(document).ready(function(){initNavTree('md_rapid_ros_README.html','');});
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="params_8h.html">rapid_ros/params.h</a>&quot;</span></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">double</span> foo = <a class="code" href="namespacerapid.html#af79bc2f180907784f37aaa2a375164c2">rapid::GetDoubleParamOrThrow</a>(<span class="stringliteral">&quot;foo&quot;</span>);</div>
+</div><!-- fragment --><h2>Simulation time</h2>
+<p>When working in simulation, you should wait for time to start. Otherwise, you may find that ros::Time::now() is zero.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="time_8h.html">rapid_ros/time.h</a>&quot;</span></div>
+<div class="line"></div>
+<div class="line"><a class="code" href="namespacerapid.html#af345ad19fc4c6b5467acefb825a655e1">rapid::WaitForTime</a>();</div>
 </div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Mar 24 2018 04:36:36 for rapid by
+    <li class="footer">Generated on Tue Mar 27 2018 04:13:03 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
