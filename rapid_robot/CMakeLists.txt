@@ -8,6 +8,7 @@ project(rapid_robot)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  rapid_ros
   roscpp
   sensor_msgs
 )
@@ -55,6 +56,7 @@ catkin_package(
   LIBRARIES
     rapid_robot_joint_state_reader
   CATKIN_DEPENDS
+    rapid_ros
     roscpp
     sensor_msgs
 #  DEPENDS system_lib
@@ -77,16 +79,13 @@ target_link_libraries(rapid_robot_joint_state_reader
   ${catkin_LIBRARIES}
 )
 
-## Declare a C++ executable
-## With catkin_make all packages are built within a single CMake context
-## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/rapid_robot_node.cpp)
-
-## Rename C++ executable without prefix
-## The above recommended prefix causes long target names, the following renames the
-## target back to the shorter version for ease of user use
-## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
-# set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
+add_executable(rapid_robot_joint_state_reader_main src/joint_state_reader_main.cpp)
+set_target_properties(rapid_robot_joint_state_reader_main PROPERTIES OUTPUT_NAME joint_state_reader PREFIX "")
+add_dependencies(rapid_robot_joint_state_reader_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_robot_joint_state_reader_main
+  rapid_robot_joint_state_reader
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##

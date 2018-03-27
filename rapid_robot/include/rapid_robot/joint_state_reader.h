@@ -17,7 +17,7 @@ namespace rapid {
 /// \code
 /// JointStateReader js_reader;
 /// js_reader.Start();
-/// ...
+/// js_reader.WaitForMessages(ros::Duration(1.0));
 /// if (js_reader.HasJoint("torso_lift_link")) {
 ///   double torso_pos = js_reader.position("torso_lift_link");
 /// }
@@ -54,6 +54,35 @@ class JointStateReader {
   /// \brief Returns all the joint positions so far.
   std::map<std::string, double> positions() const;
 
+  /// \brief Wait for at least one JointState message.
+  ///
+  /// Blocks until a message is received on the joint_states topic or the
+  /// timeout is reached. This is useful when you want to read a joint value
+  /// shortly after calling Start() and ROS has not had time to process
+  /// callbacks yet.
+  ///
+  /// \param[in] timeout The maximum amount of time to wait.
+  ///
+  /// \returns true if a message was received before the timeout, false
+  ///   otherwise.
+  bool WaitForMessages(const ros::Duration& timeout) const;
+
+  /// \brief Wait until a joint value is available.
+  ///
+  /// Blocks until the given joint value has been recorded at least once or the
+  /// timeout is reached. Usually, calling WaitForMessages will be sufficient,
+  /// but sometimes different controllers publish different subsets of the robot
+  /// joint states and the first message might not contain the joint you are
+  /// looking for.
+  ///
+  /// \param[in] name The name of the joint to wait for.
+  /// \param[in] timeout The maximum amount of time to wait.
+  ///
+  /// \returns true if the joint value was available before the timeout, false
+  ///   otherwise.
+  bool WaitForJoint(const std::string& name,
+                    const ros::Duration& timeout) const;
+
  private:
   void callback(const sensor_msgs::JointState& msg);
 
@@ -61,6 +90,8 @@ class JointStateReader {
   ros::Subscriber sub_;
   std::string topic_;
   std::map<std::string, double> positions_;
+
+  bool received_callback_;
 };
 }  // namespace rapid
 

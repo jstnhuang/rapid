@@ -34,6 +34,7 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES
     rapid_ros
+    rapid_ros_params
     rapid_ros_time
   CATKIN_DEPENDS
     actionlib
@@ -56,7 +57,6 @@ include_directories(
 
 add_library(rapid_ros
   src/action_client.cpp
-  src/params.cpp
   src/publisher.cpp
   src/service_client.cpp
   src/tf_listener.cpp
@@ -66,6 +66,10 @@ add_dependencies(rapid_ros
   ${catkin_EXPORTED_TARGETS}
 )
 target_link_libraries(rapid_ros ${catkin_LIBRARIES})
+
+add_library(rapid_ros_params src/params.cpp)
+add_dependencies(rapid_ros_params ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_ros_params ${catkin_LIBRARIES})
 
 add_library(rapid_ros_time src/time.cpp)
 add_dependencies(rapid_ros_time ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
