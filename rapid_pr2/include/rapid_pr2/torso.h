@@ -7,7 +7,6 @@
 
 namespace rapid {
 namespace pr2 {
-
 /// \brief High-level interface for the PR2's torso.
 ///
 /// \b Example:
@@ -58,8 +57,8 @@ class Torso {
 };
 
 static const char kTorsoAction[] = "/torso_controller/follow_joint_trajectory";
-const double Torso::kMinHeight = 0;     /// 0 meters
-const double Torso::kMaxHeight = 0.31;  /// 0.31 meters
+const double Torso::kMinHeight = 0;
+const double Torso::kMaxHeight = 0.31;
 const double Torso::kMaxVel = 0.013;
 const char Torso::kTorsoJoint[] = "torso_lift_joint";
 }  // namespace pr2
