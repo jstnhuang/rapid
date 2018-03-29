@@ -15,5 +15,6 @@ var dir_a90508c66fba57ceb99fcd0a332c2559 =
       [ "RandomNumber", "classrapid_1_1utils_1_1RandomNumber.html", "classrapid_1_1utils_1_1RandomNumber" ],
       [ "MockRandomNumber", "classrapid_1_1utils_1_1MockRandomNumber.html", "classrapid_1_1utils_1_1MockRandomNumber" ]
     ] ],
-    [ "stochastic_universal_sampling.h", "stochastic__universal__sampling_8h.html", "stochastic__universal__sampling_8h" ]
+    [ "stochastic_universal_sampling.h", "stochastic__universal__sampling_8h.html", "stochastic__universal__sampling_8h" ],
+    [ "vector3.hpp", "vector3_8hpp.html", "vector3_8hpp" ]
 ];
