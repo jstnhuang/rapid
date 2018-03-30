@@ -2,7 +2,8 @@
 
 #include "Eigen/Dense"
 #include "geometry_msgs/Point.h"
-#include "geometry_msgs/Vector3.h" #include "pcl/point_types.h"
+#include "geometry_msgs/Vector3.h"
+#include "pcl/point_types.h"
 
 namespace rapid {
 template <typename T>
