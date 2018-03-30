@@ -72,7 +72,7 @@ void get_xyz(const pcl::Normal& value, double* x, double* y, double* z) {
 /// You can define your own template specialization of get_xyz for this to work
 /// with other types.
 ///
-/// \param[in] A "vector3"-like object, see description above.
+/// \param[in] value A "vector3"-like object, see description above.
 /// \throws std::invalid_argument if the type is not supported.
 /// \returns An Eigen::Vector3d.
 template <typename T>
