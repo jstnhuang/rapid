@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('vector3_8hpp_source.html','');});
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>rapid {</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="namespacerapid.html#ab011baa6392e180ef8500a2c88b94379">   10</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacerapid.html#ab011baa6392e180ef8500a2c88b94379">get_xyz</a>(<span class="keyword">const</span> T&amp; value, <span class="keywordtype">double</span>* x, <span class="keywordtype">double</span>* y, <span class="keywordtype">double</span>* z) {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;  <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;  <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Unsupported type&quot;</span>);</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;}</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">template</span> &lt;&gt;</div>
@@ -171,24 +171,24 @@ $(document).ready(function(){initNavTree('vector3_8hpp_source.html','');});
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  *z = value.normal_z;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="namespacerapid.html#a614d3f109ab7525c68847a124589f9c6">   78</a></span>&#160;Eigen::Vector3d <a class="code" href="namespacerapid.html#a614d3f109ab7525c68847a124589f9c6">AsVector3d</a>(<span class="keyword">const</span> T&amp; value) {</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordtype">double</span> x, y, z;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  get_xyz&lt;T&gt;(value, &amp;x, &amp;y, &amp;z);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  Eigen::Vector3d result;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  result &lt;&lt; x, y, z;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}  <span class="comment">// namespace rapid</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="namespacerapid.html#a614d3f109ab7525c68847a124589f9c6">   79</a></span>&#160;Eigen::Vector3d <a class="code" href="namespacerapid.html#a614d3f109ab7525c68847a124589f9c6">AsVector3d</a>(<span class="keyword">const</span> T&amp; value) {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  <span class="keywordtype">double</span> x, y, z;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  get_xyz&lt;T&gt;(value, &amp;x, &amp;y, &amp;z);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  Eigen::Vector3d result;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  result &lt;&lt; x, y, z;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}  <span class="comment">// namespace rapid</span></div>
 <div class="ttc" id="namespacerapid_html_ab011baa6392e180ef8500a2c88b94379"><div class="ttname"><a href="namespacerapid.html#ab011baa6392e180ef8500a2c88b94379">rapid::get_xyz</a></div><div class="ttdeci">void get_xyz(const T &amp;value, double *x, double *y, double *z)</div><div class="ttdef"><b>Definition:</b> <a href="vector3_8hpp_source.html#l00010">vector3.hpp:10</a></div></div>
-<div class="ttc" id="namespacerapid_html_a614d3f109ab7525c68847a124589f9c6"><div class="ttname"><a href="namespacerapid.html#a614d3f109ab7525c68847a124589f9c6">rapid::AsVector3d</a></div><div class="ttdeci">Eigen::Vector3d AsVector3d(const T &amp;value)</div><div class="ttdoc">Function to get the XYZ value from common ROS types. </div><div class="ttdef"><b>Definition:</b> <a href="vector3_8hpp_source.html#l00078">vector3.hpp:78</a></div></div>
+<div class="ttc" id="namespacerapid_html_a614d3f109ab7525c68847a124589f9c6"><div class="ttname"><a href="namespacerapid.html#a614d3f109ab7525c68847a124589f9c6">rapid::AsVector3d</a></div><div class="ttdeci">Eigen::Vector3d AsVector3d(const T &amp;value)</div><div class="ttdoc">Function to get the XYZ value from common ROS types. </div><div class="ttdef"><b>Definition:</b> <a href="vector3_8hpp_source.html#l00079">vector3.hpp:79</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_9dd2167d7a0fe46460dd83e1b3c081f1.html">rapid_utils</a></li><li class="navelem"><a class="el" href="dir_613920482b1d9560965d80ab7c9a51af.html">include</a></li><li class="navelem"><a class="el" href="dir_a90508c66fba57ceb99fcd0a332c2559.html">rapid_utils</a></li><li class="navelem"><a class="el" href="vector3_8hpp.html">vector3.hpp</a></li>
-    <li class="footer">Generated on Thu Mar 29 2018 23:43:22 for rapid by
+    <li class="footer">Generated on Fri Mar 30 2018 19:18:34 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
