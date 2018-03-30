@@ -2,13 +2,12 @@
 
 #include "Eigen/Dense"
 #include "geometry_msgs/Point.h"
-#include "geometry_msgs/Vector3.h"
-#include "pcl/point_types.h"
+#include "geometry_msgs/Vector3.h" #include "pcl/point_types.h"
 
 namespace rapid {
 template <typename T>
 void get_xyz(const T& value, double* x, double* y, double* z) {
-  throw std::invalid_argument("");
+  throw std::invalid_argument("Unsupported type");
 }
 
 template <>
@@ -73,6 +72,7 @@ void get_xyz(const pcl::Normal& value, double* x, double* y, double* z) {
 /// with other types.
 ///
 /// \param[in] A "vector3"-like object, see description above.
+/// \throws std::invalid_argument if the type is not supported.
 /// \returns An Eigen::Vector3d.
 template <typename T>
 Eigen::Vector3d AsVector3d(const T& value) {

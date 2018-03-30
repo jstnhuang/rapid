@@ -231,6 +231,9 @@ if(CATKIN_ENABLE_TESTING)
 
   catkin_add_gtest(rapid_utils_stochastic_universal_sampling_test test/stochastic_universal_sampling_test.cpp)
   target_link_libraries(rapid_utils_stochastic_universal_sampling_test rapid_utils)
+
+  catkin_add_gtest(rapid_utils_vector3_test test/vector3_test.cpp)
+  target_link_libraries(rapid_utils_vector3_test ${catkin_LIBRARIES})
 endif()
 
 ## Add folders to be run by python nosetests
