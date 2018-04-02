@@ -37,7 +37,7 @@ var searchData=
   ['right',['Right',['../classrapid_1_1pr2_1_1Gripper.html#a2698186f462cea960b237bf05154dd56',1,'rapid::pr2::Gripper::Right()'],['../namespacerapid_1_1manipulation.html#a1876fb30ac91a01e529397d59d2216eca6c36bec7be2414c979f82795607907df',1,'rapid::manipulation::RIGHT()']]],
   ['right_5farm',['right_arm',['../classrapid_1_1pr2_1_1Pr2.html#aa08dd6a423b1b110ea9ed812dfdbfff3',1,'rapid::pr2::Pr2']]],
   ['right_5farm_5fjoint_5fnames',['right_arm_joint_names',['../namespacerapid_1_1pr2.html#ac56e3b983ff554710bb3ebebea368358',1,'rapid::pr2']]],
-  ['right_5fgripper',['right_gripper',['../classrapid_1_1pr2_1_1Pr2.html#ad6d3010bcf01a08e8ff4401fadd19d85',1,'rapid::pr2::Pr2::right_gripper()'],['../classrapid_1_1manipulation_1_1Gripper.html#aa13150ce5b5b36d1fb3da8125f285b55',1,'rapid::manipulation::Gripper::RIGHT_GRIPPER()']]],
+  ['right_5fgripper',['RIGHT_GRIPPER',['../classrapid_1_1manipulation_1_1Gripper.html#aa13150ce5b5b36d1fb3da8125f285b55',1,'rapid::manipulation::Gripper::RIGHT_GRIPPER()'],['../classrapid_1_1pr2_1_1Pr2.html#ad6d3010bcf01a08e8ff4401fadd19d85',1,'rapid::pr2::Pr2::right_gripper()']]],
   ['right_5fgripper_5faction',['RIGHT_GRIPPER_ACTION',['../classrapid_1_1manipulation_1_1Gripper.html#a5bfcff48ded57f21d0ae02ce06d6ec2b',1,'rapid::manipulation::Gripper']]],
   ['roi',['roi',['../classrapid_1_1perception_1_1Box3DRoiServer.html#a981387987082434f880e246356de4add',1,'rapid::perception::Box3DRoiServer']]],
   ['rosfrompcl',['RosFromPcl',['../namespacerapid_1_1perception.html#a7a8d1bf708324f530e1525386099a537',1,'rapid::perception']]],

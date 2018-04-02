@@ -9,8 +9,6 @@ var namespacerapid_1_1manipulation =
     [ "HeadInterface", "classrapid_1_1manipulation_1_1HeadInterface.html", "classrapid_1_1manipulation_1_1HeadInterface" ],
     [ "Head", "classrapid_1_1manipulation_1_1Head.html", "classrapid_1_1manipulation_1_1Head" ],
     [ "MockHead", "classrapid_1_1manipulation_1_1MockHead.html", "classrapid_1_1manipulation_1_1MockHead" ],
-    [ "Picker", "classrapid_1_1manipulation_1_1Picker.html", "classrapid_1_1manipulation_1_1Picker" ],
-    [ "Placer", "classrapid_1_1manipulation_1_1Placer.html", "classrapid_1_1manipulation_1_1Placer" ],
     [ "TuckArmsInterface", "classrapid_1_1manipulation_1_1TuckArmsInterface.html", "classrapid_1_1manipulation_1_1TuckArmsInterface" ],
     [ "Pr2TuckArms", "classrapid_1_1manipulation_1_1Pr2TuckArms.html", "classrapid_1_1manipulation_1_1Pr2TuckArms" ],
     [ "MockTuckArms", "classrapid_1_1manipulation_1_1MockTuckArms.html", "classrapid_1_1manipulation_1_1MockTuckArms" ]

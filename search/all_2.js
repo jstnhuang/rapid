@@ -24,7 +24,6 @@ var searchData=
   ['compareposeestimationmatch',['ComparePoseEstimationMatch',['../namespacerapid_1_1perception.html#a542fbddb4b45bf183f6eeffa5f94c0dc',1,'rapid::perception']]],
   ['compilation_5fdatabase_5ffolder',['compilation_database_folder',['../_8ycm__extra__conf_8py.html#a6a4d7e96c7bc9093b406af626b7936a2',1,'.ycm_extra_conf.py']]],
   ['compute',['Compute',['../classrapid_1_1perception_1_1PoseEstimationHeatMapper.html#a703ffc4baead34555eff6c3970c46bd3',1,'rapid::perception::PoseEstimationHeatMapper::Compute()'],['../classrapid_1_1perception_1_1RandomHeatMapper.html#a1418f595299f70f2f8e7e605047098dd',1,'rapid::perception::RandomHeatMapper::Compute()']]],
-  ['computegrasporientation',['ComputeGraspOrientation',['../namespacerapid_1_1manipulation.html#afc6d19e198e0c1fffd8e70b80d2fc384',1,'rapid::manipulation']]],
   ['computeicpfitness',['ComputeIcpFitness',['../namespacerapid_1_1perception.html#ab0e3dc72f826b0618d2385be62cddb4d',1,'rapid::perception']]],
   ['computeresolution',['ComputeResolution',['../namespacerapid_1_1perception.html#ae20a975c270913ce0ef9f85eafbef709',1,'rapid::perception::ComputeResolution(const pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::ConstPtr &amp;cloud)'],['../namespacerapid_1_1perception.html#a5df3830417a27c537cbc33fa6a43eb49',1,'rapid::perception::ComputeResolution(const pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::ConstPtr &amp;cloud, const pcl::search::Search&lt; pcl::PointXYZRGB &gt; &amp;tree)']]],
   ['conversions_2eh',['conversions.h',['../conversions_8h.html',1,'']]]

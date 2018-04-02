@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['samplerandomplacement',['SampleRandomPlacement',['../namespacerapid_1_1manipulation.html#a1c5475f685ff01851d5d9ebec92c3e29',1,'rapid::manipulation']]],
   ['say',['Say',['../classrapid_1_1fetch_1_1Fetch.html#a0d7bb71a64f12ed1c0aac006f1986724',1,'rapid::fetch::Fetch::Say()'],['../classrapid_1_1sound_1_1SoundInterface.html#a324c8aee1140e2af4abbb3ea6ddc954d',1,'rapid::sound::SoundInterface::Say()'],['../classrapid_1_1sound_1_1SoundPlay.html#a0a3e9c5db76d31a19e8686cc2143244e',1,'rapid::sound::SoundPlay::Say()']]],
   ['scale',['scale',['../classrapid_1_1perception_1_1HSurface.html#a2d57b2c6936c51f855fd79808caff4d2',1,'rapid::perception::HSurface::scale()'],['../classrapid_1_1perception_1_1Object.html#afc116a6e468b94a31e418bc1f8f2c8ad',1,'rapid::perception::Object::scale()'],['../classrapid_1_1perception_1_1PoseEstimationMatch.html#a005ccdc1da57a29c3c8ed55f7ac26109',1,'rapid::perception::PoseEstimationMatch::scale()'],['../classrapid_1_1perception_1_1Scene.html#a752c8a077fc80261a34b3cd4e66ec25d',1,'rapid::perception::Scene::scale()']]],
   ['scene',['Scene',['../classrapid_1_1perception_1_1Scene.html#ad251262a79bf10462865f0328171b647',1,'rapid::perception::Scene']]],

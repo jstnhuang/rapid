@@ -12,8 +12,6 @@ var dir_acaafe4282e6bfff9f752c215928129a =
       [ "Head", "classrapid_1_1manipulation_1_1Head.html", "classrapid_1_1manipulation_1_1Head" ],
       [ "MockHead", "classrapid_1_1manipulation_1_1MockHead.html", "classrapid_1_1manipulation_1_1MockHead" ]
     ] ],
-    [ "pick.h", "pick_8h.html", "pick_8h" ],
-    [ "place.h", "place_8h.html", "place_8h" ],
     [ "tuck_arms.h", "tuck__arms_8h.html", [
       [ "TuckArmsInterface", "classrapid_1_1manipulation_1_1TuckArmsInterface.html", "classrapid_1_1manipulation_1_1TuckArmsInterface" ],
       [ "Pr2TuckArms", "classrapid_1_1manipulation_1_1Pr2TuckArms.html", "classrapid_1_1manipulation_1_1Pr2TuckArms" ],

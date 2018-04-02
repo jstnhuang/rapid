@@ -1,8 +1,6 @@
 var searchData=
 [
   ['parseparams',['ParseParams',['../structrapid_1_1perception_1_1ParseParams.html',1,'rapid::perception']]],
-  ['picker',['Picker',['../classrapid_1_1manipulation_1_1Picker.html',1,'rapid::manipulation']]],
-  ['placer',['Placer',['../classrapid_1_1manipulation_1_1Placer.html',1,'rapid::manipulation']]],
   ['poseestimationheatmapper',['PoseEstimationHeatMapper',['../classrapid_1_1perception_1_1PoseEstimationHeatMapper.html',1,'rapid::perception']]],
   ['poseestimationinterface',['PoseEstimationInterface',['../classrapid_1_1perception_1_1PoseEstimationInterface.html',1,'rapid::perception']]],
   ['poseestimationmatch',['PoseEstimationMatch',['../classrapid_1_1perception_1_1PoseEstimationMatch.html',1,'rapid::perception']]],

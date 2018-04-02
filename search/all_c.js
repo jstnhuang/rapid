@@ -21,8 +21,8 @@ var searchData=
   ['mock_5fmethod0',['MOCK_METHOD0',['../classrapid_1_1manipulation_1_1MockTuckArms.html#a3d7306d2e93a9287187a7e0021e6ca15',1,'rapid::manipulation::MockTuckArms::MOCK_METHOD0(TuckArms, bool())'],['../classrapid_1_1manipulation_1_1MockTuckArms.html#a5aafcf2895ddedb39a6848da893de050',1,'rapid::manipulation::MockTuckArms::MOCK_METHOD0(DeployLeft, bool())'],['../classrapid_1_1manipulation_1_1MockTuckArms.html#a325490432f6e2967fc9fe2e29c3c65df',1,'rapid::manipulation::MockTuckArms::MOCK_METHOD0(DeployRight, bool())'],['../classrapid_1_1manipulation_1_1MockTuckArms.html#a83e690a80b319d09f99df7a0008f907b',1,'rapid::manipulation::MockTuckArms::MOCK_METHOD0(DeployArms, bool())']]],
   ['mock_5fmethod1',['MOCK_METHOD1',['../classrapid_1_1manipulation_1_1MockGripper.html#a47420522eeb8ef53ff3a45f85ab35782',1,'rapid::manipulation::MockGripper::MOCK_METHOD1(Open, bool(double effort))'],['../classrapid_1_1manipulation_1_1MockGripper.html#a47b4456e7dc780d53999b70f037e11a8',1,'rapid::manipulation::MockGripper::MOCK_METHOD1(Close, bool(double effort))'],['../classrapid_1_1manipulation_1_1MockGripper.html#ad608091f5deedcc310b3192aa2a66faf',1,'rapid::manipulation::MockGripper::MOCK_METHOD1(set_is_holding_object, void(bool))'],['../classrapid_1_1manipulation_1_1MockGripper.html#a69b8847c84f06b54df957ba587c43b27',1,'rapid::manipulation::MockGripper::MOCK_METHOD1(set_held_object, void(const rapid::perception::Object &amp;))'],['../classrapid_1_1manipulation_1_1MockHead.html#a0d95cb97b9132c08c4c6ee3f66c8de29',1,'rapid::manipulation::MockHead::MOCK_METHOD1()'],['../classrapid_1_1sound_1_1MockSound.html#a8c39fde5aff252b02271fff51426578b',1,'rapid::sound::MockSound::MOCK_METHOD1()']]],
   ['mock_5fmethod2',['MOCK_METHOD2',['../classrapid_1_1manipulation_1_1MockGripper.html#af27c02ff165d6d13935a368cbe6a3182',1,'rapid::manipulation::MockGripper']]],
-  ['mockactionclient',['MockActionClient',['../classrapid__ros_1_1MockActionClient.html#a87f436e65d25aef890f13d1e72c6ba6a',1,'rapid_ros::MockActionClient']]],
   ['mockactionclient',['MockActionClient',['../classrapid__ros_1_1MockActionClient.html',1,'rapid_ros']]],
+  ['mockactionclient',['MockActionClient',['../classrapid__ros_1_1MockActionClient.html#a87f436e65d25aef890f13d1e72c6ba6a',1,'rapid_ros::MockActionClient']]],
   ['mockarm',['MockArm',['../classrapid_1_1manipulation_1_1MockArm.html#a346fe6c608ef4bb5b46e9a47c42a5ba5',1,'rapid::manipulation::MockArm']]],
   ['mockarm',['MockArm',['../classrapid_1_1manipulation_1_1MockArm.html',1,'rapid::manipulation']]],
   ['mockgripper',['MockGripper',['../classrapid_1_1manipulation_1_1MockGripper.html',1,'rapid::manipulation']]],
@@ -31,8 +31,8 @@ var searchData=
   ['mockpublisher',['MockPublisher',['../classrapid__ros_1_1MockPublisher.html',1,'rapid_ros']]],
   ['mockrandomnumber',['MockRandomNumber',['../classrapid_1_1utils_1_1MockRandomNumber.html#a75808494d864049f1fb8238dd3a39b22',1,'rapid::utils::MockRandomNumber']]],
   ['mockrandomnumber',['MockRandomNumber',['../classrapid_1_1utils_1_1MockRandomNumber.html',1,'rapid::utils']]],
-  ['mockserviceclient',['MockServiceClient',['../classrapid__ros_1_1MockServiceClient.html',1,'rapid_ros']]],
   ['mockserviceclient',['MockServiceClient',['../classrapid__ros_1_1MockServiceClient.html#a87df12b9fe6b5af69b629413ba3d0ad2',1,'rapid_ros::MockServiceClient']]],
+  ['mockserviceclient',['MockServiceClient',['../classrapid__ros_1_1MockServiceClient.html',1,'rapid_ros']]],
   ['mocksound',['MockSound',['../classrapid_1_1sound_1_1MockSound.html',1,'rapid::sound']]],
   ['mocksound',['MockSound',['../classrapid_1_1sound_1_1MockSound.html#a7d728cba1d50b99ea161fceb02820335',1,'rapid::sound::MockSound']]],
   ['mocktflistener',['MockTfListener',['../classrapid__ros_1_1MockTfListener.html#ad9b796c7cc58e284318757187f8d0663',1,'rapid_ros::MockTfListener']]],
@@ -40,7 +40,5 @@ var searchData=
   ['mocktuckarms',['MockTuckArms',['../classrapid_1_1manipulation_1_1MockTuckArms.html',1,'rapid::manipulation']]],
   ['moveitarm',['MoveItArm',['../classrapid_1_1manipulation_1_1MoveItArm.html',1,'rapid::manipulation']]],
   ['moveitarm',['MoveItArm',['../classrapid_1_1manipulation_1_1MoveItArm.html#ae5beaa85047ef0ec0a4f5d8b6a753aa3',1,'rapid::manipulation::MoveItArm::MoveItArm(boost::shared_ptr&lt; moveit::planning_interface::MoveGroup &gt; group)'],['../classrapid_1_1manipulation_1_1MoveItArm.html#aebbdb9d1c2300c48acd390fc691fd7ad',1,'rapid::manipulation::MoveItArm::MoveItArm(ArmId id)']]],
-  ['movetograsp',['MoveToGrasp',['../classrapid_1_1manipulation_1_1Picker.html#ac3873a766d26b3b6bed3a09c63b5a4b9',1,'rapid::manipulation::Picker']]],
-  ['movetoposegoal',['MoveToPoseGoal',['../classrapid_1_1manipulation_1_1ArmInterface.html#a36f71bde5577ba5b472d91043ff56364',1,'rapid::manipulation::ArmInterface::MoveToPoseGoal()'],['../classrapid_1_1manipulation_1_1MoveItArm.html#a2ac46ce48d531218b0ce6579757f4243',1,'rapid::manipulation::MoveItArm::MoveToPoseGoal()']]],
-  ['movetopregrasp',['MoveToPreGrasp',['../classrapid_1_1manipulation_1_1Picker.html#a21f4d0826c5717dac4b70dec36bcea63',1,'rapid::manipulation::Picker']]]
+  ['movetoposegoal',['MoveToPoseGoal',['../classrapid_1_1manipulation_1_1ArmInterface.html#a36f71bde5577ba5b472d91043ff56364',1,'rapid::manipulation::ArmInterface::MoveToPoseGoal()'],['../classrapid_1_1manipulation_1_1MoveItArm.html#a2ac46ce48d531218b0ce6579757f4243',1,'rapid::manipulation::MoveItArm::MoveToPoseGoal()']]]
 ];

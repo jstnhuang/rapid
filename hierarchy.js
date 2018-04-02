@@ -42,8 +42,6 @@ var hierarchy =
     [ "rapid::perception::ObjectParams", "structrapid_1_1perception_1_1ObjectParams.html", null ],
     [ "rapid::perception::ObjectViz", "classrapid_1_1perception_1_1ObjectViz.html", null ],
     [ "rapid::perception::ParseParams", "structrapid_1_1perception_1_1ParseParams.html", null ],
-    [ "rapid::manipulation::Picker", "classrapid_1_1manipulation_1_1Picker.html", null ],
-    [ "rapid::manipulation::Placer", "classrapid_1_1manipulation_1_1Placer.html", null ],
     [ "rapid::perception::PoseEstimationHeatMapper", "classrapid_1_1perception_1_1PoseEstimationHeatMapper.html", [
       [ "rapid::perception::RandomHeatMapper", "classrapid_1_1perception_1_1RandomHeatMapper.html", null ]
     ] ],
@@ -66,13 +64,12 @@ var hierarchy =
     [ "rapid::RosoutTestHelper", "classrapid_1_1RosoutTestHelper.html", null ],
     [ "rapid::perception::Scene", "classrapid_1_1perception_1_1Scene.html", null ],
     [ "rapid::perception::SceneParseParams", "structrapid_1_1perception_1_1SceneParseParams.html", null ],
-    [ "rapid::perception::SceneViz", "classrapid_1_1perception_1_1SceneViz.html", null ],
     [ "rapid::viz::SceneViz", "classrapid_1_1viz_1_1SceneViz.html", null ],
+    [ "rapid::perception::SceneViz", "classrapid_1_1perception_1_1SceneViz.html", null ],
     [ "rapid_ros::ServiceClientInterface< Service >", "classrapid__ros_1_1ServiceClientInterface.html", [
       [ "rapid_ros::MockServiceClient< Service >", "classrapid__ros_1_1MockServiceClient.html", null ],
       [ "rapid_ros::ServiceClient< Service >", "classrapid__ros_1_1ServiceClient.html", null ]
     ] ],
-    [ "rapid_ros::ServiceClientInterface< agile_grasp::FindGrasps >", "classrapid__ros_1_1ServiceClientInterface.html", null ],
     [ "rapid::sound::SoundInterface", "classrapid_1_1sound_1_1SoundInterface.html", [
       [ "rapid::sound::MockSound", "classrapid_1_1sound_1_1MockSound.html", null ],
       [ "rapid::sound::SoundPlay", "classrapid_1_1sound_1_1SoundPlay.html", null ]

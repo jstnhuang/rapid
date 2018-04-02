@@ -23,7 +23,5 @@ var searchData=
   ['mocksound',['MockSound',['../classrapid_1_1sound_1_1MockSound.html#a7d728cba1d50b99ea161fceb02820335',1,'rapid::sound::MockSound']]],
   ['mocktflistener',['MockTfListener',['../classrapid__ros_1_1MockTfListener.html#ad9b796c7cc58e284318757187f8d0663',1,'rapid_ros::MockTfListener']]],
   ['moveitarm',['MoveItArm',['../classrapid_1_1manipulation_1_1MoveItArm.html#ae5beaa85047ef0ec0a4f5d8b6a753aa3',1,'rapid::manipulation::MoveItArm::MoveItArm(boost::shared_ptr&lt; moveit::planning_interface::MoveGroup &gt; group)'],['../classrapid_1_1manipulation_1_1MoveItArm.html#aebbdb9d1c2300c48acd390fc691fd7ad',1,'rapid::manipulation::MoveItArm::MoveItArm(ArmId id)']]],
-  ['movetograsp',['MoveToGrasp',['../classrapid_1_1manipulation_1_1Picker.html#ac3873a766d26b3b6bed3a09c63b5a4b9',1,'rapid::manipulation::Picker']]],
-  ['movetoposegoal',['MoveToPoseGoal',['../classrapid_1_1manipulation_1_1ArmInterface.html#a36f71bde5577ba5b472d91043ff56364',1,'rapid::manipulation::ArmInterface::MoveToPoseGoal()'],['../classrapid_1_1manipulation_1_1MoveItArm.html#a2ac46ce48d531218b0ce6579757f4243',1,'rapid::manipulation::MoveItArm::MoveToPoseGoal()']]],
-  ['movetopregrasp',['MoveToPreGrasp',['../classrapid_1_1manipulation_1_1Picker.html#a21f4d0826c5717dac4b70dec36bcea63',1,'rapid::manipulation::Picker']]]
+  ['movetoposegoal',['MoveToPoseGoal',['../classrapid_1_1manipulation_1_1ArmInterface.html#a36f71bde5577ba5b472d91043ff56364',1,'rapid::manipulation::ArmInterface::MoveToPoseGoal()'],['../classrapid_1_1manipulation_1_1MoveItArm.html#a2ac46ce48d531218b0ce6579757f4243',1,'rapid::manipulation::MoveItArm::MoveToPoseGoal()']]]
 ];
