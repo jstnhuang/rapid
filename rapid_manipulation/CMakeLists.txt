@@ -16,7 +16,6 @@ find_package(catkin REQUIRED COMPONENTS
   rapid_perception
   rapid_ros
   rapid_utils
-  rapid_viz
   roscpp
   sensor_msgs
   shape_msgs
@@ -132,7 +131,6 @@ catkin_package(
     rapid_perception
     rapid_ros
     rapid_utils
-    rapid_viz
     roscpp
     rostest
     shape_msgs
@@ -160,8 +158,6 @@ add_library(rapid_manipulation
   src/arm.cpp
   src/gripper.cpp
   src/head.cpp
-  #src/pick.cpp
-  #src/place.cpp
   src/tuck_arms.cpp
 )
 add_dependencies(rapid_manipulation
@@ -237,22 +233,6 @@ if(CATKIN_ENABLE_TESTING)
     rapid_manipulation
     ${catkin_LIBRARIES}
   )
-# add_rostest_gtest(rapid_manipulation_pick_test
-# test/pick_test.launch
-#   test/pick_test.cpp
-# )
-# target_link_libraries(rapid_manipulation_pick_test
-#   rapid_manipulation
-#   ${catkin_LIBRARIES}
-# )
-# add_rostest_gtest(rapid_manipulation_place_test
-#   test/place_test.launch
-#   test/place_test.cpp
-# )
-# target_link_libraries(rapid_manipulation_place_test
-#   rapid_manipulation
-#   ${catkin_LIBRARIES}
-# )
   add_rostest_gtest(rapid_manipulation_tuck_arms_test
     test/tuck_arms_test.launch
     test/tuck_arms_test.cpp

@@ -51,7 +51,6 @@
   <build_depend>rapid_perception</build_depend>
   <build_depend>rapid_ros</build_depend>
   <build_depend>rapid_utils</build_depend>
-  <build_depend>rapid_viz</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>rostest</build_depend>
   <build_depend>sensor_msgs</build_depend>
@@ -69,7 +68,6 @@
   <run_depend>rapid_perception</run_depend>
   <run_depend>rapid_ros</run_depend>
   <run_depend>rapid_utils</run_depend>
-  <run_depend>rapid_viz</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>rostest</run_depend>
   <run_depend>sensor_msgs</run_depend>
