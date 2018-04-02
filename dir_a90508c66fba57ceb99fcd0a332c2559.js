@@ -10,6 +10,7 @@ var dir_a90508c66fba57ceb99fcd0a332c2559 =
     [ "eigen_conversions.h", "eigen__conversions_8h.html", "eigen__conversions_8h" ],
     [ "math.h", "math_8h.html", "math_8h" ],
     [ "pcl_conversions.h", "pcl__conversions_8h.html", "pcl__conversions_8h" ],
+    [ "pcl_typedefs.h", "pcl__typedefs_8h.html", "pcl__typedefs_8h" ],
     [ "random.h", "random_8h.html", [
       [ "RandomNumberInterface", "classrapid_1_1utils_1_1RandomNumberInterface.html", "classrapid_1_1utils_1_1RandomNumberInterface" ],
       [ "RandomNumber", "classrapid_1_1utils_1_1RandomNumber.html", "classrapid_1_1utils_1_1RandomNumber" ],
