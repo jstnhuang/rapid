@@ -318,12 +318,10 @@ target_link_libraries(rapid_perception_rgbd
   ${catkin_LIBRARIES}
 )
 
-add_executable(record_kinect src/record_kinect_main.cpp)
-add_dependencies(record_kinect
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-)
-target_link_libraries(record_kinect
+add_executable(rapid_perception_save_cloud_main src/save_cloud_main.cpp)
+set_target_properties(rapid_perception_save_cloud_main PROPERTIES OUTPUT_NAME save_cloud PREFIX "")
+add_dependencies(rapid_perception_save_cloud_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_perception_save_cloud_main
   ${PCL_LIBRARIES}
   ${catkin_LIBRARIES}
 )
