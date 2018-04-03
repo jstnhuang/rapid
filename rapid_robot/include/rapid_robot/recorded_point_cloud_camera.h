@@ -13,6 +13,8 @@ namespace rapid {
 ///
 /// Usage:
 /// \code
+/// #include "rapid_robot/recorded_point_cloud_camera.h"
+///
 /// RecordedPointCloudCamera sim_cam;
 /// sim_cam.LoadBag(argv[1]);
 /// sim_cam.cloud();
