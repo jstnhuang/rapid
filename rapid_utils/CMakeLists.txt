@@ -209,6 +209,10 @@ target_link_libraries(rapid_utils ${catkin_LIBRARIES})
 if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage") # Enable code coverage
+
+  catkin_add_gtest(rapid_utils_deg_rad_test test/deg_rad_test.cpp)
+  target_link_libraries(rapid_utils_deg_rad_test rapid_utils_deg_rad)
+
   catkin_add_gtest(rapid_utils_math_test test/math_test.cpp)
   target_link_libraries(rapid_utils_math_test rapid_utils)
 
