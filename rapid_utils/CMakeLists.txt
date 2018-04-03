@@ -112,6 +112,7 @@ catkin_package(
   LIBRARIES
     rapid_utils
     rapid_utils_command_line
+    rapid_utils_deg_rad
     rapid_utils_eigen_conversions
     rapid_utils_pcl_conversions
   CATKIN_DEPENDS
@@ -135,24 +136,23 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_library(rapid_utils_eigen_conversions
-  src/eigen_conversions.cpp
-)
-add_dependencies(rapid_utils_eigen_conversions
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-)
-target_link_libraries(rapid_utils_eigen_conversions
+add_library(rapid_utils_command_line src/command_line.cpp)
+add_dependencies(${PROJECT_NAME}_command_line ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_utils_command_line
+  readline
   ${catkin_LIBRARIES}
 )
 
-add_library(rapid_utils_pcl_conversions
-  src/pcl_conversions.cpp
-)
-add_dependencies(rapid_utils_pcl_conversions
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-)
+add_library(rapid_utils_deg_rad src/deg_rad.cpp)
+add_dependencies(rapid_utils_deg_rad ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_utils_deg_rad ${catkin_LIBRARIES})
+
+add_library(rapid_utils_eigen_conversions src/eigen_conversions.cpp)
+add_dependencies(rapid_utils_eigen_conversions ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_utils_eigen_conversions ${catkin_LIBRARIES})
+
+add_library(rapid_utils_pcl_conversions src/pcl_conversions.cpp)
+add_dependencies(rapid_utils_pcl_conversions ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_utils_pcl_conversions
   ${catkin_LIBRARIES}
   ${PCL_LIBRARIES}
@@ -163,25 +163,8 @@ add_library(rapid_utils
   src/random.cpp
   src/stochastic_universal_sampling.cpp
 )
-add_dependencies(rapid_utils
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-)
-target_link_libraries(rapid_utils
-  ${catkin_LIBRARIES}
-)
-
-add_library(rapid_utils_command_line
-  src/command_line.cpp
-)
-add_dependencies(${PROJECT_NAME}_command_line
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-)
-target_link_libraries(rapid_utils_command_line
-  readline
-  ${catkin_LIBRARIES}
-)
+add_dependencies(rapid_utils ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_utils ${catkin_LIBRARIES})
 
 #############
 ## Install ##
