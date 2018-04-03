@@ -7,6 +7,10 @@ var dir_a90508c66fba57ceb99fcd0a332c2559 =
       [ "ExitCommand", "classrapid_1_1utils_1_1ExitCommand.html", "classrapid_1_1utils_1_1ExitCommand" ],
       [ "CommandLine", "classrapid_1_1utils_1_1CommandLine.html", "classrapid_1_1utils_1_1CommandLine" ]
     ] ],
+    [ "deg_rad.h", "deg__rad_8h.html", [
+      [ "Degrees", "classrapid_1_1Degrees.html", "classrapid_1_1Degrees" ],
+      [ "Radians", "classrapid_1_1Radians.html", "classrapid_1_1Radians" ]
+    ] ],
     [ "eigen_conversions.h", "eigen__conversions_8h.html", "eigen__conversions_8h" ],
     [ "math.h", "math_8h.html", "math_8h" ],
     [ "pcl_conversions.h", "pcl__conversions_8h.html", "pcl__conversions_8h" ],

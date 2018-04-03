@@ -1,5 +1,12 @@
 var NAVTREEINDEX1 =
 {
+"classrapid_1_1perception_1_1PoseEstimator.html#a85965210a37156075f1b623858634bfc":[9,0,0,3,5,2],
+"classrapid_1_1perception_1_1PoseEstimator.html#a8a88b7045e2f437c723c518218718fb9":[9,0,0,3,5,5],
+"classrapid_1_1perception_1_1PoseEstimator.html#a9f22ce951e426d2c5c90a9750a22a6dc":[9,0,0,3,5,15],
+"classrapid_1_1perception_1_1PoseEstimator.html#aafdd21207bbd3287da05fcf8d6b7340f":[9,0,0,3,5,9],
+"classrapid_1_1perception_1_1PoseEstimator.html#acd107a790b7bc110c723e6ab5c0f2505":[9,0,0,3,5,11],
+"classrapid_1_1perception_1_1PoseEstimator.html#ad8fcfe0fdbb24ac45a1e53bf1eec74bc":[9,0,0,3,5,17],
+"classrapid_1_1perception_1_1PoseEstimator.html#adcfdbc0e7f5a9a62940f0eb567428ce2":[9,0,0,3,5,14],
 "classrapid_1_1perception_1_1PoseEstimator.html#aee95a6cbf8923537fb2e8416191b6e1d":[9,0,0,3,5,16],
 "classrapid_1_1perception_1_1PoseEstimator.html#afbc12ea3e1b650e69d47e1d6af45a899":[9,0,0,3,5,0],
 "classrapid_1_1perception_1_1PoseEstimator.html#aff6cb54b04808b4030d8e895c5f8aee8":[9,0,0,3,5,8],
@@ -221,6 +228,8 @@ var NAVTREEINDEX1 =
 "conversions_8h.html#a71fd7c2c6a43af0980fc8fd5b353a3ca":[10,0,4,0,0,2,0],
 "conversions_8h.html#a7a8d1bf708324f530e1525386099a537":[10,0,4,0,0,2,1],
 "conversions_8h_source.html":[10,0,4,0,0,2],
+"deg__rad_8h.html":[10,0,10,0,0,2],
+"deg__rad_8h_source.html":[10,0,10,0,0,2],
 "dir_05e7014c645315a9d6bddc3a704383e5.html":[10,0,9,0,0],
 "dir_0a7b170a4acb12d360b78d8b9c7f1d81.html":[10,0,7],
 "dir_0b3f1f5292dac08961aa839b7590f0dc.html":[10,0,0,0,0],
@@ -240,14 +249,5 @@ var NAVTREEINDEX1 =
 "dir_7ff3122d340e761a1ca3df2fec832cca.html":[10,0,3,0],
 "dir_88ea72b7ce2a238d697cf63b222e5534.html":[10,0,4,0,0],
 "dir_8e0ec4d7e362575df8ab63e8ba43ec60.html":[10,0,3],
-"dir_992c15de8bcf25e8f8ba1d8e6e73a50e.html":[10,0,2],
-"dir_9dd2167d7a0fe46460dd83e1b3c081f1.html":[10,0,10],
-"dir_9e9de26df8fa5fc0db0e55bfe68035fd.html":[10,0,5,0,0],
-"dir_a57f99756fba801dfbb48cc692fafb8a.html":[10,0,2,0],
-"dir_a90508c66fba57ceb99fcd0a332c2559.html":[10,0,10,0,0],
-"dir_ab29f5c1c64e50326bf37cd190ceb0e0.html":[10,0,7,0,0],
-"dir_acaafe4282e6bfff9f752c215928129a.html":[10,0,3,0,0],
-"dir_b8de99f303a37dccc8f2df4e1e304652.html":[10,0,1,0],
-"dir_c484b34104d4b84f74799fed06568198.html":[10,0,7,0],
-"dir_c6ed616797fd829864f033a9f45e46ef.html":[10,0,11]
+"dir_992c15de8bcf25e8f8ba1d8e6e73a50e.html":[10,0,2]
 };

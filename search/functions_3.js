@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['degrees',['Degrees',['../classrapid_1_1Degrees.html#ab1cd2781099df7c471c8afa5a44d8518',1,'rapid::Degrees']]],
   ['degreestoradians',['DegreesToRadians',['../namespacerapid_1_1utils.html#a002dae14acf64d506a9065dfdf9b07a5',1,'rapid::utils']]],
   ['delete',['Delete',['../classrapid_1_1db_1_1NameDb.html#abe7294a9f6049e63d5da5efb0bdd2f1c',1,'rapid::db::NameDb::Delete()'],['../classrapid_1_1viz_1_1Marker.html#aa470fee7bc48c502088145033e03cda3',1,'rapid::viz::Marker::Delete()']]],
   ['deployarms',['DeployArms',['../classrapid_1_1manipulation_1_1TuckArmsInterface.html#a603f3592a92148d054daba1243e58243',1,'rapid::manipulation::TuckArmsInterface::DeployArms()'],['../classrapid_1_1manipulation_1_1Pr2TuckArms.html#a76f02b28e2835a259aca8c0c6d9fde11',1,'rapid::manipulation::Pr2TuckArms::DeployArms()']]],

@@ -2,6 +2,9 @@ var searchData=
 [
   ['database',['database',['../_8ycm__extra__conf_8py.html#a64dbaa3229ec575b68ec333442e10cee',1,'.ycm_extra_conf.py']]],
   ['debug_5f',['debug_',['../classrapid_1_1perception_1_1PoseEstimationHeatMapper.html#a20751d61e67ece3ef0000e23ed7d96b5',1,'rapid::perception::PoseEstimationHeatMapper']]],
+  ['deg_5frad_2eh',['deg_rad.h',['../deg__rad_8h.html',1,'']]],
+  ['degrees',['Degrees',['../classrapid_1_1Degrees.html#ab1cd2781099df7c471c8afa5a44d8518',1,'rapid::Degrees']]],
+  ['degrees',['Degrees',['../classrapid_1_1Degrees.html',1,'rapid']]],
   ['degreestoradians',['DegreesToRadians',['../namespacerapid_1_1utils.html#a002dae14acf64d506a9065dfdf9b07a5',1,'rapid::utils']]],
   ['delete',['Delete',['../classrapid_1_1db_1_1NameDb.html#abe7294a9f6049e63d5da5efb0bdd2f1c',1,'rapid::db::NameDb::Delete()'],['../classrapid_1_1viz_1_1Marker.html#aa470fee7bc48c502088145033e03cda3',1,'rapid::viz::Marker::Delete()']]],
   ['deployarms',['DeployArms',['../classrapid_1_1manipulation_1_1TuckArmsInterface.html#a603f3592a92148d054daba1243e58243',1,'rapid::manipulation::TuckArmsInterface::DeployArms()'],['../classrapid_1_1manipulation_1_1Pr2TuckArms.html#a76f02b28e2835a259aca8c0c6d9fde11',1,'rapid::manipulation::Pr2TuckArms::DeployArms()']]],

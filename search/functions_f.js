@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['radians',['Radians',['../classrapid_1_1Radians.html#a7b5f037586adee84b04df76eb24bb2fa',1,'rapid::Radians::Radians(double radians)'],['../classrapid_1_1Radians.html#a0b96620835fb7ba736a0536cffc53a2a',1,'rapid::Radians::Radians(const Degrees &amp;degrees)']]],
   ['rand',['rand',['../classrapid_1_1utils_1_1RandomNumberInterface.html#a83c235725e918d0df10ccfed6cee6bee',1,'rapid::utils::RandomNumberInterface::rand()'],['../classrapid_1_1utils_1_1RandomNumber.html#abdd59ce743f32a4323170093fbc3f265',1,'rapid::utils::RandomNumber::rand()'],['../classrapid_1_1utils_1_1MockRandomNumber.html#a7feff7d83d4c7453a796fea5ce5c68fa',1,'rapid::utils::MockRandomNumber::rand()']]],
   ['randomheatmapper',['RandomHeatMapper',['../classrapid_1_1perception_1_1RandomHeatMapper.html#addaa56e37185c835bc88cbed104dbcc6',1,'rapid::perception::RandomHeatMapper']]],
   ['randomnumber',['RandomNumber',['../classrapid_1_1utils_1_1RandomNumber.html#abbea75b892a34b233af9dead1b047660',1,'rapid::utils::RandomNumber']]],

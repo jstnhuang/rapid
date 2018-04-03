@@ -16,6 +16,7 @@ var hierarchy =
       [ "rapid::utils::ExitCommand", "classrapid_1_1utils_1_1ExitCommand.html", null ]
     ] ],
     [ "rapid::utils::CommandLine", "classrapid_1_1utils_1_1CommandLine.html", null ],
+    [ "rapid::Degrees", "classrapid_1_1Degrees.html", null ],
     [ "rapid::DragBoxMarker", "classrapid_1_1DragBoxMarker.html", null ],
     [ "rapid::fetch::Fetch", "classrapid_1_1fetch_1_1Fetch.html", null ],
     [ "rapid::fetch::Gripper", "classrapid_1_1fetch_1_1Gripper.html", null ],
@@ -57,6 +58,7 @@ var hierarchy =
     [ "rapid_ros::PublisherInterface< visualization_msgs::rapid::viz::Marker >", "classrapid__ros_1_1PublisherInterface.html", [
       [ "rapid_ros::Publisher< visualization_msgs::rapid::viz::Marker >", "classrapid__ros_1_1Publisher.html", null ]
     ] ],
+    [ "rapid::Radians", "classrapid_1_1Radians.html", null ],
     [ "rapid::utils::RandomNumberInterface", "classrapid_1_1utils_1_1RandomNumberInterface.html", [
       [ "rapid::utils::MockRandomNumber", "classrapid_1_1utils_1_1MockRandomNumber.html", null ],
       [ "rapid::utils::RandomNumber", "classrapid_1_1utils_1_1RandomNumber.html", null ]
@@ -64,8 +66,8 @@ var hierarchy =
     [ "rapid::RosoutTestHelper", "classrapid_1_1RosoutTestHelper.html", null ],
     [ "rapid::perception::Scene", "classrapid_1_1perception_1_1Scene.html", null ],
     [ "rapid::perception::SceneParseParams", "structrapid_1_1perception_1_1SceneParseParams.html", null ],
-    [ "rapid::viz::SceneViz", "classrapid_1_1viz_1_1SceneViz.html", null ],
     [ "rapid::perception::SceneViz", "classrapid_1_1perception_1_1SceneViz.html", null ],
+    [ "rapid::viz::SceneViz", "classrapid_1_1viz_1_1SceneViz.html", null ],
     [ "rapid_ros::ServiceClientInterface< Service >", "classrapid__ros_1_1ServiceClientInterface.html", [
       [ "rapid_ros::MockServiceClient< Service >", "classrapid__ros_1_1MockServiceClient.html", null ],
       [ "rapid_ros::ServiceClient< Service >", "classrapid__ros_1_1ServiceClient.html", null ]
