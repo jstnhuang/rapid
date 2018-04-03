@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rapid_robot
   rapid_ros
   rapid_sound
+  rapid_utils
   roscpp
   trajectory_msgs
   visualization_msgs
@@ -69,6 +70,7 @@ catkin_package(
     rapid_robot
     rapid_ros
     rapid_sound
+    rapid_utils
     roscpp
     trajectory_msgs
     visualization_msgs
@@ -100,6 +102,10 @@ add_library(rapid_pr2_gripper src/gripper.cpp)
 add_dependencies(rapid_pr2_gripper ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pr2_gripper ${catkin_LIBRARIES})
 
+add_library(rapid_pr2_head src/head.cpp)
+add_dependencies(rapid_pr2_head ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pr2_head ${catkin_LIBRARIES})
+
 add_library(rapid_pr2_joint_states src/joint_states.cpp)
 add_dependencies(rapid_pr2_joint_states ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pr2_joint_states ${catkin_LIBRARIES})
@@ -113,6 +119,14 @@ set_target_properties(rapid_pr2_gripper_main PROPERTIES OUTPUT_NAME gripper PREF
 add_dependencies(rapid_pr2_gripper_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_pr2_gripper_main
   rapid_pr2_gripper
+  ${catkin_LIBRARIES}
+)
+
+add_executable(rapid_pr2_head_main src/head_main.cpp)
+set_target_properties(rapid_pr2_head_main PROPERTIES OUTPUT_NAME head PREFIX "")
+add_dependencies(rapid_pr2_head_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_pr2_head_main
+  rapid_pr2_head
   ${catkin_LIBRARIES}
 )
 
