@@ -57,7 +57,9 @@ find_package(PCL REQUIRED)
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES
+    rapid_robot_point_cloud_camera
     rapid_robot_joint_state_reader
+    rapid_robot_recorded_point_cloud_camera
   CATKIN_DEPENDS
     geometry_msgs
     pcl_conversions
@@ -81,9 +83,21 @@ include_directories(
   ${PCL_INCLUDE_DIRS}
 )
 
+add_library(rapid_robot_point_cloud_camera src/point_cloud_camera.cpp)
+add_dependencies(rapid_robot_point_cloud_camera ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_robot_point_cloud_camera
+  ${catkin_LIBRARIES}
+)
+
 add_library(rapid_robot_joint_state_reader src/joint_state_reader.cpp)
 add_dependencies(rapid_robot_joint_state_reader ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_robot_joint_state_reader
+  ${catkin_LIBRARIES}
+)
+
+add_library(rapid_robot_recorded_point_cloud_camera src/recorded_point_cloud_camera.cpp)
+add_dependencies(rapid_robot_recorded_point_cloud_camera ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_robot_recorded_point_cloud_camera
   ${catkin_LIBRARIES}
 )
 
