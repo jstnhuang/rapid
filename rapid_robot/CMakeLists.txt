@@ -8,13 +8,16 @@ project(rapid_robot)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  geometry_msgs
+  pcl_conversions
   rapid_ros
+  rosbag
   roscpp
   sensor_msgs
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+find_package(PCL REQUIRED)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -56,10 +59,14 @@ catkin_package(
   LIBRARIES
     rapid_robot_joint_state_reader
   CATKIN_DEPENDS
+    geometry_msgs
+    pcl_conversions
     rapid_ros
+    rosbag
     roscpp
     sensor_msgs
-#  DEPENDS system_lib
+  DEPENDS
+    PCL
 )
 
 ###########
@@ -71,6 +78,7 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${PCL_INCLUDE_DIRS}
 )
 
 add_library(rapid_robot_joint_state_reader src/joint_state_reader.cpp)
