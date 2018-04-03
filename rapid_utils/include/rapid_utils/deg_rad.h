@@ -34,6 +34,12 @@ class Degrees {
   double degrees_;
 };
 
+/// \brief Type for angles measured in radians.
+///
+/// Allows algorithms to explicitly document what units it expects for angle
+/// inputs.
+///
+/// Degrees can be implicitly converted to Radians.
 class Radians {
  public:
   /// \brief Constructor
