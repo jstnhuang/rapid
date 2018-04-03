@@ -77,6 +77,7 @@ var searchData=
   ['startclosing',['StartClosing',['../classrapid_1_1pr2_1_1Gripper.html#a5775b8131a3a015025f930b91bc87768',1,'rapid::pr2::Gripper::StartClosing()'],['../classrapid_1_1pr2_1_1Gripper.html#ac6c5421eb22cfb44ee4642efb585d562',1,'rapid::pr2::Gripper::StartClosing(double max_effort)']]],
   ['startmoving',['StartMoving',['../classrapid_1_1pr2_1_1Torso.html#af79c9a68b2d27f0a894a3053d852446b',1,'rapid::pr2::Torso']]],
   ['startopening',['StartOpening',['../classrapid_1_1pr2_1_1Gripper.html#a8b784334c9a12822dee05d4d7b349e26',1,'rapid::pr2::Gripper']]],
+  ['startpantilt',['StartPanTilt',['../classrapid_1_1pr2_1_1Head.html#a19c00930ce657af5c906ce6d2455eeb2',1,'rapid::pr2::Head']]],
   ['stochasticuniversalsampling',['StochasticUniversalSampling',['../namespacerapid_1_1utils.html#a847dc9a738f8971b210a14f62084b64a',1,'rapid::utils::StochasticUniversalSampling(const std::vector&lt; double &gt; &amp;cdf, int num_samples, std::vector&lt; int &gt; *indices)'],['../namespacerapid_1_1utils.html#a52301a6e053a4213c6aa61522456bba2',1,'rapid::utils::StochasticUniversalSampling(const std::vector&lt; double &gt; &amp;cdf, int num_samples, const RandomNumberInterface &amp;rng, std::vector&lt; int &gt; *indices)']]],
   ['stop',['Stop',['../classrapid_1_1perception_1_1Box3DRoiServer.html#a4f680acb9fd6bed2d32db0fdf38f1ec4',1,'rapid::perception::Box3DRoiServer::Stop()'],['../classrapid_1_1viz_1_1CloudPoser.html#a728041a6711cd34927453cf427b0fa27',1,'rapid::viz::CloudPoser::Stop()']]]
 ];

@@ -25,6 +25,7 @@ var hierarchy =
       [ "rapid::manipulation::Gripper", "classrapid_1_1manipulation_1_1Gripper.html", null ],
       [ "rapid::manipulation::MockGripper", "classrapid_1_1manipulation_1_1MockGripper.html", null ]
     ] ],
+    [ "rapid::pr2::Head", "classrapid_1_1pr2_1_1Head.html", null ],
     [ "rapid::manipulation::HeadInterface", "classrapid_1_1manipulation_1_1HeadInterface.html", [
       [ "rapid::manipulation::Head", "classrapid_1_1manipulation_1_1Head.html", null ],
       [ "rapid::manipulation::MockHead", "classrapid_1_1manipulation_1_1MockHead.html", null ]
@@ -66,8 +67,8 @@ var hierarchy =
     [ "rapid::RosoutTestHelper", "classrapid_1_1RosoutTestHelper.html", null ],
     [ "rapid::perception::Scene", "classrapid_1_1perception_1_1Scene.html", null ],
     [ "rapid::perception::SceneParseParams", "structrapid_1_1perception_1_1SceneParseParams.html", null ],
-    [ "rapid::perception::SceneViz", "classrapid_1_1perception_1_1SceneViz.html", null ],
     [ "rapid::viz::SceneViz", "classrapid_1_1viz_1_1SceneViz.html", null ],
+    [ "rapid::perception::SceneViz", "classrapid_1_1perception_1_1SceneViz.html", null ],
     [ "rapid_ros::ServiceClientInterface< Service >", "classrapid__ros_1_1ServiceClientInterface.html", [
       [ "rapid_ros::MockServiceClient< Service >", "classrapid__ros_1_1MockServiceClient.html", null ],
       [ "rapid_ros::ServiceClient< Service >", "classrapid__ros_1_1ServiceClient.html", null ]

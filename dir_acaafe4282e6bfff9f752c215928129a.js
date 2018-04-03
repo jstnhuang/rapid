@@ -7,7 +7,7 @@ var dir_acaafe4282e6bfff9f752c215928129a =
     ] ],
     [ "arm_id.h", "arm__id_8h.html", "arm__id_8h" ],
     [ "gripper.h", "rapid__manipulation_2include_2rapid__manipulation_2gripper_8h.html", "rapid__manipulation_2include_2rapid__manipulation_2gripper_8h" ],
-    [ "head.h", "head_8h.html", [
+    [ "head.h", "rapid__manipulation_2include_2rapid__manipulation_2head_8h.html", [
       [ "HeadInterface", "classrapid_1_1manipulation_1_1HeadInterface.html", "classrapid_1_1manipulation_1_1HeadInterface" ],
       [ "Head", "classrapid_1_1manipulation_1_1Head.html", "classrapid_1_1manipulation_1_1Head" ],
       [ "MockHead", "classrapid_1_1manipulation_1_1MockHead.html", "classrapid_1_1manipulation_1_1MockHead" ]

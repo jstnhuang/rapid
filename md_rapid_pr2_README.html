@@ -108,6 +108,10 @@ $(document).ready(function(){initNavTree('md_rapid_pr2_README.html','');});
 <div class="fragment"><div class="line">rosrun rapid_pr2 gripper open left</div>
 <div class="line">rosrun rapid_pr2 gripper close right</div>
 <div class="line">rosrun rapid_pr2 gripper close right 50</div>
+</div><!-- fragment --><h3>head</h3>
+<p>Moves the head.</p>
+<div class="fragment"><div class="line">rosrun rapid_pr2 head PAN_DEGREES TILT_DEGREES</div>
+<div class="line">rosrun rapid_pr2 head 0 45</div>
 </div><!-- fragment --><h3>torso</h3>
 <p>Moves the torso up or down.</p>
 <div class="fragment"><div class="line">rosrun rapid_pr2 torso 0.3</div>
@@ -115,6 +119,7 @@ $(document).ready(function(){initNavTree('md_rapid_pr2_README.html','');});
 <ul>
 <li><a class="el" href="arm__joints_8h.html">arm_joints.h</a>: Lists the arm joints</li>
 <li>gripper.h: Controls the PR2's grippers</li>
+<li>head.h: Controls the PR2's head</li>
 <li><a class="el" href="torso_8h.html">torso.h</a>: Controls the PR2's torso </li>
 </ul>
 </div></div><!-- contents -->
@@ -122,7 +127,7 @@ $(document).ready(function(){initNavTree('md_rapid_pr2_README.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Apr 3 2018 02:15:30 for rapid by
+    <li class="footer">Generated on Tue Apr 3 2018 02:18:03 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

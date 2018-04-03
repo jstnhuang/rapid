@@ -2,8 +2,10 @@ var searchData=
 [
   ['hasjoint',['HasJoint',['../classrapid_1_1JointStateReader.html#abe14723aa6e8da9d9006b1d77b6c6abc',1,'rapid::JointStateReader']]],
   ['head',['Head',['../classrapid_1_1manipulation_1_1Head.html',1,'rapid::manipulation']]],
-  ['head',['head',['../classrapid_1_1pr2_1_1Pr2.html#a1c7e9ba90824bd394358907b3ebdfb64',1,'rapid::pr2::Pr2::head()'],['../classrapid_1_1manipulation_1_1Head.html#aae783c93c8f9f90c3ebe091ea398405a',1,'rapid::manipulation::Head::Head()']]],
-  ['head_2eh',['head.h',['../head_8h.html',1,'']]],
+  ['head',['Head',['../classrapid_1_1pr2_1_1Head.html',1,'rapid::pr2']]],
+  ['head',['head',['../classrapid_1_1pr2_1_1Pr2.html#a1c7e9ba90824bd394358907b3ebdfb64',1,'rapid::pr2::Pr2::head()'],['../classrapid_1_1manipulation_1_1Head.html#aae783c93c8f9f90c3ebe091ea398405a',1,'rapid::manipulation::Head::Head()'],['../classrapid_1_1pr2_1_1Head.html#a3bafd2d7f12717310fd1219fc3005761',1,'rapid::pr2::Head::Head()']]],
+  ['head_2eh',['head.h',['../rapid__pr2_2include_2rapid__pr2_2head_8h.html',1,'']]],
+  ['head_2eh',['head.h',['../rapid__manipulation_2include_2rapid__manipulation_2head_8h.html',1,'']]],
   ['headinterface',['HeadInterface',['../classrapid_1_1manipulation_1_1HeadInterface.html',1,'rapid::manipulation']]],
   ['headmountkinectcamerainfo',['HeadMountKinectCameraInfo',['../namespacerapid_1_1perception.html#ad9169b0178c46fcd3c3a5862e1b8674e',1,'rapid::perception']]],
   ['heat_5fmapper',['heat_mapper',['../classrapid_1_1perception_1_1PoseEstimator.html#a85965210a37156075f1b623858634bfc',1,'rapid::perception::PoseEstimator']]],
