@@ -17,7 +17,7 @@ TEST(DegRadTest, DegToRad) {
   EXPECT_FLOAT_EQ(-M_PI, radians.value());
 
   Degrees degrees2(0);
-  Radians radians2(degrees);
+  Radians radians2(degrees2);
   EXPECT_FLOAT_EQ(0, radians2.value());
 }
 }  // namespace rapid
