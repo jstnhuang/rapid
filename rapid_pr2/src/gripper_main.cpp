@@ -35,13 +35,13 @@ void WaitFor(rapid::pr2::Gripper& gripper) {
 }
 
 int main(int argc, char** argv) {
+  ros::init(argc, argv, "rapid_pr2_gripper_main",
+            ros::init_options::NoSigintHandler);
   if (argc < 3) {
     PrintUsage();
     return 0;
   }
 
-  ros::init(argc, argv, "rapid_pr2_gripper_main",
-            ros::init_options::NoSigintHandler);
   signal(SIGINT, HandleSigint);
   ros::NodeHandle nh;
   rapid::WaitForTime();

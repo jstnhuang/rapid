@@ -15,13 +15,12 @@ void PrintUsage() {
 void HandleSigint(int signum) { g_request_shutdown = 1; }
 
 int main(int argc, char** argv) {
+  ros::init(argc, argv, "rapid_pr2_torso_main",
+            ros::init_options::NoSigintHandler);
   if (argc < 2) {
     PrintUsage();
     return 0;
   }
-
-  ros::init(argc, argv, "rapid_pr2_torso_main",
-            ros::init_options::NoSigintHandler);
   signal(SIGINT, HandleSigint);
   ros::NodeHandle nh;
   rapid::WaitForTime();
