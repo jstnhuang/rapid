@@ -108,14 +108,25 @@ $(document).ready(function(){initNavTree('md_rapid_robot_README.html','');});
 <div class="line">rosrun rapid_robot joint_state_reader torso_lift_link head_pan_joint head_tilt_joint</div>
 </div><!-- fragment --><h2>Libraries</h2>
 <ul>
-<li><a class="el" href="joint__state__reader_8h.html">joint_state_reader.h</a>: A joint state reader. </li>
+<li><a class="el" href="joint__state__reader_8h.html">joint_state_reader.h</a>: A joint state reader.</li>
 </ul>
-</div></div><!-- contents -->
+<h3>Point cloud cameras</h3>
+<p><a class="el" href="classrapid_1_1PointCloudCamera.html" title="Gets point cloud and camera pose. ">rapid::PointCloudCamera</a> and <a class="el" href="classrapid_1_1RecordedPointCloudCamera.html" title="A simulated camera that loads data from a bag file. ">rapid::RecordedPointCloudCamera</a> implement the <a class="el" href="classrapid_1_1PointCloudCameraInterface.html" title="Interface for a camera that outputs point clouds. ">rapid::PointCloudCameraInterface</a>. This specifies a common interface for getting point clouds either from a real topic or from a pre-recorded point cloud. The pre-recorded version is designed to work with rapid_perception's save_cloud executable.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="point__cloud__camera_8h.html">rapid_robot/point_cloud_camera.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="pcl__typedefs_8h.html">rapid_utils/pcl_typedefs.h</a>&quot;</span></div>
+<div class="line"></div>
+<div class="line"><a class="code" href="classrapid_1_1PointCloudCamera.html">rapid::PointCloudCamera</a> pr2_camera(<span class="stringliteral">&quot;/head_mount_kinect/depth_registered/points&quot;</span>, <span class="stringliteral">&quot;base_link&quot;</span>);</div>
+<div class="line">PointCloudC::Ptr cloud = pr2_camera.cloud();</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="classrapid_1_1RecordedPointCloudCamera.html">rapid::RecordedPointCloudCamera</a> sim_camera;</div>
+<div class="line">sim_camera.<a class="code" href="classrapid_1_1RecordedPointCloudCamera.html#a5a8fe4e2c9fb9e7d77f1188ab59be4b7">LoadBag</a>(<span class="stringliteral">&quot;/home/robot/data/scene1.bag&quot;</span>);</div>
+<div class="line">PointCloudC::Ptr cloud = pr2_camera.cloud();</div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Apr 3 2018 03:47:08 for rapid by
+    <li class="footer">Generated on Tue Apr 3 2018 03:50:08 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

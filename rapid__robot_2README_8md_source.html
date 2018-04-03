@@ -120,13 +120,33 @@ $(document).ready(function(){initNavTree('rapid__robot_2README_8md.html','');});
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">## Libraries</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span>- joint_state_reader.h: A joint state reader.</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;### Point cloud cameras</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<a class="code" href="classrapid_1_1PointCloudCamera.html">rapid::PointCloudCamera</a> and <a class="code" href="classrapid_1_1RecordedPointCloudCamera.html">rapid::RecordedPointCloudCamera</a> implement the <a class="code" href="classrapid_1_1PointCloudCameraInterface.html">rapid::PointCloudCameraInterface</a>.</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;This specifies a common <span class="keyword">interface </span>for getting point clouds either from a real topic or from a pre-recorded point cloud.</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;The pre-recorded version is designed to work with rapid_perception&#39;s save_cloud executable.</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;~~~cpp</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;#include &quot;rapid_robot/point_cloud_camera.h&quot;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;#include &quot;rapid_utils/pcl_typedefs.h&quot;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;rapid::PointCloudCamera pr2_camera(&quot;/head_mount_kinect/depth_registered/points&quot;, &quot;base_link&quot;);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;PointCloudC::Ptr cloud = pr2_camera.cloud();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<a class="code" href="classrapid_1_1RecordedPointCloudCamera.html">rapid::RecordedPointCloudCamera</a> sim_camera;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;sim_camera.LoadBag(&quot;/home/robot/data/scene1.bag&quot;);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;PointCloudC::Ptr cloud = pr2_camera.cloud();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;~~~</div>
+<div class="ttc" id="classrapid_1_1PointCloudCamera_html"><div class="ttname"><a href="classrapid_1_1PointCloudCamera.html">rapid::PointCloudCamera</a></div><div class="ttdoc">Gets point cloud and camera pose. </div><div class="ttdef"><b>Definition:</b> <a href="point__cloud__camera_8h_source.html#l00024">point_cloud_camera.h:24</a></div></div>
+<div class="ttc" id="classrapid_1_1PointCloudCameraInterface_html"><div class="ttname"><a href="classrapid_1_1PointCloudCameraInterface.html">rapid::PointCloudCameraInterface</a></div><div class="ttdoc">Interface for a camera that outputs point clouds. </div><div class="ttdef"><b>Definition:</b> <a href="camera__interface_8h_source.html#l00010">camera_interface.h:10</a></div></div>
+<div class="ttc" id="classrapid_1_1RecordedPointCloudCamera_html"><div class="ttname"><a href="classrapid_1_1RecordedPointCloudCamera.html">rapid::RecordedPointCloudCamera</a></div><div class="ttdoc">A simulated camera that loads data from a bag file. </div><div class="ttdef"><b>Definition:</b> <a href="recorded__point__cloud__camera_8h_source.html#l00024">recorded_point_cloud_camera.h:24</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="rapid__robot_2README_8md.html">README.md</a></li>
-    <li class="footer">Generated on Tue Apr 3 2018 03:47:07 for rapid by
+    <li class="footer">Generated on Tue Apr 3 2018 03:50:07 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
