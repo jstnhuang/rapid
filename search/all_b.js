@@ -12,6 +12,7 @@ var searchData=
   ['left_5fgripper',['LEFT_GRIPPER',['../classrapid_1_1manipulation_1_1Gripper.html#aac1a55873116f7160fcd36fd828def0a',1,'rapid::manipulation::Gripper::LEFT_GRIPPER()'],['../classrapid_1_1pr2_1_1Pr2.html#a69e28ee878a398aed7f471e8a5ff50a8',1,'rapid::pr2::Pr2::left_gripper()']]],
   ['left_5fgripper_5faction',['LEFT_GRIPPER_ACTION',['../classrapid_1_1manipulation_1_1Gripper.html#a91bf313a56d900f7e94c80915e06ef72',1,'rapid::manipulation::Gripper']]],
   ['list',['List',['../classrapid_1_1db_1_1NameDb.html#adec8563a5414766e277754fdf53e93f4',1,'rapid::db::NameDb']]],
+  ['loadbag',['LoadBag',['../classrapid_1_1RecordedPointCloudCamera.html#a5a8fe4e2c9fb9e7d77f1188ab59be4b7',1,'rapid::RecordedPointCloudCamera']]],
   ['lookat',['LookAt',['../classrapid_1_1manipulation_1_1HeadInterface.html#a238b6dc855b161af4dc0dde8239c02aa',1,'rapid::manipulation::HeadInterface::LookAt()'],['../classrapid_1_1manipulation_1_1Head.html#af87e0fca133831462777f4c01937e2ef',1,'rapid::manipulation::Head::LookAt()']]],
   ['lookuptransform',['lookupTransform',['../classrapid__ros_1_1TfListenerInterface.html#adc2d5aac8a1da45c75f284aac43251f9',1,'rapid_ros::TfListenerInterface::lookupTransform()'],['../classrapid__ros_1_1TfListener.html#a405a411d38fa21f0b4e633a8948f1a86',1,'rapid_ros::TfListener::lookupTransform()'],['../classrapid__ros_1_1MockTfListener.html#a523dee6d0565b22ebe8f880277dea173',1,'rapid_ros::MockTfListener::lookupTransform()']]]
 ];

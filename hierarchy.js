@@ -44,6 +44,10 @@ var hierarchy =
     [ "rapid::perception::ObjectParams", "structrapid_1_1perception_1_1ObjectParams.html", null ],
     [ "rapid::perception::ObjectViz", "classrapid_1_1perception_1_1ObjectViz.html", null ],
     [ "rapid::perception::ParseParams", "structrapid_1_1perception_1_1ParseParams.html", null ],
+    [ "rapid::PointCloudCameraInterface", "classrapid_1_1PointCloudCameraInterface.html", [
+      [ "rapid::PointCloudCamera", "classrapid_1_1PointCloudCamera.html", null ],
+      [ "rapid::RecordedPointCloudCamera", "classrapid_1_1RecordedPointCloudCamera.html", null ]
+    ] ],
     [ "rapid::perception::PoseEstimationHeatMapper", "classrapid_1_1perception_1_1PoseEstimationHeatMapper.html", [
       [ "rapid::perception::RandomHeatMapper", "classrapid_1_1perception_1_1RandomHeatMapper.html", null ]
     ] ],

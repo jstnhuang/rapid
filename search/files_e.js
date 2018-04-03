@@ -4,6 +4,7 @@ var searchData=
   ['pcl_5fconversions_2eh',['pcl_conversions.h',['../pcl__conversions_8h.html',1,'']]],
   ['pcl_5ftypedefs_2eh',['pcl_typedefs.h',['../pcl__typedefs_8h.html',1,'']]],
   ['point_5fcloud_2eh',['point_cloud.h',['../point__cloud_8h.html',1,'']]],
+  ['point_5fcloud_5fcamera_2eh',['point_cloud_camera.h',['../point__cloud__camera_8h.html',1,'']]],
   ['pose_5festimation_2eh',['pose_estimation.h',['../pose__estimation_8h.html',1,'']]],
   ['pose_5festimation_5fheat_5fmapper_2eh',['pose_estimation_heat_mapper.h',['../pose__estimation__heat__mapper_8h.html',1,'']]],
   ['pose_5festimation_5finterface_2eh',['pose_estimation_interface.h',['../pose__estimation__interface_8h.html',1,'']]],

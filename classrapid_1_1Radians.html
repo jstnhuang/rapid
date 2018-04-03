@@ -113,6 +113,9 @@ $(document).ready(function(){initNavTree('classrapid_1_1Radians.html','');});
 </div><!--header-->
 <div class="contents">
 
+<p>Type for angles measured in radians.  
+ <a href="classrapid_1_1Radians.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="deg__rad_8h_source.html">deg_rad.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -127,8 +130,11 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:acbeccd797aeff57c2d631fed69d50fbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="deg__rad_8h_source.html#l00037">37</a> of file <a class="el" href="deg__rad_8h_source.html">deg_rad.h</a>.</p>
+<div class="textblock"><p>Type for angles measured in radians. </p>
+<p>Allows algorithms to explicitly document what units it expects for angle inputs.</p>
+<p><a class="el" href="classrapid_1_1Degrees.html" title="Type for angles measured in degrees. ">Degrees</a> can be implicitly converted to <a class="el" href="classrapid_1_1Radians.html" title="Type for angles measured in radians. ">Radians</a>. </p>
+
+<p>Definition at line <a class="el" href="deg__rad_8h_source.html#l00043">43</a> of file <a class="el" href="deg__rad_8h_source.html">deg_rad.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a7b5f037586adee84b04df76eb24bb2fa"></a>
 <div class="memitem">
@@ -177,7 +183,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implicit converting constructor from degrees to radians. </p>
-<p>This allows algorithms that expect <a class="el" href="classrapid_1_1Radians.html">Radians</a> to also accept <a class="el" href="classrapid_1_1Degrees.html" title="Type for angles measured in degrees. ">Degrees</a> without developers having to explicitly do the conversion. For example, if PanTilt expects arguments as <a class="el" href="classrapid_1_1Radians.html">Radians</a>, both of these are correct: </p>
+<p>This allows algorithms that expect <a class="el" href="classrapid_1_1Radians.html" title="Type for angles measured in radians. ">Radians</a> to also accept <a class="el" href="classrapid_1_1Degrees.html" title="Type for angles measured in degrees. ">Degrees</a> without developers having to explicitly do the conversion. For example, if PanTilt expects arguments as <a class="el" href="classrapid_1_1Radians.html" title="Type for angles measured in radians. ">Radians</a>, both of these are correct: </p>
 <div class="fragment"><div class="line">PanTilt(<a class="code" href="classrapid_1_1Radians.html">rapid::Radians</a>(0.707), <a class="code" href="classrapid_1_1Radians.html">rapid::Radians</a>(0.5));</div>
 <div class="line">PanTilt(<a class="code" href="classrapid_1_1Degrees.html">rapid::Degrees</a>(45), <a class="code" href="classrapid_1_1Degrees.html">rapid::Degrees</a>(30));</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
@@ -215,7 +221,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="classrapid_1_1Radians.html">Radians</a></li>
-    <li class="footer">Generated on Tue Apr 3 2018 02:18:19 for rapid by
+    <li class="footer">Generated on Tue Apr 3 2018 03:47:08 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

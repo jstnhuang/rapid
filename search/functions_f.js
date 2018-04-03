@@ -5,6 +5,7 @@ var searchData=
   ['randomheatmapper',['RandomHeatMapper',['../classrapid_1_1perception_1_1RandomHeatMapper.html#addaa56e37185c835bc88cbed104dbcc6',1,'rapid::perception::RandomHeatMapper']]],
   ['randomnumber',['RandomNumber',['../classrapid_1_1utils_1_1RandomNumber.html#abbea75b892a34b233af9dead1b047660',1,'rapid::utils::RandomNumber']]],
   ['readmeanfile',['ReadMeanFile',['../namespacerapid_1_1perception.html#a0955486ab771fb2fc78e0c30b3028214',1,'rapid::perception']]],
+  ['recordedpointcloudcamera',['RecordedPointCloudCamera',['../classrapid_1_1RecordedPointCloudCamera.html#a4a06734c33bd6e9ea3444bf640ea9d40',1,'rapid::RecordedPointCloudCamera']]],
   ['right',['Right',['../classrapid_1_1pr2_1_1Gripper.html#a2698186f462cea960b237bf05154dd56',1,'rapid::pr2::Gripper']]],
   ['right_5farm',['right_arm',['../classrapid_1_1pr2_1_1Pr2.html#aa08dd6a423b1b110ea9ed812dfdbfff3',1,'rapid::pr2::Pr2']]],
   ['right_5farm_5fjoint_5fnames',['right_arm_joint_names',['../namespacerapid_1_1pr2.html#ac56e3b983ff554710bb3ebebea368358',1,'rapid::pr2']]],
