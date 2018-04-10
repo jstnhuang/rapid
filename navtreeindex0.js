@@ -65,10 +65,9 @@ var NAVTREEINDEX0 =
 "classrapid_1_1PointCloudCamera.html#a922f533e7e81acd8fec3814079f417a9":[9,0,0,10,0],
 "classrapid_1_1PointCloudCamera.html#ab9d777ca33a19a45c6df571e584be612":[9,0,0,10,2],
 "classrapid_1_1PointCloudCameraInterface.html":[9,0,0,8],
-"classrapid_1_1PointCloudCameraInterface.html#a105ad24106c21cf346e3fde3db64b647":[9,0,0,8,1],
-"classrapid_1_1PointCloudCameraInterface.html#a168fa6abeb55036a99b699549c1a40cd":[9,0,0,8,0],
-"classrapid_1_1PointCloudCameraInterface.html#a550c2caa3f9df23d2e38d51a342f6035":[9,0,0,8,2],
-"classrapid_1_1PointCloudCameraInterface.html#adca955560522eedd68fa8da8a9425ccd":[9,0,0,8,3],
+"classrapid_1_1PointCloudCameraInterface.html#a105ad24106c21cf346e3fde3db64b647":[9,0,0,8,0],
+"classrapid_1_1PointCloudCameraInterface.html#a10ab465fe6fe1ba76741583d1e168551":[9,0,0,8,1],
+"classrapid_1_1PointCloudCameraInterface.html#a83a67aac13a0955c7bc939912d6ee4fb":[9,0,0,8,2],
 "classrapid_1_1Radians.html":[9,0,0,14],
 "classrapid_1_1Radians.html#a0b96620835fb7ba736a0536cffc53a2a":[9,0,0,14,1],
 "classrapid_1_1Radians.html#a7b5f037586adee84b04df76eb24bb2fa":[9,0,0,14,0],
@@ -249,5 +248,6 @@ var NAVTREEINDEX0 =
 "classrapid_1_1perception_1_1PoseEstimationInterface.html#a8a87b7357775ae618189e67261feee6a":[9,0,0,3,7,2],
 "classrapid_1_1perception_1_1PoseEstimationInterface.html#afd803be83842ef5d9cf65ad246b57152":[9,0,0,3,7,1],
 "classrapid_1_1perception_1_1PoseEstimationMatch.html":[9,0,0,3,8],
-"classrapid_1_1perception_1_1PoseEstimationMatch.html#a005ccdc1da57a29c3c8ed55f7ac26109":[9,0,0,3,8,6]
+"classrapid_1_1perception_1_1PoseEstimationMatch.html#a005ccdc1da57a29c3c8ed55f7ac26109":[9,0,0,3,8,6],
+"classrapid_1_1perception_1_1PoseEstimationMatch.html#a31988dbda6dc08ad46502d2d173f0fa5":[9,0,0,3,8,0]
 };
