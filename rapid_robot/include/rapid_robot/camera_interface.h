@@ -9,17 +9,16 @@ namespace rapid {
 /// \brief Interface for a camera that outputs point clouds.
 class PointCloudCameraInterface {
  public:
-  PointCloudCameraInterface();
   virtual ~PointCloudCameraInterface() {}
 
   /// \brief Returns the most recent point cloud from the camera.
   /// \returns Returns the most recent point cloud from the camera.
-  virtual pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud() const;
+  virtual pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud() const = 0;
 
   /// \brief Returns the camera pose relative to the base frame.
   /// \returns The transform describing the camera frame with respect to the
   ///   base frame.
-  virtual geometry_msgs::TransformStamped camera_pose() const;
+  virtual geometry_msgs::TransformStamped camera_pose() const = 0;
 };
 }  // namespace rapid
 
