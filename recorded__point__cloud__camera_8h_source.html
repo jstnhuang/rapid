@@ -118,11 +118,11 @@ $(document).ready(function(){initNavTree('recorded__point__cloud__camera_8h_sour
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <a class="code" href="classrapid_1_1RecordedPointCloudCamera.html#a4a06734c33bd6e9ea3444bf640ea9d40">RecordedPointCloudCamera</a>();</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classrapid_1_1RecordedPointCloudCamera.html#a5a8fe4e2c9fb9e7d77f1188ab59be4b7">LoadBag</a>(<span class="keyword">const</span> std::string&amp; path);</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  sensor_msgs::PointCloud2ConstPtr <a class="code" href="classrapid_1_1RecordedPointCloudCamera.html#ac1570d700e57fae34ce3ba8e8887878a">cloud</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr <a class="code" href="classrapid_1_1RecordedPointCloudCamera.html#ae7dc31e1ff6ad178b2e38584f54a3c04">cloud</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  geometry_msgs::TransformStamped <a class="code" href="classrapid_1_1RecordedPointCloudCamera.html#a80bdf0e09a3cd87177d27ad3731e343d">camera_pose</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  sensor_msgs::PointCloud2ConstPtr cloud_;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr cloud_;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  geometry_msgs::TransformStamped camera_pose_;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;};</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}  <span class="comment">// namespace rapid</span></div>
@@ -130,9 +130,9 @@ $(document).ready(function(){initNavTree('recorded__point__cloud__camera_8h_sour
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif  // _RAPID_ROBOT_RECORDED_POINT_CLOUD_CAMERA_H_</span></div>
 <div class="ttc" id="classrapid_1_1RecordedPointCloudCamera_html_a4a06734c33bd6e9ea3444bf640ea9d40"><div class="ttname"><a href="classrapid_1_1RecordedPointCloudCamera.html#a4a06734c33bd6e9ea3444bf640ea9d40">rapid::RecordedPointCloudCamera::RecordedPointCloudCamera</a></div><div class="ttdeci">RecordedPointCloudCamera()</div></div>
 <div class="ttc" id="camera__interface_8h_html"><div class="ttname"><a href="camera__interface_8h.html">camera_interface.h</a></div></div>
+<div class="ttc" id="classrapid_1_1RecordedPointCloudCamera_html_ae7dc31e1ff6ad178b2e38584f54a3c04"><div class="ttname"><a href="classrapid_1_1RecordedPointCloudCamera.html#ae7dc31e1ff6ad178b2e38584f54a3c04">rapid::RecordedPointCloudCamera::cloud</a></div><div class="ttdeci">pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr cloud() const </div><div class="ttdoc">Returns the most recent point cloud from the camera. </div></div>
 <div class="ttc" id="classrapid_1_1RecordedPointCloudCamera_html_a80bdf0e09a3cd87177d27ad3731e343d"><div class="ttname"><a href="classrapid_1_1RecordedPointCloudCamera.html#a80bdf0e09a3cd87177d27ad3731e343d">rapid::RecordedPointCloudCamera::camera_pose</a></div><div class="ttdeci">geometry_msgs::TransformStamped camera_pose() const </div><div class="ttdoc">Returns the camera pose relative to the base frame. </div></div>
-<div class="ttc" id="classrapid_1_1RecordedPointCloudCamera_html_ac1570d700e57fae34ce3ba8e8887878a"><div class="ttname"><a href="classrapid_1_1RecordedPointCloudCamera.html#ac1570d700e57fae34ce3ba8e8887878a">rapid::RecordedPointCloudCamera::cloud</a></div><div class="ttdeci">sensor_msgs::PointCloud2ConstPtr cloud() const </div><div class="ttdoc">Returns the most recent point cloud from the camera. </div></div>
-<div class="ttc" id="classrapid_1_1PointCloudCameraInterface_html"><div class="ttname"><a href="classrapid_1_1PointCloudCameraInterface.html">rapid::PointCloudCameraInterface</a></div><div class="ttdoc">Interface for a camera that outputs point clouds. </div><div class="ttdef"><b>Definition:</b> <a href="camera__interface_8h_source.html#l00009">camera_interface.h:9</a></div></div>
+<div class="ttc" id="classrapid_1_1PointCloudCameraInterface_html"><div class="ttname"><a href="classrapid_1_1PointCloudCameraInterface.html">rapid::PointCloudCameraInterface</a></div><div class="ttdoc">Interface for a camera that outputs point clouds. </div><div class="ttdef"><b>Definition:</b> <a href="camera__interface_8h_source.html#l00010">camera_interface.h:10</a></div></div>
 <div class="ttc" id="classrapid_1_1RecordedPointCloudCamera_html"><div class="ttname"><a href="classrapid_1_1RecordedPointCloudCamera.html">rapid::RecordedPointCloudCamera</a></div><div class="ttdoc">A simulated camera that loads data from a bag file. </div><div class="ttdef"><b>Definition:</b> <a href="recorded__point__cloud__camera_8h_source.html#l00024">recorded_point_cloud_camera.h:24</a></div></div>
 <div class="ttc" id="classrapid_1_1RecordedPointCloudCamera_html_a5a8fe4e2c9fb9e7d77f1188ab59be4b7"><div class="ttname"><a href="classrapid_1_1RecordedPointCloudCamera.html#a5a8fe4e2c9fb9e7d77f1188ab59be4b7">rapid::RecordedPointCloudCamera::LoadBag</a></div><div class="ttdeci">void LoadBag(const std::string &amp;path)</div><div class="ttdoc">Loads a bag file saved by rapid_perception&#39;s save_cloud. </div></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -141,7 +141,7 @@ $(document).ready(function(){initNavTree('recorded__point__cloud__camera_8h_sour
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_f324de2af42ba817ab68f04a4f36cd54.html">rapid_robot</a></li><li class="navelem"><a class="el" href="dir_338a745fe7e478a7a067b34809b923e8.html">include</a></li><li class="navelem"><a class="el" href="dir_d3f474632b8ae467646a5c1e282caaa8.html">rapid_robot</a></li><li class="navelem"><a class="el" href="recorded__point__cloud__camera_8h.html">recorded_point_cloud_camera.h</a></li>
-    <li class="footer">Generated on Thu Apr 12 2018 01:42:50 for rapid by
+    <li class="footer">Generated on Thu Apr 12 2018 03:01:38 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
