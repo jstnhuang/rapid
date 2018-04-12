@@ -6,6 +6,7 @@ project(rapid_perception)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   cmake_modules
+  eigen_conversions
   geometry_msgs
   image_geometry
   interactive_markers
@@ -96,6 +97,7 @@ catkin_package(
   LIBRARIES
     ${MY_RAPID_PERCEPTION_EXPORTED_LIBRARIES}
   CATKIN_DEPENDS
+    eigen_conversions
     geometry_msgs
     interactive_markers
     pcl_conversions
@@ -314,6 +316,14 @@ add_dependencies(rapid_perception_rgbd
   ${catkin_EXPORTED_TARGETS}
 )
 target_link_libraries(rapid_perception_rgbd
+  ${PCL_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
+
+add_executable(rapid_perception_publish_saved_cloud_main src/publish_saved_cloud_main.cpp)
+set_target_properties(rapid_perception_publish_saved_cloud_main PROPERTIES OUTPUT_NAME publish_saved_cloud PREFIX "")
+add_dependencies(rapid_perception_publish_saved_cloud_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_perception_publish_saved_cloud_main
   ${PCL_LIBRARIES}
   ${catkin_LIBRARIES}
 )
