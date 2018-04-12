@@ -179,6 +179,18 @@ Functions</h2></td></tr>
 <tr class="memitem:abaf7a3f6a7b2e4f40d2a226064995900"><td class="memItemLeft" align="right" valign="top">fcl::OBB&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerapid.html#abaf7a3f6a7b2e4f40d2a226064995900">BoxToOBB</a> (const geometry_msgs::Pose &amp;pose, const geometry_msgs::Vector3 &amp;scale)</td></tr>
 <tr class="memdesc:abaf7a3f6a7b2e4f40d2a226064995900"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an fcl::OBB from a Pose and Vector3 message.  <a href="#abaf7a3f6a7b2e4f40d2a226064995900">More...</a><br/></td></tr>
 <tr class="separator:abaf7a3f6a7b2e4f40d2a226064995900"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42ec92941ccc9aeb2829bfd06209c379"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerapid.html#a42ec92941ccc9aeb2829bfd06209c379">IsSuccess</a> (const moveit::planning_interface::MoveItErrorCode &amp;error_code)</td></tr>
+<tr class="memdesc:a42ec92941ccc9aeb2829bfd06209c379"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the error code corresponds to success.  <a href="#a42ec92941ccc9aeb2829bfd06209c379">More...</a><br/></td></tr>
+<tr class="separator:a42ec92941ccc9aeb2829bfd06209c379"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed39d14bb03dd09665d791f82780e106"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerapid.html#aed39d14bb03dd09665d791f82780e106">IsSuccess</a> (const moveit_msgs::MoveItErrorCodes &amp;error_code)</td></tr>
+<tr class="memdesc:aed39d14bb03dd09665d791f82780e106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the error code corresponds to success.  <a href="#aed39d14bb03dd09665d791f82780e106">More...</a><br/></td></tr>
+<tr class="separator:aed39d14bb03dd09665d791f82780e106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad24104415e58518c4e4b0290253fe9f2"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerapid.html#ad24104415e58518c4e4b0290253fe9f2">ErrorString</a> (const moveit::planning_interface::MoveItErrorCode &amp;error_code)</td></tr>
+<tr class="memdesc:ad24104415e58518c4e4b0290253fe9f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string describing the given MoveIt error code.  <a href="#ad24104415e58518c4e4b0290253fe9f2">More...</a><br/></td></tr>
+<tr class="separator:ad24104415e58518c4e4b0290253fe9f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87dedb4c256584d16a6910fb5fbf8e20"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerapid.html#a87dedb4c256584d16a6910fb5fbf8e20">ErrorString</a> (const moveit_msgs::MoveItErrorCodes &amp;error_code)</td></tr>
+<tr class="memdesc:a87dedb4c256584d16a6910fb5fbf8e20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string describing the given MoveIt error code.  <a href="#a87dedb4c256584d16a6910fb5fbf8e20">More...</a><br/></td></tr>
+<tr class="separator:a87dedb4c256584d16a6910fb5fbf8e20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9689007843a29cb7d33d98ec1855a97"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerapid.html#ac9689007843a29cb7d33d98ec1855a97">GetStringParamOrThrow</a> (const std::string &amp;name)</td></tr>
 <tr class="memdesc:ac9689007843a29cb7d33d98ec1855a97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a string from the parameter server.  <a href="#ac9689007843a29cb7d33d98ec1855a97">More...</a><br/></td></tr>
 <tr class="separator:ac9689007843a29cb7d33d98ec1855a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -449,6 +461,56 @@ template&lt;typename T &gt; </div>
 <p>Returns an fcl::OBB from a Pose and Vector3 message. </p>
 <dl class="section note"><dt>Note</dt><dd>The OBB documentation says that the X axis of the rotation matrix "is assumed" to point in the direction of the longest dimension (and Z points towards the shortest). This function does not do so, but collision checking still seems to work.</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The fcl::OBB </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad24104415e58518c4e4b0290253fe9f2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string rapid::ErrorString </td>
+          <td>(</td>
+          <td class="paramtype">const moveit::planning_interface::MoveItErrorCode &amp;&#160;</td>
+          <td class="paramname"><em>error_code</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a string describing the given MoveIt error code. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">error_code</td><td>The MoveItErrorCode </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A string corresponding to the name of the code in moveit_msgs::MoveItErrorCodes. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a87dedb4c256584d16a6910fb5fbf8e20"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string rapid::ErrorString </td>
+          <td>(</td>
+          <td class="paramtype">const moveit_msgs::MoveItErrorCodes &amp;&#160;</td>
+          <td class="paramname"><em>error_code</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a string describing the given MoveIt error code. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">error_code</td><td>The MoveItErrorCode </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A string corresponding to the name of the code in moveit_msgs::MoveItErrorCodes. </dd></dl>
 
 </div>
 </div>
@@ -1324,6 +1386,66 @@ template&lt;&gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a42ec92941ccc9aeb2829bfd06209c379"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rapid::IsSuccess </td>
+          <td>(</td>
+          <td class="paramtype">const moveit::planning_interface::MoveItErrorCode &amp;&#160;</td>
+          <td class="paramname"><em>error_code</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns true if the error code corresponds to success. </p>
+<p>You can already use a MoveItErrorCode as a bool, but it can lead to unintuitive code (true is success).</p>
+<div class="fragment"><div class="line">MoveItErrorCode error = group.plan(...);</div>
+<div class="line"><span class="keywordflow">if</span> (error) {</div>
+<div class="line">  <span class="comment">// This actually corresponds to success!</span></div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Instead: </p>
+<div class="fragment"><div class="line">MoveItErrorCode error = group.plan(...);</div>
+<div class="line"><span class="keywordflow">if</span> (<a class="code" href="namespacerapid.html#a42ec92941ccc9aeb2829bfd06209c379">rapid::IsSuccess</a>(error)) {</div>
+<div class="line">  <span class="comment">// More intuitive</span></div>
+<div class="line">}</div>
+</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">error_code</td><td>The MoveItErrorCode </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the error code is success, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aed39d14bb03dd09665d791f82780e106"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rapid::IsSuccess </td>
+          <td>(</td>
+          <td class="paramtype">const moveit_msgs::MoveItErrorCodes &amp;&#160;</td>
+          <td class="paramname"><em>error_code</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns true if the error code corresponds to success. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">error_code</td><td>The MoveItErrorCode </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the error code is success, false otherwise. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a5f52c0302d9f25485b4e2e94e1a41fc6"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1369,7 +1491,7 @@ template&lt;&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li>
-    <li class="footer">Generated on Thu Apr 12 2018 22:37:58 for rapid by
+    <li class="footer">Generated on Thu Apr 12 2018 23:44:00 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
