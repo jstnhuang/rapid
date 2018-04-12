@@ -27,8 +27,6 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr PointCloudCamera::cloud() const {
                start.toSec(), ros_cloud->header.stamp.toSec());
       camera_frame_id_ = ros_cloud->header.frame_id;
     } else {
-      pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(
-          new pcl::PointCloud<pcl::PointXYZRGB>);
       pcl::fromROSMsg(*ros_cloud, *cloud);
       camera_frame_id_ = ros_cloud->header.frame_id;
       break;
