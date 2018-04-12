@@ -111,32 +111,31 @@ $(document).ready(function(){initNavTree('camera__interface_8h_source.html','');
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _RAPID_ROBOT_CAMERA_INTERFACE_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;geometry_msgs/TransformStamped.h&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;pcl/point_cloud.h&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;pcl/point_types.h&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>rapid {</div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classrapid_1_1PointCloudCameraInterface.html">   10</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid_1_1PointCloudCameraInterface.html">PointCloudCameraInterface</a> {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classrapid_1_1PointCloudCameraInterface.html#a105ad24106c21cf346e3fde3db64b647">   12</a></span>&#160;  <span class="keyword">virtual</span> <a class="code" href="classrapid_1_1PointCloudCameraInterface.html#a105ad24106c21cf346e3fde3db64b647">~PointCloudCameraInterface</a>() {}</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  <span class="keyword">virtual</span> pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr <a class="code" href="classrapid_1_1PointCloudCameraInterface.html#a83a67aac13a0955c7bc939912d6ee4fb">cloud</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keyword">virtual</span> geometry_msgs::TransformStamped <a class="code" href="classrapid_1_1PointCloudCameraInterface.html#a10ab465fe6fe1ba76741583d1e168551">camera_pose</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;};</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;}  <span class="comment">// namespace rapid</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#endif  // _RAPID_ROBOT_CAMERA_INTERFACE_H_</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;sensor_msgs/PointCloud2.h&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>rapid {</div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="classrapid_1_1PointCloudCameraInterface.html">    9</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapid_1_1PointCloudCameraInterface.html">PointCloudCameraInterface</a> {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classrapid_1_1PointCloudCameraInterface.html#a105ad24106c21cf346e3fde3db64b647">   11</a></span>&#160;  <span class="keyword">virtual</span> <a class="code" href="classrapid_1_1PointCloudCameraInterface.html#a105ad24106c21cf346e3fde3db64b647">~PointCloudCameraInterface</a>() {}</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  <span class="keyword">virtual</span> sensor_msgs::PointCloud2ConstPtr <a class="code" href="classrapid_1_1PointCloudCameraInterface.html#a8ac9aff70aedc1345c01ae9b10614eae">cloud</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keyword">virtual</span> geometry_msgs::TransformStamped <a class="code" href="classrapid_1_1PointCloudCameraInterface.html#a10ab465fe6fe1ba76741583d1e168551">camera_pose</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;};</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;}  <span class="comment">// namespace rapid</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#endif  // _RAPID_ROBOT_CAMERA_INTERFACE_H_</span></div>
 <div class="ttc" id="classrapid_1_1PointCloudCameraInterface_html_a10ab465fe6fe1ba76741583d1e168551"><div class="ttname"><a href="classrapid_1_1PointCloudCameraInterface.html#a10ab465fe6fe1ba76741583d1e168551">rapid::PointCloudCameraInterface::camera_pose</a></div><div class="ttdeci">virtual geometry_msgs::TransformStamped camera_pose() const =0</div><div class="ttdoc">Returns the camera pose relative to the base frame. </div></div>
-<div class="ttc" id="classrapid_1_1PointCloudCameraInterface_html"><div class="ttname"><a href="classrapid_1_1PointCloudCameraInterface.html">rapid::PointCloudCameraInterface</a></div><div class="ttdoc">Interface for a camera that outputs point clouds. </div><div class="ttdef"><b>Definition:</b> <a href="camera__interface_8h_source.html#l00010">camera_interface.h:10</a></div></div>
-<div class="ttc" id="classrapid_1_1PointCloudCameraInterface_html_a105ad24106c21cf346e3fde3db64b647"><div class="ttname"><a href="classrapid_1_1PointCloudCameraInterface.html#a105ad24106c21cf346e3fde3db64b647">rapid::PointCloudCameraInterface::~PointCloudCameraInterface</a></div><div class="ttdeci">virtual ~PointCloudCameraInterface()</div><div class="ttdef"><b>Definition:</b> <a href="camera__interface_8h_source.html#l00012">camera_interface.h:12</a></div></div>
-<div class="ttc" id="classrapid_1_1PointCloudCameraInterface_html_a83a67aac13a0955c7bc939912d6ee4fb"><div class="ttname"><a href="classrapid_1_1PointCloudCameraInterface.html#a83a67aac13a0955c7bc939912d6ee4fb">rapid::PointCloudCameraInterface::cloud</a></div><div class="ttdeci">virtual pcl::PointCloud&lt; pcl::PointXYZRGB &gt;::Ptr cloud() const =0</div><div class="ttdoc">Returns the most recent point cloud from the camera. </div></div>
+<div class="ttc" id="classrapid_1_1PointCloudCameraInterface_html_a8ac9aff70aedc1345c01ae9b10614eae"><div class="ttname"><a href="classrapid_1_1PointCloudCameraInterface.html#a8ac9aff70aedc1345c01ae9b10614eae">rapid::PointCloudCameraInterface::cloud</a></div><div class="ttdeci">virtual sensor_msgs::PointCloud2ConstPtr cloud() const =0</div><div class="ttdoc">Returns the most recent point cloud from the camera. </div></div>
+<div class="ttc" id="classrapid_1_1PointCloudCameraInterface_html"><div class="ttname"><a href="classrapid_1_1PointCloudCameraInterface.html">rapid::PointCloudCameraInterface</a></div><div class="ttdoc">Interface for a camera that outputs point clouds. </div><div class="ttdef"><b>Definition:</b> <a href="camera__interface_8h_source.html#l00009">camera_interface.h:9</a></div></div>
+<div class="ttc" id="classrapid_1_1PointCloudCameraInterface_html_a105ad24106c21cf346e3fde3db64b647"><div class="ttname"><a href="classrapid_1_1PointCloudCameraInterface.html#a105ad24106c21cf346e3fde3db64b647">rapid::PointCloudCameraInterface::~PointCloudCameraInterface</a></div><div class="ttdeci">virtual ~PointCloudCameraInterface()</div><div class="ttdef"><b>Definition:</b> <a href="camera__interface_8h_source.html#l00011">camera_interface.h:11</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_f324de2af42ba817ab68f04a4f36cd54.html">rapid_robot</a></li><li class="navelem"><a class="el" href="dir_338a745fe7e478a7a067b34809b923e8.html">include</a></li><li class="navelem"><a class="el" href="dir_d3f474632b8ae467646a5c1e282caaa8.html">rapid_robot</a></li><li class="navelem"><a class="el" href="camera__interface_8h.html">camera_interface.h</a></li>
-    <li class="footer">Generated on Tue Apr 10 2018 01:07:24 for rapid by
+    <li class="footer">Generated on Thu Apr 12 2018 01:42:50 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

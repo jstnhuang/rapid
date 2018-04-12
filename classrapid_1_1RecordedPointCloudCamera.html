@@ -134,10 +134,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5a8fe4e2c9fb9e7d77f1188ab59be4b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1RecordedPointCloudCamera.html#a5a8fe4e2c9fb9e7d77f1188ab59be4b7">LoadBag</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:a5a8fe4e2c9fb9e7d77f1188ab59be4b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads a bag file saved by rapid_perception's save_cloud.  <a href="#a5a8fe4e2c9fb9e7d77f1188ab59be4b7">More...</a><br/></td></tr>
 <tr class="separator:a5a8fe4e2c9fb9e7d77f1188ab59be4b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7dc31e1ff6ad178b2e38584f54a3c04"><td class="memItemLeft" align="right" valign="top">pcl::PointCloud<br class="typebreak"/>
-&lt; pcl::PointXYZRGB &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1RecordedPointCloudCamera.html#ae7dc31e1ff6ad178b2e38584f54a3c04">cloud</a> () const </td></tr>
-<tr class="memdesc:ae7dc31e1ff6ad178b2e38584f54a3c04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the most recent point cloud from the camera.  <a href="#ae7dc31e1ff6ad178b2e38584f54a3c04">More...</a><br/></td></tr>
-<tr class="separator:ae7dc31e1ff6ad178b2e38584f54a3c04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1570d700e57fae34ce3ba8e8887878a"><td class="memItemLeft" align="right" valign="top">sensor_msgs::PointCloud2ConstPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1RecordedPointCloudCamera.html#ac1570d700e57fae34ce3ba8e8887878a">cloud</a> () const </td></tr>
+<tr class="memdesc:ac1570d700e57fae34ce3ba8e8887878a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the most recent point cloud from the camera.  <a href="#ac1570d700e57fae34ce3ba8e8887878a">More...</a><br/></td></tr>
+<tr class="separator:ac1570d700e57fae34ce3ba8e8887878a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80bdf0e09a3cd87177d27ad3731e343d"><td class="memItemLeft" align="right" valign="top">geometry_msgs::TransformStamped&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapid_1_1RecordedPointCloudCamera.html#a80bdf0e09a3cd87177d27ad3731e343d">camera_pose</a> () const </td></tr>
 <tr class="memdesc:a80bdf0e09a3cd87177d27ad3731e343d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the camera pose relative to the base frame.  <a href="#a80bdf0e09a3cd87177d27ad3731e343d">More...</a><br/></td></tr>
 <tr class="separator:a80bdf0e09a3cd87177d27ad3731e343d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -207,7 +206,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae7dc31e1ff6ad178b2e38584f54a3c04"></a>
+<a class="anchor" id="ac1570d700e57fae34ce3ba8e8887878a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -215,7 +214,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">pcl::PointCloud&lt;pcl::PointXYZRGB&gt;::Ptr rapid::RecordedPointCloudCamera::cloud </td>
+          <td class="memname">sensor_msgs::PointCloud2ConstPtr rapid::RecordedPointCloudCamera::cloud </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -231,7 +230,7 @@ Public Member Functions</h2></td></tr>
 <p>Returns the most recent point cloud from the camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>Returns the most recent point cloud from the camera. </dd></dl>
 
-<p>Implements <a class="el" href="classrapid_1_1PointCloudCameraInterface.html#a83a67aac13a0955c7bc939912d6ee4fb">rapid::PointCloudCameraInterface</a>.</p>
+<p>Implements <a class="el" href="classrapid_1_1PointCloudCameraInterface.html#a8ac9aff70aedc1345c01ae9b10614eae">rapid::PointCloudCameraInterface</a>.</p>
 
 </div>
 </div>
@@ -250,7 +249,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Loads a bag file saved by rapid_perception's save_cloud. </p>
-<p>This method can be called multiple times. Whatever cloud was saved will be returned in the next call to <a class="el" href="classrapid_1_1RecordedPointCloudCamera.html#ae7dc31e1ff6ad178b2e38584f54a3c04" title="Returns the most recent point cloud from the camera. ">cloud()</a>, and the same with <a class="el" href="classrapid_1_1RecordedPointCloudCamera.html#a80bdf0e09a3cd87177d27ad3731e343d" title="Returns the camera pose relative to the base frame. ">camera_pose()</a>.</p>
+<p>This method can be called multiple times. Whatever cloud was saved will be returned in the next call to <a class="el" href="classrapid_1_1RecordedPointCloudCamera.html#ac1570d700e57fae34ce3ba8e8887878a" title="Returns the most recent point cloud from the camera. ">cloud()</a>, and the same with <a class="el" href="classrapid_1_1RecordedPointCloudCamera.html#a80bdf0e09a3cd87177d27ad3731e343d" title="Returns the camera pose relative to the base frame. ">camera_pose()</a>.</p>
 <p>If there is more than one message on either topic, only the first will be loaded.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -270,7 +269,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li><li class="navelem"><a class="el" href="classrapid_1_1RecordedPointCloudCamera.html">RecordedPointCloudCamera</a></li>
-    <li class="footer">Generated on Tue Apr 10 2018 01:07:24 for rapid by
+    <li class="footer">Generated on Thu Apr 12 2018 01:42:50 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
