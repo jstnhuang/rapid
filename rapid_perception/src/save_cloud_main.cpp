@@ -19,8 +19,8 @@ void PrintUsage() {
       << std::endl
       << "Also saves the transform to the base frame (Default: base_link)."
       << std::endl;
-  std::cout << "Usage: rosrun perception save_cloud NAME" << std::endl;
-  std::cout << "       rosrun perception save_cloud NAME BASE_FRAME"
+  std::cout << "Usage: rosrun rapid_perception save_cloud NAME" << std::endl;
+  std::cout << "       rosrun rapid_perception save_cloud NAME BASE_FRAME"
             << std::endl;
 }
 
