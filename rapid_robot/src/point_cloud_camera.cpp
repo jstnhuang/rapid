@@ -12,7 +12,7 @@ PointCloudCamera::PointCloudCamera(const std::string& topic,
       camera_frame_id_("") {}
 
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr PointCloudCamera::cloud() const {
-  const ros::Time now = ros::Time::now();
+  const ros::Time start = ros::Time::now();
 
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(
       new pcl::PointCloud<pcl::PointXYZRGB>);
@@ -22,9 +22,9 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr PointCloudCamera::cloud() const {
                                                              ros::Duration(5));
     if (!ros_cloud) {
       ROS_WARN("Waiting for point cloud on topic %s", topic_.c_str());
-    } else if (ros_cloud->header.stamp < now) {
+    } else if (ros_cloud->header.stamp < start) {
       ROS_WARN("Got old point cloud! Requested time: %f, actual: %f",
-               now.toSec(), ros_cloud->header.stamp.toSec());
+               start.toSec(), ros_cloud->header.stamp.toSec());
       camera_frame_id_ = ros_cloud->header.frame_id;
     } else {
       pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(

@@ -42,15 +42,15 @@ int main(int argc, char** argv) {
 
   // Read point cloud
   sensor_msgs::PointCloud2ConstPtr cloud_in;
-  const ros::Time now = ros::Time::now();
+  ros::Time start = ros::Time::now();
   while (ros::ok()) {
     cloud_in =
         ros::topic::waitForMessage<sensor_msgs::PointCloud2>(resolved_topic);
-    if (cloud_in->header.stamp >= now) {
+    if (cloud_in->header.stamp.toSec() >= start.toSec()) {
       break;
     } else {
       ROS_WARN_THROTTLE(1, "Got old point cloud at time %f, waiting for %f",
-                        cloud_in->header.stamp.toSec(), now.toSec());
+                        cloud_in->header.stamp.toSec(), start.toSec());
     }
   }
 
