@@ -271,6 +271,9 @@ std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 <tr class="memitem:a614d3f109ab7525c68847a124589f9c6"><td class="memTemplItemLeft" align="right" valign="top">Eigen::Vector3d&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacerapid.html#a614d3f109ab7525c68847a124589f9c6">AsVector3d</a> (const T &amp;value)</td></tr>
 <tr class="memdesc:a614d3f109ab7525c68847a124589f9c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to get the XYZ value from common ROS types.  <a href="#a614d3f109ab7525c68847a124589f9c6">More...</a><br/></td></tr>
 <tr class="separator:a614d3f109ab7525c68847a124589f9c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3ac4b827c6e5292a6126474ccfe2a56"><td class="memItemLeft" align="right" valign="top">visualization_msgs::MarkerArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerapid.html#aa3ac4b827c6e5292a6126474ccfe2a56">AxesMarkerArray</a> (const std::string &amp;ns, const std::string &amp;frame_id, const geometry_msgs::Pose &amp;pose, double scale)</td></tr>
+<tr class="memdesc:aa3ac4b827c6e5292a6126474ccfe2a56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates an x/y/z axis marker given a pose.  <a href="#aa3ac4b827c6e5292a6126474ccfe2a56">More...</a><br/></td></tr>
+<tr class="separator:aa3ac4b827c6e5292a6126474ccfe2a56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb9e1d9488689a4ae82fff4cdf4ed905"><td class="memItemLeft" align="right" valign="top">std::vector<br class="typebreak"/>
 &lt; visualization_msgs::InteractiveMarkerControl &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerapid.html#adb9e1d9488689a4ae82fff4cdf4ed905">FixedOrientationSixDofControls</a> ()</td></tr>
 <tr class="memdesc:adb9e1d9488689a4ae82fff4cdf4ed905"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates 6 DOF controls with fixed orientations.  <a href="#adb9e1d9488689a4ae82fff4cdf4ed905">More...</a><br/></td></tr>
@@ -431,6 +434,61 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>An Eigen::Vector3d. </dd></dl>
 
 <p>Definition at line <a class="el" href="vector3_8hpp_source.html#l00079">79</a> of file <a class="el" href="vector3_8hpp_source.html">vector3.hpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa3ac4b827c6e5292a6126474ccfe2a56"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">visualization_msgs::MarkerArray rapid::AxesMarkerArray </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>ns</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>frame_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const geometry_msgs::Pose &amp;&#160;</td>
+          <td class="paramname"><em>pose</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>scale</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Generates an x/y/z axis marker given a pose. </p>
+<p>The x-axis is red, y is green, z is blue.</p>
+<p><b>Example</b> usage: </p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="axes__markers_8h.html">rapid_viz/axes_markers.h</a>&quot;</span></div>
+<div class="line">visualization_msgs::MarkerArray axes_markers =</div>
+<div class="line">  rapid::AxesMarkers(<span class="stringliteral">&quot;markers&quot;</span>, <span class="stringliteral">&quot;base_link&quot;</span>, pose, 0.1);</div>
+</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">ns</td><td>The namespace for the markers. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">frame_id</td><td>The frame_id of the pose to visualize. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pose</td><td>The pose to visualize. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">scale</td><td>The length of each colored cylinder bar. The cylinder diameters are 10% of scale.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The axes markers. </dd></dl>
 
 </div>
 </div>
@@ -1491,7 +1549,7 @@ template&lt;&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacerapid.html">rapid</a></li>
-    <li class="footer">Generated on Thu Apr 12 2018 23:44:00 for rapid by
+    <li class="footer">Generated on Wed Apr 25 2018 04:06:45 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

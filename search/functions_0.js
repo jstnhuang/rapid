@@ -8,5 +8,6 @@ var searchData=
   ['areobbsincollision',['AreObbsInCollision',['../namespacerapid.html#ae58e3145f5ef737bfb2f30dab961df31',1,'rapid']]],
   ['argmax',['Argmax',['../namespacerapid_1_1perception.html#adc53dcb55d3f161f241d4934ad279b25',1,'rapid::perception']]],
   ['asvector3d',['AsVector3d',['../namespacerapid.html#a614d3f109ab7525c68847a124589f9c6',1,'rapid']]],
-  ['average',['Average',['../namespacerapid_1_1perception.html#ab2708cb90f657e8aa62fe38a9d47a0b4',1,'rapid::perception']]]
+  ['average',['Average',['../namespacerapid_1_1perception.html#ab2708cb90f657e8aa62fe38a9d47a0b4',1,'rapid::perception']]],
+  ['axesmarkerarray',['AxesMarkerArray',['../namespacerapid.html#aa3ac4b827c6e5292a6126474ccfe2a56',1,'rapid']]]
 ];
