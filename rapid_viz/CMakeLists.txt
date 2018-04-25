@@ -5,6 +5,7 @@ project(rapid_viz)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  cmake_modules
   cv_bridge
   geometry_msgs
   interactive_markers
@@ -22,6 +23,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED)
+find_package(Eigen REQUIRED)
 find_package(PCL REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -113,6 +115,7 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES
     rapid_viz
+    rapid_viz_axes_markers
     rapid_viz_cloud_poser
     rapid_viz_drag_box_marker
     rapid_viz_point_cloud
@@ -134,7 +137,10 @@ catkin_package(
     tf
     transform_graph
     visualization_msgs
-#  DEPENDS system_lib
+  DEPENDS
+    Boost
+    Eigen
+    PCL
 )
 
 ###########
@@ -161,6 +167,10 @@ add_dependencies(rapid_viz
 target_link_libraries(rapid_viz
   ${catkin_LIBRARIES}
 )
+
+add_library(rapid_viz_axes_markers src/axes_markers.cpp)
+add_dependencies(rapid_viz_axes_markers ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_viz_axes_markers ${catkin_LIBRARIES})
 
 add_library(rapid_viz_point_cloud
   src/point_cloud.cpp
