@@ -122,6 +122,7 @@ catkin_package(
   LIBRARIES
     rapid_manipulation
     rapid_manipulation_moveit_error_code
+    rapid_manipulation_moveit_planning_scene
   CATKIN_DEPENDS
     actionlib
     geometry_msgs
@@ -171,6 +172,12 @@ target_link_libraries(rapid_manipulation
 )
 
 add_library(rapid_manipulation_moveit_error_code src/moveit_error_code.cpp)
+add_dependencies(rapid_manipulation ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rapid_manipulation
+  ${catkin_LIBRARIES}
+)
+
+add_library(rapid_manipulation_moveit_planning_scene src/moveit_planning_scene.cpp)
 add_dependencies(rapid_manipulation ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(rapid_manipulation
   ${catkin_LIBRARIES}
