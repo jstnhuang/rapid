@@ -12,5 +12,6 @@ var searchData=
   ['mocksound',['MockSound',['../classrapid_1_1sound_1_1MockSound.html',1,'rapid::sound']]],
   ['mocktflistener',['MockTfListener',['../classrapid__ros_1_1MockTfListener.html',1,'rapid_ros']]],
   ['mocktuckarms',['MockTuckArms',['../classrapid_1_1manipulation_1_1MockTuckArms.html',1,'rapid::manipulation']]],
-  ['moveitarm',['MoveItArm',['../classrapid_1_1manipulation_1_1MoveItArm.html',1,'rapid::manipulation']]]
+  ['moveitarm',['MoveItArm',['../classrapid_1_1manipulation_1_1MoveItArm.html',1,'rapid::manipulation']]],
+  ['moveitplanningscene',['MoveItPlanningScene',['../classrapid_1_1MoveItPlanningScene.html',1,'rapid']]]
 ];

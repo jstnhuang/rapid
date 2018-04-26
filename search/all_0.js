@@ -7,6 +7,7 @@ var searchData=
   ['actionclientinterface',['ActionClientInterface',['../classrapid__ros_1_1ActionClientInterface.html',1,'rapid_ros']]],
   ['actionclientinterface_3c_20pr2_5fcommon_5faction_5fmsgs_3a_3atuckarmsaction_20_3e',['ActionClientInterface&lt; pr2_common_action_msgs::TuckArmsAction &gt;',['../classrapid__ros_1_1ActionClientInterface.html',1,'rapid_ros']]],
   ['actionclientinterface_3c_20pr2_5fcontrollers_5fmsgs_3a_3apointheadaction_20_3e',['ActionClientInterface&lt; pr2_controllers_msgs::PointHeadAction &gt;',['../classrapid__ros_1_1ActionClientInterface.html',1,'rapid_ros']]],
+  ['addboxobstacle',['AddBoxObstacle',['../classrapid_1_1MoveItPlanningScene.html#a439ffe07db1972b667e9f74c2ba8d213',1,'rapid::MoveItPlanningScene']]],
   ['addcommand',['AddCommand',['../classrapid_1_1utils_1_1CommandLine.html#a2e2184350baab72e8e39b4c9e8da5a11',1,'rapid::utils::CommandLine']]],
   ['addobject',['AddObject',['../classrapid_1_1perception_1_1HSurface.html#a458d5eee73c049dab62a1c75bb70b88b',1,'rapid::perception::HSurface']]],
   ['alexnet',['AlexNet',['../classrapid_1_1perception_1_1ImageRecognizer.html#af4d8a3c33517344417d80a0bb7e776ac',1,'rapid::perception::ImageRecognizer']]],

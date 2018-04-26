@@ -8,6 +8,7 @@ var namespacerapid =
     [ "sound", "namespacerapid_1_1sound.html", "namespacerapid_1_1sound" ],
     [ "utils", "namespacerapid_1_1utils.html", "namespacerapid_1_1utils" ],
     [ "viz", "namespacerapid_1_1viz.html", "namespacerapid_1_1viz" ],
+    [ "MoveItPlanningScene", "classrapid_1_1MoveItPlanningScene.html", "classrapid_1_1MoveItPlanningScene" ],
     [ "PointCloudCameraInterface", "classrapid_1_1PointCloudCameraInterface.html", "classrapid_1_1PointCloudCameraInterface" ],
     [ "JointStateReader", "classrapid_1_1JointStateReader.html", "classrapid_1_1JointStateReader" ],
     [ "PointCloudCamera", "classrapid_1_1PointCloudCamera.html", "classrapid_1_1PointCloudCamera" ],

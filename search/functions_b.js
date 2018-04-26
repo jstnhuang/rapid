@@ -1,7 +1,7 @@
 var searchData=
 [
   ['makerelativepathsinflagsabsolute',['MakeRelativePathsInFlagsAbsolute',['../_8ycm__extra__conf_8py.html#aa17b17787ee25ee278fe0330e8245fb8',1,'.ycm_extra_conf.py']]],
-  ['marker',['marker',['../classrapid_1_1viz_1_1Marker.html#a0ed16d54fecf8ba3c05d127508a2a340',1,'rapid::viz::Marker::marker() const '],['../classrapid_1_1viz_1_1Marker.html#a69850ccdd8fade0052ee0091f3611dbd',1,'rapid::viz::Marker::Marker(const Marker &amp;rhs)']]],
+  ['marker',['Marker',['../classrapid_1_1viz_1_1Marker.html#a69850ccdd8fade0052ee0091f3611dbd',1,'rapid::viz::Marker::Marker(const Marker &amp;rhs)'],['../classrapid_1_1viz_1_1Marker.html#a0ed16d54fecf8ba3c05d127508a2a340',1,'rapid::viz::Marker::marker() const ']]],
   ['max_5fx',['max_x',['../classrapid_1_1DragBoxMarker.html#a0aa4e7aa23157ba26a62a996df1cfb73',1,'rapid::DragBoxMarker']]],
   ['max_5fy',['max_y',['../classrapid_1_1DragBoxMarker.html#a3040ab12a65f1cba7ab74c1cc585fd3e',1,'rapid::DragBoxMarker']]],
   ['max_5fz',['max_z',['../classrapid_1_1DragBoxMarker.html#ab531e80f3b290479aebb30a140217b69',1,'rapid::DragBoxMarker']]],
@@ -23,5 +23,6 @@ var searchData=
   ['mocksound',['MockSound',['../classrapid_1_1sound_1_1MockSound.html#a7d728cba1d50b99ea161fceb02820335',1,'rapid::sound::MockSound']]],
   ['mocktflistener',['MockTfListener',['../classrapid__ros_1_1MockTfListener.html#ad9b796c7cc58e284318757187f8d0663',1,'rapid_ros::MockTfListener']]],
   ['moveitarm',['MoveItArm',['../classrapid_1_1manipulation_1_1MoveItArm.html#ae5beaa85047ef0ec0a4f5d8b6a753aa3',1,'rapid::manipulation::MoveItArm::MoveItArm(boost::shared_ptr&lt; moveit::planning_interface::MoveGroup &gt; group)'],['../classrapid_1_1manipulation_1_1MoveItArm.html#aebbdb9d1c2300c48acd390fc691fd7ad',1,'rapid::manipulation::MoveItArm::MoveItArm(ArmId id)']]],
+  ['moveitplanningscene',['MoveItPlanningScene',['../classrapid_1_1MoveItPlanningScene.html#a088500c7d15f8846165bf60d4ba36f68',1,'rapid::MoveItPlanningScene::MoveItPlanningScene()'],['../classrapid_1_1MoveItPlanningScene.html#ab7d54e8536dea77e9824b900b61ab303',1,'rapid::MoveItPlanningScene::MoveItPlanningScene(const std::string &amp;topic)']]],
   ['movetoposegoal',['MoveToPoseGoal',['../classrapid_1_1manipulation_1_1ArmInterface.html#a36f71bde5577ba5b472d91043ff56364',1,'rapid::manipulation::ArmInterface::MoveToPoseGoal()'],['../classrapid_1_1manipulation_1_1MoveItArm.html#a2ac46ce48d531218b0ce6579757f4243',1,'rapid::manipulation::MoveItArm::MoveToPoseGoal()']]]
 ];

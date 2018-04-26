@@ -6,6 +6,7 @@ var searchData=
   ['randomnumber',['RandomNumber',['../classrapid_1_1utils_1_1RandomNumber.html#abbea75b892a34b233af9dead1b047660',1,'rapid::utils::RandomNumber']]],
   ['readmeanfile',['ReadMeanFile',['../namespacerapid_1_1perception.html#a0955486ab771fb2fc78e0c30b3028214',1,'rapid::perception']]],
   ['recordedpointcloudcamera',['RecordedPointCloudCamera',['../classrapid_1_1RecordedPointCloudCamera.html#a4a06734c33bd6e9ea3444bf640ea9d40',1,'rapid::RecordedPointCloudCamera']]],
+  ['removeobstacle',['RemoveObstacle',['../classrapid_1_1MoveItPlanningScene.html#ab668dd20c83670b81808ddeb67f0b653',1,'rapid::MoveItPlanningScene']]],
   ['right',['Right',['../classrapid_1_1pr2_1_1Gripper.html#a2698186f462cea960b237bf05154dd56',1,'rapid::pr2::Gripper']]],
   ['right_5farm',['right_arm',['../classrapid_1_1pr2_1_1Pr2.html#aa08dd6a423b1b110ea9ed812dfdbfff3',1,'rapid::pr2::Pr2']]],
   ['right_5farm_5fjoint_5fnames',['right_arm_joint_names',['../namespacerapid_1_1pr2.html#ac56e3b983ff554710bb3ebebea368358',1,'rapid::pr2']]],

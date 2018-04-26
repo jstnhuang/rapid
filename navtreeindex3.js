@@ -1,5 +1,12 @@
 var NAVTREEINDEX3 =
 {
+"pr2__gripper_8h_source.html":[11,0,11,0,0,6],
+"publish_8h.html":[11,0,11,0,0,7],
+"publish_8h.html#a0009d5dc4fff091e68a784f3ed1c4734":[11,0,11,0,0,7,2],
+"publish_8h.html#a00bea7ca2f322f7caf752c0c1b7ce6e7":[11,0,11,0,0,7,4],
+"publish_8h.html#a09031f72d99862ae2e106e8101e111df":[11,0,11,0,0,7,0],
+"publish_8h.html#a333c32dbe655e3c6eec67ef55574ae88":[11,0,11,0,0,7,1],
+"publish_8h.html#aaa52c46f4bb82765869024a07ef03a16":[11,0,11,0,0,7,3],
 "publish_8h_source.html":[11,0,11,0,0,7],
 "publisher_8h.html":[11,0,7,0,0,2],
 "publisher_8h_source.html":[11,0,7,0,0,2],
@@ -97,8 +104,8 @@ var NAVTREEINDEX3 =
 "torso_8h.html":[11,0,5,0,0,5],
 "torso_8h.html#ac527dc3ece24d813eea5b97610454448":[11,0,5,0,0,5,1],
 "torso_8h_source.html":[11,0,5,0,0,5],
-"tuck__arms_8h.html":[11,0,3,0,0,5],
-"tuck__arms_8h_source.html":[11,0,3,0,0,5],
+"tuck__arms_8h.html":[11,0,3,0,0,6],
+"tuck__arms_8h_source.html":[11,0,3,0,0,6],
 "vector3_8hpp.html":[11,0,10,0,0,9],
 "vector3_8hpp.html#a08e36d9ffcfff238571adc3101e23723":[11,0,10,0,0,9,4],
 "vector3_8hpp.html#a33b9b6290780f8df080d175838d5dee0":[11,0,10,0,0,9,5],

@@ -2,6 +2,7 @@ var searchData=
 [
   ['aabbxyintersect',['AabbXYIntersect',['../namespacerapid_1_1utils.html#ad0ef07088b702cc9fb49628b18cd1d14',1,'rapid::utils']]],
   ['actionclient',['ActionClient',['../classrapid__ros_1_1ActionClient.html#a2d314072257dc1fdaf1320b814896bd6',1,'rapid_ros::ActionClient']]],
+  ['addboxobstacle',['AddBoxObstacle',['../classrapid_1_1MoveItPlanningScene.html#a439ffe07db1972b667e9f74c2ba8d213',1,'rapid::MoveItPlanningScene']]],
   ['addcommand',['AddCommand',['../classrapid_1_1utils_1_1CommandLine.html#a2e2184350baab72e8e39b4c9e8da5a11',1,'rapid::utils::CommandLine']]],
   ['addobject',['AddObject',['../classrapid_1_1perception_1_1HSurface.html#a458d5eee73c049dab62a1c75bb70b88b',1,'rapid::perception::HSurface']]],
   ['alexnet',['AlexNet',['../classrapid_1_1perception_1_1ImageRecognizer.html#af4d8a3c33517344417d80a0bb7e776ac',1,'rapid::perception::ImageRecognizer']]],

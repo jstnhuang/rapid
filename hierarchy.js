@@ -39,6 +39,7 @@ var hierarchy =
     [ "rapid::viz::LandmarkViz", "classrapid_1_1viz_1_1LandmarkViz.html", null ],
     [ "rapid::viz::Marker", "classrapid_1_1viz_1_1Marker.html", null ],
     [ "rapid_ros::MessageHistory< Message >", "structrapid__ros_1_1MessageHistory.html", null ],
+    [ "rapid::MoveItPlanningScene", "classrapid_1_1MoveItPlanningScene.html", null ],
     [ "rapid::db::NameDb", "classrapid_1_1db_1_1NameDb.html", null ],
     [ "rapid::perception::Object", "classrapid_1_1perception_1_1Object.html", null ],
     [ "rapid::perception::ObjectParams", "structrapid_1_1perception_1_1ObjectParams.html", null ],
@@ -71,8 +72,8 @@ var hierarchy =
     [ "rapid::RosoutTestHelper", "classrapid_1_1RosoutTestHelper.html", null ],
     [ "rapid::perception::Scene", "classrapid_1_1perception_1_1Scene.html", null ],
     [ "rapid::perception::SceneParseParams", "structrapid_1_1perception_1_1SceneParseParams.html", null ],
-    [ "rapid::viz::SceneViz", "classrapid_1_1viz_1_1SceneViz.html", null ],
     [ "rapid::perception::SceneViz", "classrapid_1_1perception_1_1SceneViz.html", null ],
+    [ "rapid::viz::SceneViz", "classrapid_1_1viz_1_1SceneViz.html", null ],
     [ "rapid_ros::ServiceClientInterface< Service >", "classrapid__ros_1_1ServiceClientInterface.html", [
       [ "rapid_ros::MockServiceClient< Service >", "classrapid__ros_1_1MockServiceClient.html", null ],
       [ "rapid_ros::ServiceClient< Service >", "classrapid__ros_1_1ServiceClient.html", null ]
