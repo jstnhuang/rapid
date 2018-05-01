@@ -129,16 +129,18 @@ $(document).ready(function(){initNavTree('publish_8h_source.html','');});
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacerapid_1_1viz.html#a333c32dbe655e3c6eec67ef55574ae88">PublishCloud</a>(<span class="keyword">const</span> ros::Publisher&amp; pub,</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                  <span class="keyword">const</span> sensor_msgs::PointCloud2&amp; cloud);</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacerapid_1_1viz.html#a333c32dbe655e3c6eec67ef55574ae88">PublishCloud</a>(<span class="keyword">const</span> ros::Publisher&amp; pub,</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                  pcl::PointCloud&lt;pcl::PointXYZRGB&gt;&amp; cloud);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                  pcl::PointCloud&lt;pcl::PointXYZ&gt;&amp; cloud);</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacerapid_1_1viz.html#a333c32dbe655e3c6eec67ef55574ae88">PublishCloud</a>(<span class="keyword">const</span> ros::Publisher&amp; pub,</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                  pcl::PointCloud&lt;pcl::PointXYZRGBNormal&gt;&amp; cloud);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacerapid_1_1viz.html#a00bea7ca2f322f7caf752c0c1b7ce6e7">PublishImage</a>(<span class="keyword">const</span> ros::Publisher&amp; pub, <span class="keyword">const</span> pcl::PCLHeader&amp; cloud_header,</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                  <span class="keyword">const</span> cv::Mat&amp; mat);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}  <span class="comment">// namespace viz</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}  <span class="comment">// namespace rapid</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#endif  // _RAPID_VIZ_PUBLISH_H_</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                  pcl::PointCloud&lt;pcl::PointXYZRGB&gt;&amp; cloud);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacerapid_1_1viz.html#a333c32dbe655e3c6eec67ef55574ae88">PublishCloud</a>(<span class="keyword">const</span> ros::Publisher&amp; pub,</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                  pcl::PointCloud&lt;pcl::PointXYZRGBNormal&gt;&amp; cloud);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacerapid_1_1viz.html#a00bea7ca2f322f7caf752c0c1b7ce6e7">PublishImage</a>(<span class="keyword">const</span> ros::Publisher&amp; pub, <span class="keyword">const</span> pcl::PCLHeader&amp; cloud_header,</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                  <span class="keyword">const</span> cv::Mat&amp; mat);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;}  <span class="comment">// namespace viz</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}  <span class="comment">// namespace rapid</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#endif  // _RAPID_VIZ_PUBLISH_H_</span></div>
 <div class="ttc" id="namespacerapid_1_1viz_html_a09031f72d99862ae2e106e8101e111df"><div class="ttname"><a href="namespacerapid_1_1viz.html#a09031f72d99862ae2e106e8101e111df">rapid::viz::PublishBlankCloud</a></div><div class="ttdeci">void PublishBlankCloud(const ros::Publisher &amp;pub, const std::string &amp;frame_id=&quot;base_link&quot;)</div></div>
 <div class="ttc" id="namespacerapid_1_1viz_html_a00bea7ca2f322f7caf752c0c1b7ce6e7"><div class="ttname"><a href="namespacerapid_1_1viz.html#a00bea7ca2f322f7caf752c0c1b7ce6e7">rapid::viz::PublishImage</a></div><div class="ttdeci">void PublishImage(const ros::Publisher &amp;pub, const pcl::PCLHeader &amp;cloud_header, const cv::Mat &amp;mat)</div></div>
 <div class="ttc" id="namespacerapid_1_1viz_html_a333c32dbe655e3c6eec67ef55574ae88"><div class="ttname"><a href="namespacerapid_1_1viz.html#a333c32dbe655e3c6eec67ef55574ae88">rapid::viz::PublishCloud</a></div><div class="ttdeci">void PublishCloud(const ros::Publisher &amp;pub, const sensor_msgs::PointCloud2 &amp;cloud)</div></div>
@@ -148,7 +150,7 @@ $(document).ready(function(){initNavTree('publish_8h_source.html','');});
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_c6ed616797fd829864f033a9f45e46ef.html">rapid_viz</a></li><li class="navelem"><a class="el" href="dir_d3691a6a9ce5a9a7c26f8fddcd1c00d2.html">include</a></li><li class="navelem"><a class="el" href="dir_4992aba0ce7a918c20f420d87f81d1db.html">rapid_viz</a></li><li class="navelem"><a class="el" href="publish_8h.html">publish.h</a></li>
-    <li class="footer">Generated on Fri Apr 27 2018 04:16:50 for rapid by
+    <li class="footer">Generated on Tue May 1 2018 20:49:42 for rapid by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
