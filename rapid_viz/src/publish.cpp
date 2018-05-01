@@ -10,8 +10,10 @@
 #include "sensor_msgs/image_encodings.h"
 #include "std_msgs/Header.h"
 
+typedef pcl::PointXYZ PointP;
 typedef pcl::PointXYZRGB PointC;
 typedef pcl::PointXYZRGBNormal PointN;
+typedef pcl::PointCloud<PointP> PointCloudP;
 typedef pcl::PointCloud<PointC> PointCloudC;
 typedef pcl::PointCloud<PointN> PointCloudN;
 
@@ -32,6 +34,15 @@ void PublishCloud(const ros::Publisher& pub,
     sensor_msgs::PointCloud2 cloud_now = cloud;
     cloud_now.header.stamp = ros::Time::now();
     pub.publish(cloud);
+  }
+}
+
+void PublishCloud(const ros::Publisher& pub, PointCloudP& cloud) {
+  if (pub) {
+    sensor_msgs::PointCloud2 msg;
+    pcl::toROSMsg(cloud, msg);
+    msg.header.stamp = ros::Time::now();
+    pub.publish(msg);
   }
 }
 

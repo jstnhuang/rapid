@@ -20,6 +20,8 @@ void PublishBlankCloud(const ros::Publisher& pub,
 void PublishCloud(const ros::Publisher& pub,
                   const sensor_msgs::PointCloud2& cloud);
 void PublishCloud(const ros::Publisher& pub,
+                  pcl::PointCloud<pcl::PointXYZ>& cloud);
+void PublishCloud(const ros::Publisher& pub,
                   pcl::PointCloud<pcl::PointXYZRGB>& cloud);
 void PublishCloud(const ros::Publisher& pub,
                   pcl::PointCloud<pcl::PointXYZRGBNormal>& cloud);
