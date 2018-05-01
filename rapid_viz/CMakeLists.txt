@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   interactive_markers
   pcl_conversions
   pcl_ros
+  rapid_msgs
   rapid_ros
   rapid_utils
   roscpp
@@ -129,6 +130,7 @@ catkin_package(
     interactive_markers
     pcl_conversions
     pcl_ros
+    rapid_msgs
     rapid_ros
     rapid_utils
     roscpp
